@@ -1,0 +1,272 @@
+meta-axxia
+========
+
+This is the official OpenEmbedded/Yocto BSP layer for LSI’s family of
+Axxia Mobile & Enterprise Communication Processors.
+
+
+Supported MACHINES
+------------------
+
+Boards Supported by this layer (Please refer to the associate .conf for more
+information):
+
+	* axxiapowerpc - Axxia 3000 PPC Mobile & Enterprise Communication 
+                        Processors family
+
+	* axxiaarm - Axxia 5000 ARM Mobile & Enterprise Communication 
+                    Processors family 
+
+NOTE: Machines are divided by architecture. By building Linux for axxiaarm 
+machine (e.g.), you will build binaries for all available ARM targets. 
+
+
+Reference Boards
+----------------
+
+Junction – Reference board for the Axxia 3420 line of Communication Processor
+devices. The 3420 device combines a PowerPC CPU subsystem with up to 2 PowerPC
+476FP Cores along with advanced packet-processing acceleration engines.
+ 
+El Paso – Reference board for the Axxia 3440 line of Communication Processor
+devices. The 3440 device combines a PowerPC CPU subsystem with up to 4 PowerPC
+476FP Cores along with advanced packet-processing acceleration engines.
+ 
+Galveston – Reference board for the Axxia 3500 line of Communication Processor
+devices. The 3500 device combines a PowerPC CPU subsystem with up to 6 PowerPC
+476FP Cores along with advanced packet-processing acceleration engines.
+ 
+Amarillo – Reference board for the Axxia 5500 line of Communication Processor
+devices. The 5500 device combines an ARM CPU subsystem with up to 16 Cortex-A15
+Cores along with advanced packet-processing acceleration engines.
+
+ 
+Sources
+-------
+
+git://git.yoctoproject.org/meta-axxia
+http://git.yoctoproject.org/git/meta-axxia
+https://github.com/lsigithub/meta-axxia
+
+
+Dependencies
+------------
+
+This layer depends on:
+Poky
+URI: git://git.yoctoproject.org/poky.git
+branch: dora
+revision: HEAD
+
+OpenEmbedded
+URI: git://git.openembedded.org/openembedded-core
+branch: dora
+revision: HEAD
+
+
+Building the meta-axxia BSP layer
+-------------------------------
+
+To begin using the Yocto Project build tools, you must first setup your work
+environment and verify that that you have the required host packages installed
+on the system you will be using for builds. 
+
+Check the YOCTO Reference Manual for the system you are using and verify you
+have the minimum required packages installed. 
+http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
+
+Note: You may also require packages: u-boot-tools (mkimage) and
+device-tree-compiler (dtc)
+
+1. Create an empty build directory and verify that the partition has at least
+50Gb of free space. Next set an environment variable, YOCTO, to the full path.
+
+   $ cd $HOME
+   $ df -h .  # verify output shows adequate space available
+   $ mkdir yocto
+   $ cd yocto
+   $ export YOCTO=$HOME/yocto # should also add this to your ~/.bashrc file. 
+
+2. Clone the Yocto Project build tools (Poky) environment.
+
+   $ cd $YOCTO
+   $ git clone git://git.yoctoproject.org/poky.git
+   $ cd poky
+   $ git checkout dora
+
+3. Clone the LSI meta layer. This provides meta data for building images for the
+LSI specific board types.
+
+   $ cd $YOCTO/poky
+   $ git clone git://git.yoctoproject.org/meta-axxia.git
+   $ cd meta-axxia
+   $ git checkout dora
+
+4. The Open Embedded project provides many useful layers and packages such as
+networking. Download the Open Embedded Yocto Project hosted repository with the
+following.
+
+   $ cd $YOCTO/poky
+   $ git clone https://github.com/openembedded/meta-oe.git
+   $ cd meta-oe
+   $ git checkout dora
+
+5. Create the build directory. The name is optional and will default to 'build',
+however it helps to choose a name to match the board type. For example, we will
+use axxia.
+
+   $ cd $YOCTO
+   $ source poky/oe-init-bild-env axxia
+
+6. Edit the conf/bblayers.conf file
+
+   $ pwd (you should be at $YOCTO/axxia)
+   $ vi conf/bblayers.conf
+
+Edit BBLAYERS variable as follows. Replace references to $YOCTO below with the
+actual value you provided in step 1.
+
+   BBLAYERS ?= " \
+            $YOCTO/poky/meta \
+            $YOCTO/poky/meta-yocto \
+            $YOCTO/poky/meta-yocto-bsp \
+            $YOCTO/poky/meta-oe/meta-oe \
+            $YOCTO/poky/meta-oe/meta-networking \
+            $YOCTO/poky/meta-axxia \
+            "
+
+7. Edit the conf/local.conf file:
+   $ vi conf/local.conf
+
+7.1 Depending on your processor, set these two options that control how much
+parallelism BitBake should use:
+
+  BB_NUMBER_THREADS = "12"
+  PARALLEL_MAKE = "-j 12"
+
+7.2 Select a specific machine to target the build with:
+
+  MACHINE = "axxiaarm"
+  or
+  MACHINE = "axxiapowerpc"
+
+7.3 Select the root filesystem image compression type (can set multiple types):
+
+  IMAGE_FSTYPES += "ext2"
+  IMAGE_FSTYPES += "tar.gz"
+
+7.4 Select the custom bootloader as preferred:
+
+  PREFERRED_PROVIDER_virtual/bootloader = "u-boot-lsi"
+
+7.5 Select the KERNEL type:
+   for standard
+   PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
+
+   for preempt-rt
+   PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
+
+7.6 Select the KERNEL version:
+   for 3.4
+   PREFERRED_VERSION_linux-yocto = "3.4%"
+
+   for 3.10
+   PREFERRED_VERSION_linux-yocto = "3.10%"
+  
+7.7 Select the KERNEL repository to use. Meta-lsi is able to build the kernel 
+from 3 sources: LSI GITHUB public, LSI GITHUB private and YOCTO kernel repo 
+depending on LSI_SRC variable from local.conf:
+
+a. by default (missing to set LSI_SRC) or setting
+
+   LSI_SRC = "linux-yocto"
+
+   will build from Yocto (axxia) repos:
+   3.10: http://git.yoctoproject.org/git/linux-yocto-3.10 
+        standard/axxia/base branch
+   3.4: http://git.yoctoproject.org/git/linux-yocto-3.14 
+        standard/axxia/base branch
+
+b. LSI_SRC = "lsi-public"
+
+   will build kernel from GitHub public repos:
+   3.10: https://github.com/lsigithub/lsi_axxia_yocto_public_3.10
+   3.4: https://github.com/lsigithub/lsi_axxia_yocto_public
+
+c. LSI_SRC = "lsi-tip"
+   
+   will build kernel from GitHub private repos (require authentication):
+   3.10: https://github.com/lsigithub/lsi_axxia_yocto_3.10
+   3.4: https://github.com/lsigithub/lsi_axxia_yocto
+
+7.8 Other optional settings for saving disk space and build time:
+   
+   DL_DIR = "/<some-shared-location>/downloads"
+   SSTATE_DIR = "/<some-shared-location>/sstate-cache
+
+8. Select the image type and start the build
+   $ cd $YOCTO/axxia
+   $ bitbake <image type>
+
+Available root filesystem types:
+   * lsi-image-small 
+     A small image for use in simulation, flash, or as a ram disk. Should be
+     sufficient to use the RTE. 
+
+   * lsi-image-sim 
+     An image for use in simulation. 
+
+   * lsi-image-large
+     A more complete image.
+
+Once complete the images for the target machine will be available in the output
+directory 'tmp/deploy/images/$MACHINE'.
+
+9. Images generated:
+
+* <image type>-<machine name>.ext2 (rootfs in EXT2 format)
+* <image type>-<machine name>.tar.gz (rootfs in tar+GZIP format)
+* modules-<machine name>.tgz (modules in tar+GZIP format)
+* zImage and zImage-<machine name> (Linux Kernel binary, in u-boot wrapped 
+format)
+* u-boot.img and u-boot-<machine name>.img (U-Boot Img)
+* u-boot-spl.img and u-boot-spl-<machine name>.img (U-Boot SPL - only for ARM)
+* <target name>.dtb
+* FIT images, 3 types:
+	* fdt.fit-<target name> (DTB in fit image format)
+	* linux.fit-<target name> (Kernel binary in fit image format)
+	* multi.fit-<target name> (Kernel binary + DTB in fit image format)
+
+
+Guidelines for submitting patches
+---------------------------------
+
+Please submit any patches against meta-axxia BSPs to the meta-axxia
+mailing list (meta-axxia@yoctoproject.org) and cc: the maintainers.  
+
+Mailing list:
+	https://lists.yoctoproject.org/listinfo/meta-axxia
+
+When creating patches, please use something like:
+	git format-patch -s --subject-prefix='meta-axxia][PATCH' origin
+
+When sending patches, please use something like:
+	git send-email --to meta-axxia@yoctoproject.org --cc <maintainers> 
+		      <generated patch>
+
+
+Maintenance
+-----------
+
+Maintainers: Daniel Dragomir <daniel.dragomir@windriver.com>
+	     Lucian Creanga <lucian.creanga@windriver.com>
+
+Please see the meta-axxia/MAINTAINERS file for more details.
+
+
+License
+-------
+
+All metadata is MIT licensed unless otherwise stated. Souce code included
+in tree for individual recipes is under the LICENSE stated in each recipe
+(.bb file) unless otherwise stated.
