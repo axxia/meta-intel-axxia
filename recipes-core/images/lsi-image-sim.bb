@@ -15,7 +15,6 @@ gdbserver \
 python-core \
 lttng-modules \
 lttng-tools \
-valgrind \
 "
 
 IMAGE_FEATURES += "dev-pkgs"

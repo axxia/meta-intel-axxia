@@ -2,7 +2,6 @@ require recipes-core/images/core-image-minimal-dev.bb
 
 IMAGE_INSTALL = " \
 run-postinsts \
-udev-utils \
 busybox-udhcpc \
 base-files \
 udev \
@@ -18,8 +17,6 @@ update-rc.d \
 packagegroup-core-boot \
 packagegroup-core-buildessential \
 util-linux-libuuid \
-eglibc \
-eglibc-dbg \
 udev-cache \
 libkmod \
 update-alternatives-cworth \
@@ -130,7 +127,6 @@ netbase \
 net-tools \
 nfs-utils \
 nfs-utils-client \
-ocf-linux \
 openssh \
 openssl \
 opkg \
@@ -176,7 +172,6 @@ update-rc.d \
 usbutils \
 util-linux \
 util-macros \
-valgrind \
 watchdog \
 wget \
 which \

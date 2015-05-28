@@ -49,29 +49,21 @@ do_compile_append() {
 	if [ "${KARCH}" = "arm" ]
 	then
 		addr=0x00408000
-		if [ "${KV}" = "3.4" ]
-		then
-			mk_fit_images "axm55xx" ${addr}
-			mk_fit_images "axm55xxemu7" ${addr}
-			mk_fit_images "axm55xxemu" ${addr}
-			mk_fit_images "axm55xxsim16" ${addr}
-			mk_fit_images "axm55xxsim" ${addr}
-		fi
 		if [ "${KV}" = "3.10" ]
 		then
 			mk_fit_images "axm5504-emu" ${addr}
 			mk_fit_images "axm5507-emu" ${addr}
 			mk_fit_images "axm5516-amarillo" ${addr}
-			if [ "${LSI_SRC}" = "linux-yocto" ]
-			then
-				mk_fit_images "axm5504-sim" ${addr}
-				mk_fit_images "axm5516-sim" ${addr}
-			else
+#			if [ "${LSI_SRC}" = "linux-yocto" ]
+#			then
+#				mk_fit_images "axm5504-sim" ${addr}
+#				mk_fit_images "axm5516-sim" ${addr}
+#			else
 				mk_fit_images "axm5504-sim-mmc" ${addr}
                         	mk_fit_images "axm5504-sim-virtio" ${addr}
 				mk_fit_images "axm5516-sim-mmc" ${addr}
                         	mk_fit_images "axm5516-sim-virtio" ${addr}
-			fi
+#			fi
 		fi
 	fi
 }
@@ -100,29 +92,21 @@ do_deploy_append() {
 	fi
     if [ "${KARCH}" = "arm" ]
     then
-		if [ "${KV}" = "3.4" ]
-		then
-	    	install_fit_images "axm55xx"
-    		install_fit_images "axm55xxemu7"
-    		install_fit_images "axm55xxemu"
-    		install_fit_images "axm55xxsim16"
-    		install_fit_images "axm55xxsim"
-    	fi
 		if [ "${KV}" = "3.10" ]
 		then
 	    		install_fit_images "axm5504-emu"
 			install_fit_images "axm5507-emu"
 			install_fit_images "axm5516-amarillo"
-			if [ "${LSI_SRC}" = "linux-yocto" ]
-			then
-				install_fit_images "axm5504-sim"
-				install_fit_images "axm5516-sim"	
-			else
+#			if [ "${LSI_SRC}" = "linux-yocto" ]
+#			then
+#				install_fit_images "axm5504-sim"
+#				install_fit_images "axm5516-sim"	
+#			else
 				install_fit_images "axm5504-sim-mmc"
 				install_fit_images "axm5504-sim-virtio"
 				install_fit_images "axm5516-sim-mmc"
                 		install_fit_images "axm5516-sim-virtio"
-			fi
+#			fi
     	fi
     fi
 }

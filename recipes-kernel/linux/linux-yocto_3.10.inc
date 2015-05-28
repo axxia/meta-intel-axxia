@@ -1,10 +1,12 @@
 
 require linux-yocto.inc
 
-LINUX_VERSION = "3.10.43"
+LINUX_VERSION = "3.10.65"
 
 KBRANCH = "standard/axxia/base"
 KREPO = "git://git.yoctoproject.org/linux-yocto-3.10.git"
 
-SRCREV_machine = "e8e21aa4feeaa808844a47019fa42bfdae262352"
-SRCREV_meta = "199943142f7e0a283240246ee6c02f4376b315f0"
+#SRCREV_machine ?= "87c1d0a694a7670b54e6e0e72e2f3614509ad333"
+#SRCREV_meta ?= "9c4ff467f66428488b1cd9798066a8cb5d6b4c3b"
+SRCREV_machine = "${AUTOREV}"
+SRCREV_meta = "${AUTOREV}"
