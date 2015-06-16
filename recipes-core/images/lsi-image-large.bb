@@ -19,7 +19,6 @@ packagegroup-core-buildessential \
 util-linux-libuuid \
 udev-cache \
 libkmod \
-update-alternatives-cworth \
 sysvinit-inittab \
 init-ifupdown \
 initscripts \
@@ -27,7 +26,6 @@ acl \
 at \
 attr \
 autofs \
-avahi \
 base-files \
 base-passwd \
 bash \

@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}/linux-3.14/${KARCH}:${THISDIR}:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}/linux-3.14/${KARCH}:${THISDIR}:${THISDIR}/patch:"
 
 LINUX_KERNEL_TYPE = "standard"
 LSI_SRC ?= "linux-yocto"

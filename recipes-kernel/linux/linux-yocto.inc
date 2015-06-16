@@ -24,6 +24,13 @@ mk_fit_images() {
 				"ADDRESS=${addr}" \
 				'VMLINUX=${B}/vmlinux' \
 				"DTB=${B}/arch/${KARCH}/boot/dts/${name}.dtb"
+	elif [ "${KARCH}" = "arm" ] && [ "${KV}" = "3.14" ]
+	then
+		oe_runmake "ARCH=${KARCH}" \
+				'DESCRIPTION=LSI Axxia Linux' \
+				"ADDRESS=${addr}" \
+				'VMLINUX=${B}/vmlinux' \
+				"DTB=${B}/arch/${KARCH}/boot/dts/${name}.dtb"
 	else
 		oe_runmake "ARCH=${KARCH}" \
        	                        'DESCRIPTION=LSI Axxia Linux' \
@@ -54,16 +61,29 @@ do_compile_append() {
 			mk_fit_images "axm5504-emu" ${addr}
 			mk_fit_images "axm5507-emu" ${addr}
 			mk_fit_images "axm5516-amarillo" ${addr}
-#			if [ "${LSI_SRC}" = "linux-yocto" ]
-#			then
-#				mk_fit_images "axm5504-sim" ${addr}
-#				mk_fit_images "axm5516-sim" ${addr}
-#			else
+			if [ "${LSI_SRC}" = "linux-yocto" ]
+			then
+				mk_fit_images "axm5504-sim" ${addr}
+				mk_fit_images "axm5516-sim" ${addr}
+			else
 				mk_fit_images "axm5504-sim-mmc" ${addr}
-                        	mk_fit_images "axm5504-sim-virtio" ${addr}
+                mk_fit_images "axm5504-sim-virtio" ${addr}
 				mk_fit_images "axm5516-sim-mmc" ${addr}
-                        	mk_fit_images "axm5516-sim-virtio" ${addr}
-#			fi
+                mk_fit_images "axm5516-sim-virtio" ${addr}
+			fi
+		elif [ "${KV}" = "3.14" ]
+		then
+			mk_fit_images "axm5504-emu" ${addr}
+			mk_fit_images "axm5507-emu" ${addr}
+			mk_fit_images "axm5516-amarillo" ${addr}
+			if [ "${LSI_SRC}" = "linux-yocto" ]
+			then
+				mk_fit_images "axm5504-sim" ${addr}
+				mk_fit_images "axm5516-sim" ${addr}
+			else
+				mk_fit_images "axm5516-sim-mmc" ${addr}
+                mk_fit_images "axm5516-sim-virtio" ${addr}
+			fi
 		fi
 	fi
 }
@@ -71,6 +91,9 @@ do_compile_append() {
 install_fit_images() {
 	name=$1
 	if [ "${KARCH}" = "arm" ] && [ "${KV}" = "3.10" ]
+	then
+		install ${B}/arch/${KARCH}/boot/dts/${name}.dtb ${DEPLOYDIR}/${name}.dtb
+	elif [ "${KARCH}" = "arm" ] && [ "${KV}" = "3.14" ]
 	then
 		install ${B}/arch/${KARCH}/boot/dts/${name}.dtb ${DEPLOYDIR}/${name}.dtb
 	else
@@ -94,19 +117,32 @@ do_deploy_append() {
     then
 		if [ "${KV}" = "3.10" ]
 		then
-	    		install_fit_images "axm5504-emu"
+			install_fit_images "axm5504-emu"
 			install_fit_images "axm5507-emu"
 			install_fit_images "axm5516-amarillo"
-#			if [ "${LSI_SRC}" = "linux-yocto" ]
-#			then
-#				install_fit_images "axm5504-sim"
-#				install_fit_images "axm5516-sim"	
-#			else
+			if [ "${LSI_SRC}" = "linux-yocto" ]
+			then
+				install_fit_images "axm5504-sim"
+				install_fit_images "axm5516-sim"	
+			else
 				install_fit_images "axm5504-sim-mmc"
 				install_fit_images "axm5504-sim-virtio"
 				install_fit_images "axm5516-sim-mmc"
-                		install_fit_images "axm5516-sim-virtio"
-#			fi
+				install_fit_images "axm5516-sim-virtio"
+			fi
+		elif [ "${KV}" = "3.14" ]
+		then
+			install_fit_images "axm5504-emu"
+			install_fit_images "axm5507-emu"
+			install_fit_images "axm5516-amarillo"
+			if [ "${LSI_SRC}" = "linux-yocto" ]
+			then
+				install_fit_images "axm5504-sim"
+				install_fit_images "axm5516-sim"	
+			else
+				install_fit_images "axm5516-sim-mmc"
+				install_fit_images "axm5516-sim-virtio"
+			fi
     	fi
     fi
 }
