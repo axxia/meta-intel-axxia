@@ -1,3 +1,4 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/conf/${LSI_SRC}/linux-${KV}/${MACHINE}/${LINUX_KERNEL_TYPE}:"
 
 require linux-yocto.inc
 
@@ -9,3 +10,7 @@ KREPO = "git://git@github.com/lsigithub/axxia_yocto_linux_3.14_private.git;proto
 
 SRCREV_machine ="${AUTOREV}"
 SRCREV_meta ="${AUTOREV}"
+
+SRC_URI = "${KREPO};bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+SRC_URI += "file://fit"
+SRC_URI += "file://defconfig"

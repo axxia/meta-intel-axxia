@@ -1,12 +1,12 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}/linux-3.14/${KARCH}:${THISDIR}:${THISDIR}/patch:"
+FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
 LINUX_KERNEL_TYPE = "standard"
 LSI_SRC ?= "linux-yocto"
+POWER_MANAGEMENT ?= "low-power"
+BIG_ENDIAN ?= "no"
+DBG ?= "no"
+TESTING ?= "no"
 KV = "3.14"
+KERNEL_EXTRA_FEATURES = ""
 
 require ${LSI_SRC}_3.14.inc
-
-SRC_URI = "${KREPO};nocheckout=1;branch=${KBRANCH},${KMETA};name=machine,meta"
-
-SRC_URI += "file://defconfig"
-SRC_URI += "file://fit"
