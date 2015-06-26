@@ -45,45 +45,40 @@ mk_fit_images() {
 }
 
 do_compile_append() {
-    if [ "${KARCH}" = "powerpc" ]
-    then
-    	addr=0x00400000
+	if [ "${KARCH}" = "powerpc" ]
+	then
+    		addr=0x00400000
 		mk_fit_images "acp25xx" ${addr}
 		mk_fit_images "acp342x" ${addr}
 		mk_fit_images "acp344x" ${addr}
 		mk_fit_images "acp35xx" ${addr}
-	fi
-	if [ "${KARCH}" = "arm" ]
+	elif [ "${KARCH}" = "arm" ]
 	then
 		addr=0x00408000
 		if [ "${KV}" = "3.10" ]
 		then
 			mk_fit_images "axm5504-emu" ${addr}
+			mk_fit_images "axm5504-sim-mmc" ${addr}
+			mk_fit_images "axm5504-sim-virtio" ${addr}
 			mk_fit_images "axm5507-emu" ${addr}
+			mk_fit_images "axm5508-amarillo" ${addr}
+			mk_fit_images "axm5512-amarillo" ${addr}
 			mk_fit_images "axm5516-amarillo" ${addr}
-			if [ "${LSI_SRC}" = "linux-yocto" ]
-			then
-				mk_fit_images "axm5504-sim" ${addr}
-				mk_fit_images "axm5516-sim" ${addr}
-			else
-				mk_fit_images "axm5504-sim-mmc" ${addr}
-                mk_fit_images "axm5504-sim-virtio" ${addr}
-				mk_fit_images "axm5516-sim-mmc" ${addr}
-                mk_fit_images "axm5516-sim-virtio" ${addr}
-			fi
+			mk_fit_images "axm5516-sim-mmc" ${addr}
+			mk_fit_images "axm5516-sim-virtio" ${addr}
 		elif [ "${KV}" = "3.14" ]
 		then
 			mk_fit_images "axm5504-emu" ${addr}
+			mk_fit_images "axm5504-sim-mmc" ${addr}
+			mk_fit_images "axm5504-sim-virtio" ${addr}
+			mk_fit_images "axm5504-sim" ${addr}
 			mk_fit_images "axm5507-emu" ${addr}
+			mk_fit_images "axm5508-amarillo" ${addr}
+			mk_fit_images "axm5512-amarillo" ${addr}
 			mk_fit_images "axm5516-amarillo" ${addr}
-			if [ "${LSI_SRC}" = "linux-yocto" ]
-			then
-				mk_fit_images "axm5504-sim" ${addr}
-				mk_fit_images "axm5516-sim" ${addr}
-			else
-				mk_fit_images "axm5516-sim-mmc" ${addr}
-                mk_fit_images "axm5516-sim-virtio" ${addr}
-			fi
+			mk_fit_images "axm5516-sim-mmc" ${addr}
+			mk_fit_images "axm5516-sim-virtio" ${addr}
+			mk_fit_images "axm5516-sim" ${addr}
 		fi
 	fi
 }
@@ -102,49 +97,43 @@ install_fit_images() {
 	install ${B}/../fit/linux.fit-${name} ${DEPLOYDIR}/linux.fit-${name}
 	install ${B}/../fit/fdt.fit-${name} ${DEPLOYDIR}/fdt.fit-${name}
 	install ${B}/../fit/multi.fit-${name} ${DEPLOYDIR}/multi.fit-${name}
-	
 }
 
 do_deploy_append() {
-    if [ "${KARCH}" = "powerpc" ]
-    then
-    	install_fit_images "acp25xx"
+	if [ "${KARCH}" = "powerpc" ]
+	then
+		install_fit_images "acp25xx"
 		install_fit_images "acp342x"
 		install_fit_images "acp344x"
 		install_fit_images "acp35xx"
-	fi
-    if [ "${KARCH}" = "arm" ]
-    then
+    	elif [ "${KARCH}" = "arm" ]
+	then
 		if [ "${KV}" = "3.10" ]
 		then
 			install_fit_images "axm5504-emu"
+			install_fit_images "axm5504-sim-mmc"
+			install_fit_images "axm5504-sim-virtio"
 			install_fit_images "axm5507-emu"
+			install_fit_images "axm5508-amarillo"
+			install_fit_images "axm5512-amarillo"
 			install_fit_images "axm5516-amarillo"
-			if [ "${LSI_SRC}" = "linux-yocto" ]
-			then
-				install_fit_images "axm5504-sim"
-				install_fit_images "axm5516-sim"	
-			else
-				install_fit_images "axm5504-sim-mmc"
-				install_fit_images "axm5504-sim-virtio"
-				install_fit_images "axm5516-sim-mmc"
-				install_fit_images "axm5516-sim-virtio"
-			fi
+			install_fit_images "axm5516-sim-mmc"
+			install_fit_images "axm5516-sim-virtio"
 		elif [ "${KV}" = "3.14" ]
 		then
 			install_fit_images "axm5504-emu"
+			install_fit_images "axm5504-sim"
+			install_fit_images "axm5504-sim-mmc"
+			install_fit_images "axm5504-sim-virtio"
 			install_fit_images "axm5507-emu"
+			install_fit_images "axm5508-amarillo"
+			install_fit_images "axm5512-amarillo"
 			install_fit_images "axm5516-amarillo"
-			if [ "${LSI_SRC}" = "linux-yocto" ]
-			then
-				install_fit_images "axm5504-sim"
-				install_fit_images "axm5516-sim"	
-			else
-				install_fit_images "axm5516-sim-mmc"
-				install_fit_images "axm5516-sim-virtio"
-			fi
-    	fi
-    fi
+			install_fit_images "axm5516-sim"
+			install_fit_images "axm5516-sim-mmc"
+			install_fit_images "axm5516-sim-virtio"
+		fi
+	fi
 }
 
 do_patch_append() {
