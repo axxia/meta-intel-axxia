@@ -1,4 +1,5 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/conf/lsi-tip/linux-${KV}/${MACHINE}/${LINUX_KERNEL_TYPE}:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/conf/${LSI_SRC}/linux-${KV}/${MACHINE}/common:\
+${THISDIR}/conf/${LSI_SRC}/linux-${KV}/${MACHINE}/${LINUX_KERNEL_TYPE}:"
 
 require linux-yocto.inc
 
@@ -9,8 +10,9 @@ KMETA = "meta"
 KREPO = "git://git.yoctoproject.org/linux-yocto-3.14"
 
 SRCREV_machine = "f490412acb655a4573f7612a7fcfa806674a46f6"
-SRCREV_meta = "4c54da246369a9da73f8b4571ea7c9e61faa4d69"
+SRCREV_meta = "288766d58bfdfd8b1cbfd4171a621fc44c1e1cf9"
 
 SRC_URI = "${KREPO};bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
 SRC_URI += "file://fit"
-SRC_URI += "file://defconfig"
+
+require ${MACHINE}_${LINUX_KERNEL_TYPE}_${KV}.inc
