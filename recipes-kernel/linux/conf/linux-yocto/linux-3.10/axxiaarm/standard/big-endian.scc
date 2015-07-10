@@ -1,4 +1,0 @@
-kconf non-hardware big-endian.cfg
-
-# use SMMON instead of EDAC for big endian builds
-kconf hardware smmon.cfg
