@@ -17,7 +17,7 @@ mk_fit_images() {
 	oe_runmake ${name}.dtb
 	echo "pwd = `pwd`"
 	cd ../fit
-	if [ "${KARCH}" = "arm" ] && [ "${KV}" = "3.10" ]
+	if [ "${KARCH}" = "arm" ] && [ "${KV}" = "3.19" ]
 	then
 		oe_runmake "ARCH=${KARCH}" \
 				'DESCRIPTION=LSI Axxia Linux' \
@@ -55,37 +55,23 @@ do_compile_append() {
 	elif [ "${KARCH}" = "arm" ]
 	then
 		addr=0x00408000
-		if [ "${KV}" = "3.10" ]
-		then
-			mk_fit_images "axm5504-emu" ${addr}
-			mk_fit_images "axm5504-sim-mmc" ${addr}
-			mk_fit_images "axm5504-sim-virtio" ${addr}
-			mk_fit_images "axm5507-emu" ${addr}
-			mk_fit_images "axm5508-amarillo" ${addr}
-			mk_fit_images "axm5512-amarillo" ${addr}
-			mk_fit_images "axm5516-amarillo" ${addr}
-			mk_fit_images "axm5516-sim-mmc" ${addr}
-			mk_fit_images "axm5516-sim-virtio" ${addr}
-		elif [ "${KV}" = "3.14" ]
-		then
-			mk_fit_images "axm5504-emu" ${addr}
-			mk_fit_images "axm5504-sim-mmc" ${addr}
-			mk_fit_images "axm5504-sim-virtio" ${addr}
-			mk_fit_images "axm5504-sim" ${addr}
-			mk_fit_images "axm5507-emu" ${addr}
-			mk_fit_images "axm5508-amarillo" ${addr}
-			mk_fit_images "axm5512-amarillo" ${addr}
-			mk_fit_images "axm5516-amarillo" ${addr}
-			mk_fit_images "axm5516-sim-mmc" ${addr}
-			mk_fit_images "axm5516-sim-virtio" ${addr}
-			mk_fit_images "axm5516-sim" ${addr}
-		fi
+		mk_fit_images "axm5504-emu" ${addr}
+		mk_fit_images "axm5504-sim-mmc" ${addr}
+		mk_fit_images "axm5504-sim-virtio" ${addr}
+		mk_fit_images "axm5504-sim" ${addr}
+		mk_fit_images "axm5507-emu" ${addr}
+		mk_fit_images "axm5508-amarillo" ${addr}
+		mk_fit_images "axm5512-amarillo" ${addr}
+		mk_fit_images "axm5516-amarillo" ${addr}
+		mk_fit_images "axm5516-sim-mmc" ${addr}
+		mk_fit_images "axm5516-sim-virtio" ${addr}
+		mk_fit_images "axm5516-sim" ${addr}
 	fi
 }
 
 install_fit_images() {
 	name=$1
-	if [ "${KARCH}" = "arm" ] && [ "${KV}" = "3.10" ]
+	if [ "${KARCH}" = "arm" ] && [ "${KV}" = "3.19" ]
 	then
 		install ${B}/arch/${KARCH}/boot/dts/${name}.dtb ${DEPLOYDIR}/${name}.dtb
 	elif [ "${KARCH}" = "arm" ] && [ "${KV}" = "3.14" ]
@@ -108,31 +94,17 @@ do_deploy_append() {
 		install_fit_images "acp35xx"
     	elif [ "${KARCH}" = "arm" ]
 	then
-		if [ "${KV}" = "3.10" ]
-		then
-			install_fit_images "axm5504-emu"
-			install_fit_images "axm5504-sim-mmc"
-			install_fit_images "axm5504-sim-virtio"
-			install_fit_images "axm5507-emu"
-			install_fit_images "axm5508-amarillo"
-			install_fit_images "axm5512-amarillo"
-			install_fit_images "axm5516-amarillo"
-			install_fit_images "axm5516-sim-mmc"
-			install_fit_images "axm5516-sim-virtio"
-		elif [ "${KV}" = "3.14" ]
-		then
-			install_fit_images "axm5504-emu"
-			install_fit_images "axm5504-sim"
-			install_fit_images "axm5504-sim-mmc"
-			install_fit_images "axm5504-sim-virtio"
-			install_fit_images "axm5507-emu"
-			install_fit_images "axm5508-amarillo"
-			install_fit_images "axm5512-amarillo"
-			install_fit_images "axm5516-amarillo"
-			install_fit_images "axm5516-sim"
-			install_fit_images "axm5516-sim-mmc"
-			install_fit_images "axm5516-sim-virtio"
-		fi
+		install_fit_images "axm5504-emu"
+		install_fit_images "axm5504-sim"
+		install_fit_images "axm5504-sim-mmc"
+		install_fit_images "axm5504-sim-virtio"
+		install_fit_images "axm5507-emu"
+		install_fit_images "axm5508-amarillo"
+		install_fit_images "axm5512-amarillo"
+		install_fit_images "axm5516-amarillo"
+		install_fit_images "axm5516-sim"
+		install_fit_images "axm5516-sim-mmc"
+		install_fit_images "axm5516-sim-virtio"
 	fi
 }
 
