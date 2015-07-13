@@ -107,16 +107,3 @@ do_deploy_append() {
 		install_fit_images "axm5516-sim-virtio"
 	fi
 }
-
-do_patch_append() {
-	if [ "${LSI_SRC}" != "linux-yocto" ]
-	then
-		if [ "${PN}" = "linux-yocto" ]
-		then
-			cp ${WORKDIR}/linux/arch/${KARCH}/configs/lsi_defconfig ${WORKDIR}/defconfig
-		elif [ "${PN}" = "linux-yocto-rt" ]
-		then
-			cp ${WORKDIR}/linux/arch/${KARCH}/configs/lsi_rt_defconfig ${WORKDIR}/defconfig
-		fi
-	fi
-}
