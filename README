@@ -55,12 +55,12 @@ Dependencies
 This layer depends on:
 Poky
 URI: git://git.yoctoproject.org/poky.git
-branch: dora
+branch: fido
 revision: HEAD
 
 OpenEmbedded
 URI: git://git.openembedded.org/openembedded-core
-branch: dora
+branch: fido
 revision: HEAD
 
 
@@ -92,15 +92,15 @@ device-tree-compiler (dtc)
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/poky.git
    $ cd poky
-   $ git checkout dora
+   $ git checkout fido
 
 3. Clone the LSI meta layer. This provides meta data for building images for the
 LSI specific board types.
 
    $ cd $YOCTO/poky
-   $ git clone git://git.yoctoproject.org/meta-axxia.git
-   $ cd meta-axxia
-   $ git checkout dora
+   $ git clone git@github.com:lsigithub/meta-axxia-private
+   $ cd meta-axxia-private
+   $ git checkout fido
 
 4. The Open Embedded project provides many useful layers and packages such as
 networking. Download the Open Embedded Yocto Project hosted repository with the
@@ -109,7 +109,7 @@ following.
    $ cd $YOCTO/poky
    $ git clone https://github.com/openembedded/meta-oe.git
    $ cd meta-oe
-   $ git checkout dora
+   $ git checkout fido
 
 5. Create the build directory. The name is optional and will default to 'build',
 however it helps to choose a name to match the board type. For example, we will
@@ -131,6 +131,7 @@ actual value you provided in step 1.
             $YOCTO/poky/meta-yocto \
             $YOCTO/poky/meta-yocto-bsp \
             $YOCTO/poky/meta-oe/meta-oe \
+            $YOCTO/poky/meta-oe/meta-python \
             $YOCTO/poky/meta-oe/meta-networking \
             $YOCTO/poky/meta-axxia \
             "
@@ -148,7 +149,7 @@ parallelism BitBake should use:
 
   MACHINE = "axxiaarm"
   or
-  MACHINE = "axxiapowerpc"
+  MACHINE = "axxiapowerpc" #(only for 3.14)
 
 7.3 Select the root filesystem image compression type (can set multiple types):
 
@@ -164,42 +165,55 @@ parallelism BitBake should use:
    PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 
    for preempt-rt
-   PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
+   PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt" (only for 3.14)
 
 7.6 Select the KERNEL version:
-   for 3.4
-   PREFERRED_VERSION_linux-yocto = "3.4%"
+   for 3.14, depending on PREFERRED_PROVIDER_virtual/kernel
+   PREFERRED_VERSION_linux-yocto = "3.14%"
+   PREFERRED_VERSION_linux-yocto-rt = "3.14%"
 
-   for 3.10
-   PREFERRED_VERSION_linux-yocto = "3.10%"
+   for 3.19, depending on PREFERRED_PROVIDER_virtual/kernel
+   PREFERRED_VERSION_linux-yocto = "3.19%"
+   PREFERRED_VERSION_linux-yocto-rt = "3.19%"
   
 7.7 Select the KERNEL repository to use. Meta-lsi is able to build the kernel 
-from 3 sources: LSI GITHUB public, LSI GITHUB private and YOCTO kernel repo 
-depending on LSI_SRC variable from local.conf:
+from 2 sources: GITHUB private and YOCTO kernel repo depending on LSI_SRC
+variable from local.conf:
 
 a. by default (missing to set LSI_SRC) or setting
 
    LSI_SRC = "linux-yocto"
 
    will build from Yocto (axxia) repos:
-   3.10: http://git.yoctoproject.org/git/linux-yocto-3.10 
+   3.14: http://git.yoctoproject.org/git/linux-yocto-3.14
         standard/axxia/base branch
-   3.4: http://git.yoctoproject.org/git/linux-yocto-3.14 
+   3.19: http://git.yoctoproject.org/git/linux-yocto-3.19 
         standard/axxia/base branch
 
-b. LSI_SRC = "lsi-public"
-
-   will build kernel from GitHub public repos:
-   3.10: https://github.com/lsigithub/lsi_axxia_yocto_public_3.10
-   3.4: https://github.com/lsigithub/lsi_axxia_yocto_public
-
-c. LSI_SRC = "lsi-tip"
+b. LSI_SRC = "lsi-tip"
    
    will build kernel from GitHub private repos (require authentication):
-   3.10: https://github.com/lsigithub/lsi_axxia_yocto_3.10
-   3.4: https://github.com/lsigithub/lsi_axxia_yocto
+   3.14: git@github.com:lsigithub/axxia_yocto_linux_3.14_private.git
+   3.19: git@github.com:lsigithub/axxia_yocto_linux_3.19_private.git
 
-7.8 Other optional settings for saving disk space and build time:
+7.8 Customizing the Kernel .config file
+When building the kernel from the Yocto repositories, the final .config is built
+using configuration fragments. Otherwise, a pre-built defconfig is used.
+Besides the options specific to the standard and preempt-rt kernel, you are able
+to add extra kernel fragments by setting the following options
+
+a. Power management scheme
+   - POWER_MANAGEMENT = "low-power" (DEFAULT)
+     to keep the core low power when is shut down
+   - POWER_MANAGEMENT = "full-power"
+     to complete power down the core when is shut down
+   - POWER_MANAGEMENT = "full-power-L2"
+     to complete power down the core and L2 cache when is shut down
+
+b. Regression testing
+    TESTING = "yes"
+
+7.9 Other optional settings for saving disk space and build time:
    
    DL_DIR = "/<some-shared-location>/downloads"
    SSTATE_DIR = "/<some-shared-location>/sstate-cache
@@ -258,7 +272,7 @@ When sending patches, please use something like:
 Maintenance
 -----------
 
-Maintainers: Daniel Dragomir <daniel.dragomir@windriver.com>
+Maintainers: Cristian Bercaru <cristian.bercaru@windriver.com>
 	     Lucian Creanga <lucian.creanga@windriver.com>
 
 Please see the meta-axxia/MAINTAINERS file for more details.
