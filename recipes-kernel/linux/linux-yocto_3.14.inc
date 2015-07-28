@@ -9,8 +9,8 @@ KBRANCH = "standard/axxia/base"
 KMETA = "meta"
 KREPO = "git://git.yoctoproject.org/linux-yocto-3.14"
 
-SRCREV_machine = "f490412acb655a4573f7612a7fcfa806674a46f6"
-SRCREV_meta = "288766d58bfdfd8b1cbfd4171a621fc44c1e1cf9"
+SRCREV_machine = "${AUTOREV}"
+SRCREV_meta = "${AUTOREV}"
 
 SRC_URI = "${KREPO};bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
 SRC_URI += "file://fit"
