@@ -7,7 +7,7 @@ UBOOT_MACHINE_axxiapowerpc = "ACP344xV2_stage3_config"
 
 SPL_BINARY = ""
 
-SRCREV = "lsi_axxia_u-boot_4.8.1.97"
+SRCREV = "lsi_axxia_u-boot_4.8.1.103"
 
 PV = "2010.03+${SRCREV}"
 PR = "r1"

@@ -8,7 +8,7 @@ PROVIDES = "virtual/bootemu"
 UBOOT_EMU = "-emu"
 UBOOT_MACHINE_axm5500 = "axxia-55xx-emu_config"
 
-SRCREV = "lsi_axxia_u-boot_5.8.1.24"
+SRCREV = "lsi_axxia_u-boot_5.8.1.78"
 
 PV = "2013.01.01+${SRCREV}"
 PR = "r1"
