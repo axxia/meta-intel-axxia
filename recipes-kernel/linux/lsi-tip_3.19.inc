@@ -5,7 +5,9 @@ require linux-yocto.inc
 LSI_KERNEL_TAG = "tip"
 LINUX_VERSION = "3.19.2-${LSI_KERNEL_TAG}"
 
-KBRANCH = "standard/axxia/base"
+KBRANCH_arm = "standard/axxia/base"
+KBRANCH_arm64 = "standard/axxia-dev/base"
+KBRANCH = "${KBRANCH_${KARCH}}"
 KREPO = "git://git@github.com/lsigithub/axxia_yocto_linux_3.19_private.git;protocol=ssh"
 
 SRCREV_machine ="${AUTOREV}"
