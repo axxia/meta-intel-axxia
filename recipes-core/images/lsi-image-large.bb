@@ -128,7 +128,7 @@ nfs-utils-client \
 openssh \
 openssl \
 opkg \
-opkg-config-base \
+opkg-arch-config \
 ossp-uuid \
 parted \
 pciutils \

@@ -178,7 +178,7 @@ RDEPENDS_${PN} = "\
     dbus-glib \
     libusb-compat \
     bzip2 \
-    opkg-config-base \
+    opkg-arch-config \
     alsa-lib \
     gettext \
     bind \
