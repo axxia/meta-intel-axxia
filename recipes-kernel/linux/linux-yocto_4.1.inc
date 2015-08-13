@@ -3,11 +3,11 @@ ${THISDIR}/conf/${LSI_SRC}/linux-${KV}/${MACHINE}/${LINUX_KERNEL_TYPE}:"
 
 require linux-yocto.inc
 
-LINUX_VERSION = "3.19.2"
+LINUX_VERSION = "4.1.2"
 
 KBRANCH = "standard/axxia/base"
 KMETA = "meta"
-KREPO = "git://git.yoctoproject.org/linux-yocto-3.19"
+KREPO = "git://git.yoctoproject.org/linux-yocto-4.1"
 
 SRCREV_machine = "${AUTOREV}"
 SRCREV_meta = "${AUTOREV}"
