@@ -25,7 +25,7 @@ mk_fit_images() {
 
 	echo "pwd = `pwd`"
 	cd ../fit
-	if [ "${KARCH}" = "arm" ] || [ "${KARCH}" = "powerpc" ]
+	if [ "${KARCH}" = "arm" ]
 	then
 		oe_runmake "ARCH=${KARCH}" \
 				'DESCRIPTION=LSI Axxia Linux' \
@@ -88,7 +88,7 @@ do_compile_append() {
 
 install_fit_images() {
 	name=$1
-	if [ "${KARCH}" = "arm" ] || [ "${KARCH}" = "powerpc" ]
+	if [ "${KARCH}" = "arm" ]
 	then
 		install ${B}/arch/${KARCH}/boot/dts/${name}.dtb ${DEPLOYDIR}/${name}.dtb
 	elif [ "${KARCH}" = "arm64" ]

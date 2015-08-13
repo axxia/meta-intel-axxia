@@ -5,6 +5,7 @@ require linux-yocto.inc
 LSI_KERNEL_TAG = "tip"
 LINUX_VERSION = "3.19.2-${LSI_KERNEL_TAG}"
 
+KBRANCH_powerpc = "standard/axxia/base"
 KBRANCH_arm = "standard/axxia/base"
 KBRANCH_arm64 = "standard/axxia-dev/base"
 KBRANCH = "${KBRANCH_${KARCH}}"
