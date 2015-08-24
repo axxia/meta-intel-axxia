@@ -1,16 +1,18 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/conf/${LSI_SRC}/linux-${KV}/${MACHINE}:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/conf/${LSI_SRC}/linux-${KV}/${MACHINE}/${LINUX_KERNEL_TYPE}:"
 
-require linux-yocto.inc
+require ${@base_conditional('KARCH', 'arm64', 'dt-${KARCH}.inc', 'placeholder.inc', d)}
 
 LSI_KERNEL_TAG = "tip"
 LINUX_VERSION = "4.1.2-${LSI_KERNEL_TAG}"
 
 KBRANCH = "standard/axxia-dev/base"
-KREPO = "git://git@github.com/lsigithub/axxia_yocto_linux_4.1_private.git;protocol=ssh"
+KREPO_KERNEL = "git://git@github.com/lsigithub/axxia_yocto_linux_4.1_private.git;protocol=ssh"
+KREPO_META = "git://git.yoctoproject.org/yocto-kernel-cache"
 
 SRCREV_machine ="${AUTOREV}"
 SRCREV_meta ="${AUTOREV}"
 
-SRC_URI = "${KREPO};bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+SRC_URI = "${KREPO_KERNEL};name=machine;branch=${KBRANCH}; \
+           ${KREPO_META};type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
 SRC_URI += "file://fit"
-SRC_URI += "file://defconfig"
+SRC_URI += "${@base_conditional('KARCH', 'arm64', 'file://defconfig', '', d)}"

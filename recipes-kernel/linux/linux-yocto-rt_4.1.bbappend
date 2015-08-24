@@ -1,5 +1,9 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
+COMPATIBLE_MACHINE = "^axxiaarm64$"
+INSANE_SKIP_kernel-dev = "debug-files"
+PARALLEL_MAKE = ""
+
 LINUX_KERNEL_TYPE = "preempt-rt"
 LSI_SRC ?= "linux-yocto"
 POWER_MANAGEMENT ?= "low-power"

@@ -33,8 +33,7 @@ bc \
 beecrypt \
 bind \
 bison \
-bluez4 \
-bluez-hcidump \
+bluez5 \
 busybox \
 bzip2 \
 coreutils \
