@@ -10,7 +10,7 @@ addressed by the appropriate person, and that it will be seen by other
 users who may be facing similar problems or questions.
 
 Please submit any patches against meta-axxia BSPs to the mailing
-list (meta-axxia@yoctoproject.org) and cc: the maintainers.
+list (meta-lsi@yoctoproject.org) and cc: the maintainers.
 For guidelines for submitting patches, please see README file.
 
 Descriptions of section entries:
@@ -28,12 +28,12 @@ Maintainers List (try to look for most precise areas first)
 
 		-----------------------------------
 AXIAARM
-M:	Daniel Dragomir <daniel.dragomir.butler@windriver.com>
+M:	Cristian Bercaru <cristian.bercaru@windriver.com>
 M:	Lucian Creanga <lucian.creanga@windriver.com>
 F:	meta-axxia/
 
 AXIAPOWERPC
-M:	Daniel Dragomir <daniel.dragomir@windriver.com>
+M:	Daniel Dragomir <cristian.bercaru@windriver.com>
 M:	Lucian Creanga <lucian.creanga@windriver.com>
 F:	meta-axxia/
 

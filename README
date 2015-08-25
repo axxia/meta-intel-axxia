@@ -17,6 +17,9 @@ information):
 	* axxiaarm - Axxia 5000 ARM Mobile & Enterprise Communication 
                     Processors family 
 
+	* axxiaarm64 - Axxia 5000 ARM Mobile & Enterprise Communication 
+                    Processors family 
+
 NOTE: Machines are divided by architecture. By building Linux for axxiaarm 
 machine (e.g.), you will build binaries for all available ARM targets. 
 
@@ -40,13 +43,16 @@ Amarillo – Reference board for the Axxia 5500 line of Communication Processor
 devices. The 5500 device combines an ARM CPU subsystem with up to 16 Cortex-A15
 Cores along with advanced packet-processing acceleration engines.
 
+5600 boards - hardware is not available yet, just the simulator
+
  
 Sources
 -------
 
 git://git.yoctoproject.org/meta-axxia
 http://git.yoctoproject.org/git/meta-axxia
-https://github.com/lsigithub/meta-axxia
+branch: yocto-1.9
+revision: HEAD
 
 
 Dependencies
@@ -55,12 +61,12 @@ Dependencies
 This layer depends on:
 Poky
 URI: git://git.yoctoproject.org/poky.git
-branch: fido
+branch: master
 revision: HEAD
 
 OpenEmbedded
 URI: git://git.openembedded.org/openembedded-core
-branch: fido
+branch: master
 revision: HEAD
 
 
@@ -75,7 +81,7 @@ Check the YOCTO Reference Manual for the system you are using and verify you
 have the minimum required packages installed. 
 http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
 
-Note: You may also require packages: u-boot-tools (mkimage) and
+NOTE: You may also require packages: u-boot-tools (mkimage) and
 device-tree-compiler (dtc)
 
 1. Create an empty build directory and verify that the partition has at least
@@ -92,15 +98,15 @@ device-tree-compiler (dtc)
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/poky.git
    $ cd poky
-   $ git checkout fido
+   $ git checkout master
 
 3. Clone the LSI meta layer. This provides meta data for building images for the
 LSI specific board types.
 
    $ cd $YOCTO/poky
-   $ git clone git@github.com:lsigithub/meta-axxia-private
-   $ cd meta-axxia-private
-   $ git checkout fido
+   $ git clone git://git.yoctoproject.org/meta-axxia
+   $ cd meta-axxia
+   $ git checkout yocto-1.9
 
 4. The Open Embedded project provides many useful layers and packages such as
 networking. Download the Open Embedded Yocto Project hosted repository with the
@@ -109,14 +115,14 @@ following.
    $ cd $YOCTO/poky
    $ git clone https://github.com/openembedded/meta-oe.git
    $ cd meta-oe
-   $ git checkout fido
+   $ git checkout master
 
 5. Create the build directory. The name is optional and will default to 'build',
 however it helps to choose a name to match the board type. For example, we will
 use axxia.
 
    $ cd $YOCTO
-   $ source poky/oe-init-bild-env axxia
+   $ source poky/oe-init-build-env axxia
 
 6. Edit the conf/bblayers.conf file
 
@@ -149,7 +155,9 @@ parallelism BitBake should use:
 
   MACHINE = "axxiaarm"
   or
-  MACHINE = "axxiapowerpc" #(only for 3.14)
+  MACHINE = "axxiaarm64"
+  or
+  MACHINE = "axxiapowerpc"
 
 7.3 Select the root filesystem image compression type (can set multiple types):
 
@@ -165,16 +173,19 @@ parallelism BitBake should use:
    PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 
    for preempt-rt
-   PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt" (only for 3.14)
+   PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
 
 7.6 Select the KERNEL version:
+NOTE: axxiaarm and axxiapowerpc are available only with linux 3.14
+      axxiaarm64 is available only with linux 4.1
+
    for 3.14, depending on PREFERRED_PROVIDER_virtual/kernel
    PREFERRED_VERSION_linux-yocto = "3.14%"
    PREFERRED_VERSION_linux-yocto-rt = "3.14%"
 
-   for 3.19, depending on PREFERRED_PROVIDER_virtual/kernel
-   PREFERRED_VERSION_linux-yocto = "3.19%"
-   PREFERRED_VERSION_linux-yocto-rt = "3.19%"
+   for 4.1, depending on PREFERRED_PROVIDER_virtual/kernel
+   PREFERRED_VERSION_linux-yocto = "4.1%"
+   PREFERRED_VERSION_linux-yocto-rt = "4.1%"
   
 7.7 Select the KERNEL repository to use. Meta-lsi is able to build the kernel 
 from 2 sources: GITHUB private and YOCTO kernel repo depending on LSI_SRC
@@ -184,25 +195,26 @@ a. by default (missing to set LSI_SRC) or setting
 
    LSI_SRC = "linux-yocto"
 
-   will build from Yocto (axxia) repos:
+   will build from Yocto repos:
    3.14: http://git.yoctoproject.org/git/linux-yocto-3.14
-        standard/axxia/base branch
-   3.19: http://git.yoctoproject.org/git/linux-yocto-3.19 
-        standard/axxia/base branch
+   4.1:  http://git.yoctoproject.org/git/linux-yocto-4.1 
 
 b. LSI_SRC = "lsi-tip"
    
    will build kernel from GitHub private repos (require authentication):
    3.14: git@github.com:lsigithub/axxia_yocto_linux_3.14_private.git
-   3.19: git@github.com:lsigithub/axxia_yocto_linux_3.19_private.git
+   4.1:  git@github.com:lsigithub/axxia_yocto_linux_4.1_private.git
 
 7.8 Customizing the Kernel .config file
+NOTE: This options are available only with LSI_SRC = "linux-yocto"
+      When building from github, fixed defconfigs are used instead.
+
 When building the kernel from the Yocto repositories, the final .config is built
 using configuration fragments. Otherwise, a pre-built defconfig is used.
 Besides the options specific to the standard and preempt-rt kernel, you are able
 to add extra kernel fragments by setting the following options
 
-a. Power management scheme
+a. Power management scheme (axxiaarm only)
    - POWER_MANAGEMENT = "low-power" (DEFAULT)
      to keep the core low power when is shut down
    - POWER_MANAGEMENT = "full-power"
@@ -217,6 +229,21 @@ b. Regression testing
    
    DL_DIR = "/<some-shared-location>/downloads"
    SSTATE_DIR = "/<some-shared-location>/sstate-cache
+
+7.10. Example. Append these lines to conf/local.conf file from the build dir
+
+BB_NUMBER_THREADS = "12"
+PARALLEL_MAKE = "-j 12"
+MACHINE = "axxiaarm64"
+IMAGE_FSTYPES += "ext2"
+IMAGE_FSTYPES += "tar.gz"
+PREFERRED_PROVIDER_virtual/bootloader = "u-boot-lsi"
+PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
+PREFERRED_VERSION_linux-yocto = "4.1%"
+LSI_SRC = "lsi-tip"
+DL_DIR = "/<some-shared-location>/downloads"
+SSTATE_DIR = "/<some-shared-location>/sstate-cache"
+
 
 8. Select the image type and start the build
    $ cd $YOCTO/axxia
@@ -243,23 +270,22 @@ directory 'tmp/deploy/images/$MACHINE'.
 * modules-<machine name>.tgz (modules in tar+GZIP format)
 * zImage and zImage-<machine name> (Linux Kernel binary, in u-boot wrapped 
 format)
-* u-boot.img and u-boot-<machine name>.img (U-Boot Img)
-* u-boot-spl.img and u-boot-spl-<machine name>.img (U-Boot SPL - only for ARM)
+NOTE: For axxiaarm64, only Image files are generated, instead of zImage.
+      Use mkimage to convert them to zImage format. 
 * <target name>.dtb
 * FIT images, 3 types:
 	* fdt.fit-<target name> (DTB in fit image format)
 	* linux.fit-<target name> (Kernel binary in fit image format)
 	* multi.fit-<target name> (Kernel binary + DTB in fit image format)
 
-
 Guidelines for submitting patches
 ---------------------------------
 
 Please submit any patches against meta-axxia BSPs to the meta-axxia
-mailing list (meta-axxia@yoctoproject.org) and cc: the maintainers.  
+mailing list (meta-lsi@yoctoproject.org) and cc: the maintainers.  
 
 Mailing list:
-	https://lists.yoctoproject.org/listinfo/meta-axxia
+	https://lists.yoctoproject.org/listinfo/meta-lsi
 
 When creating patches, please use something like:
 	git format-patch -s --subject-prefix='meta-axxia][PATCH' origin
