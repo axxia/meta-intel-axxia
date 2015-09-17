@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
-COMPATIBLE_MACHINE = "^axxiaarm64$"
+COMPATIBLE_MACHINE = "^axxiaarm$|^axxiaarm64$"
 INSANE_SKIP_kernel-dev = "debug-files"
 PARALLEL_MAKE = ""
 
