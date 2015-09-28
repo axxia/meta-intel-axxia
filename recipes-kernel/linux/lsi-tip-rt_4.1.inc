@@ -5,7 +5,7 @@ require dt-${KARCH}.inc
 LSI_KERNEL_TAG = "tip"
 LINUX_VERSION = "4.1.2-${LSI_KERNEL_TAG}"
 
-KBRANCH = "standard/preempt-rt/axxia-dev/base"
+KBRANCH = "standard/axxia-dev/preempt-rt"
 KREPO_KERNEL = "git://git@github.com/lsigithub/axxia_yocto_linux_4.1_private.git;protocol=ssh"
 KREPO_META = "git://git.yoctoproject.org/yocto-kernel-cache"
 
