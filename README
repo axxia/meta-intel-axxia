@@ -250,14 +250,14 @@ SSTATE_DIR = "/<some-shared-location>/sstate-cache"
    $ bitbake <image type>
 
 Available root filesystem types:
-   * lsi-image-small 
+   * axxia-image-small 
      A small image for use in simulation, flash, or as a ram disk. Should be
      sufficient to use the RTE. 
 
-   * lsi-image-sim 
+   * axxia-image-sim 
      An image for use in simulation. 
 
-   * lsi-image-large
+   * axxia-image-large
      A more complete image.
 
 Once complete the images for the target machine will be available in the output
