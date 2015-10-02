@@ -141,6 +141,7 @@ psmisc \
 python-core \
 lttng-modules \
 lttng-tools \
+lttng-ust \
 quota \
 readline \
 rpcbind \

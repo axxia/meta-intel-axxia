@@ -14,6 +14,7 @@ gdbserver \
 python-core \
 lttng-modules \
 lttng-tools \
+lttng-ust \
 "
 
 IMAGE_FEATURES += "dev-pkgs"
