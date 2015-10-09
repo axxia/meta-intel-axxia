@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 4.1.2 Kernel Configuration
+# Linux/arm 4.1.8 Kernel Configuration
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -400,6 +400,7 @@ CONFIG_PCI=y
 CONFIG_PCI_DOMAINS=y
 CONFIG_PCI_DOMAINS_GENERIC=y
 CONFIG_PCI_SYSCALL=y
+CONFIG_PCI_BUS_ADDR_T_64BIT=y
 CONFIG_PCI_MSI=y
 # CONFIG_PCI_DEBUG is not set
 # CONFIG_PCI_REALLOC_ENABLE_AUTO is not set
