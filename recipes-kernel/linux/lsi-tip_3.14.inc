@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/conf/${LSI_SRC}/linux-${KV}/${MACHINE}/${LINUX_KERNEL_TYPE}:"
 
-require ${@base_conditional('KARCH', 'arm64', 'placeholder.inc', 'dt-${KARCH}.inc', d)}
+require dt-${KARCH}.inc
 
 LSI_KERNEL_TAG = "tip"
 LINUX_VERSION = "3.14.39-${LSI_KERNEL_TAG}"
@@ -15,4 +15,4 @@ SRCREV_meta ="${AUTOREV}"
 SRC_URI = "${KREPO_KERNEL};branch=${KBRANCH};name=machine; \
            ${KREPO_META};type=kmeta;name=meta;branch=yocto-3.14;destsuffix=${KMETA}"
 SRC_URI += "file://fit"
-SRC_URI += "${@base_conditional('KARCH', 'arm64', '', 'file://defconfig', d)}"
+SRC_URI += "file://defconfig"
