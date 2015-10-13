@@ -3,9 +3,9 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/conf/${LSI_SRC}/linux-${KV}/${MACHINE}/${
 require dt-${KARCH}.inc
 
 LSI_KERNEL_TAG = "tip"
-LINUX_VERSION = "4.1.2-${LSI_KERNEL_TAG}"
+LINUX_VERSION = "4.1.8-${LSI_KERNEL_TAG}"
 
-KBRANCH = "standard/axxia-dev/preempt-rt"
+KBRANCH = "standard/preempt-rt/axxia-dev/base"
 KREPO_KERNEL = "git://git@github.com/lsigithub/axxia_yocto_linux_4.1_private.git;protocol=ssh"
 KREPO_META = "git://git.yoctoproject.org/yocto-kernel-cache"
 
