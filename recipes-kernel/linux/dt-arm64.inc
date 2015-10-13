@@ -1,13 +1,17 @@
 require dt-axxia.inc
 
 do_compile_append() {
-	addr=0x00408000
+	addr=0x00080000
 	mk_fit_images "axm5601-emu" ${addr}
 	mk_fit_images "axm5602-emu" ${addr}
 	mk_fit_images "axm5604-sim" ${addr}
 	mk_fit_images "axm5606-emu" ${addr}
 	mk_fit_images "axm5608-sim" ${addr}
 	mk_fit_images "axm5616-sim" ${addr}
+	mk_fit_images "axc6704-sim" ${addr}
+	mk_fit_images "axc6704-emu" ${addr}
+	mk_fit_images "axc6716-sim" ${addr}
+	mk_fit_images "axc6712-emu" ${addr}
 }
 
 do_deploy_append() {
@@ -17,5 +21,9 @@ do_deploy_append() {
 	install_fit_images "axm5606-emu"
 	install_fit_images "axm5608-sim"
 	install_fit_images "axm5616-sim"
+	install_fit_images "axc6704-sim"
+	install_fit_images "axc6704-emu"
+	install_fit_images "axc6716-sim"
+	install_fit_images "axc6712-emu"
 }
 
