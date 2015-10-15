@@ -1,7 +1,7 @@
 meta-axxia
 ========
 
-This is the official OpenEmbedded/Yocto BSP layer for LSI’s family of
+This is the official OpenEmbedded/Yocto BSP layer for Intel’s family of
 Axxia Mobile & Enterprise Communication Processors.
 
 
@@ -43,7 +43,7 @@ Amarillo – Reference board for the Axxia 5500 line of Communication Processor
 devices. The 5500 device combines an ARM CPU subsystem with up to 16 Cortex-A15
 Cores along with advanced packet-processing acceleration engines.
 
-5600 boards - hardware is not available yet, just the simulator
+5600 boards (Lionfish and X9) hardware is not available yet, just the simulator
 
  
 Sources
@@ -51,7 +51,7 @@ Sources
 
 git://git.yoctoproject.org/meta-axxia
 http://git.yoctoproject.org/git/meta-axxia
-branch: yocto-1.9
+branch: jethro
 revision: HEAD
 
 
@@ -61,11 +61,11 @@ Dependencies
 This layer depends on:
 Poky
 URI: git://git.yoctoproject.org/poky.git
-branch: master
+branch: jethro
 revision: HEAD
 
 OpenEmbedded
-URI: git://git.openembedded.org/openembedded-core
+URI: https://github.com/openembedded/meta-openembedded.git
 branch: master
 revision: HEAD
 
@@ -98,23 +98,23 @@ device-tree-compiler (dtc)
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/poky.git
    $ cd poky
-   $ git checkout master
+   $ git checkout jethro
 
-3. Clone the LSI meta layer. This provides meta data for building images for the
-LSI specific board types.
+3. Clone the Axxia meta layer. This provides meta data for building images for the
+Axxia specific board types.
 
    $ cd $YOCTO/poky
    $ git clone git://git.yoctoproject.org/meta-axxia
    $ cd meta-axxia
-   $ git checkout yocto-1.9
+   $ git checkout jethro
 
 4. The Open Embedded project provides many useful layers and packages such as
 networking. Download the Open Embedded Yocto Project hosted repository with the
 following.
 
    $ cd $YOCTO/poky
-   $ git clone https://github.com/openembedded/meta-oe.git
-   $ cd meta-oe
+   $ git clone https://github.com/openembedded/meta-openembedded.git
+   $ cd meta-openembedded
    $ git checkout master
 
 5. Create the build directory. The name is optional and will default to 'build',
@@ -136,9 +136,9 @@ actual value you provided in step 1.
             $YOCTO/poky/meta \
             $YOCTO/poky/meta-yocto \
             $YOCTO/poky/meta-yocto-bsp \
-            $YOCTO/poky/meta-oe/meta-oe \
-            $YOCTO/poky/meta-oe/meta-python \
-            $YOCTO/poky/meta-oe/meta-networking \
+            $YOCTO/poky/meta-openembedded/meta-oe \
+            $YOCTO/poky/meta-openembedded/meta-python \
+            $YOCTO/poky/meta-openembedded/meta-networking \
             $YOCTO/poky/meta-axxia \
             "
 
@@ -168,14 +168,14 @@ parallelism BitBake should use:
 
   PREFERRED_PROVIDER_virtual/bootloader = "u-boot-lsi"
 
-7.5 Select the KERNEL type:
+7.5 Select the kernel type:
    for standard
    PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 
    for preempt-rt
    PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
 
-7.6 Select the KERNEL version:
+7.6 Select the kernel version:
 NOTE: axxiaarm and axxiapowerpc are available only with linux 3.14
       axxiaarm64 is available only with linux 4.1
 
@@ -187,9 +187,9 @@ NOTE: axxiaarm and axxiapowerpc are available only with linux 3.14
    PREFERRED_VERSION_linux-yocto = "4.1%"
    PREFERRED_VERSION_linux-yocto-rt = "4.1%"
   
-7.7 Select the KERNEL repository to use. Meta-lsi is able to build the kernel 
-from 2 sources: GITHUB private and YOCTO kernel repo depending on LSI_SRC
-variable from local.conf:
+7.7 Select the kernel repository to use. Meta-axxia is able to build the kernel
+from 2 sources: private lsigithub and public yocto kernel repo depending on
+LSI_SRC variable from local.conf:
 
 a. by default (missing to set LSI_SRC) or setting
 
@@ -201,7 +201,8 @@ a. by default (missing to set LSI_SRC) or setting
 
 b. LSI_SRC = "lsi-tip"
    
-   will build kernel from GitHub private repos (require authentication):
+   will build kernel from GitHub private repos (require authentication with
+   public key):
    3.14: git@github.com:lsigithub/axxia_yocto_linux_3.14_private.git
    4.1:  git@github.com:lsigithub/axxia_yocto_linux_4.1_private.git
 
@@ -210,7 +211,8 @@ NOTE: This options are available only with LSI_SRC = "linux-yocto"
       When building from github, fixed defconfigs are used instead.
 
 When building the kernel from the Yocto repositories, the final .config is built
-using configuration fragments. Otherwise, a pre-built defconfig is used.
+using configuration fragments. Otherwisei, when building from lsigithub,
+a pre-built defconfig is used.
 Besides the options specific to the standard and preempt-rt kernel, you are able
 to add extra kernel fragments by setting the following options
 
@@ -222,7 +224,18 @@ a. Power management scheme (axxiaarm only)
    - POWER_MANAGEMENT = "full-power-L2"
      to complete power down the core and L2 cache when is shut down
 
-b. Regression testing
+b. Big-endian or little-endian (axxiaarm only)
+Set the order in which a sequence of bytes are stored in computer memory.
+   - BIG_ENDIAN = "no" (DEFAULT)
+     Little-endian is the default settings.
+   - BIG_ENDIAN = "yes"
+     Kernel will be built with CONFIG_CPU_BIG_ENDIAN enabled.
+
+c. Debug options
+   - DBG = "no" (DEFAULT)
+   - DBG = "yes" Will enable options for debug in the Kernel config.
+
+d. Regression testing
     TESTING = "yes"
 
 7.9 Other optional settings for saving disk space and build time:
@@ -238,9 +251,11 @@ MACHINE = "axxiaarm64"
 IMAGE_FSTYPES += "ext2"
 IMAGE_FSTYPES += "tar.gz"
 PREFERRED_PROVIDER_virtual/bootloader = "u-boot-lsi"
-PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
-PREFERRED_VERSION_linux-yocto = "4.1%"
-LSI_SRC = "lsi-tip"
+PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
+PREFERRED_VERSION_linux-yocto-rt = "4.1%"
+LSI_SRC = "linux-yocto"
+DBG = "yes"
+TESTING = "yes"
 DL_DIR = "/<some-shared-location>/downloads"
 SSTATE_DIR = "/<some-shared-location>/sstate-cache"
 
@@ -251,11 +266,11 @@ SSTATE_DIR = "/<some-shared-location>/sstate-cache"
 
 Available root filesystem types:
    * axxia-image-small 
-     A small image for use in simulation, flash, or as a ram disk. Should be
+     A small image used in simulation, flash, or as a ram disk. Should be
      sufficient to use the RTE. 
 
-   * axxia-image-sim 
-     An image for use in simulation. 
+   * axxia-image-sim
+     An image used in simulation.
 
    * axxia-image-large
      A more complete image.
@@ -291,7 +306,7 @@ When creating patches, please use something like:
 	git format-patch -s --subject-prefix='meta-axxia][PATCH' origin
 
 When sending patches, please use something like:
-	git send-email --to meta-axxia@yoctoproject.org --cc <maintainers> 
+	git send-email --to meta-lsi@yoctoproject.org --cc <maintainers>
 		      <generated patch>
 
 
