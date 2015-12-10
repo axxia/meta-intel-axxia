@@ -4,7 +4,7 @@ require dt-${KARCH}.inc
 
 LSI_KERNEL_TAG = "tip"
 LINUX_VERSION = "3.14.39-${LSI_KERNEL_TAG}"
-KBRANCH = "standard/preempt-rt/axxia/base"
+KBRANCH = "standard/preempt-rt/axxia-dev/base"
 KMETA = ""
 KREPO_KERNEL = "git://git@github.com/lsigithub/axxia_yocto_linux_3.14_private.git;protocol=ssh"
 SRCREV_machine ="${AUTOREV}"
