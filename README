@@ -15,10 +15,10 @@ information):
                         Processors family
 
 	* axxiaarm - Axxia 5000 ARM Mobile & Enterprise Communication 
-                    Processors family 
+                    Processors family (32-bit)
 
 	* axxiaarm64 - Axxia 5000 ARM Mobile & Enterprise Communication 
-                    Processors family 
+                    Processors family (64-bit)
 
 NOTE: Machines are divided by architecture. By building Linux for axxiaarm 
 machine (e.g.), you will build binaries for all available ARM targets. 
@@ -66,7 +66,7 @@ revision: HEAD
 
 OpenEmbedded
 URI: https://github.com/openembedded/meta-openembedded.git
-branch: master
+branch: jethro
 revision: HEAD
 
 
@@ -104,7 +104,7 @@ device-tree-compiler (dtc)
 Axxia specific board types.
 
    $ cd $YOCTO/poky
-   $ git clone git://git.yoctoproject.org/meta-axxia
+   $ git clone git://git.yoctoproject.org/meta-axxia.git
    $ cd meta-axxia
    $ git checkout jethro
 
@@ -115,7 +115,7 @@ following.
    $ cd $YOCTO/poky
    $ git clone https://github.com/openembedded/meta-openembedded.git
    $ cd meta-openembedded
-   $ git checkout master
+   $ git checkout jethro
 
 5. Create the build directory. The name is optional and will default to 'build',
 however it helps to choose a name to match the board type. For example, we will
@@ -168,7 +168,7 @@ parallelism BitBake should use:
 
   PREFERRED_PROVIDER_virtual/bootloader = "u-boot-lsi"
 
-7.5 Select the kernel type:
+7.5 Select the KERNEL type:
    for standard
    PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 
@@ -188,7 +188,7 @@ NOTE: axxiaarm and axxiapowerpc are available only with linux 3.14
    PREFERRED_VERSION_linux-yocto-rt = "4.1%"
   
 7.7 Select the kernel repository to use. Meta-axxia is able to build the kernel
-from 2 sources: private lsigithub and public yocto kernel repo depending on
+from 2 sources: private lsigithub and public YOCTO kernel repo depending on
 LSI_SRC variable from local.conf:
 
 a. by default (missing to set LSI_SRC) or setting
@@ -197,24 +197,28 @@ a. by default (missing to set LSI_SRC) or setting
 
    will build from Yocto repos:
    3.14: http://git.yoctoproject.org/git/linux-yocto-3.14
+        standard/axxia/base or standard/preempt-rt/axxia/base branch
    4.1:  http://git.yoctoproject.org/git/linux-yocto-4.1 
+        standard/axxia/base or standard/preempt-rt/axxia/base branch
 
 b. LSI_SRC = "lsi-tip"
    
    will build kernel from GitHub private repos (require authentication with
    public key):
    3.14: git@github.com:lsigithub/axxia_yocto_linux_3.14_private.git
+        standard/axxia-dev/base or standard/preempt-rt/axxia/base branch
    4.1:  git@github.com:lsigithub/axxia_yocto_linux_4.1_private.git
+        standard/axxia-dev/base or standard/preempt-rt/axxia/base branch
 
 7.8 Customizing the Kernel .config file
 NOTE: This options are available only with LSI_SRC = "linux-yocto"
       When building from github, fixed defconfigs are used instead.
 
 When building the kernel from the Yocto repositories, the final .config is built
-using configuration fragments. Otherwisei, when building from lsigithub,
-a pre-built defconfig is used.
+using configuration fragments. Otherwise, when building from lsigithub,
+an defconfig is used.
 Besides the options specific to the standard and preempt-rt kernel, you are able
-to add extra kernel fragments by setting the following options
+to add extra kernel fragments by setting the following options:
 
 a. Power management scheme (axxiaarm only)
    - POWER_MANAGEMENT = "low-power" (DEFAULT)
@@ -231,11 +235,17 @@ Set the order in which a sequence of bytes are stored in computer memory.
    - BIG_ENDIAN = "yes"
      Kernel will be built with CONFIG_CPU_BIG_ENDIAN enabled.
 
-c. Debug options
+c. Debug options:
    - DBG = "no" (DEFAULT)
-   - DBG = "yes" Will enable options for debug in the Kernel config.
+   - DBG = "yes"
+     Will enable options for debug in the Kernel config.
 
-d. Regression testing
+d. SMP options:
+   - SMP = "yes" (DEFAULT)
+   - SMP = "no"
+     Will enable or disable SMP related kernel options.
+
+e. Regression testing:
     TESTING = "yes"
 
 7.9 Other optional settings for saving disk space and build time:
@@ -243,18 +253,39 @@ d. Regression testing
    DL_DIR = "/<some-shared-location>/downloads"
    SSTATE_DIR = "/<some-shared-location>/sstate-cache
 
-7.10. Example. Append these lines to conf/local.conf file from the build dir
+7.10 Building a 32-bit RootFS for ARMv8 based boards:
+For ARM architecture, depending on the machine selected on step 7.2, 
+specific Kernel and RootFS are built for specific boards:
+    - axxiaarm: 32-bit Kernel and Rootfs for 5500 board series which have
+                ARMv7 based processors (cortex-a15)
+    - axxiaarm64: 64-bit Kernel and Rootfs for 5600 board series which have
+                  ARMv8 based processors (cortex-a53 for XLF board or 
+                  cortex-a57 for X9 board).
+But ARMv8 architecture support both 32-bit and 64-bit instruction sets. 
+To build a 32-bit Kernel and RootFS for ARMv8, you will need to set the
+following variables in local.conf:
+
+   MACHINE = "axxiaarm"   # for 32-bit 
+   CHIPSET = "X9"         # for 5600 boards (ARMv8)
+
+If CHIPSET is not set, it will default to 5500 (ARMv7).
+
+NOTE: You can boot the resulting 32-bit RootFS with the Kernel resulting
+from an axxiaarm64 build.
+
+7.11 Example. Append these lines to conf/local.conf file from the build dir
 
 BB_NUMBER_THREADS = "12"
 PARALLEL_MAKE = "-j 12"
-MACHINE = "axxiaarm64"
+MACHINE = "axxiaarm"
 IMAGE_FSTYPES += "ext2"
 IMAGE_FSTYPES += "tar.gz"
 PREFERRED_PROVIDER_virtual/bootloader = "u-boot-lsi"
 PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
-PREFERRED_VERSION_linux-yocto-rt = "4.1%"
+PREFERRED_VERSION_linux-yocto-rt = "3.10%"
 LSI_SRC = "linux-yocto"
 DBG = "yes"
+SMP = "yes"
 TESTING = "yes"
 DL_DIR = "/<some-shared-location>/downloads"
 SSTATE_DIR = "/<some-shared-location>/sstate-cache"
@@ -293,6 +324,7 @@ NOTE: For axxiaarm64, only Image files are generated, instead of zImage.
 	* linux.fit-<target name> (Kernel binary in fit image format)
 	* multi.fit-<target name> (Kernel binary + DTB in fit image format)
 
+
 Guidelines for submitting patches
 ---------------------------------
 
@@ -313,7 +345,7 @@ When sending patches, please use something like:
 Maintenance
 -----------
 
-Maintainers: Cristian Bercaru <cristian.bercaru@windriver.com>
+Maintainers: Daniel Dragomir <daniel.dragomir@windriver.com>
 	     Lucian Creanga <lucian.creanga@windriver.com>
 
 Please see the meta-axxia/MAINTAINERS file for more details.
