@@ -15,7 +15,11 @@ python-core \
 lttng-modules \
 lttng-tools \
 lttng-ust \
-"
+dhcp-client \
+netkit-tftp-client \
+openssh \
+inetutils \
+netcat"
 
 IMAGE_FEATURES += "dev-pkgs"
 
