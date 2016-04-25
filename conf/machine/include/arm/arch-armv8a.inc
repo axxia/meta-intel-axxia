@@ -1,5 +1,3 @@
-DEFAULTTUNE ?= "aarch64"
-
 TUNEVALID[arm] = "Enable ARM instruction set"
 TUNEVALID[aarch32] = "Enable instructions for 32bit state for ARMv8-a (AArch32)"
 TUNEVALID[aarch64] = "Enable instructions for 64bit state for ARMv8-a (AArch64)"

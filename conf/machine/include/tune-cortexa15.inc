@@ -1,5 +1,3 @@
-DEFAULTTUNE ?= "cortexa15-neon"
-
 require conf/machine/include/arm/arch-armv7a.inc
 
 TUNEVALID[cortexa15] = "Enable Cortex-A15 specific processor optimizations"

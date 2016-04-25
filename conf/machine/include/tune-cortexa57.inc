@@ -1,5 +1,3 @@
-DEFAULTTUNE ?= "cortexa57_64-crypto"
-
 require conf/machine/include/arm/arch-armv8a.inc
 
 TUNEVALID[cortexa57] = "Enable Cortex-A57 specific processor optimizations"
