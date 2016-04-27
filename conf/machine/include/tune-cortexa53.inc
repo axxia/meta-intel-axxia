@@ -2,6 +2,7 @@ require conf/machine/include/arm/arch-armv8a.inc
 
 TUNEVALID[cortexa53] = "Enable Cortex-A53 specific processor optimizations"
 TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', bb.utils.contains('TUNE_FEATURES', [ 'crypto', 'aarch64' ], ' -mcpu=cortex-a53+crypto', ' -mcpu=cortex-a53', d), '', d)}"
+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', ' -mtune=cortex-a53', '', d)}"
 
 # AArch64 Little Endian base configs
 AVAILTUNES += "cortexa53_64 cortexa53_64-crypto"

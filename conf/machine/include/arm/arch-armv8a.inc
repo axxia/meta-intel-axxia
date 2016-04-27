@@ -10,7 +10,7 @@ require conf/machine/include/arm/feature-arm-thumb.inc
 
 TUNEVALID[crypto] = "Enable ARMv8 crypto extension."
 TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', bb.utils.contains('TUNE_FEATURES', 'crypto', ' -march=armv8-a+crypto', ' -march=armv8-a', d), '', d)}"
-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'aarch32', ' -march=armv8-a', '', d)}"
+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'aarch32', bb.utils.contains_any('TUNE_FEATURES', [ 'cortexa53', 'cortexa57' ], '', ' -march=armv8-a', d), '', d)}"
 
 TUNEVALID[fp-armv8] = "Enable ARMv8 Vector Floating Point unit."
 TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'fp-armv8', ' fp-armv8', '', d)}"

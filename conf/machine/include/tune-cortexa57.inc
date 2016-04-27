@@ -2,6 +2,7 @@ require conf/machine/include/arm/arch-armv8a.inc
 
 TUNEVALID[cortexa57] = "Enable Cortex-A57 specific processor optimizations"
 TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa57', bb.utils.contains('TUNE_FEATURES', [ 'crypto', 'aarch64' ], ' -mcpu=cortex-a57+crypto', ' -mcpu=cortex-a57', d), '', d)}"
+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa57', ' -mtune=cortex-a57', '', d)}"
 
 # AArch64 Little Endian base configs
 AVAILTUNES += "cortexa57_64 cortexa57_64-crypto"
