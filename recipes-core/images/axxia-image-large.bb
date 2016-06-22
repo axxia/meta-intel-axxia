@@ -125,6 +125,7 @@ net-tools \
 nfs-utils \
 nfs-utils-client \
 openssh \
+openssh-sftp \
 openssl \
 opkg \
 opkg-arch-config \

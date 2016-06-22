@@ -20,6 +20,7 @@ lttng-ust \
 dhcp-client \
 netkit-tftp-client \
 openssh \
+openssh-sftp \
 inetutils \
 netcat"
 
