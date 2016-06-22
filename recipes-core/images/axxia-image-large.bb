@@ -139,6 +139,8 @@ ppp \
 procps \
 psmisc \
 python-core \
+python-modules \
+python-netserver \
 lttng-modules \
 lttng-tools \
 lttng-ust \

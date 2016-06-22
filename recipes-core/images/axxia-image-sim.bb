@@ -12,6 +12,8 @@ inetutils \
 gdb \
 gdbserver \
 python-core \
+python-modules \
+python-netserver \
 lttng-modules \
 lttng-tools \
 lttng-ust \
