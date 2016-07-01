@@ -188,3 +188,5 @@ perf \
 "
 
 DESCRIPTION = ""
+
+SDKIMAGE_FEATURES = "dev-pkgs dbg-pkgs staticdev-pkgs"
