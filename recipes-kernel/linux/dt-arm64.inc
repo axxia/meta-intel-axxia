@@ -10,6 +10,7 @@ do_compile_append() {
 	mk_fit_images "axc6704-emu" ${addr}
 	mk_fit_images "axc6716-sim" ${addr}
 	mk_fit_images "axc6712-emu" ${addr}
+        mk_fit_images "axm5616-victoria" ${addr}
 }
 
 do_deploy_append() {
@@ -21,5 +22,6 @@ do_deploy_append() {
 	install_fit_images "axc6704-emu"
 	install_fit_images "axc6716-sim"
 	install_fit_images "axc6712-emu"
+        install_fit_images "axm5616-victoria"
 }
 
