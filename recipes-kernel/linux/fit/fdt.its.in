@@ -1,5 +1,5 @@
 /*
- * LSI Axxia FIT image for U-Boot (device tree only).
+ * INTEL Axxia FIT image for U-Boot (device tree only).
  */
 
 /dts-v1/;

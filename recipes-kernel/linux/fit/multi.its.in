@@ -1,5 +1,5 @@
 /*
- * LSI Axxia FIT multi image for U-Boot (Linux and Device Tree).
+ * INTEL Axxia FIT multi image for U-Boot (Linux and Device Tree).
  */
 
 /dts-v1/;

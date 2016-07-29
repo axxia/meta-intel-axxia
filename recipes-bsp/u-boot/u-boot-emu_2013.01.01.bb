@@ -1,4 +1,4 @@
-require u-boot-lsi.inc
+require u-boot-axxia.inc
 
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
@@ -13,4 +13,4 @@ SRCREV = "lsi_axxia_u-boot_5.8.1.78"
 PV = "2013.01.01+${SRCREV}"
 PR = "r1"
 
-SRC_URI = "git://github.com/lsigithub/lsi_axxia_uboot_public.git"
+SRC_URI = "git://github.com/axxia/axxia_u-boot.git"

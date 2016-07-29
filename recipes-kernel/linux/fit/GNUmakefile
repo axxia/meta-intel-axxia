@@ -2,7 +2,7 @@
 #
 # GNUmakefile
 #
-# Image makefile for LSI Axxia systems.  Along with CROSS_COMPILE and
+# Image makefile for INTEL Axxia systems.  Along with CROSS_COMPILE and
 # tools in the PAT, the following are required.
 #
 #        ARCH : The architecture.

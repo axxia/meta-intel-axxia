@@ -28,7 +28,12 @@ Maintainers List (try to look for most precise areas first)
 
 		-----------------------------------
 AXIAARM
-M:	Cristian Bercaru <cristian.bercaru@windriver.com>
+M:	Daniel Dragomir <cristian.bercaru@windriver.com>
+M:	Lucian Creanga <lucian.creanga@windriver.com>
+F:	meta-axxia/
+
+AXIAARM64
+M:	Daniel Dragomir <cristian.bercaru@windriver.com>
 M:	Lucian Creanga <lucian.creanga@windriver.com>
 F:	meta-axxia/
 

@@ -15,20 +15,20 @@ mk_fit_images() {
 	if [ "${KARCH}" = "arm" ]
 	then
 		oe_runmake "ARCH=${KARCH}" \
-				'DESCRIPTION=LSI Axxia Linux' \
+				'DESCRIPTION=INTEL Axxia Linux' \
 				"ADDRESS=${addr}" \
 				'VMLINUX=${B}/vmlinux' \
 				"DTB=${B}/arch/${KARCH}/boot/dts/${name}.dtb"
 	elif [ "${KARCH}" = "arm64" ]
 	then
 		oe_runmake "ARCH=${KARCH}" \
-				'DESCRIPTION=LSI Axxia Linux' \
+				'DESCRIPTION=INTEL Axxia Linux' \
 				"ADDRESS=${addr}" \
 				'VMLINUX=${B}/vmlinux' \
 				"DTB=${B}/arch/${KARCH}/boot/dts/intel/${name}.dtb"
 	else
 		oe_runmake "ARCH=${KARCH}" \
-       	                        'DESCRIPTION=LSI Axxia Linux' \
+       	                        'DESCRIPTION=INTEL Axxia Linux' \
                	                "ADDRESS=${addr}" \
                        	        'VMLINUX=${B}/vmlinux' \
                                	"DTB=${B}/arch/${KARCH}/boot/${name}.dtb"

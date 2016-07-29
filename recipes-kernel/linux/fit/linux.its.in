@@ -1,5 +1,5 @@
 /*
- * LSI Axxia FIT image for U-Boot (Linux only).
+ * INTEL Axxia FIT image for U-Boot (Linux only).
  */
 
 /dts-v1/;
