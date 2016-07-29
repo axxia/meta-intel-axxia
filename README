@@ -248,10 +248,46 @@ d. SMP options:
 e. Regression testing:
     TESTING = "yes"
 
-7.9 Other optional settings for saving disk space and build time:
-   
-   DL_DIR = "/<some-shared-location>/downloads"
-   SSTATE_DIR = "/<some-shared-location>/sstate-cache
+7.9 Choose proper fine tuning for each CHIPSET (kernel 4.1 only)
+As long as specfic tunes are defined, user can choose the proper 
+tune using the CHIPSET variable. Features and flags for each tune
+are defined bellow:
+
+- for axxiaarm:
+    - CHIPSET = "5500" (DEFAULT) -> default tune: cortexa15-neon
+        - TUNE_FEATURES = "arm armv7ve vfp  neon"
+        - CFLAGS = "arm-poky-linux-gnueabi-gcc  -march=armv7ve -mfpu=neon
+                    -mfloat-abi=softfp 
+
+    - CHIPSET = "X9" -> default tune: cortexa57_32-crypto
+        - TUNE_FEATURES = "arm aarch32 neon fp-armv8 callconvention-hard 
+                           crypto  cortexa57"
+        - CFLAGS = "arm-poky-linux-gnueabi-gcc  -mfpu=crypto-neon-fp-armv8  
+                    -mfloat-abi=hard -mcpu=cortex-a57 -mtune=cortex-a57"
+
+    - CHIPSET = "XLF" -> default tune: cortexa53_32-crypto
+        - TUNE_FEATURES = "arm aarch32 neon fp-armv8 callconvention-hard 
+                           crypto  cortexa53"
+        - CFLAGS = "arm-poky-linux-gnueabi-gcc  -mfpu=crypto-neon-fp-armv8 
+                    -mfloat-abi=hard -mcpu=cortex-a53 -mtune=cortex-a53"
+
+- for axxiaarm64:
+    - CHIPSET = "X9" (DEFAULT) -> default tune: cortexa57_64-crypto
+        - TUNE_FEATURES = "aarch64 crypto cortexa57"
+        - CFLAGS = "aarch64-poky-linux-gcc  -march=armv8-a+crypto 
+                    -mcpu=cortex-a57+crypto -mtune=cortex-a57"
+
+    - CHIPSET = "XLF" -> default tune: cortexa53_64-crypto
+        - TUNE_FEATURES = "aarch64 crypto cortexa53"
+        - CFLAGS = "aarch64-poky-linux-gcc  -march=armv8-a+crypto 
+                    -mcpu=cortex-a53+crypto -mtune=cortex-a53"
+
+NOTE: For ARMv8, AArch64 state, other availabe tunes are for BE with 
+          and without crypto (crypto enables olso floating point and advanced 
+          SIMD). See conf/machine/include/arm/arch-armv8a.inc
+      For ARMv8, AArch32 state, default tunes include hard float, fp-armv8 
+          floating-point, thumb and neon extensions. Crypto, thumb and BE are 
+          optional.
 
 7.10 Building a 32-bit RootFS for ARMv8 based boards:
 For ARM architecture, depending on the machine selected on step 7.2, 
@@ -266,14 +302,19 @@ To build a 32-bit Kernel and RootFS for ARMv8, you will need to set the
 following variables in local.conf:
 
    MACHINE = "axxiaarm"   # for 32-bit 
-   CHIPSET = "X9"         # for 5600 boards (ARMv8)
+   CHIPSET = "X9" of CHIPSET = "XLF" (see 7.9)  # for 5600 boards (ARMv8)
 
 If CHIPSET is not set, it will default to 5500 (ARMv7).
 
-NOTE: You can boot the resulting 32-bit RootFS with the Kernel resulting
-from an axxiaarm64 build.
+NOTE: You can boot the resulting 32-bit RootFS with a 64-bit Kernel 
+      resulting from an axxiaarm64 build.
 
-7.11 Example. Append these lines to conf/local.conf file from the build dir
+7.11 Other optional settings for saving disk space and build time:
+   
+   DL_DIR = "/<some-shared-location>/downloads"
+   SSTATE_DIR = "/<some-shared-location>/sstate-cache
+
+7.12 Example. Append these lines to conf/local.conf file from the build dir
 
 BB_NUMBER_THREADS = "12"
 PARALLEL_MAKE = "-j 12"
