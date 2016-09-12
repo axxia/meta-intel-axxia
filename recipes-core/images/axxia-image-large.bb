@@ -143,8 +143,11 @@ python-core \
 python-modules \
 python-netserver \
 lttng-modules \
+lttng-modules-dev \
 lttng-tools \
+lttng-tools-dev \
 lttng-ust \
+lttng-ust-dev \
 quota \
 readline \
 rpcbind \
