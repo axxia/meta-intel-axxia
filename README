@@ -248,6 +248,13 @@ d. SMP options:
 e. Regression testing:
     TESTING = "yes"
 
+f. Chip specific options (for axxiaarm64):
+    CHIPSET = "X9" -> add X9 specific kernel options
+    CHIPSET = "XLF" -> add XLF specific kernel options
+
+Note: CHIPSET variable is also used for fine tuning (see 7.9) and to choose the
+proper defconfig for Github builds (see 7.7).
+
 7.9 Choose proper fine tuning for each CHIPSET (kernel 4.1 only)
 As long as specfic tunes are defined, user can choose the proper 
 tune using the CHIPSET variable. Features and flags for each tune
