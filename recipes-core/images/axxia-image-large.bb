@@ -133,6 +133,7 @@ ossp-uuid \
 parted \
 pciutils \
 perl \
+perl-module-bigint \
 pkgconfig \
 popt \
 portmap \

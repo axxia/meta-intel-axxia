@@ -25,7 +25,8 @@ netkit-tftp-client \
 openssh \
 openssh-sftp \
 inetutils \
-netcat"
+netcat \
+perl-module-bigint"
 
 IMAGE_FEATURES += "dev-pkgs"
 
