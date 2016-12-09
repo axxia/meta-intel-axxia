@@ -12,13 +12,16 @@ Boards Supported by this layer (Please refer to the associate .conf for more
 information):
 
 	* axxiapowerpc - Axxia 3000 PPC Mobile & Enterprise Communication 
-                        Processors family
+                         Processors family
 
 	* axxiaarm - Axxia 5000 ARM Mobile & Enterprise Communication 
-                    Processors family (32-bit)
+                     Processors family (32-bit)
 
-	* axxiaarm64 - Axxia 5000 ARM Mobile & Enterprise Communication 
-                    Processors family (64-bit)
+	* axxiaarm64 - Axxia 5000 and 6000 ARM Mobile & Enterprise 
+                       Communication Processors family (64-bit)
+
+	* axxiax86_64 - Axxia x86 Mobile & Enterprise Communication 
+                        Processors family (64-bit)
 
 NOTE: Machines are divided by architecture. By building Linux for axxiaarm 
 machine (e.g.), you will build binaries for all available ARM targets. 
@@ -43,7 +46,16 @@ Amarillo – Reference board for the Axxia 5500 line of Communication Processor
 devices. The 5500 device combines an ARM CPU subsystem with up to 16 Cortex-A15
 Cores along with advanced packet-processing acceleration engines.
 
-5600 boards (Lionfish and X9) hardware is not available yet, just the simulator
+Victoria – Reference board for the Axxia 5600 line of Communication Processor
+devices. The 5600 device combines an ARM X9 CPU subsystem with up to 16 Cortex-A57
+Cores along with advanced packet-processing acceleration engines. 
+
+Waco – Reference board for the Axxia 6700 line of Communication Processor
+devices. The 6700 device combines an ARM XLF (lionfish) CPU subsystem with up to 
+32 Cortex-A53 Cores along with advanced packet-processing acceleration engines. 
+
+Snowridge - based on x86_64 architecture - hardware is not available yet, just 
+the simulator.
 
  
 Sources
@@ -61,12 +73,12 @@ Dependencies
 This layer depends on:
 Poky
 URI: git://git.yoctoproject.org/poky.git
-branch: jethro
+branch: krogoth
 revision: HEAD
 
 OpenEmbedded
 URI: https://github.com/openembedded/meta-openembedded.git
-branch: jethro
+branch: krogoth
 revision: HEAD
 
 
@@ -98,7 +110,7 @@ device-tree-compiler (dtc)
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/poky.git
    $ cd poky
-   $ git checkout jethro
+   $ git checkout krogoth
 
 3. Clone the Axxia meta layer. This provides meta data for building images for the
 Axxia specific board types.
@@ -106,7 +118,7 @@ Axxia specific board types.
    $ cd $YOCTO/poky
    $ git clone git://git.yoctoproject.org/meta-axxia.git
    $ cd meta-axxia
-   $ git checkout jethro
+   $ git checkout krogoth
 
 4. The Open Embedded project provides many useful layers and packages such as
 networking. Download the Open Embedded Yocto Project hosted repository with the
@@ -115,7 +127,7 @@ following.
    $ cd $YOCTO/poky
    $ git clone https://github.com/openembedded/meta-openembedded.git
    $ cd meta-openembedded
-   $ git checkout jethro
+   $ git checkout krogoth
 
 5. Create the build directory. The name is optional and will default to 'build',
 however it helps to choose a name to match the board type. For example, we will
@@ -158,6 +170,8 @@ parallelism BitBake should use:
   MACHINE = "axxiaarm64"
   or
   MACHINE = "axxiapowerpc"
+  or
+  MACHINE = "axxiax86_64"
 
 7.3 Select the root filesystem image compression type (can set multiple types):
 
@@ -176,16 +190,16 @@ parallelism BitBake should use:
    PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
 
 7.6 Select the kernel version:
-NOTE: axxiaarm and axxiapowerpc are available only with linux 3.14
-      axxiaarm64 is available only with linux 4.1
-
-   for 3.14, depending on PREFERRED_PROVIDER_virtual/kernel
-   PREFERRED_VERSION_linux-yocto = "3.14%"
-   PREFERRED_VERSION_linux-yocto-rt = "3.14%"
+NOTE: axxiaarm and axxiaarm64 are available only with linux 4.1
+      axxiax86_64 is available only with linux 4.4
 
    for 4.1, depending on PREFERRED_PROVIDER_virtual/kernel
    PREFERRED_VERSION_linux-yocto = "4.1%"
-   PREFERRED_VERSION_linux-yocto-rt = "4.1%"
+   PREFERRED_VERSION_linux-yocto-rt = "4.1"
+
+   for 4.4, depending on PREFERRED_PROVIDER_virtual/kernel
+   PREFERRED_VERSION_linux-yocto = "4.4%"
+   PREFERRED_VERSION_linux-yocto-rt = "4.4%"
   
 7.7 Select the kernel repository to use. Meta-axxia is able to build the kernel
 from 2 sources: private axxiagithub and public YOCTO kernel repo depending on
@@ -196,19 +210,19 @@ a. by default (missing to set AXXIA_SRC) or setting
    AXXIA_SRC = "linux-yocto"
 
    will build from Yocto repos:
-   3.14: http://git.yoctoproject.org/git/linux-yocto-3.14
+   4.1: http://git.yoctoproject.org/git/linux-yocto-4.1
         standard/axxia/base or standard/preempt-rt/axxia/base branch
-   4.1:  http://git.yoctoproject.org/git/linux-yocto-4.1 
-        standard/axxia/base or standard/preempt-rt/axxia/base branch
+   4.4:  http://git.yoctoproject.org/git/linux-yocto-4.4 
+         standard/base or standard/preempt-rt/base branch
+         Note: There is no axxia custom branch yet
 
 b. AXXIA_SRC = "axxia-tip"
    
    will build kernel from GitHub private repos (require authentication with
    public key):
-   3.14: git@github.com:axxia/axxia_yocto_linux_3.14_private.git
-        standard/axxia-dev/base or standard/preempt-rt/axxia/base branch
    4.1:  git@github.com:axxia/axxia_yocto_linux_4.1_private.git
         standard/axxia-dev/base or standard/preempt-rt/axxia/base branch
+   4.4: there is no private repo yet
 
 7.8 Customizing the Kernel .config file
 NOTE: This options are available only with AXXIA_SRC = "linux-yocto"
@@ -220,7 +234,7 @@ an defconfig is used.
 Besides the options specific to the standard and preempt-rt kernel, you are able
 to add extra kernel fragments by setting the following options:
 
-a. Power management scheme (axxiaarm only)
+a. Power management scheme (axxiaarm and axxiaarm64 only):
    - POWER_MANAGEMENT = "low-power" (DEFAULT)
      to keep the core low power when is shut down
    - POWER_MANAGEMENT = "full-power"
@@ -228,24 +242,24 @@ a. Power management scheme (axxiaarm only)
    - POWER_MANAGEMENT = "full-power-L2"
      to complete power down the core and L2 cache when is shut down
 
-b. Big-endian or little-endian (axxiaarm only)
+b. Big-endian or little-endian (axxiaarm and axxiaarm64 only):
 Set the order in which a sequence of bytes are stored in computer memory.
    - BIG_ENDIAN = "no" (DEFAULT)
      Little-endian is the default settings.
    - BIG_ENDIAN = "yes"
      Kernel will be built with CONFIG_CPU_BIG_ENDIAN enabled.
 
-c. Debug options:
+c. Debug options (axxiaarm and axxiaarm64 only):
    - DBG = "no" (DEFAULT)
    - DBG = "yes"
      Will enable options for debug in the Kernel config.
 
-d. SMP options:
+d. SMP options (axxiaarm and axxiaarm64 only):
    - SMP = "yes" (DEFAULT)
    - SMP = "no"
      Will enable or disable SMP related kernel options.
 
-e. Regression testing:
+e. Regression testing (axxiaarm and axxiaarm64 only):
     TESTING = "yes"
 
 f. Chip specific options (for axxiaarm64):
