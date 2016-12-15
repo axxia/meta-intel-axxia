@@ -14,6 +14,7 @@ BIG_ENDIAN ?= "no"
 DBG ?= "no"
 TESTING ?= "no"
 KV = "4.1"
+LINUX_VERSION = "4.1.36"
 KERNEL_EXTRA_FEATURES = ""
 
 require ${AXXIA_SRC}-rt_4.1.inc
