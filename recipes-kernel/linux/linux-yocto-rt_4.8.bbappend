@@ -10,7 +10,8 @@ AXXIA_SRC ?= "linux-yocto"
 #BIG_ENDIAN ?= "no"
 #DBG ?= "no"
 #TESTING ?= "no"
-KV = "4.4"
+KV = "4.8"
+LINUX_VERSION = "4.8.12"
 KERNEL_EXTRA_FEATURES = ""
 
 require ${AXXIA_SRC}-rt_4.8.inc
