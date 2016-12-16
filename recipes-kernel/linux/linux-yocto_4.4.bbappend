@@ -11,6 +11,7 @@ AXXIA_SRC ?= "linux-yocto"
 #DBG ?= "no"
 #TESTING ?= "no"
 KV = "4.4"
+LINUX_VERSION = "4.4.36"
 KERNEL_EXTRA_FEATURES = ""
 
 require ${AXXIA_SRC}_4.4.inc
