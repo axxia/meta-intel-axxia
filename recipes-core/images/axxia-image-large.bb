@@ -188,9 +188,6 @@ zip \
 zlib \
 gfortran \
 gfortran-symlinks \
-libgfortran \
-libgfortran-dev \
-libgfortran-dbg \
 perf \
 "
 
