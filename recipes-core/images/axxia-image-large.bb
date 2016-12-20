@@ -189,6 +189,8 @@ zlib \
 gfortran \
 gfortran-symlinks \
 perf \
+kdump \
+kexec \
 "
 
 DESCRIPTION = ""
