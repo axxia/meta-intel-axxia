@@ -73,12 +73,12 @@ Dependencies
 This layer depends on:
 Poky
 URI: git://git.yoctoproject.org/poky.git
-branch: krogoth
+branch: morty
 revision: HEAD
 
 OpenEmbedded
 URI: https://github.com/openembedded/meta-openembedded.git
-branch: krogoth
+branch: morty
 revision: HEAD
 
 
@@ -110,7 +110,7 @@ device-tree-compiler (dtc)
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/poky.git
    $ cd poky
-   $ git checkout krogoth
+   $ git checkout morty
 
 3. Clone the Axxia meta layer. This provides meta data for building images for the
 Axxia specific board types.
@@ -118,7 +118,7 @@ Axxia specific board types.
    $ cd $YOCTO/poky
    $ git clone git://git.yoctoproject.org/meta-axxia.git
    $ cd meta-axxia
-   $ git checkout krogoth
+   $ git checkout morty
 
 4. The Open Embedded project provides many useful layers and packages such as
 networking. Download the Open Embedded Yocto Project hosted repository with the
@@ -127,7 +127,7 @@ following.
    $ cd $YOCTO/poky
    $ git clone https://github.com/openembedded/meta-openembedded.git
    $ cd meta-openembedded
-   $ git checkout krogoth
+   $ git checkout morty
 
 5. Create the build directory. The name is optional and will default to 'build',
 however it helps to choose a name to match the board type. For example, we will
@@ -200,6 +200,10 @@ NOTE: axxiaarm and axxiaarm64 are available only with linux 4.1
    for 4.4, depending on PREFERRED_PROVIDER_virtual/kernel
    PREFERRED_VERSION_linux-yocto = "4.4%"
    PREFERRED_VERSION_linux-yocto-rt = "4.4%"
+
+   for 4.8, depending on PREFERRED_PROVIDER_virtual/kernel
+   PREFERRED_VERSION_linux-yocto = "4.8%"
+   PREFERRED_VERSION_linux-yocto-rt = "4.8%"
   
 7.7 Select the kernel repository to use. Meta-axxia is able to build the kernel
 from 2 sources: private axxiagithub and public YOCTO kernel repo depending on
@@ -212,7 +216,10 @@ a. by default (missing to set AXXIA_SRC) or setting
    will build from Yocto repos:
    4.1: http://git.yoctoproject.org/git/linux-yocto-4.1
         standard/axxia/base or standard/preempt-rt/axxia/base branch
-   4.4:  http://git.yoctoproject.org/git/linux-yocto-4.4 
+   4.4:  http://git.yoctoproject.org/git/linux-yocto-4.4
+         standard/base or standard/preempt-rt/base branch
+         Note: There is no axxia custom branch yet
+   4.8:  http://git.yoctoproject.org/git/linux-yocto-4.8 
          standard/base or standard/preempt-rt/base branch
          Note: There is no axxia custom branch yet
 
@@ -223,6 +230,7 @@ b. AXXIA_SRC = "axxia-tip"
    4.1:  git@github.com:axxia/axxia_yocto_linux_4.1_private.git
         standard/axxia-dev/base or standard/preempt-rt/axxia/base branch
    4.4: there is no private repo yet
+   4.8: there is no private repo yet
 
 7.8 Customizing the Kernel .config file
 NOTE: This options are available only with AXXIA_SRC = "linux-yocto"
@@ -344,7 +352,7 @@ IMAGE_FSTYPES += "ext2"
 IMAGE_FSTYPES += "tar.gz"
 PREFERRED_PROVIDER_virtual/bootloader = "u-boot-axxia"
 PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
-PREFERRED_VERSION_linux-yocto-rt = "3.10%"
+PREFERRED_VERSION_linux-yocto-rt = "4.1%"
 AXXIA_SRC = "linux-yocto"
 DBG = "yes"
 SMP = "yes"
