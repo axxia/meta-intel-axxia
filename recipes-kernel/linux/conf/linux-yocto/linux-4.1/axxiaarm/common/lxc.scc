@@ -1,0 +1,4 @@
+include features/namespaces/namespaces.scc
+include features/lxc/lxc-enable.scc
+
+kconf non-hardware lxc.cfg
