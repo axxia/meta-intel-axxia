@@ -191,6 +191,7 @@ gfortran-symlinks \
 perf \
 kdump \
 kexec \
+ltp \
 "
 
 DESCRIPTION = ""
