@@ -1,38 +1,24 @@
-KBRANCH ?= "standard/preempt-rt/base"
+FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
-require recipes-kernel/linux/linux-yocto.inc
-
-# Skip processing of this recipe if it is not explicitly specified as the
-# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
-# to build multiple virtual/kernel providers, e.g. as dependency of
-# core-image-rt-sdk, core-image-rt.
-python () {
-    if d.getVar("PREFERRED_PROVIDER_virtual/kernel", True) != "linux-yocto-rt":
-        raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
-}
-
-SRCREV_machine ?= "4057556c041f6aac0d29aa3425587d414c9a0090"
-SRCREV_meta ?= "83110d94edeb856a3667b62903ed4ae91c24117d"
+require recipes-kernel/linux/linux-yocto-rt_4.8.bb
 
 SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;name=machine;branch=${KBRANCH}; \
            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.9;destsuffix=${KMETA}"
 
 LINUX_VERSION ?= "4.9.8"
 
-PV = "${LINUX_VERSION}+git${SRCPV}"
+COMPATIBLE_MACHINE = "^axxiaarm$|^axxiaarm64$|^axxiax86-64$"
+INSANE_SKIP_kernel-dev = "debug-files"
+PARALLEL_MAKE = ""
 
-KMETA = "kernel-meta"
-KCONF_BSP_AUDIT_LEVEL = "2"
+AXXIA_SRC ?= "linux-yocto"
+#SMP ?= "yes"
+#POWER_MANAGEMENT ?= "low-power"
+#BIG_ENDIAN ?= "no"
+#DBG ?= "no"
+#TESTING ?= "no"
+KV = "4.9"
+LINUX_VERSION = "4.9.8"
+KERNEL_EXTRA_FEATURES = ""
 
-LINUX_KERNEL_TYPE = "preempt-rt"
-
-COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
-
-KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
-
-# Functionality flags
-KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
-KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
-KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
-KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
+require ${AXXIA_SRC}-rt_4.9.inc
