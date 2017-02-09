@@ -191,19 +191,15 @@ parallelism BitBake should use:
 
 7.6 Select the kernel version:
 NOTE: axxiaarm and axxiaarm64 are available only with linux 4.1
-      axxiax86_64 is available only with linux 4.4
+      axxiax86_64 is available only with linux 4.9
 
    for 4.1, depending on PREFERRED_PROVIDER_virtual/kernel
    PREFERRED_VERSION_linux-yocto = "4.1%"
    PREFERRED_VERSION_linux-yocto-rt = "4.1"
 
-   for 4.4, depending on PREFERRED_PROVIDER_virtual/kernel
-   PREFERRED_VERSION_linux-yocto = "4.4%"
-   PREFERRED_VERSION_linux-yocto-rt = "4.4%"
-
-   for 4.8, depending on PREFERRED_PROVIDER_virtual/kernel
-   PREFERRED_VERSION_linux-yocto = "4.8%"
-   PREFERRED_VERSION_linux-yocto-rt = "4.8%"
+   for 4.9, depending on PREFERRED_PROVIDER_virtual/kernel
+   PREFERRED_VERSION_linux-yocto = "4.9%"
+   PREFERRED_VERSION_linux-yocto-rt = "4.9%"
   
 7.7 Select the kernel repository to use. Meta-axxia is able to build the kernel
 from 2 sources: private axxiagithub and public YOCTO kernel repo depending on
@@ -216,21 +212,18 @@ a. by default (missing to set AXXIA_SRC) or setting
    will build from Yocto repos:
    4.1: http://git.yoctoproject.org/git/linux-yocto-4.1
         standard/axxia/base or standard/preempt-rt/axxia/base branch
-   4.4:  http://git.yoctoproject.org/git/linux-yocto-4.4
-         standard/base or standard/preempt-rt/base branch
-         Note: There is no axxia custom branch yet
-   4.8:  http://git.yoctoproject.org/git/linux-yocto-4.8 
-         standard/base or standard/preempt-rt/base branch
-         Note: There is no axxia custom branch yet
+   4.9: http://git.yoctoproject.org/git/linux-yocto-4.9 
+        standard/base or standard/preempt-rt/base branch
+        Note: There is no axxia custom branch yet
 
 b. AXXIA_SRC = "axxia-tip"
    
    will build kernel from GitHub private repos (require authentication with
    public key):
-   4.1:  git@github.com:axxia/axxia_yocto_linux_4.1_private.git
+   4.1: git@github.com:axxia/axxia_yocto_linux_4.1_private.git
         standard/axxia-dev/base or standard/preempt-rt/axxia/base branch
-   4.4: there is no private repo yet
-   4.8: there is no private repo yet
+   4.9: git@github.com:axxia/axxia_yocto_linux_4.9_private.git
+        standard/axxia-dev/base or standard/preempt-rt/axxia/base branch
 
 7.8 Customizing the Kernel .config file
 NOTE: This options are available only with AXXIA_SRC = "linux-yocto"
