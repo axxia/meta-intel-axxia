@@ -183,7 +183,8 @@ which \
 wireless-tools \
 wpa-supplicant \
 ypbind-mt \
-yp-tools  \
+yp-tools \
+yp-tools-dev \
 zip \
 zlib \
 gfortran \
