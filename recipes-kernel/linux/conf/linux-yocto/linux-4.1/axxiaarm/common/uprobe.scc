@@ -1,0 +1,4 @@
+define KFEATURE_DESCRIPTION "Enable options required for uprobes support"
+define KFEATURE_COMPATIBILITY all
+
+kconf non-hardware uprobe.cfg
