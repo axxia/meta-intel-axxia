@@ -35,9 +35,9 @@ VIRTUAL-RUNTIME_initscripts ?= "initscripts"
 VIRTUAL-RUNTIME_keymaps ?= "keymaps"
 
 #    busybox \
-#    ${@base_contains("MACHINE_FEATURES", "rtc", "busybox-hwclock", "", d)} \
+#    ${@bb.utils.contains("MACHINE_FEATURES", "rtc", "busybox-hwclock", "", d)} \
 #    ${VIRTUAL-RUNTIME_initscripts} \
-#    ${@base_contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
+#    ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
 #    modutils-initscripts \
 #    netbase \
 #    ${VIRTUAL-RUNTIME_login_manager} \

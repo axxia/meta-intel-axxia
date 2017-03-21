@@ -33,7 +33,7 @@ SPL_SYMLINK = "${SPL_FILE}${UBOOT_EMU}-${MACHINE}.${SPL_SUFFIX}"
 
 do_compile () {
     export SYSROOT="${STAGING_DIR_TARGET}"
-	if [ "${@base_contains('DISTRO_FEATURES', 'ld-is-gold', 'ld-is-gold', '', d)}" = "ld-is-gold" ] ; then
+	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', 'ld-is-gold', '', d)}" = "ld-is-gold" ] ; then
 		sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' config.mk
 	fi
 
