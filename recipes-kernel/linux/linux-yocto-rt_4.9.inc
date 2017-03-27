@@ -8,3 +8,6 @@ KBRANCH = "standard/preempt-rt/axxia/base"
 SRCREV_machine ="${AUTOREV}"
 SRCREV_meta ="${AUTOREV}"
 SRC_URI += "file://fit"
+
+# use full defconfig for axxiax86_64 untill we'll have fragments upstream
+SRC_URI += "${@base_conditional('MACHINE', 'axxiax86-64', 'file://defconfig', '', d)}"

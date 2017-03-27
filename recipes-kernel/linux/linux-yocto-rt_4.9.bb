@@ -2,8 +2,11 @@ FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
 require recipes-kernel/linux/linux-yocto-rt_4.8.bb
 
+# skip yocto-kernel-cache for axxiax86_64 to use full defconfig untill we'll have fragments upstream
+KMETA_SOURCES = "git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.9;destsuffix=${KMETA}"
+
 SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;name=machine;branch=${KBRANCH}; \
-           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.9;destsuffix=${KMETA}"
+           ${@base_conditional('MACHINE', 'axxiax86-64', '', '${KMETA_SOURCES}', d)}"
 
 KV = "4.9"
 LINUX_VERSION = "4.9.17"
