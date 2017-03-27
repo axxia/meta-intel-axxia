@@ -102,11 +102,7 @@ int hf_do_seek(ino_t inode, loff_t off)
  * insmod simicsfs phys_addr=0xff00ff00
  */
 
-#ifdef CONFIG_SIMICSFS_ADDRESS
-static char *phys_addr = CONFIG_SIMICSFS_ADDRESS;
-#else
-static char *phys_addr;
-#endif
+static char *phys_addr = "0xffff0000";
 
 module_param(phys_addr, charp, 0);
 MODULE_PARM_DESC(phys_addr, "Physical address where simicsfs is mapped.");
