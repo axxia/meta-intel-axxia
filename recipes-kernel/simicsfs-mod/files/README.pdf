@@ -1,0 +1,1908 @@
+%PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+% 'BasicFonts': class PDFDictionary 
+1 0 obj
+% The standard fonts dictionary
+<< /F1 2 0 R
+ /F2 3 0 R
+ /F3 16 0 R
+ /F4 19 0 R >>
+endobj
+% 'F1': class PDFType1Font 
+2 0 obj
+% Font Helvetica
+<< /BaseFont /Helvetica
+ /Encoding /WinAnsiEncoding
+ /Name /F1
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F2': class PDFType1Font 
+3 0 obj
+% Font Helvetica-Bold
+<< /BaseFont /Helvetica-Bold
+ /Encoding /WinAnsiEncoding
+ /Name /F2
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'Annot.NUMBER1': class LinkAnnotation 
+4 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 15 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 62.69291
+ 687.7736
+ 134.9229
+ 699.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER2': class LinkAnnotation 
+5 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 15 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 527.0227
+ 687.7736
+ 532.5827
+ 699.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER3': class LinkAnnotation 
+6 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 18 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 62.69291
+ 669.7736
+ 269.9729
+ 681.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER4': class LinkAnnotation 
+7 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 18 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 527.0227
+ 669.7736
+ 532.5827
+ 681.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER5': class LinkAnnotation 
+8 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 23 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 62.69291
+ 651.7736
+ 268.3229
+ 663.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER6': class LinkAnnotation 
+9 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 23 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 527.0227
+ 651.7736
+ 532.5827
+ 663.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER7': class LinkAnnotation 
+10 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 27 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 62.69291
+ 633.7736
+ 325.5529
+ 645.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER8': class LinkAnnotation 
+11 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 27 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 527.0227
+ 633.7736
+ 532.5827
+ 645.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER9': class LinkAnnotation 
+12 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 28 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 62.69291
+ 615.7736
+ 314.4429
+ 627.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER10': class LinkAnnotation 
+13 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 28 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 527.0227
+ 615.7736
+ 532.5827
+ 627.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Page1': class PDFPage 
+14 0 obj
+% Page dictionary
+<< /Annots [ 4 0 R
+ 5 0 R
+ 6 0 R
+ 7 0 R
+ 8 0 R
+ 9 0 R
+ 10 0 R
+ 11 0 R
+ 12 0 R
+ 13 0 R ]
+ /Contents 39 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 38 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page2': class PDFPage 
+15 0 obj
+% Page dictionary
+<< /Contents 40 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 38 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'F3': class PDFType1Font 
+16 0 obj
+% Font Courier
+<< /BaseFont /Courier
+ /Encoding /WinAnsiEncoding
+ /Name /F3
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'Annot.NUMBER11': class LinkAnnotation 
+17 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 28 0 R
+ /XYZ
+ 62.69291
+ 768.5236
+ 0 ]
+ /Rect [ 281.3329
+ 483.3736
+ 500.8629
+ 495.3736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Page3': class PDFPage 
+18 0 obj
+% Page dictionary
+<< /Annots [ 17 0 R ]
+ /Contents 41 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 38 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'F4': class PDFType1Font 
+19 0 obj
+% Font Courier-Bold
+<< /BaseFont /Courier-Bold
+ /Encoding /WinAnsiEncoding
+ /Name /F4
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'Annot.NUMBER12': class LinkAnnotation 
+20 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 27 0 R
+ /XYZ
+ 62.69291
+ 768.5236
+ 0 ]
+ /Rect [ 462.0192
+ 412.9736
+ 532.2215
+ 424.9736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER13': class LinkAnnotation 
+21 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 27 0 R
+ /XYZ
+ 62.69291
+ 768.5236
+ 0 ]
+ /Rect [ 85.69291
+ 400.9736
+ 243.5329
+ 412.9736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER14': class LinkAnnotation 
+22 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 28 0 R
+ /XYZ
+ 62.69291
+ 768.5236
+ 0 ]
+ /Rect [ 215.2029
+ 108.5736
+ 434.7329
+ 120.5736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Page4': class PDFPage 
+23 0 obj
+% Page dictionary
+<< /Annots [ 20 0 R
+ 21 0 R
+ 22 0 R ]
+ /Contents 42 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 38 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page5': class PDFPage 
+24 0 obj
+% Page dictionary
+<< /Contents 43 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 38 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Annot.NUMBER15': class LinkAnnotation 
+25 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 28 0 R
+ /XYZ
+ 62.69291
+ 768.5236
+ 0 ]
+ /Rect [ 340.3675
+ 401.3736
+ 532.5162
+ 413.3736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER16': class LinkAnnotation 
+26 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 28 0 R
+ /XYZ
+ 62.69291
+ 768.5236
+ 0 ]
+ /Rect [ 85.69291
+ 389.3736
+ 110.6929
+ 401.3736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Page6': class PDFPage 
+27 0 obj
+% Page dictionary
+<< /Annots [ 25 0 R
+ 26 0 R ]
+ /Contents 44 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 38 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page7': class PDFPage 
+28 0 obj
+% Page dictionary
+<< /Contents 45 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 38 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'R29': class PDFCatalog 
+29 0 obj
+% Document Root
+<< /Outlines 31 0 R
+ /PageLabels 46 0 R
+ /PageMode /UseNone
+ /Pages 38 0 R
+ /Type /Catalog >>
+endobj
+% 'R30': class PDFInfo 
+30 0 obj
+<< /Author ()
+ /CreationDate (D:20140815113618-01'00')
+ /Creator (\(unspecified\))
+ /Keywords ()
+ /Producer (ReportLab PDF Library - www.reportlab.com)
+ /Subject (\(unspecified\))
+ /Title (SimicsFS Read Me) >>
+endobj
+% 'R31': class PDFOutlines 
+31 0 obj
+<< /Count 7
+ /First 32 0 R
+ /Last 37 0 R
+ /Type /Outlines >>
+endobj
+% 'Outline.0': class OutlineEntryObject 
+32 0 obj
+<< /Count 1
+ /Dest [ 15 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /First 33 0 R
+ /Last 33 0 R
+ /Next 34 0 R
+ /Parent 31 0 R
+ /Title (\376\377\0001\000\240\000\240\000\240\000I\000n\000t\000r\000o\000d\000u\000c\000t\000i\000o\000n) >>
+endobj
+% 'Outline.7.0': class OutlineEntryObject 
+33 0 obj
+<< /Dest [ 15 0 R
+ /XYZ
+ 62.69291
+ 672.0236
+ 0 ]
+ /Parent 32 0 R
+ /Title (\376\377\0001\000.\0001\000\240\000\240\000\240\000L\000i\000m\000i\000t\000a\000t\000i\000o\000n\000s) >>
+endobj
+% 'Outline.1': class OutlineEntryObject 
+34 0 obj
+<< /Dest [ 18 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Next 35 0 R
+ /Parent 31 0 R
+ /Prev 32 0 R
+ /Title (\376\377\0002\000\240\000\240\000\240\000C\000o\000m\000p\000i\000l\000i\000n\000g\000 \000S\000i\000m\000i\000c\000s\000F\000S\000 \000f\000o\000r\000 \000a\000 \000r\000u\000n\000n\000i\000n\000g\000 \000k\000e\000r\000n\000e\000l) >>
+endobj
+% 'Outline.2': class OutlineEntryObject 
+35 0 obj
+<< /Dest [ 23 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Next 36 0 R
+ /Parent 31 0 R
+ /Prev 34 0 R
+ /Title (\376\377\0003\000\240\000\240\000\240\000A\000d\000d\000i\000n\000g\000 \000S\000i\000m\000i\000c\000s\000F\000S\000 \000t\000o\000 \000a\000 \000k\000e\000r\000n\000e\000l\000 \000s\000o\000u\000r\000c\000e\000 \000t\000r\000e\000e) >>
+endobj
+% 'Outline.3': class OutlineEntryObject 
+36 0 obj
+<< /Dest [ 27 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Next 37 0 R
+ /Parent 31 0 R
+ /Prev 35 0 R
+ /Title (\376\377\0004\000\240\000\240\000\240\000H\000o\000w\000 \000t\000o\000 \000f\000i\000n\000d\000 \000a\000n\000d\000 \000s\000e\000t\000 \000a\000 \000p\000h\000y\000s\000i\000c\000a\000l\000 \000a\000d\000d\000r\000e\000s\000s\000 \000f\000o\000r\000 \000t\000h\000e\000 \000d\000r\000i\000v\000e\000r) >>
+endobj
+% 'Outline.4': class OutlineEntryObject 
+37 0 obj
+<< /Dest [ 28 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Parent 31 0 R
+ /Prev 36 0 R
+ /Title (\376\377\0005\000\240\000\240\000\240\000H\000o\000w\000 \000t\000o\000 \000o\000v\000e\000r\000r\000i\000d\000e\000 \000t\000h\000e\000 \000p\000h\000y\000s\000i\000c\000a\000l\000 \000a\000d\000d\000r\000e\000s\000s\000 \000o\000f\000 \000t\000h\000e\000 \000d\000r\000i\000v\000e\000r) >>
+endobj
+% 'R38': class PDFPages 
+38 0 obj
+% page tree
+<< /Count 7
+ /Kids [ 14 0 R
+ 15 0 R
+ 18 0 R
+ 23 0 R
+ 24 0 R
+ 27 0 R
+ 28 0 R ]
+ /Type /Pages >>
+endobj
+% 'R39': class PDFStream 
+39 0 obj
+% page stream
+<< /Length 1779 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 741.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 4 Tm /F2 20 Tf 24 TL 146.0249 0 Td (SimicsFS Read Me) Tj T* -146.0249 0 Td ET
+Q
+Q
+q
+1 0 0 1 62.69291 708.0236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (Table of Contents) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 612.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 0 75 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 .501961 rg (1   Introduction) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 75 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL 66.44 0 Td (2) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 57 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 .501961 rg (2   Compiling SimicsFS for a running kernel) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 57 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL 66.44 0 Td (3) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 39 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 .501961 rg (3   Adding SimicsFS to a kernel source tree) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 39 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL 66.44 0 Td (4) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 21 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 .501961 rg (4   How to find and set a physical address for the driver) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 21 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL 66.44 0 Td (6) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 3 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 .501961 rg (5   How to override the physical address of the driver) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 3 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL 66.44 0 Td (7) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 612.0236 cm
+Q
+ 
+endstream
+endobj
+% 'R40': class PDFStream 
+40 0 obj
+% page stream
+<< /Length 2057 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 744.0236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (1   Introduction) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 714.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 1.47561 Tw (SimicsFS is a Linux kernel module used to mount the host filesystem from within the simulated target) Tj T* 0 Tw (system. It provides both read and write access to files located on the host filesystem.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 684.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .734104 Tw (SimicsFS is provided as source code and the user must compile it against the Linux kernel source code) Tj T* 0 Tw (for the target system. Pre-compiled modules are available in most images distributed in Simics packages.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 654.0236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (1.1   Limitations) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 642.0236 cm
+Q
+q
+1 0 0 1 62.69291 642.0236 cm
+Q
+q
+1 0 0 1 62.69291 630.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Linux kernel 2.6.12 and later only) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 624.0236 cm
+Q
+q
+1 0 0 1 62.69291 612.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The code is not production quality) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 606.0236 cm
+Q
+q
+1 0 0 1 62.69291 594.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The module receives limited testing) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 594.0236 cm
+Q
+q
+1 0 0 1 62.69291 594.0236 cm
+Q
+ 
+endstream
+endobj
+% 'R41': class PDFStream 
+41 0 obj
+% page stream
+<< /Length 4653 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 744.0236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (2   Compiling SimicsFS for a running kernel) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 732.0236 cm
+Q
+q
+1 0 0 1 62.69291 732.0236 cm
+Q
+q
+1 0 0 1 62.69291 686.8236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 30.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (1.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 30.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Unpack the simicsfs archive \(where x.y is the version number\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 445.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F3 10 Tf .098039 .090196 .486275 rg ($ ) Tj 0 0 0 rg (tar xzf simicsfs-x.y.tar.gz) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 680.8236 cm
+Q
+q
+1 0 0 1 62.69291 650.8236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 15 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (2.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 15 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Install the kernel source and development packages.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (See the distribution documentation for more information about how to find and install packages.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 644.8236 cm
+Q
+q
+1 0 0 1 62.69291 602.8236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 27 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (3.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 27 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Build the kernel source code.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+BT 1 0 0 1 0 14 Tm 1.929318 Tw 12 TL /F1 10 Tf 0 0 0 rg (See the distribution documentation for more information on how to build its kernel; typically it is) Tj T* 0 Tw (enough to run ) Tj /F3 10 Tf (make ) Tj /F1 10 Tf (in the source code root directory.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 596.8236 cm
+Q
+q
+1 0 0 1 62.69291 533.6236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 48.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (4.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 48.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Build the kernel module.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 30.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Change to the simicsfs directory, and then compile:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 445.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F3 10 Tf .098039 .090196 .486275 rg ($ ) Tj 0 0 0 rg (make -C /lib/modules/) Tj .729412 .129412 .129412 rg (`) Tj 0 0 0 rg (uname -r) Tj .729412 .129412 .129412 rg (`) Tj 0 0 0 rg (/build ) Tj .098039 .090196 .486275 rg (M) Tj .4 .4 .4 rg (=) Tj .729412 .129412 .129412 rg (`) Tj 0 .501961 0 rg (pwd) Tj .729412 .129412 .129412 rg (`) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 527.6236 cm
+Q
+q
+1 0 0 1 62.69291 426.4236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 86.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (5.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 86.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Install the kernel module.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 56.2 cm
+q
+BT 1 0 0 1 0 14 Tm .576412 Tw 12 TL /F1 10 Tf 0 0 0 rg (The resulting ) Tj /F3 10 Tf (simicsfs.ko ) Tj /F1 10 Tf (module file must be inserted into the running kernel. Optionally it may) Tj T* 0 Tw (be configured, which is described in section ) Tj 0 0 .501961 rg (How to override the physical address of the driver) Tj 0 0 0 rg (:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 23 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 445.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F3 10 Tf .098039 .090196 .486275 rg ($ ) Tj 0 0 0 rg (insmod simicsfs.ko) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If a simicsfs module is already inserted in the kernel, it must first be removed by using ) Tj /F3 10 Tf (rmmod) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 426.4236 cm
+Q
+q
+1 0 0 1 62.69291 396.4236 cm
+q
+BT 1 0 0 1 0 14 Tm 5.485814 Tw 12 TL /F1 10 Tf 0 0 0 rg (The Linux kernel source code provides more information about building external modules in) Tj T* 0 Tw /F3 10 Tf (Documentation/kbuild/modules.txt) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 396.4236 cm
+Q
+ 
+endstream
+endobj
+% 'R42': class PDFStream 
+42 0 obj
+% page stream
+<< /Length 6882 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 744.0236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (3   Adding SimicsFS to a kernel source tree) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 732.0236 cm
+Q
+q
+1 0 0 1 62.69291 732.0236 cm
+Q
+q
+1 0 0 1 62.69291 656.8236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 60.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (1.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 60.2 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Unpack the simicsfs archive in the Linux ) Tj /F3 10 Tf (fs ) Tj /F1 10 Tf (directory.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 42.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (You must update the file and path names with the current version numbers:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 445.6898 36 re B*
+Q
+q
+BT 1 0 0 1 0 14 Tm 12 TL /F3 10 Tf .098039 .090196 .486275 rg ($ ) Tj 0 .501961 0 rg (cd) Tj 0 0 0 rg ( /path/to/linux-x.y.z/fs/) Tj T* .098039 .090196 .486275 rg ($ ) Tj 0 0 0 rg (tar xzf simicsfs-x.y.tar.gz) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 650.8236 cm
+Q
+q
+1 0 0 1 62.69291 528.4236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 107.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (2.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 107.4 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Edit ) Tj /F3 10 Tf (fs/Makefile ) Tj /F1 10 Tf (and ) Tj /F3 10 Tf (fs/Kconfig) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 89.4 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Append the following line to the end of ) Tj /F3 10 Tf (fs/Makefile) Tj /F1 10 Tf (:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 56.2 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 445.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F3 10 Tf 0 0 0 rg (obj-) Tj /F4 10 Tf 0 .501961 0 rg ($\() Tj /F3 10 Tf 0 0 0 rg (CONFIG_SIMICSFS) Tj /F4 10 Tf 0 .501961 0 rg (\)) Tj /F3 10 Tf 0 0 0 rg (             +) Tj .4 .4 .4 rg (=) Tj 0 0 0 rg ( simicsfs/) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 23 30.2 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Add the following line to the end of the section "Miscellaneous filesystems" in the ) Tj /F3 10 Tf (fs/Kconfig ) Tj /F1 10 Tf (file:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 445.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F3 10 Tf 0 0 0 rg (source) Tj ( ) Tj .729412 .129412 .129412 rg ("fs/simicsfs/Kconfig") Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 522.4236 cm
+Q
+q
+1 0 0 1 62.69291 403.2236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 104.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (3.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 104.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Configure the Linux kernel and select simicsfs as a module.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 35 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 445.6898 60 re B*
+Q
+q
+BT 1 0 0 1 0 38 Tm 12 TL /F3 10 Tf .098039 .090196 .486275 rg ($ ) Tj 0 0 0 rg (make menuconfig) Tj T* (File systems  ---) Tj (>) Tj  T* (Miscellaneous filesystems  ---) Tj (>) Tj  T* (<) Tj (M) Tj (>) Tj (     Simics hostfs) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+BT 1 0 0 1 0 14 Tm .361163 Tw 12 TL /F1 10 Tf 0 0 0 rg (Optionally you may set a default physical address, which is described in the section ) Tj 0 0 .501961 rg (How to find and) Tj T* 0 Tw (set a physical address for the driver) Tj 0 0 0 rg (.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 397.2236 cm
+Q
+q
+1 0 0 1 62.69291 218.8236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 163.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (4.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 163.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Compile the kernel and its modules.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 133.4 cm
+q
+BT 1 0 0 1 0 14 Tm .817318 Tw 12 TL /F1 10 Tf 0 0 0 rg (Check the distribution documentation for instructions on how to build the Linux kernel; typically it is) Tj T* 0 Tw (enough to run ) Tj /F3 10 Tf (make ) Tj /F1 10 Tf (in the source code root directory:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 100.2 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 445.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F3 10 Tf .098039 .090196 .486275 rg ($ ) Tj 0 0 0 rg (make) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 23 74.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Or build only the simicsfs module:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 41 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 445.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F3 10 Tf .098039 .090196 .486275 rg ($ ) Tj 0 0 0 rg (make ) Tj .098039 .090196 .486275 rg (SUBDIRS) Tj .4 .4 .4 rg (=) Tj 0 0 0 rg (fs/simicsfs modules) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 23 15 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The resulting module file is located at ) Tj /F3 10 Tf (fs/simicsfs/simicsfs.ko) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (See the README file in the Linux source code for more information on how to build the kernel.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 212.8236 cm
+Q
+q
+1 0 0 1 62.69291 92.82362 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 105 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (5.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 105 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Install the kernel module.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 75 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 2.186412 Tw (The module can be either manually inserted into the target system at run-time or automatically) Tj T* 0 Tw (loaded by the kernel.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 33 cm
+q
+BT 1 0 0 1 0 26 Tm 2.223984 Tw 12 TL /F1 10 Tf 0 0 0 rg (Check the distribution documentation for how to add a kernel module to the target file system.) Tj T* 0 Tw .723976 Tw (Typically it involves placing the module file under ) Tj /F3 10 Tf (/lib/modules/`uname) Tj ( ) Tj (-r`/extra/fs/ ) Tj /F1 10 Tf (and) Tj T* 0 Tw (running ) Tj /F3 10 Tf (depmod) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 15 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If necessary, see the section ) Tj 0 0 .501961 rg (How to override the physical address of the driver) Tj 0 0 0 rg (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (To manually load the kernel module at run-time:) Tj T* ET
+Q
+Q
+q
+Q
+Q
+ 
+endstream
+endobj
+% 'R43': class PDFStream 
+43 0 obj
+% page stream
+<< /Length 674 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 713.8236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 6 38.2 Tm  T* ET
+q
+1 0 0 1 23 23 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 442.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F3 10 Tf .098039 .090196 .486275 rg ($ ) Tj 0 0 0 rg (insmod simicsfs.ko) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (See ) Tj /F3 10 Tf (man) Tj ( ) Tj (insmod ) Tj /F1 10 Tf (for more information.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 713.8236 cm
+Q
+q
+1 0 0 1 62.69291 713.8236 cm
+Q
+ 
+endstream
+endobj
+% 'R44': class PDFStream 
+44 0 obj
+% page stream
+<< /Length 3764 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 744.0236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (4   How to find and set a physical address for the driver) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 732.0236 cm
+Q
+q
+1 0 0 1 62.69291 732.0236 cm
+Q
+q
+1 0 0 1 62.69291 672.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 45 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (1.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 33 cm
+q
+BT 1 0 0 1 0 14 Tm .173516 Tw 12 TL /F1 10 Tf 0 0 0 rg (Find a 4 kiB \() Tj /F3 10 Tf (0x1000) Tj /F1 10 Tf (\) empty region in I/O memory. This command is executed on the running target) Tj T* 0 Tw (system: .. code:: bash) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 27 cm
+Q
+q
+1 0 0 1 23 15 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL ($ cat /proc/iomem) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 23 15 cm
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Note that the output is a static snapshot and may not show dynamic usage of I/O memory.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 666.0236 cm
+Q
+q
+1 0 0 1 62.69291 570.8236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 80.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (2.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 80.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Check the kernel configuration.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 35 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 445.6898 36 re B*
+Q
+q
+BT 1 0 0 1 0 14 Tm 12 TL /F3 10 Tf .098039 .090196 .486275 rg ($ ) Tj 0 0 0 rg (grep CONFIG_SIMICSFS_ADDRESS .config) Tj T* .098039 .090196 .486275 rg (CONFIG_SIMICSFS_ADDRESS) Tj .4 .4 .4 rg (=) Tj .729412 .129412 .129412 rg ("") Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .55683 Tw (The string will not appear if the driver has not been selected and it will be empty unless an address) Tj T* 0 Tw (has been explicitly set.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 564.8236 cm
+Q
+q
+1 0 0 1 62.69291 373.6236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 176.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (3.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 176.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Edit the configuration as necessary.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 95 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 445.6898 72 re B*
+Q
+q
+BT 1 0 0 1 0 50 Tm 12 TL /F3 10 Tf .098039 .090196 .486275 rg ($ ) Tj 0 0 0 rg (make menuconfig) Tj T* (File systems  ---) Tj (>) Tj  T* (Miscellaneous filesystems  ---) Tj (>) Tj  T* (<) Tj (M) Tj (>) Tj (     Simics hostfs) Tj T* .4 .4 .4 rg (\(\)) Tj 0 0 0 rg (      SimicsFS physical address) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 23 45 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL 2.104269 Tw (Once the Simics hostfs module has been selected, an option appears where a default physical) Tj T* 0 Tw 1.806235 Tw (address can be entered. A built-in default value is used unless the user specifies a new default) Tj T* 0 Tw (address.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 15 cm
+q
+BT 1 0 0 1 0 14 Tm .066457 Tw 12 TL /F1 10 Tf 0 0 0 rg (Later, you may want to override the address, see section ) Tj 0 0 .501961 rg (How to override the physical address of the) Tj T* 0 Tw (driver) Tj 0 0 0 rg (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Remember to save any changes before exiting.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 373.6236 cm
+Q
+q
+1 0 0 1 62.69291 373.6236 cm
+Q
+ 
+endstream
+endobj
+% 'R45': class PDFStream 
+45 0 obj
+% page stream
+<< /Length 3086 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 744.0236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (5   How to override the physical address of the driver) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 732.0236 cm
+Q
+q
+1 0 0 1 62.69291 732.0236 cm
+Q
+q
+1 0 0 1 62.69291 668.8236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 48.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 48.2 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If the driver was compiled-in \() Tj /F3 10 Tf (<) Tj (*) Tj (> ) Tj /F1 10 Tf (in menuconfig\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 30.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Append this argument to the kernel command-line:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 445.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F3 10 Tf .098039 .090196 .486275 rg (simicsfs.phys_addr) Tj .4 .4 .4 rg (=) Tj 0 0 0 rg (0xff00ff00) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 662.8236 cm
+Q
+q
+1 0 0 1 62.69291 540.4236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 107.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 107.4 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If the driver was compiled as a module \() Tj /F3 10 Tf (<) Tj (M) Tj (> ) Tj /F1 10 Tf (in menuconfig\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 89.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Give an argument when loading the module:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 56.2 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 445.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F3 10 Tf .098039 .090196 .486275 rg ($ ) Tj 0 0 0 rg (insmod simicsfs.ko ) Tj .098039 .090196 .486275 rg (phys_addr) Tj .4 .4 .4 rg (=) Tj 0 0 0 rg (0xff00ff00) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 23 30.2 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Or by using ) Tj /F3 10 Tf (modprobe) Tj /F1 10 Tf (, which requires ) Tj /F3 10 Tf (depmod ) Tj /F1 10 Tf (generated files to be present on the target system:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 445.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F3 10 Tf .098039 .090196 .486275 rg ($ ) Tj 0 0 0 rg (modprobe simicsfs ) Tj .098039 .090196 .486275 rg (phys_addr) Tj .4 .4 .4 rg (=) Tj 0 0 0 rg (0xff00ff00) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 540.4236 cm
+Q
+q
+1 0 0 1 62.69291 510.4236 cm
+q
+BT 1 0 0 1 0 14 Tm 1.241647 Tw 12 TL /F1 10 Tf 0 0 0 rg (Alternatively you can add it as an option in ) Tj /F3 10 Tf (/etc/modules.conf) Tj /F1 10 Tf (, ) Tj /F3 10 Tf (/etc/modprobe.conf ) Tj /F1 10 Tf (or similar,) Tj T* 0 Tw (depending on what is provided by your target system. Check the distribution documentation.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 510.4236 cm
+Q
+ 
+endstream
+endobj
+% 'R46': class PDFPageLabels 
+46 0 obj
+% Document Root
+<< /Nums [ 0
+ 47 0 R
+ 1
+ 48 0 R
+ 2
+ 49 0 R
+ 3
+ 50 0 R
+ 4
+ 51 0 R
+ 5
+ 52 0 R
+ 6
+ 53 0 R ] >>
+endobj
+% 'R47': class PDFPageLabel 
+47 0 obj
+% None
+<< /S /D
+ /St 1 >>
+endobj
+% 'R48': class PDFPageLabel 
+48 0 obj
+% None
+<< /S /D
+ /St 2 >>
+endobj
+% 'R49': class PDFPageLabel 
+49 0 obj
+% None
+<< /S /D
+ /St 3 >>
+endobj
+% 'R50': class PDFPageLabel 
+50 0 obj
+% None
+<< /S /D
+ /St 4 >>
+endobj
+% 'R51': class PDFPageLabel 
+51 0 obj
+% None
+<< /S /D
+ /St 5 >>
+endobj
+% 'R52': class PDFPageLabel 
+52 0 obj
+% None
+<< /S /D
+ /St 6 >>
+endobj
+% 'R53': class PDFPageLabel 
+53 0 obj
+% None
+<< /S /D
+ /St 7 >>
+endobj
+xref
+0 54
+0000000000 65535 f
+0000000113 00000 n
+0000000247 00000 n
+0000000412 00000 n
+0000000600 00000 n
+0000000841 00000 n
+0000001082 00000 n
+0000001323 00000 n
+0000001564 00000 n
+0000001805 00000 n
+0000002046 00000 n
+0000002288 00000 n
+0000002530 00000 n
+0000002773 00000 n
+0000003000 00000 n
+0000003376 00000 n
+0000003658 00000 n
+0000003834 00000 n
+0000004061 00000 n
+0000004364 00000 n
+0000004550 00000 n
+0000004793 00000 n
+0000005036 00000 n
+0000005263 00000 n
+0000005582 00000 n
+0000005878 00000 n
+0000006121 00000 n
+0000006348 00000 n
+0000006658 00000 n
+0000006939 00000 n
+0000007098 00000 n
+0000007362 00000 n
+0000007487 00000 n
+0000007789 00000 n
+0000008037 00000 n
+0000008445 00000 n
+0000008853 00000 n
+0000009331 00000 n
+0000009763 00000 n
+0000009925 00000 n
+0000011803 00000 n
+0000013959 00000 n
+0000018711 00000 n
+0000025692 00000 n
+0000026464 00000 n
+0000030327 00000 n
+0000033516 00000 n
+0000033687 00000 n
+0000033764 00000 n
+0000033841 00000 n
+0000033918 00000 n
+0000033995 00000 n
+0000034072 00000 n
+0000034149 00000 n
+trailer
+<< /ID 
+ % ReportLab generated PDF document -- digest (http://www.reportlab.com) 
+ [(\375\314\366vRQe\217>~\214\205\304=\357\275) (\375\314\366vRQe\217>~\214\205\304=\357\275)] 
+
+ /Info 30 0 R
+ /Root 29 0 R
+ /Size 54 >>
+startxref
+34196
+%%EOF
