@@ -80,7 +80,6 @@ iputils \
 irda-utils \
 kexec-tools \
 kmod \
-ksh \
 ldd \
 less \
 libaio \
