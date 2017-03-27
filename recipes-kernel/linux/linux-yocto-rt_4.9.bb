@@ -6,7 +6,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;name=machine;branch=${
            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.9;destsuffix=${KMETA}"
 
 KV = "4.9"
-LINUX_VERSION = "4.9.13"
+LINUX_VERSION = "4.9.17"
 
 COMPATIBLE_MACHINE = "^axxiaarm$|^axxiaarm64$|^axxiax86-64$"
 INSANE_SKIP_kernel-dev = "debug-files"
