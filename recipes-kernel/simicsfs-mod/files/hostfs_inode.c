@@ -180,7 +180,7 @@ static int hostfs_setattr(struct dentry *dentry, struct iattr *iattr)
 	DPRINT1(DEVICE_NAME " hostfs_notify_change(%ld, 0x%lx)\n",
 		inode->i_ino, (long)iattr->ia_valid);
 
-	error = inode_change_ok(inode, iattr);
+	error = setattr_prepare(dentry, iattr);
 	if (error)
 		return error;
 
