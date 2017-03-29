@@ -214,7 +214,6 @@ a. by default (missing to set AXXIA_SRC) or setting
         standard/axxia/base or standard/preempt-rt/axxia/base branch
    4.9: http://git.yoctoproject.org/git/linux-yocto-4.9 
         standard/base or standard/preempt-rt/base branch
-        Note: There is no axxia custom branch yet
 
 b. AXXIA_SRC = "axxia-tip"
    
@@ -270,7 +269,7 @@ f. Chip specific options (for axxiaarm64):
 Note: CHIPSET variable is also used for fine tuning (see 7.9) and to choose the
 proper defconfig for Github builds (see 7.7).
 
-7.9 Choose proper fine tuning for each CHIPSET (kernel 4.1 only)
+7.9 Choose proper fine tuning for each CHIPSET
 As long as specfic tunes are defined, user can choose the proper 
 tune using the CHIPSET variable. Features and flags for each tune
 are defined bellow:
@@ -311,6 +310,12 @@ NOTE: For ARMv8, AArch64 state, other availabe tunes are for BE with
           floating-point, thumb and neon extensions. Crypto, thumb and BE are 
           optional.
 
+- for axxiax86-64:
+    - default tune: corei7-64
+    - TUNE_FEATURES = "m64 corei7"
+ 
+NOTE: For axxiax86-64 machine, no CHIPSET variable should be set.
+
 7.10 Building a 32-bit RootFS for ARMv8 based boards:
 For ARM architecture, depending on the machine selected on step 7.2, 
 specific Kernel and RootFS are built for specific boards:
@@ -340,7 +345,7 @@ NOTE: You can boot the resulting 32-bit RootFS with a 64-bit Kernel
 
 BB_NUMBER_THREADS = "12"
 PARALLEL_MAKE = "-j 12"
-MACHINE = "axxiaarm"
+MACHINE = "axxiaarm64"
 IMAGE_FSTYPES += "ext2"
 IMAGE_FSTYPES += "tar.gz"
 PREFERRED_PROVIDER_virtual/bootloader = "u-boot-axxia"
@@ -369,6 +374,10 @@ Available root filesystem types:
    * axxia-image-large
      A more complete image.
 
+   * axxia-image-large-sdk
+     Image that includes everything within axxia-image-large plus meta-toolchain, 
+     development headers and libraries to form a standalone SDK.
+
 Once complete the images for the target machine will be available in the output
 directory 'tmp/deploy/images/$MACHINE'.
 
@@ -386,6 +395,8 @@ NOTE: For axxiaarm64, only Image files are generated, instead of zImage.
 	* fdt.fit-<target name> (DTB in fit image format)
 	* linux.fit-<target name> (Kernel binary in fit image format)
 	* multi.fit-<target name> (Kernel binary + DTB in fit image format)
+* <image type>-<machine name>.hddimg (rootfs in hddimg format - axxiaarmx86-64)
+* <image type>-<machine name>.wic (rootfs in wic format - axxiaarmx86-64)
 
 
 Guidelines for submitting patches
