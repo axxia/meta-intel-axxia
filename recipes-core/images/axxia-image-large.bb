@@ -54,6 +54,7 @@ ed \
 elfutils \
 ethtool \
 expat \
+expect \
 file \
 findutils \
 flac \
