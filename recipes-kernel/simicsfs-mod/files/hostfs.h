@@ -22,7 +22,7 @@
 
 #define HOSTFS_VERSION 1
 /* update before release, reset to 99 when done */
-#define HOSTFS_SUBVERSION 20
+#define HOSTFS_SUBVERSION 21
 
 #if defined(__powerpc__)
 #define HOSTFS_DEV    0xff660000

@@ -1,6 +1,9 @@
 CHANGES:
 ========
 
+1.21 * Added support for Linux kernel version 4.9.
+     * inode_change_ok replaced by setattr_prepare.
+
 1.20 * Added support for kernel versions up to 4.8.
      * PAGE_CACHE_* macros removed, replace with PAGE_*.
      * follow_link removed from inode_operations, replace with get_link.

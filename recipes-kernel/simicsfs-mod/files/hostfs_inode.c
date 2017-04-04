@@ -180,7 +180,11 @@ static int hostfs_setattr(struct dentry *dentry, struct iattr *iattr)
 	DPRINT1(DEVICE_NAME " hostfs_notify_change(%ld, 0x%lx)\n",
 		inode->i_ino, (long)iattr->ia_valid);
 
-	error = setattr_prepare(dentry, iattr);
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 9, 0)
+        error = setattr_prepare(dentry, iattr);
+#else
+	error = inode_change_ok(inode, iattr);
+#endif
 	if (error)
 		return error;
 
