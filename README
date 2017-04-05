@@ -63,7 +63,7 @@ Sources
 
 git://git.yoctoproject.org/meta-axxia
 http://git.yoctoproject.org/git/meta-axxia
-branch: jethro
+branch: morty
 revision: HEAD
 
 
@@ -116,7 +116,7 @@ device-tree-compiler (dtc)
 Axxia specific board types.
 
    $ cd $YOCTO/poky
-   $ git clone git://git.yoctoproject.org/meta-axxia.git
+   $ git clone https://github.com/axxia/meta-axxia.git
    $ cd meta-axxia
    $ git checkout morty
 
