@@ -174,9 +174,11 @@ parallelism BitBake should use:
   MACHINE = "axxiax86_64"
 
 7.3 Select the root filesystem image compression type (can set multiple types):
+NOTE: Default types are set for each machine configuration file from conf/machine.
 
   IMAGE_FSTYPES += "ext2"
   IMAGE_FSTYPES += "tar.gz"
+  IMAGE_FSTYPES += "hddimg"
 
 7.4 Select the custom bootloader as preferred:
 
@@ -190,12 +192,16 @@ parallelism BitBake should use:
    PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
 
 7.6 Select the kernel version:
-NOTE: axxiaarm and axxiaarm64 are available only with linux 4.1
-      axxiax86_64 is available only with linux 4.9
+NOTE: axxiaarm and axxiaarm64 are available with linux 4.1 and 4.9
+      axxiax86_64 is available with linux 4.8 and 4.9
 
    for 4.1, depending on PREFERRED_PROVIDER_virtual/kernel
    PREFERRED_VERSION_linux-yocto = "4.1%"
    PREFERRED_VERSION_linux-yocto-rt = "4.1"
+
+   for 4.8, depending on PREFERRED_PROVIDER_virtual/kernel
+   PREFERRED_VERSION_linux-yocto = "4.8%"
+   PREFERRED_VERSION_linux-yocto-rt = "4.8%"
 
    for 4.9, depending on PREFERRED_PROVIDER_virtual/kernel
    PREFERRED_VERSION_linux-yocto = "4.9%"
@@ -212,10 +218,12 @@ a. by default (missing to set AXXIA_SRC) or setting
    will build from Yocto repos:
    4.1: http://git.yoctoproject.org/git/linux-yocto-4.1
         standard/axxia/base or standard/preempt-rt/axxia/base branch
-   4.9: http://git.yoctoproject.org/git/linux-yocto-4.9 
+   4.8: http://git.yoctoproject.org/git/linux-yocto-4.8 
         standard/base or standard/preempt-rt/base branch
+   4.9: http://git.yoctoproject.org/git/linux-yocto-4.9 
+        standard/axxia/base or standard/preempt-rt/axxia/base branch
 
-b. AXXIA_SRC = "axxia-tip"
+b. AXXIA_SRC = "axxia-tip" (not available for linux 4.8)
    
    will build kernel from GitHub private repos (require authentication with
    public key):
