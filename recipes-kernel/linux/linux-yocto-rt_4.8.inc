@@ -2,7 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/conf/${AXXIA_SRC}/linux-${KV}/${MACHINE}/
 ${THISDIR}/conf/${AXXIA_SRC}/linux-${KV}/${MACHINE}/${LINUX_KERNEL_TYPE}:"
 
 require dt-${KARCH}.inc
-require frags-${KARCH}.inc
+#require frags-${KARCH}.inc
 
 KBRANCH = "standard/preempt-rt/base"
 SRCREV_machine ="${AUTOREV}"

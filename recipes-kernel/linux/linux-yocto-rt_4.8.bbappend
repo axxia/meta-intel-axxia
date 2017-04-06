@@ -1,7 +1,7 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
 # skip yocto-kernel-cache for axxiax86_64 to use full defconfig untill we'll have fragments upstream
-KMETA_SOURCES = "git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.88888888;destsuffix=${KMETA}"
+KMETA_SOURCES = "git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
 
 SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${KBRANCH}; \
            ${@base_conditional('MACHINE', 'axxiax86-64', '', '${KMETA_SOURCES}', d)}"
