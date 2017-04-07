@@ -26,7 +26,8 @@ openssh \
 openssh-sftp \
 inetutils \
 netcat \
-perl-module-bigint"
+perl-module-bigint \
+kmod"
 
 IMAGE_FEATURES += "dev-pkgs"
 
