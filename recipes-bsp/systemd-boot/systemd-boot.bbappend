@@ -1,4 +1,5 @@
 DEPENDS_append_axxiax86-64 = " rmc"
+RDEPENDS_${PN}_append_axxiax86-64 = " rmc-staticdev"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/systemd-boot:"
 

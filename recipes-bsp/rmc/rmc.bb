@@ -24,6 +24,10 @@ COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux*"
 
 EXTRA_OEMAKE='RMC_CFLAGS="-Wl,--hash-style=both"'
 
+FILES_${PN}-staticdev += "/usr/lib"
+
+SYSROOT_DIRS_append += "/usr/lib"
+
 # from gnu-efi, we should align arch-mapping with it.
 def rmc_efi_arch(d):
     import re
@@ -47,4 +51,4 @@ do_install_class-native() {
 	install -m 0755 ${S}/src/rmc ${D}${STAGING_BINDIR_NATIVE}
 }
 
-BBCLASSEXTEND = "native"
+BBCLASSEXTEND = "native nativesdk"
