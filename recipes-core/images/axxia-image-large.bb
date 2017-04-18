@@ -98,6 +98,7 @@ libnss-mdns \
 libogg \
 libpam \
 libpcap \
+libpcap-dev \
 libpcre \
 libsamplerate0 \
 libsm \

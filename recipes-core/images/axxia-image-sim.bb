@@ -31,7 +31,8 @@ kmod \
 libnl \
 libnl-genl \
 libnl-nf \
-libnl-route "
+libnl-route \
+libpcap "
 
 IMAGE_FEATURES += "dev-pkgs"
 
