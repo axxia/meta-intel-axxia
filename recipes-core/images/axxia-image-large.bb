@@ -5,6 +5,11 @@ run-postinsts \
 busybox-udhcpc \
 base-files \
 udev \
+libudev \
+eudev \
+eudev-dev \
+boost \
+boost-dev \
 base-passwd \
 sysvinit \
 netbase \

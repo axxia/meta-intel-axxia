@@ -8,6 +8,9 @@ ${CORE_IMAGE_EXTRA_INSTALL} \
 
 IMAGE_INSTALL_append = " \
 libgcc \
+libudev \
+eudev \
+boost \
 inetutils \
 gdb \
 gdbserver \
