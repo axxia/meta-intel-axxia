@@ -1,32 +1,6 @@
 require recipes-core/images/core-image-minimal-dev.bb
 
 IMAGE_INSTALL = " \
-run-postinsts \
-busybox-udhcpc \
-base-files \
-udev \
-libudev \
-eudev \
-eudev-dev \
-boost \
-boost-dev \
-base-passwd \
-sysvinit \
-netbase \
-util-linux-libblkid \
-busybox-syslog \
-modutils-initscripts \
-sysvinit-pidof \
-busybox \
-update-rc.d \
-packagegroup-core-boot \
-packagegroup-core-buildessential \
-util-linux-libuuid \
-udev-cache \
-libkmod \
-sysvinit-inittab \
-init-ifupdown \
-initscripts \
 acl \
 at \
 attr \
@@ -37,9 +11,14 @@ bash \
 bc \
 beecrypt \
 bind \
+bind-utils \
 bison \
 bluez5 \
+boost \
+boost-dev \
 busybox \
+busybox-syslog \
+busybox-udhcpc \
 bzip2 \
 coreutils \
 cpio \
@@ -51,13 +30,15 @@ dbus \
 dbus-glib \
 diffutils \
 e2fsprogs \
+e2fsprogs-badblocks \
 e2fsprogs-e2fsck \
 e2fsprogs-mke2fs \
 e2fsprogs-tune2fs \
-e2fsprogs-badblocks \
 ed \
 elfutils \
 ethtool \
+eudev \
+eudev-dev \
 expat \
 expect \
 file \
@@ -79,11 +60,14 @@ hostap-utils \
 icu \
 inetutils \
 inetutils-telnetd \
+init-ifupdown \
 initscripts \
 iproute2 \
 iptables \
 iputils \
 irda-utils \
+kdump \
+kexec \
 kexec-tools \
 kmod \
 ldd \
@@ -97,6 +81,7 @@ libffi \
 libgcrypt \
 libgpg-error \
 libice \
+libkmod \
 libnfsidmap \
 libnl \
 libnss-mdns \
@@ -111,6 +96,7 @@ libsndfile1 \
 libtasn1 \
 libtirpc \
 libtool \
+libudev \
 libusb1 \
 libusb-compat \
 libxau \
@@ -118,6 +104,13 @@ libxcb \
 libxdmcp \
 logrotate \
 lrzsz \
+ltp \
+lttng-modules \
+lttng-modules-dev \
+lttng-tools \
+lttng-tools-dev \
+lttng-ust \
+lttng-ust-dev \
 lzo \
 man \
 man-pages \
@@ -137,6 +130,8 @@ openssl \
 opkg \
 opkg-arch-config \
 ossp-uuid \
+packagegroup-core-boot \
+packagegroup-core-buildessential \
 parted \
 pciutils \
 perl \
@@ -150,16 +145,11 @@ psmisc \
 python-core \
 python-modules \
 python-netserver \
-lttng-modules \
-lttng-modules-dev \
-lttng-tools \
-lttng-tools-dev \
-lttng-ust \
-lttng-ust-dev \
 quota \
 readline \
 rpcbind \
 rpm \
+run-postinsts \
 sed \
 setserial \
 shadow \
@@ -171,6 +161,8 @@ sudo \
 sysfsutils \
 sysklogd \
 sysvinit \
+sysvinit-inittab \
+sysvinit-pidof \
 tar \
 tcl \
 tcpdump \
@@ -178,11 +170,15 @@ tcp-wrappers \
 time \
 tzdata \
 udev \
+udev \
+udev-cache \
 udev-extraconf \
 unzip \
 update-rc.d \
 usbutils \
 util-linux \
+util-linux-libblkid \
+util-linux-libuuid \
 util-macros \
 watchdog \
 wget \
@@ -194,12 +190,6 @@ yp-tools \
 yp-tools-dev \
 zip \
 zlib \
-gfortran \
-gfortran-symlinks \
-perf \
-kdump \
-kexec \
-ltp \
 "
 
 DESCRIPTION = ""
