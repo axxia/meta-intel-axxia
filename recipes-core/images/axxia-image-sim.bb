@@ -9,6 +9,7 @@ ${CORE_IMAGE_EXTRA_INSTALL} \
 IMAGE_INSTALL_append = " \
 boost \
 dhcp-client \
+dmidecode \
 eudev \
 gdb \
 gdbserver \
@@ -31,10 +32,12 @@ netcat \
 netkit-tftp-client \
 openssh \
 openssh-sftp \
+pciutils \
 perl-module-bigint \
 python-core \
 python-modules \
 python-netserver \
+python-nose \
 "
 
 IMAGE_FEATURES += "dev-pkgs"

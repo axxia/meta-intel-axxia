@@ -29,6 +29,7 @@ db \
 dbus \
 dbus-glib \
 diffutils \
+dmidecode \
 e2fsprogs \
 e2fsprogs-badblocks \
 e2fsprogs-e2fsck \
@@ -145,6 +146,7 @@ psmisc \
 python-core \
 python-modules \
 python-netserver \
+python-nose \
 quota \
 readline \
 rpcbind \
