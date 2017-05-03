@@ -68,6 +68,7 @@ iptables \
 iputils \
 irda-utils \
 kdump \
+kernel-modules \
 kexec \
 kexec-tools \
 kmod \
@@ -171,7 +172,6 @@ tcpdump \
 tcp-wrappers \
 time \
 tzdata \
-udev \
 udev \
 udev-cache \
 udev-extraconf \

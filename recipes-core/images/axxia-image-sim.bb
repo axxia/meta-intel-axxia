@@ -14,6 +14,7 @@ eudev \
 gdb \
 gdbserver \
 inetutils \
+kernel-modules \
 kmod \
 libgcc \
 libnl \

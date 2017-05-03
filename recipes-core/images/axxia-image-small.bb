@@ -6,7 +6,7 @@ ${ROOTFS_PKGMANAGE_BOOTSTRAP} \
 ${CORE_IMAGE_EXTRA_INSTALL} \
 "
 
-IMAGE_INSTALL_append = " libgcc inetutils gdbserver"
+IMAGE_INSTALL_append = " libgcc inetutils gdbserver kernel-modules"
 
 IMAGE_LINGUAS = " "
 
