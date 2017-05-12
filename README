@@ -81,6 +81,11 @@ URI: https://github.com/openembedded/meta-openembedded.git
 branch: morty
 revision: HEAD
 
+Yocto Virtualization Layer
+URI: https://git.yoctoproject.org/git/meta-virtualization
+branch: morty
+revision: HEAD
+
 
 Building the meta-axxia BSP layer
 -------------------------------
@@ -129,14 +134,22 @@ following.
    $ cd meta-openembedded
    $ git checkout morty
 
-5. Create the build directory. The name is optional and will default to 'build',
+5. Clone Yocto Virtualization Layer which provides packages for virtualization 
+such as Linux Container Support (lxc).
+
+   $ cd $YOCTO/poky
+   $ git clone https://git.yoctoproject.org/git/meta-virtualization
+   $ cd meta-virtualization
+   $ git checkout morty
+
+6. Create the build directory. The name is optional and will default to 'build',
 however it helps to choose a name to match the board type. For example, we will
 use axxia.
 
    $ cd $YOCTO
    $ source poky/oe-init-build-env axxia
 
-6. Edit the conf/bblayers.conf file
+7. Edit the conf/bblayers.conf file
 
    $ pwd (you should be at $YOCTO/axxia)
    $ vi conf/bblayers.conf
@@ -154,16 +167,16 @@ actual value you provided in step 1.
             $YOCTO/poky/meta-axxia \
             "
 
-7. Edit the conf/local.conf file:
+8. Edit the conf/local.conf file:
    $ vi conf/local.conf
 
-7.1 Depending on your processor, set these two options that control how much
+8.1 Depending on your processor, set these two options that control how much
 parallelism BitBake should use:
 
   BB_NUMBER_THREADS = "12"
   PARALLEL_MAKE = "-j 12"
 
-7.2 Select a specific machine to target the build with:
+8.2 Select a specific machine to target the build with:
 
   MACHINE = "axxiaarm"
   or
@@ -173,25 +186,25 @@ parallelism BitBake should use:
   or
   MACHINE = "axxiax86_64"
 
-7.3 Select the root filesystem image compression type (can set multiple types):
+8.3 Select the root filesystem image compression type (can set multiple types):
 NOTE: Default types are set for each machine configuration file from conf/machine.
 
   IMAGE_FSTYPES += "ext2"
   IMAGE_FSTYPES += "tar.gz"
   IMAGE_FSTYPES += "hddimg"
 
-7.4 Select the custom bootloader as preferred:
+8.4 Select the custom bootloader as preferred:
 
   PREFERRED_PROVIDER_virtual/bootloader = "u-boot-axxia"
 
-7.5 Select the KERNEL type:
+8.5 Select the KERNEL type:
    for standard
    PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 
    for preempt-rt
    PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
 
-7.6 Select the kernel version:
+8.6 Select the kernel version:
 NOTE: axxiaarm and axxiaarm64 are available with linux 4.1 and 4.9
       axxiax86_64 is available with linux 4.8 and 4.9
 
@@ -207,7 +220,7 @@ NOTE: axxiaarm and axxiaarm64 are available with linux 4.1 and 4.9
    PREFERRED_VERSION_linux-yocto = "4.9%"
    PREFERRED_VERSION_linux-yocto-rt = "4.9%"
   
-7.7 Select the kernel repository to use. Meta-axxia is able to build the kernel
+8.7 Select the kernel repository to use. Meta-axxia is able to build the kernel
 from 2 sources: private axxiagithub and public YOCTO kernel repo depending on
 AXXIA_SRC variable from local.conf:
 
@@ -232,7 +245,7 @@ b. AXXIA_SRC = "axxia-tip" (not available for linux 4.8)
    4.9: git@github.com:axxia/axxia_yocto_linux_4.9_private.git
         standard/axxia-dev/base or standard/preempt-rt/axxia/base branch
 
-7.8 Customizing the Kernel .config file
+8.8 Customizing the Kernel .config file
 NOTE: This options are available only with AXXIA_SRC = "linux-yocto"
       When building from github, fixed defconfigs are used instead.
 
@@ -277,7 +290,7 @@ f. Chip specific options (for axxiaarm64):
 Note: CHIPSET variable is also used for fine tuning (see 7.9) and to choose the
 proper defconfig for Github builds (see 7.7).
 
-7.9 Choose proper fine tuning for each CHIPSET
+8.9 Choose proper fine tuning for each CHIPSET
 As long as specfic tunes are defined, user can choose the proper 
 tune using the CHIPSET variable. Features and flags for each tune
 are defined bellow:
@@ -324,7 +337,7 @@ NOTE: For ARMv8, AArch64 state, other availabe tunes are for BE with
  
 NOTE: For axxiax86-64 machine, no CHIPSET variable should be set.
 
-7.10 Building a 32-bit RootFS for ARMv8 based boards:
+8.10 Building a 32-bit RootFS for ARMv8 based boards:
 For ARM architecture, depending on the machine selected on step 7.2, 
 specific Kernel and RootFS are built for specific boards:
     - axxiaarm: 32-bit Kernel and Rootfs for 5500 board series which have
@@ -344,12 +357,12 @@ If CHIPSET is not set, it will default to 5500 (ARMv7).
 NOTE: You can boot the resulting 32-bit RootFS with a 64-bit Kernel 
       resulting from an axxiaarm64 build.
 
-7.11 Other optional settings for saving disk space and build time:
+8.11 Other optional settings for saving disk space and build time:
    
    DL_DIR = "/<some-shared-location>/downloads"
    SSTATE_DIR = "/<some-shared-location>/sstate-cache
 
-7.12 Example. Append these lines to conf/local.conf file from the build dir
+8.12 Example. Append these lines to conf/local.conf file from the build dir
 
 BB_NUMBER_THREADS = "12"
 PARALLEL_MAKE = "-j 12"
@@ -367,7 +380,7 @@ DL_DIR = "/<some-shared-location>/downloads"
 SSTATE_DIR = "/<some-shared-location>/sstate-cache"
 
 
-8. Select the image type and start the build
+9. Select the image type and start the build
    $ cd $YOCTO/axxia
    $ bitbake <image type>
 
@@ -389,7 +402,7 @@ Available root filesystem types:
 Once complete the images for the target machine will be available in the output
 directory 'tmp/deploy/images/$MACHINE'.
 
-9. Images generated:
+10. Images generated:
 
 * <image type>-<machine name>.ext2 (rootfs in EXT2 format)
 * <image type>-<machine name>.tar.gz (rootfs in tar+GZIP format)
