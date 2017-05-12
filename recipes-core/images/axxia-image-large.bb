@@ -192,7 +192,10 @@ yp-tools \
 yp-tools-dev \
 zip \
 zlib \
-"
+${LXC_SUPPORT} "
+
+LXC_SUPPORT = "xz gnupg cgroup-lite libvirt libvirt-libvirtd \
+	       lxc lxc-setup lxc-templates lxc-networking "
 
 DESCRIPTION = ""
 
