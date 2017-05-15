@@ -17,8 +17,8 @@ systemtap-dev \
 libunwind-dev \
 slang-dev \
 xz-dev \
-numactl-dev \
-binutils-staticdev"
+binutils-staticdev \
+${@base_conditional('MACHINE', 'axxiaarm', '', 'numactl-dev', d)}"
 
 TOOLCHAIN_HOST_TASK_append = " \
 nativesdk-bison \
