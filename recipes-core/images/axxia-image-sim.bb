@@ -16,6 +16,8 @@ gdbserver \
 inetutils \
 kernel-modules \
 kmod \
+libasan \
+libubsan \
 libgcc \
 libnl \
 libnl-genl \

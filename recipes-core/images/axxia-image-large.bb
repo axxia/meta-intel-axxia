@@ -75,6 +75,8 @@ kmod \
 ldd \
 less \
 libaio \
+libasan \
+libubsan \
 libcap \
 libcheck \
 libdaemon \
