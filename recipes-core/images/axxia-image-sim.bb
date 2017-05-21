@@ -37,6 +37,7 @@ openssh \
 openssh-sftp \
 pciutils \
 perl-module-bigint \
+python-cffi \
 python-core \
 python-modules \
 python-netserver \

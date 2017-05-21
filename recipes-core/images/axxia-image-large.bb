@@ -146,6 +146,7 @@ portmap \
 ppp \
 procps \
 psmisc \
+python-cffi \
 python-core \
 python-modules \
 python-netserver \
