@@ -5,7 +5,7 @@ inherit axxia-kernel
 KV = "4.1"
 LINUX_VERSION = "4.1.39"
 
-COMPATIBLE_MACHINE = "^axxiaarm$|^axxiaarm64$"
+COMPATIBLE_MACHINE = "^axxiaarm$|^axxiaarm64$|^axxiapowerpc$"
 INSANE_SKIP_kernel-dev = "debug-files"
 PARALLEL_MAKE = ""
 
