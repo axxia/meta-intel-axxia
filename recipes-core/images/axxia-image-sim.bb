@@ -42,6 +42,7 @@ python-core \
 python-modules \
 python-netserver \
 python-nose \
+tmux \
 "
 
 IMAGE_FEATURES += "dev-pkgs"

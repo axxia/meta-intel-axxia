@@ -174,6 +174,7 @@ tcl \
 tcpdump \
 tcp-wrappers \
 time \
+tmux \
 tzdata \
 udev \
 udev-cache \
