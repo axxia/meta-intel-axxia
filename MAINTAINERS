@@ -28,19 +28,19 @@ Maintainers List (try to look for most precise areas first)
 
 		-----------------------------------
 AXIAARM
-M:	Daniel Dragomir <cristian.bercaru@windriver.com>
+M:	Daniel Dragomir <daniel.dragomir@windriver.com>
 M:	Lucian Creanga <lucian.creanga@windriver.com>
 M:	John Jacques <john.jacques@intel.com>
 F:	meta-axxia/
 
 AXIAARM64
-M:	Daniel Dragomir <cristian.bercaru@windriver.com>
+M:	Daniel Dragomir <daniel.dragomir@windriver.com>
 M:	Lucian Creanga <lucian.creanga@windriver.com>
 M:	John Jacques <john.jacques@intel.com>
 F:	meta-axxia/
 
 AXIAPOWERPC
-M:	Daniel Dragomir <cristian.bercaru@windriver.com>
+M:	Daniel Dragomir <daniel.dragomir@windriver.com>
 M:	Lucian Creanga <lucian.creanga@windriver.com>
 M:	John Jacques <john.jacques@intel.com>
 F:	meta-axxia/
