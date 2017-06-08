@@ -196,6 +196,7 @@ yp-tools \
 yp-tools-dev \
 zip \
 zlib \
+${@base_conditional('MACHINE', 'axxiax86-64', 'axxia-rc-local', '', d)} \
 ${LXC_SUPPORT} "
 
 LXC_SUPPORT = "xz gnupg cgroup-lite libvirt libvirt-libvirtd \

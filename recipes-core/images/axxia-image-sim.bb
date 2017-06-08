@@ -43,7 +43,7 @@ python-modules \
 python-netserver \
 python-nose \
 tmux \
-"
+${@base_conditional('MACHINE', 'axxiax86-64', 'axxia-rc-local', '', d)} "
 
 IMAGE_FEATURES += "dev-pkgs"
 

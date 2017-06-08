@@ -12,7 +12,8 @@ inetutils \
 gdbserver \
 kernel-modules \
 libasan \
-libubsan "
+libubsan \
+${@base_conditional('MACHINE', 'axxiax86-64', 'axxia-rc-local', '', d)} "
 
 IMAGE_LINGUAS = " "
 
