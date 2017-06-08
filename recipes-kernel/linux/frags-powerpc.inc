@@ -1,6 +1,6 @@
-# depending on SMP settings, debug fragments are different for 3.14 standard Kernel:
-# SMP == no && KV == 3.14 && LINUX_KERNEL_TYPE == standard -> use dbg-nosmp fragment
-DBG_VERSION = "${@base_conditional('SMP', 'no', base_conditional('KV', '3.14', \
+# depending on SMP settings, debug fragments are different for 4.1 standard Kernel:
+# SMP == no && KV == 4.1 && LINUX_KERNEL_TYPE == standard -> use dbg-nosmp fragment
+DBG_VERSION = "${@base_conditional('SMP', 'no', base_conditional('KV', '4.1', \
                   base_conditional('LINUX_KERNEL_TYPE', 'standard', 'dbg-nosmp', 'dbg', d), 'dbg', d), 'dbg', d)}"
 
 # adding fragments with kernel options to the final .config
