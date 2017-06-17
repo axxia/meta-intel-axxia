@@ -186,6 +186,7 @@ util-linux \
 util-linux-libblkid \
 util-linux-libuuid \
 util-macros \
+vlan \
 watchdog \
 wget \
 which \

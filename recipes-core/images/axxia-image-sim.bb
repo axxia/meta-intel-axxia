@@ -10,6 +10,7 @@ IMAGE_INSTALL_append = " \
 boost \
 dhcp-client \
 dmidecode \
+ethtool \
 eudev \
 gdb \
 gdbserver \
@@ -44,6 +45,7 @@ python-modules \
 python-netserver \
 python-nose \
 tmux \
+vlan \
 ${@base_conditional('MACHINE', 'axxiax86-64', 'axxia-rc-local', '', d)} "
 
 IMAGE_FEATURES += "dev-pkgs"
