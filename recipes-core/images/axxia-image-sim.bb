@@ -11,7 +11,6 @@ boost \
 dhcp-client \
 dmidecode \
 ethtool \
-eudev \
 gdb \
 gdbserver \
 inetutils \

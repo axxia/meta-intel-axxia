@@ -38,8 +38,6 @@ e2fsprogs-tune2fs \
 ed \
 elfutils \
 ethtool \
-eudev \
-eudev-dev \
 expat \
 expect \
 file \
@@ -166,9 +164,6 @@ strace \
 sudo \
 sysfsutils \
 sysklogd \
-sysvinit \
-sysvinit-inittab \
-sysvinit-pidof \
 tar \
 tcl \
 tcpdump \
@@ -177,7 +172,6 @@ time \
 tmux \
 tzdata \
 udev \
-udev-cache \
 udev-extraconf \
 unzip \
 update-rc.d \
