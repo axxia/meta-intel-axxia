@@ -33,7 +33,6 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
 	file://logs-optionally-use-base-filenames-to-report-src-fil.patch \
 	file://force-to-use-lxcbr0-bridge.patch \
 	file://default.lxc-net \
-	file://dnsmasq.lxc \
 	"
 
 SRC_URI[md5sum] = "5fd4b7af8026e8ae20b3065ee18fe974"
@@ -90,7 +89,6 @@ FILES_${PN}-templates += "${datadir}/lxc/templates"
 RDEPENDS_${PN}-templates += "bash"
 
 FILES_${PN}-networking += "/etc/default/lxc-net"
-FILES_${PN}-networking += "/etc/dnsmasq.d/lxc"
 FILES_${PN}-networking += "/lib/systemd/system/lxc-net.service"
 
 FILES_${PN}-setup += "/etc/tmpfiles.d"
@@ -118,9 +116,7 @@ do_install_append() {
 	fi
 
 	install -d ${D}${sysconfdir}/sysconfig
-	install -d ${D}${sysconfdir}/dnsmasq.d
 	install -m 644 ${WORKDIR}/default.lxc-net ${D}${sysconfdir}/sysconfig/lxc-net
-	install -m 644 ${WORKDIR}/dnsmasq.lxc ${D}${sysconfdir}/dnsmasq.d/lxc
 }
 
 EXTRA_OEMAKE += "TEST_DIR=${D}${PTEST_PATH}/src/tests"
