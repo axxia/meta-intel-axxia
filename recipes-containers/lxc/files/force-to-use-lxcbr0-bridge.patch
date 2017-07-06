@@ -1,0 +1,21 @@
+Index: lxc-2.0.6/config/init/common/lxc-net.in
+===================================================================
+--- lxc-2.0.6.orig/config/init/common/lxc-net.in
++++ lxc-2.0.6/config/init/common/lxc-net.in
+@@ -8,6 +8,7 @@ varlib="@LOCALSTATEDIR@/lib"
+ #   or in @LXC_DISTRO_SYSCONF@/lxc-net
+ 
+ USE_LXC_BRIDGE="true"
++USE_LXC_BRIDGE_FORCED="true"
+ LXC_BRIDGE="lxcbr0"
+ LXC_BRIDGE_MAC="00:16:3e:00:00:00"
+ LXC_ADDR="10.0.3.1"
+@@ -51,7 +52,7 @@ ifup() {
+ }
+ 
+ start() {
+-    [ "x$USE_LXC_BRIDGE" = "xtrue" ] || { exit 0; }
++    [ "x$USE_LXC_BRIDGE_FORCED" = "xtrue" ] || { exit 0; }
+ 
+     [ ! -f "${varrun}/network_up" ] || { echo "lxc-net is already running"; exit 1; }
+ 

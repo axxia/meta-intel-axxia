@@ -31,6 +31,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
 	file://lxc-fix-B-S.patch \
 	file://lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch \
 	file://logs-optionally-use-base-filenames-to-report-src-fil.patch \
+	file://force-to-use-lxcbr0-bridge.patch \
 	file://default.lxc-net \
 	file://dnsmasq.lxc \
 	"
