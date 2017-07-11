@@ -3,7 +3,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}:"
 inherit axxia-kernel
 
 KV = "4.1"
-LINUX_VERSION = "4.1.39"
+LINUX_VERSION = "4.1.42"
 
 COMPATIBLE_MACHINE = "^axxiaarm$|^axxiaarm64$|^axxiapowerpc$"
 INSANE_SKIP_kernel-dev = "debug-files"
