@@ -2,7 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/conf/${AXXIA_SRC}/linux-${KV}/${MACHINE}/
 
 require dt-${KARCH}.inc
 
-LINUX_VERSION = "4.8.24-tip"
+LINUX_VERSION = "4.8.25-tip"
 # use standard branch untill we'll have preempt-rt branch in github
 #KBRANCH = "standard/preempt-rt/axxia-dev/base"
 KBRANCH = "standard/axxia-dev/base"
