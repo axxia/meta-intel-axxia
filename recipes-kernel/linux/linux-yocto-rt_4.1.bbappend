@@ -7,7 +7,6 @@ LINUX_VERSION = "4.1.42"
 
 COMPATIBLE_MACHINE = "^axxiaarm$|^axxiaarm64$|^axxiapowerpc$"
 INSANE_SKIP_kernel-dev = "debug-files"
-PARALLEL_MAKE = ""
 
 AXXIA_SRC ?= "linux-yocto"
 SMP ?= "yes"
