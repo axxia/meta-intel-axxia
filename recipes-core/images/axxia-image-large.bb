@@ -88,6 +88,7 @@ libnfsidmap \
 libnl \
 libnss-mdns \
 libogg \
+libpython2 \
 libpam \
 libpcap \
 libpcap-dev \
@@ -136,6 +137,7 @@ packagegroup-core-boot \
 packagegroup-core-buildessential \
 parted \
 pciutils \
+perf \
 perl \
 perl-module-bigint \
 pkgconfig \
@@ -146,6 +148,8 @@ procps \
 psmisc \
 python-cffi \
 python-core \
+python-dev \
+python-distutils \
 python-modules \
 python-netserver \
 python-nose \
