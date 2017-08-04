@@ -4,30 +4,30 @@ mk_fit_images() {
 
 	if [ "${KARCH}" = "arm" ] || [ "${KARCH}" = "powerpc" ]
 	then
-		oe_runmake ${name}.dtb
+		oe_runmake -j1 ${name}.dtb
 	elif [ "${KARCH}" = "arm64" ]
 	then
-		oe_runmake dtbs
+		oe_runmake -j1 dtbs
 	fi
 
 	echo "pwd = `pwd`"
 	cd ../fit
 	if [ "${KARCH}" = "arm" ]
 	then
-		oe_runmake "ARCH=${KARCH}" \
+		oe_runmake -j1 "ARCH=${KARCH}" \
 				'DESCRIPTION=INTEL Axxia Linux' \
 				"ADDRESS=${addr}" \
 				'VMLINUX=${B}/vmlinux' \
 				"DTB=${B}/arch/${KARCH}/boot/dts/${name}.dtb"
 	elif [ "${KARCH}" = "arm64" ]
 	then
-		oe_runmake "ARCH=${KARCH}" \
+		oe_runmake -j1 "ARCH=${KARCH}" \
 				'DESCRIPTION=INTEL Axxia Linux' \
 				"ADDRESS=${addr}" \
 				'VMLINUX=${B}/vmlinux' \
 				"DTB=${B}/arch/${KARCH}/boot/dts/intel/${name}.dtb"
 	else
-		oe_runmake "ARCH=${KARCH}" \
+		oe_runmake -j1 "ARCH=${KARCH}" \
        	                        'DESCRIPTION=INTEL Axxia Linux' \
                	                "ADDRESS=${addr}" \
                        	        'VMLINUX=${B}/vmlinux' \
