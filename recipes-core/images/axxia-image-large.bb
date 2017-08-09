@@ -100,6 +100,7 @@ libtasn1 \
 libtirpc \
 libtool \
 libudev \
+libunwind \
 libusb1 \
 libusb-compat \
 libxau \
