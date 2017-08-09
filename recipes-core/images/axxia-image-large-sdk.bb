@@ -10,14 +10,15 @@ IMAGE_FEATURES += "dev-pkgs tools-sdk tools-debug eclipse-debug tools-profile \
 IMAGE_INSTALL += "kernel-devsrc"
 
 TOOLCHAIN_TARGET_TASK_append = " \
-libelf \
+binutils-staticdev \
 elfutils-dev \
+libelf \
+libunwind-dev \
+python-dev \
+slang-dev \
 systemtap \
 systemtap-dev \
-libunwind-dev \
-slang-dev \
 xz-dev \
-binutils-staticdev \
 ${@base_conditional('MACHINE', 'axxiaarm', '', 'numactl-dev', d)}"
 
 TOOLCHAIN_HOST_TASK_append = " \
