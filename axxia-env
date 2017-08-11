@@ -1,0 +1,1 @@
+export TEMPLATECONF=$PWD/$(dirname ${BASH_SOURCE[0]})/conf
