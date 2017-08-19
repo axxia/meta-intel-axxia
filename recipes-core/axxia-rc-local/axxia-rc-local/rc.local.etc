@@ -17,7 +17,21 @@ echo "Running /etc/rc.local..."
 # DO NOT run any long running tasks or loops as these will delay
 # the /init script and the console shell.
 
-# Automatically mount host filesystem using simicsfs module
+# Automatically mount host filesystem using simicsfs module.
 mount /host
 
-exit 0
+# Run dhclient on the Ethernet interface.
+
+while [ ! -f /sys/class/net/enp9s0f0/operstate ]
+do
+    sleep 1
+done
+
+ifconfig enp9s0f0 up
+
+while [ "down" == "`cat /sys/class/net/enp9s0f0/operstate`" ]
+do
+    sleep 1
+done
+
+dhclient -v enp9s0f0 &
