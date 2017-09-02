@@ -128,6 +128,7 @@ netbase \
 net-tools \
 nfs-utils \
 nfs-utils-client \
+${@base_conditional('MACHINE', 'axxiaarm', '', 'numactl', d)} \
 openssh \
 openssh-sftp \
 openssl \

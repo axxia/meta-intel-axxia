@@ -14,12 +14,13 @@ binutils-staticdev \
 elfutils-dev \
 libelf \
 libunwind-dev \
+${@base_conditional('MACHINE', 'axxiaarm', '', 'numactl-dev', d)} \
 python-dev \
 slang-dev \
+strace-dev \
 systemtap \
 systemtap-dev \
-xz-dev \
-${@base_conditional('MACHINE', 'axxiaarm', '', 'numactl-dev', d)}"
+xz-dev"
 
 TOOLCHAIN_HOST_TASK_append = " \
 nativesdk-bison \
