@@ -1,5 +1,7 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
+inherit axxia-kernel
+
 require recipes-kernel/linux/linux-yocto-rt_4.8.bb
 
 # skip yocto-kernel-cache for axxiax86_64 to use full defconfig untill we'll have fragments upstream

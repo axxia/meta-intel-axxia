@@ -1,5 +1,7 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
+inherit axxia-kernel
+
 # skip yocto-kernel-cache for axxiax86_64 to use full defconfig untill we'll have fragments upstream
 KMETA_SOURCES = "git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
 
