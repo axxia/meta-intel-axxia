@@ -13,6 +13,7 @@ TOOLCHAIN_TARGET_TASK_append = " \
 binutils-staticdev \
 elfutils-dev \
 libelf \
+libnl-dev \
 libunwind-dev \
 ${@base_conditional('MACHINE', 'axxiaarm', '', 'numactl-dev', d)} \
 python-dev \
