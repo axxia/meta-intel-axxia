@@ -5,7 +5,7 @@ require dt-${KARCH}.inc
 #require frags-${KARCH}.inc
 
 KBRANCH = "standard/base"
-SRCREV_machine ="v4.8.25"
+SRCREV_machine ="${AUTOREV}"
 SRCREV_meta ="${AUTOREV}"
 SRC_URI += "file://fit"
 
