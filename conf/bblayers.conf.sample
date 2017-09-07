@@ -13,11 +13,13 @@ BBLAYERS ?= " \
   ##OEROOT##/meta-openembedded/meta-networking \
   ##OEROOT##/meta-openembedded/meta-python \
   ##OEROOT##/meta-virtualization \
+  ##OEROOT##/meta-intel \
   ##OEROOT##/meta-axxia \
   "
 
 BBLAYERS_NON_REMOVABLE ?= " \
   ##OEROOT##/meta \
   ##OEROOT##/meta-yocto \
+  ##OEROOT##/meta-intel \
   ##OEROOT##/meta-axxia \
   "
