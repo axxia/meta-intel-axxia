@@ -11,7 +11,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;name=machine;branch=${
            ${@base_conditional('MACHINE', 'axxiax86-64', '', '${KMETA_SOURCES}', d)}"
 
 KV = "4.9"
-LINUX_VERSION = "4.9.36"
+LINUX_VERSION = "4.9.46"
 
 COMPATIBLE_MACHINE = "^axxiaarm$|^axxiaarm64$|^axxiax86-64$"
 INSANE_SKIP_kernel-dev = "debug-files"
