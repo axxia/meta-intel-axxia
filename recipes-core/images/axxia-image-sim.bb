@@ -8,6 +8,7 @@ ${CORE_IMAGE_EXTRA_INSTALL} \
 
 IMAGE_INSTALL_append = " \
 boost \
+dhcp-server \
 dhcp-client \
 dmidecode \
 ethtool \
@@ -46,6 +47,7 @@ python-distutils \
 python-modules \
 python-netserver \
 python-nose \
+telnetd \
 tmux \
 vlan \
 ${@base_conditional('MACHINE', 'axxiax86-64', 'axxia-rc-local', '', d)} "

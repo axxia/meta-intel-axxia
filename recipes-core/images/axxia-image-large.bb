@@ -28,6 +28,8 @@ curl \
 db \
 dbus \
 dbus-glib \
+dhcp-client \
+dhcp-server \
 diffutils \
 dmidecode \
 e2fsprogs \
@@ -174,6 +176,7 @@ tar \
 tcl \
 tcpdump \
 tcp-wrappers \
+telnetd \
 time \
 tmux \
 tzdata \
