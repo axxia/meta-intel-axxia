@@ -203,12 +203,23 @@ actual value you provided in step 1.
 
 9.2 Select a specific machine to target the build with:
 
-  MACHINE = "axxiaarm"
-  or
-  MACHINE = "axxiaarm64"
-  or
+    NOTE: Machines are divided by architecture. By building Linux for
+    axxiaarm machine (e.g.), you will build binaries for all available
+    ARM targets.
+
+  - Axxia 3000 PPC Mobile & Enterprise Communication Processors family
+    (Galveston and Elpaso)
   MACHINE = "axxiapowerpc"
-  or
+
+  - Axxia 5500 ARM Mobile & Enterprise Communication Processors family
+    (Amarillo)
+  MACHINE = "axxiaarm"
+
+  - Axxia 5600 and 6700 ARM Mobile & Enterprise Communication Processors
+    family (Victoria and Waco).
+  MACHINE = "axxiaarm64"
+  
+  - Axxia SNR Mobile & Enterprise Communication Processors family.
   MACHINE = "axxiax86-64"
 
 9.3 Select the root filesystem image compression type (can set
