@@ -12,6 +12,7 @@ dhcp-server \
 dhcp-client \
 dmidecode \
 ethtool \
+expect \
 gdb \
 gdbserver \
 inetutils \
