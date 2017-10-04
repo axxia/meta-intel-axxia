@@ -6,7 +6,7 @@ require recipes-kernel/linux/linux-yocto.inc
 inherit axxia-kernel
 
 KV = "4.9"
-LINUX_VERSION = "4.9.36"
+LINUX_VERSION = "4.9.49"
 LINUX_KERNEL_TYPE = "preempt-rt"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
