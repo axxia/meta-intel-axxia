@@ -15,6 +15,7 @@ ethtool \
 expect \
 gdb \
 gdbserver \
+${@base_conditional('MACHINE', 'axxiax86-64', 'iasl', '', d)} \
 inetutils \
 kernel-modules \
 kmod \
@@ -42,6 +43,7 @@ openssh \
 openssh-sftp \
 pciutils \
 perl-module-bigint \
+${@base_conditional('MACHINE', 'axxiax86-64', 'pmtools', '', d)} \
 python-cffi \
 python-core \
 python-dev \

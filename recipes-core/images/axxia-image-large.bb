@@ -58,6 +58,7 @@ groff \
 gzip \
 hdparm \
 hostap-utils \
+${@base_conditional('MACHINE', 'axxiax86-64', 'iasl', '', d)} \
 icu \
 inetutils \
 inetutils-telnetd \
@@ -145,6 +146,7 @@ perf \
 perl \
 perl-module-bigint \
 pkgconfig \
+${@base_conditional('MACHINE', 'axxiax86-64', 'pmtools', '', d)} \
 popt \
 portmap \
 ppp \
