@@ -1,0 +1,6 @@
+[Match]
+Driver=ice_sw
+MACAddress=00:a0:c9:00:01:11
+
+[Link]
+Name=nac-eth17

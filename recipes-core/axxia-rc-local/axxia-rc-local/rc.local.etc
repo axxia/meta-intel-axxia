@@ -22,16 +22,16 @@ mount /host
 
 # Run dhclient on the Ethernet interface.
 
-while [ ! -f /sys/class/net/enp9s0f0/operstate ]
+while [ ! -f /sys/class/net/eth0/operstate ]
 do
     sleep 1
 done
 
-ifconfig enp9s0f0 up
+ifconfig eth0 up
 
-while [ "down" == "`cat /sys/class/net/enp9s0f0/operstate`" ]
+while [ "down" == "`cat /sys/class/net/eth0/operstate`" ]
 do
     sleep 1
 done
 
-dhclient -v enp9s0f0 &
+udhcpc --interface=eth0

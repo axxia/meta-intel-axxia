@@ -1,0 +1,5 @@
+[Match]
+Driver=igb
+
+[Link]
+Name=eth0
