@@ -109,6 +109,7 @@ libusb-compat \
 libxau \
 libxcb \
 libxdmcp \
+lighttpd \
 logrotate \
 lrzsz \
 ltp \
@@ -118,6 +119,7 @@ lttng-tools \
 lttng-tools-dev \
 lttng-ust \
 lttng-ust-dev \
+lvm2 \
 lzo \
 man \
 man-pages \
@@ -134,6 +136,7 @@ nfs-utils-client \
 ${@base_conditional('MACHINE', 'axxiaarm', '', 'numactl', d)} \
 openssh \
 openssh-sftp \
+openssh-sftp-server \
 openssl \
 opkg \
 opkg-arch-config \
@@ -171,6 +174,7 @@ shadow-securetty \
 sqlite3 \
 stat \
 strace \
+strongswan \
 sudo \
 sysfsutils \
 sysklogd \
