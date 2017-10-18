@@ -1,5 +1,5 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/conf/yocto-${KV}/${MACHINE}/common:\
-${THISDIR}/conf/yocto-${KV}/${MACHINE}/${LINUX_KERNEL_TYPE}:${THISDIR}:"
+${THISDIR}/conf/yocto-${KV}/${MACHINE}/${LINUX_KERNEL_TYPE}:${THISDIR}:${THISDIR}/patches:"
 
 inherit axxia-kernel
 
@@ -10,7 +10,9 @@ LINUX_VERSION = "4.8.25"
 KMETA_SOURCES = "git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
 
 SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${KBRANCH}; \
-           ${@base_conditional('MACHINE', 'axxiax86-64', '', '${KMETA_SOURCES}', d)}"
+           ${@base_conditional('MACHINE', 'axxiax86-64', '', '${KMETA_SOURCES}', d)} \
+           file://0001-intel_th-pci-Add-Cedar-Fork-PCH-support.patch \
+           file://0002-drivers-pinctrl-Backport-Cedar-Fork-GPIO.patch"
 
 KBRANCH = "standard/base"
 SRCREV_machine ="${AUTOREV}"

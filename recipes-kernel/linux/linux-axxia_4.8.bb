@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}:\
+FILESEXTRAPATHS_prepend := "${THISDIR}:${THISDIR}/patches:\
 ${THISDIR}/conf/axxia-${KV}/${MACHINE}/${LINUX_KERNEL_TYPE}:"
 
 require recipes-kernel/linux/linux-yocto.inc
@@ -13,6 +13,8 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
 KBRANCH = "standard/axxia-dev/base"
 KREPO_KERNEL = "git://git@github.com/axxia/axxia_yocto_linux_4.8_private.git;protocol=ssh"
 SRC_URI = "${KREPO_KERNEL};name=machine;branch=${KBRANCH} \
+           file://0001-intel_th-pci-Add-Cedar-Fork-PCH-support.patch \
+           file://0002-drivers-pinctrl-Backport-Cedar-Fork-GPIO.patch \
            file://fit \
            file://defconfig"
 SRCREV_machine ="${AUTOREV}"
