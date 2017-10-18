@@ -22,16 +22,27 @@ mount /host
 
 # Run dhclient on the Ethernet interface.
 
-while [ ! -f /sys/class/net/eth0/operstate ]
+TOUT=20
+
+until [ -f /sys/class/net/eth0/operstate ] || [ $TOUT -eq 0 ]
 do
     sleep 1
+    (( TOUT-- ))
 done
 
-ifconfig eth0 up
+if [ $TOUT -ne 0 ]
+then
+    TOUT=20
+    ifconfig eth0 up
 
-while [ "down" == "`cat /sys/class/net/eth0/operstate`" ]
-do
-    sleep 1
-done
+    until [ "up" == "`cat /sys/class/net/eth0/operstate`" ] || [ $TOUT -eq 0 ]
+    do
+	sleep 1
+	(( TOUT-- ))
+    done
 
-udhcpc --interface=eth0
+    if [ $TOUT -ne 0 ]
+    then
+	udhcpc -b --interface=eth0
+    fi
+fi
