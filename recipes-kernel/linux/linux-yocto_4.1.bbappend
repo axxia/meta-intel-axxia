@@ -4,7 +4,7 @@ ${THISDIR}/conf/yocto-${KV}/${MACHINE}/${LINUX_KERNEL_TYPE}:${THISDIR}:"
 inherit axxia-kernel
 
 KV = "4.1"
-LINUX_VERSION = "4.1.43"
+LINUX_VERSION = "4.1.45"
 
 KBRANCH = "standard/axxia/base"
 SRCREV_machine ="${AUTOREV}"
