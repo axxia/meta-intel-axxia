@@ -15,7 +15,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${
            file://0002-drivers-pinctrl-Backport-Cedar-Fork-GPIO.patch"
 
 KBRANCH = "standard/preempt-rt/base"
-SRCREV_machine ="${AUTOREV}"
+SRCREV_machine ="v4.8.25"
 SRCREV_meta ="${AUTOREV}"
 SRC_URI += "file://fit"
 
