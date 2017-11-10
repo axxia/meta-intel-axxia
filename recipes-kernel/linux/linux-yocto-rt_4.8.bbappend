@@ -25,7 +25,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${
            ${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} "
 
 KBRANCH = "standard/preempt-rt/base"
-SRCREV_machine ="v4.8.25"
+SRCREV_machine ="${AUTOREV}"
 SRCREV_meta ="${AUTOREV}"
 SRC_URI += "file://fit"
 
