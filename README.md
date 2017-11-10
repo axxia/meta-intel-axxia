@@ -382,7 +382,16 @@ NOTE: For ARMv8, AArch64 state, other availabe tunes are for BE with
  
 NOTE: For axxiax86-64 machine, no CHIPSET variable should be set.
 
-9.9 Building a 32-bit RootFS for ARMv8 based boards:
+9.9 For axxiax86-64 machine (SNR), choose the System where the image will run
+between simulation and emulation:
+
+   for Simix Simulation System (default):
+   RUNTARGET = "simix"
+
+   for Frio FPGA Emulation System:
+   RUNTARGET = "frio"
+
+9.10 Building a 32-bit RootFS for ARMv8 based boards:
 For ARM architecture, depending on the machine selected on step 7.2, 
 specific Kernel and RootFS are built for specific boards:
     - axxiaarm: 32-bit Kernel and Rootfs for 5500 board series which have
@@ -402,19 +411,19 @@ If CHIPSET is not set, it will default to 5500 (ARMv7).
 NOTE: You can boot the resulting 32-bit RootFS with a 64-bit Kernel 
       resulting from an axxiaarm64 build.
 
-9.10 Other optional settings for saving disk space and build time:
+9.11 Other optional settings for saving disk space and build time:
    
    DL_DIR = "/<some-shared-location>/downloads"
    SSTATE_DIR = "/<some-shared-location>/sstate-cache
 
-9.11 Examples.
+9.12 Examples.
 
      See http://www.yoctoproject.org/docs/2.3/mega-manual/mega-manual.html
      for complete documentation on the Yocto build system.
 
      Here are the local.conf files used for open builds.
 
-9.11.1 axxiaarm
+9.12.1 axxiaarm
 
 MACHINE = "axxiaarm"
 CHIPSET = "5500"
@@ -441,7 +450,7 @@ PACKAGECONFIG_append_pn-qemu-native = " sdl"
 PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
 CONF_VERSION = "1"
 
-9.11.1 axxiaarm64
+9.12.1 axxiaarm64
 
 MACHINE = "axxiaarm64"
 CHIPSET = "X9"
@@ -468,7 +477,7 @@ PACKAGECONFIG_append_pn-qemu-native = " sdl"
 PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
 CONF_VERSION = "1"
 
-9.11.1 axxiax86-64
+9.12s.1 axxiax86-64
 
 MACHINE = "axxiax86-64"
 PREFERRED_PROVIDER_virtual/kernel = "linux-axxia"
