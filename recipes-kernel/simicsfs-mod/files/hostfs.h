@@ -191,7 +191,7 @@ struct hf_readlink_data {
 };
 
 struct hf_lookup_data {
-	char filename[HOSTFS_FILENAME_LEN];
+	char filename[4 * HOSTFS_FILENAME_LEN];
 };
 
 struct hf_remove_data {

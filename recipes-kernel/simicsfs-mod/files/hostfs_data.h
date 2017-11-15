@@ -83,7 +83,7 @@ static struct host_funcs host_funcs[] = {
 
 	{hf_Lookup,
 	 "Lookup",
-	 sizeof(struct hf_lookup_data),
+	 sizeof(struct hf_lookup_data) >> 2,
 	 sizeof(struct hf_hnode_data) >> 2,
 	 0,
 	 -1},
