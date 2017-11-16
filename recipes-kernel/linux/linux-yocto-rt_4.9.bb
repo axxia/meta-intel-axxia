@@ -1,5 +1,8 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/conf/yocto-${KV}/${MACHINE}/common:\
-${THISDIR}/conf/yocto-${KV}/${MACHINE}/${RUNTARGET}/${LINUX_KERNEL_TYPE}:${THISDIR}:"
+FILESEXTRAPATHS_prepend := "\
+${THISDIR}/conf/yocto-${KV}/${MACHINE}/common\
+:${THISDIR}/patches/${KV}\
+:${THISDIR}/conf/yocto-${KV}/${MACHINE}/${LINUX_KERNEL_TYPE}\
+:${THISDIR}:"
 
 require recipes-kernel/linux/linux-yocto.inc
 

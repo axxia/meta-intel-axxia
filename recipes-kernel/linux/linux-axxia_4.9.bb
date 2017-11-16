@@ -1,5 +1,7 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}:\
-${THISDIR}/conf/axxia-${KV}/${MACHINE}/${RUNTARGET}/${LINUX_KERNEL_TYPE}:"
+FILESEXTRAPATHS_prepend := "\
+${THISDIR}\
+:${THISDIR}/patches/${KV}\
+:${THISDIR}/conf/axxia-${KV}/${MACHINE}/${RUNTARGET}/${LINUX_KERNEL_TYPE}:"
 
 require recipes-kernel/linux/linux-yocto.inc
 
@@ -21,8 +23,6 @@ FRIO_PATCHES = "file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
 KBRANCH = "standard/axxia-dev/base"
 KREPO_KERNEL = "git://git@github.com/axxia/axxia_yocto_linux_4.9_private.git;protocol=ssh"
 SRC_URI = "${KREPO_KERNEL};name=machine;branch=${KBRANCH} \
-           file://COMMON-0001-intel_th-pci-Add-Cedar-Fork-PCH-support.patch \
-           file://COMMON-0002-drivers-pinctrl-Backport-Cedar-Fork-GPIO.patch \
            ${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
            file://fit \
            file://defconfig"
