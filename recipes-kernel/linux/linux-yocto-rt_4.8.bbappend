@@ -12,8 +12,8 @@ LINUX_VERSION = "4.8.25"
 # skip yocto-kernel-cache for axxiax86_64 to use full defconfig untill we'll have fragments upstream
 KMETA_SOURCES = "git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
 
-# "simix" for simulation system or "frio" for FPGA emulation system
-RUNTARGET ?= "simix"
+# "simics" for simulation system or "frio" for FPGA emulation system
+RUNTARGET ?= "simics"
 FRIO_PATCHES = "file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
                 file://FRIO-0002-pci-driver-HACK-reassign-Altera-FPGAs-if-they-have-n.patch \
                 file://FRIO-0003-pci-driver-HACK-hardcode-size-of-bridge-window-to-NC.patch \
