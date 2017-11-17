@@ -1,0 +1,4887 @@
+From b4392c119c0f601a6d30a046ee73f18ab75e7395 Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Thu, 16 Nov 2017 18:04:26 -0600
+Subject: [PATCH 2/2] drivers/pinctrl: Backport Cedar Fork GPIO
+
+This is a copy of drivers/pinctrl/intel from Linux 4.14.
+Some of the drivers are still in the process of being
+upstreamed.
+
+Signed-off-by: John Jacques <john.jacques@intel.com>
+---
+ drivers/pinctrl/intel/Kconfig                |  59 ++
+ drivers/pinctrl/intel/Makefile               |   8 +
+ drivers/pinctrl/intel/pinctrl-baytrail.c     |  36 +-
+ drivers/pinctrl/intel/pinctrl-broxton.c      |   5 +-
+ drivers/pinctrl/intel/pinctrl-cannonlake.c   | 864 +++++++++++++++++++++++++++
+ drivers/pinctrl/intel/pinctrl-cedarfork.c    | 375 ++++++++++++
+ drivers/pinctrl/intel/pinctrl-cherryview.c   |  95 ++-
+ drivers/pinctrl/intel/pinctrl-denverton.c    | 302 ++++++++++
+ drivers/pinctrl/intel/pinctrl-geminilake.c   | 512 ++++++++++++++++
+ drivers/pinctrl/intel/pinctrl-glenview.c     | 508 ++++++++++++++++
+ drivers/pinctrl/intel/pinctrl-icelake.c      | 444 ++++++++++++++
+ drivers/pinctrl/intel/pinctrl-intel.c        | 414 ++++++++++---
+ drivers/pinctrl/intel/pinctrl-intel.h        |  76 ++-
+ drivers/pinctrl/intel/pinctrl-lewisburg.c    | 343 +++++++++++
+ drivers/pinctrl/intel/pinctrl-merrifield.c   |  41 ++
+ drivers/pinctrl/intel/pinctrl-sunrisepoint.c |   3 +-
+ 16 files changed, 3950 insertions(+), 135 deletions(-)
+ create mode 100644 drivers/pinctrl/intel/pinctrl-cannonlake.c
+ create mode 100644 drivers/pinctrl/intel/pinctrl-cedarfork.c
+ create mode 100644 drivers/pinctrl/intel/pinctrl-denverton.c
+ create mode 100644 drivers/pinctrl/intel/pinctrl-geminilake.c
+ create mode 100644 drivers/pinctrl/intel/pinctrl-glenview.c
+ create mode 100644 drivers/pinctrl/intel/pinctrl-icelake.c
+ create mode 100644 drivers/pinctrl/intel/pinctrl-lewisburg.c
+
+diff --git a/drivers/pinctrl/intel/Kconfig b/drivers/pinctrl/intel/Kconfig
+index 00fb055..bfc2689 100644
+--- a/drivers/pinctrl/intel/Kconfig
++++ b/drivers/pinctrl/intel/Kconfig
+@@ -1,6 +1,7 @@
+ #
+ # Intel pin control drivers
+ #
++if (X86 || COMPILE_TEST)
+ 
+ config PINCTRL_BAYTRAIL
+ 	bool "Intel Baytrail GPIO pin control"
+@@ -56,6 +57,62 @@ config PINCTRL_BROXTON
+ 	  Broxton pinctrl driver provides an interface that allows
+ 	  configuring of SoC pins and using them as GPIOs.
+ 
++config PINCTRL_CANNONLAKE
++	tristate "Intel Cannon Lake PCH pinctrl and GPIO driver"
++	depends on ACPI
++	select PINCTRL_INTEL
++	help
++	  This pinctrl driver provides an interface that allows configuring
++	  of Intel Cannon Lake PCH pins and using them as GPIOs.
++
++config PINCTRL_CEDARFORK
++	tristate "Intel Cedar Fork pinctrl and GPIO driver"
++	depends on ACPI
++	select PINCTRL_INTEL
++	help
++	  This pinctrl driver provides an interface that allows configuring
++	  of Intel Cedar Fork PCH pins and using them as GPIOs.
++
++config PINCTRL_DENVERTON
++	tristate "Intel Denverton pinctrl and GPIO driver"
++	depends on ACPI
++	select PINCTRL_INTEL
++	help
++	  This pinctrl driver provides an interface that allows configuring
++	  of Intel Denverton SoC pins and using them as GPIOs.
++
++config PINCTRL_GEMINILAKE
++	tristate "Intel Gemini Lake SoC pinctrl and GPIO driver"
++	depends on ACPI
++	select PINCTRL_INTEL
++	help
++	  This pinctrl driver provides an interface that allows configuring
++	  of Intel Gemini Lake SoC pins and using them as GPIOs.
++
++config PINCTRL_GLENVIEW
++	tristate "Intel Glenview SoC pinctrl and GPIO driver"
++	depends on ACPI
++	select PINCTRL_INTEL
++	help
++	  This pinctrl driver provides an interface that allows configuring
++	  of Intel Glenview SoC pins and using them as GPIOs.
++
++config PINCTRL_ICELAKE
++	tristate "Intel Ice Lake PCH pinctrl and GPIO driver"
++	depends on ACPI
++	select PINCTRL_INTEL
++	help
++	  This pinctrl driver provides an interface that allows configuring
++	  of Intel Ice Lake PCH pins and using them as GPIOs.
++
++config PINCTRL_LEWISBURG
++	tristate "Intel Lewisburg pinctrl and GPIO driver"
++	depends on ACPI
++	select PINCTRL_INTEL
++	help
++	  This pinctrl driver provides an interface that allows configuring
++	  of Intel Lewisburg pins and using them as GPIOs.
++
+ config PINCTRL_SUNRISEPOINT
+ 	tristate "Intel Sunrisepoint pinctrl and GPIO driver"
+ 	depends on ACPI
+@@ -64,3 +121,5 @@ config PINCTRL_SUNRISEPOINT
+ 	  Sunrisepoint is the PCH of Intel Skylake. This pinctrl driver
+ 	  provides an interface that allows configuring of PCH pins and
+ 	  using them as GPIOs.
++
++endif
+diff --git a/drivers/pinctrl/intel/Makefile b/drivers/pinctrl/intel/Makefile
+index 3080307..0e81d8e 100644
+--- a/drivers/pinctrl/intel/Makefile
++++ b/drivers/pinctrl/intel/Makefile
+@@ -1,3 +1,4 @@
++# SPDX-License-Identifier: GPL-2.0
+ # Intel pin control drivers
+ 
+ obj-$(CONFIG_PINCTRL_BAYTRAIL)		+= pinctrl-baytrail.o
+@@ -5,4 +6,11 @@ obj-$(CONFIG_PINCTRL_CHERRYVIEW)	+= pinctrl-cherryview.o
+ obj-$(CONFIG_PINCTRL_MERRIFIELD)	+= pinctrl-merrifield.o
+ obj-$(CONFIG_PINCTRL_INTEL)		+= pinctrl-intel.o
+ obj-$(CONFIG_PINCTRL_BROXTON)		+= pinctrl-broxton.o
++obj-$(CONFIG_PINCTRL_CANNONLAKE)	+= pinctrl-cannonlake.o
++obj-$(CONFIG_PINCTRL_CEDARFORK)		+= pinctrl-cedarfork.o
++obj-$(CONFIG_PINCTRL_DENVERTON)		+= pinctrl-denverton.o
++obj-$(CONFIG_PINCTRL_GEMINILAKE)	+= pinctrl-geminilake.o
++obj-$(CONFIG_PINCTRL_GLENVIEW)		+= pinctrl-glenview.o
++obj-$(CONFIG_PINCTRL_ICELAKE)		+= pinctrl-icelake.o
++obj-$(CONFIG_PINCTRL_LEWISBURG)		+= pinctrl-lewisburg.o
+ obj-$(CONFIG_PINCTRL_SUNRISEPOINT)	+= pinctrl-sunrisepoint.o
+diff --git a/drivers/pinctrl/intel/pinctrl-baytrail.c b/drivers/pinctrl/intel/pinctrl-baytrail.c
+index 5419de8..0f3a024 100644
+--- a/drivers/pinctrl/intel/pinctrl-baytrail.c
++++ b/drivers/pinctrl/intel/pinctrl-baytrail.c
+@@ -981,12 +981,12 @@ static int byt_gpio_request_enable(struct pinctrl_dev *pctl_dev,
+ 	 */
+ 	value = readl(reg) & BYT_PIN_MUX;
+ 	gpio_mux = byt_get_gpio_mux(vg, offset);
+-	if (WARN_ON(gpio_mux != value)) {
++	if (gpio_mux != value) {
+ 		value = readl(reg) & ~BYT_PIN_MUX;
+ 		value |= gpio_mux;
+ 		writel(value, reg);
+ 
+-		dev_warn(&vg->pdev->dev,
++		dev_warn(&vg->pdev->dev, FW_BUG
+ 			 "pin %u forcibly re-configured as GPIO\n", offset);
+ 	}
+ 
+@@ -1466,7 +1466,7 @@ static void byt_gpio_dbg_show(struct seq_file *s, struct gpio_chip *chip)
+ 			   val & BYT_INPUT_EN ? "  " : "in",
+ 			   val & BYT_OUTPUT_EN ? "   " : "out",
+ 			   val & BYT_LEVEL ? "hi" : "lo",
+-			   comm->pad_map[i], comm->pad_map[i] * 32,
++			   comm->pad_map[i], comm->pad_map[i] * 16,
+ 			   conf0 & 0x7,
+ 			   conf0 & BYT_TRIG_NEG ? " fall" : "     ",
+ 			   conf0 & BYT_TRIG_POS ? " rise" : "     ",
+@@ -1636,6 +1636,8 @@ static void byt_gpio_irq_handler(struct irq_desc *desc)
+ 
+ static void byt_gpio_irq_init_hw(struct byt_gpio *vg)
+ {
++	struct gpio_chip *gc = &vg->chip;
++	struct device *dev = &vg->pdev->dev;
+ 	void __iomem *reg;
+ 	u32 base, value;
+ 	int i;
+@@ -1657,10 +1659,12 @@ static void byt_gpio_irq_init_hw(struct byt_gpio *vg)
+ 		}
+ 
+ 		value = readl(reg);
+-		if ((value & BYT_PIN_MUX) == byt_get_gpio_mux(vg, i) &&
+-		    !(value & BYT_DIRECT_IRQ_EN)) {
++		if (value & BYT_DIRECT_IRQ_EN) {
++			clear_bit(i, gc->irq_valid_mask);
++			dev_dbg(dev, "excluding GPIO %d from IRQ domain\n", i);
++		} else if ((value & BYT_PIN_MUX) == byt_get_gpio_mux(vg, i)) {
+ 			byt_gpio_clear_triggering(vg, i);
+-			dev_dbg(&vg->pdev->dev, "disabling GPIO %d\n", i);
++			dev_dbg(dev, "disabling GPIO %d\n", i);
+ 		}
+ 	}
+ 
+@@ -1699,12 +1703,13 @@ static int byt_gpio_probe(struct byt_gpio *vg)
+ 	gc->can_sleep	= false;
+ 	gc->parent	= &vg->pdev->dev;
+ 	gc->ngpio	= vg->soc_data->npins;
++	gc->irq_need_valid_mask	= true;
+ 
+ #ifdef CONFIG_PM_SLEEP
+ 	vg->saved_context = devm_kcalloc(&vg->pdev->dev, gc->ngpio,
+ 				       sizeof(*vg->saved_context), GFP_KERNEL);
+ #endif
+-	ret = gpiochip_add_data(gc, vg);
++	ret = devm_gpiochip_add_data(&vg->pdev->dev, gc, vg);
+ 	if (ret) {
+ 		dev_err(&vg->pdev->dev, "failed adding byt-gpio chip\n");
+ 		return ret;
+@@ -1714,7 +1719,7 @@ static int byt_gpio_probe(struct byt_gpio *vg)
+ 				     0, 0, vg->soc_data->npins);
+ 	if (ret) {
+ 		dev_err(&vg->pdev->dev, "failed to add GPIO pin range\n");
+-		goto fail;
++		return ret;
+ 	}
+ 
+ 	/* set up interrupts  */
+@@ -1722,10 +1727,10 @@ static int byt_gpio_probe(struct byt_gpio *vg)
+ 	if (irq_rc && irq_rc->start) {
+ 		byt_gpio_irq_init_hw(vg);
+ 		ret = gpiochip_irqchip_add(gc, &byt_irqchip, 0,
+-					   handle_simple_irq, IRQ_TYPE_NONE);
++					   handle_bad_irq, IRQ_TYPE_NONE);
+ 		if (ret) {
+ 			dev_err(&vg->pdev->dev, "failed to add irqchip\n");
+-			goto fail;
++			return ret;
+ 		}
+ 
+ 		gpiochip_set_chained_irqchip(gc, &byt_irqchip,
+@@ -1734,11 +1739,6 @@ static int byt_gpio_probe(struct byt_gpio *vg)
+ 	}
+ 
+ 	return ret;
+-
+-fail:
+-	gpiochip_remove(&vg->chip);
+-
+-	return ret;
+ }
+ 
+ static int byt_set_soc_data(struct byt_gpio *vg,
+@@ -1821,7 +1821,7 @@ static int byt_pinctrl_probe(struct platform_device *pdev)
+ 	vg->pctl_desc.pins	= vg->soc_data->pins;
+ 	vg->pctl_desc.npins	= vg->soc_data->npins;
+ 
+-	vg->pctl_dev = pinctrl_register(&vg->pctl_desc, &pdev->dev, vg);
++	vg->pctl_dev = devm_pinctrl_register(&pdev->dev, &vg->pctl_desc, vg);
+ 	if (IS_ERR(vg->pctl_dev)) {
+ 		dev_err(&pdev->dev, "failed to register pinctrl driver\n");
+ 		return PTR_ERR(vg->pctl_dev);
+@@ -1830,10 +1830,8 @@ static int byt_pinctrl_probe(struct platform_device *pdev)
+ 	raw_spin_lock_init(&vg->lock);
+ 
+ 	ret = byt_gpio_probe(vg);
+-	if (ret) {
+-		pinctrl_unregister(vg->pctl_dev);
++	if (ret)
+ 		return ret;
+-	}
+ 
+ 	platform_set_drvdata(pdev, vg);
+ 	pm_runtime_enable(&pdev->dev);
+diff --git a/drivers/pinctrl/intel/pinctrl-broxton.c b/drivers/pinctrl/intel/pinctrl-broxton.c
+index 901b356..e6e6fd1 100644
+--- a/drivers/pinctrl/intel/pinctrl-broxton.c
++++ b/drivers/pinctrl/intel/pinctrl-broxton.c
+@@ -1004,8 +1004,8 @@ static const struct acpi_device_id bxt_pinctrl_acpi_match[] = {
+ MODULE_DEVICE_TABLE(acpi, bxt_pinctrl_acpi_match);
+ 
+ static const struct platform_device_id bxt_pinctrl_platform_ids[] = {
+-	{ "apl-pinctrl", (kernel_ulong_t)&apl_pinctrl_soc_data },
+-	{ "broxton-pinctrl", (kernel_ulong_t)&bxt_pinctrl_soc_data },
++	{ "apollolake-pinctrl", (kernel_ulong_t)apl_pinctrl_soc_data },
++	{ "broxton-pinctrl", (kernel_ulong_t)bxt_pinctrl_soc_data },
+ 	{ },
+ };
+ 
+@@ -1058,7 +1058,6 @@ static const struct dev_pm_ops bxt_pinctrl_pm_ops = {
+ 
+ static struct platform_driver bxt_pinctrl_driver = {
+ 	.probe = bxt_pinctrl_probe,
+-	.remove = intel_pinctrl_remove,
+ 	.driver = {
+ 		.name = "broxton-pinctrl",
+ 		.acpi_match_table = bxt_pinctrl_acpi_match,
+diff --git a/drivers/pinctrl/intel/pinctrl-cannonlake.c b/drivers/pinctrl/intel/pinctrl-cannonlake.c
+new file mode 100644
+index 0000000..e130599
+--- /dev/null
++++ b/drivers/pinctrl/intel/pinctrl-cannonlake.c
+@@ -0,0 +1,864 @@
++/*
++ * Intel Cannon Lake PCH pinctrl/GPIO driver
++ *
++ * Copyright (C) 2017, Intel Corporation
++ * Authors: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
++ *          Mika Westerberg <mika.westerberg@linux.intel.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++
++#include <linux/acpi.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/pm.h>
++#include <linux/pinctrl/pinctrl.h>
++
++#include "pinctrl-intel.h"
++
++#define CNL_PAD_OWN	0x020
++#define CNL_PADCFGLOCK	0x080
++#define CNL_HOSTSW_OWN	0x0b0
++#define CNL_GPI_IE	0x120
++
++#define CNL_GPP(r, s, e)				\
++	{						\
++		.reg_num = (r),				\
++		.base = (s),				\
++		.size = ((e) - (s) + 1),		\
++	}
++
++#define CNL_COMMUNITY(b, s, e, g)			\
++	{						\
++		.barno = (b),				\
++		.padown_offset = CNL_PAD_OWN,		\
++		.padcfglock_offset = CNL_PADCFGLOCK,	\
++		.hostown_offset = CNL_HOSTSW_OWN,	\
++		.ie_offset = CNL_GPI_IE,		\
++		.pin_base = (s),			\
++		.npins = ((e) - (s) + 1),		\
++		.gpps = (g),				\
++		.ngpps = ARRAY_SIZE(g),			\
++	}
++
++/* Cannon Lake-H */
++static const struct pinctrl_pin_desc cnlh_pins[] = {
++	/* GPP_A */
++	PINCTRL_PIN(0, "RCINB"),
++	PINCTRL_PIN(1, "LAD_0"),
++	PINCTRL_PIN(2, "LAD_1"),
++	PINCTRL_PIN(3, "LAD_2"),
++	PINCTRL_PIN(4, "LAD_3"),
++	PINCTRL_PIN(5, "LFRAMEB"),
++	PINCTRL_PIN(6, "SERIRQ"),
++	PINCTRL_PIN(7, "PIRQAB"),
++	PINCTRL_PIN(8, "CLKRUNB"),
++	PINCTRL_PIN(9, "CLKOUT_LPC_0"),
++	PINCTRL_PIN(10, "CLKOUT_LPC_1"),
++	PINCTRL_PIN(11, "PMEB"),
++	PINCTRL_PIN(12, "BM_BUSYB"),
++	PINCTRL_PIN(13, "SUSWARNB_SUSPWRDNACK"),
++	PINCTRL_PIN(14, "SUS_STATB"),
++	PINCTRL_PIN(15, "SUSACKB"),
++	PINCTRL_PIN(16, "CLKOUT_48"),
++	PINCTRL_PIN(17, "SD_VDD1_PWR_EN_B"),
++	PINCTRL_PIN(18, "ISH_GP_0"),
++	PINCTRL_PIN(19, "ISH_GP_1"),
++	PINCTRL_PIN(20, "ISH_GP_2"),
++	PINCTRL_PIN(21, "ISH_GP_3"),
++	PINCTRL_PIN(22, "ISH_GP_4"),
++	PINCTRL_PIN(23, "ISH_GP_5"),
++	PINCTRL_PIN(24, "ESPI_CLK_LOOPBK"),
++	/* GPP_B */
++	PINCTRL_PIN(25, "GSPI0_CS1B"),
++	PINCTRL_PIN(26, "GSPI1_CS1B"),
++	PINCTRL_PIN(27, "VRALERTB"),
++	PINCTRL_PIN(28, "CPU_GP_2"),
++	PINCTRL_PIN(29, "CPU_GP_3"),
++	PINCTRL_PIN(30, "SRCCLKREQB_0"),
++	PINCTRL_PIN(31, "SRCCLKREQB_1"),
++	PINCTRL_PIN(32, "SRCCLKREQB_2"),
++	PINCTRL_PIN(33, "SRCCLKREQB_3"),
++	PINCTRL_PIN(34, "SRCCLKREQB_4"),
++	PINCTRL_PIN(35, "SRCCLKREQB_5"),
++	PINCTRL_PIN(36, "SSP_MCLK"),
++	PINCTRL_PIN(37, "SLP_S0B"),
++	PINCTRL_PIN(38, "PLTRSTB"),
++	PINCTRL_PIN(39, "SPKR"),
++	PINCTRL_PIN(40, "GSPI0_CS0B"),
++	PINCTRL_PIN(41, "GSPI0_CLK"),
++	PINCTRL_PIN(42, "GSPI0_MISO"),
++	PINCTRL_PIN(43, "GSPI0_MOSI"),
++	PINCTRL_PIN(44, "GSPI1_CS0B"),
++	PINCTRL_PIN(45, "GSPI1_CLK"),
++	PINCTRL_PIN(46, "GSPI1_MISO"),
++	PINCTRL_PIN(47, "GSPI1_MOSI"),
++	PINCTRL_PIN(48, "SML1ALERTB"),
++	PINCTRL_PIN(49, "GSPI0_CLK_LOOPBK"),
++	PINCTRL_PIN(50, "GSPI1_CLK_LOOPBK"),
++	/* GPP_C */
++	PINCTRL_PIN(51, "SMBCLK"),
++	PINCTRL_PIN(52, "SMBDATA"),
++	PINCTRL_PIN(53, "SMBALERTB"),
++	PINCTRL_PIN(54, "SML0CLK"),
++	PINCTRL_PIN(55, "SML0DATA"),
++	PINCTRL_PIN(56, "SML0ALERTB"),
++	PINCTRL_PIN(57, "SML1CLK"),
++	PINCTRL_PIN(58, "SML1DATA"),
++	PINCTRL_PIN(59, "UART0_RXD"),
++	PINCTRL_PIN(60, "UART0_TXD"),
++	PINCTRL_PIN(61, "UART0_RTSB"),
++	PINCTRL_PIN(62, "UART0_CTSB"),
++	PINCTRL_PIN(63, "UART1_RXD"),
++	PINCTRL_PIN(64, "UART1_TXD"),
++	PINCTRL_PIN(65, "UART1_RTSB"),
++	PINCTRL_PIN(66, "UART1_CTSB"),
++	PINCTRL_PIN(67, "I2C0_SDA"),
++	PINCTRL_PIN(68, "I2C0_SCL"),
++	PINCTRL_PIN(69, "I2C1_SDA"),
++	PINCTRL_PIN(70, "I2C1_SCL"),
++	PINCTRL_PIN(71, "UART2_RXD"),
++	PINCTRL_PIN(72, "UART2_TXD"),
++	PINCTRL_PIN(73, "UART2_RTSB"),
++	PINCTRL_PIN(74, "UART2_CTSB"),
++	/* GPP_D */
++	PINCTRL_PIN(75, "SPI1_CSB"),
++	PINCTRL_PIN(76, "SPI1_CLK"),
++	PINCTRL_PIN(77, "SPI1_MISO_IO_1"),
++	PINCTRL_PIN(78, "SPI1_MOSI_IO_0"),
++	PINCTRL_PIN(79, "ISH_I2C2_SDA"),
++	PINCTRL_PIN(80, "SSP2_SFRM"),
++	PINCTRL_PIN(81, "SSP2_TXD"),
++	PINCTRL_PIN(82, "SSP2_RXD"),
++	PINCTRL_PIN(83, "SSP2_SCLK"),
++	PINCTRL_PIN(84, "ISH_SPI_CSB"),
++	PINCTRL_PIN(85, "ISH_SPI_CLK"),
++	PINCTRL_PIN(86, "ISH_SPI_MISO"),
++	PINCTRL_PIN(87, "ISH_SPI_MOSI"),
++	PINCTRL_PIN(88, "ISH_UART0_RXD"),
++	PINCTRL_PIN(89, "ISH_UART0_TXD"),
++	PINCTRL_PIN(90, "ISH_UART0_RTSB"),
++	PINCTRL_PIN(91, "ISH_UART0_CTSB"),
++	PINCTRL_PIN(92, "DMIC_CLK_1"),
++	PINCTRL_PIN(93, "DMIC_DATA_1"),
++	PINCTRL_PIN(94, "DMIC_CLK_0"),
++	PINCTRL_PIN(95, "DMIC_DATA_0"),
++	PINCTRL_PIN(96, "SPI1_IO_2"),
++	PINCTRL_PIN(97, "SPI1_IO_3"),
++	PINCTRL_PIN(98, "ISH_I2C2_SCL"),
++	/* GPP_G */
++	PINCTRL_PIN(99, "SD3_CMD"),
++	PINCTRL_PIN(100, "SD3_D0"),
++	PINCTRL_PIN(101, "SD3_D1"),
++	PINCTRL_PIN(102, "SD3_D2"),
++	PINCTRL_PIN(103, "SD3_D3"),
++	PINCTRL_PIN(104, "SD3_CDB"),
++	PINCTRL_PIN(105, "SD3_CLK"),
++	PINCTRL_PIN(106, "SD3_WP"),
++	/* AZA */
++	PINCTRL_PIN(107, "HDA_BCLK"),
++	PINCTRL_PIN(108, "HDA_RSTB"),
++	PINCTRL_PIN(109, "HDA_SYNC"),
++	PINCTRL_PIN(110, "HDA_SDO"),
++	PINCTRL_PIN(111, "HDA_SDI_0"),
++	PINCTRL_PIN(112, "HDA_SDI_1"),
++	PINCTRL_PIN(113, "SSP1_SFRM"),
++	PINCTRL_PIN(114, "SSP1_TXD"),
++	/* vGPIO */
++	PINCTRL_PIN(115, "CNV_BTEN"),
++	PINCTRL_PIN(116, "CNV_GNEN"),
++	PINCTRL_PIN(117, "CNV_WFEN"),
++	PINCTRL_PIN(118, "CNV_WCEN"),
++	PINCTRL_PIN(119, "CNV_BT_HOST_WAKEB"),
++	PINCTRL_PIN(120, "vCNV_GNSS_HOST_WAKEB"),
++	PINCTRL_PIN(121, "vSD3_CD_B"),
++	PINCTRL_PIN(122, "CNV_BT_IF_SELECT"),
++	PINCTRL_PIN(123, "vCNV_BT_UART_TXD"),
++	PINCTRL_PIN(124, "vCNV_BT_UART_RXD"),
++	PINCTRL_PIN(125, "vCNV_BT_UART_CTS_B"),
++	PINCTRL_PIN(126, "vCNV_BT_UART_RTS_B"),
++	PINCTRL_PIN(127, "vCNV_MFUART1_TXD"),
++	PINCTRL_PIN(128, "vCNV_MFUART1_RXD"),
++	PINCTRL_PIN(129, "vCNV_MFUART1_CTS_B"),
++	PINCTRL_PIN(130, "vCNV_MFUART1_RTS_B"),
++	PINCTRL_PIN(131, "vCNV_GNSS_UART_TXD"),
++	PINCTRL_PIN(132, "vCNV_GNSS_UART_RXD"),
++	PINCTRL_PIN(133, "vCNV_GNSS_UART_CTS_B"),
++	PINCTRL_PIN(134, "vCNV_GNSS_UART_RTS_B"),
++	PINCTRL_PIN(135, "vUART0_TXD"),
++	PINCTRL_PIN(136, "vUART0_RXD"),
++	PINCTRL_PIN(137, "vUART0_CTS_B"),
++	PINCTRL_PIN(138, "vUART0_RTSB"),
++	PINCTRL_PIN(139, "vISH_UART0_TXD"),
++	PINCTRL_PIN(140, "vISH_UART0_RXD"),
++	PINCTRL_PIN(141, "vISH_UART0_CTS_B"),
++	PINCTRL_PIN(142, "vISH_UART0_RTSB"),
++	PINCTRL_PIN(143, "vISH_UART1_TXD"),
++	PINCTRL_PIN(144, "vISH_UART1_RXD"),
++	PINCTRL_PIN(145, "vISH_UART1_CTS_B"),
++	PINCTRL_PIN(146, "vISH_UART1_RTS_B"),
++	PINCTRL_PIN(147, "vCNV_BT_I2S_BCLK"),
++	PINCTRL_PIN(148, "vCNV_BT_I2S_WS_SYNC"),
++	PINCTRL_PIN(149, "vCNV_BT_I2S_SDO"),
++	PINCTRL_PIN(150, "vCNV_BT_I2S_SDI"),
++	PINCTRL_PIN(151, "vSSP2_SCLK"),
++	PINCTRL_PIN(152, "vSSP2_SFRM"),
++	PINCTRL_PIN(153, "vSSP2_TXD"),
++	PINCTRL_PIN(154, "vSSP2_RXD"),
++	/* GPP_K */
++	PINCTRL_PIN(155, "FAN_TACH_0"),
++	PINCTRL_PIN(156, "FAN_TACH_1"),
++	PINCTRL_PIN(157, "FAN_TACH_2"),
++	PINCTRL_PIN(158, "FAN_TACH_3"),
++	PINCTRL_PIN(159, "FAN_TACH_4"),
++	PINCTRL_PIN(160, "FAN_TACH_5"),
++	PINCTRL_PIN(161, "FAN_TACH_6"),
++	PINCTRL_PIN(162, "FAN_TACH_7"),
++	PINCTRL_PIN(163, "FAN_PWM_0"),
++	PINCTRL_PIN(164, "FAN_PWM_1"),
++	PINCTRL_PIN(165, "FAN_PWM_2"),
++	PINCTRL_PIN(166, "FAN_PWM_3"),
++	PINCTRL_PIN(167, "GSXDOUT"),
++	PINCTRL_PIN(168, "GSXSLOAD"),
++	PINCTRL_PIN(169, "GSXDIN"),
++	PINCTRL_PIN(170, "GSXSRESETB"),
++	PINCTRL_PIN(171, "GSXCLK"),
++	PINCTRL_PIN(172, "ADR_COMPLETE"),
++	PINCTRL_PIN(173, "NMIB"),
++	PINCTRL_PIN(174, "SMIB"),
++	PINCTRL_PIN(175, "CORE_VID_0"),
++	PINCTRL_PIN(176, "CORE_VID_1"),
++	PINCTRL_PIN(177, "IMGCLKOUT_0"),
++	PINCTRL_PIN(178, "IMGCLKOUT_1"),
++	/* GPP_H */
++	PINCTRL_PIN(179, "SRCCLKREQB_6"),
++	PINCTRL_PIN(180, "SRCCLKREQB_7"),
++	PINCTRL_PIN(181, "SRCCLKREQB_8"),
++	PINCTRL_PIN(182, "SRCCLKREQB_9"),
++	PINCTRL_PIN(183, "SRCCLKREQB_10"),
++	PINCTRL_PIN(184, "SRCCLKREQB_11"),
++	PINCTRL_PIN(185, "SRCCLKREQB_12"),
++	PINCTRL_PIN(186, "SRCCLKREQB_13"),
++	PINCTRL_PIN(187, "SRCCLKREQB_14"),
++	PINCTRL_PIN(188, "SRCCLKREQB_15"),
++	PINCTRL_PIN(189, "SML2CLK"),
++	PINCTRL_PIN(190, "SML2DATA"),
++	PINCTRL_PIN(191, "SML2ALERTB"),
++	PINCTRL_PIN(192, "SML3CLK"),
++	PINCTRL_PIN(193, "SML3DATA"),
++	PINCTRL_PIN(194, "SML3ALERTB"),
++	PINCTRL_PIN(195, "SML4CLK"),
++	PINCTRL_PIN(196, "SML4DATA"),
++	PINCTRL_PIN(197, "SML4ALERTB"),
++	PINCTRL_PIN(198, "ISH_I2C0_SDA"),
++	PINCTRL_PIN(199, "ISH_I2C0_SCL"),
++	PINCTRL_PIN(200, "ISH_I2C1_SDA"),
++	PINCTRL_PIN(201, "ISH_I2C1_SCL"),
++	PINCTRL_PIN(202, "TIME_SYNC_0"),
++	/* GPP_E */
++	PINCTRL_PIN(203, "SATAXPCIE_0"),
++	PINCTRL_PIN(204, "SATAXPCIE_1"),
++	PINCTRL_PIN(205, "SATAXPCIE_2"),
++	PINCTRL_PIN(206, "CPU_GP_0"),
++	PINCTRL_PIN(207, "SATA_DEVSLP_0"),
++	PINCTRL_PIN(208, "SATA_DEVSLP_1"),
++	PINCTRL_PIN(209, "SATA_DEVSLP_2"),
++	PINCTRL_PIN(210, "CPU_GP_1"),
++	PINCTRL_PIN(211, "SATA_LEDB"),
++	PINCTRL_PIN(212, "USB2_OCB_0"),
++	PINCTRL_PIN(213, "USB2_OCB_1"),
++	PINCTRL_PIN(214, "USB2_OCB_2"),
++	PINCTRL_PIN(215, "USB2_OCB_3"),
++	/* GPP_F */
++	PINCTRL_PIN(216, "SATAXPCIE_3"),
++	PINCTRL_PIN(217, "SATAXPCIE_4"),
++	PINCTRL_PIN(218, "SATAXPCIE_5"),
++	PINCTRL_PIN(219, "SATAXPCIE_6"),
++	PINCTRL_PIN(220, "SATAXPCIE_7"),
++	PINCTRL_PIN(221, "SATA_DEVSLP_3"),
++	PINCTRL_PIN(222, "SATA_DEVSLP_4"),
++	PINCTRL_PIN(223, "SATA_DEVSLP_5"),
++	PINCTRL_PIN(224, "SATA_DEVSLP_6"),
++	PINCTRL_PIN(225, "SATA_DEVSLP_7"),
++	PINCTRL_PIN(226, "SATA_SCLOCK"),
++	PINCTRL_PIN(227, "SATA_SLOAD"),
++	PINCTRL_PIN(228, "SATA_SDATAOUT1"),
++	PINCTRL_PIN(229, "SATA_SDATAOUT0"),
++	PINCTRL_PIN(230, "EXT_PWR_GATEB"),
++	PINCTRL_PIN(231, "USB2_OCB_4"),
++	PINCTRL_PIN(232, "USB2_OCB_5"),
++	PINCTRL_PIN(233, "USB2_OCB_6"),
++	PINCTRL_PIN(234, "USB2_OCB_7"),
++	PINCTRL_PIN(235, "L_VDDEN"),
++	PINCTRL_PIN(236, "L_BKLTEN"),
++	PINCTRL_PIN(237, "L_BKLTCTL"),
++	PINCTRL_PIN(238, "DDPF_CTRLCLK"),
++	PINCTRL_PIN(239, "DDPF_CTRLDATA"),
++	/* SPI */
++	PINCTRL_PIN(240, "SPI0_IO_2"),
++	PINCTRL_PIN(241, "SPI0_IO_3"),
++	PINCTRL_PIN(242, "SPI0_MOSI_IO_0"),
++	PINCTRL_PIN(243, "SPI0_MISO_IO_1"),
++	PINCTRL_PIN(244, "SPI0_TPM_CSB"),
++	PINCTRL_PIN(245, "SPI0_FLASH_0_CSB"),
++	PINCTRL_PIN(246, "SPI0_FLASH_1_CSB"),
++	PINCTRL_PIN(247, "SPI0_CLK"),
++	PINCTRL_PIN(248, "SPI0_CLK_LOOPBK"),
++	/* CPU */
++	PINCTRL_PIN(249, "HDACPU_SDI"),
++	PINCTRL_PIN(250, "HDACPU_SDO"),
++	PINCTRL_PIN(251, "HDACPU_SCLK"),
++	PINCTRL_PIN(252, "PM_SYNC"),
++	PINCTRL_PIN(253, "PECI"),
++	PINCTRL_PIN(254, "CPUPWRGD"),
++	PINCTRL_PIN(255, "THRMTRIPB"),
++	PINCTRL_PIN(256, "PLTRST_CPUB"),
++	PINCTRL_PIN(257, "PM_DOWN"),
++	PINCTRL_PIN(258, "TRIGGER_IN"),
++	PINCTRL_PIN(259, "TRIGGER_OUT"),
++	/* JTAG */
++	PINCTRL_PIN(260, "JTAG_TDO"),
++	PINCTRL_PIN(261, "JTAGX"),
++	PINCTRL_PIN(262, "PRDYB"),
++	PINCTRL_PIN(263, "PREQB"),
++	PINCTRL_PIN(264, "CPU_TRSTB"),
++	PINCTRL_PIN(265, "JTAG_TDI"),
++	PINCTRL_PIN(266, "JTAG_TMS"),
++	PINCTRL_PIN(267, "JTAG_TCK"),
++	PINCTRL_PIN(268, "ITP_PMODE"),
++	/* GPP_I */
++	PINCTRL_PIN(269, "DDSP_HPD_0"),
++	PINCTRL_PIN(270, "DDSP_HPD_1"),
++	PINCTRL_PIN(271, "DDSP_HPD_2"),
++	PINCTRL_PIN(272, "DDSP_HPD_3"),
++	PINCTRL_PIN(273, "EDP_HPD"),
++	PINCTRL_PIN(274, "DDPB_CTRLCLK"),
++	PINCTRL_PIN(275, "DDPB_CTRLDATA"),
++	PINCTRL_PIN(276, "DDPC_CTRLCLK"),
++	PINCTRL_PIN(277, "DDPC_CTRLDATA"),
++	PINCTRL_PIN(278, "DDPD_CTRLCLK"),
++	PINCTRL_PIN(279, "DDPD_CTRLDATA"),
++	PINCTRL_PIN(280, "M2_SKT2_CFG_0"),
++	PINCTRL_PIN(281, "M2_SKT2_CFG_1"),
++	PINCTRL_PIN(282, "M2_SKT2_CFG_2"),
++	PINCTRL_PIN(283, "M2_SKT2_CFG_3"),
++	PINCTRL_PIN(284, "SYS_PWROK"),
++	PINCTRL_PIN(285, "SYS_RESETB"),
++	PINCTRL_PIN(286, "MLK_RSTB"),
++	/* GPP_J */
++	PINCTRL_PIN(287, "CNV_PA_BLANKING"),
++	PINCTRL_PIN(288, "CNV_GNSS_FTA"),
++	PINCTRL_PIN(289, "CNV_GNSS_SYSCK"),
++	PINCTRL_PIN(290, "CNV_RF_RESET_B"),
++	PINCTRL_PIN(291, "CNV_BRI_DT"),
++	PINCTRL_PIN(292, "CNV_BRI_RSP"),
++	PINCTRL_PIN(293, "CNV_RGI_DT"),
++	PINCTRL_PIN(294, "CNV_RGI_RSP"),
++	PINCTRL_PIN(295, "CNV_MFUART2_RXD"),
++	PINCTRL_PIN(296, "CNV_MFUART2_TXD"),
++	PINCTRL_PIN(297, "CNV_MODEM_CLKREQ"),
++	PINCTRL_PIN(298, "A4WP_PRESENT"),
++};
++
++static const struct intel_padgroup cnlh_community0_gpps[] = {
++	CNL_GPP(0, 0, 24),	/* GPP_A */
++	CNL_GPP(1, 25, 50),	/* GPP_B */
++};
++
++static const struct intel_padgroup cnlh_community1_gpps[] = {
++	CNL_GPP(0, 51, 74),	/* GPP_C */
++	CNL_GPP(1, 75, 98),	/* GPP_D */
++	CNL_GPP(2, 99, 106),	/* GPP_G */
++	CNL_GPP(3, 107, 114),	/* AZA */
++	CNL_GPP(4, 115, 146),	/* vGPIO_0 */
++	CNL_GPP(5, 147, 154),	/* vGPIO_1 */
++};
++
++static const struct intel_padgroup cnlh_community3_gpps[] = {
++	CNL_GPP(0, 155, 178),	/* GPP_K */
++	CNL_GPP(1, 179, 202),	/* GPP_H */
++	CNL_GPP(2, 203, 215),	/* GPP_E */
++	CNL_GPP(3, 216, 239),	/* GPP_F */
++	CNL_GPP(4, 240, 248),	/* SPI */
++};
++
++static const struct intel_padgroup cnlh_community4_gpps[] = {
++	CNL_GPP(0, 249, 259),	/* CPU */
++	CNL_GPP(1, 260, 268),	/* JTAG */
++	CNL_GPP(2, 269, 286),	/* GPP_I */
++	CNL_GPP(3, 287, 298),	/* GPP_J */
++};
++
++static const unsigned int cnlh_spi0_pins[] = { 40, 41, 42, 43 };
++static const unsigned int cnlh_spi1_pins[] = { 44, 45, 46, 47 };
++static const unsigned int cnlh_spi2_pins[] = { 84, 85, 86, 87 };
++
++static const unsigned int cnlh_uart0_pins[] = { 59, 60, 61, 62 };
++static const unsigned int cnlh_uart1_pins[] = { 63, 64, 65, 66 };
++static const unsigned int cnlh_uart2_pins[] = { 71, 72, 73, 74 };
++
++static const unsigned int cnlh_i2c0_pins[] = { 67, 68 };
++static const unsigned int cnlh_i2c1_pins[] = { 69, 70 };
++static const unsigned int cnlh_i2c2_pins[] = { 88, 89 };
++static const unsigned int cnlh_i2c3_pins[] = { 79, 98 };
++
++static const struct intel_pingroup cnlh_groups[] = {
++	PIN_GROUP("spi0_grp", cnlh_spi0_pins, 1),
++	PIN_GROUP("spi1_grp", cnlh_spi1_pins, 1),
++	PIN_GROUP("spi2_grp", cnlh_spi2_pins, 3),
++	PIN_GROUP("uart0_grp", cnlh_uart0_pins, 1),
++	PIN_GROUP("uart1_grp", cnlh_uart1_pins, 1),
++	PIN_GROUP("uart2_grp", cnlh_uart2_pins, 1),
++	PIN_GROUP("i2c0_grp", cnlh_i2c0_pins, 1),
++	PIN_GROUP("i2c1_grp", cnlh_i2c1_pins, 1),
++	PIN_GROUP("i2c2_grp", cnlh_i2c2_pins, 3),
++	PIN_GROUP("i2c3_grp", cnlh_i2c3_pins, 2),
++};
++
++static const char * const cnlh_spi0_groups[] = { "spi0_grp" };
++static const char * const cnlh_spi1_groups[] = { "spi1_grp" };
++static const char * const cnlh_spi2_groups[] = { "spi2_grp" };
++static const char * const cnlh_uart0_groups[] = { "uart0_grp" };
++static const char * const cnlh_uart1_groups[] = { "uart1_grp" };
++static const char * const cnlh_uart2_groups[] = { "uart2_grp" };
++static const char * const cnlh_i2c0_groups[] = { "i2c0_grp" };
++static const char * const cnlh_i2c1_groups[] = { "i2c1_grp" };
++static const char * const cnlh_i2c2_groups[] = { "i2c2_grp" };
++static const char * const cnlh_i2c3_groups[] = { "i2c3_grp" };
++
++static const struct intel_function cnlh_functions[] = {
++	FUNCTION("spi0", cnlh_spi0_groups),
++	FUNCTION("spi1", cnlh_spi1_groups),
++	FUNCTION("spi2", cnlh_spi2_groups),
++	FUNCTION("uart0", cnlh_uart0_groups),
++	FUNCTION("uart1", cnlh_uart1_groups),
++	FUNCTION("uart2", cnlh_uart2_groups),
++	FUNCTION("i2c0", cnlh_i2c0_groups),
++	FUNCTION("i2c1", cnlh_i2c1_groups),
++	FUNCTION("i2c2", cnlh_i2c2_groups),
++	FUNCTION("i2c3", cnlh_i2c3_groups),
++};
++
++static const struct intel_community cnlh_communities[] = {
++	CNL_COMMUNITY(0, 0, 50, cnlh_community0_gpps),
++	CNL_COMMUNITY(1, 51, 154, cnlh_community1_gpps),
++	/*
++	 * ACPI MMIO resources are returned in reverse order for
++	 * communities 3 and 4.
++	 */
++	CNL_COMMUNITY(3, 155, 248, cnlh_community3_gpps),
++	CNL_COMMUNITY(2, 249, 298, cnlh_community4_gpps),
++};
++
++static const struct intel_pinctrl_soc_data cnlh_soc_data = {
++	.pins = cnlh_pins,
++	.npins = ARRAY_SIZE(cnlh_pins),
++	.groups = cnlh_groups,
++	.ngroups = ARRAY_SIZE(cnlh_groups),
++	.functions = cnlh_functions,
++	.nfunctions = ARRAY_SIZE(cnlh_functions),
++	.communities = cnlh_communities,
++	.ncommunities = ARRAY_SIZE(cnlh_communities),
++};
++
++/* Cannon Lake-LP */
++static const struct pinctrl_pin_desc cnllp_pins[] = {
++	/* GPP_A */
++	PINCTRL_PIN(0, "RCINB"),
++	PINCTRL_PIN(1, "LAD_0"),
++	PINCTRL_PIN(2, "LAD_1"),
++	PINCTRL_PIN(3, "LAD_2"),
++	PINCTRL_PIN(4, "LAD_3"),
++	PINCTRL_PIN(5, "LFRAMEB"),
++	PINCTRL_PIN(6, "SERIRQ"),
++	PINCTRL_PIN(7, "PIRQAB"),
++	PINCTRL_PIN(8, "CLKRUNB"),
++	PINCTRL_PIN(9, "CLKOUT_LPC_0"),
++	PINCTRL_PIN(10, "CLKOUT_LPC_1"),
++	PINCTRL_PIN(11, "PMEB"),
++	PINCTRL_PIN(12, "BM_BUSYB"),
++	PINCTRL_PIN(13, "SUSWARNB_SUSPWRDNACK"),
++	PINCTRL_PIN(14, "SUS_STATB"),
++	PINCTRL_PIN(15, "SUSACKB"),
++	PINCTRL_PIN(16, "SD_1P8_SEL"),
++	PINCTRL_PIN(17, "SD_PWR_EN_B"),
++	PINCTRL_PIN(18, "ISH_GP_0"),
++	PINCTRL_PIN(19, "ISH_GP_1"),
++	PINCTRL_PIN(20, "ISH_GP_2"),
++	PINCTRL_PIN(21, "ISH_GP_3"),
++	PINCTRL_PIN(22, "ISH_GP_4"),
++	PINCTRL_PIN(23, "ISH_GP_5"),
++	PINCTRL_PIN(24, "ESPI_CLK_LOOPBK"),
++	/* GPP_B */
++	PINCTRL_PIN(25, "CORE_VID_0"),
++	PINCTRL_PIN(26, "CORE_VID_1"),
++	PINCTRL_PIN(27, "VRALERTB"),
++	PINCTRL_PIN(28, "CPU_GP_2"),
++	PINCTRL_PIN(29, "CPU_GP_3"),
++	PINCTRL_PIN(30, "SRCCLKREQB_0"),
++	PINCTRL_PIN(31, "SRCCLKREQB_1"),
++	PINCTRL_PIN(32, "SRCCLKREQB_2"),
++	PINCTRL_PIN(33, "SRCCLKREQB_3"),
++	PINCTRL_PIN(34, "SRCCLKREQB_4"),
++	PINCTRL_PIN(35, "SRCCLKREQB_5"),
++	PINCTRL_PIN(36, "EXT_PWR_GATEB"),
++	PINCTRL_PIN(37, "SLP_S0B"),
++	PINCTRL_PIN(38, "PLTRSTB"),
++	PINCTRL_PIN(39, "SPKR"),
++	PINCTRL_PIN(40, "GSPI0_CS0B"),
++	PINCTRL_PIN(41, "GSPI0_CLK"),
++	PINCTRL_PIN(42, "GSPI0_MISO"),
++	PINCTRL_PIN(43, "GSPI0_MOSI"),
++	PINCTRL_PIN(44, "GSPI1_CS0B"),
++	PINCTRL_PIN(45, "GSPI1_CLK"),
++	PINCTRL_PIN(46, "GSPI1_MISO"),
++	PINCTRL_PIN(47, "GSPI1_MOSI"),
++	PINCTRL_PIN(48, "SML1ALERTB"),
++	PINCTRL_PIN(49, "GSPI0_CLK_LOOPBK"),
++	PINCTRL_PIN(50, "GSPI1_CLK_LOOPBK"),
++	/* GPP_G */
++	PINCTRL_PIN(51, "SD3_CMD"),
++	PINCTRL_PIN(52, "SD3_D0_SD4_RCLK_P"),
++	PINCTRL_PIN(53, "SD3_D1_SD4_RCLK_N"),
++	PINCTRL_PIN(54, "SD3_D2"),
++	PINCTRL_PIN(55, "SD3_D3"),
++	PINCTRL_PIN(56, "SD3_CDB"),
++	PINCTRL_PIN(57, "SD3_CLK"),
++	PINCTRL_PIN(58, "SD3_WP"),
++	/* SPI */
++	PINCTRL_PIN(59, "SPI0_IO_2"),
++	PINCTRL_PIN(60, "SPI0_IO_3"),
++	PINCTRL_PIN(61, "SPI0_MOSI_IO_0"),
++	PINCTRL_PIN(62, "SPI0_MISO_IO_1"),
++	PINCTRL_PIN(63, "SPI0_TPM_CSB"),
++	PINCTRL_PIN(64, "SPI0_FLASH_0_CSB"),
++	PINCTRL_PIN(65, "SPI0_FLASH_1_CSB"),
++	PINCTRL_PIN(66, "SPI0_CLK"),
++	PINCTRL_PIN(67, "SPI0_CLK_LOOPBK"),
++	/* GPP_D */
++	PINCTRL_PIN(68, "SPI1_CSB"),
++	PINCTRL_PIN(69, "SPI1_CLK"),
++	PINCTRL_PIN(70, "SPI1_MISO_IO_1"),
++	PINCTRL_PIN(71, "SPI1_MOSI_IO_0"),
++	PINCTRL_PIN(72, "IMGCLKOUT_0"),
++	PINCTRL_PIN(73, "ISH_I2C0_SDA"),
++	PINCTRL_PIN(74, "ISH_I2C0_SCL"),
++	PINCTRL_PIN(75, "ISH_I2C1_SDA"),
++	PINCTRL_PIN(76, "ISH_I2C1_SCL"),
++	PINCTRL_PIN(77, "ISH_SPI_CSB"),
++	PINCTRL_PIN(78, "ISH_SPI_CLK"),
++	PINCTRL_PIN(79, "ISH_SPI_MISO"),
++	PINCTRL_PIN(80, "ISH_SPI_MOSI"),
++	PINCTRL_PIN(81, "ISH_UART0_RXD"),
++	PINCTRL_PIN(82, "ISH_UART0_TXD"),
++	PINCTRL_PIN(83, "ISH_UART0_RTSB"),
++	PINCTRL_PIN(84, "ISH_UART0_CTSB"),
++	PINCTRL_PIN(85, "DMIC_CLK_1"),
++	PINCTRL_PIN(86, "DMIC_DATA_1"),
++	PINCTRL_PIN(87, "DMIC_CLK_0"),
++	PINCTRL_PIN(88, "DMIC_DATA_0"),
++	PINCTRL_PIN(89, "SPI1_IO_2"),
++	PINCTRL_PIN(90, "SPI1_IO_3"),
++	PINCTRL_PIN(91, "SSP_MCLK"),
++	PINCTRL_PIN(92, "GSPI2_CLK_LOOPBK"),
++	/* GPP_F */
++	PINCTRL_PIN(93, "CNV_GNSS_PA_BLANKING"),
++	PINCTRL_PIN(94, "CNV_GNSS_FTA"),
++	PINCTRL_PIN(95, "CNV_GNSS_SYSCK"),
++	PINCTRL_PIN(96, "EMMC_HIP_MON"),
++	PINCTRL_PIN(97, "CNV_BRI_DT"),
++	PINCTRL_PIN(98, "CNV_BRI_RSP"),
++	PINCTRL_PIN(99, "CNV_RGI_DT"),
++	PINCTRL_PIN(100, "CNV_RGI_RSP"),
++	PINCTRL_PIN(101, "CNV_MFUART2_RXD"),
++	PINCTRL_PIN(102, "CNV_MFUART2_TXD"),
++	PINCTRL_PIN(103, "GPP_F_10"),
++	PINCTRL_PIN(104, "EMMC_CMD"),
++	PINCTRL_PIN(105, "EMMC_DATA_0"),
++	PINCTRL_PIN(106, "EMMC_DATA_1"),
++	PINCTRL_PIN(107, "EMMC_DATA_2"),
++	PINCTRL_PIN(108, "EMMC_DATA_3"),
++	PINCTRL_PIN(109, "EMMC_DATA_4"),
++	PINCTRL_PIN(110, "EMMC_DATA_5"),
++	PINCTRL_PIN(111, "EMMC_DATA_6"),
++	PINCTRL_PIN(112, "EMMC_DATA_7"),
++	PINCTRL_PIN(113, "EMMC_RCLK"),
++	PINCTRL_PIN(114, "EMMC_CLK"),
++	PINCTRL_PIN(115, "EMMC_RESETB"),
++	PINCTRL_PIN(116, "A4WP_PRESENT"),
++	/* GPP_H */
++	PINCTRL_PIN(117, "SSP2_SCLK"),
++	PINCTRL_PIN(118, "SSP2_SFRM"),
++	PINCTRL_PIN(119, "SSP2_TXD"),
++	PINCTRL_PIN(120, "SSP2_RXD"),
++	PINCTRL_PIN(121, "I2C2_SDA"),
++	PINCTRL_PIN(122, "I2C2_SCL"),
++	PINCTRL_PIN(123, "I2C3_SDA"),
++	PINCTRL_PIN(124, "I2C3_SCL"),
++	PINCTRL_PIN(125, "I2C4_SDA"),
++	PINCTRL_PIN(126, "I2C4_SCL"),
++	PINCTRL_PIN(127, "I2C5_SDA"),
++	PINCTRL_PIN(128, "I2C5_SCL"),
++	PINCTRL_PIN(129, "M2_SKT2_CFG_0"),
++	PINCTRL_PIN(130, "M2_SKT2_CFG_1"),
++	PINCTRL_PIN(131, "M2_SKT2_CFG_2"),
++	PINCTRL_PIN(132, "M2_SKT2_CFG_3"),
++	PINCTRL_PIN(133, "DDPF_CTRLCLK"),
++	PINCTRL_PIN(134, "DDPF_CTRLDATA"),
++	PINCTRL_PIN(135, "CPU_VCCIO_PWR_GATEB"),
++	PINCTRL_PIN(136, "TIMESYNC_0"),
++	PINCTRL_PIN(137, "IMGCLKOUT_1"),
++	PINCTRL_PIN(138, "GPPC_H_21"),
++	PINCTRL_PIN(139, "GPPC_H_22"),
++	PINCTRL_PIN(140, "GPPC_H_23"),
++	/* vGPIO */
++	PINCTRL_PIN(141, "CNV_BTEN"),
++	PINCTRL_PIN(142, "CNV_GNEN"),
++	PINCTRL_PIN(143, "CNV_WFEN"),
++	PINCTRL_PIN(144, "CNV_WCEN"),
++	PINCTRL_PIN(145, "CNV_BT_HOST_WAKEB"),
++	PINCTRL_PIN(146, "CNV_BT_IF_SELECT"),
++	PINCTRL_PIN(147, "vCNV_BT_UART_TXD"),
++	PINCTRL_PIN(148, "vCNV_BT_UART_RXD"),
++	PINCTRL_PIN(149, "vCNV_BT_UART_CTS_B"),
++	PINCTRL_PIN(150, "vCNV_BT_UART_RTS_B"),
++	PINCTRL_PIN(151, "vCNV_MFUART1_TXD"),
++	PINCTRL_PIN(152, "vCNV_MFUART1_RXD"),
++	PINCTRL_PIN(153, "vCNV_MFUART1_CTS_B"),
++	PINCTRL_PIN(154, "vCNV_MFUART1_RTS_B"),
++	PINCTRL_PIN(155, "vCNV_GNSS_UART_TXD"),
++	PINCTRL_PIN(156, "vCNV_GNSS_UART_RXD"),
++	PINCTRL_PIN(157, "vCNV_GNSS_UART_CTS_B"),
++	PINCTRL_PIN(158, "vCNV_GNSS_UART_RTS_B"),
++	PINCTRL_PIN(159, "vUART0_TXD"),
++	PINCTRL_PIN(160, "vUART0_RXD"),
++	PINCTRL_PIN(161, "vUART0_CTS_B"),
++	PINCTRL_PIN(162, "vUART0_RTS_B"),
++	PINCTRL_PIN(163, "vISH_UART0_TXD"),
++	PINCTRL_PIN(164, "vISH_UART0_RXD"),
++	PINCTRL_PIN(165, "vISH_UART0_CTS_B"),
++	PINCTRL_PIN(166, "vISH_UART0_RTS_B"),
++	PINCTRL_PIN(167, "vISH_UART1_TXD"),
++	PINCTRL_PIN(168, "vISH_UART1_RXD"),
++	PINCTRL_PIN(169, "vISH_UART1_CTS_B"),
++	PINCTRL_PIN(170, "vISH_UART1_RTS_B"),
++	PINCTRL_PIN(171, "vCNV_BT_I2S_BCLK"),
++	PINCTRL_PIN(172, "vCNV_BT_I2S_WS_SYNC"),
++	PINCTRL_PIN(173, "vCNV_BT_I2S_SDO"),
++	PINCTRL_PIN(174, "vCNV_BT_I2S_SDI"),
++	PINCTRL_PIN(175, "vSSP2_SCLK"),
++	PINCTRL_PIN(176, "vSSP2_SFRM"),
++	PINCTRL_PIN(177, "vSSP2_TXD"),
++	PINCTRL_PIN(178, "vSSP2_RXD"),
++	PINCTRL_PIN(179, "vCNV_GNSS_HOST_WAKEB"),
++	PINCTRL_PIN(180, "vSD3_CD_B"),
++	/* GPP_C */
++	PINCTRL_PIN(181, "SMBCLK"),
++	PINCTRL_PIN(182, "SMBDATA"),
++	PINCTRL_PIN(183, "SMBALERTB"),
++	PINCTRL_PIN(184, "SML0CLK"),
++	PINCTRL_PIN(185, "SML0DATA"),
++	PINCTRL_PIN(186, "SML0ALERTB"),
++	PINCTRL_PIN(187, "SML1CLK"),
++	PINCTRL_PIN(188, "SML1DATA"),
++	PINCTRL_PIN(189, "UART0_RXD"),
++	PINCTRL_PIN(190, "UART0_TXD"),
++	PINCTRL_PIN(191, "UART0_RTSB"),
++	PINCTRL_PIN(192, "UART0_CTSB"),
++	PINCTRL_PIN(193, "UART1_RXD"),
++	PINCTRL_PIN(194, "UART1_TXD"),
++	PINCTRL_PIN(195, "UART1_RTSB"),
++	PINCTRL_PIN(196, "UART1_CTSB"),
++	PINCTRL_PIN(197, "I2C0_SDA"),
++	PINCTRL_PIN(198, "I2C0_SCL"),
++	PINCTRL_PIN(199, "I2C1_SDA"),
++	PINCTRL_PIN(200, "I2C1_SCL"),
++	PINCTRL_PIN(201, "UART2_RXD"),
++	PINCTRL_PIN(202, "UART2_TXD"),
++	PINCTRL_PIN(203, "UART2_RTSB"),
++	PINCTRL_PIN(204, "UART2_CTSB"),
++	/* GPP_E */
++	PINCTRL_PIN(205, "SATAXPCIE_0"),
++	PINCTRL_PIN(206, "SATAXPCIE_1"),
++	PINCTRL_PIN(207, "SATAXPCIE_2"),
++	PINCTRL_PIN(208, "CPU_GP_0"),
++	PINCTRL_PIN(209, "SATA_DEVSLP_0"),
++	PINCTRL_PIN(210, "SATA_DEVSLP_1"),
++	PINCTRL_PIN(211, "SATA_DEVSLP_2"),
++	PINCTRL_PIN(212, "CPU_GP_1"),
++	PINCTRL_PIN(213, "SATA_LEDB"),
++	PINCTRL_PIN(214, "USB2_OCB_0"),
++	PINCTRL_PIN(215, "USB2_OCB_1"),
++	PINCTRL_PIN(216, "USB2_OCB_2"),
++	PINCTRL_PIN(217, "USB2_OCB_3"),
++	PINCTRL_PIN(218, "DDSP_HPD_0"),
++	PINCTRL_PIN(219, "DDSP_HPD_1"),
++	PINCTRL_PIN(220, "DDSP_HPD_2"),
++	PINCTRL_PIN(221, "DDSP_HPD_3"),
++	PINCTRL_PIN(222, "EDP_HPD"),
++	PINCTRL_PIN(223, "DDPB_CTRLCLK"),
++	PINCTRL_PIN(224, "DDPB_CTRLDATA"),
++	PINCTRL_PIN(225, "DDPC_CTRLCLK"),
++	PINCTRL_PIN(226, "DDPC_CTRLDATA"),
++	PINCTRL_PIN(227, "DDPD_CTRLCLK"),
++	PINCTRL_PIN(228, "DDPD_CTRLDATA"),
++	/* JTAG */
++	PINCTRL_PIN(229, "JTAG_TDO"),
++	PINCTRL_PIN(230, "JTAGX"),
++	PINCTRL_PIN(231, "PRDYB"),
++	PINCTRL_PIN(232, "PREQB"),
++	PINCTRL_PIN(233, "CPU_TRSTB"),
++	PINCTRL_PIN(234, "JTAG_TDI"),
++	PINCTRL_PIN(235, "JTAG_TMS"),
++	PINCTRL_PIN(236, "JTAG_TCK"),
++	PINCTRL_PIN(237, "ITP_PMODE"),
++	/* HVCMOS */
++	PINCTRL_PIN(238, "L_BKLTEN"),
++	PINCTRL_PIN(239, "L_BKLTCTL"),
++	PINCTRL_PIN(240, "L_VDDEN"),
++	PINCTRL_PIN(241, "SYS_PWROK"),
++	PINCTRL_PIN(242, "SYS_RESETB"),
++	PINCTRL_PIN(243, "MLK_RSTB"),
++};
++
++static const unsigned int cnllp_spi0_pins[] = { 40, 41, 42, 43, 7 };
++static const unsigned int cnllp_spi0_modes[] = { 1, 1, 1, 1, 2 };
++static const unsigned int cnllp_spi1_pins[] = { 44, 45, 46, 47, 11 };
++static const unsigned int cnllp_spi1_modes[] = { 1, 1, 1, 1, 2 };
++static const unsigned int cnllp_spi2_pins[] = { 77, 78, 79, 80, 83 };
++static const unsigned int cnllp_spi2_modes[] = { 3, 3, 3, 3, 2 };
++
++static const unsigned int cnllp_i2c0_pins[] = { 197, 198 };
++static const unsigned int cnllp_i2c1_pins[] = { 199, 200 };
++static const unsigned int cnllp_i2c2_pins[] = { 121, 122 };
++static const unsigned int cnllp_i2c3_pins[] = { 123, 124 };
++static const unsigned int cnllp_i2c4_pins[] = { 125, 126 };
++static const unsigned int cnllp_i2c5_pins[] = { 127, 128 };
++
++static const unsigned int cnllp_uart0_pins[] = { 189, 190, 191, 192 };
++static const unsigned int cnllp_uart1_pins[] = { 193, 194, 195, 196 };
++static const unsigned int cnllp_uart2_pins[] = { 201, 202, 203, 204 };
++
++static const struct intel_pingroup cnllp_groups[] = {
++	PIN_GROUP("spi0_grp", cnllp_spi0_pins, cnllp_spi0_modes),
++	PIN_GROUP("spi1_grp", cnllp_spi1_pins, cnllp_spi1_modes),
++	PIN_GROUP("spi2_grp", cnllp_spi2_pins, cnllp_spi2_modes),
++	PIN_GROUP("i2c0_grp", cnllp_i2c0_pins, 1),
++	PIN_GROUP("i2c1_grp", cnllp_i2c1_pins, 1),
++	PIN_GROUP("i2c2_grp", cnllp_i2c2_pins, 1),
++	PIN_GROUP("i2c3_grp", cnllp_i2c3_pins, 1),
++	PIN_GROUP("i2c4_grp", cnllp_i2c4_pins, 1),
++	PIN_GROUP("i2c5_grp", cnllp_i2c5_pins, 1),
++	PIN_GROUP("uart0_grp", cnllp_uart0_pins, 1),
++	PIN_GROUP("uart1_grp", cnllp_uart1_pins, 1),
++	PIN_GROUP("uart2_grp", cnllp_uart2_pins, 1),
++};
++
++static const char * const cnllp_spi0_groups[] = { "spi0_grp" };
++static const char * const cnllp_spi1_groups[] = { "spi1_grp" };
++static const char * const cnllp_spi2_groups[] = { "spi2_grp" };
++static const char * const cnllp_i2c0_groups[] = { "i2c0_grp" };
++static const char * const cnllp_i2c1_groups[] = { "i2c1_grp" };
++static const char * const cnllp_i2c2_groups[] = { "i2c2_grp" };
++static const char * const cnllp_i2c3_groups[] = { "i2c3_grp" };
++static const char * const cnllp_i2c4_groups[] = { "i2c4_grp" };
++static const char * const cnllp_i2c5_groups[] = { "i2c5_grp" };
++static const char * const cnllp_uart0_groups[] = { "uart0_grp" };
++static const char * const cnllp_uart1_groups[] = { "uart1_grp" };
++static const char * const cnllp_uart2_groups[] = { "uart2_grp" };
++
++static const struct intel_function cnllp_functions[] = {
++	FUNCTION("spi0", cnllp_spi0_groups),
++	FUNCTION("spi1", cnllp_spi1_groups),
++	FUNCTION("spi2", cnllp_spi2_groups),
++	FUNCTION("i2c0", cnllp_i2c0_groups),
++	FUNCTION("i2c1", cnllp_i2c1_groups),
++	FUNCTION("i2c2", cnllp_i2c2_groups),
++	FUNCTION("i2c3", cnllp_i2c3_groups),
++	FUNCTION("i2c4", cnllp_i2c4_groups),
++	FUNCTION("i2c5", cnllp_i2c5_groups),
++	FUNCTION("uart0", cnllp_uart0_groups),
++	FUNCTION("uart1", cnllp_uart1_groups),
++	FUNCTION("uart2", cnllp_uart2_groups),
++};
++
++static const struct intel_padgroup cnllp_community0_gpps[] = {
++	CNL_GPP(0, 0, 24),	/* GPP_A */
++	CNL_GPP(1, 25, 50),	/* GPP_B */
++	CNL_GPP(2, 51, 58),	/* GPP_G */
++	CNL_GPP(3, 59, 67),	/* SPI */
++};
++
++static const struct intel_padgroup cnllp_community1_gpps[] = {
++	CNL_GPP(0, 68, 92),	/* GPP_D */
++	CNL_GPP(1, 93, 116),	/* GPP_F */
++	CNL_GPP(2, 117, 140),	/* GPP_H */
++	CNL_GPP(3, 141, 172),	/* vGPIO */
++	CNL_GPP(4, 173, 180),	/* vGPIO */
++};
++
++static const struct intel_padgroup cnllp_community4_gpps[] = {
++	CNL_GPP(0, 181, 204),	/* GPP_C */
++	CNL_GPP(1, 205, 228),	/* GPP_E */
++	CNL_GPP(2, 229, 237),	/* JTAG */
++	CNL_GPP(3, 238, 243),	/* HVCMOS */
++};
++
++static const struct intel_community cnllp_communities[] = {
++	CNL_COMMUNITY(0, 0, 67, cnllp_community0_gpps),
++	CNL_COMMUNITY(1, 68, 180, cnllp_community1_gpps),
++	CNL_COMMUNITY(2, 181, 243, cnllp_community4_gpps),
++};
++
++static const struct intel_pinctrl_soc_data cnllp_soc_data = {
++	.pins = cnllp_pins,
++	.npins = ARRAY_SIZE(cnllp_pins),
++	.groups = cnllp_groups,
++	.ngroups = ARRAY_SIZE(cnllp_groups),
++	.functions = cnllp_functions,
++	.nfunctions = ARRAY_SIZE(cnllp_functions),
++	.communities = cnllp_communities,
++	.ncommunities = ARRAY_SIZE(cnllp_communities),
++};
++
++static const struct acpi_device_id cnl_pinctrl_acpi_match[] = {
++	{ "INT3450", (kernel_ulong_t)&cnlh_soc_data },
++	{ "INT34BB", (kernel_ulong_t)&cnllp_soc_data },
++	{ },
++};
++MODULE_DEVICE_TABLE(acpi, cnl_pinctrl_acpi_match);
++
++static int cnl_pinctrl_probe(struct platform_device *pdev)
++{
++	const struct intel_pinctrl_soc_data *soc_data;
++	const struct acpi_device_id *id;
++
++	id = acpi_match_device(cnl_pinctrl_acpi_match, &pdev->dev);
++	if (!id || !id->driver_data)
++		return -ENODEV;
++
++	soc_data = (const struct intel_pinctrl_soc_data *)id->driver_data;
++	return intel_pinctrl_probe(pdev, soc_data);
++}
++
++static const struct dev_pm_ops cnl_pinctrl_pm_ops = {
++	SET_LATE_SYSTEM_SLEEP_PM_OPS(intel_pinctrl_suspend,
++				     intel_pinctrl_resume)
++};
++
++static struct platform_driver cnl_pinctrl_driver = {
++	.probe = cnl_pinctrl_probe,
++	.driver = {
++		.name = "cannonlake-pinctrl",
++		.acpi_match_table = cnl_pinctrl_acpi_match,
++		.pm = &cnl_pinctrl_pm_ops,
++	},
++};
++
++module_platform_driver(cnl_pinctrl_driver);
++
++MODULE_AUTHOR("Mika Westerberg <mika.westerberg@linux.intel.com>");
++MODULE_DESCRIPTION("Intel Cannon Lake PCH pinctrl/GPIO driver");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/pinctrl/intel/pinctrl-cedarfork.c b/drivers/pinctrl/intel/pinctrl-cedarfork.c
+new file mode 100644
+index 0000000..59216b0
+--- /dev/null
++++ b/drivers/pinctrl/intel/pinctrl-cedarfork.c
+@@ -0,0 +1,375 @@
++/*
++ * Intel Cedar Fork PCH pinctrl/GPIO driver
++ *
++ * Copyright (C) 2017, Intel Corporation
++ * Author: Mika Westerberg <mika.westerberg@linux.intel.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++
++#include <linux/acpi.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/pm.h>
++#include <linux/pinctrl/pinctrl.h>
++
++#include "pinctrl-intel.h"
++
++#define CDF_PAD_OWN	0x020
++#define CDF_PADCFGLOCK	0x0c0
++#define CDF_HOSTSW_OWN	0x120
++#define CDF_GPI_IS	0x200
++#define CDF_GPI_IE	0x230
++
++#define CDF_GPP(r, s, e)				\
++	{						\
++		.reg_num = (r),				\
++		.base = (s),				\
++		.size = ((e) - (s) + 1),		\
++	}
++
++#define CDF_COMMUNITY(b, s, e, g)			\
++	{						\
++		.barno = (b),				\
++		.padown_offset = CDF_PAD_OWN,		\
++		.padcfglock_offset = CDF_PADCFGLOCK,	\
++		.hostown_offset = CDF_HOSTSW_OWN,	\
++		.is_offset = CDF_GPI_IS,		\
++		.ie_offset = CDF_GPI_IE,		\
++		.pin_base = (s),			\
++		.npins = ((e) - (s) + 1),		\
++		.gpps = (g),				\
++		.ngpps = ARRAY_SIZE(g),			\
++	}
++
++/* Cedar Fork PCH */
++static const struct pinctrl_pin_desc cdf_pins[] = {
++	/* WEST2 */
++	PINCTRL_PIN(0, "GBE_SDP_TIMESYNC0_S2N"),
++	PINCTRL_PIN(1, "GBE_SDP_TIMESYNC1_S2N"),
++	PINCTRL_PIN(2, "GBE_SDP_TIMESYNC2_S2N"),
++	PINCTRL_PIN(3, "GBE_SDP_TIMESYNC3_S2N"),
++	PINCTRL_PIN(4, "GBE0_I2C_CLK"),
++	PINCTRL_PIN(5, "GBE0_I2C_DATA"),
++	PINCTRL_PIN(6, "GBE1_I2C_CLK"),
++	PINCTRL_PIN(7, "GBE1_I2C_DATA"),
++	PINCTRL_PIN(8, "GBE2_I2C_CLK"),
++	PINCTRL_PIN(9, "GBE2_I2C_DATA"),
++	PINCTRL_PIN(10, "GBE3_I2C_CLK"),
++	PINCTRL_PIN(11, "GBE3_I2C_DATA"),
++	PINCTRL_PIN(12, "GBE0_LED0"),
++	PINCTRL_PIN(13, "GBE0_LED1"),
++	PINCTRL_PIN(14, "GBE0_LED2"),
++	PINCTRL_PIN(15, "GBE1_LED0"),
++	PINCTRL_PIN(16, "GBE1_LED1"),
++	PINCTRL_PIN(17, "GBE1_LED2"),
++	PINCTRL_PIN(18, "GBE2_LED0"),
++	PINCTRL_PIN(19, "GBE2_LED1"),
++	PINCTRL_PIN(20, "GBE2_LED2"),
++	PINCTRL_PIN(21, "GBE3_LED0"),
++	PINCTRL_PIN(22, "GBE3_LED1"),
++	PINCTRL_PIN(23, "GBE3_LED2"),
++	/* WEST3 */
++	PINCTRL_PIN(24, "NCSI_RXD0"),
++	PINCTRL_PIN(25, "NCSI_CLK_IN"),
++	PINCTRL_PIN(26, "NCSI_RXD1"),
++	PINCTRL_PIN(27, "NCSI_CRS_DV"),
++	PINCTRL_PIN(28, "NCSI_ARB_IN"),
++	PINCTRL_PIN(29, "NCSI_TX_EN"),
++	PINCTRL_PIN(30, "NCSI_TXD0"),
++	PINCTRL_PIN(31, "NCSI_TXD1"),
++	PINCTRL_PIN(32, "NCSI_ARB_OUT"),
++	PINCTRL_PIN(33, "GBE_SMB_CLK"),
++	PINCTRL_PIN(34, "GBE_SMB_DATA"),
++	PINCTRL_PIN(35, "GBE_SMB_ALRT_N"),
++	PINCTRL_PIN(36, "THERMTRIP_N"),
++	PINCTRL_PIN(37, "PCHHOT_N"),
++	PINCTRL_PIN(38, "ERROR0_N"),
++	PINCTRL_PIN(39, "ERROR1_N"),
++	PINCTRL_PIN(40, "ERROR2_N"),
++	PINCTRL_PIN(41, "MSMI_N"),
++	PINCTRL_PIN(42, "CATERR_N"),
++	PINCTRL_PIN(43, "MEMTRIP_N"),
++	PINCTRL_PIN(44, "UART0_RXD"),
++	PINCTRL_PIN(45, "UART0_TXD"),
++	PINCTRL_PIN(46, "UART1_RXD"),
++	PINCTRL_PIN(47, "UART1_TXD"),
++	/* WEST01 */
++	PINCTRL_PIN(48, "GBE_GPIO13"),
++	PINCTRL_PIN(49, "AUX_PWR"),
++	PINCTRL_PIN(50, "CPU_GP_2"),
++	PINCTRL_PIN(51, "CPU_GP_3"),
++	PINCTRL_PIN(52, "FAN_PWM_0"),
++	PINCTRL_PIN(53, "FAN_PWM_1"),
++	PINCTRL_PIN(54, "FAN_PWM_2"),
++	PINCTRL_PIN(55, "FAN_PWM_3"),
++	PINCTRL_PIN(56, "FAN_TACH_0"),
++	PINCTRL_PIN(57, "FAN_TACH_1"),
++	PINCTRL_PIN(58, "FAN_TACH_2"),
++	PINCTRL_PIN(59, "FAN_TACH_3"),
++	PINCTRL_PIN(60, "ME_SMB0_CLK"),
++	PINCTRL_PIN(61, "ME_SMB0_DATA"),
++	PINCTRL_PIN(62, "ME_SMB0_ALRT_N"),
++	PINCTRL_PIN(63, "ME_SMB1_CLK"),
++	PINCTRL_PIN(64, "ME_SMB1_DATA"),
++	PINCTRL_PIN(65, "ME_SMB1_ALRT_N"),
++	PINCTRL_PIN(66, "ME_SMB2_CLK"),
++	PINCTRL_PIN(67, "ME_SMB2_DATA"),
++	PINCTRL_PIN(68, "ME_SMB2_ALRT_N"),
++	PINCTRL_PIN(69, "GBE_MNG_I2C_CLK"),
++	PINCTRL_PIN(70, "GBE_MNG_I2C_DATA"),
++	/* WEST5 */
++	PINCTRL_PIN(71, "IE_UART_RXD"),
++	PINCTRL_PIN(72, "IE_UART_TXD"),
++	PINCTRL_PIN(73, "VPP_SMB_CLK"),
++	PINCTRL_PIN(74, "VPP_SMB_DATA"),
++	PINCTRL_PIN(75, "VPP_SMB_ALRT_N"),
++	PINCTRL_PIN(76, "PCIE_CLKREQ0_N"),
++	PINCTRL_PIN(77, "PCIE_CLKREQ1_N"),
++	PINCTRL_PIN(78, "PCIE_CLKREQ2_N"),
++	PINCTRL_PIN(79, "PCIE_CLKREQ3_N"),
++	PINCTRL_PIN(80, "PCIE_CLKREQ4_N"),
++	PINCTRL_PIN(81, "PCIE_CLKREQ5_N"),
++	PINCTRL_PIN(82, "PCIE_CLKREQ6_N"),
++	PINCTRL_PIN(83, "PCIE_CLKREQ7_N"),
++	PINCTRL_PIN(84, "PCIE_CLKREQ8_N"),
++	PINCTRL_PIN(85, "PCIE_CLKREQ9_N"),
++	PINCTRL_PIN(86, "FLEX_CLK_SE0"),
++	PINCTRL_PIN(87, "FLEX_CLK_SE1"),
++	PINCTRL_PIN(88, "FLEX_CLK1_50"),
++	PINCTRL_PIN(89, "FLEX_CLK2_50"),
++	PINCTRL_PIN(90, "FLEX_CLK_125"),
++	/* WESTC */
++	PINCTRL_PIN(91, "TCK_PCH"),
++	PINCTRL_PIN(92, "JTAGX_PCH"),
++	PINCTRL_PIN(93, "TRST_N_PCH"),
++	PINCTRL_PIN(94, "TMS_PCH"),
++	PINCTRL_PIN(95, "TDI_PCH"),
++	PINCTRL_PIN(96, "TDO_PCH"),
++	/* WESTC_DFX */
++	PINCTRL_PIN(97, "CX_PRDY_N"),
++	PINCTRL_PIN(98, "CX_PREQ_N"),
++	PINCTRL_PIN(99, "CPU_FBREAK_OUT_N"),
++	PINCTRL_PIN(100, "TRIGGER0_N"),
++	PINCTRL_PIN(101, "TRIGGER1_N"),
++	/* WESTA */
++	PINCTRL_PIN(102, "DBG_PTI_CLK0"),
++	PINCTRL_PIN(103, "DBG_PTI_CLK3"),
++	PINCTRL_PIN(104, "DBG_PTI_DATA0"),
++	PINCTRL_PIN(105, "DBG_PTI_DATA1"),
++	PINCTRL_PIN(106, "DBG_PTI_DATA2"),
++	PINCTRL_PIN(107, "DBG_PTI_DATA3"),
++	PINCTRL_PIN(108, "DBG_PTI_DATA4"),
++	PINCTRL_PIN(109, "DBG_PTI_DATA5"),
++	PINCTRL_PIN(110, "DBG_PTI_DATA6"),
++	PINCTRL_PIN(111, "DBG_PTI_DATA7"),
++	/* WESTB */
++	PINCTRL_PIN(112, "DBG_PTI_DATA8"),
++	PINCTRL_PIN(113, "DBG_PTI_DATA9"),
++	PINCTRL_PIN(114, "DBG_PTI_DATA10"),
++	PINCTRL_PIN(115, "DBG_PTI_DATA11"),
++	PINCTRL_PIN(116, "DBG_PTI_DATA12"),
++	PINCTRL_PIN(117, "DBG_PTI_DATA13"),
++	PINCTRL_PIN(118, "DBG_PTI_DATA14"),
++	PINCTRL_PIN(119, "DBG_PTI_DATA15"),
++	PINCTRL_PIN(120, "DBG_SPARE0"),
++	PINCTRL_PIN(121, "DBG_SPARE1"),
++	PINCTRL_PIN(122, "DBG_SPARE2"),
++	PINCTRL_PIN(123, "DBG_SPARE3"),
++	/* WESTD */
++	PINCTRL_PIN(124, "CPU_PWR_GOOD"),
++	PINCTRL_PIN(125, "PLTRST_CPU_N"),
++	PINCTRL_PIN(126, "NAC_RESET_NAC_N"),
++	PINCTRL_PIN(127, "PCH_SBLINK_RX"),
++	PINCTRL_PIN(128, "PCH_SBLINK_TX"),
++	PINCTRL_PIN(129, "PMSYNC_CLK"),
++	PINCTRL_PIN(130, "CPU_ERR0_N"),
++	PINCTRL_PIN(131, "CPU_ERR1_N"),
++	PINCTRL_PIN(132, "CPU_ERR2_N"),
++	PINCTRL_PIN(133, "CPU_THERMTRIP_N"),
++	PINCTRL_PIN(134, "CPU_MSMI_N"),
++	PINCTRL_PIN(135, "CPU_CATERR_N"),
++	PINCTRL_PIN(136, "CPU_MEMTRIP_N"),
++	PINCTRL_PIN(137, "NAC_GR_N"),
++	PINCTRL_PIN(138, "NAC_XTAL_VALID"),
++	PINCTRL_PIN(139, "NAC_WAKE_N"),
++	PINCTRL_PIN(140, "NAC_SBLINK_CLK_S2N"),
++	PINCTRL_PIN(141, "NAC_SBLINK_N2S"),
++	PINCTRL_PIN(142, "NAC_SBLINK_S2N"),
++	PINCTRL_PIN(143, "NAC_SBLINK_CLK_N2S"),
++	/* WESTD_PECI */
++	PINCTRL_PIN(144, "ME_PECI"),
++	/* WESTF */
++	PINCTRL_PIN(145, "NAC_RMII_CLK"),
++	PINCTRL_PIN(146, "NAC_RGMII_CLK"),
++	PINCTRL_PIN(147, "NAC_SPARE0"),
++	PINCTRL_PIN(148, "NAC_SPARE1"),
++	PINCTRL_PIN(149, "NAC_SPARE2"),
++	PINCTRL_PIN(150, "NAC_INIT_SX_WAKE_N"),
++	PINCTRL_PIN(151, "NAC_GBE_GPIO0_S2N"),
++	PINCTRL_PIN(152, "NAC_GBE_GPIO1_S2N"),
++	PINCTRL_PIN(153, "NAC_GBE_GPIO2_S2N"),
++	PINCTRL_PIN(154, "NAC_GBE_GPIO3_S2N"),
++	PINCTRL_PIN(155, "NAC_NCSI_RXD0"),
++	PINCTRL_PIN(156, "NAC_NCSI_CLK_IN"),
++	PINCTRL_PIN(157, "NAC_NCSI_RXD1"),
++	PINCTRL_PIN(158, "NAC_NCSI_CRS_DV"),
++	PINCTRL_PIN(159, "NAC_NCSI_ARB_IN"),
++	PINCTRL_PIN(160, "NAC_NCSI_TX_EN"),
++	PINCTRL_PIN(161, "NAC_NCSI_TXD0"),
++	PINCTRL_PIN(162, "NAC_NCSI_TXD1"),
++	PINCTRL_PIN(163, "NAC_NCSI_ARB_OUT"),
++	PINCTRL_PIN(164, "NAC_NCSI_OE_N"),
++	PINCTRL_PIN(165, "NAC_GBE_SMB_CLK"),
++	PINCTRL_PIN(166, "NAC_GBE_SMB_DATA"),
++	PINCTRL_PIN(167, "NAC_GBE_SMB_ALRT_N"),
++	/* EAST2 */
++	PINCTRL_PIN(168, "USB_OC0_N"),
++	PINCTRL_PIN(169, "GBE_GPIO0"),
++	PINCTRL_PIN(170, "GBE_GPIO1"),
++	PINCTRL_PIN(171, "GBE_GPIO2"),
++	PINCTRL_PIN(172, "GBE_GPIO3"),
++	PINCTRL_PIN(173, "GBE_GPIO4"),
++	PINCTRL_PIN(174, "GBE_GPIO5"),
++	PINCTRL_PIN(175, "GBE_GPIO6"),
++	PINCTRL_PIN(176, "GBE_GPIO7"),
++	PINCTRL_PIN(177, "GBE_GPIO8"),
++	PINCTRL_PIN(178, "GBE_GPIO9"),
++	PINCTRL_PIN(179, "GBE_GPIO10"),
++	PINCTRL_PIN(180, "GBE_GPIO11"),
++	PINCTRL_PIN(181, "GBE_GPIO12"),
++	PINCTRL_PIN(182, "SATA0_LED_N"),
++	PINCTRL_PIN(183, "SATA1_LED_N"),
++	PINCTRL_PIN(184, "SATA_PDETECT0"),
++	PINCTRL_PIN(185, "SATA_PDETECT1"),
++	PINCTRL_PIN(186, "SATA0_SDOUT"),
++	PINCTRL_PIN(187, "SATA1_SDOUT"),
++	PINCTRL_PIN(188, "SATA2_LED_N"),
++	PINCTRL_PIN(189, "SATA_PDETECT2"),
++	PINCTRL_PIN(190, "SATA2_SDOUT"),
++	/* EAST3 */
++	PINCTRL_PIN(191, "ESPI_IO0"),
++	PINCTRL_PIN(192, "ESPI_IO1"),
++	PINCTRL_PIN(193, "ESPI_IO2"),
++	PINCTRL_PIN(194, "ESPI_IO3"),
++	PINCTRL_PIN(195, "ESPI_CLK"),
++	PINCTRL_PIN(196, "ESPI_RST_N"),
++	PINCTRL_PIN(197, "ESPI_CS0_N"),
++	PINCTRL_PIN(198, "ESPI_ALRT0_N"),
++	PINCTRL_PIN(199, "ESPI_CS1_N"),
++	PINCTRL_PIN(200, "ESPI_ALRT1_N"),
++	PINCTRL_PIN(201, "ESPI_CLK_LOOPBK"),
++	/* EAST0 */
++	PINCTRL_PIN(202, "SPI_CS0_N"),
++	PINCTRL_PIN(203, "SPI_CS1_N"),
++	PINCTRL_PIN(204, "SPI_MOSI_IO0"),
++	PINCTRL_PIN(205, "SPI_MISO_IO1"),
++	PINCTRL_PIN(206, "SPI_IO2"),
++	PINCTRL_PIN(207, "SPI_IO3"),
++	PINCTRL_PIN(208, "SPI_CLK"),
++	PINCTRL_PIN(209, "SPI_CLK_LOOPBK"),
++	PINCTRL_PIN(210, "SUSPWRDNACK"),
++	PINCTRL_PIN(211, "PMU_SUSCLK"),
++	PINCTRL_PIN(212, "ADR_COMPLETE"),
++	PINCTRL_PIN(213, "ADR_TRIGGER_N"),
++	PINCTRL_PIN(214, "PMU_SLP_S45_N"),
++	PINCTRL_PIN(215, "PMU_SLP_S3_N"),
++	PINCTRL_PIN(216, "PMU_WAKE_N"),
++	PINCTRL_PIN(217, "PMU_PWRBTN_N"),
++	PINCTRL_PIN(218, "PMU_RESETBUTTON_N"),
++	PINCTRL_PIN(219, "PMU_PLTRST_N"),
++	PINCTRL_PIN(220, "SUS_STAT_N"),
++	PINCTRL_PIN(221, "PMU_I2C_CLK"),
++	PINCTRL_PIN(222, "PMU_I2C_DATA"),
++	PINCTRL_PIN(223, "PECI_SMB_CLK"),
++	PINCTRL_PIN(224, "PECI_SMB_DATA"),
++	PINCTRL_PIN(225, "PECI_SMB_ALRT_N"),
++	/* EMMC */
++	PINCTRL_PIN(226, "EMMC_CMD"),
++	PINCTRL_PIN(227, "EMMC_STROBE"),
++	PINCTRL_PIN(228, "EMMC_CLK"),
++	PINCTRL_PIN(229, "EMMC_D0"),
++	PINCTRL_PIN(230, "EMMC_D1"),
++	PINCTRL_PIN(231, "EMMC_D2"),
++	PINCTRL_PIN(232, "EMMC_D3"),
++	PINCTRL_PIN(233, "EMMC_D4"),
++	PINCTRL_PIN(234, "EMMC_D5"),
++	PINCTRL_PIN(235, "EMMC_D6"),
++	PINCTRL_PIN(236, "EMMC_D7"),
++};
++
++static const struct intel_padgroup cdf_community0_gpps[] = {
++	CDF_GPP(0, 0, 23),	/* WEST2 */
++	CDF_GPP(1, 24, 47),	/* WEST3 */
++	CDF_GPP(2, 48, 70),	/* WEST01 */
++	CDF_GPP(3, 71, 90),	/* WEST5 */
++	CDF_GPP(4, 91, 96),	/* WESTC */
++	CDF_GPP(5, 97, 101),	/* WESTC_DFX */
++	CDF_GPP(6, 102, 111),	/* WESTA */
++	CDF_GPP(7, 112, 123),	/* WESTB */
++	CDF_GPP(8, 124, 143),	/* WESTD */
++	CDF_GPP(9, 144, 144),	/* WESTD_PECI */
++	CDF_GPP(10, 145, 167),	/* WESTF */
++};
++
++static const struct intel_padgroup cdf_community1_gpps[] = {
++	CDF_GPP(0, 168, 190),	/* EAST2 */
++	CDF_GPP(1, 191, 201),	/* EAST3 */
++	CDF_GPP(2, 202, 225),	/* EAST0 */
++	CDF_GPP(3, 226, 236),	/* EMMC */
++};
++
++static const struct intel_community cdf_communities[] = {
++	CDF_COMMUNITY(0, 0, 167, cdf_community0_gpps),		/* West */
++	CDF_COMMUNITY(1, 168, 236, cdf_community1_gpps),	/* East */
++};
++
++static const struct intel_pinctrl_soc_data cdf_soc_data = {
++	.pins = cdf_pins,
++	.npins = ARRAY_SIZE(cdf_pins),
++	.communities = cdf_communities,
++	.ncommunities = ARRAY_SIZE(cdf_communities),
++};
++
++static int cdf_pinctrl_probe(struct platform_device *pdev)
++{
++	return intel_pinctrl_probe(pdev, &cdf_soc_data);
++}
++
++static const struct dev_pm_ops cdf_pinctrl_pm_ops = {
++	SET_LATE_SYSTEM_SLEEP_PM_OPS(intel_pinctrl_suspend,
++				     intel_pinctrl_resume)
++};
++
++static const struct acpi_device_id cdf_pinctrl_acpi_match[] = {
++	{ "INTC3001" },
++	{ }
++};
++MODULE_DEVICE_TABLE(acpi, cdf_pinctrl_acpi_match);
++
++static struct platform_driver cdf_pinctrl_driver = {
++	.probe = cdf_pinctrl_probe,
++	.driver = {
++		.name = "cedarfork-pinctrl",
++		.acpi_match_table = cdf_pinctrl_acpi_match,
++		.pm = &cdf_pinctrl_pm_ops,
++	},
++};
++
++static int __init cdf_pinctrl_init(void)
++{
++	return platform_driver_register(&cdf_pinctrl_driver);
++}
++subsys_initcall(cdf_pinctrl_init);
++
++static void __exit cdf_pinctrl_exit(void)
++{
++	platform_driver_unregister(&cdf_pinctrl_driver);
++}
++module_exit(cdf_pinctrl_exit);
++
++MODULE_AUTHOR("Mika Westerberg <mika.westerberg@linux.intel.com>");
++MODULE_DESCRIPTION("Intel Cedar Fork PCH pinctrl/GPIO driver");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/pinctrl/intel/pinctrl-cherryview.c b/drivers/pinctrl/intel/pinctrl-cherryview.c
+index 0d34d8a4..fadbca9 100644
+--- a/drivers/pinctrl/intel/pinctrl-cherryview.c
++++ b/drivers/pinctrl/intel/pinctrl-cherryview.c
+@@ -149,6 +149,7 @@ struct chv_community {
+ 	size_t ngpio_ranges;
+ 	size_t ngpios;
+ 	size_t nirqs;
++	acpi_adr_space_type acpi_space_id;
+ };
+ 
+ struct chv_pin_context {
+@@ -405,6 +406,7 @@ static const struct chv_community southwest_community = {
+ 	 * trigger GPEs.
+ 	 */
+ 	.nirqs = 8,
++	.acpi_space_id = 0x91,
+ };
+ 
+ static const struct pinctrl_pin_desc north_pins[] = {
+@@ -494,6 +496,7 @@ static const struct chv_community north_community = {
+ 	 * GPEs.
+ 	 */
+ 	.nirqs = 8,
++	.acpi_space_id = 0x92,
+ };
+ 
+ static const struct pinctrl_pin_desc east_pins[] = {
+@@ -537,6 +540,7 @@ static const struct chv_community east_community = {
+ 	.ngpio_ranges = ARRAY_SIZE(east_gpio_ranges),
+ 	.ngpios = ARRAY_SIZE(east_pins),
+ 	.nirqs = 16,
++	.acpi_space_id = 0x93,
+ };
+ 
+ static const struct pinctrl_pin_desc southeast_pins[] = {
+@@ -663,6 +667,7 @@ static const struct chv_community southeast_community = {
+ 	.ngpio_ranges = ARRAY_SIZE(southeast_gpio_ranges),
+ 	.ngpios = ARRAY_SIZE(southeast_pins),
+ 	.nirqs = 16,
++	.acpi_space_id = 0x94,
+ };
+ 
+ static const struct chv_community *chv_communities[] = {
+@@ -763,7 +768,7 @@ static void chv_pin_dbg_show(struct pinctrl_dev *pctldev, struct seq_file *s,
+ 		seq_printf(s, "mode %d ", mode);
+ 	}
+ 
+-	seq_printf(s, "ctrl0 0x%08x ctrl1 0x%08x", ctrl0, ctrl1);
++	seq_printf(s, "0x%08x 0x%08x", ctrl0, ctrl1);
+ 
+ 	if (locked)
+ 		seq_puts(s, " [LOCKED]");
+@@ -1060,7 +1065,7 @@ static int chv_config_get(struct pinctrl_dev *pctldev, unsigned pin,
+ }
+ 
+ static int chv_config_set_pull(struct chv_pinctrl *pctrl, unsigned pin,
+-			       enum pin_config_param param, u16 arg)
++			       enum pin_config_param param, u32 arg)
+ {
+ 	void __iomem *reg = chv_padreg(pctrl, pin, CHV_PADCTRL0);
+ 	unsigned long flags;
+@@ -1152,7 +1157,7 @@ static int chv_config_set(struct pinctrl_dev *pctldev, unsigned pin,
+ 	struct chv_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
+ 	enum pin_config_param param;
+ 	int i, ret;
+-	u16 arg;
++	u32 arg;
+ 
+ 	if (chv_pad_locked(pctrl, pin))
+ 		return -EBUSY;
+@@ -1534,13 +1539,33 @@ static void chv_gpio_irq_handler(struct irq_desc *desc)
+  * is not listed below.
+  */
+ static const struct dmi_system_id chv_no_valid_mask[] = {
++	/* See https://bugzilla.kernel.org/show_bug.cgi?id=194945 */
+ 	{
+-		/* See https://bugzilla.kernel.org/show_bug.cgi?id=194945 */
+-		.ident = "Acer Chromebook (CYAN)",
++		.ident = "Intel_Strago based Chromebooks (All models)",
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "GOOGLE"),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "Edgar"),
+-			DMI_MATCH(DMI_BIOS_DATE, "05/21/2016"),
++			DMI_MATCH(DMI_PRODUCT_FAMILY, "Intel_Strago"),
++		},
++	},
++	{
++		.ident = "HP Chromebook 11 G5 (Setzer)",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "HP"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Setzer"),
++		},
++	},
++	{
++		.ident = "Acer Chromebook R11 (Cyan)",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "GOOGLE"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Cyan"),
++		},
++	},
++	{
++		.ident = "Samsung Chromebook 3 (Celes)",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "GOOGLE"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Celes"),
+ 		},
+ 	},
+ 	{}
+@@ -1552,6 +1577,7 @@ static int chv_gpio_probe(struct chv_pinctrl *pctrl, int irq)
+ 	struct gpio_chip *chip = &pctrl->chip;
+ 	bool need_valid_mask = !dmi_check_system(chv_no_valid_mask);
+ 	int ret, i, offset;
++	int irq_base;
+ 
+ 	*chip = chv_gpio_chip;
+ 
+@@ -1597,7 +1623,18 @@ static int chv_gpio_probe(struct chv_pinctrl *pctrl, int irq)
+ 	/* Clear all interrupts */
+ 	chv_writel(0xffff, pctrl->regs + CHV_INTSTAT);
+ 
+-	ret = gpiochip_irqchip_add(chip, &chv_gpio_irqchip, 0,
++	if (!need_valid_mask) {
++		irq_base = devm_irq_alloc_descs(pctrl->dev, -1, 0,
++						chip->ngpio, NUMA_NO_NODE);
++		if (irq_base < 0) {
++			dev_err(pctrl->dev, "Failed to allocate IRQ numbers\n");
++			return irq_base;
++		}
++	} else {
++		irq_base = 0;
++	}
++
++	ret = gpiochip_irqchip_add(chip, &chv_gpio_irqchip, irq_base,
+ 				   handle_bad_irq, IRQ_TYPE_NONE);
+ 	if (ret) {
+ 		dev_err(pctrl->dev, "failed to add IRQ chip\n");
+@@ -1609,11 +1646,34 @@ static int chv_gpio_probe(struct chv_pinctrl *pctrl, int irq)
+ 	return 0;
+ }
+ 
++static acpi_status chv_pinctrl_mmio_access_handler(u32 function,
++	acpi_physical_address address, u32 bits, u64 *value,
++	void *handler_context, void *region_context)
++{
++	struct chv_pinctrl *pctrl = region_context;
++	unsigned long flags;
++	acpi_status ret = AE_OK;
++
++	raw_spin_lock_irqsave(&chv_lock, flags);
++
++	if (function == ACPI_WRITE)
++		chv_writel((u32)(*value), pctrl->regs + (u32)address);
++	else if (function == ACPI_READ)
++		*value = readl(pctrl->regs + (u32)address);
++	else
++		ret = AE_BAD_PARAMETER;
++
++	raw_spin_unlock_irqrestore(&chv_lock, flags);
++
++	return ret;
++}
++
+ static int chv_pinctrl_probe(struct platform_device *pdev)
+ {
+ 	struct chv_pinctrl *pctrl;
+ 	struct acpi_device *adev;
+ 	struct resource *res;
++	acpi_status status;
+ 	int ret, irq, i;
+ 
+ 	adev = ACPI_COMPANION(&pdev->dev);
+@@ -1669,11 +1729,29 @@ static int chv_pinctrl_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
++	status = acpi_install_address_space_handler(adev->handle,
++					pctrl->community->acpi_space_id,
++					chv_pinctrl_mmio_access_handler,
++					NULL, pctrl);
++	if (ACPI_FAILURE(status))
++		dev_err(&pdev->dev, "failed to install ACPI addr space handler\n");
++
+ 	platform_set_drvdata(pdev, pctrl);
+ 
+ 	return 0;
+ }
+ 
++static int chv_pinctrl_remove(struct platform_device *pdev)
++{
++	struct chv_pinctrl *pctrl = platform_get_drvdata(pdev);
++
++	acpi_remove_address_space_handler(ACPI_COMPANION(&pdev->dev),
++					  pctrl->community->acpi_space_id,
++					  chv_pinctrl_mmio_access_handler);
++
++	return 0;
++}
++
+ #ifdef CONFIG_PM_SLEEP
+ static int chv_pinctrl_suspend_noirq(struct device *dev)
+ {
+@@ -1781,6 +1859,7 @@ MODULE_DEVICE_TABLE(acpi, chv_pinctrl_acpi_match);
+ 
+ static struct platform_driver chv_pinctrl_driver = {
+ 	.probe = chv_pinctrl_probe,
++	.remove = chv_pinctrl_remove,
+ 	.driver = {
+ 		.name = "cherryview-pinctrl",
+ 		.pm = &chv_pinctrl_pm_ops,
+diff --git a/drivers/pinctrl/intel/pinctrl-denverton.c b/drivers/pinctrl/intel/pinctrl-denverton.c
+new file mode 100644
+index 0000000..4500880
+--- /dev/null
++++ b/drivers/pinctrl/intel/pinctrl-denverton.c
+@@ -0,0 +1,302 @@
++/*
++ * Intel Denverton SoC pinctrl/GPIO driver
++ *
++ * Copyright (C) 2017, Intel Corporation
++ * Author: Mika Westerberg <mika.westerberg@linux.intel.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++
++#include <linux/acpi.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/pm.h>
++#include <linux/pinctrl/pinctrl.h>
++
++#include "pinctrl-intel.h"
++
++#define DNV_PAD_OWN	0x020
++#define DNV_HOSTSW_OWN	0x0C0
++#define DNV_PADCFGLOCK	0x090
++#define DNV_GPI_IE	0x120
++
++#define DNV_GPP(n, s, e)				\
++	{						\
++		.reg_num = (n),				\
++		.base = (s),				\
++		.size = ((e) - (s) + 1),		\
++	}
++
++#define DNV_COMMUNITY(b, s, e, g)			\
++	{						\
++		.barno = (b),				\
++		.padown_offset = DNV_PAD_OWN,		\
++		.padcfglock_offset = DNV_PADCFGLOCK,	\
++		.hostown_offset = DNV_HOSTSW_OWN,	\
++		.ie_offset = DNV_GPI_IE,		\
++		.pin_base = (s),			\
++		.npins = ((e) - (s) + 1),		\
++		.gpps = (g),				\
++		.ngpps = ARRAY_SIZE(g),			\
++	}
++
++static const struct pinctrl_pin_desc dnv_pins[] = {
++	/* North ALL */
++	PINCTRL_PIN(0, "GBE0_SDP0"),
++	PINCTRL_PIN(1, "GBE1_SDP0"),
++	PINCTRL_PIN(2, "GBE0_SDP1"),
++	PINCTRL_PIN(3, "GBE1_SDP1"),
++	PINCTRL_PIN(4, "GBE0_SDP2"),
++	PINCTRL_PIN(5, "GBE1_SDP2"),
++	PINCTRL_PIN(6, "GBE0_SDP3"),
++	PINCTRL_PIN(7, "GBE1_SDP3"),
++	PINCTRL_PIN(8, "GBE2_LED0"),
++	PINCTRL_PIN(9, "GBE2_LED1"),
++	PINCTRL_PIN(10, "GBE0_I2C_CLK"),
++	PINCTRL_PIN(11, "GBE0_I2C_DATA"),
++	PINCTRL_PIN(12, "GBE1_I2C_CLK"),
++	PINCTRL_PIN(13, "GBE1_I2C_DATA"),
++	PINCTRL_PIN(14, "NCSI_RXD0"),
++	PINCTRL_PIN(15, "NCSI_CLK_IN"),
++	PINCTRL_PIN(16, "NCSI_RXD1"),
++	PINCTRL_PIN(17, "NCSI_CRS_DV"),
++	PINCTRL_PIN(18, "NCSI_ARB_IN"),
++	PINCTRL_PIN(19, "NCSI_TX_EN"),
++	PINCTRL_PIN(20, "NCSI_TXD0"),
++	PINCTRL_PIN(21, "NCSI_TXD1"),
++	PINCTRL_PIN(22, "NCSI_ARB_OUT"),
++	PINCTRL_PIN(23, "GBE0_LED0"),
++	PINCTRL_PIN(24, "GBE0_LED1"),
++	PINCTRL_PIN(25, "GBE1_LED0"),
++	PINCTRL_PIN(26, "GBE1_LED1"),
++	PINCTRL_PIN(27, "GPIO_0"),
++	PINCTRL_PIN(28, "PCIE_CLKREQ0_N"),
++	PINCTRL_PIN(29, "PCIE_CLKREQ1_N"),
++	PINCTRL_PIN(30, "PCIE_CLKREQ2_N"),
++	PINCTRL_PIN(31, "PCIE_CLKREQ3_N"),
++	PINCTRL_PIN(32, "PCIE_CLKREQ4_N"),
++	PINCTRL_PIN(33, "GPIO_1"),
++	PINCTRL_PIN(34, "GPIO_2"),
++	PINCTRL_PIN(35, "SVID_ALERT_N"),
++	PINCTRL_PIN(36, "SVID_DATA"),
++	PINCTRL_PIN(37, "SVID_CLK"),
++	PINCTRL_PIN(38, "THERMTRIP_N"),
++	PINCTRL_PIN(39, "PROCHOT_N"),
++	PINCTRL_PIN(40, "MEMHOT_N"),
++	/* South DFX */
++	PINCTRL_PIN(41, "DFX_PORT_CLK0"),
++	PINCTRL_PIN(42, "DFX_PORT_CLK1"),
++	PINCTRL_PIN(43, "DFX_PORT0"),
++	PINCTRL_PIN(44, "DFX_PORT1"),
++	PINCTRL_PIN(45, "DFX_PORT2"),
++	PINCTRL_PIN(46, "DFX_PORT3"),
++	PINCTRL_PIN(47, "DFX_PORT4"),
++	PINCTRL_PIN(48, "DFX_PORT5"),
++	PINCTRL_PIN(49, "DFX_PORT6"),
++	PINCTRL_PIN(50, "DFX_PORT7"),
++	PINCTRL_PIN(51, "DFX_PORT8"),
++	PINCTRL_PIN(52, "DFX_PORT9"),
++	PINCTRL_PIN(53, "DFX_PORT10"),
++	PINCTRL_PIN(54, "DFX_PORT11"),
++	PINCTRL_PIN(55, "DFX_PORT12"),
++	PINCTRL_PIN(56, "DFX_PORT13"),
++	PINCTRL_PIN(57, "DFX_PORT14"),
++	PINCTRL_PIN(58, "DFX_PORT15"),
++	/* South GPP0 */
++	PINCTRL_PIN(59, "GPIO_12"),
++	PINCTRL_PIN(60, "SMB5_GBE_ALRT_N"),
++	PINCTRL_PIN(61, "PCIE_CLKREQ5_N"),
++	PINCTRL_PIN(62, "PCIE_CLKREQ6_N"),
++	PINCTRL_PIN(63, "PCIE_CLKREQ7_N"),
++	PINCTRL_PIN(64, "UART0_RXD"),
++	PINCTRL_PIN(65, "UART0_TXD"),
++	PINCTRL_PIN(66, "SMB5_GBE_CLK"),
++	PINCTRL_PIN(67, "SMB5_GBE_DATA"),
++	PINCTRL_PIN(68, "ERROR2_N"),
++	PINCTRL_PIN(69, "ERROR1_N"),
++	PINCTRL_PIN(70, "ERROR0_N"),
++	PINCTRL_PIN(71, "IERR_N"),
++	PINCTRL_PIN(72, "MCERR_N"),
++	PINCTRL_PIN(73, "SMB0_LEG_CLK"),
++	PINCTRL_PIN(74, "SMB0_LEG_DATA"),
++	PINCTRL_PIN(75, "SMB0_LEG_ALRT_N"),
++	PINCTRL_PIN(76, "SMB1_HOST_DATA"),
++	PINCTRL_PIN(77, "SMB1_HOST_CLK"),
++	PINCTRL_PIN(78, "SMB2_PECI_DATA"),
++	PINCTRL_PIN(79, "SMB2_PECI_CLK"),
++	PINCTRL_PIN(80, "SMB4_CSME0_DATA"),
++	PINCTRL_PIN(81, "SMB4_CSME0_CLK"),
++	PINCTRL_PIN(82, "SMB4_CSME0_ALRT_N"),
++	PINCTRL_PIN(83, "USB_OC0_N"),
++	PINCTRL_PIN(84, "FLEX_CLK_SE0"),
++	PINCTRL_PIN(85, "FLEX_CLK_SE1"),
++	PINCTRL_PIN(86, "GPIO_4"),
++	PINCTRL_PIN(87, "GPIO_5"),
++	PINCTRL_PIN(88, "GPIO_6"),
++	PINCTRL_PIN(89, "GPIO_7"),
++	PINCTRL_PIN(90, "SATA0_LED_N"),
++	PINCTRL_PIN(91, "SATA1_LED_N"),
++	PINCTRL_PIN(92, "SATA_PDETECT0"),
++	PINCTRL_PIN(93, "SATA_PDETECT1"),
++	PINCTRL_PIN(94, "SATA0_SDOUT"),
++	PINCTRL_PIN(95, "SATA1_SDOUT"),
++	PINCTRL_PIN(96, "UART1_RXD"),
++	PINCTRL_PIN(97, "UART1_TXD"),
++	PINCTRL_PIN(98, "GPIO_8"),
++	PINCTRL_PIN(99, "GPIO_9"),
++	PINCTRL_PIN(100, "TCK"),
++	PINCTRL_PIN(101, "TRST_N"),
++	PINCTRL_PIN(102, "TMS"),
++	PINCTRL_PIN(103, "TDI"),
++	PINCTRL_PIN(104, "TDO"),
++	PINCTRL_PIN(105, "CX_PRDY_N"),
++	PINCTRL_PIN(106, "CX_PREQ_N"),
++	PINCTRL_PIN(107, "CTBTRIGINOUT"),
++	PINCTRL_PIN(108, "CTBTRIGOUT"),
++	PINCTRL_PIN(109, "DFX_SPARE2"),
++	PINCTRL_PIN(110, "DFX_SPARE3"),
++	PINCTRL_PIN(111, "DFX_SPARE4"),
++	/* South GPP1 */
++	PINCTRL_PIN(112, "SUSPWRDNACK"),
++	PINCTRL_PIN(113, "PMU_SUSCLK"),
++	PINCTRL_PIN(114, "ADR_TRIGGER"),
++	PINCTRL_PIN(115, "PMU_SLP_S45_N"),
++	PINCTRL_PIN(116, "PMU_SLP_S3_N"),
++	PINCTRL_PIN(117, "PMU_WAKE_N"),
++	PINCTRL_PIN(118, "PMU_PWRBTN_N"),
++	PINCTRL_PIN(119, "PMU_RESETBUTTON_N"),
++	PINCTRL_PIN(120, "PMU_PLTRST_N"),
++	PINCTRL_PIN(121, "SUS_STAT_N"),
++	PINCTRL_PIN(122, "SLP_S0IX_N"),
++	PINCTRL_PIN(123, "SPI_CS0_N"),
++	PINCTRL_PIN(124, "SPI_CS1_N"),
++	PINCTRL_PIN(125, "SPI_MOSI_IO0"),
++	PINCTRL_PIN(126, "SPI_MISO_IO1"),
++	PINCTRL_PIN(127, "SPI_IO2"),
++	PINCTRL_PIN(128, "SPI_IO3"),
++	PINCTRL_PIN(129, "SPI_CLK"),
++	PINCTRL_PIN(130, "SPI_CLK_LOOPBK"),
++	PINCTRL_PIN(131, "ESPI_IO0"),
++	PINCTRL_PIN(132, "ESPI_IO1"),
++	PINCTRL_PIN(133, "ESPI_IO2"),
++	PINCTRL_PIN(134, "ESPI_IO3"),
++	PINCTRL_PIN(135, "ESPI_CS0_N"),
++	PINCTRL_PIN(136, "ESPI_CLK"),
++	PINCTRL_PIN(137, "ESPI_RST_N"),
++	PINCTRL_PIN(138, "ESPI_ALRT0_N"),
++	PINCTRL_PIN(139, "GPIO_10"),
++	PINCTRL_PIN(140, "GPIO_11"),
++	PINCTRL_PIN(141, "ESPI_CLK_LOOPBK"),
++	PINCTRL_PIN(142, "EMMC_CMD"),
++	PINCTRL_PIN(143, "EMMC_STROBE"),
++	PINCTRL_PIN(144, "EMMC_CLK"),
++	PINCTRL_PIN(145, "EMMC_D0"),
++	PINCTRL_PIN(146, "EMMC_D1"),
++	PINCTRL_PIN(147, "EMMC_D2"),
++	PINCTRL_PIN(148, "EMMC_D3"),
++	PINCTRL_PIN(149, "EMMC_D4"),
++	PINCTRL_PIN(150, "EMMC_D5"),
++	PINCTRL_PIN(151, "EMMC_D6"),
++	PINCTRL_PIN(152, "EMMC_D7"),
++	PINCTRL_PIN(153, "GPIO_3"),
++};
++
++static const unsigned int dnv_uart0_pins[] = { 60, 61, 64, 65 };
++static const unsigned int dnv_uart0_modes[] = { 2, 3, 1, 1 };
++static const unsigned int dnv_uart1_pins[] = { 94, 95, 96, 97 };
++static const unsigned int dnv_uart2_pins[] = { 60, 61, 62, 63 };
++static const unsigned int dnv_uart2_modes[] = { 1, 1, 2, 2 };
++static const unsigned int dnv_emmc_pins[] = {
++	142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152,
++};
++
++static const struct intel_pingroup dnv_groups[] = {
++	PIN_GROUP("uart0_grp", dnv_uart0_pins, dnv_uart0_modes),
++	PIN_GROUP("uart1_grp", dnv_uart1_pins, 1),
++	PIN_GROUP("uart2_grp", dnv_uart2_pins, dnv_uart2_modes),
++	PIN_GROUP("emmc_grp", dnv_emmc_pins, 1),
++};
++
++static const char * const dnv_uart0_groups[] = { "uart0_grp" };
++static const char * const dnv_uart1_groups[] = { "uart1_grp" };
++static const char * const dnv_uart2_groups[] = { "uart2_grp" };
++static const char * const dnv_emmc_groups[] = { "emmc_grp" };
++
++static const struct intel_function dnv_functions[] = {
++	FUNCTION("uart0", dnv_uart0_groups),
++	FUNCTION("uart1", dnv_uart1_groups),
++	FUNCTION("uart2", dnv_uart2_groups),
++	FUNCTION("emmc", dnv_emmc_groups),
++};
++
++static const struct intel_padgroup dnv_north_gpps[] = {
++	DNV_GPP(0, 0, 31),	/* North ALL_0 */
++	DNV_GPP(1, 32, 40),	/* North ALL_1 */
++};
++
++static const struct intel_padgroup dnv_south_gpps[] = {
++	DNV_GPP(0, 41, 58),	/* South DFX */
++	DNV_GPP(1, 59, 90),	/* South GPP0_0 */
++	DNV_GPP(2, 91, 111),	/* South GPP0_1 */
++	DNV_GPP(3, 112, 143),	/* South GPP1_0 */
++	DNV_GPP(4, 144, 153),	/* South GPP1_1 */
++};
++
++static const struct intel_community dnv_communities[] = {
++	DNV_COMMUNITY(0, 0, 40, dnv_north_gpps),
++	DNV_COMMUNITY(1, 41, 153, dnv_south_gpps),
++};
++
++static const struct intel_pinctrl_soc_data dnv_soc_data = {
++	.pins = dnv_pins,
++	.npins = ARRAY_SIZE(dnv_pins),
++	.groups = dnv_groups,
++	.ngroups = ARRAY_SIZE(dnv_groups),
++	.functions = dnv_functions,
++	.nfunctions = ARRAY_SIZE(dnv_functions),
++	.communities = dnv_communities,
++	.ncommunities = ARRAY_SIZE(dnv_communities),
++};
++
++static int dnv_pinctrl_probe(struct platform_device *pdev)
++{
++	return intel_pinctrl_probe(pdev, &dnv_soc_data);
++}
++
++static const struct dev_pm_ops dnv_pinctrl_pm_ops = {
++	SET_LATE_SYSTEM_SLEEP_PM_OPS(intel_pinctrl_suspend,
++				     intel_pinctrl_resume)
++};
++
++static const struct acpi_device_id dnv_pinctrl_acpi_match[] = {
++	{ "INTC3000" },
++	{ }
++};
++MODULE_DEVICE_TABLE(acpi, dnv_pinctrl_acpi_match);
++
++static struct platform_driver dnv_pinctrl_driver = {
++	.probe = dnv_pinctrl_probe,
++	.driver = {
++		.name = "denverton-pinctrl",
++		.acpi_match_table = dnv_pinctrl_acpi_match,
++		.pm = &dnv_pinctrl_pm_ops,
++	},
++};
++
++static int __init dnv_pinctrl_init(void)
++{
++	return platform_driver_register(&dnv_pinctrl_driver);
++}
++subsys_initcall(dnv_pinctrl_init);
++
++static void __exit dnv_pinctrl_exit(void)
++{
++	platform_driver_unregister(&dnv_pinctrl_driver);
++}
++module_exit(dnv_pinctrl_exit);
++
++MODULE_AUTHOR("Mika Westerberg <mika.westerberg@linux.intel.com>");
++MODULE_DESCRIPTION("Intel Denverton SoC pinctrl/GPIO driver");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/pinctrl/intel/pinctrl-geminilake.c b/drivers/pinctrl/intel/pinctrl-geminilake.c
+new file mode 100644
+index 0000000..a6b94c9
+--- /dev/null
++++ b/drivers/pinctrl/intel/pinctrl-geminilake.c
+@@ -0,0 +1,512 @@
++/*
++ * Intel Gemini Lake SoC pinctrl/GPIO driver
++ *
++ * Copyright (C) 2017 Intel Corporation
++ * Author: Mika Westerberg <mika.westerberg@linux.intel.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++
++#include <linux/acpi.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/pm.h>
++#include <linux/pinctrl/pinctrl.h>
++
++#include "pinctrl-intel.h"
++
++#define GLK_PAD_OWN	0x020
++#define GLK_HOSTSW_OWN	0x0b0
++#define GLK_PADCFGLOCK	0x080
++#define GLK_GPI_IE	0x110
++
++#define GLK_COMMUNITY(s, e)				\
++	{						\
++		.padown_offset = GLK_PAD_OWN,		\
++		.padcfglock_offset = GLK_PADCFGLOCK,	\
++		.hostown_offset = GLK_HOSTSW_OWN,	\
++		.ie_offset = GLK_GPI_IE,		\
++		.gpp_size = 32,                         \
++		.pin_base = (s),			\
++		.npins = ((e) - (s) + 1),		\
++	}
++
++/* GLK */
++static const struct pinctrl_pin_desc glk_northwest_pins[] = {
++	PINCTRL_PIN(0, "TCK"),
++	PINCTRL_PIN(1, "TRST_B"),
++	PINCTRL_PIN(2, "TMS"),
++	PINCTRL_PIN(3, "TDI"),
++	PINCTRL_PIN(4, "TDO"),
++	PINCTRL_PIN(5, "JTAGX"),
++	PINCTRL_PIN(6, "CX_PREQ_B"),
++	PINCTRL_PIN(7, "CX_PRDY_B"),
++	PINCTRL_PIN(8, "GPIO_8"),
++	PINCTRL_PIN(9, "GPIO_9"),
++	PINCTRL_PIN(10, "GPIO_10"),
++	PINCTRL_PIN(11, "GPIO_11"),
++	PINCTRL_PIN(12, "GPIO_12"),
++	PINCTRL_PIN(13, "GPIO_13"),
++	PINCTRL_PIN(14, "GPIO_14"),
++	PINCTRL_PIN(15, "GPIO_15"),
++	PINCTRL_PIN(16, "GPIO_16"),
++	PINCTRL_PIN(17, "GPIO_17"),
++	PINCTRL_PIN(18, "GPIO_18"),
++	PINCTRL_PIN(19, "GPIO_19"),
++	PINCTRL_PIN(20, "GPIO_20"),
++	PINCTRL_PIN(21, "GPIO_21"),
++	PINCTRL_PIN(22, "GPIO_22"),
++	PINCTRL_PIN(23, "GPIO_23"),
++	PINCTRL_PIN(24, "GPIO_24"),
++	PINCTRL_PIN(25, "GPIO_25"),
++	PINCTRL_PIN(26, "GPIO_26"),
++	PINCTRL_PIN(27, "GPIO_27"),
++	PINCTRL_PIN(28, "GPIO_28"),
++	PINCTRL_PIN(29, "GPIO_29"),
++	PINCTRL_PIN(30, "GPIO_30"),
++	PINCTRL_PIN(31, "GPIO_31"),
++	PINCTRL_PIN(32, "GPIO_32"),
++	PINCTRL_PIN(33, "GPIO_33"),
++	PINCTRL_PIN(34, "GPIO_34"),
++	PINCTRL_PIN(35, "GPIO_35"),
++	PINCTRL_PIN(36, "GPIO_36"),
++	PINCTRL_PIN(37, "GPIO_37"),
++	PINCTRL_PIN(38, "GPIO_38"),
++	PINCTRL_PIN(39, "GPIO_39"),
++	PINCTRL_PIN(40, "GPIO_40"),
++	PINCTRL_PIN(41, "GPIO_41"),
++	PINCTRL_PIN(42, "GP_INTD_DSI_TE1"),
++	PINCTRL_PIN(43, "GP_INTD_DSI_TE2"),
++	PINCTRL_PIN(44, "USB_OC0_B"),
++	PINCTRL_PIN(45, "USB_OC1_B"),
++	PINCTRL_PIN(46, "DSI_I2C_SDA"),
++	PINCTRL_PIN(47, "DSI_I2C_SCL"),
++	PINCTRL_PIN(48, "PMC_I2C_SDA"),
++	PINCTRL_PIN(49, "PMC_I2C_SCL"),
++	PINCTRL_PIN(50, "LPSS_I2C0_SDA"),
++	PINCTRL_PIN(51, "LPSS_I2C0_SCL"),
++	PINCTRL_PIN(52, "LPSS_I2C1_SDA"),
++	PINCTRL_PIN(53, "LPSS_I2C1_SCL"),
++	PINCTRL_PIN(54, "LPSS_I2C2_SDA"),
++	PINCTRL_PIN(55, "LPSS_I2C2_SCL"),
++	PINCTRL_PIN(56, "LPSS_I2C3_SDA"),
++	PINCTRL_PIN(57, "LPSS_I2C3_SCL"),
++	PINCTRL_PIN(58, "LPSS_I2C4_SDA"),
++	PINCTRL_PIN(59, "LPSS_I2C4_SCL"),
++	PINCTRL_PIN(60, "LPSS_UART0_RXD"),
++	PINCTRL_PIN(61, "LPSS_UART0_TXD"),
++	PINCTRL_PIN(62, "LPSS_UART0_RTS_B"),
++	PINCTRL_PIN(63, "LPSS_UART0_CTS_B"),
++	PINCTRL_PIN(64, "LPSS_UART2_RXD"),
++	PINCTRL_PIN(65, "LPSS_UART2_TXD"),
++	PINCTRL_PIN(66, "LPSS_UART2_RTS_B"),
++	PINCTRL_PIN(67, "LPSS_UART2_CTS_B"),
++	PINCTRL_PIN(68, "PMC_SPI_FS0"),
++	PINCTRL_PIN(69, "PMC_SPI_FS1"),
++	PINCTRL_PIN(70, "PMC_SPI_FS2"),
++	PINCTRL_PIN(71, "PMC_SPI_RXD"),
++	PINCTRL_PIN(72, "PMC_SPI_TXD"),
++	PINCTRL_PIN(73, "PMC_SPI_CLK"),
++	PINCTRL_PIN(74, "THERMTRIP_B"),
++	PINCTRL_PIN(75, "PROCHOT_B"),
++	PINCTRL_PIN(76, "EMMC_RST_B"),
++	PINCTRL_PIN(77, "GPIO_212"),
++	PINCTRL_PIN(78, "GPIO_213"),
++	PINCTRL_PIN(79, "GPIO_214"),
++};
++
++static const unsigned int glk_northwest_uart1_pins[] = { 26, 27, 28, 29 };
++static const unsigned int glk_northwest_pwm0_pins[] = { 42 };
++static const unsigned int glk_northwest_pwm1_pins[] = { 43 };
++static const unsigned int glk_northwest_pwm2_pins[] = { 44 };
++static const unsigned int glk_northwest_pwm3_pins[] = { 45 };
++static const unsigned int glk_northwest_i2c0_pins[] = { 50, 51 };
++static const unsigned int glk_northwest_i2c1_pins[] = { 52, 53 };
++static const unsigned int glk_northwest_i2c2_pins[] = { 54, 55 };
++static const unsigned int glk_northwest_i2c3_pins[] = { 56, 57 };
++static const unsigned int glk_northwest_i2c4_pins[] = { 58, 59 };
++static const unsigned int glk_northwest_uart0_pins[] = { 60, 61, 62, 63 };
++static const unsigned int glk_northwest_uart2_pins[] = { 64, 65, 66, 67 };
++
++static const struct intel_pingroup glk_northwest_groups[] = {
++	PIN_GROUP("uart1_grp", glk_northwest_uart1_pins, 2),
++	PIN_GROUP("pwm0_grp", glk_northwest_pwm0_pins, 2),
++	PIN_GROUP("pwm1_grp", glk_northwest_pwm1_pins, 2),
++	PIN_GROUP("pwm2_grp", glk_northwest_pwm2_pins, 2),
++	PIN_GROUP("pwm3_grp", glk_northwest_pwm3_pins, 2),
++	PIN_GROUP("i2c0_grp", glk_northwest_i2c0_pins, 1),
++	PIN_GROUP("i2c1_grp", glk_northwest_i2c1_pins, 1),
++	PIN_GROUP("i2c2_grp", glk_northwest_i2c2_pins, 1),
++	PIN_GROUP("i2c3_grp", glk_northwest_i2c3_pins, 1),
++	PIN_GROUP("i2c4_grp", glk_northwest_i2c4_pins, 1),
++	PIN_GROUP("uart0_grp", glk_northwest_uart0_pins, 1),
++	PIN_GROUP("uart2_grp", glk_northwest_uart2_pins, 1),
++};
++
++static const char * const glk_northwest_uart1_groups[] = { "uart1_grp" };
++static const char * const glk_northwest_pwm0_groups[] = { "pwm0_grp" };
++static const char * const glk_northwest_pwm1_groups[] = { "pwm1_grp" };
++static const char * const glk_northwest_pwm2_groups[] = { "pwm2_grp" };
++static const char * const glk_northwest_pwm3_groups[] = { "pwm3_grp" };
++static const char * const glk_northwest_i2c0_groups[] = { "i2c0_grp" };
++static const char * const glk_northwest_i2c1_groups[] = { "i2c1_grp" };
++static const char * const glk_northwest_i2c2_groups[] = { "i2c2_grp" };
++static const char * const glk_northwest_i2c3_groups[] = { "i2c3_grp" };
++static const char * const glk_northwest_i2c4_groups[] = { "i2c4_grp" };
++static const char * const glk_northwest_uart0_groups[] = { "uart0_grp" };
++static const char * const glk_northwest_uart2_groups[] = { "uart2_grp" };
++
++static const struct intel_function glk_northwest_functions[] = {
++	FUNCTION("uart1", glk_northwest_uart1_groups),
++	FUNCTION("pmw0", glk_northwest_pwm0_groups),
++	FUNCTION("pmw1", glk_northwest_pwm1_groups),
++	FUNCTION("pmw2", glk_northwest_pwm2_groups),
++	FUNCTION("pmw3", glk_northwest_pwm3_groups),
++	FUNCTION("i2c0", glk_northwest_i2c0_groups),
++	FUNCTION("i2c1", glk_northwest_i2c1_groups),
++	FUNCTION("i2c2", glk_northwest_i2c2_groups),
++	FUNCTION("i2c3", glk_northwest_i2c3_groups),
++	FUNCTION("i2c4", glk_northwest_i2c4_groups),
++	FUNCTION("uart0", glk_northwest_uart0_groups),
++	FUNCTION("uart2", glk_northwest_uart2_groups),
++};
++
++static const struct intel_community glk_northwest_communities[] = {
++	GLK_COMMUNITY(0, 79),
++};
++
++static const struct intel_pinctrl_soc_data glk_northwest_soc_data = {
++	.uid = "1",
++	.pins = glk_northwest_pins,
++	.npins = ARRAY_SIZE(glk_northwest_pins),
++	.groups = glk_northwest_groups,
++	.ngroups = ARRAY_SIZE(glk_northwest_groups),
++	.functions = glk_northwest_functions,
++	.nfunctions = ARRAY_SIZE(glk_northwest_functions),
++	.communities = glk_northwest_communities,
++	.ncommunities = ARRAY_SIZE(glk_northwest_communities),
++};
++
++static const struct pinctrl_pin_desc glk_north_pins[] = {
++	PINCTRL_PIN(0, "SVID0_ALERT_B"),
++	PINCTRL_PIN(1, "SVID0_DATA"),
++	PINCTRL_PIN(2, "SVID0_CLK"),
++	PINCTRL_PIN(3, "LPSS_SPI_0_CLK"),
++	PINCTRL_PIN(4, "LPSS_SPI_0_FS0"),
++	PINCTRL_PIN(5, "LPSS_SPI_0_FS1"),
++	PINCTRL_PIN(6, "LPSS_SPI_0_RXD"),
++	PINCTRL_PIN(7, "LPSS_SPI_0_TXD"),
++	PINCTRL_PIN(8, "LPSS_SPI_1_CLK"),
++	PINCTRL_PIN(9, "LPSS_SPI_1_FS0"),
++	PINCTRL_PIN(10, "LPSS_SPI_1_FS1"),
++	PINCTRL_PIN(11, "LPSS_SPI_1_FS2"),
++	PINCTRL_PIN(12, "LPSS_SPI_1_RXD"),
++	PINCTRL_PIN(13, "LPSS_SPI_1_TXD"),
++	PINCTRL_PIN(14, "FST_SPI_CS0_B"),
++	PINCTRL_PIN(15, "FST_SPI_CS1_B"),
++	PINCTRL_PIN(16, "FST_SPI_MOSI_IO0"),
++	PINCTRL_PIN(17, "FST_SPI_MISO_IO1"),
++	PINCTRL_PIN(18, "FST_SPI_IO2"),
++	PINCTRL_PIN(19, "FST_SPI_IO3"),
++	PINCTRL_PIN(20, "FST_SPI_CLK"),
++	PINCTRL_PIN(21, "FST_SPI_CLK_FB"),
++	PINCTRL_PIN(22, "PMU_PLTRST_B"),
++	PINCTRL_PIN(23, "PMU_PWRBTN_B"),
++	PINCTRL_PIN(24, "PMU_SLP_S0_B"),
++	PINCTRL_PIN(25, "PMU_SLP_S3_B"),
++	PINCTRL_PIN(26, "PMU_SLP_S4_B"),
++	PINCTRL_PIN(27, "SUSPWRDNACK"),
++	PINCTRL_PIN(28, "EMMC_PWR_EN_B"),
++	PINCTRL_PIN(29, "PMU_AC_PRESENT"),
++	PINCTRL_PIN(30, "PMU_BATLOW_B"),
++	PINCTRL_PIN(31, "PMU_RESETBUTTON_B"),
++	PINCTRL_PIN(32, "PMU_SUSCLK"),
++	PINCTRL_PIN(33, "SUS_STAT_B"),
++	PINCTRL_PIN(34, "LPSS_I2C5_SDA"),
++	PINCTRL_PIN(35, "LPSS_I2C5_SCL"),
++	PINCTRL_PIN(36, "LPSS_I2C6_SDA"),
++	PINCTRL_PIN(37, "LPSS_I2C6_SCL"),
++	PINCTRL_PIN(38, "LPSS_I2C7_SDA"),
++	PINCTRL_PIN(39, "LPSS_I2C7_SCL"),
++	PINCTRL_PIN(40, "PCIE_WAKE0_B"),
++	PINCTRL_PIN(41, "PCIE_WAKE1_B"),
++	PINCTRL_PIN(42, "PCIE_WAKE2_B"),
++	PINCTRL_PIN(43, "PCIE_WAKE3_B"),
++	PINCTRL_PIN(44, "PCIE_CLKREQ0_B"),
++	PINCTRL_PIN(45, "PCIE_CLKREQ1_B"),
++	PINCTRL_PIN(46, "PCIE_CLKREQ2_B"),
++	PINCTRL_PIN(47, "PCIE_CLKREQ3_B"),
++	PINCTRL_PIN(48, "HV_DDI0_DDC_SDA"),
++	PINCTRL_PIN(49, "HV_DDI0_DDC_SCL"),
++	PINCTRL_PIN(50, "HV_DDI1_DDC_SDA"),
++	PINCTRL_PIN(51, "HV_DDI1_DDC_SCL"),
++	PINCTRL_PIN(52, "PANEL0_VDDEN"),
++	PINCTRL_PIN(53, "PANEL0_BKLTEN"),
++	PINCTRL_PIN(54, "PANEL0_BKLTCTL"),
++	PINCTRL_PIN(55, "HV_DDI0_HPD"),
++	PINCTRL_PIN(56, "HV_DDI1_HPD"),
++	PINCTRL_PIN(57, "HV_EDP_HPD"),
++	PINCTRL_PIN(58, "GPIO_134"),
++	PINCTRL_PIN(59, "GPIO_135"),
++	PINCTRL_PIN(60, "GPIO_136"),
++	PINCTRL_PIN(61, "GPIO_137"),
++	PINCTRL_PIN(62, "GPIO_138"),
++	PINCTRL_PIN(63, "GPIO_139"),
++	PINCTRL_PIN(64, "GPIO_140"),
++	PINCTRL_PIN(65, "GPIO_141"),
++	PINCTRL_PIN(66, "GPIO_142"),
++	PINCTRL_PIN(67, "GPIO_143"),
++	PINCTRL_PIN(68, "GPIO_144"),
++	PINCTRL_PIN(69, "GPIO_145"),
++	PINCTRL_PIN(70, "GPIO_146"),
++	PINCTRL_PIN(71, "LPC_ILB_SERIRQ"),
++	PINCTRL_PIN(72, "LPC_CLKOUT0"),
++	PINCTRL_PIN(73, "LPC_CLKOUT1"),
++	PINCTRL_PIN(74, "LPC_AD0"),
++	PINCTRL_PIN(75, "LPC_AD1"),
++	PINCTRL_PIN(76, "LPC_AD2"),
++	PINCTRL_PIN(77, "LPC_AD3"),
++	PINCTRL_PIN(78, "LPC_CLKRUNB"),
++	PINCTRL_PIN(79, "LPC_FRAMEB"),
++};
++
++static const unsigned int glk_north_spi0_pins[] = { 3, 4, 5, 6, 7 };
++static const unsigned int glk_north_spi1_pins[] = { 8, 9, 10, 11, 12, 13 };
++static const unsigned int glk_north_i2c5_pins[] = { 34, 35 };
++static const unsigned int glk_north_i2c6_pins[] = { 36, 37 };
++static const unsigned int glk_north_i2c7_pins[] = { 38, 39 };
++static const unsigned int glk_north_uart0_pins[] = { 62, 63, 64, 65 };
++static const unsigned int glk_north_spi0b_pins[] = { 66, 67, 68, 69, 70 };
++
++static const struct intel_pingroup glk_north_groups[] = {
++	PIN_GROUP("spi0_grp", glk_north_spi0_pins, 1),
++	PIN_GROUP("spi1_grp", glk_north_spi1_pins, 1),
++	PIN_GROUP("i2c5_grp", glk_north_i2c5_pins, 1),
++	PIN_GROUP("i2c6_grp", glk_north_i2c6_pins, 1),
++	PIN_GROUP("i2c7_grp", glk_north_i2c7_pins, 1),
++	PIN_GROUP("uart0_grp", glk_north_uart0_pins, 2),
++	PIN_GROUP("spi0b_grp", glk_north_spi0b_pins, 2),
++};
++
++static const char * const glk_north_spi0_groups[] = { "spi0_grp", "spi0b_grp" };
++static const char * const glk_north_spi1_groups[] = { "spi1_grp" };
++static const char * const glk_north_i2c5_groups[] = { "i2c5_grp" };
++static const char * const glk_north_i2c6_groups[] = { "i2c6_grp" };
++static const char * const glk_north_i2c7_groups[] = { "i2c7_grp" };
++static const char * const glk_north_uart0_groups[] = { "uart0_grp" };
++
++static const struct intel_function glk_north_functions[] = {
++	FUNCTION("spi0", glk_north_spi0_groups),
++	FUNCTION("spi1", glk_north_spi1_groups),
++	FUNCTION("i2c5", glk_north_i2c5_groups),
++	FUNCTION("i2c6", glk_north_i2c6_groups),
++	FUNCTION("i2c7", glk_north_i2c7_groups),
++	FUNCTION("uart0", glk_north_uart0_groups),
++};
++
++static const struct intel_community glk_north_communities[] = {
++	GLK_COMMUNITY(0, 79),
++};
++
++static const struct intel_pinctrl_soc_data glk_north_soc_data = {
++	.uid = "2",
++	.pins = glk_north_pins,
++	.npins = ARRAY_SIZE(glk_north_pins),
++	.groups = glk_north_groups,
++	.ngroups = ARRAY_SIZE(glk_north_groups),
++	.functions = glk_north_functions,
++	.nfunctions = ARRAY_SIZE(glk_north_functions),
++	.communities = glk_north_communities,
++	.ncommunities = ARRAY_SIZE(glk_north_communities),
++};
++
++static const struct pinctrl_pin_desc glk_audio_pins[] = {
++	PINCTRL_PIN(0, "AVS_I2S0_MCLK"),
++	PINCTRL_PIN(1, "AVS_I2S0_BCLK"),
++	PINCTRL_PIN(2, "AVS_I2S0_WS_SYNC"),
++	PINCTRL_PIN(3, "AVS_I2S0_SDI"),
++	PINCTRL_PIN(4, "AVS_I2S0_SDO"),
++	PINCTRL_PIN(5, "AVS_I2S1_MCLK"),
++	PINCTRL_PIN(6, "AVS_I2S1_BCLK"),
++	PINCTRL_PIN(7, "AVS_I2S1_WS_SYNC"),
++	PINCTRL_PIN(8, "AVS_I2S1_SDI"),
++	PINCTRL_PIN(9, "AVS_I2S1_SDO"),
++	PINCTRL_PIN(10, "AVS_HDA_BCLK"),
++	PINCTRL_PIN(11, "AVS_HDA_WS_SYNC"),
++	PINCTRL_PIN(12, "AVS_HDA_SDI"),
++	PINCTRL_PIN(13, "AVS_HDA_SDO"),
++	PINCTRL_PIN(14, "AVS_HDA_RSTB"),
++	PINCTRL_PIN(15, "AVS_M_CLK_A1"),
++	PINCTRL_PIN(16, "AVS_M_CLK_B1"),
++	PINCTRL_PIN(17, "AVS_M_DATA_1"),
++	PINCTRL_PIN(18, "AVS_M_CLK_AB2"),
++	PINCTRL_PIN(19, "AVS_M_DATA_2"),
++};
++
++static const struct intel_community glk_audio_communities[] = {
++	GLK_COMMUNITY(0, 19),
++};
++
++static const struct intel_pinctrl_soc_data glk_audio_soc_data = {
++	.uid = "3",
++	.pins = glk_audio_pins,
++	.npins = ARRAY_SIZE(glk_audio_pins),
++	.communities = glk_audio_communities,
++	.ncommunities = ARRAY_SIZE(glk_audio_communities),
++};
++
++static const struct pinctrl_pin_desc glk_scc_pins[] = {
++	PINCTRL_PIN(0, "SMB_ALERTB"),
++	PINCTRL_PIN(1, "SMB_CLK"),
++	PINCTRL_PIN(2, "SMB_DATA"),
++	PINCTRL_PIN(3, "SDCARD_LVL_WP"),
++	PINCTRL_PIN(4, "SDCARD_CLK"),
++	PINCTRL_PIN(5, "SDCARD_CLK_FB"),
++	PINCTRL_PIN(6, "SDCARD_D0"),
++	PINCTRL_PIN(7, "SDCARD_D1"),
++	PINCTRL_PIN(8, "SDCARD_D2"),
++	PINCTRL_PIN(9, "SDCARD_D3"),
++	PINCTRL_PIN(10, "SDCARD_CMD"),
++	PINCTRL_PIN(11, "SDCARD_CD_B"),
++	PINCTRL_PIN(12, "SDCARD_PWR_DOWN_B"),
++	PINCTRL_PIN(13, "GPIO_210"),
++	PINCTRL_PIN(14, "OSC_CLK_OUT_0"),
++	PINCTRL_PIN(15, "OSC_CLK_OUT_1"),
++	PINCTRL_PIN(16, "CNV_BRI_DT"),
++	PINCTRL_PIN(17, "CNV_BRI_RSP"),
++	PINCTRL_PIN(18, "CNV_RGI_DT"),
++	PINCTRL_PIN(19, "CNV_RGI_RSP"),
++	PINCTRL_PIN(20, "CNV_RF_RESET_B"),
++	PINCTRL_PIN(21, "XTAL_CLKREQ"),
++	PINCTRL_PIN(22, "SDIO_CLK_FB"),
++	PINCTRL_PIN(23, "EMMC0_CLK"),
++	PINCTRL_PIN(24, "EMMC0_CLK_FB"),
++	PINCTRL_PIN(25, "EMMC0_D0"),
++	PINCTRL_PIN(26, "EMMC0_D1"),
++	PINCTRL_PIN(27, "EMMC0_D2"),
++	PINCTRL_PIN(28, "EMMC0_D3"),
++	PINCTRL_PIN(29, "EMMC0_D4"),
++	PINCTRL_PIN(30, "EMMC0_D5"),
++	PINCTRL_PIN(31, "EMMC0_D6"),
++	PINCTRL_PIN(32, "EMMC0_D7"),
++	PINCTRL_PIN(33, "EMMC0_CMD"),
++	PINCTRL_PIN(34, "EMMC0_STROBE"),
++};
++
++static const unsigned int glk_scc_i2c7_pins[] = { 1, 2 };
++static const unsigned int glk_scc_sdcard_pins[] = {
++	3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
++};
++static const unsigned int glk_scc_sdio_pins[] = { 16, 17, 18, 19, 20, 21, 22 };
++static const unsigned int glk_scc_uart1_pins[] = { 16, 17, 18, 19 };
++static const unsigned int glk_scc_emmc_pins[] = {
++	23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
++};
++
++static const struct intel_pingroup glk_scc_groups[] = {
++	PIN_GROUP("i2c7_grp", glk_scc_i2c7_pins, 2),
++	PIN_GROUP("sdcard_grp", glk_scc_sdcard_pins, 1),
++	PIN_GROUP("sdio_grp", glk_scc_sdio_pins, 2),
++	PIN_GROUP("uart1_grp", glk_scc_uart1_pins, 3),
++	PIN_GROUP("emmc_grp", glk_scc_emmc_pins, 1),
++};
++
++static const char * const glk_scc_i2c7_groups[] = { "i2c7_grp" };
++static const char * const glk_scc_sdcard_groups[] = { "sdcard_grp" };
++static const char * const glk_scc_sdio_groups[] = { "sdio_grp" };
++static const char * const glk_scc_uart1_groups[] = { "uart1_grp" };
++static const char * const glk_scc_emmc_groups[] = { "emmc_grp" };
++
++static const struct intel_function glk_scc_functions[] = {
++	FUNCTION("i2c7", glk_scc_i2c7_groups),
++	FUNCTION("sdcard", glk_scc_sdcard_groups),
++	FUNCTION("sdio", glk_scc_sdio_groups),
++	FUNCTION("uart1", glk_scc_uart1_groups),
++	FUNCTION("emmc", glk_scc_emmc_groups),
++};
++
++static const struct intel_community glk_scc_communities[] = {
++	GLK_COMMUNITY(0, 34),
++};
++
++static const struct intel_pinctrl_soc_data glk_scc_soc_data = {
++	.uid = "4",
++	.pins = glk_scc_pins,
++	.npins = ARRAY_SIZE(glk_scc_pins),
++	.groups = glk_scc_groups,
++	.ngroups = ARRAY_SIZE(glk_scc_groups),
++	.functions = glk_scc_functions,
++	.nfunctions = ARRAY_SIZE(glk_scc_functions),
++	.communities = glk_scc_communities,
++	.ncommunities = ARRAY_SIZE(glk_scc_communities),
++};
++
++static const struct intel_pinctrl_soc_data *glk_pinctrl_soc_data[] = {
++	&glk_northwest_soc_data,
++	&glk_north_soc_data,
++	&glk_audio_soc_data,
++	&glk_scc_soc_data,
++	NULL,
++};
++
++static const struct acpi_device_id glk_pinctrl_acpi_match[] = {
++	{ "INT3453" },
++	{ }
++};
++MODULE_DEVICE_TABLE(acpi, glk_pinctrl_acpi_match);
++
++static int glk_pinctrl_probe(struct platform_device *pdev)
++{
++	const struct intel_pinctrl_soc_data *soc_data = NULL;
++	struct acpi_device *adev;
++	int i;
++
++	adev = ACPI_COMPANION(&pdev->dev);
++	if (!adev)
++		return -ENODEV;
++
++	for (i = 0; glk_pinctrl_soc_data[i]; i++) {
++		if (!strcmp(adev->pnp.unique_id,
++			    glk_pinctrl_soc_data[i]->uid)) {
++			soc_data = glk_pinctrl_soc_data[i];
++			break;
++		}
++	}
++
++	if (!soc_data)
++		return -ENODEV;
++
++	return intel_pinctrl_probe(pdev, soc_data);
++}
++
++static const struct dev_pm_ops glk_pinctrl_pm_ops = {
++	SET_LATE_SYSTEM_SLEEP_PM_OPS(intel_pinctrl_suspend,
++				     intel_pinctrl_resume)
++};
++
++static struct platform_driver glk_pinctrl_driver = {
++	.probe = glk_pinctrl_probe,
++	.driver = {
++		.name = "geminilake-pinctrl",
++		.acpi_match_table = glk_pinctrl_acpi_match,
++		.pm = &glk_pinctrl_pm_ops,
++	},
++};
++
++static int __init glk_pinctrl_init(void)
++{
++	return platform_driver_register(&glk_pinctrl_driver);
++}
++subsys_initcall(glk_pinctrl_init);
++
++static void __exit glk_pinctrl_exit(void)
++{
++	platform_driver_unregister(&glk_pinctrl_driver);
++}
++module_exit(glk_pinctrl_exit);
++
++MODULE_AUTHOR("Mika Westerberg <mika.westerberg@linux.intel.com>");
++MODULE_DESCRIPTION("Intel Gemini Lake SoC pinctrl/GPIO driver");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/pinctrl/intel/pinctrl-glenview.c b/drivers/pinctrl/intel/pinctrl-glenview.c
+new file mode 100644
+index 0000000..99c5a62
+--- /dev/null
++++ b/drivers/pinctrl/intel/pinctrl-glenview.c
+@@ -0,0 +1,508 @@
++/*
++ * Intel Glenview SoC pinctrl/GPIO driver
++ *
++ * Copyright (C) 2017 Intel Corporation
++ * Author: Mika Westerberg <mika.westerberg@linux.intel.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++
++#include <linux/acpi.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/pm.h>
++#include <linux/pinctrl/pinctrl.h>
++
++#include "pinctrl-intel.h"
++
++#define GLV_PAD_OWN	0x020
++#define GLV_HOSTSW_OWN	0x0b0
++#define GLV_PADCFGLOCK	0x080
++#define GLV_GPI_IE	0x110
++
++#define GLV_COMMUNITY(s, e)				\
++	{						\
++		.padown_offset = GLV_PAD_OWN,		\
++		.padcfglock_offset = GLV_PADCFGLOCK,	\
++		.hostown_offset = GLV_HOSTSW_OWN,	\
++		.ie_offset = GLV_GPI_IE,		\
++		.gpp_size = 32,                         \
++		.pin_base = (s),			\
++		.npins = ((e) - (s) + 1),		\
++	}
++
++static const struct pinctrl_pin_desc glv_north_pins[] = {
++	PINCTRL_PIN(0, "GP_SSP_0_CLK0"),
++	PINCTRL_PIN(1, "GP_SSP_0_FS0"),
++	PINCTRL_PIN(2, "GP_SSP_0_RXD"),
++	PINCTRL_PIN(3, "GP_SSP_0_TXD"),
++	PINCTRL_PIN(4, "GP_DMIC_CLK_A0"),
++	PINCTRL_PIN(5, "GP_DMIC_CLK_AB1"),
++	PINCTRL_PIN(6, "GP_DMIC_CLK_B0"),
++	PINCTRL_PIN(7, "GP_DMIC_DATA_0"),
++	PINCTRL_PIN(8, "GP_DMIC_DATA_1"),
++	PINCTRL_PIN(9, "UFS_REF_CLK"),
++	PINCTRL_PIN(10, "vCNV_BT_I2S_BCLK"),
++	PINCTRL_PIN(11, "vCNV_BT_I2S_WS_SYNC"),
++	PINCTRL_PIN(12, "vCNV_BT_I2S_SDO"),
++	PINCTRL_PIN(13, "vCNV_BT_I2S_SDI"),
++	PINCTRL_PIN(14, "vAVS_I2S0_BCLK"),
++	PINCTRL_PIN(15, "vAVS_I2S0_WS_SYNC"),
++	PINCTRL_PIN(16, "vAVS_I2S0_SDO"),
++	PINCTRL_PIN(17, "vAVS_I2S0_SDI"),
++	PINCTRL_PIN(18, "vMDM_TO_AVS_I2S_BCLK"),
++	PINCTRL_PIN(19, "vMDM_TO_AVS_I2S_WS_SYNC"),
++	PINCTRL_PIN(20, "vMDM_TO_AVS_I2S_SDO"),
++	PINCTRL_PIN(21, "vMDM_TO_AVS_I2S_SDI"),
++	PINCTRL_PIN(22, "vAVS_TO_MDM_I2S_BCLK"),
++	PINCTRL_PIN(23, "vAVS_TO_MDM_I2S_WS_SYNC"),
++	PINCTRL_PIN(24, "vAVS_TO_MDM_I2S_SDO"),
++	PINCTRL_PIN(25, "vAVS_TO_MDM_I2S_SDI"),
++};
++
++static const unsigned glv_north_ssp0_pins[] = { 0, 1, 2, 3 };
++
++static const struct intel_pingroup glv_north_groups[] = {
++	PIN_GROUP("ssp0_grp", glv_north_ssp0_pins, 1),
++};
++
++static const char * const glv_north_ssp0_groups[] = { "ssp0_grp" };
++
++static const struct intel_function glv_north_functions[] = {
++	FUNCTION("ssp0", glv_north_ssp0_groups),
++};
++
++static const struct intel_community glv_north_communities[] = {
++	GLV_COMMUNITY(0, 25),
++};
++
++static const struct intel_pinctrl_soc_data glv_north_soc_data = {
++	.uid = "1",
++	.pins = glv_north_pins,
++	.npins = ARRAY_SIZE(glv_north_pins),
++	.groups = glv_north_groups,
++	.ngroups = ARRAY_SIZE(glv_north_groups),
++	.functions = glv_north_functions,
++	.nfunctions = ARRAY_SIZE(glv_north_functions),
++	.communities = glv_north_communities,
++	.ncommunities = ARRAY_SIZE(glv_north_communities),
++};
++
++static const struct pinctrl_pin_desc glv_east_pins[] = {
++	PINCTRL_PIN(0, "RGMII_0_RESET"),
++	PINCTRL_PIN(1, "RGMII_0_INT"),
++	PINCTRL_PIN(2, "RGMII_0_TXCLK"),
++	PINCTRL_PIN(3, "RGMII_0_TXCTL"),
++	PINCTRL_PIN(4, "RGMII_0_TX_DATA_0"),
++	PINCTRL_PIN(5, "RGMII_0_TX_DATA_1"),
++	PINCTRL_PIN(6, "RGMII_0_TX_DATA_2"),
++	PINCTRL_PIN(7, "RGMII_0_TX_DATA_3"),
++	PINCTRL_PIN(8, "RGMII_0_RXCLK"),
++	PINCTRL_PIN(9, "RGMII_0_RXCTL"),
++	PINCTRL_PIN(10, "RGMII_0_RX_DATA_0"),
++	PINCTRL_PIN(11, "RGMII_0_RX_DATA_1"),
++	PINCTRL_PIN(12, "RGMII_0_RX_DATA_2"),
++	PINCTRL_PIN(13, "RGMII_0_RX_DATA_3"),
++	PINCTRL_PIN(14, "RGMII_0_MDC"),
++	PINCTRL_PIN(15, "RGMII_0_MDIO"),
++	PINCTRL_PIN(16, "PLT_CLK_4"),
++	PINCTRL_PIN(17, "PLT_CLK_5"),
++	PINCTRL_PIN(18, "PLT_CLK_0"),
++	PINCTRL_PIN(19, "PLT_CLK_1"),
++	PINCTRL_PIN(20, "PLT_CLK_2"),
++	PINCTRL_PIN(21, "PLT_CLK_3"),
++	PINCTRL_PIN(22, "CNV_38P4_CLKIN"),
++	PINCTRL_PIN(23, "CNV_38P4_CLKREQ"),
++	PINCTRL_PIN(24, "GP_CNV_A4WP_PRESENT"),
++	PINCTRL_PIN(25, "GP_CNV_BRI_DT"),
++	PINCTRL_PIN(26, "GP_CNV_BRI_RSP"),
++	PINCTRL_PIN(27, "GP_CNV_RF_RESET_B"),
++	PINCTRL_PIN(28, "GP_CNV_RGI_DT"),
++	PINCTRL_PIN(29, "GP_CNV_RGI_RSP"),
++	PINCTRL_PIN(30, "GP_CNV_BTEN"),
++	PINCTRL_PIN(31, "GP_CNV_GNSSEN"),
++	PINCTRL_PIN(32, "GP_CNV_WCEN"),
++	PINCTRL_PIN(33, "GP_CNV_WFEN"),
++	PINCTRL_PIN(34, "GP_FST_SPI_CLK"),
++	PINCTRL_PIN(35, "GP_FST_SPI_CS0_B"),
++	PINCTRL_PIN(36, "GP_FST_SPI_CS1_B"),
++	PINCTRL_PIN(37, "GP_FST_SPI_MISO"),
++	PINCTRL_PIN(38, "GP_FST_SPI_MOSI"),
++	PINCTRL_PIN(39, "vCNV_BTEN"),
++	PINCTRL_PIN(40, "vCNV_GNEN"),
++	PINCTRL_PIN(41, "vCNV_WFEN"),
++	PINCTRL_PIN(42, "vCNV_WCEN"),
++	PINCTRL_PIN(43, "vCNV_BT_IF_SELECT"),
++	PINCTRL_PIN(44, "vCNV_BT_UART_TXD"),
++	PINCTRL_PIN(45, "vCNV_BT_UART_RXD"),
++	PINCTRL_PIN(46, "vCNV_BT_UART_CTS_B"),
++	PINCTRL_PIN(47, "vCNV_BT_UART_RTS_B"),
++	PINCTRL_PIN(48, "vCNV_MFUART1_TXD"),
++	PINCTRL_PIN(49, "vCNV_MFUART1_RXD"),
++	PINCTRL_PIN(50, "vCNV_MFUART1_CTS_B"),
++	PINCTRL_PIN(51, "vCNV_MFUART1_RTS_B"),
++	PINCTRL_PIN(52, "vCNV_GNSS_UART_TXD"),
++	PINCTRL_PIN(53, "vCNV_GNSS_UART_RXD"),
++	PINCTRL_PIN(54, "vCNV_GNSS_UART_CTS_B"),
++	PINCTRL_PIN(55, "vCNV_GNSS_UART_RTS_B"),
++	PINCTRL_PIN(56, "vLPSS_UART0_TXD"),
++	PINCTRL_PIN(57, "vLPSS_UART0_RXD"),
++	PINCTRL_PIN(58, "vLPSS_UART0_CTS_B"),
++	PINCTRL_PIN(59, "vLPSS_UART0_RTS_B"),
++	PINCTRL_PIN(60, "vLPSS_UART1_TXD"),
++	PINCTRL_PIN(61, "vLPSS_UART1_RXD"),
++	PINCTRL_PIN(62, "vLPSS_UART1_CTS_B"),
++	PINCTRL_PIN(63, "vLPSS_UART1_RTS_B"),
++	PINCTRL_PIN(64, "vLPSS_UART2_TXD"),
++	PINCTRL_PIN(65, "vLPSS_UART2_RXD"),
++	PINCTRL_PIN(66, "vLPSS_UART2_CTS_B"),
++	PINCTRL_PIN(66, "vLPSS_UART2_RTS_B"),
++	PINCTRL_PIN(67, "vCNV_MFUART2_TXD"),
++	PINCTRL_PIN(68, "vCNV_MFUART2_RXD"),
++	PINCTRL_PIN(69, "vCNV_PA_BLANKING"),
++	PINCTRL_PIN(70, "vCNV_SYSCLK"),
++	PINCTRL_PIN(71, "vCNV_FINE_TIME_AIDING"),
++	PINCTRL_PIN(72, "vCNV_MDM_UART_TXD"),
++	PINCTRL_PIN(73, "vCNV_MDM_UART_RXD"),
++	PINCTRL_PIN(74, "vCNV_MDM_PA_BLANKING"),
++	PINCTRL_PIN(75, "vCNV_MDM_SYSCLK"),
++	PINCTRL_PIN(76, "vCNV_MDM_FINE_TIME_AIDING"),
++};
++
++static const unsigned glv_east_spi2_pins[] = { 34, 35, 36, 37, 38 };
++
++static const struct intel_pingroup glv_east_groups[] = {
++	PIN_GROUP("spi2_grp", glv_east_spi2_pins, 2),
++};
++
++static const char * const glv_east_spi2_groups[] = { "spi2_grp" };
++
++static const struct intel_function glv_east_functions[] = {
++	FUNCTION("spi2", glv_east_spi2_groups),
++};
++
++static const struct intel_community glv_east_communities[] = {
++	GLV_COMMUNITY(0, 76),
++};
++
++static const struct intel_pinctrl_soc_data glv_east_soc_data = {
++	.uid = "2",
++	.pins = glv_east_pins,
++	.npins = ARRAY_SIZE(glv_east_pins),
++	.groups = glv_east_groups,
++	.ngroups = ARRAY_SIZE(glv_east_groups),
++	.functions = glv_east_functions,
++	.nfunctions = ARRAY_SIZE(glv_east_functions),
++	.communities = glv_east_communities,
++	.ncommunities = ARRAY_SIZE(glv_east_communities),
++};
++
++static const struct pinctrl_pin_desc glv_south_pins[] = {
++	PINCTRL_PIN(0, "CP_STANDBY"),
++	PINCTRL_PIN(1, "CP_SVID_ALERT_N"),
++	PINCTRL_PIN(2, "CP_SVID_VCLK"),
++	PINCTRL_PIN(3, "CP_SVID_VDIO"),
++	PINCTRL_PIN(4, "CP_SYS_CLK_REQ"),
++	PINCTRL_PIN(5, "CP_RESET_TRX1_N"),
++	PINCTRL_PIN(6, "CP_RESET_TRX2_N"),
++	PINCTRL_PIN(7, "CP_PWRGOOD"),
++	PINCTRL_PIN(8, "CP_RESET_ALL_N"),
++	PINCTRL_PIN(9, "CP_RESET_REQ_N"),
++	PINCTRL_PIN(10, "GP_MDIGRF_AUX_0_EN"),
++	PINCTRL_PIN(11, "GP_MDIGRF_AUX_1_EN"),
++	PINCTRL_PIN(12, "GP_MDIGRF_MAIN_0_EN"),
++	PINCTRL_PIN(13, "GP_MDIGRF_MAIN_1_EN"),
++	PINCTRL_PIN(14, "GP_USIF_1_CSO"),
++	PINCTRL_PIN(15, "GP_USIF_1_RXD_MSTR"),
++	PINCTRL_PIN(16, "GP_USIF_1_SCLK"),
++	PINCTRL_PIN(17, "GP_USIF_1_TXD_MSTR"),
++	PINCTRL_PIN(18, "USIM_0_IN"),
++	PINCTRL_PIN(19, "USIM_1_IN"),
++};
++
++static const struct intel_community glv_south_communities[] = {
++	GLV_COMMUNITY(0, 19),
++};
++
++static const struct intel_pinctrl_soc_data glv_south_soc_data = {
++	.uid = "3",
++	.pins = glv_south_pins,
++	.npins = ARRAY_SIZE(glv_south_pins),
++	.communities = glv_south_communities,
++	.ncommunities = ARRAY_SIZE(glv_south_communities),
++};
++
++static const struct pinctrl_pin_desc glv_west_pins[] = {
++	PINCTRL_PIN(0, "GP_SDIO_0_CD_B"),
++	PINCTRL_PIN(1, "GP_SDIO_0_CLK"),
++	PINCTRL_PIN(2, "GP_SDIO_0_CMD"),
++	PINCTRL_PIN(3, "GP_SDIO_0_DAT_0"),
++	PINCTRL_PIN(4, "GP_SDIO_0_DAT_1"),
++	PINCTRL_PIN(5, "GP_SDIO_0_DAT_2"),
++	PINCTRL_PIN(6, "GP_SDIO_0_DAT_3"),
++	PINCTRL_PIN(7, "GP_SDIO_0_LVL_WP"),
++	PINCTRL_PIN(8, "GP_SDIO_0_PWR_DOWN_B"),
++	PINCTRL_PIN(9, "EMMC_0_CLK"),
++	PINCTRL_PIN(10, "EMMC_0_CMD"),
++	PINCTRL_PIN(11, "EMMC_0_D0"),
++	PINCTRL_PIN(12, "EMMC_0_D1"),
++	PINCTRL_PIN(13, "EMMC_0_D2"),
++	PINCTRL_PIN(14, "EMMC_0_D3"),
++	PINCTRL_PIN(15, "EMMC_0_D4"),
++	PINCTRL_PIN(16, "EMMC_0_D5"),
++	PINCTRL_PIN(17, "EMMC_0_D6"),
++	PINCTRL_PIN(18, "EMMC_0_D7"),
++	PINCTRL_PIN(19, "EMMC_0_RST_B"),
++	PINCTRL_PIN(20, "EMMC_0_STROBE"),
++	PINCTRL_PIN(21, "GP_INTD_DSI_TE1"),
++	PINCTRL_PIN(22, "GP_INTD_DSI_TE2"),
++	PINCTRL_PIN(23, "GP_EINT_0"),
++	PINCTRL_PIN(24, "GP_EINT_1"),
++	PINCTRL_PIN(25, "GP_UART_0_CTS"),
++	PINCTRL_PIN(26, "GP_UART_0_RTS"),
++	PINCTRL_PIN(27, "GP_UART_0_RX"),
++	PINCTRL_PIN(28, "GP_UART_0_TX"),
++	PINCTRL_PIN(29, "GP_UART_1_CTS"),
++	PINCTRL_PIN(30, "GP_UART_1_RTS"),
++	PINCTRL_PIN(31, "GP_UART_1_RX"),
++	PINCTRL_PIN(32, "GP_UART_1_TX"),
++	PINCTRL_PIN(33, "GP_ISH_D_4"),
++	PINCTRL_PIN(34, "GP_ISH_D_5"),
++	PINCTRL_PIN(35, "GP_ISH_D_6"),
++	PINCTRL_PIN(36, "GP_ISH_D_7"),
++	PINCTRL_PIN(37, "GP_ISH_D_0"),
++	PINCTRL_PIN(38, "GP_ISH_D_1"),
++	PINCTRL_PIN(39, "GP_ISH_D_2"),
++	PINCTRL_PIN(40, "GP_ISH_D_3"),
++	PINCTRL_PIN(41, "GP_CAMERASB_0"),
++	PINCTRL_PIN(42, "GP_CAMERASB_1"),
++	PINCTRL_PIN(43, "GP_CAMERASB_2"),
++	PINCTRL_PIN(44, "GP_CAMERASB_3"),
++	PINCTRL_PIN(45, "GP_CAMERASB_4"),
++	PINCTRL_PIN(46, "GP_CAMERASB_5"),
++	PINCTRL_PIN(47, "GP_CAMERASB_6"),
++	PINCTRL_PIN(48, "GP_CAMERASB_7"),
++	PINCTRL_PIN(49, "GP_CAMERASB_8"),
++	PINCTRL_PIN(50, "GP_CAMERASB_9"),
++	PINCTRL_PIN(51, "GP_CAMERASB_10"),
++	PINCTRL_PIN(52, "GP_CAMERASB_11"),
++	PINCTRL_PIN(53, "GPIO_3P3_0"),
++	PINCTRL_PIN(54, "GPIO_3P3_1"),
++	PINCTRL_PIN(55, "GPIO_3P3_2"),
++	PINCTRL_PIN(56, "GPIO_3P3_3"),
++	PINCTRL_PIN(57, "GPIO_3P3_4"),
++	PINCTRL_PIN(58, "GPIO_3P3_5"),
++	PINCTRL_PIN(59, "GPIO_3P3_6"),
++	PINCTRL_PIN(60, "GPIO_3P3_7"),
++	PINCTRL_PIN(61, "XXPRDY"),
++	PINCTRL_PIN(62, "XXPREQ_B"),
++	PINCTRL_PIN(63, "JTAG_RTCK"),
++	PINCTRL_PIN(64, "JTAG_TCKC"),
++	PINCTRL_PIN(65, "JTAG_TDIC"),
++	PINCTRL_PIN(66, "JTAG_TDOC"),
++	PINCTRL_PIN(67, "JTAG_TDOC_2"),
++	PINCTRL_PIN(68, "JTAG_TMSC"),
++	PINCTRL_PIN(69, "JTAG_TRST_B"),
++	PINCTRL_PIN(70, "AP_PROCHOT_B"),
++	PINCTRL_PIN(71, "AP_SVID_ALERT_B"),
++	PINCTRL_PIN(72, "AP_SVID_VCLK"),
++	PINCTRL_PIN(73, "AP_SVID_VDIO"),
++	PINCTRL_PIN(74, "AP_THERMTRIP_N"),
++	PINCTRL_PIN(75, "EMMC_DNX_PWM_EN_B"),
++	PINCTRL_PIN(76, "PMU_PLTRST_B"),
++	PINCTRL_PIN(77, "PMU_RESETBUTTON_B"),
++	PINCTRL_PIN(78, "PMU_SLP_S0_B"),
++	PINCTRL_PIN(79, "I2C_0_SCL"),
++	PINCTRL_PIN(80, "I2C_0_SDA"),
++	PINCTRL_PIN(81, "I2C_1_SCL"),
++	PINCTRL_PIN(82, "I2C_1_SDA"),
++	PINCTRL_PIN(83, "I2C_2_SCL"),
++	PINCTRL_PIN(84, "I2C_2_SDA"),
++	PINCTRL_PIN(85, "I2C_3_SCL"),
++	PINCTRL_PIN(86, "I2C_3_SDA"),
++	PINCTRL_PIN(87, "I2C_4_SCL"),
++	PINCTRL_PIN(88, "I2C_4_SDA"),
++	PINCTRL_PIN(89, "I2C_5_SCL"),
++	PINCTRL_PIN(90, "I2C_5_SDA"),
++	PINCTRL_PIN(91, "I2C_6_SCL"),
++	PINCTRL_PIN(92, "I2C_6_SDA"),
++	PINCTRL_PIN(93, "I2C_7_SCL"),
++	PINCTRL_PIN(94, "I2C_7_SDA"),
++	PINCTRL_PIN(95, "I2C_7_SCL"),
++	PINCTRL_PIN(96, "I2C_8_SDA"),
++	PINCTRL_PIN(97, "vCNV_BT_HOST_WAKEB"),
++	PINCTRL_PIN(98, "vCNV_GNSS_HOST_WAKEB"),
++};
++
++static const unsigned glv_west_sdio0_pins[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
++static const unsigned glv_west_emmc0_pins[] = {
++	9, 10, 11, 12, 12, 14, 15, 16, 17, 18, 19, 20
++};
++static const unsigned glv_west_uart0_pins[] = { 25, 26, 27, 28 };
++static const unsigned glv_west_uart1_pins[] = { 29, 30, 31, 32 };
++static const unsigned glv_west_uart2_pins[] = { 29, 30, 31, 32 };
++static const unsigned glv_west_spi0_pins[] = { 53, 54, 55, 56 };
++static const unsigned glv_west_spi1_pins[] = { 57, 58, 59, 60 };
++static const unsigned glv_west_pwm0_pins[] = { 57 };
++static const unsigned glv_west_pwm1_pins[] = { 58 };
++static const unsigned glv_west_pwm2_pins[] = { 59 };
++static const unsigned glv_west_pwm3_pins[] = { 60 };
++static const unsigned glv_west_i2c1_pins[] = { 81, 82 };
++static const unsigned glv_west_i2c2_pins[] = { 83, 84 };
++static const unsigned glv_west_i2c3_pins[] = { 85, 86 };
++static const unsigned glv_west_i2c4_pins[] = { 87, 88 };
++static const unsigned glv_west_i2c5_pins[] = { 89, 90 };
++static const unsigned glv_west_i2c6_pins[] = { 91, 92 };
++static const unsigned glv_west_i2c7_pins[] = { 93, 94 };
++static const unsigned glv_west_i2c8_pins[] = { 95, 96 };
++
++static const struct intel_pingroup glv_west_groups[] = {
++	PIN_GROUP("sdio0_grp", glv_west_sdio0_pins, 1),
++	PIN_GROUP("emmc0_grp", glv_west_emmc0_pins, 1),
++	PIN_GROUP("uart0_grp", glv_west_uart0_pins, 1),
++	PIN_GROUP("uart1_grp", glv_west_uart1_pins, 1),
++	PIN_GROUP("uart2_grp", glv_west_uart2_pins, 2),
++	PIN_GROUP("spi0_grp", glv_west_spi0_pins, 1),
++	PIN_GROUP("spi1_grp", glv_west_spi1_pins, 1),
++	PIN_GROUP("pwm0_grp", glv_west_pwm0_pins, 4),
++	PIN_GROUP("pwm1_grp", glv_west_pwm1_pins, 4),
++	PIN_GROUP("pwm2_grp", glv_west_pwm2_pins, 4),
++	PIN_GROUP("pwm3_grp", glv_west_pwm3_pins, 4),
++	/* These are for LPSS I2C */
++	PIN_GROUP("i2c0_grp", glv_west_i2c1_pins, 2),
++	PIN_GROUP("i2c1_grp", glv_west_i2c2_pins, 1),
++	PIN_GROUP("i2c2_grp", glv_west_i2c3_pins, 1),
++	PIN_GROUP("i2c3_grp", glv_west_i2c4_pins, 1),
++	PIN_GROUP("i2c4_grp", glv_west_i2c5_pins, 1),
++	PIN_GROUP("i2c5_grp", glv_west_i2c6_pins, 2),
++	PIN_GROUP("i2c6_grp", glv_west_i2c7_pins, 2),
++	PIN_GROUP("i2c7_grp", glv_west_i2c8_pins, 1),
++};
++
++static const char * const glv_west_sdio0_groups[] = { "sdio0_grp" };
++static const char * const glv_west_emmc0_groups[] = { "emmc0_grp" };
++static const char * const glv_west_uart0_groups[] = { "uart0_grp" };
++static const char * const glv_west_uart1_groups[] = { "uart1_grp" };
++static const char * const glv_west_uart2_groups[] = { "uart2_grp" };
++static const char * const glv_west_spi0_groups[] = { "spi0_grp" };
++static const char * const glv_west_spi1_groups[] = { "spi1_grp" };
++static const char * const glv_west_pwm0_groups[] = { "pwm0_grp" };
++static const char * const glv_west_pwm1_groups[] = { "pwm1_grp" };
++static const char * const glv_west_pwm2_groups[] = { "pwm2_grp" };
++static const char * const glv_west_pwm3_groups[] = { "pwm3_grp" };
++static const char * const glv_west_i2c0_groups[] = { "i2c0_grp" };
++static const char * const glv_west_i2c1_groups[] = { "i2c1_grp" };
++static const char * const glv_west_i2c2_groups[] = { "i2c2_grp" };
++static const char * const glv_west_i2c3_groups[] = { "i2c3_grp" };
++static const char * const glv_west_i2c4_groups[] = { "i2c4_grp" };
++static const char * const glv_west_i2c5_groups[] = { "i2c5_grp" };
++static const char * const glv_west_i2c6_groups[] = { "i2c6_grp" };
++static const char * const glv_west_i2c7_groups[] = { "i2c7_grp" };
++
++static const struct intel_function glv_west_functions[] = {
++	FUNCTION("sdio0", glv_west_sdio0_groups),
++	FUNCTION("emmc0", glv_west_emmc0_groups),
++	FUNCTION("uart0", glv_west_uart0_groups),
++	FUNCTION("uart1", glv_west_uart1_groups),
++	FUNCTION("uart2", glv_west_uart2_groups),
++	FUNCTION("spi0", glv_west_spi0_groups),
++	FUNCTION("spi1", glv_west_spi1_groups),
++	FUNCTION("pwm0", glv_west_pwm0_groups),
++	FUNCTION("pwm1", glv_west_pwm1_groups),
++	FUNCTION("pwm2", glv_west_pwm2_groups),
++	FUNCTION("pwm3", glv_west_pwm3_groups),
++	FUNCTION("i2c0", glv_west_i2c0_groups),
++	FUNCTION("i2c1", glv_west_i2c1_groups),
++	FUNCTION("i2c2", glv_west_i2c2_groups),
++	FUNCTION("i2c3", glv_west_i2c3_groups),
++	FUNCTION("i2c4", glv_west_i2c4_groups),
++	FUNCTION("i2c5", glv_west_i2c5_groups),
++	FUNCTION("i2c6", glv_west_i2c6_groups),
++	FUNCTION("i2c7", glv_west_i2c7_groups),
++};
++
++static const struct intel_community glv_west_communities[] = {
++	GLV_COMMUNITY(0, 98),
++};
++
++static const struct intel_pinctrl_soc_data glv_west_soc_data = {
++	.uid = "4",
++	.pins = glv_west_pins,
++	.npins = ARRAY_SIZE(glv_west_pins),
++	.groups = glv_west_groups,
++	.ngroups = ARRAY_SIZE(glv_west_groups),
++	.functions = glv_west_functions,
++	.nfunctions = ARRAY_SIZE(glv_west_functions),
++	.communities = glv_west_communities,
++	.ncommunities = ARRAY_SIZE(glv_west_communities),
++};
++
++static const struct intel_pinctrl_soc_data *glv_pinctrl_soc_data[] = {
++	&glv_north_soc_data,
++	&glv_east_soc_data,
++	&glv_south_soc_data,
++	&glv_west_soc_data,
++	NULL,
++};
++
++static const struct acpi_device_id glv_pinctrl_acpi_match[] = {
++	{ "INT34XX" },
++	{ }
++};
++MODULE_DEVICE_TABLE(acpi, glv_pinctrl_acpi_match);
++
++static int glv_pinctrl_probe(struct platform_device *pdev)
++{
++	const struct intel_pinctrl_soc_data *soc_data = NULL;
++	struct acpi_device *adev;
++	int i;
++
++	adev = ACPI_COMPANION(&pdev->dev);
++	if (!adev)
++		return -ENODEV;
++
++	for (i = 0; glv_pinctrl_soc_data[i]; i++) {
++		if (!strcmp(adev->pnp.unique_id,
++			    glv_pinctrl_soc_data[i]->uid)) {
++			soc_data = glv_pinctrl_soc_data[i];
++			break;
++		}
++	}
++
++	if (!soc_data)
++		return -ENODEV;
++
++	return intel_pinctrl_probe(pdev, soc_data);
++}
++
++static const struct dev_pm_ops glv_pinctrl_pm_ops = {
++	SET_LATE_SYSTEM_SLEEP_PM_OPS(intel_pinctrl_suspend,
++				     intel_pinctrl_resume)
++};
++
++static struct platform_driver glv_pinctrl_driver = {
++	.probe = glv_pinctrl_probe,
++	.driver = {
++		.name = "glenview-pinctrl",
++		.acpi_match_table = glv_pinctrl_acpi_match,
++		.pm = &glv_pinctrl_pm_ops,
++	},
++};
++
++static int __init glv_pinctrl_init(void)
++{
++	return platform_driver_register(&glv_pinctrl_driver);
++}
++subsys_initcall(glv_pinctrl_init);
++
++static void __exit glv_pinctrl_exit(void)
++{
++	platform_driver_unregister(&glv_pinctrl_driver);
++}
++module_exit(glv_pinctrl_exit);
++
++MODULE_AUTHOR("Mika Westerberg <mika.westerberg@linux.intel.com>");
++MODULE_DESCRIPTION("Intel Glenview SoC pinctrl/GPIO driver");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/pinctrl/intel/pinctrl-icelake.c b/drivers/pinctrl/intel/pinctrl-icelake.c
+new file mode 100644
+index 0000000..afd1b11
+--- /dev/null
++++ b/drivers/pinctrl/intel/pinctrl-icelake.c
+@@ -0,0 +1,444 @@
++/*
++ * Intel Ice Lake PCH pinctrl/GPIO driver
++ *
++ * Copyright (C) 2017, Intel Corporation
++ * Authors: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
++ *	    Mika Westerberg <mika.westerberg@linux.intel.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++
++#include <linux/acpi.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/pm.h>
++#include <linux/pinctrl/pinctrl.h>
++
++#include "pinctrl-intel.h"
++
++#define ICL_PAD_OWN	0x020
++#define ICL_PADCFGLOCK	0x080
++#define ICL_HOSTSW_OWN	0x0b0
++#define ICL_GPI_IE	0x110
++
++#define ICL_GPP(r, s, e)				\
++	{						\
++		.reg_num = (r),				\
++		.base = (s),				\
++		.size = ((e) - (s) + 1),		\
++	}
++
++#define ICL_COMMUNITY(b, s, e, g)			\
++	{						\
++		.barno = (b),				\
++		.padown_offset = ICL_PAD_OWN,		\
++		.padcfglock_offset = ICL_PADCFGLOCK,	\
++		.hostown_offset = ICL_HOSTSW_OWN,	\
++		.ie_offset = ICL_GPI_IE,		\
++		.pin_base = (s),			\
++		.npins = ((e) - (s) + 1),		\
++		.gpps = (g),				\
++		.ngpps = ARRAY_SIZE(g),			\
++	}
++
++/* Ice Lake-LP */
++static const struct pinctrl_pin_desc icllp_pins[] = {
++	/* GPP_G */
++	PINCTRL_PIN(0, "SD3_CMD"),
++	PINCTRL_PIN(1, "SD3_D0"),
++	PINCTRL_PIN(2, "SD3_D1"),
++	PINCTRL_PIN(3, "SD3_D2"),
++	PINCTRL_PIN(4, "SD3_D3"),
++	PINCTRL_PIN(5, "SD3_CDB"),
++	PINCTRL_PIN(6, "SD3_CLK"),
++	PINCTRL_PIN(7, "SD3_WP"),
++	/* GPP_B */
++	PINCTRL_PIN(8, "CORE_VID_0"),
++	PINCTRL_PIN(9, "CORE_VID_1"),
++	PINCTRL_PIN(10, "VRALERTB"),
++	PINCTRL_PIN(11, "CPU_GP_2"),
++	PINCTRL_PIN(12, "CPU_GP_3"),
++	PINCTRL_PIN(13, "ISH_I2C0_SDA"),
++	PINCTRL_PIN(14, "ISH_I2C0_SCL"),
++	PINCTRL_PIN(15, "ISH_I2C1_SDA"),
++	PINCTRL_PIN(16, "ISH_I2C1_SCL"),
++	PINCTRL_PIN(17, "I2C5_SDA"),
++	PINCTRL_PIN(18, "I2C5_SCL"),
++	PINCTRL_PIN(19, "PMCALERTB"),
++	PINCTRL_PIN(20, "SLP_S0B"),
++	PINCTRL_PIN(21, "PLTRSTB"),
++	PINCTRL_PIN(22, "SPKR"),
++	PINCTRL_PIN(23, "GSPI0_CS0B"),
++	PINCTRL_PIN(24, "GSPI0_CLK"),
++	PINCTRL_PIN(25, "GSPI0_MISO"),
++	PINCTRL_PIN(26, "GSPI0_MOSI"),
++	PINCTRL_PIN(27, "GSPI1_CS0B"),
++	PINCTRL_PIN(28, "GSPI1_CLK"),
++	PINCTRL_PIN(29, "GSPI1_MISO"),
++	PINCTRL_PIN(30, "GSPI1_MOSI"),
++	PINCTRL_PIN(31, "SML1ALERTB"),
++	PINCTRL_PIN(32, "GSPI0_CLK_LOOPBK"),
++	PINCTRL_PIN(33, "GSPI1_CLK_LOOPBK"),
++	/* GPP_A */
++	PINCTRL_PIN(34, "ESPI_IO_0"),
++	PINCTRL_PIN(35, "ESPI_IO_1"),
++	PINCTRL_PIN(36, "ESPI_IO_2"),
++	PINCTRL_PIN(37, "ESPI_IO_3"),
++	PINCTRL_PIN(38, "ESPI_CSB"),
++	PINCTRL_PIN(39, "ESPI_CLK"),
++	PINCTRL_PIN(40, "ESPI_RESETB"),
++	PINCTRL_PIN(41, "I2S2_SCLK"),
++	PINCTRL_PIN(42, "I2S2_SFRM"),
++	PINCTRL_PIN(43, "I2S2_TXD"),
++	PINCTRL_PIN(44, "I2S2_RXD"),
++	PINCTRL_PIN(45, "SATA_DEVSLP_2"),
++	PINCTRL_PIN(46, "SATAXPCIE_1"),
++	PINCTRL_PIN(47, "SATAXPCIE_2"),
++	PINCTRL_PIN(48, "USB2_OCB_1"),
++	PINCTRL_PIN(49, "USB2_OCB_2"),
++	PINCTRL_PIN(50, "USB2_OCB_3"),
++	PINCTRL_PIN(51, "DDSP_HPD_C"),
++	PINCTRL_PIN(52, "DDSP_HPD_B"),
++	PINCTRL_PIN(53, "DDSP_HPD_1"),
++	PINCTRL_PIN(54, "DDSP_HPD_2"),
++	PINCTRL_PIN(55, "I2S5_TXD"),
++	PINCTRL_PIN(56, "I2S5_RXD"),
++	PINCTRL_PIN(57, "I2S1_SCLK"),
++	PINCTRL_PIN(58, "ESPI_CLK_LOOPBK"),
++	/* GPP_H */
++	PINCTRL_PIN(59, "SD_1P8_SEL"),
++	PINCTRL_PIN(60, "SD_PWR_EN_B"),
++	PINCTRL_PIN(61, "GPPC_H_2"),
++	PINCTRL_PIN(62, "SX_EXIT_HOLDOFFB"),
++	PINCTRL_PIN(63, "I2C2_SDA"),
++	PINCTRL_PIN(64, "I2C2_SCL"),
++	PINCTRL_PIN(65, "I2C3_SDA"),
++	PINCTRL_PIN(66, "I2C3_SCL"),
++	PINCTRL_PIN(67, "I2C4_SDA"),
++	PINCTRL_PIN(68, "I2C4_SCL"),
++	PINCTRL_PIN(69, "SRCCLKREQB_4"),
++	PINCTRL_PIN(70, "SRCCLKREQB_5"),
++	PINCTRL_PIN(71, "M2_SKT2_CFG_0"),
++	PINCTRL_PIN(72, "M2_SKT2_CFG_1"),
++	PINCTRL_PIN(73, "M2_SKT2_CFG_2"),
++	PINCTRL_PIN(74, "M2_SKT2_CFG_3"),
++	PINCTRL_PIN(75, "DDPB_CTRLCLK"),
++	PINCTRL_PIN(76, "DDPB_CTRLDATA"),
++	PINCTRL_PIN(77, "CPU_VCCIO_PWR_GATEB"),
++	PINCTRL_PIN(78, "TIME_SYNC_0"),
++	PINCTRL_PIN(79, "IMGCLKOUT_1"),
++	PINCTRL_PIN(80, "IMGCLKOUT_2"),
++	PINCTRL_PIN(81, "IMGCLKOUT_3"),
++	PINCTRL_PIN(82, "IMGCLKOUT_4"),
++	/* GPP_D */
++	PINCTRL_PIN(83, "ISH_GP_0"),
++	PINCTRL_PIN(84, "ISH_GP_1"),
++	PINCTRL_PIN(85, "ISH_GP_2"),
++	PINCTRL_PIN(86, "ISH_GP_3"),
++	PINCTRL_PIN(87, "IMGCLKOUT_0"),
++	PINCTRL_PIN(88, "SRCCLKREQB_0"),
++	PINCTRL_PIN(89, "SRCCLKREQB_1"),
++	PINCTRL_PIN(90, "SRCCLKREQB_2"),
++	PINCTRL_PIN(91, "SRCCLKREQB_3"),
++	PINCTRL_PIN(92, "ISH_SPI_CSB"),
++	PINCTRL_PIN(93, "ISH_SPI_CLK"),
++	PINCTRL_PIN(94, "ISH_SPI_MISO"),
++	PINCTRL_PIN(95, "ISH_SPI_MOSI"),
++	PINCTRL_PIN(96, "ISH_UART0_RXD"),
++	PINCTRL_PIN(97, "ISH_UART0_TXD"),
++	PINCTRL_PIN(98, "ISH_UART0_RTSB"),
++	PINCTRL_PIN(99, "ISH_UART0_CTSB"),
++	PINCTRL_PIN(100, "ISH_GP_4"),
++	PINCTRL_PIN(101, "ISH_GP_5"),
++	PINCTRL_PIN(102, "I2S_MCLK"),
++	PINCTRL_PIN(103, "GSPI2_CLK_LOOPBK"),
++	/* GPP_F */
++	PINCTRL_PIN(104, "CNV_BRI_DT"),
++	PINCTRL_PIN(105, "CNV_BRI_RSP"),
++	PINCTRL_PIN(106, "CNV_RGI_DT"),
++	PINCTRL_PIN(107, "CNV_RGI_RSP"),
++	PINCTRL_PIN(108, "CNV_RF_RESET_B"),
++	PINCTRL_PIN(109, "EMMC_HIP_MON"),
++	PINCTRL_PIN(110, "CNV_PA_BLANKING"),
++	PINCTRL_PIN(111, "EMMC_CMD"),
++	PINCTRL_PIN(112, "EMMC_DATA0"),
++	PINCTRL_PIN(113, "EMMC_DATA1"),
++	PINCTRL_PIN(114, "EMMC_DATA2"),
++	PINCTRL_PIN(115, "EMMC_DATA3"),
++	PINCTRL_PIN(116, "EMMC_DATA4"),
++	PINCTRL_PIN(117, "EMMC_DATA5"),
++	PINCTRL_PIN(118, "EMMC_DATA6"),
++	PINCTRL_PIN(119, "EMMC_DATA7"),
++	PINCTRL_PIN(120, "EMMC_RCLK"),
++	PINCTRL_PIN(121, "EMMC_CLK"),
++	PINCTRL_PIN(122, "EMMC_RESETB"),
++	PINCTRL_PIN(123, "A4WP_PRESENT"),
++	/* vGPIO */
++	PINCTRL_PIN(124, "CNV_BTEN"),
++	PINCTRL_PIN(125, "CNV_WCEN"),
++	PINCTRL_PIN(126, "CNV_BT_HOST_WAKEB"),
++	PINCTRL_PIN(127, "CNV_BT_IF_SELECT"),
++	PINCTRL_PIN(128, "vCNV_BT_UART_TXD"),
++	PINCTRL_PIN(129, "vCNV_BT_UART_RXD"),
++	PINCTRL_PIN(130, "vCNV_BT_UART_CTS_B"),
++	PINCTRL_PIN(131, "vCNV_BT_UART_RTS_B"),
++	PINCTRL_PIN(132, "vCNV_MFUART1_TXD"),
++	PINCTRL_PIN(133, "vCNV_MFUART1_RXD"),
++	PINCTRL_PIN(134, "vCNV_MFUART1_CTS_B"),
++	PINCTRL_PIN(135, "vCNV_MFUART1_RTS_B"),
++	PINCTRL_PIN(136, "vUART0_TXD"),
++	PINCTRL_PIN(137, "vUART0_RXD"),
++	PINCTRL_PIN(138, "vUART0_CTS_B"),
++	PINCTRL_PIN(139, "vUART0_RTS_B"),
++	PINCTRL_PIN(140, "vISH_UART0_TXD"),
++	PINCTRL_PIN(141, "vISH_UART0_RXD"),
++	PINCTRL_PIN(142, "vISH_UART0_CTS_B"),
++	PINCTRL_PIN(143, "vISH_UART0_RTS_B"),
++	PINCTRL_PIN(144, "vCNV_BT_I2S_BCLK"),
++	PINCTRL_PIN(145, "vCNV_BT_I2S_WS_SYNC"),
++	PINCTRL_PIN(146, "vCNV_BT_I2S_SDO"),
++	PINCTRL_PIN(147, "vCNV_BT_I2S_SDI"),
++	PINCTRL_PIN(148, "vI2S2_SCLK"),
++	PINCTRL_PIN(149, "vI2S2_SFRM"),
++	PINCTRL_PIN(150, "vI2S2_TXD"),
++	PINCTRL_PIN(151, "vI2S2_RXD"),
++	PINCTRL_PIN(152, "vSD3_CD_B"),
++	/* GPP_C */
++	PINCTRL_PIN(153, "SMBCLK"),
++	PINCTRL_PIN(154, "SMBDATA"),
++	PINCTRL_PIN(155, "SMBALERTB"),
++	PINCTRL_PIN(156, "SML0CLK"),
++	PINCTRL_PIN(157, "SML0DATA"),
++	PINCTRL_PIN(158, "SML0ALERTB"),
++	PINCTRL_PIN(159, "SML1CLK"),
++	PINCTRL_PIN(160, "SML1DATA"),
++	PINCTRL_PIN(161, "UART0_RXD"),
++	PINCTRL_PIN(162, "UART0_TXD"),
++	PINCTRL_PIN(163, "UART0_RTSB"),
++	PINCTRL_PIN(164, "UART0_CTSB"),
++	PINCTRL_PIN(165, "UART1_RXD"),
++	PINCTRL_PIN(166, "UART1_TXD"),
++	PINCTRL_PIN(167, "UART1_RTSB"),
++	PINCTRL_PIN(168, "UART1_CTSB"),
++	PINCTRL_PIN(169, "I2C0_SDA"),
++	PINCTRL_PIN(170, "I2C0_SCL"),
++	PINCTRL_PIN(171, "I2C1_SDA"),
++	PINCTRL_PIN(172, "I2C1_SCL"),
++	PINCTRL_PIN(173, "UART2_RXD"),
++	PINCTRL_PIN(174, "UART2_TXD"),
++	PINCTRL_PIN(175, "UART2_RTSB"),
++	PINCTRL_PIN(176, "UART2_CTSB"),
++	/* HVCMOS */
++	PINCTRL_PIN(177, "L_BKLTEN"),
++	PINCTRL_PIN(178, "L_BKLTCTL"),
++	PINCTRL_PIN(179, "L_VDDEN"),
++	PINCTRL_PIN(180, "SYS_PWROK"),
++	PINCTRL_PIN(181, "SYS_RESETB"),
++	PINCTRL_PIN(182, "MLK_RSTB"),
++	/* GPP_E */
++	PINCTRL_PIN(183, "SATAXPCIE_0"),
++	PINCTRL_PIN(184, "SPI1_IO_2"),
++	PINCTRL_PIN(185, "SPI1_IO_3"),
++	PINCTRL_PIN(186, "CPU_GP_0"),
++	PINCTRL_PIN(187, "SATA_DEVSLP_0"),
++	PINCTRL_PIN(188, "SATA_DEVSLP_1"),
++	PINCTRL_PIN(189, "GPPC_E_6"),
++	PINCTRL_PIN(190, "CPU_GP_1"),
++	PINCTRL_PIN(191, "SATA_LEDB"),
++	PINCTRL_PIN(192, "USB2_OCB_0"),
++	PINCTRL_PIN(193, "SPI1_CSB"),
++	PINCTRL_PIN(194, "SPI1_CLK"),
++	PINCTRL_PIN(195, "SPI1_MISO_IO_1"),
++	PINCTRL_PIN(196, "SPI1_MOSI_IO_0"),
++	PINCTRL_PIN(197, "DDSP_HPD_A"),
++	PINCTRL_PIN(198, "ISH_GP_6"),
++	PINCTRL_PIN(199, "ISH_GP_7"),
++	PINCTRL_PIN(200, "DISP_MISC_4"),
++	PINCTRL_PIN(201, "DDP1_CTRLCLK"),
++	PINCTRL_PIN(202, "DDP1_CTRLDATA"),
++	PINCTRL_PIN(203, "DDP2_CTRLCLK"),
++	PINCTRL_PIN(204, "DDP2_CTRLDATA"),
++	PINCTRL_PIN(205, "DDPA_CTRLCLK"),
++	PINCTRL_PIN(206, "DDPA_CTRLDATA"),
++	/* JTAG */
++	PINCTRL_PIN(207, "JTAG_TDO"),
++	PINCTRL_PIN(208, "JTAGX"),
++	PINCTRL_PIN(209, "PRDYB"),
++	PINCTRL_PIN(210, "PREQB"),
++	PINCTRL_PIN(211, "CPU_TRSTB"),
++	PINCTRL_PIN(212, "JTAG_TDI"),
++	PINCTRL_PIN(213, "JTAG_TMS"),
++	PINCTRL_PIN(214, "JTAG_TCK"),
++	PINCTRL_PIN(215, "ITP_PMODE"),
++	/* GPP_R */
++	PINCTRL_PIN(216, "HDA_BCLK"),
++	PINCTRL_PIN(217, "HDA_SYNC"),
++	PINCTRL_PIN(218, "HDA_SDO"),
++	PINCTRL_PIN(219, "HDA_SDI_0"),
++	PINCTRL_PIN(220, "HDA_RSTB"),
++	PINCTRL_PIN(221, "HDA_SDI_1"),
++	PINCTRL_PIN(222, "I2S1_TXD"),
++	PINCTRL_PIN(223, "I2S1_RXD"),
++	/* GPP_S */
++	PINCTRL_PIN(224, "SNDW1_CLK"),
++	PINCTRL_PIN(225, "SNDW1_DATA"),
++	PINCTRL_PIN(226, "SNDW2_CLK"),
++	PINCTRL_PIN(227, "SNDW2_DATA"),
++	PINCTRL_PIN(228, "SNDW3_CLK"),
++	PINCTRL_PIN(229, "SNDW3_DATA"),
++	PINCTRL_PIN(230, "SNDW4_CLK"),
++	PINCTRL_PIN(231, "SNDW4_DATA"),
++	/* SPI */
++	PINCTRL_PIN(232, "SPI0_IO_2"),
++	PINCTRL_PIN(233, "SPI0_IO_3"),
++	PINCTRL_PIN(234, "SPI0_MOSI_IO_0"),
++	PINCTRL_PIN(235, "SPI0_MISO_IO_1"),
++	PINCTRL_PIN(236, "SPI0_TPM_CSB"),
++	PINCTRL_PIN(237, "SPI0_FLASH_0_CSB"),
++	PINCTRL_PIN(238, "SPI0_FLASH_1_CSB"),
++	PINCTRL_PIN(239, "SPI0_CLK"),
++	PINCTRL_PIN(240, "SPI0_CLK_LOOPBK"),
++};
++
++static const struct intel_padgroup icllp_community0_gpps[] = {
++	ICL_GPP(0, 0, 7),	/* GPP_G */
++	ICL_GPP(1, 8, 33),	/* GPP_B */
++	ICL_GPP(2, 34, 58),	/* GPP_A */
++};
++
++static const struct intel_padgroup icllp_community1_gpps[] = {
++	ICL_GPP(0, 59, 82),	/* GPP_H */
++	ICL_GPP(1, 83, 103),	/* GPP_D */
++	ICL_GPP(2, 104, 123),	/* GPP_F */
++	ICL_GPP(3, 124, 152),	/* vGPIO */
++};
++
++static const struct intel_padgroup icllp_community4_gpps[] = {
++	ICL_GPP(0, 153, 176),	/* GPP_C */
++	ICL_GPP(1, 177, 182),	/* HVCMOS */
++	ICL_GPP(2, 183, 206),	/* GPP_E */
++	ICL_GPP(3, 207, 215),	/* JTAG */
++};
++
++static const struct intel_padgroup icllp_community5_gpps[] = {
++	ICL_GPP(0, 216, 223),	/* GPP_R */
++	ICL_GPP(1, 224, 231),	/* GPP_S */
++	ICL_GPP(2, 232, 240),	/* SPI */
++};
++
++static const struct intel_community icllp_communities[] = {
++	ICL_COMMUNITY(0, 0, 58, icllp_community0_gpps),
++	ICL_COMMUNITY(1, 59, 152, icllp_community1_gpps),
++	ICL_COMMUNITY(2, 153, 215, icllp_community4_gpps),
++	ICL_COMMUNITY(3, 216, 240, icllp_community5_gpps),
++};
++
++static const unsigned int icllp_spi0_pins[] = { 22, 23, 24, 25, 26 };
++static const unsigned int icllp_spi0_modes[] = { 3, 1, 1, 1, 1 };
++static const unsigned int icllp_spi1_pins[] = { 27, 28, 29, 30, 31 };
++static const unsigned int icllp_spi1_modes[] = { 1, 1, 1, 1, 3 };
++static const unsigned int icllp_spi2_pins[] = { 92, 93, 94, 95, 98 };
++static const unsigned int icllp_spi2_modes[] = { 3, 3, 3, 3, 2 };
++
++static const unsigned int icllp_i2c0_pins[] = { 169, 170 };
++static const unsigned int icllp_i2c1_pins[] = { 171, 172 };
++static const unsigned int icllp_i2c2_pins[] = { 63, 64 };
++static const unsigned int icllp_i2c3_pins[] = { 65, 66 };
++static const unsigned int icllp_i2c4_pins[] = { 67, 68 };
++
++static const unsigned int icllp_uart0_pins[] = { 161, 162, 163, 164 };
++static const unsigned int icllp_uart1_pins[] = { 165, 166, 167, 168 };
++static const unsigned int icllp_uart2_pins[] = { 173, 174, 175, 176 };
++
++static const struct intel_pingroup icllp_groups[] = {
++	PIN_GROUP("spi0_grp", icllp_spi0_pins, icllp_spi0_modes),
++	PIN_GROUP("spi1_grp", icllp_spi1_pins, icllp_spi1_modes),
++	PIN_GROUP("spi2_grp", icllp_spi2_pins, icllp_spi2_modes),
++	PIN_GROUP("i2c0_grp", icllp_i2c0_pins, 1),
++	PIN_GROUP("i2c1_grp", icllp_i2c1_pins, 1),
++	PIN_GROUP("i2c2_grp", icllp_i2c2_pins, 1),
++	PIN_GROUP("i2c3_grp", icllp_i2c3_pins, 1),
++	PIN_GROUP("i2c4_grp", icllp_i2c4_pins, 1),
++	PIN_GROUP("uart0_grp", icllp_uart0_pins, 1),
++	PIN_GROUP("uart1_grp", icllp_uart1_pins, 1),
++	PIN_GROUP("uart2_grp", icllp_uart2_pins, 1),
++};
++
++static const char * const icllp_spi0_groups[] = { "spi0_grp" };
++static const char * const icllp_spi1_groups[] = { "spi1_grp" };
++static const char * const icllp_spi2_groups[] = { "spi2_grp" };
++static const char * const icllp_i2c0_groups[] = { "i2c0_grp" };
++static const char * const icllp_i2c1_groups[] = { "i2c1_grp" };
++static const char * const icllp_i2c2_groups[] = { "i2c2_grp" };
++static const char * const icllp_i2c3_groups[] = { "i2c3_grp" };
++static const char * const icllp_i2c4_groups[] = { "i2c4_grp" };
++static const char * const icllp_uart0_groups[] = { "uart0_grp" };
++static const char * const icllp_uart1_groups[] = { "uart1_grp" };
++static const char * const icllp_uart2_groups[] = { "uart2_grp" };
++
++static const struct intel_function icllp_functions[] = {
++	FUNCTION("spi0", icllp_spi0_groups),
++	FUNCTION("spi1", icllp_spi1_groups),
++	FUNCTION("spi2", icllp_spi2_groups),
++	FUNCTION("i2c0", icllp_i2c0_groups),
++	FUNCTION("i2c1", icllp_i2c1_groups),
++	FUNCTION("i2c2", icllp_i2c2_groups),
++	FUNCTION("i2c3", icllp_i2c3_groups),
++	FUNCTION("i2c4", icllp_i2c4_groups),
++	FUNCTION("uart0", icllp_uart0_groups),
++	FUNCTION("uart1", icllp_uart1_groups),
++	FUNCTION("uart2", icllp_uart2_groups),
++};
++
++static const struct intel_pinctrl_soc_data icllp_soc_data = {
++	.pins = icllp_pins,
++	.npins = ARRAY_SIZE(icllp_pins),
++	.groups = icllp_groups,
++	.ngroups = ARRAY_SIZE(icllp_groups),
++	.functions = icllp_functions,
++	.nfunctions = ARRAY_SIZE(icllp_functions),
++	.communities = icllp_communities,
++	.ncommunities = ARRAY_SIZE(icllp_communities),
++};
++
++static const struct acpi_device_id icl_pinctrl_acpi_match[] = {
++	{ "INT3455", (kernel_ulong_t)&icllp_soc_data },
++	{ },
++};
++MODULE_DEVICE_TABLE(acpi, icl_pinctrl_acpi_match);
++
++static int icl_pinctrl_probe(struct platform_device *pdev)
++{
++	const struct intel_pinctrl_soc_data *soc_data;
++	const struct acpi_device_id *id;
++
++	id = acpi_match_device(icl_pinctrl_acpi_match, &pdev->dev);
++	if (!id || !id->driver_data)
++		return -ENODEV;
++
++	soc_data = (const struct intel_pinctrl_soc_data *)id->driver_data;
++	return intel_pinctrl_probe(pdev, soc_data);
++}
++
++static const struct dev_pm_ops icl_pinctrl_pm_ops = {
++	SET_LATE_SYSTEM_SLEEP_PM_OPS(intel_pinctrl_suspend,
++				     intel_pinctrl_resume)
++};
++
++static struct platform_driver icl_pinctrl_driver = {
++	.probe = icl_pinctrl_probe,
++	.driver = {
++		.name = "icelake-pinctrl",
++		.acpi_match_table = icl_pinctrl_acpi_match,
++		.pm = &icl_pinctrl_pm_ops,
++	},
++};
++
++module_platform_driver(icl_pinctrl_driver);
++
++MODULE_AUTHOR("Andy Shevchenko <andriy.shevchenko@linux.intel.com>");
++MODULE_AUTHOR("Mika Westerberg <mika.westerberg@linux.intel.com>");
++MODULE_DESCRIPTION("Intel Ice Lake PCH pinctrl/GPIO driver");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/pinctrl/intel/pinctrl-intel.c b/drivers/pinctrl/intel/pinctrl-intel.c
+index b40a074..2839e4a 100644
+--- a/drivers/pinctrl/intel/pinctrl-intel.c
++++ b/drivers/pinctrl/intel/pinctrl-intel.c
+@@ -13,6 +13,7 @@
+ #include <linux/module.h>
+ #include <linux/interrupt.h>
+ #include <linux/gpio/driver.h>
++#include <linux/log2.h>
+ #include <linux/platform_device.h>
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/pinctrl/pinmux.h>
+@@ -23,10 +24,12 @@
+ #include "pinctrl-intel.h"
+ 
+ /* Offset from regs */
++#define REVID				0x000
++#define REVID_SHIFT			16
++#define REVID_MASK			GENMASK(31, 16)
++
+ #define PADBAR				0x00c
+ #define GPI_IS				0x100
+-#define GPI_GPE_STS			0x140
+-#define GPI_GPE_EN			0x160
+ 
+ #define PADOWN_BITS			4
+ #define PADOWN_SHIFT(p)			((p) % 8 * PADOWN_BITS)
+@@ -41,6 +44,7 @@
+ #define PADCFG0_RXEVCFG_EDGE		1
+ #define PADCFG0_RXEVCFG_DISABLED	2
+ #define PADCFG0_RXEVCFG_EDGE_BOTH	3
++#define PADCFG0_PREGFRXSEL		BIT(24)
+ #define PADCFG0_RXINV			BIT(23)
+ #define PADCFG0_GPIROUTIOXAPIC		BIT(20)
+ #define PADCFG0_GPIROUTSCI		BIT(19)
+@@ -62,9 +66,17 @@
+ #define PADCFG1_TERM_5K			2
+ #define PADCFG1_TERM_1K			1
+ 
++#define PADCFG2				0x008
++#define PADCFG2_DEBEN			BIT(0)
++#define PADCFG2_DEBOUNCE_SHIFT		1
++#define PADCFG2_DEBOUNCE_MASK		GENMASK(4, 1)
++
++#define DEBOUNCE_PERIOD			31250 /* ns */
++
+ struct intel_pad_context {
+ 	u32 padcfg0;
+ 	u32 padcfg1;
++	u32 padcfg2;
+ };
+ 
+ struct intel_community_context {
+@@ -103,6 +115,7 @@ struct intel_pinctrl {
+ };
+ 
+ #define pin_to_padno(c, p)	((p) - (c)->pin_base)
++#define padgroup_offset(g, p)	((p) - (g)->base)
+ 
+ static struct intel_community *intel_get_community(struct intel_pinctrl *pctrl,
+ 						   unsigned pin)
+@@ -121,24 +134,47 @@ static struct intel_community *intel_get_community(struct intel_pinctrl *pctrl,
+ 	return NULL;
+ }
+ 
++static const struct intel_padgroup *
++intel_community_get_padgroup(const struct intel_community *community,
++			     unsigned pin)
++{
++	int i;
++
++	for (i = 0; i < community->ngpps; i++) {
++		const struct intel_padgroup *padgrp = &community->gpps[i];
++
++		if (pin >= padgrp->base && pin < padgrp->base + padgrp->size)
++			return padgrp;
++	}
++
++	return NULL;
++}
++
+ static void __iomem *intel_get_padcfg(struct intel_pinctrl *pctrl, unsigned pin,
+ 				      unsigned reg)
+ {
+ 	const struct intel_community *community;
+ 	unsigned padno;
++	size_t nregs;
+ 
+ 	community = intel_get_community(pctrl, pin);
+ 	if (!community)
+ 		return NULL;
+ 
+ 	padno = pin_to_padno(community, pin);
+-	return community->pad_regs + reg + padno * 8;
++	nregs = (community->features & PINCTRL_FEATURE_DEBOUNCE) ? 4 : 2;
++
++	if (reg == PADCFG2 && !(community->features & PINCTRL_FEATURE_DEBOUNCE))
++		return NULL;
++
++	return community->pad_regs + reg + padno * nregs * 4;
+ }
+ 
+ static bool intel_pad_owned_by_host(struct intel_pinctrl *pctrl, unsigned pin)
+ {
+ 	const struct intel_community *community;
+-	unsigned padno, gpp, offset, group;
++	const struct intel_padgroup *padgrp;
++	unsigned gpp, offset, gpp_offset;
+ 	void __iomem *padown;
+ 
+ 	community = intel_get_community(pctrl, pin);
+@@ -147,19 +183,23 @@ static bool intel_pad_owned_by_host(struct intel_pinctrl *pctrl, unsigned pin)
+ 	if (!community->padown_offset)
+ 		return true;
+ 
+-	padno = pin_to_padno(community, pin);
+-	group = padno / community->gpp_size;
+-	gpp = PADOWN_GPP(padno % community->gpp_size);
+-	offset = community->padown_offset + 0x10 * group + gpp * 4;
++	padgrp = intel_community_get_padgroup(community, pin);
++	if (!padgrp)
++		return false;
++
++	gpp_offset = padgroup_offset(padgrp, pin);
++	gpp = PADOWN_GPP(gpp_offset);
++	offset = community->padown_offset + padgrp->padown_num * 4 + gpp * 4;
+ 	padown = community->regs + offset;
+ 
+-	return !(readl(padown) & PADOWN_MASK(padno));
++	return !(readl(padown) & PADOWN_MASK(gpp_offset));
+ }
+ 
+ static bool intel_pad_acpi_mode(struct intel_pinctrl *pctrl, unsigned pin)
+ {
+ 	const struct intel_community *community;
+-	unsigned padno, gpp, offset;
++	const struct intel_padgroup *padgrp;
++	unsigned offset, gpp_offset;
+ 	void __iomem *hostown;
+ 
+ 	community = intel_get_community(pctrl, pin);
+@@ -168,18 +208,22 @@ static bool intel_pad_acpi_mode(struct intel_pinctrl *pctrl, unsigned pin)
+ 	if (!community->hostown_offset)
+ 		return false;
+ 
+-	padno = pin_to_padno(community, pin);
+-	gpp = padno / community->gpp_size;
+-	offset = community->hostown_offset + gpp * 4;
++	padgrp = intel_community_get_padgroup(community, pin);
++	if (!padgrp)
++		return true;
++
++	gpp_offset = padgroup_offset(padgrp, pin);
++	offset = community->hostown_offset + padgrp->reg_num * 4;
+ 	hostown = community->regs + offset;
+ 
+-	return !(readl(hostown) & BIT(padno % community->gpp_size));
++	return !(readl(hostown) & BIT(gpp_offset));
+ }
+ 
+ static bool intel_pad_locked(struct intel_pinctrl *pctrl, unsigned pin)
+ {
+ 	struct intel_community *community;
+-	unsigned padno, gpp, offset;
++	const struct intel_padgroup *padgrp;
++	unsigned offset, gpp_offset;
+ 	u32 value;
+ 
+ 	community = intel_get_community(pctrl, pin);
+@@ -188,22 +232,25 @@ static bool intel_pad_locked(struct intel_pinctrl *pctrl, unsigned pin)
+ 	if (!community->padcfglock_offset)
+ 		return false;
+ 
+-	padno = pin_to_padno(community, pin);
+-	gpp = padno / community->gpp_size;
++	padgrp = intel_community_get_padgroup(community, pin);
++	if (!padgrp)
++		return true;
++
++	gpp_offset = padgroup_offset(padgrp, pin);
+ 
+ 	/*
+ 	 * If PADCFGLOCK and PADCFGLOCKTX bits are both clear for this pad,
+ 	 * the pad is considered unlocked. Any other case means that it is
+ 	 * either fully or partially locked and we don't touch it.
+ 	 */
+-	offset = community->padcfglock_offset + gpp * 8;
++	offset = community->padcfglock_offset + padgrp->reg_num * 8;
+ 	value = readl(community->regs + offset);
+-	if (value & BIT(pin % community->gpp_size))
++	if (value & BIT(gpp_offset))
+ 		return true;
+ 
+-	offset = community->padcfglock_offset + 4 + gpp * 8;
++	offset = community->padcfglock_offset + 4 + padgrp->reg_num * 8;
+ 	value = readl(community->regs + offset);
+-	if (value & BIT(pin % community->gpp_size))
++	if (value & BIT(gpp_offset))
+ 		return true;
+ 
+ 	return false;
+@@ -244,6 +291,7 @@ static void intel_pin_dbg_show(struct pinctrl_dev *pctldev, struct seq_file *s,
+ 			       unsigned pin)
+ {
+ 	struct intel_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
++	void __iomem *padcfg;
+ 	u32 cfg0, cfg1, mode;
+ 	bool locked, acpi;
+ 
+@@ -263,6 +311,11 @@ static void intel_pin_dbg_show(struct pinctrl_dev *pctldev, struct seq_file *s,
+ 
+ 	seq_printf(s, "0x%08x 0x%08x", cfg0, cfg1);
+ 
++	/* Dump the additional PADCFG registers if available */
++	padcfg = intel_get_padcfg(pctrl, pin, PADCFG2);
++	if (padcfg)
++		seq_printf(s, " 0x%08x", readl(padcfg));
++
+ 	locked = intel_pad_locked(pctrl, pin);
+ 	acpi = intel_pad_acpi_mode(pctrl, pin);
+ 
+@@ -343,7 +396,11 @@ static int intel_pinmux_set_mux(struct pinctrl_dev *pctldev, unsigned function,
+ 		value = readl(padcfg0);
+ 
+ 		value &= ~PADCFG0_PMODE_MASK;
+-		value |= grp->mode << PADCFG0_PMODE_SHIFT;
++
++		if (grp->modes)
++			value |= grp->modes[i] << PADCFG0_PMODE_SHIFT;
++		else
++			value |= grp->mode << PADCFG0_PMODE_SHIFT;
+ 
+ 		writel(value, padcfg0);
+ 	}
+@@ -432,12 +489,14 @@ static int intel_config_get(struct pinctrl_dev *pctldev, unsigned pin,
+ {
+ 	struct intel_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
+ 	enum pin_config_param param = pinconf_to_config_param(*config);
++	const struct intel_community *community;
+ 	u32 value, term;
+-	u16 arg = 0;
++	u32 arg = 0;
+ 
+ 	if (!intel_pad_owned_by_host(pctrl, pin))
+ 		return -ENOTSUPP;
+ 
++	community = intel_get_community(pctrl, pin);
+ 	value = readl(intel_get_padcfg(pctrl, pin, PADCFG1));
+ 	term = (value & PADCFG1_TERM_MASK) >> PADCFG1_TERM_SHIFT;
+ 
+@@ -473,6 +532,11 @@ static int intel_config_get(struct pinctrl_dev *pctldev, unsigned pin,
+ 			return -EINVAL;
+ 
+ 		switch (term) {
++		case PADCFG1_TERM_1K:
++			if (!(community->features & PINCTRL_FEATURE_1K_PD))
++				return -EINVAL;
++			arg = 1000;
++			break;
+ 		case PADCFG1_TERM_5K:
+ 			arg = 5000;
+ 			break;
+@@ -483,6 +547,24 @@ static int intel_config_get(struct pinctrl_dev *pctldev, unsigned pin,
+ 
+ 		break;
+ 
++	case PIN_CONFIG_INPUT_DEBOUNCE: {
++		void __iomem *padcfg2;
++		u32 v;
++
++		padcfg2 = intel_get_padcfg(pctrl, pin, PADCFG2);
++		if (!padcfg2)
++			return -ENOTSUPP;
++
++		v = readl(padcfg2);
++		if (!(v & PADCFG2_DEBEN))
++			return -EINVAL;
++
++		v = (v & PADCFG2_DEBOUNCE_MASK) >> PADCFG2_DEBOUNCE_SHIFT;
++		arg = BIT(v) * DEBOUNCE_PERIOD / 1000;
++
++		break;
++	}
++
+ 	default:
+ 		return -ENOTSUPP;
+ 	}
+@@ -496,6 +578,7 @@ static int intel_config_set_pull(struct intel_pinctrl *pctrl, unsigned pin,
+ {
+ 	unsigned param = pinconf_to_config_param(config);
+ 	unsigned arg = pinconf_to_config_argument(config);
++	const struct intel_community *community;
+ 	void __iomem *padcfg1;
+ 	unsigned long flags;
+ 	int ret = 0;
+@@ -503,6 +586,7 @@ static int intel_config_set_pull(struct intel_pinctrl *pctrl, unsigned pin,
+ 
+ 	raw_spin_lock_irqsave(&pctrl->lock, flags);
+ 
++	community = intel_get_community(pctrl, pin);
+ 	padcfg1 = intel_get_padcfg(pctrl, pin, PADCFG1);
+ 	value = readl(padcfg1);
+ 
+@@ -545,6 +629,13 @@ static int intel_config_set_pull(struct intel_pinctrl *pctrl, unsigned pin,
+ 		case 5000:
+ 			value |= PADCFG1_TERM_5K << PADCFG1_TERM_SHIFT;
+ 			break;
++		case 1000:
++			if (!(community->features & PINCTRL_FEATURE_1K_PD)) {
++				ret = -EINVAL;
++				break;
++			}
++			value |= PADCFG1_TERM_1K << PADCFG1_TERM_SHIFT;
++			break;
+ 		default:
+ 			ret = -EINVAL;
+ 		}
+@@ -560,6 +651,53 @@ static int intel_config_set_pull(struct intel_pinctrl *pctrl, unsigned pin,
+ 	return ret;
+ }
+ 
++static int intel_config_set_debounce(struct intel_pinctrl *pctrl, unsigned pin,
++				     unsigned debounce)
++{
++	void __iomem *padcfg0, *padcfg2;
++	unsigned long flags;
++	u32 value0, value2;
++	int ret = 0;
++
++	padcfg2 = intel_get_padcfg(pctrl, pin, PADCFG2);
++	if (!padcfg2)
++		return -ENOTSUPP;
++
++	padcfg0 = intel_get_padcfg(pctrl, pin, PADCFG0);
++
++	raw_spin_lock_irqsave(&pctrl->lock, flags);
++
++	value0 = readl(padcfg0);
++	value2 = readl(padcfg2);
++
++	/* Disable glitch filter and debouncer */
++	value0 &= ~PADCFG0_PREGFRXSEL;
++	value2 &= ~(PADCFG2_DEBEN | PADCFG2_DEBOUNCE_MASK);
++
++	if (debounce) {
++		unsigned long v;
++
++		v = order_base_2(debounce * 1000 / DEBOUNCE_PERIOD);
++		if (v < 3 || v > 15) {
++			ret = -EINVAL;
++			goto exit_unlock;
++		} else {
++			/* Enable glitch filter and debouncer */
++			value0 |= PADCFG0_PREGFRXSEL;
++			value2 |= v << PADCFG2_DEBOUNCE_SHIFT;
++			value2 |= PADCFG2_DEBEN;
++		}
++	}
++
++	writel(value0, padcfg0);
++	writel(value2, padcfg2);
++
++exit_unlock:
++	raw_spin_unlock_irqrestore(&pctrl->lock, flags);
++
++	return ret;
++}
++
+ static int intel_config_set(struct pinctrl_dev *pctldev, unsigned pin,
+ 			  unsigned long *configs, unsigned nconfigs)
+ {
+@@ -579,6 +717,13 @@ static int intel_config_set(struct pinctrl_dev *pctldev, unsigned pin,
+ 				return ret;
+ 			break;
+ 
++		case PIN_CONFIG_INPUT_DEBOUNCE:
++			ret = intel_config_set_debounce(pctrl, pin,
++				pinconf_to_config_argument(configs[i]));
++			if (ret)
++				return ret;
++			break;
++
+ 		default:
+ 			return -ENOTSUPP;
+ 		}
+@@ -604,33 +749,38 @@ static int intel_gpio_get(struct gpio_chip *chip, unsigned offset)
+ {
+ 	struct intel_pinctrl *pctrl = gpiochip_get_data(chip);
+ 	void __iomem *reg;
++	u32 padcfg0;
+ 
+ 	reg = intel_get_padcfg(pctrl, offset, PADCFG0);
+ 	if (!reg)
+ 		return -EINVAL;
+ 
+-	return !!(readl(reg) & PADCFG0_GPIORXSTATE);
++	padcfg0 = readl(reg);
++	if (!(padcfg0 & PADCFG0_GPIOTXDIS))
++		return !!(padcfg0 & PADCFG0_GPIOTXSTATE);
++
++	return !!(padcfg0 & PADCFG0_GPIORXSTATE);
+ }
+ 
+ static void intel_gpio_set(struct gpio_chip *chip, unsigned offset, int value)
+ {
+ 	struct intel_pinctrl *pctrl = gpiochip_get_data(chip);
++	unsigned long flags;
+ 	void __iomem *reg;
++	u32 padcfg0;
+ 
+ 	reg = intel_get_padcfg(pctrl, offset, PADCFG0);
+-	if (reg) {
+-		unsigned long flags;
+-		u32 padcfg0;
++	if (!reg)
++		return;
+ 
+-		raw_spin_lock_irqsave(&pctrl->lock, flags);
+-		padcfg0 = readl(reg);
+-		if (value)
+-			padcfg0 |= PADCFG0_GPIOTXSTATE;
+-		else
+-			padcfg0 &= ~PADCFG0_GPIOTXSTATE;
+-		writel(padcfg0, reg);
+-		raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+-	}
++	raw_spin_lock_irqsave(&pctrl->lock, flags);
++	padcfg0 = readl(reg);
++	if (value)
++		padcfg0 |= PADCFG0_GPIOTXSTATE;
++	else
++		padcfg0 &= ~PADCFG0_GPIOTXSTATE;
++	writel(padcfg0, reg);
++	raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+ }
+ 
+ static int intel_gpio_direction_input(struct gpio_chip *chip, unsigned offset)
+@@ -662,18 +812,23 @@ static void intel_gpio_irq_ack(struct irq_data *d)
+ 	const struct intel_community *community;
+ 	unsigned pin = irqd_to_hwirq(d);
+ 
+-	raw_spin_lock(&pctrl->lock);
+-
+ 	community = intel_get_community(pctrl, pin);
+ 	if (community) {
+-		unsigned padno = pin_to_padno(community, pin);
+-		unsigned gpp_offset = padno % community->gpp_size;
+-		unsigned gpp = padno / community->gpp_size;
++		const struct intel_padgroup *padgrp;
++		unsigned gpp, gpp_offset, is_offset;
+ 
+-		writel(BIT(gpp_offset), community->regs + GPI_IS + gpp * 4);
+-	}
++		padgrp = intel_community_get_padgroup(community, pin);
++		if (!padgrp)
++			return;
+ 
+-	raw_spin_unlock(&pctrl->lock);
++		gpp = padgrp->reg_num;
++		gpp_offset = padgroup_offset(padgrp, pin);
++		is_offset = community->is_offset + gpp * 4;
++
++		raw_spin_lock(&pctrl->lock);
++		writel(BIT(gpp_offset), community->regs + is_offset);
++		raw_spin_unlock(&pctrl->lock);
++	}
+ }
+ 
+ static void intel_gpio_irq_enable(struct irq_data *d)
+@@ -682,27 +837,31 @@ static void intel_gpio_irq_enable(struct irq_data *d)
+ 	struct intel_pinctrl *pctrl = gpiochip_get_data(gc);
+ 	const struct intel_community *community;
+ 	unsigned pin = irqd_to_hwirq(d);
+-	unsigned long flags;
+-
+-	raw_spin_lock_irqsave(&pctrl->lock, flags);
+ 
+ 	community = intel_get_community(pctrl, pin);
+ 	if (community) {
+-		unsigned padno = pin_to_padno(community, pin);
+-		unsigned gpp_size = community->gpp_size;
+-		unsigned gpp_offset = padno % gpp_size;
+-		unsigned gpp = padno / gpp_size;
++		const struct intel_padgroup *padgrp;
++		unsigned gpp, gpp_offset, is_offset;
++		unsigned long flags;
+ 		u32 value;
+ 
++		padgrp = intel_community_get_padgroup(community, pin);
++		if (!padgrp)
++			return;
++
++		gpp = padgrp->reg_num;
++		gpp_offset = padgroup_offset(padgrp, pin);
++		is_offset = community->is_offset + gpp * 4;
++
++		raw_spin_lock_irqsave(&pctrl->lock, flags);
+ 		/* Clear interrupt status first to avoid unexpected interrupt */
+-		writel(BIT(gpp_offset), community->regs + GPI_IS + gpp * 4);
++		writel(BIT(gpp_offset), community->regs + is_offset);
+ 
+ 		value = readl(community->regs + community->ie_offset + gpp * 4);
+ 		value |= BIT(gpp_offset);
+ 		writel(value, community->regs + community->ie_offset + gpp * 4);
++		raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+ 	}
+-
+-	raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+ }
+ 
+ static void intel_gpio_irq_mask_unmask(struct irq_data *d, bool mask)
+@@ -711,28 +870,33 @@ static void intel_gpio_irq_mask_unmask(struct irq_data *d, bool mask)
+ 	struct intel_pinctrl *pctrl = gpiochip_get_data(gc);
+ 	const struct intel_community *community;
+ 	unsigned pin = irqd_to_hwirq(d);
+-	unsigned long flags;
+-
+-	raw_spin_lock_irqsave(&pctrl->lock, flags);
+ 
+ 	community = intel_get_community(pctrl, pin);
+ 	if (community) {
+-		unsigned padno = pin_to_padno(community, pin);
+-		unsigned gpp_offset = padno % community->gpp_size;
+-		unsigned gpp = padno / community->gpp_size;
++		const struct intel_padgroup *padgrp;
++		unsigned gpp, gpp_offset;
++		unsigned long flags;
+ 		void __iomem *reg;
+ 		u32 value;
+ 
++		padgrp = intel_community_get_padgroup(community, pin);
++		if (!padgrp)
++			return;
++
++		gpp = padgrp->reg_num;
++		gpp_offset = padgroup_offset(padgrp, pin);
++
+ 		reg = community->regs + community->ie_offset + gpp * 4;
++
++		raw_spin_lock_irqsave(&pctrl->lock, flags);
+ 		value = readl(reg);
+ 		if (mask)
+ 			value &= ~BIT(gpp_offset);
+ 		else
+ 			value |= BIT(gpp_offset);
+ 		writel(value, reg);
++		raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+ 	}
+-
+-	raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+ }
+ 
+ static void intel_gpio_irq_mask(struct irq_data *d)
+@@ -823,23 +987,21 @@ static irqreturn_t intel_gpio_community_irq_handler(struct intel_pinctrl *pctrl,
+ 	int gpp;
+ 
+ 	for (gpp = 0; gpp < community->ngpps; gpp++) {
++		const struct intel_padgroup *padgrp = &community->gpps[gpp];
+ 		unsigned long pending, enabled, gpp_offset;
+ 
+-		pending = readl(community->regs + GPI_IS + gpp * 4);
++		pending = readl(community->regs + community->is_offset +
++				padgrp->reg_num * 4);
+ 		enabled = readl(community->regs + community->ie_offset +
+-				gpp * 4);
++				padgrp->reg_num * 4);
+ 
+ 		/* Only interrupts that are enabled */
+ 		pending &= enabled;
+ 
+-		for_each_set_bit(gpp_offset, &pending, community->gpp_size) {
++		for_each_set_bit(gpp_offset, &pending, padgrp->size) {
+ 			unsigned padno, irq;
+ 
+-			/*
+-			 * The last group in community can have less pins
+-			 * than NPADS_IN_GPP.
+-			 */
+-			padno = gpp_offset + gpp * community->gpp_size;
++			padno = padgrp->base - community->pin_base + gpp_offset;
+ 			if (padno >= community->npins)
+ 				break;
+ 
+@@ -878,6 +1040,7 @@ static struct irq_chip intel_gpio_irqchip = {
+ 	.irq_unmask = intel_gpio_irq_unmask,
+ 	.irq_set_type = intel_gpio_irq_type,
+ 	.irq_set_wake = intel_gpio_irq_wake,
++	.flags = IRQCHIP_MASK_ON_SUSPEND,
+ };
+ 
+ static int intel_gpio_probe(struct intel_pinctrl *pctrl, int irq)
+@@ -892,7 +1055,7 @@ static int intel_gpio_probe(struct intel_pinctrl *pctrl, int irq)
+ 	pctrl->chip.base = -1;
+ 	pctrl->irq = irq;
+ 
+-	ret = gpiochip_add_data(&pctrl->chip, pctrl);
++	ret = devm_gpiochip_add_data(pctrl->dev, &pctrl->chip, pctrl);
+ 	if (ret) {
+ 		dev_err(pctrl->dev, "failed to register gpiochip\n");
+ 		return ret;
+@@ -902,7 +1065,7 @@ static int intel_gpio_probe(struct intel_pinctrl *pctrl, int irq)
+ 				     0, 0, pctrl->soc->npins);
+ 	if (ret) {
+ 		dev_err(pctrl->dev, "failed to add GPIO pin range\n");
+-		goto fail;
++		return ret;
+ 	}
+ 
+ 	/*
+@@ -915,24 +1078,69 @@ static int intel_gpio_probe(struct intel_pinctrl *pctrl, int irq)
+ 			       dev_name(pctrl->dev), pctrl);
+ 	if (ret) {
+ 		dev_err(pctrl->dev, "failed to request interrupt\n");
+-		goto fail;
++		return ret;
+ 	}
+ 
+ 	ret = gpiochip_irqchip_add(&pctrl->chip, &intel_gpio_irqchip, 0,
+-				   handle_simple_irq, IRQ_TYPE_NONE);
++				   handle_bad_irq, IRQ_TYPE_NONE);
+ 	if (ret) {
+ 		dev_err(pctrl->dev, "failed to add irqchip\n");
+-		goto fail;
++		return ret;
+ 	}
+ 
+ 	gpiochip_set_chained_irqchip(&pctrl->chip, &intel_gpio_irqchip, irq,
+ 				     NULL);
+ 	return 0;
++}
+ 
+-fail:
+-	gpiochip_remove(&pctrl->chip);
++static int intel_pinctrl_add_padgroups(struct intel_pinctrl *pctrl,
++				       struct intel_community *community)
++{
++	struct intel_padgroup *gpps;
++	unsigned npins = community->npins;
++	unsigned padown_num = 0;
++	size_t ngpps, i;
+ 
+-	return ret;
++	if (community->gpps)
++		ngpps = community->ngpps;
++	else
++		ngpps = DIV_ROUND_UP(community->npins, community->gpp_size);
++
++	gpps = devm_kcalloc(pctrl->dev, ngpps, sizeof(*gpps), GFP_KERNEL);
++	if (!gpps)
++		return -ENOMEM;
++
++	for (i = 0; i < ngpps; i++) {
++		if (community->gpps) {
++			gpps[i] = community->gpps[i];
++		} else {
++			unsigned gpp_size = community->gpp_size;
++
++			gpps[i].reg_num = i;
++			gpps[i].base = community->pin_base + i * gpp_size;
++			gpps[i].size = min(gpp_size, npins);
++			npins -= gpps[i].size;
++		}
++
++		if (gpps[i].size > 32)
++			return -EINVAL;
++
++		gpps[i].padown_num = padown_num;
++
++		/*
++		 * In older hardware the number of padown registers per
++		 * group is fixed regardless of the group size.
++		 */
++		if (community->gpp_num_padown_regs)
++			padown_num += community->gpp_num_padown_regs;
++		else
++			padown_num += DIV_ROUND_UP(gpps[i].size * 4, 32);
++	}
++
++	community->ngpps = ngpps;
++	community->gpps = gpps;
++
++	return 0;
+ }
+ 
+ static int intel_pinctrl_pm_init(struct intel_pinctrl *pctrl)
+@@ -1013,13 +1221,32 @@ int intel_pinctrl_probe(struct platform_device *pdev,
+ 		if (IS_ERR(regs))
+ 			return PTR_ERR(regs);
+ 
++		/*
++		 * Determine community features based on the revision if
++		 * not specified already.
++		 */
++		if (!community->features) {
++			u32 rev;
++
++			rev = (readl(regs + REVID) & REVID_MASK) >> REVID_SHIFT;
++			if (rev >= 0x94) {
++				community->features |= PINCTRL_FEATURE_DEBOUNCE;
++				community->features |= PINCTRL_FEATURE_1K_PD;
++			}
++		}
++
+ 		/* Read offset of the pad configuration registers */
+ 		padbar = readl(regs + PADBAR);
+ 
+ 		community->regs = regs;
+ 		community->pad_regs = regs + padbar;
+-		community->ngpps = DIV_ROUND_UP(community->npins,
+-						community->gpp_size);
++
++		if (!community->is_offset)
++			community->is_offset = GPI_IS;
++
++		ret = intel_pinctrl_add_padgroups(pctrl, community);
++		if (ret)
++			return ret;
+ 	}
+ 
+ 	irq = platform_get_irq(pdev, 0);
+@@ -1054,16 +1281,6 @@ int intel_pinctrl_probe(struct platform_device *pdev,
+ }
+ EXPORT_SYMBOL_GPL(intel_pinctrl_probe);
+ 
+-int intel_pinctrl_remove(struct platform_device *pdev)
+-{
+-	struct intel_pinctrl *pctrl = platform_get_drvdata(pdev);
+-
+-	gpiochip_remove(&pctrl->chip);
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(intel_pinctrl_remove);
+-
+ #ifdef CONFIG_PM_SLEEP
+ static bool intel_pinctrl_should_save(struct intel_pinctrl *pctrl, unsigned pin)
+ {
+@@ -1096,6 +1313,7 @@ int intel_pinctrl_suspend(struct device *dev)
+ 	pads = pctrl->context.pads;
+ 	for (i = 0; i < pctrl->soc->npins; i++) {
+ 		const struct pinctrl_pin_desc *desc = &pctrl->soc->pins[i];
++		void __iomem *padcfg;
+ 		u32 val;
+ 
+ 		if (!intel_pinctrl_should_save(pctrl, desc->number))
+@@ -1105,6 +1323,10 @@ int intel_pinctrl_suspend(struct device *dev)
+ 		pads[i].padcfg0 = val & ~PADCFG0_GPIORXSTATE;
+ 		val = readl(intel_get_padcfg(pctrl, desc->number, PADCFG1));
+ 		pads[i].padcfg1 = val;
++
++		padcfg = intel_get_padcfg(pctrl, desc->number, PADCFG2);
++		if (padcfg)
++			pads[i].padcfg2 = readl(padcfg);
+ 	}
+ 
+ 	communities = pctrl->context.communities;
+@@ -1137,7 +1359,7 @@ static void intel_gpio_irq_init(struct intel_pinctrl *pctrl)
+ 		for (gpp = 0; gpp < community->ngpps; gpp++) {
+ 			/* Mask and clear all interrupts */
+ 			writel(0, base + community->ie_offset + gpp * 4);
+-			writel(0xffff, base + GPI_IS + gpp * 4);
++			writel(0xffff, base + community->is_offset + gpp * 4);
+ 		}
+ 	}
+ }
+@@ -1177,6 +1399,16 @@ int intel_pinctrl_resume(struct device *dev)
+ 			dev_dbg(dev, "restored pin %u padcfg1 %#08x\n",
+ 				desc->number, readl(padcfg));
+ 		}
++
++		padcfg = intel_get_padcfg(pctrl, desc->number, PADCFG2);
++		if (padcfg) {
++			val = readl(padcfg);
++			if (val != pads[i].padcfg2) {
++				writel(pads[i].padcfg2, padcfg);
++				dev_dbg(dev, "restored pin %u padcfg2 %#08x\n",
++					desc->number, readl(padcfg));
++			}
++		}
+ 	}
+ 
+ 	communities = pctrl->context.communities;
+diff --git a/drivers/pinctrl/intel/pinctrl-intel.h b/drivers/pinctrl/intel/pinctrl-intel.h
+index b602157..13b0bd6 100644
+--- a/drivers/pinctrl/intel/pinctrl-intel.h
++++ b/drivers/pinctrl/intel/pinctrl-intel.h
+@@ -22,13 +22,16 @@ struct device;
+  * @name: Name of the groups
+  * @pins: All pins in this group
+  * @npins: Number of pins in this groups
+- * @mode: Native mode in which the group is muxed out @pins
++ * @mode: Native mode in which the group is muxed out @pins. Used if @modes
++ *        is %NULL.
++ * @modes: If not %NULL this will hold mode for each pin in @pins
+  */
+ struct intel_pingroup {
+ 	const char *name;
+ 	const unsigned *pins;
+ 	size_t npins;
+ 	unsigned short mode;
++	const unsigned *modes;
+ };
+ 
+ /**
+@@ -44,6 +47,23 @@ struct intel_function {
+ };
+ 
+ /**
++ * struct intel_padgroup - Hardware pad group information
++ * @reg_num: GPI_IS register number
++ * @base: Starting pin of this group
++ * @size: Size of this group (maximum is 32).
++ * @padown_num: PAD_OWN register number (assigned by the core driver)
++ *
++ * If pad groups of a community are not the same size, use this structure
++ * to specify them.
++ */
++struct intel_padgroup {
++	unsigned reg_num;
++	unsigned base;
++	unsigned size;
++	unsigned padown_num;
++};
++
++/**
+  * struct intel_community - Intel pin community description
+  * @barno: MMIO BAR number where registers for this community reside
+  * @padown_offset: Register offset of PAD_OWN register from @regs. If %0
+@@ -53,36 +73,68 @@ struct intel_function {
+  * @hostown_offset: Register offset of HOSTSW_OWN from @regs. If %0 then it
+  *                  is assumed that the host owns the pin (rather than
+  *                  ACPI).
++ * @is_offset: Register offset of GPI_IS from @regs. If %0 then uses the
++ *             default (%0x100).
+  * @ie_offset: Register offset of GPI_IE from @regs.
+  * @pin_base: Starting pin of pins in this community
+  * @gpp_size: Maximum number of pads in each group, such as PADCFGLOCK,
+- *            HOSTSW_OWN,  GPI_IS, GPI_IE, etc.
++ *            HOSTSW_OWN,  GPI_IS, GPI_IE, etc. Used when @gpps is %NULL.
++ * @gpp_num_padown_regs: Number of pad registers each pad group consumes at
++ *			 minimum. Use %0 if the number of registers can be
++ *			 determined by the size of the group.
+  * @npins: Number of pins in this community
++ * @features: Additional features supported by the hardware
++ * @gpps: Pad groups if the controller has variable size pad groups
++ * @ngpps: Number of pad groups in this community
+  * @regs: Community specific common registers (reserved for core driver)
+  * @pad_regs: Community specific pad registers (reserved for core driver)
+- * @ngpps: Number of groups (hw groups) in this community (reserved for
+- *         core driver)
++ *
++ * Most Intel GPIO host controllers this driver supports each pad group is
++ * of equal size (except the last one). In that case the driver can just
++ * fill in @gpp_size field and let the core driver to handle the rest. If
++ * the controller has pad groups of variable size the client driver can
++ * pass custom @gpps and @ngpps instead.
+  */
+ struct intel_community {
+ 	unsigned barno;
+ 	unsigned padown_offset;
+ 	unsigned padcfglock_offset;
+ 	unsigned hostown_offset;
++	unsigned is_offset;
+ 	unsigned ie_offset;
+ 	unsigned pin_base;
+ 	unsigned gpp_size;
++	unsigned gpp_num_padown_regs;
+ 	size_t npins;
++	unsigned features;
++	const struct intel_padgroup *gpps;
++	size_t ngpps;
++	/* Reserved for the core driver */
+ 	void __iomem *regs;
+ 	void __iomem *pad_regs;
+-	size_t ngpps;
+ };
+ 
+-#define PIN_GROUP(n, p, m)			\
+-	{					\
+-		.name = (n),			\
+-		.pins = (p),			\
+-		.npins = ARRAY_SIZE((p)),	\
+-		.mode = (m),			\
++/* Additional features supported by the hardware */
++#define PINCTRL_FEATURE_DEBOUNCE	BIT(0)
++#define PINCTRL_FEATURE_1K_PD		BIT(1)
++
++/**
++ * PIN_GROUP - Declare a pin group
++ * @n: Name of the group
++ * @p: An array of pins this group consists
++ * @m: Mode which the pins are put when this group is active. Can be either
++ *     a single integer or an array of integers in which case mode is per
++ *     pin.
++ */
++#define PIN_GROUP(n, p, m)					\
++	{							\
++		.name = (n),					\
++		.pins = (p),					\
++		.npins = ARRAY_SIZE((p)),			\
++		.mode = __builtin_choose_expr(			\
++			__builtin_constant_p((m)), (m), 0),	\
++		.modes = __builtin_choose_expr(			\
++			__builtin_constant_p((m)), NULL, (m)),	\
+ 	}
+ 
+ #define FUNCTION(n, g)				\
+@@ -121,8 +173,6 @@ struct intel_pinctrl_soc_data {
+ 
+ int intel_pinctrl_probe(struct platform_device *pdev,
+ 			const struct intel_pinctrl_soc_data *soc_data);
+-int intel_pinctrl_remove(struct platform_device *pdev);
+-
+ #ifdef CONFIG_PM_SLEEP
+ int intel_pinctrl_suspend(struct device *dev);
+ int intel_pinctrl_resume(struct device *dev);
+diff --git a/drivers/pinctrl/intel/pinctrl-lewisburg.c b/drivers/pinctrl/intel/pinctrl-lewisburg.c
+new file mode 100644
+index 0000000..14d56ea
+--- /dev/null
++++ b/drivers/pinctrl/intel/pinctrl-lewisburg.c
+@@ -0,0 +1,343 @@
++/*
++ * Intel Lewisburg pinctrl/GPIO driver
++ *
++ * Copyright (C) 2017, Intel Corporation
++ * Author: Mika Westerberg <mika.westerberg@linux.intel.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++
++#include <linux/acpi.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/pm.h>
++#include <linux/pinctrl/pinctrl.h>
++
++#include "pinctrl-intel.h"
++
++#define LBG_PAD_OWN	0x020
++#define LBG_PADCFGLOCK	0x060
++#define LBG_HOSTSW_OWN	0x080
++#define LBG_GPI_IE	0x110
++
++#define LBG_COMMUNITY(b, s, e)				\
++	{						\
++		.barno = (b),				\
++		.padown_offset = LBG_PAD_OWN,		\
++		.padcfglock_offset = LBG_PADCFGLOCK,	\
++		.hostown_offset = LBG_HOSTSW_OWN,	\
++		.ie_offset = LBG_GPI_IE,		\
++		.gpp_size = 24,				\
++		.pin_base = (s),			\
++		.npins = ((e) - (s) + 1),		\
++	}
++
++static const struct pinctrl_pin_desc lbg_pins[] = {
++	/* GPP_A */
++	PINCTRL_PIN(0, "RCINB"),
++	PINCTRL_PIN(1, "LAD_0"),
++	PINCTRL_PIN(2, "LAD_1"),
++	PINCTRL_PIN(3, "LAD_2"),
++	PINCTRL_PIN(4, "LAD_3"),
++	PINCTRL_PIN(5, "LFRAMEB"),
++	PINCTRL_PIN(6, "SERIRQ"),
++	PINCTRL_PIN(7, "PIRQAB"),
++	PINCTRL_PIN(8, "CLKRUNB"),
++	PINCTRL_PIN(9, "CLKOUT_LPC_0"),
++	PINCTRL_PIN(10, "CLKOUT_LPC_1"),
++	PINCTRL_PIN(11, "PMEB"),
++	PINCTRL_PIN(12, "BM_BUSYB"),
++	PINCTRL_PIN(13, "SUSWARNB_SUSPWRDNACK"),
++	PINCTRL_PIN(14, "ESPI_RESETB"),
++	PINCTRL_PIN(15, "SUSACKB"),
++	PINCTRL_PIN(16, "CLKOUT_LPC_2"),
++	PINCTRL_PIN(17, "GPP_A_17"),
++	PINCTRL_PIN(18, "GPP_A_18"),
++	PINCTRL_PIN(19, "GPP_A_19"),
++	PINCTRL_PIN(20, "GPP_A_20"),
++	PINCTRL_PIN(21, "GPP_A_21"),
++	PINCTRL_PIN(22, "GPP_A_22"),
++	PINCTRL_PIN(23, "GPP_A_23"),
++	/* GPP_B */
++	PINCTRL_PIN(24, "CORE_VID_0"),
++	PINCTRL_PIN(25, "CORE_VID_1"),
++	PINCTRL_PIN(26, "VRALERTB"),
++	PINCTRL_PIN(27, "CPU_GP_2"),
++	PINCTRL_PIN(28, "CPU_GP_3"),
++	PINCTRL_PIN(29, "SRCCLKREQB_0"),
++	PINCTRL_PIN(30, "SRCCLKREQB_1"),
++	PINCTRL_PIN(31, "SRCCLKREQB_2"),
++	PINCTRL_PIN(32, "SRCCLKREQB_3"),
++	PINCTRL_PIN(33, "SRCCLKREQB_4"),
++	PINCTRL_PIN(34, "SRCCLKREQB_5"),
++	PINCTRL_PIN(35, "GPP_B_11"),
++	PINCTRL_PIN(36, "GLB_RST_WARN_N"),
++	PINCTRL_PIN(37, "PLTRSTB"),
++	PINCTRL_PIN(38, "SPKR"),
++	PINCTRL_PIN(39, "GPP_B_15"),
++	PINCTRL_PIN(40, "GPP_B_16"),
++	PINCTRL_PIN(41, "GPP_B_17"),
++	PINCTRL_PIN(42, "GPP_B_18"),
++	PINCTRL_PIN(43, "GPP_B_19"),
++	PINCTRL_PIN(44, "GPP_B_20"),
++	PINCTRL_PIN(45, "GPP_B_21"),
++	PINCTRL_PIN(46, "GPP_B_22"),
++	PINCTRL_PIN(47, "SML1ALERTB"),
++	/* GPP_F */
++	PINCTRL_PIN(48, "SATAXPCIE_3"),
++	PINCTRL_PIN(49, "SATAXPCIE_4"),
++	PINCTRL_PIN(50, "SATAXPCIE_5"),
++	PINCTRL_PIN(51, "SATAXPCIE_6"),
++	PINCTRL_PIN(52, "SATAXPCIE_7"),
++	PINCTRL_PIN(53, "SATA_DEVSLP_3"),
++	PINCTRL_PIN(54, "SATA_DEVSLP_4"),
++	PINCTRL_PIN(55, "SATA_DEVSLP_5"),
++	PINCTRL_PIN(56, "SATA_DEVSLP_6"),
++	PINCTRL_PIN(57, "SATA_DEVSLP_7"),
++	PINCTRL_PIN(58, "SATA_SCLOCK"),
++	PINCTRL_PIN(59, "SATA_SLOAD"),
++	PINCTRL_PIN(60, "SATA_SDATAOUT1"),
++	PINCTRL_PIN(61, "SATA_SDATAOUT0"),
++	PINCTRL_PIN(62, "SSATA_LEDB"),
++	PINCTRL_PIN(63, "USB2_OCB_4"),
++	PINCTRL_PIN(64, "USB2_OCB_5"),
++	PINCTRL_PIN(65, "USB2_OCB_6"),
++	PINCTRL_PIN(66, "USB2_OCB_7"),
++	PINCTRL_PIN(67, "GBE_SMBUS_CLK"),
++	PINCTRL_PIN(68, "GBE_SMBDATA"),
++	PINCTRL_PIN(69, "GBE_SMBALRTN"),
++	PINCTRL_PIN(70, "SSATA_SCLOCK"),
++	PINCTRL_PIN(71, "SSATA_SLOAD"),
++	/* GPP_C */
++	PINCTRL_PIN(72, "SMBCLK"),
++	PINCTRL_PIN(73, "SMBDATA"),
++	PINCTRL_PIN(74, "SMBALERTB"),
++	PINCTRL_PIN(75, "SML0CLK"),
++	PINCTRL_PIN(76, "SML0DATA"),
++	PINCTRL_PIN(77, "SML0ALERTB"),
++	PINCTRL_PIN(78, "SML1CLK"),
++	PINCTRL_PIN(79, "SML1DATA"),
++	PINCTRL_PIN(80, "GPP_C_8"),
++	PINCTRL_PIN(81, "GPP_C_9"),
++	PINCTRL_PIN(82, "GPP_C_10"),
++	PINCTRL_PIN(83, "GPP_C_11"),
++	PINCTRL_PIN(84, "GPP_C_12"),
++	PINCTRL_PIN(85, "GPP_C_13"),
++	PINCTRL_PIN(86, "GPP_C_14"),
++	PINCTRL_PIN(87, "GPP_C_15"),
++	PINCTRL_PIN(88, "GPP_C_16"),
++	PINCTRL_PIN(89, "GPP_C_17"),
++	PINCTRL_PIN(90, "GPP_C_18"),
++	PINCTRL_PIN(91, "GPP_C_19"),
++	PINCTRL_PIN(92, "GPP_C_20"),
++	PINCTRL_PIN(93, "GPP_C_21"),
++	PINCTRL_PIN(94, "GPP_C_22"),
++	PINCTRL_PIN(95, "GPP_C_23"),
++	/* GPP_D */
++	PINCTRL_PIN(96, "GPP_D_0"),
++	PINCTRL_PIN(97, "GPP_D_1"),
++	PINCTRL_PIN(98, "GPP_D_2"),
++	PINCTRL_PIN(99, "GPP_D_3"),
++	PINCTRL_PIN(100, "GPP_D_4"),
++	PINCTRL_PIN(101, "SSP0_SFRM"),
++	PINCTRL_PIN(102, "SSP0_TXD"),
++	PINCTRL_PIN(103, "SSP0_RXD"),
++	PINCTRL_PIN(104, "SSP0_SCLK"),
++	PINCTRL_PIN(105, "SSATA_DEVSLP_3"),
++	PINCTRL_PIN(106, "SSATA_DEVSLP_4"),
++	PINCTRL_PIN(107, "SSATA_DEVSLP_5"),
++	PINCTRL_PIN(108, "SSATA_SDATAOUT1"),
++	PINCTRL_PIN(109, "SML0BCLK_SML0BCLKIE"),
++	PINCTRL_PIN(110, "SML0BDATA_SML0BDATAIE"),
++	PINCTRL_PIN(111, "SSATA_SDATAOUT0"),
++	PINCTRL_PIN(112, "SML0BALERTB_SML0BALERTBIE"),
++	PINCTRL_PIN(113, "DMIC_CLK_1"),
++	PINCTRL_PIN(114, "DMIC_DATA_1"),
++	PINCTRL_PIN(115, "DMIC_CLK_0"),
++	PINCTRL_PIN(116, "DMIC_DATA_0"),
++	PINCTRL_PIN(117, "IE_UART_RXD"),
++	PINCTRL_PIN(118, "IE_UART_TXD"),
++	PINCTRL_PIN(119, "GPP_D_23"),
++	/* GPP_E */
++	PINCTRL_PIN(120, "SATAXPCIE_0"),
++	PINCTRL_PIN(121, "SATAXPCIE_1"),
++	PINCTRL_PIN(122, "SATAXPCIE_2"),
++	PINCTRL_PIN(123, "CPU_GP_0"),
++	PINCTRL_PIN(124, "SATA_DEVSLP_0"),
++	PINCTRL_PIN(125, "SATA_DEVSLP_1"),
++	PINCTRL_PIN(126, "SATA_DEVSLP_2"),
++	PINCTRL_PIN(127, "CPU_GP_1"),
++	PINCTRL_PIN(128, "SATA_LEDB"),
++	PINCTRL_PIN(129, "USB2_OCB_0"),
++	PINCTRL_PIN(130, "USB2_OCB_1"),
++	PINCTRL_PIN(131, "USB2_OCB_2"),
++	PINCTRL_PIN(132, "USB2_OCB_3"),
++	/* GPP_I */
++	PINCTRL_PIN(133, "GBE_TDO"),
++	PINCTRL_PIN(134, "GBE_TCK"),
++	PINCTRL_PIN(135, "GBE_TMS"),
++	PINCTRL_PIN(136, "GBE_TDI"),
++	PINCTRL_PIN(137, "DO_RESET_INB"),
++	PINCTRL_PIN(138, "DO_RESET_OUTB"),
++	PINCTRL_PIN(139, "RESET_DONE"),
++	PINCTRL_PIN(140, "GBE_TRST_N"),
++	PINCTRL_PIN(141, "GBE_PCI_DIS"),
++	PINCTRL_PIN(142, "GBE_LAN_DIS"),
++	PINCTRL_PIN(143, "GPP_I_10"),
++	PINCTRL_PIN(144, "GPIO_RCOMP_3P3"),
++	/* GPP_J */
++	PINCTRL_PIN(145, "GBE_LED_0_0"),
++	PINCTRL_PIN(146, "GBE_LED_0_1"),
++	PINCTRL_PIN(147, "GBE_LED_1_0"),
++	PINCTRL_PIN(148, "GBE_LED_1_1"),
++	PINCTRL_PIN(149, "GBE_LED_2_0"),
++	PINCTRL_PIN(150, "GBE_LED_2_1"),
++	PINCTRL_PIN(151, "GBE_LED_3_0"),
++	PINCTRL_PIN(152, "GBE_LED_3_1"),
++	PINCTRL_PIN(153, "GBE_SCL_0"),
++	PINCTRL_PIN(154, "GBE_SDA_0"),
++	PINCTRL_PIN(155, "GBE_SCL_1"),
++	PINCTRL_PIN(156, "GBE_SDA_1"),
++	PINCTRL_PIN(157, "GBE_SCL_2"),
++	PINCTRL_PIN(158, "GBE_SDA_2"),
++	PINCTRL_PIN(159, "GBE_SCL_3"),
++	PINCTRL_PIN(160, "GBE_SDA_3"),
++	PINCTRL_PIN(161, "GBE_SDP_0_0"),
++	PINCTRL_PIN(162, "GBE_SDP_0_1"),
++	PINCTRL_PIN(163, "GBE_SDP_1_0"),
++	PINCTRL_PIN(164, "GBE_SDP_1_1"),
++	PINCTRL_PIN(165, "GBE_SDP_2_0"),
++	PINCTRL_PIN(166, "GBE_SDP_2_1"),
++	PINCTRL_PIN(167, "GBE_SDP_3_0"),
++	PINCTRL_PIN(168, "GBE_SDP_3_1"),
++	/* GPP_K */
++	PINCTRL_PIN(169, "GBE_RMIICLK"),
++	PINCTRL_PIN(170, "GBE_RMII_TXD_0"),
++	PINCTRL_PIN(171, "GBE_RMII_TXD_1"),
++	PINCTRL_PIN(172, "GBE_RMII_TX_EN"),
++	PINCTRL_PIN(173, "GBE_RMII_CRS_DV"),
++	PINCTRL_PIN(174, "GBE_RMII_RXD_0"),
++	PINCTRL_PIN(175, "GBE_RMII_RXD_1"),
++	PINCTRL_PIN(176, "GBE_RMII_RX_ER"),
++	PINCTRL_PIN(177, "GBE_RMII_ARBIN"),
++	PINCTRL_PIN(178, "GBE_RMII_ARB_OUT"),
++	PINCTRL_PIN(179, "PE_RST_N"),
++	PINCTRL_PIN(180, "GPIO_RCOMP_1P8_3P3"),
++	/* GPP_G */
++	PINCTRL_PIN(181, "FAN_TACH_0"),
++	PINCTRL_PIN(182, "FAN_TACH_1"),
++	PINCTRL_PIN(183, "FAN_TACH_2"),
++	PINCTRL_PIN(184, "FAN_TACH_3"),
++	PINCTRL_PIN(185, "FAN_TACH_4"),
++	PINCTRL_PIN(186, "FAN_TACH_5"),
++	PINCTRL_PIN(187, "FAN_TACH_6"),
++	PINCTRL_PIN(188, "FAN_TACH_7"),
++	PINCTRL_PIN(189, "FAN_PWM_0"),
++	PINCTRL_PIN(190, "FAN_PWM_1"),
++	PINCTRL_PIN(191, "FAN_PWM_2"),
++	PINCTRL_PIN(192, "FAN_PWM_3"),
++	PINCTRL_PIN(193, "GSXDOUT"),
++	PINCTRL_PIN(194, "GSXSLOAD"),
++	PINCTRL_PIN(195, "GSXDIN"),
++	PINCTRL_PIN(196, "GSXSRESETB"),
++	PINCTRL_PIN(197, "GSXCLK"),
++	PINCTRL_PIN(198, "ADR_COMPLETE"),
++	PINCTRL_PIN(199, "NMIB"),
++	PINCTRL_PIN(200, "SMIB"),
++	PINCTRL_PIN(201, "SSATA_DEVSLP_0"),
++	PINCTRL_PIN(202, "SSATA_DEVSLP_1"),
++	PINCTRL_PIN(203, "SSATA_DEVSLP_2"),
++	PINCTRL_PIN(204, "SSATAXPCIE0_SSATAGP0"),
++	/* GPP_H */
++	PINCTRL_PIN(205, "SRCCLKREQB_6"),
++	PINCTRL_PIN(206, "SRCCLKREQB_7"),
++	PINCTRL_PIN(207, "SRCCLKREQB_8"),
++	PINCTRL_PIN(208, "SRCCLKREQB_9"),
++	PINCTRL_PIN(209, "SRCCLKREQB_10"),
++	PINCTRL_PIN(210, "SRCCLKREQB_11"),
++	PINCTRL_PIN(211, "SRCCLKREQB_12"),
++	PINCTRL_PIN(212, "SRCCLKREQB_13"),
++	PINCTRL_PIN(213, "SRCCLKREQB_14"),
++	PINCTRL_PIN(214, "SRCCLKREQB_15"),
++	PINCTRL_PIN(215, "SML2CLK"),
++	PINCTRL_PIN(216, "SML2DATA"),
++	PINCTRL_PIN(217, "SML2ALERTB"),
++	PINCTRL_PIN(218, "SML3CLK"),
++	PINCTRL_PIN(219, "SML3DATA"),
++	PINCTRL_PIN(220, "SML3ALERTB"),
++	PINCTRL_PIN(221, "SML4CLK"),
++	PINCTRL_PIN(222, "SML4DATA"),
++	PINCTRL_PIN(223, "SML4ALERTB"),
++	PINCTRL_PIN(224, "SSATAXPCIE1_SSATAGP1"),
++	PINCTRL_PIN(225, "SSATAXPCIE2_SSATAGP2"),
++	PINCTRL_PIN(226, "SSATAXPCIE3_SSATAGP3"),
++	PINCTRL_PIN(227, "SSATAXPCIE4_SSATAGP4"),
++	PINCTRL_PIN(228, "SSATAXPCIE5_SSATAGP5"),
++	/* GPP_L */
++	PINCTRL_PIN(229, "VISA2CH0_D0"),
++	PINCTRL_PIN(230, "VISA2CH0_D1"),
++	PINCTRL_PIN(231, "VISA2CH0_D2"),
++	PINCTRL_PIN(232, "VISA2CH0_D3"),
++	PINCTRL_PIN(233, "VISA2CH0_D4"),
++	PINCTRL_PIN(234, "VISA2CH0_D5"),
++	PINCTRL_PIN(235, "VISA2CH0_D6"),
++	PINCTRL_PIN(236, "VISA2CH0_D7"),
++	PINCTRL_PIN(237, "VISA2CH0_CLK"),
++	PINCTRL_PIN(238, "VISA2CH1_D0"),
++	PINCTRL_PIN(239, "VISA2CH1_D1"),
++	PINCTRL_PIN(240, "VISA2CH1_D2"),
++	PINCTRL_PIN(241, "VISA2CH1_D3"),
++	PINCTRL_PIN(242, "VISA2CH1_D4"),
++	PINCTRL_PIN(243, "VISA2CH1_D5"),
++	PINCTRL_PIN(244, "VISA2CH1_D6"),
++	PINCTRL_PIN(245, "VISA2CH1_D7"),
++	PINCTRL_PIN(246, "VISA2CH1_CLK"),
++};
++
++static const struct intel_community lbg_communities[] = {
++	LBG_COMMUNITY(0, 0, 71),
++	LBG_COMMUNITY(1, 72, 132),
++	LBG_COMMUNITY(3, 133, 144),
++	LBG_COMMUNITY(4, 145, 180),
++	LBG_COMMUNITY(5, 181, 246),
++};
++
++static const struct intel_pinctrl_soc_data lbg_soc_data = {
++	.pins = lbg_pins,
++	.npins = ARRAY_SIZE(lbg_pins),
++	.communities = lbg_communities,
++	.ncommunities = ARRAY_SIZE(lbg_communities),
++};
++
++static int lbg_pinctrl_probe(struct platform_device *pdev)
++{
++	return intel_pinctrl_probe(pdev, &lbg_soc_data);
++}
++
++static const struct dev_pm_ops lbg_pinctrl_pm_ops = {
++	SET_LATE_SYSTEM_SLEEP_PM_OPS(intel_pinctrl_suspend,
++				     intel_pinctrl_resume)
++};
++
++static const struct acpi_device_id lbg_pinctrl_acpi_match[] = {
++	{ "INT3536" },
++	{ }
++};
++MODULE_DEVICE_TABLE(acpi, lbg_pinctrl_acpi_match);
++
++static struct platform_driver lbg_pinctrl_driver = {
++	.probe = lbg_pinctrl_probe,
++	.driver = {
++		.name = "lewisburg-pinctrl",
++		.acpi_match_table = lbg_pinctrl_acpi_match,
++		.pm = &lbg_pinctrl_pm_ops,
++	},
++};
++
++module_platform_driver(lbg_pinctrl_driver);
++
++MODULE_AUTHOR("Mika Westerberg <mika.westerberg@linux.intel.com>");
++MODULE_DESCRIPTION("Intel Lewisburg pinctrl/GPIO driver");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/pinctrl/intel/pinctrl-merrifield.c b/drivers/pinctrl/intel/pinctrl-merrifield.c
+index 04d6fd2..86c4b3f 100644
+--- a/drivers/pinctrl/intel/pinctrl-merrifield.c
++++ b/drivers/pinctrl/intel/pinctrl-merrifield.c
+@@ -817,10 +817,51 @@ static int mrfld_config_set(struct pinctrl_dev *pctldev, unsigned int pin,
+ 	return 0;
+ }
+ 
++static int mrfld_config_group_get(struct pinctrl_dev *pctldev,
++				  unsigned int group, unsigned long *config)
++{
++	const unsigned int *pins;
++	unsigned int npins;
++	int ret;
++
++	ret = mrfld_get_group_pins(pctldev, group, &pins, &npins);
++	if (ret)
++		return ret;
++
++	ret = mrfld_config_get(pctldev, pins[0], config);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++static int mrfld_config_group_set(struct pinctrl_dev *pctldev,
++				  unsigned int group, unsigned long *configs,
++				  unsigned int num_configs)
++{
++	const unsigned int *pins;
++	unsigned int npins;
++	int i, ret;
++
++	ret = mrfld_get_group_pins(pctldev, group, &pins, &npins);
++	if (ret)
++		return ret;
++
++	for (i = 0; i < npins; i++) {
++		ret = mrfld_config_set(pctldev, pins[i], configs, num_configs);
++		if (ret)
++			return ret;
++	}
++
++	return 0;
++}
++
+ static const struct pinconf_ops mrfld_pinconf_ops = {
+ 	.is_generic = true,
+ 	.pin_config_get = mrfld_config_get,
+ 	.pin_config_set = mrfld_config_set,
++	.pin_config_group_get = mrfld_config_group_get,
++	.pin_config_group_set = mrfld_config_group_set,
+ };
+ 
+ static const struct pinctrl_desc mrfld_pinctrl_desc = {
+diff --git a/drivers/pinctrl/intel/pinctrl-sunrisepoint.c b/drivers/pinctrl/intel/pinctrl-sunrisepoint.c
+index c725a53..8b102b5 100644
+--- a/drivers/pinctrl/intel/pinctrl-sunrisepoint.c
++++ b/drivers/pinctrl/intel/pinctrl-sunrisepoint.c
+@@ -31,6 +31,7 @@
+ 		.hostown_offset = SPT_HOSTSW_OWN,	\
+ 		.ie_offset = SPT_GPI_IE,		\
+ 		.gpp_size = 24,				\
++		.gpp_num_padown_regs = 4,		\
+ 		.pin_base = (s),			\
+ 		.npins = ((e) - (s) + 1),		\
+ 	}
+@@ -550,6 +551,7 @@ static const struct intel_pinctrl_soc_data spth_soc_data = {
+ static const struct acpi_device_id spt_pinctrl_acpi_match[] = {
+ 	{ "INT344B", (kernel_ulong_t)&sptlp_soc_data },
+ 	{ "INT345D", (kernel_ulong_t)&spth_soc_data },
++	{ "INT3451", (kernel_ulong_t)&spth_soc_data },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(acpi, spt_pinctrl_acpi_match);
+@@ -574,7 +576,6 @@ static const struct dev_pm_ops spt_pinctrl_pm_ops = {
+ 
+ static struct platform_driver spt_pinctrl_driver = {
+ 	.probe = spt_pinctrl_probe,
+-	.remove = intel_pinctrl_remove,
+ 	.driver = {
+ 		.name = "sunrisepoint-pinctrl",
+ 		.acpi_match_table = spt_pinctrl_acpi_match,
+-- 
+2.5.2
+
