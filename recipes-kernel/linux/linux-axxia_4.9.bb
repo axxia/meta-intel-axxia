@@ -22,11 +22,11 @@ file://0002-drivers-pinctrl-Backport-Cedar-Fork-GPIO.patch \
 "
 
 FRIO_PATCHES = " \
-file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
-file://FRIO-0002-pci-driver-HACK-reassign-Altera-FPGAs-if-they-have-n.patch \
-file://FRIO-0003-pci-driver-HACK-hardcode-size-of-bridge-window-to-NC.patch \
-file://FRIO-0004-pci-driver-HACK-don-t-allocate-additional-bridge-win.patch \
-file://FRIO-0005-pci-driver-HACK-merge-for-Altera.patch \
+file://0001-PCI-ASPM-Don-t-retrain-link.patch \
+file://0002-pci-driver-HACK-reassign-Altera-FPGAs-if-they-have-n.patch \
+file://0003-pci-driver-HACK-hardcode-size-of-bridge-window-to-NC.patch \
+file://0004-pci-driver-HACK-don-t-allocate-additional-bridge-win.patch \
+file://0005-pci-driver-HACK-merge-for-Altera.patch \
 "
 
 KBRANCH = "standard/axxia-dev/base"
