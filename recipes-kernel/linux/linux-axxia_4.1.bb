@@ -1,8 +1,6 @@
 FILESEXTRAPATHS_prepend := "\
 ${THISDIR}\
-:${THISDIR}/patches/${KV}\
-:${THISDIR}/conf/axxia-${KV}/${MACHINE}/${LINUX_KERNEL_TYPE}\
-:${THISDIR}/conf/axxia-${KV}/${MACHINE}/${RUNTARGET}/${LINUX_KERNEL_TYPE}:"
+:${THISDIR}/conf/axxia-${KV}/${MACHINE}/${LINUX_KERNEL_TYPE}:"
 
 require recipes-kernel/linux/linux-yocto.inc
 

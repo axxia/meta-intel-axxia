@@ -1,8 +1,7 @@
 FILESEXTRAPATHS_prepend := "\
-${THISDIR}/conf/yocto-${KV}/${MACHINE}/common\
+${THISDIR}\
 :${THISDIR}/patches/${KV}\
-:${THISDIR}/conf/yocto-${KV}/${MACHINE}/${LINUX_KERNEL_TYPE}\
-:${THISDIR}:"
+:${THISDIR}/conf/yocto-${KV}/${MACHINE}/${RUNTARGET}/${LINUX_KERNEL_TYPE}:"
 
 inherit axxia-kernel
 
@@ -14,12 +13,15 @@ KMETA_SOURCES = "git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=m
 
 # "simics" for simulation system or "frio" for FPGA emulation system
 RUNTARGET ?= "simics"
-FRIO_PATCHES = "file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
-                file://FRIO-0002-pci-driver-HACK-reassign-Altera-FPGAs-if-they-have-n.patch \
-                file://FRIO-0003-pci-driver-HACK-hardcode-size-of-bridge-window-to-NC.patch \
-                file://FRIO-0004-pci-driver-HACK-don-t-allocate-additional-bridge-win.patch \
-                file://FRIO-0005-pci-driver-HACK-merge-for-Altera.patch \
-                file://FRIO-0006-kernel-Fix-a-Compile-Warning.patch "
+
+FRIO_PATCHES = " \
+file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
+file://FRIO-0002-pci-driver-HACK-reassign-Altera-FPGAs-if-they-have-n.patch \
+file://FRIO-0003-pci-driver-HACK-hardcode-size-of-bridge-window-to-NC.patch \
+file://FRIO-0004-pci-driver-HACK-don-t-allocate-additional-bridge-win.patch \
+file://FRIO-0005-pci-driver-HACK-merge-for-Altera.patch \
+file://FRIO-0006-kernel-Fix-a-Compile-Warning.patch \
+"
 
 SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${KBRANCH}; \
            ${@base_conditional('MACHINE', 'axxiax86-64', '', '${KMETA_SOURCES}', d)} \
