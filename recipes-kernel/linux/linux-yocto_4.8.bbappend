@@ -29,8 +29,8 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${
            ${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} "
 
 KBRANCH = "standard/base"
-SRCREV_machine ="${AUTOREV}"
-SRCREV_meta ="${AUTOREV}"
+SRCREV_machine = "v4.8.25"
+SRCREV_meta = "1c60e003c70292e04f18d5123c7f3f26ffae5c3f"
 SRC_URI += "file://fit"
 
 require dt/dt-${KARCH}.inc

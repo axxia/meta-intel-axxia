@@ -9,8 +9,8 @@ KV = "4.1"
 LINUX_VERSION = "4.1.45"
 
 KBRANCH = "standard/axxia/base"
-SRCREV_machine ="${AUTOREV}"
-SRCREV_meta ="${AUTOREV}"
+SRCREV_machine = "483fc5388928def0ab4270194c88381f835fc890"
+SRCREV_meta = "a697838629ae4d70daef0e1b2f78d96dbceb2c49"
 SRC_URI += "file://fit"
 
 require dt/dt-${KARCH}.inc

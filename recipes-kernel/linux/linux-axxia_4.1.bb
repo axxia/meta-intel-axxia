@@ -16,7 +16,7 @@ KREPO_KERNEL = "git://git@github.com/axxia/axxia_yocto_linux_4.1_private.git;pro
 SRC_URI = "${KREPO_KERNEL};name=machine;branch=${KBRANCH} \
            file://fit \
            file://defconfig"
-SRCREV_machine ="${AUTOREV}"
+SRCREV_machine = "${AUTOREV}"
 KMETA = ""
 
 require dt/dt-${KARCH}.inc

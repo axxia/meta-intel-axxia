@@ -32,7 +32,7 @@ SRC_URI = "${KREPO_KERNEL};name=machine;branch=${KBRANCH} \
            ${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
            file://fit \
            file://defconfig"
-SRCREV_machine ="${AUTOREV}"
+SRCREV_machine = "${AUTOREV}"
 KMETA = ""
 
 require dt/dt-${KARCH}.inc
