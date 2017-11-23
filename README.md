@@ -385,8 +385,8 @@ NOTE: For axxiax86-64 machine, no CHIPSET variable should be set.
 9.9 For axxiax86-64 machine (SNR), choose the System where the image will run
 between simulation and emulation:
 
-   for Simix Simulation System (default):
-   RUNTARGET = "simix"
+   for Simics Simulation System (default):
+   RUNTARGET = "simics"
 
    for Frio FPGA Emulation System:
    RUNTARGET = "frio"
