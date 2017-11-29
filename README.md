@@ -80,22 +80,22 @@ This layer depends on:
 Poky
 URI: git://git.yoctoproject.org/poky.git
 branch: morty
-revision: HEAD
+revision: b9182def2952952c5aa716d93a9094846719bdc3
 
 OpenEmbedded
 URI: https://github.com/openembedded/meta-openembedded.git
 branch: morty
-revision: HEAD
+revision: b40116cf457b88a2db14b86fda9627fb34d56ae6
 
 Yocto Virtualization Layer
 URI: git://git.yoctoproject.org/meta-virtualization
 branch: morty
-revision: HEAD
+revision: dfe24c5b5ac39f38fd2ac7370cca441cb47c31bc
 
 Intel Meta Layer
 URI: git://git.yoctoproject.org/meta-intel
 branch: morty
-revision: HEAD
+revision: c781510a5a6b45e60cc32b6614ddcce3f1452121
 
 
 Building the meta-axxia BSP layer
