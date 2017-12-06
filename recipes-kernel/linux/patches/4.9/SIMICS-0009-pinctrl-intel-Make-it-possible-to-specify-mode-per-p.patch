@@ -1,7 +1,7 @@
 From cd7dda8ea25fdcfe5deb468d7503f0c605302348 Mon Sep 17 00:00:00 2001
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 Date: Tue, 6 Jun 2017 16:18:18 +0300
-Subject: [PATCH 09/15] pinctrl: intel: Make it possible to specify mode per
+Subject: [PATCH 09/16] pinctrl: intel: Make it possible to specify mode per
  pin in a group
 
 On some SoCs not all pins in a group use the same mode when a certain

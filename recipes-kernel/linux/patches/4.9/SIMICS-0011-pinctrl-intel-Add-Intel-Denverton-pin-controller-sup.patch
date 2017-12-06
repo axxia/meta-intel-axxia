@@ -1,7 +1,7 @@
 From 35749be2d4bee0a68f4ca890a5cbc976e9501559 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Wed, 22 Nov 2017 15:08:44 -0600
-Subject: [PATCH 11/15] pinctrl: intel: Add Intel Denverton pin controller
+Subject: [PATCH 11/16] pinctrl: intel: Add Intel Denverton pin controller
  support
 
 This driver adds pinctrl/GPIO support for Intel Denverton SoC. The GPIO

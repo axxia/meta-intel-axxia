@@ -1,7 +1,7 @@
 From f02547b2c8551a8ca66494d8032ea7c6c00d0f71 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Wed, 22 Nov 2017 15:16:26 -0600
-Subject: [PATCH 12/15] i2c: i801: Add support for Intel Cedar Fork
+Subject: [PATCH 12/16] i2c: i801: Add support for Intel Cedar Fork
 
 Add PCI ID for Intel Cedar Fork PCH.
 

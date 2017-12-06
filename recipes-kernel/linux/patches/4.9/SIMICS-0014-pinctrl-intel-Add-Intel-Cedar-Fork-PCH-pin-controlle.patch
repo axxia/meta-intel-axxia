@@ -1,7 +1,7 @@
 From 3dd1594656ca80ee0752094d7737a23de7a7f0d0 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Wed, 22 Nov 2017 15:30:35 -0600
-Subject: [PATCH 14/15] pinctrl: intel: Add Intel Cedar Fork PCH pin controller
+Subject: [PATCH 14/16] pinctrl: intel: Add Intel Cedar Fork PCH pin controller
  support
 
 Intel Cedar Fork PCH is the successor of Intel Denverton PCH but it is

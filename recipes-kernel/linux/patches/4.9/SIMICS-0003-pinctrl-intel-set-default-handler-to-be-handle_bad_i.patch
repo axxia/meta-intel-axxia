@@ -1,7 +1,7 @@
 From 8c34de5fc4cb4ee28fe099d4b5392a6daeba0be1 Mon Sep 17 00:00:00 2001
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Date: Fri, 25 Nov 2016 13:31:16 +0200
-Subject: [PATCH 03/15] pinctrl: intel: set default handler to be
+Subject: [PATCH 03/16] pinctrl: intel: set default handler to be
  handle_bad_irq()
 
 We switch the default handler to be handle_bad_irq() instead of

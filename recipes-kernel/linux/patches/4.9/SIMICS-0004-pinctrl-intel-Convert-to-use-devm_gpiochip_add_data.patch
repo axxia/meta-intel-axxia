@@ -1,7 +1,7 @@
 From f4cad81881ebf78aa69e6b004f1d5852f96d5cc5 Mon Sep 17 00:00:00 2001
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 Date: Tue, 10 Jan 2017 17:31:57 +0300
-Subject: [PATCH 04/15] pinctrl: intel: Convert to use devm_gpiochip_add_data()
+Subject: [PATCH 04/16] pinctrl: intel: Convert to use devm_gpiochip_add_data()
 
 This simplifies error handling and allows us to drop intel_pinctrl_remove()
 completely.

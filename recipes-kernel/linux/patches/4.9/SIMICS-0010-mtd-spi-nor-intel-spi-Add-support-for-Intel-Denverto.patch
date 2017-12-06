@@ -1,7 +1,7 @@
 From 845e12aecabfcfa042be694f78b867992dd27f7b Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Wed, 22 Nov 2017 14:58:50 -0600
-Subject: [PATCH 10/15] mtd: spi-nor: intel-spi: Add support for Intel
+Subject: [PATCH 10/16] mtd: spi-nor: intel-spi: Add support for Intel
  Denverton SPI serial flash controller
 
 Intel Denverton exposes the SPI serial flash controller as a PCI device

@@ -1,7 +1,7 @@
 From 8559981d87d4b24b1302ac4cb63f4828999094d7 Mon Sep 17 00:00:00 2001
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 Date: Fri, 27 Jan 2017 13:07:15 +0300
-Subject: [PATCH 06/15] pinctrl: intel: Add support for 1k additional pull-down
+Subject: [PATCH 06/16] pinctrl: intel: Add support for 1k additional pull-down
 
 The next generation Intel GPIO hardware supports additional 1k pull-down
 per-pad. Add support for this to the Intel core pinctrl driver.
