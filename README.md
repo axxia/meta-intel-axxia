@@ -568,7 +568,7 @@ ln -s libnl-route-3.so.200 libnl-route-3.so
 12.2 Some Updates for LTTng
 
 cd $SYSROOT/usr/lib
-sed -i "s#/usr/lib#$SYSROOT/usr/lib#" liblttng-ust.la
+sed -i "s|/usr/lib|$SYSROOT/usr/lib|" liblttng-ust.la
 
 12.3 Optional Linux Module Tools Update
 
