@@ -1,3 +1,6 @@
+DESCRIPTION = "A large and complete image including all Axxia \
+required packages."
+
 require recipes-core/images/core-image-minimal-dev.bb
 
 IMAGE_INSTALL = " \
@@ -212,8 +215,6 @@ ${LXC_SUPPORT} "
 
 LXC_SUPPORT = "xz gnupg cgroup-lite libvirt libvirt-libvirtd \
 	       lxc lxc-setup lxc-templates lxc-networking "
-
-DESCRIPTION = ""
 
 SDKIMAGE_FEATURES = "dev-pkgs dbg-pkgs staticdev-pkgs"
 TOOLCHAIN_TARGET_TASK_append = " libc-staticdev"

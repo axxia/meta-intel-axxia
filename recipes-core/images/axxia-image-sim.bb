@@ -1,4 +1,4 @@
-DESCRIPTION = "A minimal image that supports the RTE."
+DESCRIPTION = "A minimal image used in simulation."
 
 IMAGE_INSTALL = " \
 packagegroup-core-boot \
