@@ -17,7 +17,7 @@ PARALLEL_MAKE = "-j 12"
 # DL_DIR = "##OEROOT##/../downloads"
 # SSTATE_DIR = "##OEROOT##/../sstate_cache"
 
-DISTRO ?= "poky"
+DISTRO = "axxia"
 PACKAGE_CLASSES ?= "package_rpm"
 EXTRA_IMAGE_FEATURES = "debug-tweaks"
 USER_CLASSES ?= "buildstats image-mklibs image-prelink"

@@ -195,13 +195,17 @@ actual value you provided in step 1.
 
    $ vi conf/local.conf
 
-9.1 Depending on your processor, set these two options that control
+9.1 Set distribution configuration to have all Axxia specific features.
+
+    DISTRO = "axxia"
+
+9.2 Depending on your processor, set these two options that control
     how much parallelism BitBake should use:
 
   BB_NUMBER_THREADS = "12"
   PARALLEL_MAKE = "-j 12"
 
-9.2 Select a specific machine to target the build with:
+9.3 Select a specific machine to target the build with:
 
     NOTE: Machines are divided by architecture. By building Linux for
     axxiaarm machine (e.g.), you will build binaries for all available
@@ -222,7 +226,7 @@ actual value you provided in step 1.
   - Axxia SNR Mobile & Enterprise Communication Processors family.
   MACHINE = "axxiax86-64"
 
-9.3 Select the root filesystem image compression type (can set
+9.4 Select the root filesystem image compression type (can set
     multiple types):
 
     NOTE: Default types are set for each machine configuration file
@@ -232,11 +236,11 @@ actual value you provided in step 1.
     IMAGE_FSTYPES += "tar.gz"
     IMAGE_FSTYPES += "hddimg"
 
-9.4 Select the custom bootloader as preferred:
+9.5 Select the custom bootloader as preferred:
 
     PREFERRED_PROVIDER_virtual/bootloader = "u-boot-axxia"
 
-9.5 Select the kernel to use. 
+9.6 Select the kernel to use.
     Meta-axxia is able to build the kernel from 2 sources:
 
 a. Yocto Project Source repositories (git.yoctoproject.org)
@@ -272,7 +276,7 @@ b. Private Axxia Github (github.com/axxia)
    4.9: git@github.com:axxia/axxia_yocto_linux_4.9_private.git
         standard/axxia-dev/base or standard/preempt-rt/axxia/base branch
 
-9.6 Select the kernel version:
+9.7 Select the kernel version:
 
 NOTE: axxiaarm and axxiaarm64 are available with linux 4.1 and 4.9
       axxiax86_64 is available with linux 4.8 and 4.9
@@ -290,7 +294,7 @@ NOTE: <preferred-provider> can be linux-yocto, linux-yocto-rt,
       linux-axxia, linux-axxia-rt. See  9.5.
 
 
-9.7 Customizing the Kernel .config file
+9.8 Customizing the Kernel .config file
 
 NOTE: This options are available only for linux-yocto kernel.
       When building linux-axxia, fixed defconfigs are used instead.
@@ -336,7 +340,7 @@ f. Chip specific options (for axxiaarm64):
 Note: CHIPSET variable is also used for fine tuning (see 7.9) and to choose the
 proper defconfig for Github builds (see 7.7).
 
-9.8 Choose proper fine tuning for each CHIPSET As long as specfic
+9.9 Choose proper fine tuning for each CHIPSET As long as specfic
     tunes are defined, user can choose the proper tune using the CHIPSET
     variable. Features and flags for each tune are defined bellow:
 
@@ -382,7 +386,7 @@ NOTE: For ARMv8, AArch64 state, other availabe tunes are for BE with
  
 NOTE: For axxiax86-64 machine, no CHIPSET variable should be set.
 
-9.9 For axxiax86-64 machine (SNR), choose the System where the image will run
+9.10 For axxiax86-64 machine (SNR), choose the System where the image will run
 between simulation and emulation:
 
    for Simics Simulation System (default):
@@ -391,7 +395,7 @@ between simulation and emulation:
    for Frio FPGA Emulation System:
    RUNTARGET = "frio"
 
-9.10 Building a 32-bit RootFS for ARMv8 based boards:
+9.11 Building a 32-bit RootFS for ARMv8 based boards:
 For ARM architecture, depending on the machine selected on step 7.2, 
 specific Kernel and RootFS are built for specific boards:
     - axxiaarm: 32-bit Kernel and Rootfs for 5500 board series which have
@@ -411,19 +415,19 @@ If CHIPSET is not set, it will default to 5500 (ARMv7).
 NOTE: You can boot the resulting 32-bit RootFS with a 64-bit Kernel 
       resulting from an axxiaarm64 build.
 
-9.11 Other optional settings for saving disk space and build time:
+9.12 Other optional settings for saving disk space and build time:
    
    DL_DIR = "/<some-shared-location>/downloads"
    SSTATE_DIR = "/<some-shared-location>/sstate-cache
 
-9.12 Examples.
+9.13 Examples.
 
      See http://www.yoctoproject.org/docs/2.3/mega-manual/mega-manual.html
      for complete documentation on the Yocto build system.
 
      Here are the local.conf files used for open builds.
 
-9.12.1 axxiaarm
+9.13.1 axxiaarm
 
 MACHINE = "axxiaarm"
 CHIPSET = "5500"
@@ -432,7 +436,7 @@ IMAGE_FSTYPES += "ext2"
 IMAGE_FSTYPES += "tar.gz"
 PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 PREFERRED_VERSION_linux-yocto = "4.9%"
-DISTRO ?= "poky"
+DISTRO = "axxia"
 PACKAGE_CLASSES ?= "package_rpm"
 EXTRA_IMAGE_FEATURES = "debug-tweaks"
 USER_CLASSES ?= "buildstats image-mklibs image-prelink"
@@ -450,7 +454,7 @@ PACKAGECONFIG_append_pn-qemu-native = " sdl"
 PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
 CONF_VERSION = "1"
 
-9.12.1 axxiaarm64
+9.13.1 axxiaarm64
 
 MACHINE = "axxiaarm64"
 CHIPSET = "X9"
@@ -459,7 +463,7 @@ IMAGE_FSTYPES += "ext2"
 IMAGE_FSTYPES += "tar.gz"
 PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
 PREFERRED_VERSION_linux-yocto-rt = "4.9%"
-DISTRO ?= "poky"
+DISTRO = "axxia"
 PACKAGE_CLASSES ?= "package_rpm"
 EXTRA_IMAGE_FEATURES = "debug-tweaks"
 USER_CLASSES ?= "buildstats image-mklibs image-prelink"
@@ -477,12 +481,12 @@ PACKAGECONFIG_append_pn-qemu-native = " sdl"
 PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
 CONF_VERSION = "1"
 
-9.12s.1 axxiax86-64
+9.13.1 axxiax86-64
 
 MACHINE = "axxiax86-64"
 PREFERRED_PROVIDER_virtual/kernel = "linux-axxia"
 PREFERRED_VERSION_linux-axxia = "4.8%"
-DISTRO ?= "poky"
+DISTRO = "axxia"
 PACKAGE_CLASSES ?= "package_rpm"
 EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
 USER_CLASSES ?= "buildstats image-mklibs image-prelink"
