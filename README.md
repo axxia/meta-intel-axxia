@@ -181,8 +181,7 @@ actual value you provided in step 1.
 
    BBLAYERS ?= " \
             $YOCTO/poky/meta \
-            $YOCTO/poky/meta-yocto \
-            $YOCTO/poky/meta-yocto-bsp \
+            $YOCTO/poky/meta-poky \
             $YOCTO/poky/meta-openembedded/meta-oe \
             $YOCTO/poky/meta-openembedded/meta-python \
             $YOCTO/poky/meta-openembedded/meta-networking \
