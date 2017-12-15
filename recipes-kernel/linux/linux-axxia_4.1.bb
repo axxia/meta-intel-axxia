@@ -12,12 +12,13 @@ LINUX_KERNEL_TYPE = "standard"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
 KBRANCH = "standard/axxia-dev/base"
+SRCREV_machine = "${AUTOREV}"
+KMETA = ""
+
 KREPO_KERNEL = "git://git@github.com/axxia/axxia_yocto_linux_4.1_private.git;protocol=ssh"
 SRC_URI = "${KREPO_KERNEL};name=machine;branch=${KBRANCH} \
            file://fit \
            file://defconfig"
-SRCREV_machine = "${AUTOREV}"
-KMETA = ""
 
 require dt/dt-${KARCH}.inc
 

@@ -13,6 +13,10 @@ LINUX_VERSION = "4.9.61"
 LINUX_KERNEL_TYPE = "standard"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
+KBRANCH = "standard/axxia-dev/base"
+SRCREV_machine = "${AUTOREV}"
+KMETA = ""
+
 # "simics" for simulation system or "frio" for FPGA emulation system
 RUNTARGET ?= "simics"
 
@@ -42,15 +46,12 @@ file://FRIO-0004-pci-driver-HACK-don-t-allocate-additional-bridge-win.patch \
 file://FRIO-0005-pci-driver-HACK-merge-for-Altera.patch \
 "
 
-KBRANCH = "standard/axxia-dev/base"
 KREPO_KERNEL = "git://git@github.com/axxia/axxia_yocto_linux_4.9_private.git;protocol=ssh"
 SRC_URI = "${KREPO_KERNEL};name=machine;branch=${KBRANCH} \
            ${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
            ${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
            file://fit \
            file://defconfig"
-SRCREV_machine = "${AUTOREV}"
-KMETA = ""
 
 require dt/dt-${KARCH}.inc
 
