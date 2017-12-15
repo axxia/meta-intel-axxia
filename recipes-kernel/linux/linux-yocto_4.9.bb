@@ -10,9 +10,14 @@ require recipes-kernel/linux/linux-yocto.inc
 inherit axxia-kernel
 
 KV = "4.9"
-LINUX_VERSION = "4.9.61"
+LINUX_VERSION = "4.9.65"
 LINUX_KERNEL_TYPE = "standard"
 PV = "${LINUX_VERSION}+git${SRCPV}"
+
+KBRANCH = "standard/axxia/base"
+KMETA = "kernel-meta"
+SRCREV_machine = "53fef56b9ab4da73647fde0ed9c194121d51b7a1"
+SRCREV_meta = "f4e37e151102d89c4d0e110c88eb3b3c36bdeaa4"
 
 # skip yocto-kernel-cache for axxiax86_64 to use full defconfig untill we'll have fragments upstream
 KMETA_SOURCES = "git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.9;destsuffix=${KMETA}"
@@ -50,13 +55,8 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;name=machine;branch=${
            ${@base_conditional('MACHINE', 'axxiax86-64', '', '${KMETA_SOURCES}', d)} \
            ${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
            ${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
+           file://fit \
 "
-
-KBRANCH = "standard/axxia/base"
-KMETA = "kernel-meta"
-SRCREV_machine = "64b7571cc6c5fb956442bdc2701c832b35213d53"
-SRCREV_meta = "f4e37e151102d89c4d0e110c88eb3b3c36bdeaa4"
-SRC_URI += "file://fit"
 
 require dt/dt-${KARCH}.inc
 require frags/frags-${KARCH}.inc
