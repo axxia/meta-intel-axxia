@@ -8,6 +8,10 @@ inherit axxia-kernel
 KV = "4.8"
 LINUX_VERSION = "4.8.25"
 
+KBRANCH = "standard/base"
+SRCREV_machine = "v4.8.25"
+SRCREV_meta = "1c60e003c70292e04f18d5123c7f3f26ffae5c3f"
+
 # skip yocto-kernel-cache for axxiax86_64 to use full defconfig untill we'll have fragments upstream
 KMETA_SOURCES = "git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
 
@@ -26,12 +30,8 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${
            ${@base_conditional('MACHINE', 'axxiax86-64', '', '${KMETA_SOURCES}', d)} \
            file://COMMON-0001-intel_th-pci-Add-Cedar-Fork-PCH-support.patch \
            file://COMMON-0002-drivers-pinctrl-Backport-Cedar-Fork-GPIO.patch \
-           ${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} "
-
-KBRANCH = "standard/base"
-SRCREV_machine = "v4.8.25"
-SRCREV_meta = "1c60e003c70292e04f18d5123c7f3f26ffae5c3f"
-SRC_URI += "file://fit"
+           ${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
+           file://fit"
 
 require dt/dt-${KARCH}.inc
 #require frags/frags-${KARCH}.inc
