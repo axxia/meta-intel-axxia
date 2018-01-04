@@ -1,0 +1,46 @@
+From 8c34de5fc4cb4ee28fe099d4b5392a6daeba0be1 Mon Sep 17 00:00:00 2001
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Date: Fri, 25 Nov 2016 13:31:16 +0200
+Subject: [PATCH 03/16] pinctrl: intel: set default handler to be
+ handle_bad_irq()
+
+We switch the default handler to be handle_bad_irq() instead of
+handle_simple_irq() (which was not correct anyway).
+
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/pinctrl/intel/pinctrl-baytrail.c | 2 +-
+ drivers/pinctrl/intel/pinctrl-intel.c    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/pinctrl/intel/pinctrl-baytrail.c b/drivers/pinctrl/intel/pinctrl-baytrail.c
+index 5419de8..ca62929 100644
+--- a/drivers/pinctrl/intel/pinctrl-baytrail.c
++++ b/drivers/pinctrl/intel/pinctrl-baytrail.c
+@@ -1722,7 +1722,7 @@ static int byt_gpio_probe(struct byt_gpio *vg)
+ 	if (irq_rc && irq_rc->start) {
+ 		byt_gpio_irq_init_hw(vg);
+ 		ret = gpiochip_irqchip_add(gc, &byt_irqchip, 0,
+-					   handle_simple_irq, IRQ_TYPE_NONE);
++					   handle_bad_irq, IRQ_TYPE_NONE);
+ 		if (ret) {
+ 			dev_err(&vg->pdev->dev, "failed to add irqchip\n");
+ 			goto fail;
+diff --git a/drivers/pinctrl/intel/pinctrl-intel.c b/drivers/pinctrl/intel/pinctrl-intel.c
+index b40a074..6df35dc 100644
+--- a/drivers/pinctrl/intel/pinctrl-intel.c
++++ b/drivers/pinctrl/intel/pinctrl-intel.c
+@@ -919,7 +919,7 @@ static int intel_gpio_probe(struct intel_pinctrl *pctrl, int irq)
+ 	}
+ 
+ 	ret = gpiochip_irqchip_add(&pctrl->chip, &intel_gpio_irqchip, 0,
+-				   handle_simple_irq, IRQ_TYPE_NONE);
++				   handle_bad_irq, IRQ_TYPE_NONE);
+ 	if (ret) {
+ 		dev_err(pctrl->dev, "failed to add irqchip\n");
+ 		goto fail;
+-- 
+2.5.2
+

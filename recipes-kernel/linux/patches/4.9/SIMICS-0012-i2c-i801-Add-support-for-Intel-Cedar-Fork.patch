@@ -1,0 +1,80 @@
+From f02547b2c8551a8ca66494d8032ea7c6c00d0f71 Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Wed, 22 Nov 2017 15:16:26 -0600
+Subject: [PATCH 12/16] i2c: i801: Add support for Intel Cedar Fork
+
+Add PCI ID for Intel Cedar Fork PCH.
+
+Signed-off-by: Jarkko Nikula <jarkko.nikula@linux.intel.com>
+Reviewed-by: Jean Delvare <jdelvare@suse.de>
+Signed-off-by: Wolfram Sang <wsa@the-dreams.de>
+Signed-off-by: John Jacques <john.jacques@intel.com>
+---
+ Documentation/i2c/busses/i2c-i801 | 1 +
+ drivers/i2c/busses/Kconfig        | 1 +
+ drivers/i2c/busses/i2c-i801.c     | 4 ++++
+ 3 files changed, 6 insertions(+)
+
+diff --git a/Documentation/i2c/busses/i2c-i801 b/Documentation/i2c/busses/i2c-i801
+index 1bba38d..f55aa43 100644
+--- a/Documentation/i2c/busses/i2c-i801
++++ b/Documentation/i2c/busses/i2c-i801
+@@ -33,6 +33,7 @@ Supported adapters:
+   * Intel DNV (SOC)
+   * Intel Broxton (SOC)
+   * Intel Lewisburg (PCH)
++  * Intel Cedar Fork (PCH)
+    Datasheets: Publicly available at the Intel website
+ 
+ On Intel Patsburg and later chipsets, both the normal host SMBus controller
+diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
+index cb19f1f..5260134 100644
+--- a/drivers/i2c/busses/Kconfig
++++ b/drivers/i2c/busses/Kconfig
+@@ -128,6 +128,7 @@ config I2C_I801
+ 	    DNV (SOC)
+ 	    Broxton (SOC)
+ 	    Lewisburg (PCH)
++	    Cedar Fork (PCH)
+ 
+ 	  This driver can also be built as a module.  If so, the module
+ 	  will be called i2c-i801.
+diff --git a/drivers/i2c/busses/i2c-i801.c b/drivers/i2c/busses/i2c-i801.c
+index eb3627f..a89f272 100644
+--- a/drivers/i2c/busses/i2c-i801.c
++++ b/drivers/i2c/busses/i2c-i801.c
+@@ -65,6 +65,7 @@
+  * Lewisburg (PCH)		0xa1a3	32	hard	yes	yes	yes
+  * Lewisburg Supersku (PCH)	0xa223	32	hard	yes	yes	yes
+  * Kaby Lake PCH-H (PCH)	0xa2a3	32	hard	yes	yes	yes
++ * Cedar Fork (PCH)		0x18df	32	hard	yes	yes	yes
+  *
+  * Features supported by this driver:
+  * Software PEC				no
+@@ -202,6 +203,7 @@
+ 
+ /* Older devices have their ID defined in <linux/pci_ids.h> */
+ #define PCI_DEVICE_ID_INTEL_BAYTRAIL_SMBUS		0x0f12
++#define PCI_DEVICE_ID_INTEL_CDF_SMBUS			0x18df
+ #define PCI_DEVICE_ID_INTEL_DNV_SMBUS			0x19df
+ #define PCI_DEVICE_ID_INTEL_COUGARPOINT_SMBUS		0x1c22
+ #define PCI_DEVICE_ID_INTEL_PATSBURG_SMBUS		0x1d22
+@@ -1012,6 +1014,7 @@ static const struct pci_device_id i801_ids[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_BRASWELL_SMBUS) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_SUNRISEPOINT_H_SMBUS) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_SUNRISEPOINT_LP_SMBUS) },
++	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_CDF_SMBUS) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_DNV_SMBUS) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_BROXTON_SMBUS) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_LEWISBURG_SMBUS) },
+@@ -1492,6 +1495,7 @@ static int i801_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ 	case PCI_DEVICE_ID_INTEL_SUNRISEPOINT_LP_SMBUS:
+ 	case PCI_DEVICE_ID_INTEL_LEWISBURG_SMBUS:
+ 	case PCI_DEVICE_ID_INTEL_LEWISBURG_SSKU_SMBUS:
++	case PCI_DEVICE_ID_INTEL_CDF_SMBUS:
+ 	case PCI_DEVICE_ID_INTEL_DNV_SMBUS:
+ 	case PCI_DEVICE_ID_INTEL_KABYLAKE_PCH_H_SMBUS:
+ 		priv->features |= FEATURE_I2C_BLOCK_READ;
+-- 
+2.5.2
+

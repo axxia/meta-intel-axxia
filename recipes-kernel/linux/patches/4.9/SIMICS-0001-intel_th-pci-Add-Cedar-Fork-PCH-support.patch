@@ -1,0 +1,34 @@
+From 45cdd59cd50bcb2198c0745735c6b6e3e8089147 Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Thu, 16 Nov 2017 17:18:58 -0600
+Subject: [PATCH 01/16] intel_th: pci: Add Cedar Fork PCH support
+
+This adds Intel(R) Trace Hub PCI ID for Cedar Fork PCH.
+
+Signed-off-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+(backported from a local 4.14 repository)
+Signed-off-by: John Jacques <john.jacques@intel.com>
+---
+ drivers/hwtracing/intel_th/pci.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/hwtracing/intel_th/pci.c b/drivers/hwtracing/intel_th/pci.c
+index 63b5db4..10e662a 100644
+--- a/drivers/hwtracing/intel_th/pci.c
++++ b/drivers/hwtracing/intel_th/pci.c
+@@ -95,6 +95,11 @@ static const struct pci_device_id intel_th_pci_id_table[] = {
+ 		PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x9da6),
+ 		.driver_data = (kernel_ulong_t)0,
+ 	},
++	{
++		/* Cedar Fork PCH */
++		PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x18e1),
++		.driver_data = (kernel_ulong_t)&intel_th_2x,
++	},
+ 	{ 0 },
+ };
+ 
+-- 
+2.5.2
+

@@ -1,0 +1,49 @@
+From b38e935d232f2679bf745d47e840036fcaf06bc6 Mon Sep 17 00:00:00 2001
+From: Ben Shelton <benjamin.h.shelton@intel.com>
+Date: Thu, 20 Aug 2015 12:14:36 -0500
+Subject: [PATCH 2/6] pci-driver: HACK: reassign Altera FPGAs if they have not
+ been assigned
+
+If the FPGAs are relocated during the PCI remapping process, their resources do
+not get reassigned, so their BARs do not get updated.  For the time being,
+explicitly assign their resources if they are not assigned.  This is a
+temporary solution that should be reverted as soon as a better one is
+available.
+
+Signed-off-by: Ben Shelton <benjamin.h.shelton@intel.com>
+---
+ drivers/pci/pci-driver.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+index b399fa3..3a7bcb9 100644
+--- a/drivers/pci/pci-driver.c
++++ b/drivers/pci/pci-driver.c
+@@ -1420,6 +1420,24 @@ static int pci_uevent(struct device *dev, struct kobj_uevent_env *env)
+ 
+ 	pdev = to_pci_dev(dev);
+ 
++        /* HACK -- fixup BAR after bridge has been released/reallocated */
++        if ((pdev->vendor == 0x1172) && (pdev->device == 0x0004)) {
++            int ret = 0;
++            struct resource *r;
++
++            r = &pdev->resource[0];
++            if (!r->start && r->end) {
++
++                dev_info(dev, "%s: matched Altera FPGA; assigning resource...\n", __func__);
++                ret = pci_assign_resource(pdev, 0); /* BAR 0 */
++                if (ret) {
++                    dev_err(dev, "failed to assign PCI space: %d\n", ret);
++                }
++            } else {
++                dev_info(dev, "%s: matched Altera FPGA, but resource already assigned.\n", __func__);
++            }
++        }
++
+ 	if (add_uevent_var(env, "PCI_CLASS=%04X", pdev->class))
+ 		return -ENOMEM;
+ 
+-- 
+2.7.4
+
