@@ -6,10 +6,10 @@ ${THISDIR}\
 inherit axxia-kernel
 
 KV = "4.1"
-LINUX_VERSION = "4.1.45"
+LINUX_VERSION = "4.1.48
 
 KBRANCH = "standard/axxia/base"
-SRCREV_machine = "483fc5388928def0ab4270194c88381f835fc890"
+SRCREV_machine = "909c98a4f6512eaca1c975469d58b46b7326b8e9"
 SRCREV_meta = "a697838629ae4d70daef0e1b2f78d96dbceb2c49"
 SRC_URI += "file://fit"
 
