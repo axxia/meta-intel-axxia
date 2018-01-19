@@ -4,6 +4,8 @@ SRC_URI += "file://common.scc file://lxc.scc file://uprobe.scc \
 	${@base_conditional('LINUX_KERNEL_TYPE', 'preempt-rt', 'file://preempt-rt.scc', 'file://standard.scc', d)} \
 	${@base_conditional('BIG_ENDIAN', 'yes', 'file://big-endian.scc', '', d)} \
 	${@base_conditional('DBG', 'yes', 'file://dbg.scc', '', d)} \
+	${@base_conditional('DBG', 'yes', base_conditional('KV', '4.1', base_conditional('LINUX_KERNEL_TYPE', 'preempt-rt', \
+			    'file://dbg-extra.scc', '', d), '', d), "", d)} \
 	${@base_conditional('TESTING', 'yes', 'file://testing.scc', '', d)} "
 
 # cpu hotplug  options: low power (default), full power down, full power down with L2 cache
