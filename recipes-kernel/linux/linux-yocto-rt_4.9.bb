@@ -10,14 +10,14 @@ require recipes-kernel/linux/linux-yocto.inc
 inherit axxia-kernel
 
 KV = "4.9"
-LINUX_VERSION = "4.9.65"
+LINUX_VERSION = "4.9.71"
 LINUX_KERNEL_TYPE = "preempt-rt"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
 KBRANCH = "standard/preempt-rt/axxia/base"
 KMETA = "kernel-meta"
-SRCREV_machine = "c980edf56736d882079e6a15bbc2a03425e1f2f1"
-SRCREV_meta = "f4e37e151102d89c4d0e110c88eb3b3c36bdeaa4"
+SRCREV_machine = "d2a54ff45e6c5e9b9a3c47ff5675622859f1f1a4"
+SRCREV_meta = "4540e14cdccbb8bf8db591fd60fb03342f155342"
 
 # skip yocto-kernel-cache for axxiax86_64 to use full defconfig untill we'll have fragments upstream
 KMETA_SOURCES = "git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.9;destsuffix=${KMETA}"
