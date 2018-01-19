@@ -6,7 +6,7 @@ ${THISDIR}\
 inherit axxia-kernel
 
 KV = "4.1"
-LINUX_VERSION = "4.1.48
+LINUX_VERSION = "4.1.48"
 
 KBRANCH = "standard/axxia/base"
 SRCREV_machine = "909c98a4f6512eaca1c975469d58b46b7326b8e9"
