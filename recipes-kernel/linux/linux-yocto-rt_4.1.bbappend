@@ -10,7 +10,7 @@ LINUX_VERSION = "4.1.48"
 
 KBRANCH = "standard/preempt-rt/axxia/base"
 SRCREV_machine = "7aec10d695230d2bd7fec3c1e86a4305288cfe82"
-SRCREV_meta = "a697838629ae4d70daef0e1b2f78d96dbceb2c49"
+SRCREV_meta = "78e5080885b6c72d436fc14614e575ec0f422c76"
 SRC_URI += "file://fit"
 
 require dt/dt-${KARCH}.inc
