@@ -1,7 +1,7 @@
-From 3f61e49b6941834c90550e1503cc8a40def3a60e Mon Sep 17 00:00:00 2001
+From 1a6c805f9eae1f56c438b0c00497615f2a9f4db3 Mon Sep 17 00:00:00 2001
 From: Ben Shelton <benjamin.h.shelton@intel.com>
 Date: Fri, 11 Mar 2016 09:36:42 -0600
-Subject: [PATCH 4/6] pci-driver: HACK: don't allocate additional bridge window
+Subject: [PATCH 3/4] pci-driver: HACK: don't allocate additional bridge window
  space for hotplug
 
 On the frio boards, when the PCI link is set to 4x2 mode, the kernel allocates

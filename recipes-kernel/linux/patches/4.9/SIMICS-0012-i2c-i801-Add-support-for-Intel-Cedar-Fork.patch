@@ -1,4 +1,4 @@
-From f02547b2c8551a8ca66494d8032ea7c6c00d0f71 Mon Sep 17 00:00:00 2001
+From ebba9ed659c454069da19fab05c04f41991c7ddb Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Wed, 22 Nov 2017 15:16:26 -0600
 Subject: [PATCH 12/16] i2c: i801: Add support for Intel Cedar Fork
@@ -40,7 +40,7 @@ index cb19f1f..5260134 100644
  	  This driver can also be built as a module.  If so, the module
  	  will be called i2c-i801.
 diff --git a/drivers/i2c/busses/i2c-i801.c b/drivers/i2c/busses/i2c-i801.c
-index eb3627f..a89f272 100644
+index e6fe21a..986b43c 100644
 --- a/drivers/i2c/busses/i2c-i801.c
 +++ b/drivers/i2c/busses/i2c-i801.c
 @@ -65,6 +65,7 @@

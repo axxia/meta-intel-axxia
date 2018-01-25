@@ -45,10 +45,8 @@ file://SIMICS-0015-mtd-spi-nor-intel-spi-Add-support-for-Intel-Cedar-Fo.patch \
 
 FRIO_PATCHES = " \
 file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
-file://FRIO-0002-pci-driver-HACK-reassign-Altera-FPGAs-if-they-have-n.patch \
-file://FRIO-0003-pci-driver-HACK-hardcode-size-of-bridge-window-to-NC.patch \
-file://FRIO-0004-pci-driver-HACK-don-t-allocate-additional-bridge-win.patch \
-file://FRIO-0005-pci-driver-HACK-merge-for-Altera.patch \
+file://FRIO-0002-pci-driver-HACK-hardcode-size-of-bridge-window-to-NC.patch \
+file://FRIO-0003-pci-driver-HACK-don-t-allocate-additional-bridge-win.patch \
 "
 
 SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;name=machine;branch=${KBRANCH}; \

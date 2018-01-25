@@ -1,7 +1,7 @@
-From 1f9f0c780574f00dd2cf5a471e99634556bd307d Mon Sep 17 00:00:00 2001
+From 23d4a5e55ec5d836fefef59a058034913dd03eb9 Mon Sep 17 00:00:00 2001
 From: Ben Shelton <benjamin.h.shelton@intel.com>
 Date: Thu, 10 Sep 2015 09:25:24 -0500
-Subject: [PATCH 3/6] pci-driver: HACK: hardcode size of bridge window to NCP
+Subject: [PATCH 2/4] pci-driver: HACK: hardcode size of bridge window to NCP
  device
 
 The Linux PCI address space mapping code does not allocate a sufficient size
