@@ -4,10 +4,10 @@ FILESEXTRAPATHS_prepend := "\
 
 KV = "4.9"
 LINUX_VERSION = "4.9.71"
-KBRANCH = "standard/preempt-rt/axxia/base"
+KBRANCH_axxiax86-64 = "standard/preempt-rt/axxia/base"
 SRCREV_machine = "d2a54ff45e6c5e9b9a3c47ff5675622859f1f1a4"
 SRCREV_meta = "688a904c38ecfdc36c23eafc8e93aadc2c537535"
-KMETA = ""
+KMETA_axxiax86-64 = ""
 
 # "simics" for simulation system or "frio" for FPGA emulation system
 RUNTARGET ?= "simics"
@@ -38,13 +38,13 @@ file://FRIO-0004-pci-driver-HACK-don-t-allocate-additional-bridge-win.patch \
 file://FRIO-0005-pci-driver-HACK-merge-for-Altera.patch \
 "
 
-SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;name=machine;branch=${KBRANCH}; \
+SRC_URI_axxiax86-64 = "git://git.yoctoproject.org/linux-yocto-4.9.git;name=machine;branch=${KBRANCH}; \
            ${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
            ${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
            file://defconfig \
 "
 
-COMPATIBLE_MACHINE = "^axxiax86-64$"
+COMPATIBLE_MACHINE_axxiax86-64 = "${MACHINE}"
 INSANE_SKIP_kernel-dev = "debug-files"
 
-KERNEL_EXTRA_FEATURES = ""
+KERNEL_EXTRA_FEATURES_axxiax86-64 = ""
