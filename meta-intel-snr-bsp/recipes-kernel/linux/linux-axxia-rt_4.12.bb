@@ -5,7 +5,7 @@ FILESEXTRAPATHS_prepend := "\
 require recipes-kernel/linux/linux-yocto.inc
 
 KV = "4.12"
-LINUX_VERSION = "4.12.18"
+LINUX_VERSION_axxiax86-64 = "4.12.18"
 LINUX_KERNEL_TYPE = "preempt-rt"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
@@ -36,12 +36,12 @@ file://FRIO-0005-pci-driver-HACK-merge-for-Altera.patch \
 
 KREPO_KERNEL = "git://git@github.com/axxia/axxia_yocto_linux_4.12_private.git;protocol=ssh"
 SRC_URI_axxiax86-64 = "${KREPO_KERNEL};name=machine;branch=${KBRANCH} \
-           ${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
-           ${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
-           file://defconfig \
-"
+	${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
+	${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
+	file://defconfig \
+	"
 
 COMPATIBLE_MACHINE_axxiax86-64 = "${MACHINE}"
-INSANE_SKIP_kernel-dev = "debug-files"
+INSANE_SKIP_kernel-dev_axxiax86-64 = "debug-files"
 
 KERNEL_EXTRA_FEATURES_axxiax86-64 = ""

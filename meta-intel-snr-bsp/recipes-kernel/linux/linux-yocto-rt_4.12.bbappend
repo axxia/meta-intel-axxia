@@ -3,11 +3,11 @@ FILESEXTRAPATHS_prepend := "\
 :${THISDIR}/conf/yocto-${KV}/${RUNTARGET}/${LINUX_KERNEL_TYPE}:"
 
 KV = "4.12"
-LINUX_VERSION = "4.12.16"
+LINUX_VERSION_axxiax86-64 = "4.12.16"
 KBRANCH_axxiax86-64 = "standard/preempt-rt/axxia/base"
+KMACHINE_axxiax86-64 = "intel-corei7-64"
 SRCREV_machine = "51c45f6489df4cdbce78e9c90b8a26fa7e7c875c"
 SRCREV_meta = "3574bb061c1bfbdcf4df8308870c03f88ef0788f"
-KMETA_axxiax86-64 = ""
 
 # "simics" for simulation system or "frio" for FPGA emulation system
 RUNTARGET ?= "simics"
@@ -30,13 +30,11 @@ file://FRIO-0004-pci-driver-HACK-don-t-allocate-additional-bridge-win.patch \
 file://FRIO-0005-pci-driver-HACK-merge-for-Altera.patch \
 "
 
-SRC_URI_axxiax86-64 = "git://git.yoctoproject.org/linux-yocto-4.12.git;name=machine;branch=${KBRANCH}; \
-           ${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
-           ${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
-           file://defconfig \
-"
+SRC_URI_append_axxiax86-64 = " \
+	${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
+	${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
+	file://defconfig \
+	"
 
 COMPATIBLE_MACHINE_axxiax86-64 = "${MACHINE}"
-INSANE_SKIP_kernel-dev = "debug-files"
-
-KERNEL_EXTRA_FEATURES_axxiax86-64 = ""
+INSANE_SKIP_kernel-dev_axxiax86-64 = "debug-files"
