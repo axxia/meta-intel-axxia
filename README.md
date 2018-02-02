@@ -2,7 +2,7 @@ meta-intel-axxia
 ================
 
 This is the official OpenEmbedded/Yocto BSP layer for Intel’s family of
-Axxia Mobile & Enterprise Communication Processors.
+Axxia x86-64 Mobile & Enterprise Communication Processors.
 
 
 Supported MACHINES
@@ -155,6 +155,7 @@ actual value you provided in step 1.
             $YOCTO/poky/meta-virtualization \
             $YOCTO/poky/meta-intel \
             $YOCTO/poky/meta-intel-axxia \
+            $YOCTO/poky/meta-intel-axxia/meta-intel-snr-bsp \
             "
 
 9. Edit the conf/local.conf file:
