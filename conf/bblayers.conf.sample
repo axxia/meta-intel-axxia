@@ -14,6 +14,7 @@ BBLAYERS ?= " \
   ##OEROOT##/meta-virtualization \
   ##OEROOT##/meta-intel \
   ##OEROOT##/meta-intel-axxia \
+  ##OEROOT##/meta-intel-axxia/meta-intel-snr \
   "
 
 BBLAYERS_NON_REMOVABLE ?= " \
@@ -21,4 +22,5 @@ BBLAYERS_NON_REMOVABLE ?= " \
   ##OEROOT##/meta-poky \
   ##OEROOT##/meta-intel \
   ##OEROOT##/meta-intel-axxia \
+  ##OEROOT##/meta-intel-axxia/meta-intel-snr \
   "

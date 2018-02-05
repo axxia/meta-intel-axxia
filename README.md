@@ -155,7 +155,7 @@ actual value you provided in step 1.
             $YOCTO/poky/meta-virtualization \
             $YOCTO/poky/meta-intel \
             $YOCTO/poky/meta-intel-axxia \
-            $YOCTO/poky/meta-intel-axxia/meta-intel-snr-bsp \
+            $YOCTO/poky/meta-intel-axxia/meta-intel-snr \
             "
 
 9. Edit the conf/local.conf file:
