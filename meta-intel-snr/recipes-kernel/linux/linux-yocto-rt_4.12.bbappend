@@ -3,19 +3,17 @@ FILESEXTRAPATHS_prepend := "\
 :${THISDIR}/conf/yocto-${KV}/${RUNTARGET}/${LINUX_KERNEL_TYPE}:"
 
 KV = "4.12"
-LINUX_VERSION_axxiax86-64 = "4.12.16"
+LINUX_VERSION_axxiax86-64 = "4.12.19"
 KBRANCH_axxiax86-64 = "standard/preempt-rt/axxia/base"
 KMACHINE_axxiax86-64 = "intel-corei7-64"
-SRCREV_machine = "51c45f6489df4cdbce78e9c90b8a26fa7e7c875c"
-SRCREV_meta = "3574bb061c1bfbdcf4df8308870c03f88ef0788f"
+SRCREV_machine = "3d0a4b384000b8fc2039d62c6e209bc75e3eb7a8"
+SRCREV_meta = "7986844d9de597218a23f82e68b01e5bf060d576"
 
 # "simics" for simulation system or "frio" for FPGA emulation system
 RUNTARGET ?= "simics"
 
 SIMICS_PATCHES = " \
 file://SIMICS-0001-intel_th-pci-Add-Cedar-Fork-PCH-support.patch \
-file://SIMICS-0002-pinctrl-intel-Add-support-for-variable-size-pad-grou.patch \
-file://SIMICS-0003-pinctrl-intel-Make-it-possible-to-specify-mode-per-p.patch \
 file://SIMICS-0004-pinctrl-intel-Add-Intel-Denverton-pin-controller-sup.patch \
 file://SIMICS-0005-i2c-i801-Add-support-for-Intel-Cedar-Fork.patch \
 file://SIMICS-0006-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch \
