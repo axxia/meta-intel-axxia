@@ -384,6 +384,9 @@ Please see the meta-intel-axxia/MAINTAINERS file for more details.
 License
 =======
 
-All metadata is MIT licensed unless otherwise stated. Souce code included
-in tree for individual recipes is under the LICENSE stated in each recipe
-(.bb file) unless otherwise stated.
+All metadata (except simicsfs module) is MIT licensed unless otherwise stated.
+Souce code included in tree for individual recipes is under the LICENSE stated
+in each recipe (.bb file) unless otherwise stated.
+
+The simicsfs external module is licensed under the GPLv2 (licence file included
+meta-intel-axxia layer).
