@@ -152,6 +152,7 @@ actual value you provided in step 1.
             $YOCTO/poky/meta-openembedded/meta-oe \
             $YOCTO/poky/meta-openembedded/meta-python \
             $YOCTO/poky/meta-openembedded/meta-networking \
+            $YOCTO/poky/meta-openembedded/meta-filesystems \
             $YOCTO/poky/meta-virtualization \
             $YOCTO/poky/meta-intel \
             $YOCTO/poky/meta-intel-axxia \
@@ -223,7 +224,6 @@ b. Private Axxia Github (github.com/axxia)
 NOTE: <preferred-provider> can be linux-yocto, linux-yocto-rt,
       linux-axxia, linux-axxia-rt. See  9.5.
 
-
 9.6 Choose the System where the image will run between simulation and 
     emulation:
 
@@ -233,13 +233,17 @@ NOTE: <preferred-provider> can be linux-yocto, linux-yocto-rt,
     for Frio FPGA Emulation System:
     RUNTARGET = "frio"
 
+9.7 Add simicsfs-client support (for large and sim images). Sources tgz archive
+    should copied in meta-intel-axxia/download directory: simics-5.0.130-src.tgz
 
-9.7 Other optional settings for saving disk space and build time:
+    SIMICSFS = "yes"
+
+9.8 Other optional settings for saving disk space and build time:
    
    DL_DIR = "/<some-shared-location>/downloads"
    SSTATE_DIR = "/<some-shared-location>/sstate-cache
 
-9.8 Examples.
+9.9 Examples.
 
      See http://www.yoctoproject.org/docs/2.3/mega-manual/mega-manual.html
      for complete documentation on the Yocto build system.
@@ -251,6 +255,7 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 PREFERRED_VERSION_linux-yocto = "4.12%"
 DISTRO = "intel-axxia"
 RUNTARGET = "simics"
+SIMICSFS = "yes"
 PACKAGE_CLASSES ?= "package_rpm"
 EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
 USER_CLASSES ?= "buildstats image-mklibs image-prelink"
