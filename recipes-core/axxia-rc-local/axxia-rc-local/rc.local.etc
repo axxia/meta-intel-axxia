@@ -17,9 +17,6 @@ echo "Running /etc/rc.local..."
 # DO NOT run any long running tasks or loops as these will delay
 # the /init script and the console shell.
 
-# Automatically mount host filesystem using simicsfs module.
-mount /host
-
 # Run dhclient on the Ethernet interface.
 
 TOUT=20
