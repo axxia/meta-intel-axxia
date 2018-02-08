@@ -9,6 +9,9 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 # Kernel versions: 4.9, 4.12
 PREFERRED_VERSION_linux-yocto = "4.9%"
 
+# Add simicsfs-client support (sources should be in meta-intel-axxia/download)
+SIMICSFS = "no"
+
 BB_NUMBER_THREADS = "12"
 PARALLEL_MAKE = "-j 12"
 

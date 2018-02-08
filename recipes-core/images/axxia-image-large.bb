@@ -208,7 +208,8 @@ yp-tools \
 yp-tools-dev \
 zip \
 zlib \
-${LXC_SUPPORT} "
+${LXC_SUPPORT} \
+${@base_conditional('SIMICSFS', 'yes', 'simicsfs-client fuse', '', d)} "
 
 LXC_SUPPORT = "xz gnupg cgroup-lite libvirt libvirt-libvirtd \
 	       lxc lxc-setup lxc-templates "

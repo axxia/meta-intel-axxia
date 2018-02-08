@@ -54,7 +54,8 @@ python-netserver \
 python-nose \
 telnetd \
 tmux \
-vlan "
+vlan \
+${@base_conditional('SIMICSFS', 'yes', 'simicsfs-client fuse', '', d)} "
 
 IMAGE_FEATURES += "dev-pkgs"
 
