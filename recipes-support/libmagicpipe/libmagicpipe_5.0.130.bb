@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://Makefile;md5=fec19790807db68af67649564324cff0"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/../../downloads:"
 
-SRC_URI = "file://simics-${PV}-src.tgz"
+SRC_URI = "file://simics-${PV}.tgz"
 
 SRC_URI[md5sum] = "66cb0a61098fa23c3bc2d6b7ebc7ea98"
 SRC_URI[sha256sum] = "6f4a214d1611ccdc7df002d33a2287a96ffc2db0c0026c4a9eca06316fbcb28d"
