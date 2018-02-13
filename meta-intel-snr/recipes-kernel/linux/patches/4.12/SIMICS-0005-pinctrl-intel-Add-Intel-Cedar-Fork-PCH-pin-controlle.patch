@@ -1,7 +1,7 @@
-From 2555f79dd59ef385eea7161ddde0cb64ad53c2aa Mon Sep 17 00:00:00 2001
+From c224ef0d7b6e46971b708c8879d3d65ac274cc91 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
-Date: Tue, 2 Jan 2018 17:42:59 -0600
-Subject: [PATCH 7/8] pinctrl: intel: Add Intel Cedar Fork PCH pin controller
+Date: Tue, 13 Feb 2018 16:36:37 -0600
+Subject: [PATCH 5/6] pinctrl: intel: Add Intel Cedar Fork PCH pin controller
  support
 
 Intel Cedar Fork PCH is the successor of Intel Denverton PCH but it is
@@ -9,6 +9,8 @@ based on the newer GPIO/pinctrl hardware block. Add a new pinctrl/GPIO
 driver to support it.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+(backported from 0f80dbc133e3ebf82766b5276d8d0fe998a6f0db)
 Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  drivers/pinctrl/intel/Kconfig             |   8 +
@@ -18,12 +20,12 @@ Signed-off-by: John Jacques <john.jacques@intel.com>
  create mode 100644 drivers/pinctrl/intel/pinctrl-cedarfork.c
 
 diff --git a/drivers/pinctrl/intel/Kconfig b/drivers/pinctrl/intel/Kconfig
-index b1e62ed..d1a2462 100644
+index aba2af0..5d6357b 100644
 --- a/drivers/pinctrl/intel/Kconfig
 +++ b/drivers/pinctrl/intel/Kconfig
-@@ -64,6 +64,14 @@ config PINCTRL_GEMINILAKE
+@@ -64,6 +64,14 @@ config PINCTRL_CANNONLAKE
  	  This pinctrl driver provides an interface that allows configuring
- 	  of Intel Gemini Lake SoC pins and using them as GPIOs.
+ 	  of Intel Cannon Lake PCH pins and using them as GPIOs.
  
 +config PINCTRL_CEDARFORK
 +	tristate "Intel Cedar Fork pinctrl and GPIO driver"
@@ -37,14 +39,16 @@ index b1e62ed..d1a2462 100644
  	tristate "Intel Denverton pinctrl and GPIO driver"
  	depends on ACPI
 diff --git a/drivers/pinctrl/intel/Makefile b/drivers/pinctrl/intel/Makefile
-index 24c2fd0..8af6053 100644
+index d9b31f7..51f0a64 100644
 --- a/drivers/pinctrl/intel/Makefile
 +++ b/drivers/pinctrl/intel/Makefile
-@@ -7,4 +7,5 @@ obj-$(CONFIG_PINCTRL_INTEL)		+= pinctrl-intel.o
+@@ -6,6 +6,7 @@ obj-$(CONFIG_PINCTRL_MERRIFIELD)	+= pinctrl-merrifield.o
+ obj-$(CONFIG_PINCTRL_INTEL)		+= pinctrl-intel.o
  obj-$(CONFIG_PINCTRL_BROXTON)		+= pinctrl-broxton.o
- obj-$(CONFIG_PINCTRL_GEMINILAKE)	+= pinctrl-geminilake.o
- obj-$(CONFIG_PINCTRL_DENVERTON)		+= pinctrl-denverton.o 
+ obj-$(CONFIG_PINCTRL_CANNONLAKE)	+= pinctrl-cannonlake.o
 +obj-$(CONFIG_PINCTRL_CEDARFORK)		+= pinctrl-cedarfork.o
+ obj-$(CONFIG_PINCTRL_DENVERTON)		+= pinctrl-denverton.o
+ obj-$(CONFIG_PINCTRL_GEMINILAKE)	+= pinctrl-geminilake.o
  obj-$(CONFIG_PINCTRL_SUNRISEPOINT)	+= pinctrl-sunrisepoint.o
 diff --git a/drivers/pinctrl/intel/pinctrl-cedarfork.c b/drivers/pinctrl/intel/pinctrl-cedarfork.c
 new file mode 100644

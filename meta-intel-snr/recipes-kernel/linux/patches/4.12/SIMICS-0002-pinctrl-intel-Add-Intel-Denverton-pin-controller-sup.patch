@@ -1,7 +1,7 @@
-From a630bf73848bbb0375abc055fbe250047efc4cac Mon Sep 17 00:00:00 2001
-From: John Jacques <john.jacques@intel.com>
-Date: Tue, 2 Jan 2018 17:33:34 -0600
-Subject: [PATCH 4/8] pinctrl: intel: Add Intel Denverton pin controller
+From c8131bcfea49b1f0b1281b69a5c259486ed068dd Mon Sep 17 00:00:00 2001
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+Date: Thu, 3 Aug 2017 19:36:02 +0300
+Subject: [PATCH 2/6] pinctrl: intel: Add Intel Denverton pin controller
  support
 
 This driver adds pinctrl/GPIO support for Intel Denverton SoC. The GPIO
@@ -11,6 +11,7 @@ Intel Sunrisepoint so we leverage the core driver here.
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+(cherry picked from 75bb10b479c33a8e15ab99d6f35a141e86df8547)
 Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  drivers/pinctrl/intel/Kconfig             |   8 +
@@ -20,12 +21,12 @@ Signed-off-by: John Jacques <john.jacques@intel.com>
  create mode 100644 drivers/pinctrl/intel/pinctrl-denverton.c
 
 diff --git a/drivers/pinctrl/intel/Kconfig b/drivers/pinctrl/intel/Kconfig
-index 396830a..b1e62ed 100644
+index b82d6ff..aba2af0 100644
 --- a/drivers/pinctrl/intel/Kconfig
 +++ b/drivers/pinctrl/intel/Kconfig
-@@ -64,6 +64,14 @@ config PINCTRL_GEMINILAKE
+@@ -64,6 +64,14 @@ config PINCTRL_CANNONLAKE
  	  This pinctrl driver provides an interface that allows configuring
- 	  of Intel Gemini Lake SoC pins and using them as GPIOs.
+ 	  of Intel Cannon Lake PCH pins and using them as GPIOs.
  
 +config PINCTRL_DENVERTON
 +	tristate "Intel Denverton pinctrl and GPIO driver"
@@ -35,18 +36,19 @@ index 396830a..b1e62ed 100644
 +	  This pinctrl driver provides an interface that allows configuring
 +	  of Intel Denverton SoC pins and using them as GPIOs.
 +
- config PINCTRL_SUNRISEPOINT
- 	tristate "Intel Sunrisepoint pinctrl and GPIO driver"
+ config PINCTRL_GEMINILAKE
+ 	tristate "Intel Gemini Lake SoC pinctrl and GPIO driver"
  	depends on ACPI
 diff --git a/drivers/pinctrl/intel/Makefile b/drivers/pinctrl/intel/Makefile
-index 12f3af5..24c2fd0 100644
+index 81df3cf..d9b31f7 100644
 --- a/drivers/pinctrl/intel/Makefile
 +++ b/drivers/pinctrl/intel/Makefile
-@@ -6,4 +6,5 @@ obj-$(CONFIG_PINCTRL_MERRIFIELD)	+= pinctrl-merrifield.o
+@@ -6,5 +6,6 @@ obj-$(CONFIG_PINCTRL_MERRIFIELD)	+= pinctrl-merrifield.o
  obj-$(CONFIG_PINCTRL_INTEL)		+= pinctrl-intel.o
  obj-$(CONFIG_PINCTRL_BROXTON)		+= pinctrl-broxton.o
+ obj-$(CONFIG_PINCTRL_CANNONLAKE)	+= pinctrl-cannonlake.o
++obj-$(CONFIG_PINCTRL_DENVERTON)		+= pinctrl-denverton.o
  obj-$(CONFIG_PINCTRL_GEMINILAKE)	+= pinctrl-geminilake.o
-+obj-$(CONFIG_PINCTRL_DENVERTON)		+= pinctrl-denverton.o 
  obj-$(CONFIG_PINCTRL_SUNRISEPOINT)	+= pinctrl-sunrisepoint.o
 diff --git a/drivers/pinctrl/intel/pinctrl-denverton.c b/drivers/pinctrl/intel/pinctrl-denverton.c
 new file mode 100644

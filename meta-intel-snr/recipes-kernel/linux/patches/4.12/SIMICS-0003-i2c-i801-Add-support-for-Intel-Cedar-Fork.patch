@@ -1,13 +1,14 @@
-From e64d61c4e3906e72c468f2124e4d3953812d6ee1 Mon Sep 17 00:00:00 2001
-From: John Jacques <john.jacques@intel.com>
-Date: Tue, 2 Jan 2018 17:40:13 -0600
-Subject: [PATCH 5/8] i2c: i801: Add support for Intel Cedar Fork
+From b52f683f55079eca9822be6278fd328804c84504 Mon Sep 17 00:00:00 2001
+From: Jarkko Nikula <jarkko.nikula@linux.intel.com>
+Date: Thu, 21 Sep 2017 16:23:16 +0300
+Subject: [PATCH 3/6] i2c: i801: Add support for Intel Cedar Fork
 
 Add PCI ID for Intel Cedar Fork PCH.
 
 Signed-off-by: Jarkko Nikula <jarkko.nikula@linux.intel.com>
 Reviewed-by: Jean Delvare <jdelvare@suse.de>
 Signed-off-by: Wolfram Sang <wsa@the-dreams.de>
+(cherry picked from cb09d943c70da7c8097006db1dc163b2d99338f6)
 Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  Documentation/i2c/busses/i2c-i801 | 1 +
@@ -16,42 +17,42 @@ Signed-off-by: John Jacques <john.jacques@intel.com>
  3 files changed, 6 insertions(+)
 
 diff --git a/Documentation/i2c/busses/i2c-i801 b/Documentation/i2c/busses/i2c-i801
-index 820d904..b6fdc3b 100644
+index 0500193..d477024 100644
 --- a/Documentation/i2c/busses/i2c-i801
 +++ b/Documentation/i2c/busses/i2c-i801
-@@ -33,6 +33,7 @@ Supported adapters:
-   * Intel DNV (SOC)
-   * Intel Broxton (SOC)
-   * Intel Lewisburg (PCH)
-+  * Intel Cedar Fork (PCH)
+@@ -36,6 +36,7 @@ Supported adapters:
    * Intel Gemini Lake (SOC)
+   * Intel Cannon Lake-H (PCH)
+   * Intel Cannon Lake-LP (PCH)
++  * Intel Cedar Fork (PCH)
     Datasheets: Publicly available at the Intel website
  
+ On Intel Patsburg and later chipsets, both the normal host SMBus controller
 diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
-index 144cbad..d866829 100644
+index ed7106e..ce274cf 100644
 --- a/drivers/i2c/busses/Kconfig
 +++ b/drivers/i2c/busses/Kconfig
-@@ -128,6 +128,7 @@ config I2C_I801
- 	    DNV (SOC)
- 	    Broxton (SOC)
- 	    Lewisburg (PCH)
-+	    Cedar Fork (PCH)
+@@ -131,6 +131,7 @@ config I2C_I801
  	    Gemini Lake (SOC)
+ 	    Cannon Lake-H (PCH)
+ 	    Cannon Lake-LP (PCH)
++	    Cedar Fork (PCH)
  
  	  This driver can also be built as a module.  If so, the module
+ 	  will be called i2c-i801.
 diff --git a/drivers/i2c/busses/i2c-i801.c b/drivers/i2c/busses/i2c-i801.c
-index 2236846..d98751c 100644
+index e114e4e..9e12a53 100644
 --- a/drivers/i2c/busses/i2c-i801.c
 +++ b/drivers/i2c/busses/i2c-i801.c
-@@ -65,6 +65,7 @@
-  * Lewisburg (PCH)		0xa1a3	32	hard	yes	yes	yes
-  * Lewisburg Supersku (PCH)	0xa223	32	hard	yes	yes	yes
-  * Kaby Lake PCH-H (PCH)	0xa2a3	32	hard	yes	yes	yes
-+ * Cedar Fork (PCH)		0x18df	32	hard	yes	yes	yes
+@@ -68,6 +68,7 @@
   * Gemini Lake (SOC)		0x31d4	32	hard	yes	yes	yes
+  * Cannon Lake-H (PCH)		0xa323	32	hard	yes	yes	yes
+  * Cannon Lake-LP (PCH)		0x9da3	32	hard	yes	yes	yes
++ * Cedar Fork (PCH)		0x18df	32	hard	yes	yes	yes
   *
   * Features supported by this driver:
-@@ -202,6 +203,7 @@
+  * Software PEC				no
+@@ -204,6 +205,7 @@
  
  /* Older devices have their ID defined in <linux/pci_ids.h> */
  #define PCI_DEVICE_ID_INTEL_BAYTRAIL_SMBUS		0x0f12
@@ -59,7 +60,7 @@ index 2236846..d98751c 100644
  #define PCI_DEVICE_ID_INTEL_DNV_SMBUS			0x19df
  #define PCI_DEVICE_ID_INTEL_COUGARPOINT_SMBUS		0x1c22
  #define PCI_DEVICE_ID_INTEL_PATSBURG_SMBUS		0x1d22
-@@ -1021,6 +1023,7 @@ static const struct pci_device_id i801_ids[] = {
+@@ -1025,6 +1027,7 @@ static const struct pci_device_id i801_ids[] = {
  	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_BRASWELL_SMBUS) },
  	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_SUNRISEPOINT_H_SMBUS) },
  	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_SUNRISEPOINT_LP_SMBUS) },
@@ -67,8 +68,8 @@ index 2236846..d98751c 100644
  	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_DNV_SMBUS) },
  	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_BROXTON_SMBUS) },
  	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_LEWISBURG_SMBUS) },
-@@ -1505,6 +1508,7 @@ static int i801_probe(struct pci_dev *dev, const struct pci_device_id *id)
- 	case PCI_DEVICE_ID_INTEL_SUNRISEPOINT_LP_SMBUS:
+@@ -1513,6 +1516,7 @@ static int i801_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ 	case PCI_DEVICE_ID_INTEL_CANNONLAKE_LP_SMBUS:
  	case PCI_DEVICE_ID_INTEL_LEWISBURG_SMBUS:
  	case PCI_DEVICE_ID_INTEL_LEWISBURG_SSKU_SMBUS:
 +	case PCI_DEVICE_ID_INTEL_CDF_SMBUS:
