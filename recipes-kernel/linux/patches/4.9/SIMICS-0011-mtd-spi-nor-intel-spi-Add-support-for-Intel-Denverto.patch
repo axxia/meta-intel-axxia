@@ -1,7 +1,7 @@
-From 845e12aecabfcfa042be694f78b867992dd27f7b Mon Sep 17 00:00:00 2001
+From f69f29d726cc738eeb9e095d43b44a3e4568ccfd Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
-Date: Wed, 22 Nov 2017 14:58:50 -0600
-Subject: [PATCH 10/16] mtd: spi-nor: intel-spi: Add support for Intel
+Date: Thu, 15 Feb 2018 10:01:20 -0600
+Subject: [PATCH 11/17] mtd: spi-nor: intel-spi: Add support for Intel
  Denverton SPI serial flash controller
 
 Intel Denverton exposes the SPI serial flash controller as a PCI device
@@ -9,6 +9,7 @@ instead of being part of the LPC chip as previous generations did.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Signed-off-by: Cyrille Pitchen <cyrille.pitchen@free-electrons.com>
+(back ported from fe602838a66d34f3d1de71feab92b403e244db8c)
 Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  drivers/mtd/spi-nor/Kconfig         | 16 ++++++++
@@ -143,5 +144,5 @@ index 0000000..e826523
 +MODULE_AUTHOR("Mika Westerberg <mika.westerberg@linux.intel.com>");
 +MODULE_LICENSE("GPL v2");
 -- 
-2.5.2
+2.7.4
 

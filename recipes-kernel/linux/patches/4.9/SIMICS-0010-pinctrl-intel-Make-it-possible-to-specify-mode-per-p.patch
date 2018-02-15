@@ -1,7 +1,7 @@
-From cd7dda8ea25fdcfe5deb468d7503f0c605302348 Mon Sep 17 00:00:00 2001
+From bc79d682b16d371a66d345b9040da8baf3ce460c Mon Sep 17 00:00:00 2001
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 Date: Tue, 6 Jun 2017 16:18:18 +0300
-Subject: [PATCH 09/16] pinctrl: intel: Make it possible to specify mode per
+Subject: [PATCH 10/17] pinctrl: intel: Make it possible to specify mode per
  pin in a group
 
 On some SoCs not all pins in a group use the same mode when a certain
@@ -11,13 +11,15 @@ pin as an array instead in addition to single integer.
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+(back ported from 1f6b419b24285409a9365461bf7367a220eff1db)
+Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  drivers/pinctrl/intel/pinctrl-intel.c |  6 +++++-
  drivers/pinctrl/intel/pinctrl-intel.h | 28 +++++++++++++++++++++-------
  2 files changed, 26 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/pinctrl/intel/pinctrl-intel.c b/drivers/pinctrl/intel/pinctrl-intel.c
-index ccd864b..2f57bfc 100644
+index 7472059..a50c12b 100644
 --- a/drivers/pinctrl/intel/pinctrl-intel.c
 +++ b/drivers/pinctrl/intel/pinctrl-intel.c
 @@ -398,7 +398,11 @@ static int intel_pinmux_set_mux(struct pinctrl_dev *pctldev, unsigned function,
@@ -34,7 +36,7 @@ index ccd864b..2f57bfc 100644
  		writel(value, padcfg0);
  	}
 diff --git a/drivers/pinctrl/intel/pinctrl-intel.h b/drivers/pinctrl/intel/pinctrl-intel.h
-index b251a9e..7fdb077 100644
+index 277b296..04d492d 100644
 --- a/drivers/pinctrl/intel/pinctrl-intel.h
 +++ b/drivers/pinctrl/intel/pinctrl-intel.h
 @@ -22,13 +22,16 @@ struct device;
@@ -51,7 +53,7 @@ index b251a9e..7fdb077 100644
  	const unsigned *pins;
  	size_t npins;
  	unsigned short mode;
-+	const unsigned *modes;
++	const unsigned int *modes;
  };
  
  /**
@@ -86,5 +88,5 @@ index b251a9e..7fdb077 100644
  
  #define FUNCTION(n, g)				\
 -- 
-2.5.2
+2.7.4
 

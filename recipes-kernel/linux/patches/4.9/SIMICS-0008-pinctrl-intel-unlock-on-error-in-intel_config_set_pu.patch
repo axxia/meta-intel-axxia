@@ -1,7 +1,7 @@
-From efea832796c194d0fa15fee3bc545556fde016dd Mon Sep 17 00:00:00 2001
+From fa68cb319816b9248cea215f59444ab04b103171 Mon Sep 17 00:00:00 2001
 From: Dan Carpenter <dan.carpenter@oracle.com>
 Date: Tue, 7 Feb 2017 16:20:08 +0300
-Subject: [PATCH 07/16] pinctrl: intel: unlock on error in
+Subject: [PATCH 08/17] pinctrl: intel: unlock on error in
  intel_config_set_pull()
 
 We need to unlock before returning -EINVAL on this error path.
@@ -9,12 +9,14 @@ We need to unlock before returning -EINVAL on this error path.
 Fixes: 04cc058f0c52 ("pinctrl: intel: Add support for 1k additional pull-down")
 Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+(cherry picked from aa1dd80f80ccf3a47227ab42625e7bbacd5ff272)
+Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  drivers/pinctrl/intel/pinctrl-intel.c | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/pinctrl/intel/pinctrl-intel.c b/drivers/pinctrl/intel/pinctrl-intel.c
-index d82cf64..bad8c2e 100644
+index 94e17b3..ce2e628 100644
 --- a/drivers/pinctrl/intel/pinctrl-intel.c
 +++ b/drivers/pinctrl/intel/pinctrl-intel.c
 @@ -599,8 +599,10 @@ static int intel_config_set_pull(struct intel_pinctrl *pctrl, unsigned pin,
@@ -31,5 +33,5 @@ index d82cf64..bad8c2e 100644
  			break;
  		default:
 -- 
-2.5.2
+2.7.4
 

@@ -1,7 +1,7 @@
-From 90418a3574ec0a8fe1ab62f277ce1376ee093855 Mon Sep 17 00:00:00 2001
+From 8a53a0990bd6c70597351ad18acf77a0613e2c16 Mon Sep 17 00:00:00 2001
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Date: Fri, 25 Nov 2016 13:31:16 +0200
-Subject: [PATCH 03/16] pinctrl: intel: set default handler to be
+Subject: [PATCH 03/17] pinctrl: intel: set default handler to be
  handle_bad_irq()
 
 We switch the default handler to be handle_bad_irq() instead of
@@ -10,6 +10,8 @@ handle_simple_irq() (which was not correct anyway).
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+(cherrypicked from 3ae02c14d964499da76b5ef4d8912710902e64f8)
+Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  drivers/pinctrl/intel/pinctrl-baytrail.c | 2 +-
  drivers/pinctrl/intel/pinctrl-intel.c    | 2 +-
@@ -42,5 +44,5 @@ index b40a074..6df35dc 100644
  		dev_err(pctrl->dev, "failed to add irqchip\n");
  		goto fail;
 -- 
-2.5.2
+2.7.4
 

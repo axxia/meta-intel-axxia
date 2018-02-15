@@ -1,7 +1,7 @@
-From 25df0d72e6819b6af343cfb5040253395e903e7d Mon Sep 17 00:00:00 2001
+From 495627b09f7f8861fefd536164b4f019a73233e5 Mon Sep 17 00:00:00 2001
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 Date: Fri, 27 Jan 2017 13:07:14 +0300
-Subject: [PATCH 05/16] pinctrl: intel: Add support for hardware debouncer
+Subject: [PATCH 06/17] pinctrl: intel: Add support for hardware debouncer
 
 The next generation Intel GPIO hardware has two additional registers
 PADCFG2 and PADCFG3. The latter is marked as reserved but the former
@@ -14,13 +14,15 @@ we use revision number and feature flags to enable this if detected.
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+(back ported from e57725eabf87c9c75bc73bd19ea00e887155e43f)
+Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  drivers/pinctrl/intel/pinctrl-intel.c | 129 +++++++++++++++++++++++++++++++++-
  drivers/pinctrl/intel/pinctrl-intel.h |   5 ++
  2 files changed, 132 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/pinctrl/intel/pinctrl-intel.c b/drivers/pinctrl/intel/pinctrl-intel.c
-index 377a3f0..34f0e3d 100644
+index 377a3f0..5abd169 100644
 --- a/drivers/pinctrl/intel/pinctrl-intel.c
 +++ b/drivers/pinctrl/intel/pinctrl-intel.c
 @@ -13,6 +13,7 @@
@@ -147,8 +149,8 @@ index 377a3f0..34f0e3d 100644
  	return ret;
  }
  
-+static int intel_config_set_debounce(struct intel_pinctrl *pctrl, unsigned pin,
-+				     unsigned debounce)
++static int intel_config_set_debounce(struct intel_pinctrl *pctrl,
++				     unsigned int pin, unsigned int debounce)
 +{
 +	void __iomem *padcfg0, *padcfg2;
 +	unsigned long flags;
@@ -267,7 +269,7 @@ index 377a3f0..34f0e3d 100644
  
  	communities = pctrl->context.communities;
 diff --git a/drivers/pinctrl/intel/pinctrl-intel.h b/drivers/pinctrl/intel/pinctrl-intel.h
-index c22c444..1ff5abf 100644
+index c22c444..b500d53 100644
 --- a/drivers/pinctrl/intel/pinctrl-intel.h
 +++ b/drivers/pinctrl/intel/pinctrl-intel.h
 @@ -58,6 +58,7 @@ struct intel_function {
@@ -282,7 +284,7 @@ index c22c444..1ff5abf 100644
  	unsigned pin_base;
  	unsigned gpp_size;
  	size_t npins;
-+	unsigned features;
++	unsigned int features;
  	void __iomem *regs;
  	void __iomem *pad_regs;
  	size_t ngpps;
@@ -295,5 +297,5 @@ index c22c444..1ff5abf 100644
  	{					\
  		.name = (n),			\
 -- 
-2.5.2
+2.7.4
 
