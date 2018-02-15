@@ -10,7 +10,7 @@ LINUX_KERNEL_TYPE = "standard"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
 KBRANCH_axxiax86-64 = "standard/axxia-dev/base"
-SRCREV_machine = "${AUTOREV}"
+SRCREV_machine_axxiax86-64 = "${AUTOREV}"
 KMETA_axxiax86-64 = ""
 
 # "simics" for simulation system or "frio" for FPGA emulation system

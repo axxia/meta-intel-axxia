@@ -10,7 +10,7 @@ LINUX_KERNEL_TYPE = "preempt-rt"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
 KBRANCH_axxiax86-64 = "standard/preempt-rt/axxia/base"
-SRCREV_machine = "${AUTOREV}"
+SRCREV_machine_axxiax86-64 = "${AUTOREV}"
 KMETA_axxiax86-64 = ""
 
 # "simics" for simulation system or "frio" for FPGA emulation system

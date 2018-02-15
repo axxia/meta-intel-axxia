@@ -6,8 +6,8 @@ KV = "4.12"
 LINUX_VERSION_axxiax86-64 = "4.12.19"
 KBRANCH_axxiax86-64 = "standard/axxia/base"
 KMACHINE_axxiax86-64 = "intel-corei7-64"
-SRCREV_machine = "4b7a5c1b4ec5536806942340755bcfbf6f3584d9"
-SRCREV_meta = "7986844d9de597218a23f82e68b01e5bf060d576"
+SRCREV_machine_axxiax86-64 = "4b7a5c1b4ec5536806942340755bcfbf6f3584d9"
+SRCREV_meta_axxiax86-64 = "7986844d9de597218a23f82e68b01e5bf060d576"
 
 # "simics" for simulation system or "frio" for FPGA emulation system
 RUNTARGET ?= "simics"

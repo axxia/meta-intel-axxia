@@ -5,8 +5,8 @@ FILESEXTRAPATHS_prepend := "\
 KV = "4.9"
 LINUX_VERSION_axxiax86-64 = "4.9.71"
 KBRANCH_axxiax86-64 = "standard/preempt-rt/axxia/base"
-SRCREV_machine = "d2a54ff45e6c5e9b9a3c47ff5675622859f1f1a4"
-SRCREV_meta = "688a904c38ecfdc36c23eafc8e93aadc2c537535"
+SRCREV_machine_axxiax86-64 = "d2a54ff45e6c5e9b9a3c47ff5675622859f1f1a4"
+SRCREV_meta_axxiax86-64 = "688a904c38ecfdc36c23eafc8e93aadc2c537535"
 
 # "simics" for simulation system or "frio" for FPGA emulation system
 RUNTARGET ?= "simics"
