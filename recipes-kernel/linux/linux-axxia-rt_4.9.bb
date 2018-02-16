@@ -40,15 +40,8 @@ file://SIMICS-0015-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch \
 file://SIMICS-0016-mtd-spi-nor-intel-spi-Add-support-for-Intel-Cedar-Fo.patch \
 "
 
-FRIO_PATCHES = " \
-file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
-file://FRIO-0002-pci-driver-HACK-hardcode-size-of-bridge-window-to-NC.patch \
-file://FRIO-0003-pci-driver-HACK-don-t-allocate-additional-bridge-win.patch \
-"
-
 KREPO_KERNEL = "git://git@github.com/axxia/axxia_yocto_linux_4.9_private.git;protocol=ssh"
 SRC_URI = "${KREPO_KERNEL};name=machine;branch=${KBRANCH} \
-           ${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
            ${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
            file://fit \
            file://defconfig"
