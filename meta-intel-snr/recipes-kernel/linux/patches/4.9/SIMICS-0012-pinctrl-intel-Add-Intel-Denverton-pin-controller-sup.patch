@@ -1,7 +1,7 @@
-From 35749be2d4bee0a68f4ca890a5cbc976e9501559 Mon Sep 17 00:00:00 2001
+From d5a27a2b41e19eaec00051bb3d3ab782c7891a09 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
-Date: Wed, 22 Nov 2017 15:08:44 -0600
-Subject: [PATCH 11/16] pinctrl: intel: Add Intel Denverton pin controller
+Date: Thu, 15 Feb 2018 10:07:23 -0600
+Subject: [PATCH 12/17] pinctrl: intel: Add Intel Denverton pin controller
  support
 
 This driver adds pinctrl/GPIO support for Intel Denverton SoC. The GPIO
@@ -11,6 +11,7 @@ Intel Sunrisepoint so we leverage the core driver here.
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+(back ported from 75bb10b479c33a8e15ab99d6f35a141e86df8547)
 Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  drivers/pinctrl/intel/Kconfig             |   8 +
@@ -39,14 +40,14 @@ index 00fb055..e95930c 100644
  	tristate "Intel Sunrisepoint pinctrl and GPIO driver"
  	depends on ACPI
 diff --git a/drivers/pinctrl/intel/Makefile b/drivers/pinctrl/intel/Makefile
-index 3080307..1421e36 100644
+index 3080307..07d29ed 100644
 --- a/drivers/pinctrl/intel/Makefile
 +++ b/drivers/pinctrl/intel/Makefile
 @@ -5,4 +5,5 @@ obj-$(CONFIG_PINCTRL_CHERRYVIEW)	+= pinctrl-cherryview.o
  obj-$(CONFIG_PINCTRL_MERRIFIELD)	+= pinctrl-merrifield.o
  obj-$(CONFIG_PINCTRL_INTEL)		+= pinctrl-intel.o
  obj-$(CONFIG_PINCTRL_BROXTON)		+= pinctrl-broxton.o
-+obj-$(CONFIG_PINCTRL_DENVERTON)		+= pinctrl-denverton.o 
++obj-$(CONFIG_PINCTRL_DENVERTON)		+= pinctrl-denverton.o
  obj-$(CONFIG_PINCTRL_SUNRISEPOINT)	+= pinctrl-sunrisepoint.o
 diff --git a/drivers/pinctrl/intel/pinctrl-denverton.c b/drivers/pinctrl/intel/pinctrl-denverton.c
 new file mode 100644
@@ -357,5 +358,5 @@ index 0000000..4500880
 +MODULE_DESCRIPTION("Intel Denverton SoC pinctrl/GPIO driver");
 +MODULE_LICENSE("GPL v2");
 -- 
-2.5.2
+2.7.4
 

@@ -1,7 +1,7 @@
-From 5ec0029c1b95599ffcd5152b6db5f4c107748e13 Mon Sep 17 00:00:00 2001
+From 808ea05c355ee7643209cb2fcbc7cca40e0857cb Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
-Date: Tue, 5 Dec 2017 14:19:46 -0600
-Subject: [PATCH 15/16] mtd: spi-nor: intel-spi: Add support for Intel Cedar
+Date: Thu, 15 Feb 2018 10:57:50 -0600
+Subject: [PATCH 16/17] mtd: spi-nor: intel-spi: Add support for Intel Cedar
  Fork SPI serial flash
 
 Intel Cedar Fork has the same SPI serial flash controller than Intel
@@ -10,7 +10,7 @@ supported devices.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Signed-off-by: Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>
-(cherry picked from commit 824af37ef2d054d1f89bd2b9125755a4acc37332)
+(back ported from 824af37ef2d054d1f89bd2b9125755a4acc37332)
 Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  drivers/mtd/spi-nor/intel-spi-pci.c | 1 +
@@ -29,5 +29,5 @@ index e826523..d5d72e7 100644
  	{ },
  };
 -- 
-2.5.2
+2.7.4
 

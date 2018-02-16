@@ -1,7 +1,7 @@
-From 3dd1594656ca80ee0752094d7737a23de7a7f0d0 Mon Sep 17 00:00:00 2001
+From 1651f850aaf288f522b329751c0253a68073166c Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
-Date: Wed, 22 Nov 2017 15:30:35 -0600
-Subject: [PATCH 14/16] pinctrl: intel: Add Intel Cedar Fork PCH pin controller
+Date: Thu, 15 Feb 2018 10:54:24 -0600
+Subject: [PATCH 15/17] pinctrl: intel: Add Intel Cedar Fork PCH pin controller
  support
 
 Intel Cedar Fork PCH is the successor of Intel Denverton PCH but it is
@@ -9,6 +9,8 @@ based on the newer GPIO/pinctrl hardware block. Add a new pinctrl/GPIO
 driver to support it.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+(back ported from 0f80dbc133e3ebf82766b5276d8d0fe998a6f0db)
 Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  drivers/pinctrl/intel/Kconfig             |   8 +
@@ -37,14 +39,15 @@ index e95930c..1bfa7ea 100644
  	tristate "Intel Denverton pinctrl and GPIO driver"
  	depends on ACPI
 diff --git a/drivers/pinctrl/intel/Makefile b/drivers/pinctrl/intel/Makefile
-index 1421e36..04c7dbb 100644
+index 07d29ed..f9648a8 100644
 --- a/drivers/pinctrl/intel/Makefile
 +++ b/drivers/pinctrl/intel/Makefile
-@@ -6,4 +6,5 @@ obj-$(CONFIG_PINCTRL_MERRIFIELD)	+= pinctrl-merrifield.o
+@@ -5,5 +5,6 @@ obj-$(CONFIG_PINCTRL_CHERRYVIEW)	+= pinctrl-cherryview.o
+ obj-$(CONFIG_PINCTRL_MERRIFIELD)	+= pinctrl-merrifield.o
  obj-$(CONFIG_PINCTRL_INTEL)		+= pinctrl-intel.o
  obj-$(CONFIG_PINCTRL_BROXTON)		+= pinctrl-broxton.o
- obj-$(CONFIG_PINCTRL_DENVERTON)		+= pinctrl-denverton.o 
 +obj-$(CONFIG_PINCTRL_CEDARFORK)		+= pinctrl-cedarfork.o
+ obj-$(CONFIG_PINCTRL_DENVERTON)		+= pinctrl-denverton.o
  obj-$(CONFIG_PINCTRL_SUNRISEPOINT)	+= pinctrl-sunrisepoint.o
 diff --git a/drivers/pinctrl/intel/pinctrl-cedarfork.c b/drivers/pinctrl/intel/pinctrl-cedarfork.c
 new file mode 100644
@@ -428,5 +431,5 @@ index 0000000..59216b0
 +MODULE_DESCRIPTION("Intel Cedar Fork PCH pinctrl/GPIO driver");
 +MODULE_LICENSE("GPL v2");
 -- 
-2.5.2
+2.7.4
 

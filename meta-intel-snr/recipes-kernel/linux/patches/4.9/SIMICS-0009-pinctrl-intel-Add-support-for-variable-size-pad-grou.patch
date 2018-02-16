@@ -1,7 +1,7 @@
-From f68b6852f1accff20861adbf5efbec11abf3b6b0 Mon Sep 17 00:00:00 2001
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-Date: Tue, 6 Jun 2017 16:18:17 +0300
-Subject: [PATCH 08/16] pinctrl: intel: Add support for variable size pad
+From 16e139b6f85ea4d9f362af946e6a3494f5bce735 Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Thu, 15 Feb 2018 09:45:24 -0600
+Subject: [PATCH 09/17] pinctrl: intel: Add support for variable size pad
  groups
 
 The Intel GPIO hardware has a concept of pad groups, which means 1 to 32
@@ -26,6 +26,8 @@ Signed-off-by: Chuah, Kim Tatt <kim.tatt.chuah@intel.com>
 Signed-off-by: Tan Jui Nee <jui.nee.tan@intel.com>
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+(cherry picked from 919eb4756ef41fd71b5eaae8a2a067fcde9d44d7)
+Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  drivers/pinctrl/intel/pinctrl-intel.c        | 194 ++++++++++++++++++++-------
  drivers/pinctrl/intel/pinctrl-intel.h        |  37 ++++-
@@ -33,7 +35,7 @@ Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
  3 files changed, 176 insertions(+), 56 deletions(-)
 
 diff --git a/drivers/pinctrl/intel/pinctrl-intel.c b/drivers/pinctrl/intel/pinctrl-intel.c
-index bad8c2e..ccd864b 100644
+index ce2e628..7472059 100644
 --- a/drivers/pinctrl/intel/pinctrl-intel.c
 +++ b/drivers/pinctrl/intel/pinctrl-intel.c
 @@ -117,6 +117,7 @@ struct intel_pinctrl {
@@ -50,7 +52,7 @@ index bad8c2e..ccd864b 100644
  
 +static const struct intel_padgroup *
 +intel_community_get_padgroup(const struct intel_community *community,
-+			     unsigned pin)
++			     unsigned int pin)
 +{
 +	int i;
 +
@@ -73,7 +75,7 @@ index bad8c2e..ccd864b 100644
  	const struct intel_community *community;
 -	unsigned padno, gpp, offset, group;
 +	const struct intel_padgroup *padgrp;
-+	unsigned gpp, offset, gpp_offset;
++	unsigned int gpp, offset, gpp_offset;
  	void __iomem *padown;
  
  	community = intel_get_community(pctrl, pin);
@@ -103,7 +105,7 @@ index bad8c2e..ccd864b 100644
  	const struct intel_community *community;
 -	unsigned padno, gpp, offset;
 +	const struct intel_padgroup *padgrp;
-+	unsigned offset, gpp_offset;
++	unsigned int offset, gpp_offset;
  	void __iomem *hostown;
  
  	community = intel_get_community(pctrl, pin);
@@ -131,7 +133,7 @@ index bad8c2e..ccd864b 100644
  	struct intel_community *community;
 -	unsigned padno, gpp, offset;
 +	const struct intel_padgroup *padgrp;
-+	unsigned offset, gpp_offset;
++	unsigned int offset, gpp_offset;
  	u32 value;
  
  	community = intel_get_community(pctrl, pin);
@@ -179,7 +181,7 @@ index bad8c2e..ccd864b 100644
 -		unsigned gpp_offset = padno % community->gpp_size;
 -		unsigned gpp = padno / community->gpp_size;
 +		const struct intel_padgroup *padgrp;
-+		unsigned gpp, gpp_offset;
++		unsigned int gpp, gpp_offset;
 +
 +		padgrp = intel_community_get_padgroup(community, pin);
 +		if (!padgrp)
@@ -212,7 +214,7 @@ index bad8c2e..ccd864b 100644
 -		unsigned gpp_offset = padno % gpp_size;
 -		unsigned gpp = padno / gpp_size;
 +		const struct intel_padgroup *padgrp;
-+		unsigned gpp, gpp_offset;
++		unsigned int gpp, gpp_offset;
 +		unsigned long flags;
  		u32 value;
  
@@ -251,7 +253,7 @@ index bad8c2e..ccd864b 100644
 -		unsigned gpp_offset = padno % community->gpp_size;
 -		unsigned gpp = padno / community->gpp_size;
 +		const struct intel_padgroup *padgrp;
-+		unsigned gpp, gpp_offset;
++		unsigned int gpp, gpp_offset;
 +		unsigned long flags;
  		void __iomem *reg;
  		u32 value;
@@ -316,8 +318,8 @@ index bad8c2e..ccd864b 100644
 +				       struct intel_community *community)
 +{
 +	struct intel_padgroup *gpps;
-+	unsigned npins = community->npins;
-+	unsigned padown_num = 0;
++	unsigned int npins = community->npins;
++	unsigned int padown_num = 0;
 +	size_t ngpps, i;
 +
 +	if (community->gpps)
@@ -333,7 +335,7 @@ index bad8c2e..ccd864b 100644
 +		if (community->gpps) {
 +			gpps[i] = community->gpps[i];
 +		} else {
-+			unsigned gpp_size = community->gpp_size;
++			unsigned int gpp_size = community->gpp_size;
 +
 +			gpps[i].reg_num = i;
 +			gpps[i].base = community->pin_base + i * gpp_size;
@@ -379,7 +381,7 @@ index bad8c2e..ccd864b 100644
  
  	irq = platform_get_irq(pdev, 0);
 diff --git a/drivers/pinctrl/intel/pinctrl-intel.h b/drivers/pinctrl/intel/pinctrl-intel.h
-index fe9521f..b251a9e 100644
+index c69e852..277b296 100644
 --- a/drivers/pinctrl/intel/pinctrl-intel.h
 +++ b/drivers/pinctrl/intel/pinctrl-intel.h
 @@ -44,6 +44,23 @@ struct intel_function {
@@ -396,10 +398,10 @@ index fe9521f..b251a9e 100644
 + * to specify them.
 + */
 +struct intel_padgroup {
-+	unsigned reg_num;
-+	unsigned base;
-+	unsigned size;
-+	unsigned padown_num;
++	unsigned int reg_num;
++	unsigned int base;
++	unsigned int size;
++	unsigned int padown_num;
 +};
 +
 +/**
@@ -436,9 +438,9 @@ index fe9521f..b251a9e 100644
  	unsigned ie_offset;
  	unsigned pin_base;
  	unsigned gpp_size;
-+	unsigned gpp_num_padown_regs;
++	unsigned int gpp_num_padown_regs;
  	size_t npins;
- 	unsigned features;
+ 	unsigned int features;
 +	const struct intel_padgroup *gpps;
 +	size_t ngpps;
 +	/* Reserved for the core driver */
@@ -461,5 +463,5 @@ index 9877526..8870a41 100644
  		.npins = ((e) - (s) + 1),		\
  	}
 -- 
-2.5.2
+2.7.4
 
