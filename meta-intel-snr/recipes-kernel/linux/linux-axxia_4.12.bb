@@ -5,12 +5,13 @@ FILESEXTRAPATHS_prepend := "\
 require recipes-kernel/linux/linux-yocto.inc
 
 KV = "4.12"
-LINUX_VERSION_axxiax86-64 = "4.12.18"
+LINUX_VERSION_axxiax86-64 = "4.12.19"
 LINUX_KERNEL_TYPE = "standard"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
-KBRANCH_axxiax86-64 = "standard/axxia/base"
-SRCREV_machine_axxiax86-64 = "${AUTOREV}"
+KBRANCH_axxiax86-64 = "standard/base"
+SRCREV_machine_axxiax86-64 = "4b7a5c1b4ec5536806942340755bcfbf6f3584d9"
+
 KMETA_axxiax86-64 = ""
 
 # "simics" for simulation system or "frio" for FPGA emulation system
@@ -24,17 +25,8 @@ file://SIMICS-0004-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch \
 file://SIMICS-0005-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch \
 "
 
-FRIO_PATCHES = " \
-file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
-file://FRIO-0002-pci-driver-HACK-reassign-Altera-FPGAs-if-they-have-n.patch \
-file://FRIO-0003-pci-driver-HACK-hardcode-size-of-bridge-window-to-NC.patch \
-file://FRIO-0004-pci-driver-HACK-don-t-allocate-additional-bridge-win.patch \
-file://FRIO-0005-pci-driver-HACK-merge-for-Altera.patch \
-"
-
 KREPO_KERNEL = "git://git@github.com/axxia/axxia_yocto_linux_4.12_private.git;protocol=ssh"
 SRC_URI_axxiax86-64 = "${KREPO_KERNEL};name=machine;branch=${KBRANCH} \
-	${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
 	${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
 	file://defconfig \
 	"
