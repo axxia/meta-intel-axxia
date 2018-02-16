@@ -14,8 +14,15 @@ LINUX_VERSION = "4.9.78"
 LINUX_KERNEL_TYPE = "standard"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
-KBRANCH = "standard/axxia-dev/base"
-SRCREV_machine = "${AUTOREV}"
+KBRANCH_axxiapowerpc = "standard/axxia-dev/base"
+SRCREV_machine_axxiapowerpc = "2f7873ff3f4662964ab91caaa245511e25f5a426"
+KBRANCH_axxiaarm = "standard/axxia-dev/base"
+SRCREV_machine_axxiaarm = "2f7873ff3f4662964ab91caaa245511e25f5a426"
+KBRANCH_axxiaarm64 = "standard/axxia-dev/base"
+SRCREV_machine_axxiaarm64 = "2f7873ff3f4662964ab91caaa245511e25f5a426"
+KBRANCH_axxiax86-64 = "standard/base"
+SRCREV_machine_axxiax86-64 = "f7a6d45fff853173bfbf61706aeffcd1d1e99467"
+
 KMETA = ""
 
 # "simics" for simulation system or "frio" for FPGA emulation system

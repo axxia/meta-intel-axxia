@@ -14,8 +14,15 @@ LINUX_VERSION = "4.9.78"
 LINUX_KERNEL_TYPE = "preempt-rt"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
-KBRANCH = "standard/preempt-rt/axxia-dev/base"
-SRCREV_machine = "${AUTOREV}"
+KBRANCH_axxiapowerpc = "standard/preempt-rt/axxia-dev/base"
+SRCREV_machine_axxiapowerpc = "502594d8adafa4eec6258cfa75329d32448fb918"
+KBRANCH_axxiaarm = "standard/preempt-rt/axxia-dev/base"
+SRCREV_machine_axxiaarm = "502594d8adafa4eec6258cfa75329d32448fb918"
+KBRANCH_axxiaarm64 = "standard/preempt-rt/axxia-dev/base"
+SRCREV_machine_axxiaarm64 = "502594d8adafa4eec6258cfa75329d32448fb918"
+KBRANCH_axxiax86-64 = "standard/preempt-rt/base"
+SRCREV_machine_axxiax86-64 = "a00bc26b1d4fa49b71dc8f9de046534d4a330647"
+
 KMETA = ""
 
 # "simics" for simulation system or "frio" for FPGA emulation system

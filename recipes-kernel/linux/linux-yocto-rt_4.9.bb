@@ -14,9 +14,16 @@ LINUX_VERSION = "4.9.78"
 LINUX_KERNEL_TYPE = "preempt-rt"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
-KBRANCH = "standard/preempt-rt/base"
+KBRANCH_axxiapowerpc = "standard/preempt-rt/axxia/base"
+SRCREV_machine_axxiapowerpc = "d9ef095b95a9b9da3a74122c536c4dd959acf5fa"
+KBRANCH_axxiaarm = "standard/preempt-rt/axxia/base"
+SRCREV_machine_axxiaarm = "d9ef095b95a9b9da3a74122c536c4dd959acf5fa"
+KBRANCH_axxiaarm64 = "standard/preempt-rt/axxia/base"
+SRCREV_machine_axxiaarm64 = "d9ef095b95a9b9da3a74122c536c4dd959acf5fa"
+KBRANCH_axxiax86-64 = "standard/preempt-rt/base"
+SRCREV_machine_axxiax86-64 = "a00bc26b1d4fa49b71dc8f9de046534d4a330647"
+
 KMETA = "kernel-meta"
-SRCREV_machine = "d2a54ff45e6c5e9b9a3c47ff5675622859f1f1a4"
 SRCREV_meta = "a00bc26b1d4fa49b71dc8f9de046534d4a330647"
 
 # skip yocto-kernel-cache for axxiax86_64 to use full defconfig untill we'll have fragments upstream
