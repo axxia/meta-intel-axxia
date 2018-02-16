@@ -253,8 +253,6 @@ a. Yocto Project Source repositories (git.yoctoproject.org)
    will build from Yocto repos:
    4.1: http://git.yoctoproject.org/git/linux-yocto-4.1
         standard/axxia/base or standard/preempt-rt/axxia/base branch
-   4.8: http://git.yoctoproject.org/git/linux-yocto-4.8 
-        standard/base or standard/preempt-rt/base branch
    4.9: http://git.yoctoproject.org/git/linux-yocto-4.9 
         standard/axxia/base or standard/preempt-rt/axxia/base branch
 
@@ -270,21 +268,16 @@ b. Private Axxia Github (github.com/axxia)
    public key):
    4.1: git@github.com:axxia/axxia_yocto_linux_4.1_private.git
         standard/axxia-dev/base or standard/preempt-rt/axxia/base branch
-   4.8: git@github.com:axxia/axxia_yocto_linux_4.8_private.git
-        standard/axxia-dev/base or standard/preempt-rt/axxia/base branch
    4.9: git@github.com:axxia/axxia_yocto_linux_4.9_private.git
         standard/axxia-dev/base or standard/preempt-rt/axxia/base branch
 
 9.7 Select the kernel version:
 
 NOTE: axxiaarm and axxiaarm64 are available with linux 4.1 and 4.9
-      axxiax86_64 is available with linux 4.8 and 4.9
+      axxiax86_64 is available with linux 4.9
 
    for 4.1, depending on PREFERRED_PROVIDER_virtual/kernel
    PREFERRED_VERSION_<preferred-provider> = "4.1%"
-
-   for 4.8, depending on PREFERRED_PROVIDER_virtual/kernel
-   PREFERRED_VERSION_<preferred-provider> = "4.8%"
 
    for 4.9, depending on PREFERRED_PROVIDER_virtual/kernel
    PREFERRED_VERSION_<preferred-provider>= "4.9%"
@@ -484,7 +477,7 @@ CONF_VERSION = "1"
 
 MACHINE = "axxiax86-64"
 PREFERRED_PROVIDER_virtual/kernel = "linux-axxia"
-PREFERRED_VERSION_linux-axxia = "4.8%"
+PREFERRED_VERSION_linux-axxia = "4.9%"
 DISTRO = "axxia"
 PACKAGE_CLASSES ?= "package_rpm"
 EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
