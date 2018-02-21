@@ -39,6 +39,7 @@ lttng-ust \
 lttng-ust-dev \
 netcat \
 netkit-tftp-client \
+net-tools \
 numactl \
 openssh \
 openssh-sftp \
