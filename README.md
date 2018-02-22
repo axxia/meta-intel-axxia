@@ -39,10 +39,6 @@ to Yocto, but may not have been accepted yet.
 
 git clone https://github.com/axxia/meta-intel-axxia.git
 
-In all cases, use the 'rocko' branch. The commit used as HEAD for a
-particular release will be listed in the release notes.
-
-
 Dependencies
 ============
 
@@ -83,80 +79,81 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    at least 50Gb of free space. Next set an environment variable, YOCTO,
    to the full path.
 
-   $ cd $HOME
-   $ df -h .  # verify output shows adequate space available
-   $ mkdir yocto
-   $ cd yocto
-   $ export YOCTO=$HOME/yocto # should also add this to your ~/.bashrc file. 
+   $ cd $HOME\
+   $ df -h .  # verify output shows adequate space available\
+   $ mkdir yocto\
+   $ cd yocto\
+   $ export YOCTO=$HOME/yocto # should also add this to your ~/.bashrc file.
 
 2. Clone the Yocto Project build tools (Poky) environment.
 
-   $ cd $YOCTO
-   $ git clone git://git.yoctoproject.org/poky.git
-   $ cd poky
-   $ git checkout rocko
+   $ cd $YOCTO\
+   $ git clone git://git.yoctoproject.org/poky.git\
+   $ cd poky\
+   $ git checkout 50189fdf620bc9ca42065998ce8c5a796ad8c331
 
 3. Clone the Axxia meta layer. This provides meta data for building
    images for the Axxia specific board types.  See 'Sources' above to
    select the right meta-intel-axxia repository, branch, and version.
 
-   $ cd $YOCTO/poky
-   $ <the git clone command chosen above>
-   $ cd meta-intel-axxia
-   $ git checkout rocko
+   $ cd $YOCTO/poky\
+   $ (the git clone command chosen above)\
+   $ cd meta-intel-axxia\
+   $ git checkout tags/snr_delivery10_linux4_12
 
 4. The Open Embedded project provides many useful layers and packages
    such as networking. Download the Open Embedded Yocto Project hosted
    repository with the following.
 
-   $ cd $YOCTO/poky
-   $ git clone https://github.com/openembedded/meta-openembedded.git
-   $ cd meta-openembedded
-   $ git checkout rocko
+   $ cd $YOCTO/poky\
+   $ git clone https://github.com/openembedded/meta-openembedded.git\
+   $ cd meta-openembedded\
+   $ git checkout a65c1acb1822966c3553de9fc98d8bb6be705c4e
 
 5. Clone Yocto Virtualization Layer which provides packages for
    virtualization such as Linux Container Support (lxc).
 
-   $ git clone git://git.yoctoproject.org/meta-virtualization
-   $ cd $YOCTO/poky
-   $ cd meta-virtualization
-   $ git checkout rocko
+   $ cd $YOCTO/poky\
+   $ git clone git://git.yoctoproject.org/meta-virtualization\
+   $ cd $YOCTO/poky\
+   $ cd meta-virtualization\
+   $ git checkout 4277759428e96605b8dbe95a43891e217ae8d399
 
 6. Clone the Intel meta layer. This provides Intel hardware support 
    metadata which are inherited in axxiax86-64 BSP.
 
-   $ cd $YOCTO/poky
-   $ git clone git://git.yoctoproject.org/meta-intel
-   $ cd meta-intel
-   $ git checkout rocko
+   $ cd $YOCTO/poky\
+   $ git clone git://git.yoctoproject.org/meta-intel\
+   $ cd meta-intel\
+   $ git checkout 49187e370e7d5370c7adc5a6f1b721b950667113
 
 7. Create the build directory. The name is optional and will default
    to 'build', however it helps to choose a name to match the board
    type. For example, we will use axxia.
 
-   $ cd $YOCTO
-   $ source poky/meta-intel-axxia/axxia-env
+   $ cd $YOCTO\
+   $ source poky/meta-intel-axxia/axxia-env\
    $ source poky/oe-init-build-env axxia
 
 8. Edit the conf/bblayers.conf file
 
-   $ pwd (you should be at $YOCTO/axxia)
+   $ pwd (you should be at $YOCTO/axxia)\
    $ vi conf/bblayers.conf
 
 Edit BBLAYERS variable as follows. Replace references to $YOCTO below with the
 actual value you provided in step 1.
 
-   BBLAYERS ?= " \
-            $YOCTO/poky/meta \
-            $YOCTO/poky/meta-poky \
-            $YOCTO/poky/meta-openembedded/meta-oe \
-            $YOCTO/poky/meta-openembedded/meta-python \
-            $YOCTO/poky/meta-openembedded/meta-networking \
-            $YOCTO/poky/meta-openembedded/meta-filesystems \
-            $YOCTO/poky/meta-virtualization \
-            $YOCTO/poky/meta-intel \
-            $YOCTO/poky/meta-intel-axxia \
-            $YOCTO/poky/meta-intel-axxia/meta-intel-snr \
+   BBLAYERS ?= " \\\
+            $YOCTO/poky/meta \\\
+            $YOCTO/poky/meta-poky \\\
+            $YOCTO/poky/meta-openembedded/meta-oe \\\
+            $YOCTO/poky/meta-openembedded/meta-python \\\
+            $YOCTO/poky/meta-openembedded/meta-networking \\\
+            $YOCTO/poky/meta-openembedded/meta-filesystems \\\
+            $YOCTO/poky/meta-virtualization \\\
+            $YOCTO/poky/meta-intel \\\
+            $YOCTO/poky/meta-intel-axxia \\\
+            $YOCTO/poky/meta-intel-axxia/meta-intel-snr \\\
             "
 
 9. Edit the conf/local.conf file:
@@ -216,12 +213,12 @@ b. Private Axxia Github (github.com/axxia)
 9.5 Select the kernel version:
 
    for 4.9, depending on PREFERRED_PROVIDER_virtual/kernel
-   PREFERRED_VERSION_<preferred-provider>= "4.9%"
+   PREFERRED_VERSION_(preferred-provider)= "4.9%"
 
    for 4.12, depending on PREFERRED_PROVIDER_virtual/kernel
-   PREFERRED_VERSION_<preferred-provider>= "4.12%"
+   PREFERRED_VERSION_(preferred-provider)= "4.12%"
 
-NOTE: <preferred-provider> can be linux-yocto, linux-yocto-rt,
+NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
       linux-axxia, linux-axxia-rt. See  9.5.
 
 9.6 Choose the System where the image will run between simulation and 
@@ -240,8 +237,8 @@ NOTE: <preferred-provider> can be linux-yocto, linux-yocto-rt,
 
 9.8 Other optional settings for saving disk space and build time:
    
-   DL_DIR = "/<some-shared-location>/downloads"
-   SSTATE_DIR = "/<some-shared-location>/sstate-cache
+   DL_DIR = "/(some-shared-location)/downloads"
+   SSTATE_DIR = "/(some-shared-location)/sstate-cache
 
 9.9 Examples.
 
@@ -275,7 +272,7 @@ CONF_VERSION = "1"
 
 10. Select the image type and start the build
    $ cd $YOCTO/axxia
-   $ bitbake <image type>
+   $ bitbake (image type)
 
 Available root filesystem types:
    * axxia-image-small 
@@ -298,13 +295,13 @@ the output directory 'tmp/deploy/images/$MACHINE'.
 
 11. Images generated:
 
-* <image type>-<machine name>.ext2 (rootfs in EXT2 format)
-* <image type>-<machine name>.ext4 (rootfs in EXT4 format)
-* <image type>-<machine name>.tar.gz (rootfs in tar+GZIP format)
-* <image type>-<machine name>.hddimg (rootfs in hddimg format)
-* <image type>-<machine name>.wic (rootfs in wic format)
-* modules-<machine name>.tgz (modules in tar+GZIP format)
-* bzImage and bzImage-<machine name> (Linux Kernel binary)
+* (image type)-(machine name).ext2 (rootfs in EXT2 format)
+* (image type)-(machine name).ext4 (rootfs in EXT4 format)
+* (image type)-(machine name).tar.gz (rootfs in tar+GZIP format)
+* (image type)-(machine name).hddimg (rootfs in hddimg format)
+* (image type)-(machine name).wic (rootfs in wic format)
+* modules-(machine name).tgz (modules in tar+GZIP format)
+* bzImage and bzImage-(machine name) (Linux Kernel binary)
 
 12. Build and install the SDK:
 
@@ -321,7 +318,7 @@ After the installation completes, do the following.
 
 12.1 libnl Links
 
-At present, no links get created in <sysroot>/usr/lib for the expected
+At present, no links get created in (sysroot)/usr/lib for the expected
 names of the netlink libraries.  DPDK, for example, expects
 libnl-3.so, but the SDK has libnl-3.so.200 (which is a link to the
 actual library, libnl-3.so.200.23.0 etc.).  Fix this as follows.
@@ -346,7 +343,7 @@ glibc on the Linux host that the SDK install script was executed on
 are expected.  To use an older version, simply do the following on the
 older Linux host.
 
-source <install directory>/environment-setup*
+source (install directory)/environment-setup*
 cd $SYSROOT/usr/src/kernel
 make clean silentoldconfig scripts
 
@@ -356,7 +353,7 @@ When in the simics environment, the 'craff' utility should be
 available.  Use 'craff' to create .craff images from the .hddimg
 images as follows.
 
-craff -o <craff image> <Yocto .hddimg>
+craff -o (craff image) (Yocto .hddimg)
 
 
 Guidelines for submitting patches
@@ -373,15 +370,15 @@ When creating patches, please use something like:
     git format-patch -s --subject-prefix='meta-intel-axxia][PATCH' origin
 
 When sending patches, please use something like:
-    git send-email --to meta-lsi@yoctoproject.org --cc <maintainers>
-		      <generated patch>
+    git send-email --to meta-lsi@yoctoproject.org --cc (maintainers)
+		      (generated patch)
 
 
 Maintenance
 ===========
 
-Maintainers: Daniel Dragomir <daniel.dragomir@windriver.com>
-	     John Jacques <john.jacques@intel.com>
+Maintainers: Daniel Dragomir (daniel.dragomir@windriver.com)
+	     John Jacques (john.jacques@intel.com)
 
 Please see the meta-intel-axxia/MAINTAINERS file for more details.
 
