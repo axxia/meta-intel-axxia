@@ -69,10 +69,6 @@ For changes accepted by the Yocto project, use the following.
 
 git clone git://git.yoctoproject.org/meta-axxia
 
-In all cases, use the 'morty' branch. The commit used as HEAD for a
-particular release will be listed in the release notes.
-
-
 Dependencies
 ============
 
@@ -116,78 +112,79 @@ device-tree-compiler (dtc)
    at least 50Gb of free space. Next set an environment variable, YOCTO,
    to the full path.
 
-   $ cd $HOME
-   $ df -h .  # verify output shows adequate space available
-   $ mkdir yocto
-   $ cd yocto
-   $ export YOCTO=$HOME/yocto # should also add this to your ~/.bashrc file. 
+   $ cd $HOME\
+   $ df -h .  # verify output shows adequate space available\
+   $ mkdir yocto\
+   $ cd yocto\
+   $ export YOCTO=$HOME/yocto # should also add this to your ~/.bashrc file.
 
 2. Clone the Yocto Project build tools (Poky) environment.
 
-   $ cd $YOCTO
-   $ git clone git://git.yoctoproject.org/poky.git
-   $ cd poky
-   $ git checkout morty
+   $ cd $YOCTO\
+   $ git clone git://git.yoctoproject.org/poky.git\
+   $ cd poky\
+   $ git checkout morty a845564a1af78ae9632db80143a2cca390db794c
 
 3. Clone the Axxia meta layer. This provides meta data for building
    images for the Axxia specific board types.  See 'Sources' above to
    select the right meta-axxia repository, branch, and version.
 
-   $ cd $YOCTO/poky
-   $ <the git clone command chosen above>
-   $ cd meta-axxia
-   $ git checkout morty
+   $ cd $YOCTO/poky\
+   $ (the git clone command chosen above)\
+   $ cd meta-axxia\
+   $ git checkout tags/snr_delivery10_linux4_9
 
 4. The Open Embedded project provides many useful layers and packages
    such as networking. Download the Open Embedded Yocto Project hosted
    repository with the following.
 
-   $ cd $YOCTO/poky
-   $ git clone https://github.com/openembedded/meta-openembedded.git
-   $ cd meta-openembedded
-   $ git checkout morty
+   $ cd $YOCTO/poky\
+   $ git clone https://github.com/openembedded/meta-openembedded.git\
+   $ cd meta-openembedded\
+   $ git checkout morty b40116cf457b88a2db14b86fda9627fb34d56ae6
 
 5. Clone Yocto Virtualization Layer which provides packages for
    virtualization such as Linux Container Support (lxc).
 
-   $ git clone git://git.yoctoproject.org/meta-virtualization
-   $ cd $YOCTO/poky
-   $ cd meta-virtualization
-   $ git checkout morty
+   $ cd $YOCTO/poky\
+   $ git clone git://git.yoctoproject.org/meta-virtualization\
+   $ cd $YOCTO/poky\
+   $ cd meta-virtualization\
+   $ git checkout morty eb6b5129561eda9ea1f47e85ab9ed9e5a6b8f64c
 
 6. Clone the Intel meta layer. This provides Intel hardware support 
    metadata which are inherited in axxiax86-64 BSP.
 
-   $ cd $YOCTO/poky
-   $ git clone git://git.yoctoproject.org/meta-intel
-   $ cd meta-intel
-   $ git checkout morty
+   $ cd $YOCTO/poky\
+   $ git clone git://git.yoctoproject.org/meta-intel\
+   $ cd meta-intel\
+   $ git checkout morty c781510a5a6b45e60cc32b6614ddcce3f1452121
 
 7. Create the build directory. The name is optional and will default
    to 'build', however it helps to choose a name to match the board
    type. For example, we will use axxia.
 
-   $ cd $YOCTO
-   $ source poky/meta-axxia/axxia-env
+   $ cd $YOCTO\
+   $ source poky/meta-axxia/axxia-env\
    $ source poky/oe-init-build-env axxia
 
 8. Edit the conf/bblayers.conf file
 
-   $ pwd (you should be at $YOCTO/axxia)
+   $ pwd (you should be at $YOCTO/axxia)\
    $ vi conf/bblayers.conf
 
 Edit BBLAYERS variable as follows. Replace references to $YOCTO below with the
 actual value you provided in step 1.
 
-   BBLAYERS ?= " \
-            $YOCTO/poky/meta \
-            $YOCTO/poky/meta-poky \
-            $YOCTO/poky/meta-openembedded/meta-oe \
-            $YOCTO/poky/meta-openembedded/meta-python \
-            $YOCTO/poky/meta-openembedded/meta-networking \
-            $YOCTO/poky/meta-virtualization \
-            $YOCTO/poky/meta-intel \
-            $YOCTO/poky/meta-axxia \
+   BBLAYERS ?= " \\\
+            $YOCTO/poky/meta \\\
+            $YOCTO/poky/meta-poky \\\
+            $YOCTO/poky/meta-openembedded/meta-oe \\\
+            $YOCTO/poky/meta-openembedded/meta-python \\\
+            $YOCTO/poky/meta-openembedded/meta-networking \\\
+            $YOCTO/poky/meta-virtualization \\\
+            $YOCTO/poky/meta-intel \\\
+            $YOCTO/poky/meta-axxia \\\
             "
 
 9. Edit the conf/local.conf file:
@@ -277,12 +274,12 @@ NOTE: axxiaarm and axxiaarm64 are available with linux 4.1 and 4.9
       axxiax86_64 is available with linux 4.9
 
    for 4.1, depending on PREFERRED_PROVIDER_virtual/kernel
-   PREFERRED_VERSION_<preferred-provider> = "4.1%"
+   PREFERRED_VERSION_(preferred-provider) = "4.1%"
 
    for 4.9, depending on PREFERRED_PROVIDER_virtual/kernel
-   PREFERRED_VERSION_<preferred-provider>= "4.9%"
+   PREFERRED_VERSION_(preferred-provider)= "4.9%"
 
-NOTE: <preferred-provider> can be linux-yocto, linux-yocto-rt,
+NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
       linux-axxia, linux-axxia-rt. See  9.5.
 
 
@@ -326,8 +323,8 @@ e. Regression testing (axxiaarm and axxiaarm64 only):
     TESTING = "yes"
 
 f. Chip specific options (for axxiaarm64):
-    CHIPSET = "X9" -> add X9 specific kernel options
-    CHIPSET = "XLF" -> add XLF specific kernel options
+    CHIPSET = "X9" -) add X9 specific kernel options
+    CHIPSET = "XLF" -) add XLF specific kernel options
 
 Note: CHIPSET variable is also used for fine tuning (see 7.9) and to choose the
 proper defconfig for Github builds (see 7.7).
@@ -337,30 +334,30 @@ proper defconfig for Github builds (see 7.7).
     variable. Features and flags for each tune are defined bellow:
 
 - for axxiaarm:
-    - CHIPSET = "5500" (DEFAULT) -> default tune: cortexa15-neon
+    - CHIPSET = "5500" (DEFAULT) -) default tune: cortexa15-neon
         - TUNE_FEATURES = "arm armv7ve vfp  neon"
         - CFLAGS = "arm-poky-linux-gnueabi-gcc  -march=armv7ve -mfpu=neon
                     -mfloat-abi=softfp 
 
-    - CHIPSET = "X9" -> default tune: cortexa57_32-crypto
+    - CHIPSET = "X9" -) default tune: cortexa57_32-crypto
         - TUNE_FEATURES = "arm aarch32 neon fp-armv8 callconvention-hard 
                            crypto  cortexa57"
         - CFLAGS = "arm-poky-linux-gnueabi-gcc  -mfpu=crypto-neon-fp-armv8  
                     -mfloat-abi=hard -mcpu=cortex-a57 -mtune=cortex-a57"
 
-    - CHIPSET = "XLF" -> default tune: cortexa53_32-crypto
+    - CHIPSET = "XLF" -) default tune: cortexa53_32-crypto
         - TUNE_FEATURES = "arm aarch32 neon fp-armv8 callconvention-hard 
                            crypto  cortexa53"
         - CFLAGS = "arm-poky-linux-gnueabi-gcc  -mfpu=crypto-neon-fp-armv8 
                     -mfloat-abi=hard -mcpu=cortex-a53 -mtune=cortex-a53"
 
 - for axxiaarm64:
-    - CHIPSET = "X9" (DEFAULT) -> default tune: cortexa57_64-crypto
+    - CHIPSET = "X9" (DEFAULT) -) default tune: cortexa57_64-crypto
         - TUNE_FEATURES = "aarch64 crypto cortexa57"
         - CFLAGS = "aarch64-poky-linux-gcc  -march=armv8-a+crypto 
                     -mcpu=cortex-a57+crypto -mtune=cortex-a57"
 
-    - CHIPSET = "XLF" -> default tune: cortexa53_64-crypto
+    - CHIPSET = "XLF" -) default tune: cortexa53_64-crypto
         - TUNE_FEATURES = "aarch64 crypto cortexa53"
         - CFLAGS = "aarch64-poky-linux-gcc  -march=armv8-a+crypto 
                     -mcpu=cortex-a53+crypto -mtune=cortex-a53"
@@ -409,8 +406,8 @@ NOTE: You can boot the resulting 32-bit RootFS with a 64-bit Kernel
 
 9.12 Other optional settings for saving disk space and build time:
    
-   DL_DIR = "/<some-shared-location>/downloads"
-   SSTATE_DIR = "/<some-shared-location>/sstate-cache
+   DL_DIR = "/(some-shared-location)/downloads"
+   SSTATE_DIR = "/(some-shared-location)/sstate-cache
 
 9.13 Examples.
 
@@ -498,7 +495,7 @@ CONF_VERSION = "1"
 
 10. Select the image type and start the build
    $ cd $YOCTO/axxia
-   $ bitbake <image type>
+   $ bitbake (image type)
 
 Available root filesystem types:
    * axxia-image-small 
@@ -520,20 +517,20 @@ directory 'tmp/deploy/images/$MACHINE'.
 
 11. Images generated:
 
-* <image type>-<machine name>.ext2 (rootfs in EXT2 format)
-* <image type>-<machine name>.tar.gz (rootfs in tar+GZIP format)
-* modules-<machine name>.tgz (modules in tar+GZIP format)
-* zImage and zImage-<machine name> (Linux Kernel binary, in u-boot wrapped 
+* (image type)-(machine name).ext2 (rootfs in EXT2 format)
+* (image type)-(machine name).tar.gz (rootfs in tar+GZIP format)
+* modules-(machine name).tgz (modules in tar+GZIP format)
+* zImage and zImage-(machine name) (Linux Kernel binary, in u-boot wrapped 
 format)
 NOTE: For axxiaarm64, only Image files are generated, instead of zImage.
       Use mkimage to convert them to zImage format. 
-* <target name>.dtb
+* (target name).dtb
 * FIT images, 3 types:
-	* fdt.fit-<target name> (DTB in fit image format)
-	* linux.fit-<target name> (Kernel binary in fit image format)
-	* multi.fit-<target name> (Kernel binary + DTB in fit image format)
-* <image type>-<machine name>.hddimg (rootfs in hddimg format - axxiaarmx86-64)
-* <image type>-<machine name>.wic (rootfs in wic format - axxiaarmx86-64)
+	* fdt.fit-(target name) (DTB in fit image format)
+	* linux.fit-(target name) (Kernel binary in fit image format)
+	* multi.fit-(target name) (Kernel binary + DTB in fit image format)
+* (image type)-(machine name).hddimg (rootfs in hddimg format - axxiaarmx86-64)
+* (image type)-(machine name).wic (rootfs in wic format - axxiaarmx86-64)
 
 12. Build and install the SDK:
 
@@ -550,7 +547,7 @@ After the installation completes, do the following.
 
 12.1 libnl Links
 
-At present, no links get created in <sysroot>/usr/lib for the expected
+At present, no links get created in (sysroot)/usr/lib for the expected
 names of the netlink libraries.  DPDK, for example, expects
 libnl-3.so, but the SDK has libnl-3.so.200 (which is a link to the
 actual library, libnl-3.so.200.23.0 etc.).  Fix this as follows.
@@ -575,7 +572,7 @@ glibc on the Linux host that the SDK install script was executed on
 are expected.  To use an older version, simply do the following on the
 older Linux host.
 
-source <install directory>/environment-setup*
+source (install directory)/environment-setup*
 cd $SYSROOT/usr/src/kernel
 make clean silentoldconfig scripts
 
@@ -585,7 +582,7 @@ When in the simics environment, the 'craff' utility should be
 available.  Use 'craff' to create .craff images from the .hddimg
 images as follows.
 
-craff -o <craff image> <Yocto .hddimg>
+craff -o (craff image) (Yocto .hddimg)
 
 
 Guidelines for submitting patches
@@ -601,16 +598,16 @@ When creating patches, please use something like:
 	git format-patch -s --subject-prefix='meta-axxia][PATCH' origin
 
 When sending patches, please use something like:
-	git send-email --to meta-lsi@yoctoproject.org --cc <maintainers>
-		      <generated patch>
+	git send-email --to meta-lsi@yoctoproject.org --cc (maintainers)
+		      (generated patch)
 
 
 Maintenance
 ===========
 
-Maintainers: Daniel Dragomir <daniel.dragomir@windriver.com>
-	     Lucian Creanga <lucian.creanga@windriver.com>
-	     John Jacques <john.jacques@intel.com>
+Maintainers: Daniel Dragomir (daniel.dragomir@windriver.com)
+	     Lucian Creanga (lucian.creanga@windriver.com)
+	     John Jacques (john.jacques@intel.com)
 
 Please see the meta-axxia/MAINTAINERS file for more details.
 
