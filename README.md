@@ -80,7 +80,7 @@ This layer depends on:
 Poky
 URI: git://git.yoctoproject.org/poky.git
 branch: morty
-revision: b9182def2952952c5aa716d93a9094846719bdc3
+revision: a845564a1af78ae9632db80143a2cca390db794c
 
 OpenEmbedded
 URI: https://github.com/openembedded/meta-openembedded.git
@@ -90,7 +90,7 @@ revision: b40116cf457b88a2db14b86fda9627fb34d56ae6
 Yocto Virtualization Layer
 URI: git://git.yoctoproject.org/meta-virtualization
 branch: morty
-revision: dfe24c5b5ac39f38fd2ac7370cca441cb47c31bc
+revision: eb6b5129561eda9ea1f47e85ab9ed9e5a6b8f64c
 
 Intel Meta Layer
 URI: git://git.yoctoproject.org/meta-intel
