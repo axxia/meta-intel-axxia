@@ -39,6 +39,7 @@ lttng-ust \
 lttng-ust-dev \
 netcat \
 netkit-tftp-client \
+net-tools \
 ${@base_conditional('MACHINE', 'axxiaarm', '', 'numactl', d)} \
 openssh \
 openssh-sftp \
