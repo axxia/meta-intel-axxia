@@ -50,22 +50,22 @@ This layer depends on:
 Poky
 URI: git://git.yoctoproject.org/poky.git
 branch: rocko
-revision: HEAD
+revision: 50189fdf620bc9ca42065998ce8c5a796ad8c331
 
 OpenEmbedded
 URI: https://github.com/openembedded/meta-openembedded.git
 branch: rocko
-revision: HEAD
+revision: a65c1acb1822966c3553de9fc98d8bb6be705c4e
 
 Yocto Virtualization Layer
 URI: git://git.yoctoproject.org/meta-virtualization
 branch: rocko
-revision: HEAD
+revision: 4277759428e96605b8dbe95a43891e217ae8d399
 
 Intel Meta Layer
 URI: git://git.yoctoproject.org/meta-intel
 branch: rocko
-revision: HEAD
+revision: 49187e370e7d5370c7adc5a6f1b721b950667113
 
 
 Building the meta-intel-axxia BSP layer
