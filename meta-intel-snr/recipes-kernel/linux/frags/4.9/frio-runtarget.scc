@@ -1,0 +1,7 @@
+include features/profiling/profiling.scc
+include features/numa/numa.scc
+include features/latencytop/latencytop.scc
+include cfg/x32.scc
+
+kconf non-hardware ktypes/developer/developer.cfg
+kconf hardware frio-runtarget.cfg
