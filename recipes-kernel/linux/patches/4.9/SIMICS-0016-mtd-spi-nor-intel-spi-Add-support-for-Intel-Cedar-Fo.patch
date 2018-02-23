@@ -1,4 +1,4 @@
-From 808ea05c355ee7643209cb2fcbc7cca40e0857cb Mon Sep 17 00:00:00 2001
+From 9bce3c877594e35c6d474c37967a5d421feb8a0a Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Thu, 15 Feb 2018 10:57:50 -0600
 Subject: [PATCH 16/17] mtd: spi-nor: intel-spi: Add support for Intel Cedar

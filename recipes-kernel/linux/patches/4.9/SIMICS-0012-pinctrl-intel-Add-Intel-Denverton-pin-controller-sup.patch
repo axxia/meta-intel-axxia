@@ -1,4 +1,4 @@
-From d5a27a2b41e19eaec00051bb3d3ab782c7891a09 Mon Sep 17 00:00:00 2001
+From 6b35e0212c646550c4ed7f53f232f7dc0765fc48 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Thu, 15 Feb 2018 10:07:23 -0600
 Subject: [PATCH 12/17] pinctrl: intel: Add Intel Denverton pin controller

@@ -1,4 +1,4 @@
-From bc79d682b16d371a66d345b9040da8baf3ce460c Mon Sep 17 00:00:00 2001
+From 26368b74c01142f519840302c0a55ff67b4d7072 Mon Sep 17 00:00:00 2001
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 Date: Tue, 6 Jun 2017 16:18:18 +0300
 Subject: [PATCH 10/17] pinctrl: intel: Make it possible to specify mode per
@@ -11,7 +11,7 @@ pin as an array instead in addition to single integer.
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-(back ported from 1f6b419b24285409a9365461bf7367a220eff1db)
+(cherry picked from 1f6b419b24285409a9365461bf7367a220eff1db)
 Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  drivers/pinctrl/intel/pinctrl-intel.c |  6 +++++-
@@ -19,7 +19,7 @@ Signed-off-by: John Jacques <john.jacques@intel.com>
  2 files changed, 26 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/pinctrl/intel/pinctrl-intel.c b/drivers/pinctrl/intel/pinctrl-intel.c
-index 7472059..a50c12b 100644
+index d5662f2..b3e7005 100644
 --- a/drivers/pinctrl/intel/pinctrl-intel.c
 +++ b/drivers/pinctrl/intel/pinctrl-intel.c
 @@ -398,7 +398,11 @@ static int intel_pinmux_set_mux(struct pinctrl_dev *pctldev, unsigned function,
@@ -36,7 +36,7 @@ index 7472059..a50c12b 100644
  		writel(value, padcfg0);
  	}
 diff --git a/drivers/pinctrl/intel/pinctrl-intel.h b/drivers/pinctrl/intel/pinctrl-intel.h
-index 277b296..04d492d 100644
+index 277b296..dc01c80 100644
 --- a/drivers/pinctrl/intel/pinctrl-intel.h
 +++ b/drivers/pinctrl/intel/pinctrl-intel.h
 @@ -22,13 +22,16 @@ struct device;
@@ -53,7 +53,7 @@ index 277b296..04d492d 100644
  	const unsigned *pins;
  	size_t npins;
  	unsigned short mode;
-+	const unsigned int *modes;
++	const unsigned *modes;
  };
  
  /**
