@@ -1,9 +1,11 @@
 FILESEXTRAPATHS_prepend := "\
 :${THISDIR}/patches/${KV}\
-:${THISDIR}/conf/intel-${KV}/${RUNTARGET}/${LINUX_KERNEL_TYPE}:"
+:${THISDIR}/frags/${KV}:"
 
 KV = "4.14"
 LINUX_VERSION_EXTENSION = "-intel-axxia-${LINUX_KERNEL_TYPE}"
+
+KMACHINE_axxiax86-64 = "intel-corei7-64"
 
 # "simics" for simulation system or "frio" for FPGA emulation system
 RUNTARGET ?= "simics"
@@ -23,7 +25,8 @@ file://FRIO-0005-pci-driver-HACK-merge-for-Altera.patch \
 SRC_URI_append_axxiax86-64 = " \
 	${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
 	${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
-	file://defconfig \
+	file://${RUNTARGET}-runtarget.scc \
+	file://common.scc \
 	"
 
 COMPATIBLE_MACHINE_axxiax86-64 = "${MACHINE}"
