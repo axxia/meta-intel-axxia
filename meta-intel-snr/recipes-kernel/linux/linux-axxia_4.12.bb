@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "\
 :${THISDIR}/patches/${KV}\
-:${THISDIR}/conf/axxia-${KV}/${RUNTARGET}/${LINUX_KERNEL_TYPE}:"
+:${THISDIR}/frags/${KV}:"
 
 require recipes-kernel/linux/linux-yocto.inc
 
@@ -10,9 +10,9 @@ LINUX_KERNEL_TYPE = "standard"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
 KBRANCH_axxiax86-64 = "standard/base"
+KMACHINE_axxiax86-64 = "intel-corei7-64"
 SRCREV_machine_axxiax86-64 = "4b7a5c1b4ec5536806942340755bcfbf6f3584d9"
-
-KMETA_axxiax86-64 = ""
+SRCREV_meta_axxiax86-64 = "19d815d5a34bfaad95d87cc097cef18b594daac8"
 
 # "simics" for simulation system or "frio" for FPGA emulation system
 RUNTARGET ?= "simics"
@@ -26,12 +26,12 @@ file://SIMICS-0005-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch \
 "
 
 KREPO_KERNEL = "git://git@github.com/axxia/axxia_yocto_linux_4.12_private.git;protocol=ssh"
-SRC_URI_axxiax86-64 = "${KREPO_KERNEL};name=machine;branch=${KBRANCH} \
+SRC_URI_axxiax86-64 = " \
+	${KREPO_KERNEL};name=machine;branch=${KBRANCH} \
+	git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA} \
 	${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
-	file://defconfig \
+	file://${RUNTARGET}-runtarget.scc \
+	file://common.scc \
 	"
 
 COMPATIBLE_MACHINE_axxiax86-64 = "${MACHINE}"
-INSANE_SKIP_kernel-dev_axxiax86-64 = "debug-files"
-
-KERNEL_EXTRA_FEATURES_axxiax86-64 = ""

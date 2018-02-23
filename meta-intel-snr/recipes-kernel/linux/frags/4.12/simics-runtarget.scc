@@ -1,0 +1,4 @@
+include features/intel-txt/intel-txt.scc
+include features/nfsd/nfsd-enable.scc
+
+kconf hardware simics-runtarget.cfg

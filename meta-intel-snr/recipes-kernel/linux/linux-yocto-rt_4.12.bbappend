@@ -1,14 +1,13 @@
 FILESEXTRAPATHS_prepend := "\
 :${THISDIR}/patches/${KV}\
-:${THISDIR}/conf/yocto-${KV}/${RUNTARGET}/${LINUX_KERNEL_TYPE}:"
+:${THISDIR}/frags/${KV}:"
 
 KV = "4.12"
-LINUX_VERSION_axxiax86-64 = "4.12.19"
+LINUX_VERSION_axxiax86-64 = "4.12.20"
 KBRANCH_axxiax86-64 = "standard/preempt-rt/base"
 KMACHINE_axxiax86-64 = "intel-corei7-64"
-SRCREV_machine_axxiax86-64 = "03fdbd9f39161ac8dce16756b22f460252416f54"
-
-SRCREV_meta_axxiax86-64 = "7986844d9de597218a23f82e68b01e5bf060d576"
+SRCREV_machine_axxiax86-64 = "33aa1a4ea44399f12dfb26146ea06db5cd02ca69"
+SRCREV_meta_axxiax86-64 = "19d815d5a34bfaad95d87cc097cef18b594daac8"
 
 # "simics" for simulation system or "frio" for FPGA emulation system
 RUNTARGET ?= "simics"
@@ -23,8 +22,8 @@ file://SIMICS-0005-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch \
 
 SRC_URI_append_axxiax86-64 = " \
 	${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
-	file://defconfig \
+	file://${RUNTARGET}-runtarget.scc \
+	file://common.scc \
 	"
 
 COMPATIBLE_MACHINE_axxiax86-64 = "${MACHINE}"
-INSANE_SKIP_kernel-dev_axxiax86-64 = "debug-files"
