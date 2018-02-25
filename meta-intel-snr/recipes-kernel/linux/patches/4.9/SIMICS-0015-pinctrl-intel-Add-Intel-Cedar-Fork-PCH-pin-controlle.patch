@@ -1,4 +1,4 @@
-From 1651f850aaf288f522b329751c0253a68073166c Mon Sep 17 00:00:00 2001
+From df8789440597784eb7d2f0aff8eb83252bfb0241 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Thu, 15 Feb 2018 10:54:24 -0600
 Subject: [PATCH 15/17] pinctrl: intel: Add Intel Cedar Fork PCH pin controller

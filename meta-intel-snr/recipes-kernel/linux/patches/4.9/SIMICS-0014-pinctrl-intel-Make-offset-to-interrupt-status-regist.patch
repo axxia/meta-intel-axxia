@@ -1,4 +1,4 @@
-From 576bed35d5d3bd9091abd657f731ed859b86bf85 Mon Sep 17 00:00:00 2001
+From bfa5a4927a3f0ffdc6bb6850b1ac2ab2ba4305b2 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Thu, 15 Feb 2018 10:47:57 -0600
 Subject: [PATCH 14/17] pinctrl: intel: Make offset to interrupt status
@@ -20,7 +20,7 @@ Signed-off-by: John Jacques <john.jacques@intel.com>
  2 files changed, 15 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/pinctrl/intel/pinctrl-intel.c b/drivers/pinctrl/intel/pinctrl-intel.c
-index a50c12b..3300593 100644
+index b3e7005..b0a853e 100644
 --- a/drivers/pinctrl/intel/pinctrl-intel.c
 +++ b/drivers/pinctrl/intel/pinctrl-intel.c
 @@ -30,8 +30,6 @@
@@ -32,7 +32,7 @@ index a50c12b..3300593 100644
  
  #define PADOWN_BITS			4
  #define PADOWN_SHIFT(p)			((p) % 8 * PADOWN_BITS)
-@@ -812,7 +810,7 @@ static void intel_gpio_irq_ack(struct irq_data *d)
+@@ -817,7 +815,7 @@ static void intel_gpio_irq_ack(struct irq_data *d)
  	community = intel_get_community(pctrl, pin);
  	if (community) {
  		const struct intel_padgroup *padgrp;
@@ -41,7 +41,7 @@ index a50c12b..3300593 100644
  
  		padgrp = intel_community_get_padgroup(community, pin);
  		if (!padgrp)
-@@ -820,9 +818,10 @@ static void intel_gpio_irq_ack(struct irq_data *d)
+@@ -825,9 +823,10 @@ static void intel_gpio_irq_ack(struct irq_data *d)
  
  		gpp = padgrp->reg_num;
  		gpp_offset = padgroup_offset(padgrp, pin);
@@ -53,7 +53,7 @@ index a50c12b..3300593 100644
  		raw_spin_unlock(&pctrl->lock);
  	}
  }
-@@ -837,7 +836,7 @@ static void intel_gpio_irq_enable(struct irq_data *d)
+@@ -842,7 +841,7 @@ static void intel_gpio_irq_enable(struct irq_data *d)
  	community = intel_get_community(pctrl, pin);
  	if (community) {
  		const struct intel_padgroup *padgrp;
@@ -62,7 +62,7 @@ index a50c12b..3300593 100644
  		unsigned long flags;
  		u32 value;
  
-@@ -847,10 +846,11 @@ static void intel_gpio_irq_enable(struct irq_data *d)
+@@ -852,10 +851,11 @@ static void intel_gpio_irq_enable(struct irq_data *d)
  
  		gpp = padgrp->reg_num;
  		gpp_offset = padgroup_offset(padgrp, pin);
@@ -75,7 +75,7 @@ index a50c12b..3300593 100644
  
  		value = readl(community->regs + community->ie_offset + gpp * 4);
  		value |= BIT(gpp_offset);
-@@ -985,7 +985,8 @@ static irqreturn_t intel_gpio_community_irq_handler(struct intel_pinctrl *pctrl,
+@@ -992,7 +992,8 @@ static irqreturn_t intel_gpio_community_irq_handler(struct intel_pinctrl *pctrl,
  		const struct intel_padgroup *padgrp = &community->gpps[gpp];
  		unsigned long pending, enabled, gpp_offset;
  
@@ -85,7 +85,7 @@ index a50c12b..3300593 100644
  		enabled = readl(community->regs + community->ie_offset +
  				padgrp->reg_num * 4);
  
-@@ -1234,6 +1235,9 @@ int intel_pinctrl_probe(struct platform_device *pdev,
+@@ -1241,6 +1242,9 @@ int intel_pinctrl_probe(struct platform_device *pdev,
  		community->regs = regs;
  		community->pad_regs = regs + padbar;
  
@@ -95,7 +95,7 @@ index a50c12b..3300593 100644
  		ret = intel_pinctrl_add_padgroups(pctrl, community);
  		if (ret)
  			return ret;
-@@ -1349,7 +1353,7 @@ static void intel_gpio_irq_init(struct intel_pinctrl *pctrl)
+@@ -1356,7 +1360,7 @@ static void intel_gpio_irq_init(struct intel_pinctrl *pctrl)
  		for (gpp = 0; gpp < community->ngpps; gpp++) {
  			/* Mask and clear all interrupts */
  			writel(0, base + community->ie_offset + gpp * 4);
@@ -105,7 +105,7 @@ index a50c12b..3300593 100644
  	}
  }
 diff --git a/drivers/pinctrl/intel/pinctrl-intel.h b/drivers/pinctrl/intel/pinctrl-intel.h
-index 04d492d..ac11d9e 100644
+index dc01c80..f4dcabd 100644
 --- a/drivers/pinctrl/intel/pinctrl-intel.h
 +++ b/drivers/pinctrl/intel/pinctrl-intel.h
 @@ -73,6 +73,8 @@ struct intel_padgroup {

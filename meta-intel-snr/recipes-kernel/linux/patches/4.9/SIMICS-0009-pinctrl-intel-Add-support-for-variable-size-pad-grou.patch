@@ -1,4 +1,4 @@
-From 16e139b6f85ea4d9f362af946e6a3494f5bce735 Mon Sep 17 00:00:00 2001
+From 3acd8ebc679e508fbe055677eb8b842d1f3a6eb8 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Thu, 15 Feb 2018 09:45:24 -0600
 Subject: [PATCH 09/17] pinctrl: intel: Add support for variable size pad
@@ -35,7 +35,7 @@ Signed-off-by: John Jacques <john.jacques@intel.com>
  3 files changed, 176 insertions(+), 56 deletions(-)
 
 diff --git a/drivers/pinctrl/intel/pinctrl-intel.c b/drivers/pinctrl/intel/pinctrl-intel.c
-index ce2e628..7472059 100644
+index d268c6a..d5662f2 100644
 --- a/drivers/pinctrl/intel/pinctrl-intel.c
 +++ b/drivers/pinctrl/intel/pinctrl-intel.c
 @@ -117,6 +117,7 @@ struct intel_pinctrl {
@@ -169,7 +169,7 @@ index ce2e628..7472059 100644
  		return true;
  
  	return false;
-@@ -776,18 +805,22 @@ static void intel_gpio_irq_ack(struct irq_data *d)
+@@ -781,18 +810,22 @@ static void intel_gpio_irq_ack(struct irq_data *d)
  	const struct intel_community *community;
  	unsigned pin = irqd_to_hwirq(d);
  
@@ -199,7 +199,7 @@ index ce2e628..7472059 100644
  }
  
  static void intel_gpio_irq_enable(struct irq_data *d)
-@@ -796,27 +829,30 @@ static void intel_gpio_irq_enable(struct irq_data *d)
+@@ -801,27 +834,30 @@ static void intel_gpio_irq_enable(struct irq_data *d)
  	struct intel_pinctrl *pctrl = gpiochip_get_data(gc);
  	const struct intel_community *community;
  	unsigned pin = irqd_to_hwirq(d);
@@ -239,7 +239,7 @@ index ce2e628..7472059 100644
  }
  
  static void intel_gpio_irq_mask_unmask(struct irq_data *d, bool mask)
-@@ -825,28 +861,33 @@ static void intel_gpio_irq_mask_unmask(struct irq_data *d, bool mask)
+@@ -830,28 +866,33 @@ static void intel_gpio_irq_mask_unmask(struct irq_data *d, bool mask)
  	struct intel_pinctrl *pctrl = gpiochip_get_data(gc);
  	const struct intel_community *community;
  	unsigned pin = irqd_to_hwirq(d);
@@ -281,7 +281,7 @@ index ce2e628..7472059 100644
  }
  
  static void intel_gpio_irq_mask(struct irq_data *d)
-@@ -937,23 +978,20 @@ static irqreturn_t intel_gpio_community_irq_handler(struct intel_pinctrl *pctrl,
+@@ -944,23 +985,20 @@ static irqreturn_t intel_gpio_community_irq_handler(struct intel_pinctrl *pctrl,
  	int gpp;
  
  	for (gpp = 0; gpp < community->ngpps; gpp++) {
@@ -310,7 +310,7 @@ index ce2e628..7472059 100644
  			if (padno >= community->npins)
  				break;
  
-@@ -1044,6 +1082,56 @@ static int intel_gpio_probe(struct intel_pinctrl *pctrl, int irq)
+@@ -1051,6 +1089,56 @@ static int intel_gpio_probe(struct intel_pinctrl *pctrl, int irq)
  	return 0;
  }
  
@@ -367,7 +367,7 @@ index ce2e628..7472059 100644
  static int intel_pinctrl_pm_init(struct intel_pinctrl *pctrl)
  {
  #ifdef CONFIG_PM_SLEEP
-@@ -1141,8 +1229,10 @@ int intel_pinctrl_probe(struct platform_device *pdev,
+@@ -1148,8 +1236,10 @@ int intel_pinctrl_probe(struct platform_device *pdev,
  
  		community->regs = regs;
  		community->pad_regs = regs + padbar;

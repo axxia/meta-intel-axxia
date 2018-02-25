@@ -1,4 +1,4 @@
-From b4fd8ff1ed75f3fe71450cb96863c7ceb06b5b2c Mon Sep 17 00:00:00 2001
+From 70de0038c09d30377f75c705133b0f3ccf355c8e Mon Sep 17 00:00:00 2001
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Date: Wed, 11 Jan 2017 15:49:00 +0200
 Subject: [PATCH 04/17] pinctrl: baytrail: Do not add all GPIOs to IRQ domain

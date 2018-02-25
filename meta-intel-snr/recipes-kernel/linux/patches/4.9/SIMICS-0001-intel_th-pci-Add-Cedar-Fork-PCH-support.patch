@@ -1,4 +1,4 @@
-From f3411d702f0d1370822d03f21c8e2e6681ce8602 Mon Sep 17 00:00:00 2001
+From a1444d19aa8c8532060dc39a8f8a82c2d0092347 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Thu, 15 Feb 2018 08:50:56 -0600
 Subject: [PATCH 01/17] intel_th: pci: Add Cedar Fork PCH support

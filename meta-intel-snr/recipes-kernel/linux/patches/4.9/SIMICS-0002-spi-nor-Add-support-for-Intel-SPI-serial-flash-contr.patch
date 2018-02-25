@@ -1,4 +1,4 @@
-From 12a2f1c1bacbd53a1dd4f15da821af2b4dd57c5e Mon Sep 17 00:00:00 2001
+From 61308f1bafe5a1861ac4452bead02e8214cc6c21 Mon Sep 17 00:00:00 2001
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 Date: Mon, 28 Nov 2016 15:06:24 +0300
 Subject: [PATCH 02/17] spi-nor: Add support for Intel SPI serial flash
@@ -229,7 +229,7 @@ index 0000000..5c943df
 +MODULE_ALIAS("platform:intel-spi");
 diff --git a/drivers/mtd/spi-nor/intel-spi.c b/drivers/mtd/spi-nor/intel-spi.c
 new file mode 100644
-index 0000000..fbfce09
+index 0000000..ceb4809
 --- /dev/null
 +++ b/drivers/mtd/spi-nor/intel-spi.c
 @@ -0,0 +1,777 @@
@@ -939,7 +939,7 @@ index 0000000..fbfce09
 +		 * whole partition read-only to be on the safe side.
 +		 */
 +		if (intel_spi_is_protected(ispi, base, limit))
-+			ispi->writeable = 0;
++			ispi->writeable = false;
 +
 +		end = (limit << 12) + 4096;
 +		if (end > part->size)
