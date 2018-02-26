@@ -24,6 +24,7 @@ Dependencies
 ============
 
 Intel Meta Layer
+----------------
 URI: git://git.yoctoproject.org/meta-intel
 branch: rocko
 revision: HEAD

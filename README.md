@@ -32,33 +32,40 @@ The Intel github.com repositories have the latest. To access the
 private repository, request permission from Intel. Note that the
 private repository is used for development and is not supported.
 
-git clone https://github.com/axxia/meta-intel-axxia_private.git meta-intel-axxia
+   $ git clone https://github.com/axxia/meta-intel-axxia_private.git \
+               meta-intel-axxia
 
 The public Intel repository contains changes that have been submitted
 to Yocto, but may not have been accepted yet.
 
-git clone https://github.com/axxia/meta-intel-axxia.git
+   $ git clone https://github.com/axxia/meta-intel-axxia.git
+
 
 Dependencies
 ============
 
 This layer depends on:
+
 Poky
+----
 URI: git://git.yoctoproject.org/poky.git
 branch: rocko
 revision: 50189fdf620bc9ca42065998ce8c5a796ad8c331
 
 OpenEmbedded
+------------
 URI: https://github.com/openembedded/meta-openembedded.git
 branch: rocko
 revision: a65c1acb1822966c3553de9fc98d8bb6be705c4e
 
 Yocto Virtualization Layer
+--------------------------
 URI: git://git.yoctoproject.org/meta-virtualization
 branch: rocko
 revision: 4277759428e96605b8dbe95a43891e217ae8d399
 
 Intel Meta Layer
+----------------
 URI: git://git.yoctoproject.org/meta-intel
 branch: rocko
 revision: 49187e370e7d5370c7adc5a6f1b721b950667113
@@ -68,95 +75,94 @@ Building the meta-intel-axxia BSP layer
 =======================================
 
 To begin using the Yocto Project build tools, you must first setup your work
-environment and verify that that you have the required host packages installed
+environment and verify that you have the required host packages installed
 on the system you will be using for builds. 
 
 Check the YOCTO Reference Manual for the system you are using and verify you
-have the minimum required packages installed. 
+have the minimum required packages installed:
 http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
 
 1. Create an empty build directory and verify that the partition has
    at least 50Gb of free space. Next set an environment variable, YOCTO,
    to the full path.
 
-   $ cd $HOME\
-   $ df -h .  # verify output shows adequate space available\
-   $ mkdir yocto\
-   $ cd yocto\
+   $ cd $HOME
+   $ df -h .  # verify output shows adequate space available
+   $ mkdir yocto
+   $ cd yocto
    $ export YOCTO=$HOME/yocto # should also add this to your ~/.bashrc file.
 
 2. Clone the Yocto Project build tools (Poky) environment.
 
-   $ cd $YOCTO\
-   $ git clone git://git.yoctoproject.org/poky.git\
-   $ cd poky\
+   $ cd $YOCTO
+   $ git clone git://git.yoctoproject.org/poky.git
+   $ cd poky
    $ git checkout 50189fdf620bc9ca42065998ce8c5a796ad8c331
 
 3. Clone the Axxia meta layer. This provides meta data for building
    images for the Axxia specific board types.  See 'Sources' above to
    select the right meta-intel-axxia repository, branch, and version.
 
-   $ cd $YOCTO/poky\
-   $ (the git clone command chosen above)\
-   $ cd meta-intel-axxia\
+   $ cd $YOCTO
+   $ (the git clone command chosen above)
+   $ cd meta-intel-axxia
    $ git checkout tags/snr_delivery10_linux4_12
 
 4. The Open Embedded project provides many useful layers and packages
    such as networking. Download the Open Embedded Yocto Project hosted
    repository with the following.
 
-   $ cd $YOCTO/poky\
-   $ git clone https://github.com/openembedded/meta-openembedded.git\
-   $ cd meta-openembedded\
+   $ cd $YOCTO
+   $ git clone https://github.com/openembedded/meta-openembedded.git
+   $ cd meta-openembedded
    $ git checkout a65c1acb1822966c3553de9fc98d8bb6be705c4e
 
 5. Clone Yocto Virtualization Layer which provides packages for
    virtualization such as Linux Container Support (lxc).
 
-   $ cd $YOCTO/poky\
-   $ git clone git://git.yoctoproject.org/meta-virtualization\
-   $ cd $YOCTO/poky\
-   $ cd meta-virtualization\
+   $ cd $YOCTO
+   $ git clone git://git.yoctoproject.org/meta-virtualization
+   $ cd meta-virtualization
    $ git checkout 4277759428e96605b8dbe95a43891e217ae8d399
 
 6. Clone the Intel meta layer. This provides Intel hardware support 
    metadata which are inherited in axxiax86-64 BSP.
 
-   $ cd $YOCTO/poky\
-   $ git clone git://git.yoctoproject.org/meta-intel\
-   $ cd meta-intel\
+   $ cd $YOCTO
+   $ git clone git://git.yoctoproject.org/meta-intel
+   $ cd meta-intel
    $ git checkout 49187e370e7d5370c7adc5a6f1b721b950667113
 
 7. Create the build directory. The name is optional and will default
    to 'build', however it helps to choose a name to match the board
    type. For example, we will use axxia.
 
-   $ cd $YOCTO\
-   $ source poky/meta-intel-axxia/axxia-env\
-   $ source poky/oe-init-build-env axxia
+   $ cd $YOCTO
+   $ source meta-intel-axxia/axxia-env
+   $ source poky/oe-init-build-env axxia-build
 
-8. Edit the conf/bblayers.conf file
+8. Check the conf/bblayers.conf file and edit if necessary.
 
-   $ pwd (you should be at $YOCTO/axxia)\
+   $ pwd (you should be at $YOCTO/axxia-build)
    $ vi conf/bblayers.conf
 
-Edit BBLAYERS variable as follows. Replace references to $YOCTO below with the
-actual value you provided in step 1.
+BBLAYERS variable should have the following content (references to $YOCTO
+below shoud be replaced with the actual value you provided in step 1).
 
-   BBLAYERS ?= " \\\
-            $YOCTO/poky/meta \\\
-            $YOCTO/poky/meta-poky \\\
-            $YOCTO/poky/meta-openembedded/meta-oe \\\
-            $YOCTO/poky/meta-openembedded/meta-python \\\
-            $YOCTO/poky/meta-openembedded/meta-networking \\\
-            $YOCTO/poky/meta-openembedded/meta-filesystems \\\
-            $YOCTO/poky/meta-virtualization \\\
-            $YOCTO/poky/meta-intel \\\
-            $YOCTO/poky/meta-intel-axxia \\\
-            $YOCTO/poky/meta-intel-axxia/meta-intel-snr \\\
+   BBLAYERS ?= " \
+            $YOCTO/poky/meta \
+            $YOCTO/poky/meta-poky \
+            $YOCTO/meta-openembedded/meta-oe \
+            $YOCTO/meta-openembedded/meta-networking \
+            $YOCTO/meta-openembedded/meta-filesystems \
+            $YOCTO/meta-openembedded/meta-python \
+            $YOCTO/meta-virtualization \
+            $YOCTO/meta-intel \
+            $YOCTO/meta-intel-axxia \
+            $YOCTO/meta-intel-axxia/meta-intel-snr \
             "
 
-9. Edit the conf/local.conf file:
+9. Check the conf/local.conf file and edit if necessary.
 
    $ vi conf/local.conf
 
@@ -186,11 +192,11 @@ a. Yocto Project Source repositories (git.yoctoproject.org)
    for preempt-rt
    PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
 
-   will build from Yocto repos:
+   will build kernel from Yocto repos:
    4.9: http://git.yoctoproject.org/git/linux-yocto-4.9
         standard/axxia/base or standard/preempt-rt/axxia/base branch
 
-   will build from Yocto repos:
+   will build kernel from Yocto repos:
    4.12: http://git.yoctoproject.org/git/linux-yocto-4.12
         standard/axxia/base or standard/preempt-rt/axxia/base branch
 
@@ -210,6 +216,18 @@ b. Private Axxia Github (github.com/axxia)
    4.9: git@github.com:axxia/axxia_yocto_linux_4.12_private.git
         standard/axxia-dev/base or standard/preempt-rt/axxia/base branch
 
+c. Public Intel Github (github.com/intel)
+
+   for standard
+   PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
+
+   for preempt-rt
+   PREFERRED_PROVIDER_virtual/kernel = "linux-intel-rt"
+
+   will build kernel from Intel Github public repos:
+   4.14: git://github.com/intel/linux-intel-lts.git
+         4.14/yocto/base or 4.14/yocto/base-rt branch
+
 9.5 Select the kernel version:
 
    for 4.9, depending on PREFERRED_PROVIDER_virtual/kernel
@@ -218,8 +236,11 @@ b. Private Axxia Github (github.com/axxia)
    for 4.12, depending on PREFERRED_PROVIDER_virtual/kernel
    PREFERRED_VERSION_(preferred-provider)= "4.12%"
 
+   for 4.14, only for linux-intel PREFERRED_PROVIDER_virtual/kernel
+   PREFERRED_VERSION_linux-intel= "4.12%"
+
 NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
-      linux-axxia, linux-axxia-rt. See  9.5.
+      linux-axxia, linux-axxia-rt, linux-intel, linux-intel-rt. See  9.5.
 
 9.6 Choose the System where the image will run between simulation and 
     emulation:
@@ -231,7 +252,7 @@ NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
     RUNTARGET = "frio"
 
 9.7 Add simicsfs-client support (for large and sim images). Sources tgz archive
-    should copied in meta-intel-axxia/download directory: simics-5.0.130-src.tgz
+    should copied in meta-intel-axxia/download directory: simics-5.0.130.tgz
 
     SIMICSFS = "yes"
 
@@ -271,7 +292,7 @@ PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
 CONF_VERSION = "1"
 
 10. Select the image type and start the build
-   $ cd $YOCTO/axxia
+   $ cd $YOCTO/axxia-build
    $ bitbake (image type)
 
 Available root filesystem types:

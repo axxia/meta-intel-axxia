@@ -8,20 +8,20 @@ BBFILES ?= ""
 BBLAYERS ?= " \
   ##OEROOT##/meta \
   ##OEROOT##/meta-poky \
-  ##OEROOT##/meta-openembedded/meta-oe \
-  ##OEROOT##/meta-openembedded/meta-networking \
-  ##OEROOT##/meta-openembedded/meta-filesystems \
-  ##OEROOT##/meta-openembedded/meta-python \
-  ##OEROOT##/meta-virtualization \
-  ##OEROOT##/meta-intel \
-  ##OEROOT##/meta-intel-axxia \
-  ##OEROOT##/meta-intel-axxia/meta-intel-snr \
+  ##OEROOT##/../meta-openembedded/meta-oe \
+  ##OEROOT##/../meta-openembedded/meta-networking \
+  ##OEROOT##/../meta-openembedded/meta-filesystems \
+  ##OEROOT##/../meta-openembedded/meta-python \
+  ##OEROOT##/../meta-virtualization \
+  ##OEROOT##/../meta-intel \
+  ##OEROOT##/../meta-intel-axxia \
+  ##OEROOT##/../meta-intel-axxia/meta-intel-snr \
   "
 
 BBLAYERS_NON_REMOVABLE ?= " \
   ##OEROOT##/meta \
   ##OEROOT##/meta-poky \
-  ##OEROOT##/meta-intel \
-  ##OEROOT##/meta-intel-axxia \
-  ##OEROOT##/meta-intel-axxia/meta-intel-snr \
+  ##OEROOT##/../meta-intel \
+  ##OEROOT##/../meta-intel-axxia \
+  ##OEROOT##/../meta-intel-axxia/meta-intel-snr \
   "
