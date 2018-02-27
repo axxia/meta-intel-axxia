@@ -96,6 +96,7 @@ libnl \
 libnss-mdns \
 libogg \
 libpython2 \
+libpython3 \
 libpam \
 libpcap \
 libpcap-dev \
@@ -158,12 +159,19 @@ ppp \
 procps \
 psmisc \
 python-cffi \
+python3-cffi \
 python-core \
+python3-core \
 python-dev \
+python3-dev \
 python-distutils \
 python-modules \
 python-netserver \
 python-nose \
+python3-distutils \
+python3-modules \
+python3-netserver \
+python3-nose \
 quota \
 readline \
 rpcbind \

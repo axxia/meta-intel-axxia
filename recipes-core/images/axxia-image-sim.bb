@@ -29,6 +29,7 @@ libnl-genl \
 libnl-nf \
 libnl-route \
 libpython2 \
+libpython3 \
 libpcap \
 libudev \
 lttng-modules \
@@ -47,12 +48,19 @@ pciutils \
 perl-module-bigint \
 mtools \
 python-cffi \
+python3-cffi \
 python-core \
+python3-core \
 python-dev \
+python3-dev \
 python-distutils \
 python-modules \
 python-netserver \
 python-nose \
+python3-distutils \
+python3-modules \
+python3-netserver \
+python3-nose \
 telnetd \
 tmux \
 vlan \
