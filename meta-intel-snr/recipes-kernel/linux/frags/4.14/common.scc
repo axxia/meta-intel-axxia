@@ -1,9 +1,7 @@
 include features/ixgbe/ixgbe.scc
-include features/iommu/iommu.scc
 include features/kprobes/kprobes.scc
 include features/uprobe/uprobe-enable.scc
 include features/debug/debug-dyndbg.scc
 include features/debug/debug-kernel.scc
 
-kconf hardware common-hw.cfg
 kconf non-hardware common-non-hw.cfg
