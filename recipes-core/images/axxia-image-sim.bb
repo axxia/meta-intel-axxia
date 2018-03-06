@@ -8,8 +8,8 @@ ${CORE_IMAGE_EXTRA_INSTALL} \
 
 IMAGE_INSTALL_append = " \
 boost \
-dhcp-server \
 dhcp-client \
+dhcp-server \
 dmidecode \
 e2fsprogs-resize2fs \
 ethtool \
@@ -22,14 +22,15 @@ kernel-modules \
 kmod \
 ldd \
 libasan \
-libubsan \
 libgcc \
 libnl \
 libnl-genl \
 libnl-nf \
 libnl-route \
-libpython2 \
 libpcap \
+libpython2 \
+libpython3 \
+libubsan \
 libudev \
 lttng-modules \
 lttng-modules-dev \
@@ -53,7 +54,18 @@ python-distutils \
 python-modules \
 python-netserver \
 python-nose \
+python3-cffi \
+python3-core \
+python3-dev \
+python3-distutils \
+python3-modules \
+python3-netserver \
+python3-nose \
+readline \
+swig \
+tcl \
 telnetd \
+tk \
 tmux \
 vlan \
 ${@base_conditional('MACHINE', 'axxiax86-64', 'axxia-rc-local', '', d)} "
