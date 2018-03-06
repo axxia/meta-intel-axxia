@@ -50,7 +50,7 @@ Poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: rocko
-revision: 50189fdf620bc9ca42065998ce8c5a796ad8c331
+revision: 5ba69a97ab5faa8f3866aaeab1d6eaa3cb8149ed
 
 OpenEmbedded
 ------------
@@ -68,7 +68,7 @@ Intel Meta Layer
 ----------------
 URI: git://git.yoctoproject.org/meta-intel
 branch: rocko
-revision: 49187e370e7d5370c7adc5a6f1b721b950667113
+revision: 92d66730fba1fdc71d2548332c8ff57160e31b05
 
 
 Building the meta-intel-axxia BSP layer
@@ -97,7 +97,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/poky.git
    $ cd poky
-   $ git checkout 50189fdf620bc9ca42065998ce8c5a796ad8c331
+   $ git checkout 5ba69a97ab5faa8f3866aaeab1d6eaa3cb8149ed
 
 3. Clone the Axxia meta layer. This provides meta data for building
    images for the Axxia specific board types.  See 'Sources' above to
@@ -106,7 +106,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ cd $YOCTO
    $ (the git clone command chosen above)
    $ cd meta-intel-axxia
-   $ git checkout tags/snr_delivery10_linux4_12
+   $ git checkout tags/snr_delivery11_linux4_12.rc1
 
 4. The Open Embedded project provides many useful layers and packages
    such as networking. Download the Open Embedded Yocto Project hosted
@@ -131,7 +131,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/meta-intel
    $ cd meta-intel
-   $ git checkout 49187e370e7d5370c7adc5a6f1b721b950667113
+   $ git checkout 92d66730fba1fdc71d2548332c8ff57160e31b05
 
 7. Create the build directory. The name is optional and will default
    to 'build', however it helps to choose a name to match the board
