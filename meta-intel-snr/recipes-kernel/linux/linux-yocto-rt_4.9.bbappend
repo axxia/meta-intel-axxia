@@ -31,8 +31,14 @@ file://SIMICS-0015-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch \
 file://SIMICS-0016-mtd-spi-nor-intel-spi-Add-support-for-Intel-Cedar-Fo.patch \
 "
 
+FRIO_PATCHES = " \
+file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
+file://FRIO-0002-drivers-pci-acs-override.patch \
+"
+
 SRC_URI_append_axxiax86-64 = " \
 	${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
+	${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
 	file://${RUNTARGET}-runtarget.scc \
 	file://common.scc \
 	"

@@ -2,6 +2,7 @@ include features/profiling/profiling.scc
 include features/numa/numa.scc
 include features/latencytop/latencytop.scc
 include features/edac/edac.scc
+include features/vfio/vfio.scc
 include cfg/x32.scc
 include cfg/fs/ext2.scc
 include cfg/fs/ext3.scc
