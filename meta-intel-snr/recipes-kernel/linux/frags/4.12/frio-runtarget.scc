@@ -4,6 +4,7 @@ include features/kdump/kdump-enable.scc
 include features/latencytop/latencytop.scc
 include features/edac/edac-enable.scc
 include cgl/features/pstore/pstore.scc
+include features/vfio/vfio.scc
 include cfg/x32.scc
 include cfg/fs/ext2.scc
 include cfg/fs/ext3.scc

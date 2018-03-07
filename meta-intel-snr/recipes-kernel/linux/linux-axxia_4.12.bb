@@ -25,11 +25,17 @@ file://SIMICS-0004-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch \
 file://SIMICS-0005-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch \
 "
 
+FRIO_PATCHES = " \
+file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
+file://FRIO-0002-drivers-pci-acs-override.patch \
+"
+
 KREPO_KERNEL = "git://git@github.com/axxia/axxia_yocto_linux_4.12_private.git;protocol=ssh"
 SRC_URI_axxiax86-64 = " \
 	${KREPO_KERNEL};name=machine;branch=${KBRANCH} \
 	git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA} \
 	${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
+	${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
 	file://${RUNTARGET}-runtarget.scc \
 	file://common.scc \
 	"
