@@ -106,7 +106,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ cd $YOCTO
    $ (the git clone command chosen above)
    $ cd meta-intel-axxia
-   $ git checkout tags/snr_delivery11_linux4_12.rc1
+   $ git checkout tags/snr_delivery11_linux4_12.rc2
 
 4. The Open Embedded project provides many useful layers and packages
    such as networking. Download the Open Embedded Yocto Project hosted
