@@ -8,7 +8,7 @@ RUNTARGET = "simics"
 PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 
 # Kernel versions: 4.9, 4.12, 4.14 (for linux-intel)
-PREFERRED_VERSION_linux-yocto = "4.9%"
+PREFERRED_VERSION_linux-yocto = "4.12%"
 
 # Add simicsfs-client support (sources should be in meta-intel-axxia/download)
 SIMICSFS = "no"
