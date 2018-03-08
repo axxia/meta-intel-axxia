@@ -1,4 +1,4 @@
-From bfa5a4927a3f0ffdc6bb6850b1ac2ab2ba4305b2 Mon Sep 17 00:00:00 2001
+From 97d27ae92d3a6137aefa1fd6cebfb5f1de726840 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Thu, 15 Feb 2018 10:47:57 -0600
 Subject: [PATCH 14/17] pinctrl: intel: Make offset to interrupt status
@@ -105,7 +105,7 @@ index b3e7005..b0a853e 100644
  	}
  }
 diff --git a/drivers/pinctrl/intel/pinctrl-intel.h b/drivers/pinctrl/intel/pinctrl-intel.h
-index dc01c80..f4dcabd 100644
+index 04d492d..ac11d9e 100644
 --- a/drivers/pinctrl/intel/pinctrl-intel.h
 +++ b/drivers/pinctrl/intel/pinctrl-intel.h
 @@ -73,6 +73,8 @@ struct intel_padgroup {

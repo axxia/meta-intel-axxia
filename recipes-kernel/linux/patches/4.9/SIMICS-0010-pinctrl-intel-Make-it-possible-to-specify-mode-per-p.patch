@@ -1,4 +1,4 @@
-From 26368b74c01142f519840302c0a55ff67b4d7072 Mon Sep 17 00:00:00 2001
+From 9e11f25d22d283eb2111730bb630c1debc949429 Mon Sep 17 00:00:00 2001
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 Date: Tue, 6 Jun 2017 16:18:18 +0300
 Subject: [PATCH 10/17] pinctrl: intel: Make it possible to specify mode per
@@ -36,7 +36,7 @@ index d5662f2..b3e7005 100644
  		writel(value, padcfg0);
  	}
 diff --git a/drivers/pinctrl/intel/pinctrl-intel.h b/drivers/pinctrl/intel/pinctrl-intel.h
-index 277b296..dc01c80 100644
+index 277b296..04d492d 100644
 --- a/drivers/pinctrl/intel/pinctrl-intel.h
 +++ b/drivers/pinctrl/intel/pinctrl-intel.h
 @@ -22,13 +22,16 @@ struct device;
@@ -53,7 +53,7 @@ index 277b296..dc01c80 100644
  	const unsigned *pins;
  	size_t npins;
  	unsigned short mode;
-+	const unsigned *modes;
++	const unsigned int *modes;
  };
  
  /**

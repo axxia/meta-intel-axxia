@@ -1,4 +1,4 @@
-From 4c064a42cad02512a6c0a56d637311a7d5c72fd2 Mon Sep 17 00:00:00 2001
+From 583c40cd45db01713bdc583ffdda6a83017d5b11 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Thu, 15 Feb 2018 10:22:33 -0600
 Subject: [PATCH 13/17] i2c: i801: Add support for Intel Cedar Fork

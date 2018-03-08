@@ -1,4 +1,4 @@
-From cdce560c1702e0b22c20143d3140f296ad789028 Mon Sep 17 00:00:00 2001
+From 9d30e63c5b7be4a97295a98855192044bb2e6c69 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Thu, 15 Feb 2018 10:01:20 -0600
 Subject: [PATCH 11/17] mtd: spi-nor: intel-spi: Add support for Intel
