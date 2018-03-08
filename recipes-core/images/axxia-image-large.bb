@@ -180,6 +180,7 @@ python3-netserver \
 python3-nose \
 python3-pexpect \
 python3-pyyaml \
+python3-pynetlinux \
 quota \
 readline \
 rpcbind \
