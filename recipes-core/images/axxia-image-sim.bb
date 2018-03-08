@@ -63,6 +63,7 @@ python3-modules \
 python3-netserver \
 python3-nose \
 python3-pexpect \
+python3-pyexpect \
 python3-pyyaml \
 python3-pynetlinux \
 readline \
