@@ -16,7 +16,7 @@ ethtool \
 expect \
 gdb \
 gdbserver \
-${@base_conditional('MACHINE', 'axxiax86-64', 'iasl', '', d)} \
+iasl \
 inetutils \
 kernel-modules \
 kmod \
@@ -41,12 +41,12 @@ lttng-ust-dev \
 netcat \
 netkit-tftp-client \
 net-tools \
-${@base_conditional('MACHINE', 'axxiaarm', '', 'numactl', d)} \
+numactl \
 openssh \
 openssh-sftp \
 pciutils \
 perl-module-bigint \
-${@base_conditional('MACHINE', 'axxiax86-64', 'pmtools', '', d)} \
+pmtools \
 python-cffi \
 python-core \
 python-dev \
@@ -68,7 +68,8 @@ telnetd \
 tk \
 tmux \
 vlan \
-${@base_conditional('MACHINE', 'axxiax86-64', 'axxia-rc-local', '', d)} "
+axxia-rc-local \
+"
 
 IMAGE_FEATURES += "dev-pkgs"
 

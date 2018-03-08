@@ -9,7 +9,6 @@ dev-pkgs \
 tools-sdk \
 tools-debug \
 eclipse-debug \
-${@base_conditional('MACHINE', 'axxiaarm64', 'tools-profile', '', d)} \
 tools-testapps \
 debug-tweaks \
 ssh-server-openssh"
@@ -22,7 +21,7 @@ elfutils-dev \
 libelf \
 libnl-dev \
 libunwind-dev \
-${@base_conditional('MACHINE', 'axxiaarm', '', 'numactl-dev', d)} \
+numactl-dev \
 python-dev \
 slang-dev \
 strace-dev \

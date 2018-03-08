@@ -14,12 +14,6 @@ LINUX_VERSION = "4.9.78"
 LINUX_KERNEL_TYPE = "preempt-rt"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
-KBRANCH_axxiapowerpc = "standard/preempt-rt/axxia-dev/base"
-SRCREV_machine_axxiapowerpc = "502594d8adafa4eec6258cfa75329d32448fb918"
-KBRANCH_axxiaarm = "standard/preempt-rt/axxia-dev/base"
-SRCREV_machine_axxiaarm = "502594d8adafa4eec6258cfa75329d32448fb918"
-KBRANCH_axxiaarm64 = "standard/preempt-rt/axxia-dev/base"
-SRCREV_machine_axxiaarm64 = "502594d8adafa4eec6258cfa75329d32448fb918"
 KBRANCH_axxiax86-64 = "standard/preempt-rt/base"
 SRCREV_machine_axxiax86-64 = "a00bc26b1d4fa49b71dc8f9de046534d4a330647"
 
@@ -50,18 +44,12 @@ file://SIMICS-0016-mtd-spi-nor-intel-spi-Add-support-for-Intel-Cedar-Fo.patch \
 KREPO_KERNEL = "git://git@github.com/axxia/axxia_yocto_linux_4.9_private.git;protocol=ssh"
 SRC_URI = "${KREPO_KERNEL};name=machine;branch=${KBRANCH} \
            ${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
-           file://fit \
            file://defconfig"
 
-require dt/dt-${KARCH}.inc
-
-COMPATIBLE_MACHINE = "^axxiaarm$|^axxiaarm64$|^axxiax86-64$"
+COMPATIBLE_MACHINE = "^axxiax86-64$"
 INSANE_SKIP_kernel-dev = "debug-files"
 
 SMP ?= "yes"
-POWER_MANAGEMENT ?= "low-power"
-CHIPSET ?= "5500"
-BIG_ENDIAN ?= "no"
 DBG ?= "no"
 TESTING ?= "no"
 KERNEL_EXTRA_FEATURES = ""

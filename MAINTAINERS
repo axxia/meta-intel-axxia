@@ -27,24 +27,6 @@ Please keep this list in alphabetical order.
 Maintainers List (try to look for most precise areas first)
 
 		-----------------------------------
-AXXIAARM
-M:	Daniel Dragomir <daniel.dragomir@windriver.com>
-M:	Lucian Creanga <lucian.creanga@windriver.com>
-M:	John Jacques <john.jacques@intel.com>
-F:	meta-axxia/
-
-AXXIAARM64
-M:	Daniel Dragomir <daniel.dragomir@windriver.com>
-M:	Lucian Creanga <lucian.creanga@windriver.com>
-M:	John Jacques <john.jacques@intel.com>
-F:	meta-axxia/
-
-AXXIAPOWERPC
-M:	Daniel Dragomir <daniel.dragomir@windriver.com>
-M:	Lucian Creanga <lucian.creanga@windriver.com>
-M:	John Jacques <john.jacques@intel.com>
-F:	meta-axxia/
-
 AXXIAX86-64
 M:	Daniel Dragomir <daniel.dragomir@windriver.com>
 M:	Lucian Creanga <lucian.creanga@windriver.com>

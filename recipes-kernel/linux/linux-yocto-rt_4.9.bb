@@ -14,12 +14,6 @@ LINUX_VERSION = "4.9.78"
 LINUX_KERNEL_TYPE = "preempt-rt"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
-KBRANCH_axxiapowerpc = "standard/preempt-rt/axxia/base"
-SRCREV_machine_axxiapowerpc = "d9ef095b95a9b9da3a74122c536c4dd959acf5fa"
-KBRANCH_axxiaarm = "standard/preempt-rt/axxia/base"
-SRCREV_machine_axxiaarm = "d9ef095b95a9b9da3a74122c536c4dd959acf5fa"
-KBRANCH_axxiaarm64 = "standard/preempt-rt/axxia/base"
-SRCREV_machine_axxiaarm64 = "d9ef095b95a9b9da3a74122c536c4dd959acf5fa"
 KBRANCH_axxiax86-64 = "standard/preempt-rt/base"
 SRCREV_machine_axxiax86-64 = "a00bc26b1d4fa49b71dc8f9de046534d4a330647"
 
@@ -54,22 +48,17 @@ file://SIMICS-0016-mtd-spi-nor-intel-spi-Add-support-for-Intel-Cedar-Fo.patch \
 SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;name=machine;branch=${KBRANCH}; \
            ${@base_conditional('MACHINE', 'axxiax86-64', '', '${KMETA_SOURCES}', d)} \
            ${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
-           file://fit \
 "
 
-require dt/dt-${KARCH}.inc
 require frags/frags-${KARCH}.inc
 
 # use full defconfig for axxiax86_64 untill we'll have fragments upstream
 SRC_URI += "${@base_conditional('MACHINE', 'axxiax86-64', 'file://defconfig', '', d)}"
 
-COMPATIBLE_MACHINE = "^axxiaarm$|^axxiaarm64$|^axxiax86-64$"
+COMPATIBLE_MACHINE = "^axxiax86-64$"
 INSANE_SKIP_kernel-dev = "debug-files"
 
 SMP ?= "yes"
-POWER_MANAGEMENT ?= "low-power"
-CHIPSET ?= "5500"
-BIG_ENDIAN ?= "no"
 DBG ?= "no"
 TESTING ?= "no"
 KERNEL_EXTRA_FEATURES = ""

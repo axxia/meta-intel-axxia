@@ -1,4 +1,4 @@
-# Machines: axxiaarm, axxiaarm64, axxiax86-64
+# Machines: axxiax86-64
 MACHINE = "axxiax86-64"
 
 # System where the image will run, only for x86-64 builds: simics, frio
@@ -7,7 +7,7 @@ RUNTARGET = "simics"
 # Kernel providers: linux-yocto, linux-yocto-rt, linux-axxia, linux-axxia-rt
 PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
 
-# Kernel versions: 4.1, 4.8, 4.9
+# Kernel versions: 4.9
 PREFERRED_VERSION_linux-yocto = "4.9%"
 
 BB_NUMBER_THREADS = "12"
