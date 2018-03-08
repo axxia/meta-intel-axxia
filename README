@@ -112,79 +112,78 @@ device-tree-compiler (dtc)
    at least 50Gb of free space. Next set an environment variable, YOCTO,
    to the full path.
 
-   $ cd $HOME\
-   $ df -h .  # verify output shows adequate space available\
-   $ mkdir yocto\
-   $ cd yocto\
+   $ cd $HOME
+   $ df -h .  # verify output shows adequate space available
+   $ mkdir yocto
+   $ cd yocto
    $ export YOCTO=$HOME/yocto # should also add this to your ~/.bashrc file.
 
 2. Clone the Yocto Project build tools (Poky) environment.
 
-   $ cd $YOCTO\
-   $ git clone git://git.yoctoproject.org/poky.git\
-   $ cd poky\
-   $ git checkout morty a845564a1af78ae9632db80143a2cca390db794c
+   $ cd $YOCTO
+   $ git clone git://git.yoctoproject.org/poky.git
+   $ cd poky
+   $ git checkout a845564a1af78ae9632db80143a2cca390db794c
 
 3. Clone the Axxia meta layer. This provides meta data for building
    images for the Axxia specific board types.  See 'Sources' above to
    select the right meta-axxia repository, branch, and version.
 
-   $ cd $YOCTO/poky\
-   $ (the git clone command chosen above)\
-   $ cd meta-axxia\
-   $ git checkout tags/snr_delivery10_linux4_9
+   $ cd $YOCTO
+   $ (the git clone command chosen above)
+   $ cd meta-axxia
+   $ git checkout tags/snr_delivery11_linux4_9
 
 4. The Open Embedded project provides many useful layers and packages
    such as networking. Download the Open Embedded Yocto Project hosted
    repository with the following.
 
-   $ cd $YOCTO/poky\
-   $ git clone https://github.com/openembedded/meta-openembedded.git\
-   $ cd meta-openembedded\
-   $ git checkout morty b40116cf457b88a2db14b86fda9627fb34d56ae6
+   $ cd $YOCTO
+   $ git clone https://github.com/openembedded/meta-openembedded.git
+   $ cd meta-openembedded
+   $ git checkout b40116cf457b88a2db14b86fda9627fb34d56ae6
 
 5. Clone Yocto Virtualization Layer which provides packages for
    virtualization such as Linux Container Support (lxc).
 
-   $ cd $YOCTO/poky\
-   $ git clone git://git.yoctoproject.org/meta-virtualization\
-   $ cd $YOCTO/poky\
-   $ cd meta-virtualization\
-   $ git checkout morty eb6b5129561eda9ea1f47e85ab9ed9e5a6b8f64c
+   $ cd $YOCTO
+   $ git clone git://git.yoctoproject.org/meta-virtualization
+   $ cd meta-virtualization
+   $ git checkout eb6b5129561eda9ea1f47e85ab9ed9e5a6b8f64c
 
 6. Clone the Intel meta layer. This provides Intel hardware support 
    metadata which are inherited in axxiax86-64 BSP.
 
-   $ cd $YOCTO/poky\
-   $ git clone git://git.yoctoproject.org/meta-intel\
-   $ cd meta-intel\
-   $ git checkout morty c781510a5a6b45e60cc32b6614ddcce3f1452121
+   $ cd $YOCTO
+   $ git clone git://git.yoctoproject.org/meta-intel
+   $ cd meta-intel
+   $ git checkout c781510a5a6b45e60cc32b6614ddcce3f1452121
 
 7. Create the build directory. The name is optional and will default
    to 'build', however it helps to choose a name to match the board
    type. For example, we will use axxia.
 
-   $ cd $YOCTO\
-   $ source poky/meta-axxia/axxia-env\
+   $ cd $YOCTO
+   $ source meta-axxia/axxia-env
    $ source poky/oe-init-build-env axxia
 
 8. Edit the conf/bblayers.conf file
 
-   $ pwd (you should be at $YOCTO/axxia)\
+   $ pwd (you should be at $YOCTO/axxia)
    $ vi conf/bblayers.conf
 
 Edit BBLAYERS variable as follows. Replace references to $YOCTO below with the
 actual value you provided in step 1.
 
-   BBLAYERS ?= " \\\
-            $YOCTO/poky/meta \\\
-            $YOCTO/poky/meta-poky \\\
-            $YOCTO/poky/meta-openembedded/meta-oe \\\
-            $YOCTO/poky/meta-openembedded/meta-python \\\
-            $YOCTO/poky/meta-openembedded/meta-networking \\\
-            $YOCTO/poky/meta-virtualization \\\
-            $YOCTO/poky/meta-intel \\\
-            $YOCTO/poky/meta-axxia \\\
+   BBLAYERS ?= " \
+            $YOCTO/poky/meta \
+            $YOCTO/poky/meta-poky \
+            $YOCTO/meta-openembedded/meta-oe \
+            $YOCTO/meta-openembedded/meta-python \
+            $YOCTO/meta-openembedded/meta-networking \
+            $YOCTO/meta-virtualization \
+            $YOCTO/meta-intel \
+            $YOCTO/meta-axxia \
             "
 
 9. Edit the conf/local.conf file:

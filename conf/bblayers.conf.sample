@@ -8,17 +8,17 @@ BBFILES ?= ""
 BBLAYERS ?= " \
   ##OEROOT##/meta \
   ##OEROOT##/meta-poky \
-  ##OEROOT##/meta-openembedded/meta-oe \
-  ##OEROOT##/meta-openembedded/meta-networking \
-  ##OEROOT##/meta-openembedded/meta-python \
-  ##OEROOT##/meta-virtualization \
-  ##OEROOT##/meta-intel \
-  ##OEROOT##/meta-axxia \
+  ##OEROOT##/../meta-openembedded/meta-oe \
+  ##OEROOT##/../meta-openembedded/meta-networking \
+  ##OEROOT##/../meta-openembedded/meta-python \
+  ##OEROOT##/../meta-virtualization \
+  ##OEROOT##/../meta-intel \
+  ##OEROOT##/../meta-axxia \
   "
 
 BBLAYERS_NON_REMOVABLE ?= " \
   ##OEROOT##/meta \
   ##OEROOT##/meta-poky \
-  ##OEROOT##/meta-intel \
-  ##OEROOT##/meta-axxia \
+  ##OEROOT##/../meta-intel \
+  ##OEROOT##/../meta-axxia \
   "
