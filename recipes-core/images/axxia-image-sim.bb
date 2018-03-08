@@ -66,6 +66,7 @@ python3-pexpect \
 python3-pyexpect \
 python3-pyyaml \
 python3-pynetlinux \
+python3-scapy \
 readline \
 swig \
 tcl \
