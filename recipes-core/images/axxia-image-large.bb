@@ -182,6 +182,7 @@ python3-pexpect \
 python3-pyexpect \
 python3-pyyaml \
 python3-pynetlinux \
+python3-robotframework \
 python3-scapy \
 quota \
 readline \
