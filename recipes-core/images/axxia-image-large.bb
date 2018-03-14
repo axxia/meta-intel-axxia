@@ -2,6 +2,7 @@ DESCRIPTION = "A large and complete image including all Intel Axxia \
 required packages."
 
 require recipes-core/images/core-image-minimal-dev.bb
+require axxia-image.inc
 
 IMAGE_INSTALL = " \
 acl \
