@@ -1,5 +1,7 @@
 DESCRIPTION = "A minimal image used in simulation."
 
+require axxia-image.inc
+
 IMAGE_INSTALL = " \
 packagegroup-core-boot \
 ${CORE_IMAGE_EXTRA_INSTALL} \
