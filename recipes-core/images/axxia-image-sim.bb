@@ -73,6 +73,7 @@ python3-scapy \
 readline \
 swig \
 tcl \
+tcpdump \
 telnetd \
 tk \
 tmux \
