@@ -42,13 +42,13 @@ lttng-ust \
 lttng-ust-dev \
 mtools \
 ncurses \
-net-tools \
 netcat \
 netkit-tftp-client \
 numactl \
 openssh \
 openssh-sftp \
 pciutils \
+packagegroup-core-full-cmdline \
 perl-module-bigint \
 python-cffi \
 python-core \
