@@ -1,0 +1,42 @@
+Index: pynetlinux-1.1/pynetlinux/__init__.py
+===================================================================
+--- pynetlinux-1.1.orig/pynetlinux/__init__.py
++++ pynetlinux-1.1/pynetlinux/__init__.py
+@@ -2,7 +2,7 @@
+ #   import pylinux
+ # does a reasonable thing.
+ 
+-import brctl
+-import ifconfig
+-import tap
+-import route
++from pynetlinux import brctl
++from pynetlinux import ifconfig
++from pynetlinux import tap
++from pynetlinux import route
+Index: pynetlinux-1.1/pynetlinux/brctl.py
+===================================================================
+--- pynetlinux-1.1.orig/pynetlinux/brctl.py
++++ pynetlinux-1.1/pynetlinux/brctl.py
+@@ -3,7 +3,7 @@ import fcntl
+ import os
+ import struct
+ 
+-import ifconfig
++from pynetlinux import ifconfig
+ 
+ SYSFS_NET_PATH = "/sys/class/net"
+ 
+Index: pynetlinux-1.1/pynetlinux/tap.py
+===================================================================
+--- pynetlinux-1.1.orig/pynetlinux/tap.py
++++ pynetlinux-1.1/pynetlinux/tap.py
+@@ -2,7 +2,7 @@ import fcntl
+ import os
+ import struct
+ 
+-import ifconfig
++from pynetlinux import ifconfig
+ 
+ # From linux/if_tun.h
+ 
