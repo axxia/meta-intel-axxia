@@ -178,18 +178,23 @@ below shoud be replaced with the actual value you provided in step 1).
 
     DISTRO = "intel-axxia"
 
-9.2 Depending on your processor, set these two options that control
+9.2 Set Release version. Replace it with the tag for meta-intel-axxia
+    from step 3.
+
+    RELEASE_VERSION = "(meta-intel-axxia-tag)"
+
+9.3 Depending on your processor, set these two options that control
     how much parallelism BitBake should use:
 
     BB_NUMBER_THREADS = "12"
     PARALLEL_MAKE = "-j 12"
 
-9.3 Select a specific machine to target the build with:
+9.4 Select a specific machine to target the build with:
 
     - Axxia SNR Mobile & Enterprise Communication Processors family.
     MACHINE = "axxiax86-64"
 
-9.4 Select the kernel to use.
+9.5 Select the kernel to use.
     Meta-intel-axxia is able to build the kernel from 2 sources:
 
 a. Yocto Project Source repositories (git.yoctoproject.org)
@@ -236,7 +241,7 @@ c. Public Intel Github (github.com/intel)
    4.14: git://github.com/intel/linux-intel-lts.git
          4.14/yocto/base or 4.14/yocto/base-rt branch
 
-9.5 Select the kernel version:
+9.6 Select the kernel version:
 
    for 4.9, depending on PREFERRED_PROVIDER_virtual/kernel
    PREFERRED_VERSION_(preferred-provider)= "4.9%"
@@ -250,7 +255,7 @@ c. Public Intel Github (github.com/intel)
 NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
       linux-axxia, linux-axxia-rt, linux-intel, linux-intel-rt. See  9.5.
 
-9.6 Choose the System where the image will run between simulation and 
+9.7 Choose the System where the image will run between simulation and 
     emulation:
 
     for Simics Simulation System (default):
@@ -259,17 +264,17 @@ NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
     for Frio FPGA Emulation System:
     RUNTARGET = "frio"
 
-9.7 Add simicsfs-client support (for large and sim images). Sources tgz archive
+9.8 Add simicsfs-client support (for large and sim images). Sources tgz archive
     should copied in meta-intel-axxia/download directory: simics-5.0.130.tgz
 
     SIMICSFS = "yes"
 
-9.8 Other optional settings for saving disk space and build time:
+9.9 Other optional settings for saving disk space and build time:
    
    DL_DIR = "/(some-shared-location)/downloads"
    SSTATE_DIR = "/(some-shared-location)/sstate-cache
 
-9.9 Examples.
+9.10 Examples.
 
      See http://www.yoctoproject.org/docs/2.3/mega-manual/mega-manual.html
      for complete documentation on the Yocto build system.
