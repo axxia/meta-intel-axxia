@@ -3,4 +3,5 @@ do_image_clean_deploy () {
 	rm -f ${DEPLOY_DIR_IMAGE}/${PN}-${MACHINE}*.testdata.json
 }
 
-addtask do_image_clean_deploy before do_image_complete
+do_rootfs[prefuncs] += "do_image_clean_deploy"
+do_clean[prefuncs] += "do_image_clean_deploy"
