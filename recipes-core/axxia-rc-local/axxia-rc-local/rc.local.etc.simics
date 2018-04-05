@@ -18,13 +18,10 @@ echo "Running /etc/rc.local..."
 # the /init script and the console shell.
 
 # Automatically mount host filesystem using simicsfs-client.
-if [ -f /usr/bin/simicsfs-client ]
-then
-    mkdir -p /host
-    simicsfs-client /host
-fi
+mkdir -p /host
+simicsfs-client /host
 
-# Run dhclient on the Ethernet interface.
+# Run udhcpc on the Ethernet interface.
 
 TOUT=20
 
