@@ -31,7 +31,6 @@ libnl-nf \
 libnl-route \
 libpcap \
 libpython2 \
-libpython3 \
 libubsan \
 libudev \
 lttng-modules \
@@ -49,7 +48,6 @@ openssh \
 openssh-sftp \
 pciutils \
 packagegroup-core-full-cmdline \
-perl-module-bigint \
 python-cffi \
 python-core \
 python-dev \
@@ -57,25 +55,10 @@ python-distutils \
 python-modules \
 python-netserver \
 python-nose \
-python3-cffi \
-python3-core \
-python3-dev \
-python3-distutils \
-python3-modules \
-python3-netserver \
-python3-nose \
-python3-pexpect \
-python3-pyexpect \
-python3-pyyaml \
-python3-pynetlinux \
-python3-robotframework \
-python3-scapy \
 readline \
 swig \
-tcl \
 tcpdump \
 telnetd \
-tk \
 tmux \
 vlan \
 ${@base_conditional('SIMICSFS', 'yes', 'simicsfs-client fuse', '', d)} "
