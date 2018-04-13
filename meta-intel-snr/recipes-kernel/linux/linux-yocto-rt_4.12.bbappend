@@ -3,10 +3,10 @@ FILESEXTRAPATHS_prepend := "\
 :${THISDIR}/frags/${KV}:"
 
 KV = "4.12"
-LINUX_VERSION_axxiax86-64 = "4.12.20"
+LINUX_VERSION_axxiax86-64 = "4.12.21"
 KBRANCH_axxiax86-64 = "standard/preempt-rt/base"
 KMACHINE_axxiax86-64 = "intel-corei7-64"
-SRCREV_machine_axxiax86-64 = "33aa1a4ea44399f12dfb26146ea06db5cd02ca69"
+SRCREV_machine_axxiax86-64 = "00367470471fd119fcd9a9d41789e19cb2824a0d"
 SRCREV_meta_axxiax86-64 = "19d815d5a34bfaad95d87cc097cef18b594daac8"
 
 # "simics" for simulation system or "frio" for FPGA emulation system
