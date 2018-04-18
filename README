@@ -260,7 +260,7 @@ NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
     RUNTARGET = "frio"
 
 9.7 Add simicsfs-client support (for large and sim images). Sources tgz archive
-    should copied in meta-intel-axxia/download directory: simics-5.0.130.tgz
+    should copied in meta-intel-axxia/download directory: simics-5.0.140.tgz
 
     SIMICSFS = "yes"
 
@@ -334,10 +334,10 @@ the output directory 'tmp/deploy/images/$MACHINE'.
 
 12. Build and install the SDK:
 
-In step 9. above, add '-c populate_sdk' to create the SDK install self
-extracting script in tmp/deploy/sdk.  Simply run the poky*.sh script.
-To set up the environment to use the tools, source environment-setup*
-in the install directory.
+In step 10. above, add '-c populate_sdk' to create the SDK install
+self extracting script in tmp/deploy/sdk.  Simply run the poky*.sh
+script.  To set up the environment to use the tools, source
+environment-setup* in the install directory.
 
 Note that to include the Linux source (to build external modules), use
 'bitbake axxia-image-large-sdk -c populate_sdk'.  For other targets,
