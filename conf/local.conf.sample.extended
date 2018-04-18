@@ -88,6 +88,9 @@ DISTRO = "intel-axxia"
 # useful to most new users.
 # DISTRO ?= "poky-bleeding"
 
+# Release version should be the tag for meta-intel-axxia from release note (README).                                                                                                                                                                                                                                       
+# RELEASE_VERSION = ""
+
 #
 # Package Management configuration
 #
