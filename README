@@ -195,7 +195,7 @@ below shoud be replaced with the actual value you provided in step 1).
     MACHINE = "axxiax86-64"
 
 9.5 Select the kernel to use.
-    Meta-intel-axxia is able to build the kernel from 2 sources:
+    Meta-intel-axxia is able to build the kernel from 4 sources:
 
 a. Yocto Project Source repositories (git.yoctoproject.org)
 
@@ -224,6 +224,20 @@ b. Public Intel Github (github.com/intel)
    will build kernel from Intel Github public repos:
    4.14: git://github.com/intel/linux-intel-lts.git
          4.14/yocto/base or 4.14/yocto/base-rt branch
+
+d. Local Kernel repositories (development purpose)
+
+   PREFERRED_PROVIDER_virtual/kernel = "linux-local"
+
+   To use a local kernel repository, you also need to add in local.conf
+   or to ajust directly in recipes-kernel/linux/linux-local.bb recipe:
+
+   LOCAL_KERNEL_PATH = "(path-to-local-kernel-repository)"
+   LOCAL_KERNEL_BRANCH = "(kernel-branch)"
+
+   NOTE: All changes should be committed in the local kernel.
+   NOTE: Full defconfig should be copied in recipes-kernel/linux,
+         besides linux-local.bb recipe.
 
 9.6 Select the kernel version:
 
