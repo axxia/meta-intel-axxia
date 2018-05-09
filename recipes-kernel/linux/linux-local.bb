@@ -14,7 +14,11 @@ LOCAL_KERNEL_BRANCH ?= "standard/base"
 
 require recipes-kernel/linux/linux-yocto.inc
 
+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe"
+
 PV = "dev-version"
+
+DEPENDS_append = " elfutils-native openssl-native util-linux-native"
 
 SRCREV_machine_axxiax86-64 = "${AUTOREV}"
 
