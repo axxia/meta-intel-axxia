@@ -14,6 +14,8 @@ LOCAL_KERNEL_BRANCH ?= "standard/base"
 
 require recipes-kernel/linux/linux-yocto.inc
 
+FILESEXTRAPATHS_prepend := "${THISDIR}:"
+
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe"
 
 PV = "dev-version"
@@ -24,7 +26,7 @@ SRCREV_machine_axxiax86-64 = "${AUTOREV}"
 
 SRC_URI_axxiax86-64 = " \
 	git://${LOCAL_KERNEL_PATH};name=machine;branch=${LOCAL_KERNEL_BRANCH} \
-	file://${THISDIR}/defconfig \
+	file://defconfig \
 	"
 
 COMPATIBLE_MACHINE_axxiax86-64 = "${MACHINE}"
