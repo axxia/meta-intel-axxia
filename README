@@ -50,25 +50,25 @@ Poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: rocko
-revision: 5ba69a97ab5faa8f3866aaeab1d6eaa3cb8149ed
+revision: 9915e071bcadd7c4d5363a067c529889851d37a5
 
 OpenEmbedded
 ------------
 URI: https://github.com/openembedded/meta-openembedded.git
 branch: rocko
-revision: a65c1acb1822966c3553de9fc98d8bb6be705c4e
+revision: dacfa2b1920e285531bec55cd2f08743390aaf57
 
 Yocto Virtualization Layer
 --------------------------
 URI: git://git.yoctoproject.org/meta-virtualization
 branch: rocko
-revision: 4277759428e96605b8dbe95a43891e217ae8d399
+revision: bd77388f31929f38e7d4cc9c711f0f83f563007e
 
 Intel Meta Layer
 ----------------
 URI: git://git.yoctoproject.org/meta-intel
 branch: rocko
-revision: 92d66730fba1fdc71d2548332c8ff57160e31b05
+revision: 7e284b95b45c7ec5c5b5c8cb08122d3b470c0d63
 
 
 Building the meta-intel-axxia BSP layer
@@ -97,7 +97,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/poky.git
    $ cd poky
-   $ git checkout 5ba69a97ab5faa8f3866aaeab1d6eaa3cb8149ed
+   $ git checkout 9915e071bcadd7c4d5363a067c529889851d37a5
 
 3. Clone the Axxia meta layer. This provides meta data for building
    images for the Axxia specific board types.  See 'Sources' above to
@@ -123,7 +123,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ cd $YOCTO
    $ git clone https://github.com/openembedded/meta-openembedded.git
    $ cd meta-openembedded
-   $ git checkout a65c1acb1822966c3553de9fc98d8bb6be705c4e
+   $ git checkout dacfa2b1920e285531bec55cd2f08743390aaf57
 
 5. Clone Yocto Virtualization Layer which provides packages for
    virtualization such as Linux Container Support (lxc).
@@ -131,7 +131,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/meta-virtualization
    $ cd meta-virtualization
-   $ git checkout 4277759428e96605b8dbe95a43891e217ae8d399
+   $ git checkout bd77388f31929f38e7d4cc9c711f0f83f563007e
 
 6. Clone the Intel meta layer. This provides Intel hardware support 
    metadata which are inherited in axxiax86-64 BSP.
@@ -139,7 +139,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/meta-intel
    $ cd meta-intel
-   $ git checkout 92d66730fba1fdc71d2548332c8ff57160e31b05
+   $ git checkout 7e284b95b45c7ec5c5b5c8cb08122d3b470c0d63
 
 7. Create the build directory. The name is optional and will default
    to 'build', however it helps to choose a name to match the board
