@@ -207,29 +207,13 @@ a. Yocto Project Source repositories (git.yoctoproject.org)
 
    will build kernel from Yocto repos:
    4.9: http://git.yoctoproject.org/git/linux-yocto-4.9
-        standard/axxia/base or standard/preempt-rt/axxia/base branch
+        standard/base or standard/preempt-rt/base branch
 
    will build kernel from Yocto repos:
    4.12: http://git.yoctoproject.org/git/linux-yocto-4.12
-        standard/axxia/base or standard/preempt-rt/axxia/base branch
+        standard/base or standard/preempt-rt/base branch
 
-b. Private Axxia Github (github.com/axxia)
-
-   for standard
-   PREFERRED_PROVIDER_virtual/kernel = "linux-axxia"
-
-   for preempt-rt
-   PREFERRED_PROVIDER_virtual/kernel = "linux-axxia-rt"
-
-   will build kernel from GitHub private repos (require authentication with
-   public key):
-   4.9: git@github.com:axxia/axxia_yocto_linux_4.9_private.git
-        standard/axxia-dev/base or standard/preempt-rt/axxia/base branch
-
-   4.9: git@github.com:axxia/axxia_yocto_linux_4.12_private.git
-        standard/axxia-dev/base or standard/preempt-rt/axxia/base branch
-
-c. Public Intel Github (github.com/intel)
+b. Public Intel Github (github.com/intel)
 
    for standard
    PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
@@ -253,7 +237,7 @@ c. Public Intel Github (github.com/intel)
    PREFERRED_VERSION_linux-intel= "4.12%"
 
 NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
-      linux-axxia, linux-axxia-rt, linux-intel, linux-intel-rt. See  9.5.
+      linux-intel, or linux-intel-rt. See  9.5.
 
 9.7 Choose the System where the image will run between simulation and 
     emulation:
@@ -350,25 +334,7 @@ the Linux source will not be available.
 
 After the installation completes, do the following.
 
-12.1 libnl Links
-
-At present, no links get created in (sysroot)/usr/lib for the expected
-names of the netlink libraries.  DPDK, for example, expects
-libnl-3.so, but the SDK has libnl-3.so.200 (which is a link to the
-actual library, libnl-3.so.200.23.0 etc.).  Fix this as follows.
-
-cd $SYSROOT/usr/lib
-ln -s libnl-3.so.200 libnl-3.so
-ln -s libnl-genl-3.so.200 libnl-genl-3.so
-ln -s libnl-nf-3.so.200 libnl-nf-3.so
-ln -s libnl-route-3.so.200 libnl-route-3.so
-
-12.2 Some Updates for LTTng
-
-cd $SYSROOT/usr/lib
-sed -i "s|/usr/lib|$SYSROOT/usr/lib|" liblttng-ust.la
-
-12.3 Optional Linux Module Tools Update
+12.1 Optional Linux Module Tools Update
 
 If external Linux modules need to be buildable on multiple versions of
 Linux hosts, and the tools were installed on the most recent version,
@@ -378,10 +344,10 @@ are expected.  To use an older version, simply do the following on the
 older Linux host.
 
 source (install directory)/environment-setup*
-cd $SYSROOT/usr/src/kernel
+cd $SDKTARGETSYSROOT/usr/src/kernel
 make clean silentoldconfig scripts
 
-12.4 Creating .craff Images for Simics
+12.2 Creating .craff Images for Simics
 
 When in the simics environment, the 'craff' utility should be
 available.  Use 'craff' to create .craff images from the .hddimg
