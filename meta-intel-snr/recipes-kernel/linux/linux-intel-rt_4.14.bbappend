@@ -27,6 +27,7 @@ file://FRIO-0002-drivers-pci-acs-override.patch \
 SRC_URI_append_axxiax86-64 = " \
 	${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
 	${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
+	file://BOTH-001-PCI_INTERRUPT_PIN-Should-Always-Read-0.patch \
 	file://${RUNTARGET}-runtarget.scc \
 	file://common.scc \
 	"
