@@ -18,6 +18,7 @@ file://SIMICS-0002-pinctrl-intel-Add-Intel-Denverton-pin-controller-sup.patch \
 file://SIMICS-0003-i2c-i801-Add-support-for-Intel-Cedar-Fork.patch \
 file://SIMICS-0004-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch \
 file://SIMICS-0005-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch \
+file://SIMICS-0006-pinctrl-cedarfork-Correct-EAST-pin-ordering.patch \
 "
 
 FRIO_PATCHES = " \
