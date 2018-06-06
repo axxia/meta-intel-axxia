@@ -9,6 +9,7 @@ include cfg/x32.scc
 include cfg/fs/ext2.scc
 include cfg/fs/ext3.scc
 include cfg/fs/ext4.scc
+include xen.scc
 
 kconf non-hardware ktypes/developer/developer.cfg
 kconf hardware frio-runtarget.cfg
