@@ -234,8 +234,8 @@ zlib \
 ${LXC_SUPPORT} \
 ${@base_conditional('SIMICSFS', 'yes', 'simicsfs-client fuse', '', d)} "
 
-LXC_SUPPORT = "xz gnupg cgroup-lite libvirt libvirt-libvirtd lxc lxc-templates \
-	       ${@bb.utils.contains('DISTRO_FEATURES','systemd','lxc-setup','',d)}"
+LXC_SUPPORT = "xz gnupg cgroup-lite libvirt libvirt-libvirtd \
+	       lxc lxc-setup lxc-templates "
 
 SDKIMAGE_FEATURES = "dev-pkgs dbg-pkgs staticdev-pkgs"
 TOOLCHAIN_TARGET_TASK_append = " libc-staticdev"
