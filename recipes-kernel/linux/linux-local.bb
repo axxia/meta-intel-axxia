@@ -29,5 +29,7 @@ SRC_URI_axxiax86-64 = " \
 	file://defconfig \
 	"
 
+do_kernel_configme[depends] += "${PN}:do_prepare_recipe_sysroot"
+
 COMPATIBLE_MACHINE_axxiax86-64 = "${MACHINE}"
 KERNEL_VERSION_SANITY_SKIP = "1"
