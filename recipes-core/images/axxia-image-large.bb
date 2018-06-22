@@ -123,12 +123,6 @@ lighttpd \
 logrotate \
 lrzsz \
 ltp \
-lttng-modules \
-lttng-modules-dev \
-lttng-tools \
-lttng-tools-dev \
-lttng-ust \
-lttng-ust-dev \
 lvm2 \
 lzo \
 man \

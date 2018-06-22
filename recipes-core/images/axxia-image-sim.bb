@@ -33,12 +33,6 @@ libpcap \
 libpython2 \
 libubsan \
 libudev \
-lttng-modules \
-lttng-modules-dev \
-lttng-tools \
-lttng-tools-dev \
-lttng-ust \
-lttng-ust-dev \
 mtools \
 ncurses \
 netcat \
