@@ -11,7 +11,12 @@ KMACHINE_axxiax86-64 = "intel-corei7-64"
 RUNTARGET ?= "simics"
 
 SIMICS_PATCHES = " \
-file://SIMICS-0001-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch \
+file://SIMICS-0001-mtd-spi-nor-intel-spi-Add-support-for-Intel-Cedar-Fo.patch \
+file://SIMICS-0002-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch \
+file://SIMICS-0003-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch \
+file://SIMICS-0004-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch \
+file://SIMICS-0005-x86-cpufeatures-Enumerate-cldemote-instruction.patch \
+file://SIMICS-0006-x86-intel_rdt-Add-command-line-parameter-to-control-.patch \
 "
 
 FRIO_PATCHES = " \

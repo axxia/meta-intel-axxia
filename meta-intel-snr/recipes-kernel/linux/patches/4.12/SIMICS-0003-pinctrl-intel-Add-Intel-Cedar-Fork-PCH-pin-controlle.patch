@@ -1,7 +1,7 @@
-From c224ef0d7b6e46971b708c8879d3d65ac274cc91 Mon Sep 17 00:00:00 2001
+From e6ced363c6669dded3a93dcc2ff0b3b09713c5bd Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
-Date: Tue, 13 Feb 2018 16:36:37 -0600
-Subject: [PATCH 5/6] pinctrl: intel: Add Intel Cedar Fork PCH pin controller
+Date: Thu, 28 Jun 2018 11:44:59 -0500
+Subject: [PATCH 3/8] pinctrl: intel: Add Intel Cedar Fork PCH pin controller
  support
 
 Intel Cedar Fork PCH is the successor of Intel Denverton PCH but it is
@@ -20,7 +20,7 @@ Signed-off-by: John Jacques <john.jacques@intel.com>
  create mode 100644 drivers/pinctrl/intel/pinctrl-cedarfork.c
 
 diff --git a/drivers/pinctrl/intel/Kconfig b/drivers/pinctrl/intel/Kconfig
-index aba2af0..5d6357b 100644
+index b82d6ff3116f..f3f150098f0d 100644
 --- a/drivers/pinctrl/intel/Kconfig
 +++ b/drivers/pinctrl/intel/Kconfig
 @@ -64,6 +64,14 @@ config PINCTRL_CANNONLAKE
@@ -35,24 +35,23 @@ index aba2af0..5d6357b 100644
 +	  This pinctrl driver provides an interface that allows configuring
 +	  of Intel Cedar Fork PCH pins and using them as GPIOs.
 +
- config PINCTRL_DENVERTON
- 	tristate "Intel Denverton pinctrl and GPIO driver"
+ config PINCTRL_GEMINILAKE
+ 	tristate "Intel Gemini Lake SoC pinctrl and GPIO driver"
  	depends on ACPI
 diff --git a/drivers/pinctrl/intel/Makefile b/drivers/pinctrl/intel/Makefile
-index d9b31f7..51f0a64 100644
+index 81df3cf408e3..7b7732337bf4 100644
 --- a/drivers/pinctrl/intel/Makefile
 +++ b/drivers/pinctrl/intel/Makefile
-@@ -6,6 +6,7 @@ obj-$(CONFIG_PINCTRL_MERRIFIELD)	+= pinctrl-merrifield.o
+@@ -6,5 +6,6 @@ obj-$(CONFIG_PINCTRL_MERRIFIELD)	+= pinctrl-merrifield.o
  obj-$(CONFIG_PINCTRL_INTEL)		+= pinctrl-intel.o
  obj-$(CONFIG_PINCTRL_BROXTON)		+= pinctrl-broxton.o
  obj-$(CONFIG_PINCTRL_CANNONLAKE)	+= pinctrl-cannonlake.o
 +obj-$(CONFIG_PINCTRL_CEDARFORK)		+= pinctrl-cedarfork.o
- obj-$(CONFIG_PINCTRL_DENVERTON)		+= pinctrl-denverton.o
  obj-$(CONFIG_PINCTRL_GEMINILAKE)	+= pinctrl-geminilake.o
  obj-$(CONFIG_PINCTRL_SUNRISEPOINT)	+= pinctrl-sunrisepoint.o
 diff --git a/drivers/pinctrl/intel/pinctrl-cedarfork.c b/drivers/pinctrl/intel/pinctrl-cedarfork.c
 new file mode 100644
-index 0000000..59216b0
+index 000000000000..59216b0533d9
 --- /dev/null
 +++ b/drivers/pinctrl/intel/pinctrl-cedarfork.c
 @@ -0,0 +1,375 @@
@@ -432,5 +431,5 @@ index 0000000..59216b0
 +MODULE_DESCRIPTION("Intel Cedar Fork PCH pinctrl/GPIO driver");
 +MODULE_LICENSE("GPL v2");
 -- 
-2.7.4
+2.13.6
 

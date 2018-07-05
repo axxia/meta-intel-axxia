@@ -1,7 +1,7 @@
-From df8789440597784eb7d2f0aff8eb83252bfb0241 Mon Sep 17 00:00:00 2001
-From: John Jacques <john.jacques@intel.com>
-Date: Thu, 15 Feb 2018 10:54:24 -0600
-Subject: [PATCH 15/17] pinctrl: intel: Add Intel Cedar Fork PCH pin controller
+From cde196f8a5422d0cece2f9d96ec83ec914270c1c Mon Sep 17 00:00:00 2001
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+Date: Mon, 23 Oct 2017 15:40:26 +0300
+Subject: [PATCH 3/6] pinctrl: intel: Add Intel Cedar Fork PCH pin controller
  support
 
 Intel Cedar Fork PCH is the successor of Intel Denverton PCH but it is
@@ -10,8 +10,6 @@ driver to support it.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-(back ported from 0f80dbc133e3ebf82766b5276d8d0fe998a6f0db)
-Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  drivers/pinctrl/intel/Kconfig             |   8 +
  drivers/pinctrl/intel/Makefile            |   1 +
@@ -20,12 +18,12 @@ Signed-off-by: John Jacques <john.jacques@intel.com>
  create mode 100644 drivers/pinctrl/intel/pinctrl-cedarfork.c
 
 diff --git a/drivers/pinctrl/intel/Kconfig b/drivers/pinctrl/intel/Kconfig
-index e95930c..1bfa7ea 100644
+index f30720a752f3..c1e5a4bfa71d 100644
 --- a/drivers/pinctrl/intel/Kconfig
 +++ b/drivers/pinctrl/intel/Kconfig
-@@ -56,6 +56,14 @@ config PINCTRL_BROXTON
- 	  Broxton pinctrl driver provides an interface that allows
- 	  configuring of SoC pins and using them as GPIOs.
+@@ -65,6 +65,14 @@ config PINCTRL_CANNONLAKE
+ 	  This pinctrl driver provides an interface that allows configuring
+ 	  of Intel Cannon Lake PCH pins and using them as GPIOs.
  
 +config PINCTRL_CEDARFORK
 +	tristate "Intel Cedar Fork pinctrl and GPIO driver"
@@ -39,19 +37,20 @@ index e95930c..1bfa7ea 100644
  	tristate "Intel Denverton pinctrl and GPIO driver"
  	depends on ACPI
 diff --git a/drivers/pinctrl/intel/Makefile b/drivers/pinctrl/intel/Makefile
-index 07d29ed..f9648a8 100644
+index 624d367caa09..fadfe3ea2b04 100644
 --- a/drivers/pinctrl/intel/Makefile
 +++ b/drivers/pinctrl/intel/Makefile
-@@ -5,5 +5,6 @@ obj-$(CONFIG_PINCTRL_CHERRYVIEW)	+= pinctrl-cherryview.o
- obj-$(CONFIG_PINCTRL_MERRIFIELD)	+= pinctrl-merrifield.o
+@@ -7,6 +7,7 @@ obj-$(CONFIG_PINCTRL_MERRIFIELD)	+= pinctrl-merrifield.o
  obj-$(CONFIG_PINCTRL_INTEL)		+= pinctrl-intel.o
  obj-$(CONFIG_PINCTRL_BROXTON)		+= pinctrl-broxton.o
+ obj-$(CONFIG_PINCTRL_CANNONLAKE)	+= pinctrl-cannonlake.o
 +obj-$(CONFIG_PINCTRL_CEDARFORK)		+= pinctrl-cedarfork.o
  obj-$(CONFIG_PINCTRL_DENVERTON)		+= pinctrl-denverton.o
- obj-$(CONFIG_PINCTRL_SUNRISEPOINT)	+= pinctrl-sunrisepoint.o
+ obj-$(CONFIG_PINCTRL_GEMINILAKE)	+= pinctrl-geminilake.o
+ obj-$(CONFIG_PINCTRL_LEWISBURG)		+= pinctrl-lewisburg.o
 diff --git a/drivers/pinctrl/intel/pinctrl-cedarfork.c b/drivers/pinctrl/intel/pinctrl-cedarfork.c
 new file mode 100644
-index 0000000..59216b0
+index 000000000000..59216b0533d9
 --- /dev/null
 +++ b/drivers/pinctrl/intel/pinctrl-cedarfork.c
 @@ -0,0 +1,375 @@
@@ -431,5 +430,5 @@ index 0000000..59216b0
 +MODULE_DESCRIPTION("Intel Cedar Fork PCH pinctrl/GPIO driver");
 +MODULE_LICENSE("GPL v2");
 -- 
-2.7.4
+2.13.6
 

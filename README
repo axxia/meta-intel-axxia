@@ -71,6 +71,141 @@ branch: rocko
 revision: f66ce51d059d291a441d896854be8db70de5a554
 
 
+Back Ported Linux Changes
+========================
+
+Some changes that have been upstreamed, have not been back ported to
+Yocto Linux 4.12 (git://git.yoctoproject.org/linux-yocto-4.12) or the
+Intel Linux 4.14 kernel in meta-intel
+(git://github.com/intel/linux-intel-lts.git).  Only functional changes
+are included in this meta layer, and the upstream commit in kernel.org
+(https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git)
+is referenced below.  Any changes made to the upstream commit are
+described.
+
+The "title" of the commit (Subject: or first line) is used to identify
+the commit, as this is the easiest way to find it in the repositories.
+
+In the following descriptions, "with no changes" means that a patch
+was obtained using 'git format-patch -1 <sha>' in kernel.org and was
+applied using 'git am -3 <patch>'.
+
+In the meta layer, the patches for Yocto Linux 4.12 can be found in
+meta-intel-snr/recipes-kernel/linux/patches/4.12.  For Intel Linux
+4.14, the patches are in
+meta-intel-snr/recipes-kernel/linux/patches/4.14.
+
+mtd: spi-nor: intel-spi: Add support for Intel Cedar Fork SPI serial flash
+--------------------------------------------------------------------------
+
+824af37ef2d0 in kernel.org
+
+This has already been back ported to Yocto Linux 4.12 as
+b373e336eb847be8d8280be42e779a70c8b9cde4 which references the commit
+in kernel.org.
+
+Back ported to Intel Linux 4.14, with no changes, as
+SIMICS-0001-mtd-spi-nor-intel-spi-Add-support-for-Intel-Cedar-Fo.patch.
+
+serial: 8250_mid: Enable HSU on Intel Cedar Fork PCH
+----------------------------------------------------
+
+daf3930cf616 in kernel.org
+
+Back ported to Yocto Linux 4.12, with no changes, as
+SIMICS-0001-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch.
+
+Back ported to Intel Linux 4.14, with no changes, as
+SIMICS-0002-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch.
+
+i2c: i801: Add support for Intel Cedar Fork
+-------------------------------------------
+
+cb09d943c70d in kernel.org
+
+Back ported to Yocto Linux 4.12, with no changes, as
+SIMICS-0002-i2c-i801-Add-support-for-Intel-Cedar-Fork.patch.
+
+This has already been back ported ot Intel Linux 4.14 as part of
+67936a41e597331c991528c5e5bd791cfbb1b1d6 which references a merge
+branch.
+
+pinctrl: intel: Add Intel Cedar Fork PCH pin controller support
+---------------------------------------------------------------
+
+0f80dbc133e3 in kernel.org
+
+Back ported to Yocto Linux 4.12, with small changes, as
+SIMICS-0003-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch.
+
+Back ported to Intel Linux 4.14, with no changes, as
+SIMICS-0003-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch.
+
+mmc: sdhci-pci: Add support for Intel CDF
+-----------------------------------------
+
+cdaba732ff2f in kernel.org
+
+Back ported to Yocto Linux 4.12, with no changes, as
+SIMICS-0004-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch.
+
+Back ported to Intel Linux 4.14, with no changes, as
+SIMICS-0004-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch.
+
+intel_th: pci: Add Cedar Fork PCH support
+-----------------------------------------
+
+920ce7c33d in kernel.org
+
+Back ported to Yocto Linux 4.12, with no changes, as
+SIMICS-0005-intel_th-pci-Add-Cedar-Fork-PCH-support.patch.
+
+This has already been back ported to Intel Linux 4.14 as part of
+3a98be090601398395e2bf04b949394a0fa03244 which references a merge tag.
+
+pinctrl: intel: Make offset to interrupt status register configurable
+---------------------------------------------------------------------
+
+cf769bd86bcc in kernel.org
+
+Back ported to Yocto Linux 4.12, with no changes, as
+SIMICS-0006-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch.
+
+This has already been back ported to Intel Linux 4.14 as
+8dba5c8b00e1ade3b18d19bc83b86e34580add00.
+
+x86/cpufeatures: Enumerate cldemote instruction
+-----------------------------------------------
+
+912413057395 in kernel.org
+
+Back ported to Yocto Linux 4.12, with no changes, as
+SIMICS-0007-x86-cpufeatures-Enumerate-cldemote-instruction.patch.
+
+Back ported to Intel Linux 4.14, with no changes, as
+SIMICS-0005-x86-cpufeatures-Enumerate-cldemote-instruction.patch.
+
+KVM: Expose new cpu features to guest
+-------------------------------------
+
+80fef315a74d in kernel.org
+
+This will take some effort!  It's based on, even in the back port to
+4.14 case, other kvm changes that will have to be understood and back
+ported.
+
+x86/intel_rdt: Add command line parameter to control L2_CDP
+-----------------------------------------------------------
+
+31516de306c0 in kernel.org
+
+Back ported to Yocto Linux 4.12, with no changes, as
+SIMICS-0008-x86-intel_rdt-Add-command-line-parameter-to-control-.patch.
+
+Back ported to Intel Linux 4.14, with no changes, as
+SIMICS-0006-x86-intel_rdt-Add-command-line-parameter-to-control-.patch.
+
+
 Building the meta-intel-axxia BSP layer
 =======================================
 
@@ -195,7 +330,7 @@ below shoud be replaced with the actual value you provided in step 1).
     MACHINE = "axxiax86-64"
 
 9.5 Select the kernel to use.
-    Meta-intel-axxia is able to build the kernel from 4 sources:
+    Meta-intel-axxia is able to build the kernel from 2 sources:
 
 a. Yocto Project Source repositories (git.yoctoproject.org)
 
@@ -204,10 +339,6 @@ a. Yocto Project Source repositories (git.yoctoproject.org)
 
    for preempt-rt
    PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
-
-   will build kernel from Yocto repos:
-   4.9: http://git.yoctoproject.org/git/linux-yocto-4.9
-        standard/base or standard/preempt-rt/base branch
 
    will build kernel from Yocto repos:
    4.12: http://git.yoctoproject.org/git/linux-yocto-4.12
@@ -241,11 +372,8 @@ d. Local Kernel repositories (development purpose)
 
 9.6 Select the kernel version:
 
-   for 4.9, depending on PREFERRED_PROVIDER_virtual/kernel
-   PREFERRED_VERSION_(preferred-provider)= "4.9%"
-
-   for 4.12, depending on PREFERRED_PROVIDER_virtual/kernel
-   PREFERRED_VERSION_(preferred-provider)= "4.12%"
+   for 4.12, only for linux-yocto PREFERRED_PROVIDER_virtual/kernel
+   PREFERRED_VERSION_linux-yocto= "4.12%"
 
    for 4.14, only for linux-intel PREFERRED_PROVIDER_virtual/kernel
    PREFERRED_VERSION_linux-intel= "4.12%"

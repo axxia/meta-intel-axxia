@@ -1,3 +1,0 @@
-include features/nfsd/nfsd-enable.scc
-
-kconf hardware simics-runtarget.cfg

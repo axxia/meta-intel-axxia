@@ -1,0 +1,44 @@
+From 01fb9c32176e7ec32b69e93d04b2b610b3b0bcc1 Mon Sep 17 00:00:00 2001
+From: Fenghua Yu <fenghua.yu@intel.com>
+Date: Mon, 23 Apr 2018 11:29:22 -0700
+Subject: [PATCH 7/8] x86/cpufeatures: Enumerate cldemote instruction
+
+cldemote is a new instruction in future x86 processors. It hints
+to hardware that a specified cache line should be moved ("demoted")
+from the cache(s) closest to the processor core to a level more
+distant from the processor core. This instruction is faster than
+snooping to make the cache line available for other cores.
+
+cldemote instruction is indicated by the presence of the CPUID
+feature flag CLDEMOTE (CPUID.(EAX=0x7, ECX=0):ECX[bit25]).
+
+More details on cldemote instruction can be found in the latest
+Intel Architecture Instruction Set Extensions and Future Features
+Programming Reference.
+
+Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: "Ravi V Shankar" <ravi.v.shankar@intel.com>
+Cc: "H. Peter Anvin" <hpa@linux.intel.com>
+Cc: "Ashok Raj" <ashok.raj@intel.com>
+Link: https://lkml.kernel.org/r/1524508162-192587-1-git-send-email-fenghua.yu@intel.com
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+---
+ arch/x86/include/asm/cpufeatures.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index 63766693dbe4..3ac458a1492b 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -312,6 +312,7 @@
+ #define X86_FEATURE_AVX512_VPOPCNTDQ	(16*32+14) /* POPCNT for vectors of DW/QW */
+ #define X86_FEATURE_LA57		(16*32+16) /* 5-level page tables */
+ #define X86_FEATURE_RDPID		(16*32+22) /* RDPID instruction */
++#define X86_FEATURE_CLDEMOTE		(16*32+25) /* CLDEMOTE instruction */
+ 
+ /* AMD-defined CPU features, CPUID level 0x80000007 (EBX), word 17 */
+ #define X86_FEATURE_OVERFLOW_RECOV	(17*32+ 0) /* MCA overflow recovery support */
+-- 
+2.13.6
+

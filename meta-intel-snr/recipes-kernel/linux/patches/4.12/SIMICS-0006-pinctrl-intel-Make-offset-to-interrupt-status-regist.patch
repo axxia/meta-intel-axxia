@@ -1,7 +1,7 @@
-From d640b62054f91f93f61c86b09f1246fcaaf402f4 Mon Sep 17 00:00:00 2001
+From 3e99e3068bf68ff56b79ce88dfed93cca6a94a49 Mon Sep 17 00:00:00 2001
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 Date: Mon, 23 Oct 2017 15:40:25 +0300
-Subject: [PATCH 4/6] pinctrl: intel: Make offset to interrupt status register
+Subject: [PATCH 6/8] pinctrl: intel: Make offset to interrupt status register
  configurable
 
 Some GPIO blocks have the interrupt status (GPI_IS) offset different
@@ -12,17 +12,13 @@ While there remove two unused constants from the core driver.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-(backported from cf769bd86bccf210e4063540634a7abf2b99581f)
-Signed-off-by: John Jacques <john.jacques@intel.com>
-
-merge
 ---
  drivers/pinctrl/intel/pinctrl-intel.c | 20 ++++++++++++--------
  drivers/pinctrl/intel/pinctrl-intel.h |  3 +++
  2 files changed, 15 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/pinctrl/intel/pinctrl-intel.c b/drivers/pinctrl/intel/pinctrl-intel.c
-index 6dc1096..d98cb32 100644
+index 6dc1096d3d34..33a07d36d37c 100644
 --- a/drivers/pinctrl/intel/pinctrl-intel.c
 +++ b/drivers/pinctrl/intel/pinctrl-intel.c
 @@ -30,8 +30,6 @@
@@ -39,7 +35,7 @@ index 6dc1096..d98cb32 100644
  	if (community) {
  		const struct intel_padgroup *padgrp;
 -		unsigned gpp, gpp_offset;
-+		unsigned int gpp, gpp_offset, is_offset;
++		unsigned gpp, gpp_offset, is_offset;
  
  		padgrp = intel_community_get_padgroup(community, pin);
  		if (!padgrp)
@@ -60,7 +56,7 @@ index 6dc1096..d98cb32 100644
  	if (community) {
  		const struct intel_padgroup *padgrp;
 -		unsigned gpp, gpp_offset;
-+		unsigned int gpp, gpp_offset, is_offset;
++		unsigned gpp, gpp_offset, is_offset;
  		unsigned long flags;
  		u32 value;
  
@@ -107,7 +103,7 @@ index 6dc1096..d98cb32 100644
  	}
  }
 diff --git a/drivers/pinctrl/intel/pinctrl-intel.h b/drivers/pinctrl/intel/pinctrl-intel.h
-index 7fdb077..6627258 100644
+index 7fdb07753c2d..13b0bd6eb2a2 100644
 --- a/drivers/pinctrl/intel/pinctrl-intel.h
 +++ b/drivers/pinctrl/intel/pinctrl-intel.h
 @@ -73,6 +73,8 @@ struct intel_padgroup {
@@ -123,10 +119,10 @@ index 7fdb077..6627258 100644
  	unsigned padown_offset;
  	unsigned padcfglock_offset;
  	unsigned hostown_offset;
-+	unsigned int is_offset;
++	unsigned is_offset;
  	unsigned ie_offset;
  	unsigned pin_base;
  	unsigned gpp_size;
 -- 
-2.7.4
+2.13.6
 

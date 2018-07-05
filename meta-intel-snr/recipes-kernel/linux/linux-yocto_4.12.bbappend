@@ -13,12 +13,14 @@ SRCREV_meta_axxiax86-64 = "8359926e32b1f6a28734f4fc33f22c4beda8af38"
 RUNTARGET ?= "simics"
 
 SIMICS_PATCHES = " \
-file://SIMICS-0001-intel_th-pci-Add-Cedar-Fork-PCH-support.patch \
-file://SIMICS-0002-pinctrl-intel-Add-Intel-Denverton-pin-controller-sup.patch \
-file://SIMICS-0003-i2c-i801-Add-support-for-Intel-Cedar-Fork.patch \
-file://SIMICS-0004-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch \
-file://SIMICS-0005-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch \
-file://SIMICS-0006-pinctrl-cedarfork-Correct-EAST-pin-ordering.patch \
+file://SIMICS-0001-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch \
+file://SIMICS-0002-i2c-i801-Add-support-for-Intel-Cedar-Fork.patch \
+file://SIMICS-0003-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch \
+file://SIMICS-0004-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch \
+file://SIMICS-0005-intel_th-pci-Add-Cedar-Fork-PCH-support.patch \
+file://SIMICS-0006-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch \
+file://SIMICS-0007-x86-cpufeatures-Enumerate-cldemote-instruction.patch \
+file://SIMICS-0008-x86-intel_rdt-Add-command-line-parameter-to-control-.patch \
 "
 
 FRIO_PATCHES = " \
