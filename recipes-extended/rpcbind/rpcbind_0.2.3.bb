@@ -52,7 +52,7 @@ PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/
                           systemd \
 "
 
-EXTRA_OECONF += " --enable-warmstarts --with-rpcuser=rpc"
+EXTRA_OECONF_append = " --enable-warmstarts --with-rpcuser=rpc"
 
 do_install_append () {
 	mv ${D}${bindir} ${D}${sbindir}

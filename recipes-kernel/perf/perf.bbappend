@@ -1,1 +1,1 @@
-DEPENDS += "virtual/kernel"
+DEPENDS_append = " virtual/kernel"

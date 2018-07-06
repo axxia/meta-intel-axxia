@@ -60,7 +60,7 @@ tmux \
 vlan \
 ${@base_conditional('SIMICSFS', 'yes', 'simicsfs-client fuse', '', d)} "
 
-IMAGE_FEATURES += "dev-pkgs"
+IMAGE_FEATURES_append = " dev-pkgs"
 
 IMAGE_LINGUAS = " "
 

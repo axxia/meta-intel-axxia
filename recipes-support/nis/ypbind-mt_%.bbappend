@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-SRC_URI += "file://yp.conf"
+SRC_URI_append = " file://yp.conf"
 
 do_install_append() {
 	install -d ${D}${sysconfdir}

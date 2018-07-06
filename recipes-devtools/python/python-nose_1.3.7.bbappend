@@ -1,1 +1,1 @@
-RDEPENDS_${PN} += "python-distribute"
+RDEPENDS_${PN}_append = " python-distribute"

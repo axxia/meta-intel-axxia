@@ -4,7 +4,7 @@ DESCRIPTION = "Image that includes everything within axxia-image-large \
 plus meta-toolchain, development headers and libraries to \
 form a standalone SDK."
 
-IMAGE_FEATURES += " \
+IMAGE_FEATURES_append = " \
 dev-pkgs \
 tools-sdk \
 tools-debug \
@@ -13,7 +13,7 @@ tools-testapps \
 debug-tweaks \
 ssh-server-openssh"
 
-IMAGE_INSTALL += "kernel-devsrc"
+IMAGE_INSTALL_append = " kernel-devsrc"
 
 TOOLCHAIN_TARGET_TASK_append = " \
 binutils-staticdev \

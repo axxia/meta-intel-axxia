@@ -1,27 +1,27 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/systemd:"
 
-SRC_URI += "file://10-eth.link"
-SRC_URI += "file://20-nac.link"
-SRC_URI += "file://21-nac.link"
-SRC_URI += "file://22-nac.link"
-SRC_URI += "file://23-nac.link"
-SRC_URI += "file://24-nac.link"
-SRC_URI += "file://25-nac.link"
-SRC_URI += "file://26-nac.link"
-SRC_URI += "file://27-nac.link"
-SRC_URI += "file://28-nac.link"
-SRC_URI += "file://29-nac.link"
-SRC_URI += "file://30-nac.link"
-SRC_URI += "file://31-nac.link"
-SRC_URI += "file://32-nac.link"
-SRC_URI += "file://33-nac.link"
-SRC_URI += "file://34-nac.link"
-SRC_URI += "file://35-nac.link"
-SRC_URI += "file://36-nac.link"
-SRC_URI += "file://37-nac.link"
-SRC_URI += "file://38-nac.link"
-SRC_URI += "file://39-nac.link"
-SRC_URI += "file://99-default.link"
+SRC_URI_append_axxiax86-64 = " file://10-eth.link \
+	file://20-nac.link \
+	file://21-nac.link \
+	file://22-nac.link \
+	file://23-nac.link \
+	file://24-nac.link \
+	file://25-nac.link \
+	file://26-nac.link \
+	file://27-nac.link \
+	file://28-nac.link \
+	file://29-nac.link \
+	file://30-nac.link \
+	file://31-nac.link \
+	file://32-nac.link \
+	file://33-nac.link \
+	file://34-nac.link \
+	file://35-nac.link \
+	file://36-nac.link \
+	file://37-nac.link \
+	file://38-nac.link \
+	file://39-nac.link \
+	file://99-default.link"
 
 do_install_append() {
 	install -d ${D}${sysconfdir}
