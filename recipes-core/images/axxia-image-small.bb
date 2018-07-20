@@ -10,6 +10,7 @@ ${CORE_IMAGE_EXTRA_INSTALL} \
 
 IMAGE_INSTALL_append = " \
 axxia-rc-local \
+connman \
 libgcc \
 inetutils \
 gdbserver \

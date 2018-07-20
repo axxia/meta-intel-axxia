@@ -13,6 +13,7 @@ boost \
 dhcp-client \
 dhcp-server \
 dmidecode \
+connman \	  
 e2fsprogs-resize2fs \
 ethtool \
 expect \
