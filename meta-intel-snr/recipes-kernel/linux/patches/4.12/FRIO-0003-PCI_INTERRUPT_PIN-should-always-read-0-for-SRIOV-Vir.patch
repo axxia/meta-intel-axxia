@@ -1,0 +1,61 @@
+From e5bc85588e6fa57edd525bff25a9ca7136e59044 Mon Sep 17 00:00:00 2001
+From: Ashok Raj <ashok.raj@intel.com>
+Date: Tue, 17 Jul 2018 21:22:14 -0500
+Subject: [PATCH 3/3] PCI_INTERRUPT_PIN should always read 0 for SRIOV Virtual
+ Functions.
+
+Some SRIOV devices have some bugs in RTL and VF's end up reading 1 instead of 0 for the PIN.
+
+We could enforce it by default in vfio_pci_nointx.
+
+Reported-by: Gage Eads <gage.eads@intel.com>
+Tested-by: Gage Eads <gage.eads@intel.com>
+Signed-off-by: Ashok Raj <ashok.raj@intel.com>
+Cc: linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org
+Cc: iommu@lists.linux-foundation.org
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Gage Eads <gage.eads@intel.com>
+---
+ drivers/vfio/pci/vfio_pci.c        | 9 +++++++++
+ drivers/vfio/pci/vfio_pci_config.c | 3 ++-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
+index 324c52e..dbd688c 100644
+--- a/drivers/vfio/pci/vfio_pci.c
++++ b/drivers/vfio/pci/vfio_pci.c
+@@ -416,6 +416,15 @@ static int vfio_pci_get_irq_count(struct vfio_pci_device *vdev, int irq_type)
+ {
+ 	if (irq_type == VFIO_PCI_INTX_IRQ_INDEX) {
+ 		u8 pin;
++		/*
++		 * VF's of SRIOV devices must have intx as 0.
++		 * Some devices might have this set due due to device bugs.
++		 * We could clear them since they aren't architecturally
++		 * allowed
++		 */
++		if (vdev->pdev->is_virtfn)
++			return 0;
++
+ 		pci_read_config_byte(vdev->pdev, PCI_INTERRUPT_PIN, &pin);
+ 		if (IS_ENABLED(CONFIG_VFIO_PCI_INTX) && !vdev->nointx && pin)
+ 			return 1;
+diff --git a/drivers/vfio/pci/vfio_pci_config.c b/drivers/vfio/pci/vfio_pci_config.c
+index 330a570..3309476 100644
+--- a/drivers/vfio/pci/vfio_pci_config.c
++++ b/drivers/vfio/pci/vfio_pci_config.c
+@@ -1646,7 +1646,8 @@ int vfio_config_init(struct vfio_pci_device *vdev)
+ 		*(__le16 *)&vconfig[PCI_DEVICE_ID] = cpu_to_le16(pdev->device);
+ 	}
+ 
+-	if (!IS_ENABLED(CONFIG_VFIO_PCI_INTX) || vdev->nointx)
++	if (!IS_ENABLED(CONFIG_VFIO_PCI_INTX) || vdev->nointx ||
++	    pdev->is_virtfn)
+ 		vconfig[PCI_INTERRUPT_PIN] = 0;
+ 
+ 	ret = vfio_cap_init(vdev);
+-- 
+2.5.2
+

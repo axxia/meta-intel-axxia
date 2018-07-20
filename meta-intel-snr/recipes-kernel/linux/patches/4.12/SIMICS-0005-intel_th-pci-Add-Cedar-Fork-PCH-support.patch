@@ -1,4 +1,4 @@
-From 293b028d1fd5fba81f0560524251514c196d3556 Mon Sep 17 00:00:00 2001
+From 3062a6cfb1739b2d7fe83ea194382a978df41df3 Mon Sep 17 00:00:00 2001
 From: Alexander Shishkin <alexander.shishkin@linux.intel.com>
 Date: Tue, 19 Sep 2017 18:47:41 +0300
 Subject: [PATCH 5/8] intel_th: pci: Add Cedar Fork PCH support
@@ -13,7 +13,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/hwtracing/intel_th/pci.c b/drivers/hwtracing/intel_th/pci.c
-index ed6262be3643..7f434d725092 100644
+index ed6262b..7f434d7 100644
 --- a/drivers/hwtracing/intel_th/pci.c
 +++ b/drivers/hwtracing/intel_th/pci.c
 @@ -110,6 +110,11 @@ static const struct pci_device_id intel_th_pci_id_table[] = {
@@ -29,5 +29,5 @@ index ed6262be3643..7f434d725092 100644
  };
  
 -- 
-2.13.6
+2.5.2
 

@@ -1,4 +1,4 @@
-From e3a31bbcd592a298278664eb24e47b1ea62db741 Mon Sep 17 00:00:00 2001
+From 35c19d07d0cba060d0fa4b0a16dd79313316105f Mon Sep 17 00:00:00 2001
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Date: Fri, 22 Sep 2017 15:11:56 +0300
 Subject: [PATCH 1/8] serial: 8250_mid: Enable HSU on Intel Cedar Fork PCH
@@ -17,7 +17,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/tty/serial/8250/8250_mid.c b/drivers/tty/serial/8250/8250_mid.c
-index ec957cce8c9a..b8f0b7f70d5a 100644
+index ec957cc..b8f0b7f 100644
 --- a/drivers/tty/serial/8250/8250_mid.c
 +++ b/drivers/tty/serial/8250/8250_mid.c
 @@ -23,10 +23,11 @@
@@ -51,7 +51,7 @@ index ec957cce8c9a..b8f0b7f70d5a 100644
  	{ },
  };
 diff --git a/drivers/tty/serial/8250/8250_pci.c b/drivers/tty/serial/8250/8250_pci.c
-index 916a8d1be3df..1ea72ce3c5a7 100644
+index 916a8d1..1ea72ce 100644
 --- a/drivers/tty/serial/8250/8250_pci.c
 +++ b/drivers/tty/serial/8250/8250_pci.c
 @@ -3368,6 +3368,7 @@ static const struct pci_device_id blacklist[] = {
@@ -63,5 +63,5 @@ index 916a8d1be3df..1ea72ce3c5a7 100644
  
  	/* Intel platforms with DesignWare UART */
 -- 
-2.13.6
+2.5.2
 

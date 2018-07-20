@@ -1,4 +1,4 @@
-From 01fb9c32176e7ec32b69e93d04b2b610b3b0bcc1 Mon Sep 17 00:00:00 2001
+From 17b9c3a195a17c64b5f9bf6f1844b861384d5e6e Mon Sep 17 00:00:00 2001
 From: Fenghua Yu <fenghua.yu@intel.com>
 Date: Mon, 23 Apr 2018 11:29:22 -0700
 Subject: [PATCH 7/8] x86/cpufeatures: Enumerate cldemote instruction
@@ -28,10 +28,10 @@ Signed-off-by: Ingo Molnar <mingo@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-index 63766693dbe4..3ac458a1492b 100644
+index 760358c..c3fd080 100644
 --- a/arch/x86/include/asm/cpufeatures.h
 +++ b/arch/x86/include/asm/cpufeatures.h
-@@ -312,6 +312,7 @@
+@@ -317,6 +317,7 @@
  #define X86_FEATURE_AVX512_VPOPCNTDQ	(16*32+14) /* POPCNT for vectors of DW/QW */
  #define X86_FEATURE_LA57		(16*32+16) /* 5-level page tables */
  #define X86_FEATURE_RDPID		(16*32+22) /* RDPID instruction */
@@ -40,5 +40,5 @@ index 63766693dbe4..3ac458a1492b 100644
  /* AMD-defined CPU features, CPUID level 0x80000007 (EBX), word 17 */
  #define X86_FEATURE_OVERFLOW_RECOV	(17*32+ 0) /* MCA overflow recovery support */
 -- 
-2.13.6
+2.5.2
 

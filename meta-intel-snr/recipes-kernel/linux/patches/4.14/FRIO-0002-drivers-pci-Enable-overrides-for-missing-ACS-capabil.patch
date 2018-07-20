@@ -1,9 +1,15 @@
+From 59184de211c6d75baba73dd1427c4f6d44584735 Mon Sep 17 00:00:00 2001
 From: Gage Eads <gage.eads@intel.com>
-Subject: drivers/pci: Enable overrides for missing ACS capabilities
+Date: Fri, 20 Jul 2018 15:57:06 -0500
+Subject: [PATCH 2/3] drivers/pci: Enable overrides for missing ACS
+ capabilities
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 This allows us to override Linux’s conservative IOMMU
 group assignments that can make it difficult to assign
-devices to VMs. Detailed explanation here: 
+devices to VMs. Detailed explanation here:
 http://vfio.blogspot.com/2014/08/iommu-groups-inside-and-out.html
 
 Signed-off-by: Gage Eads <gage.eads@intel.com>
@@ -13,10 +19,10 @@ Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
  1 file changed, 101 insertions(+)
 
 diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index f66f937..ce7fceb0 100644
+index 929d68f..08961cd 100644
 --- a/drivers/pci/quirks.c
 +++ b/drivers/pci/quirks.c
-@@ -3848,6 +3848,106 @@ static void quirk_dma_func0_alias(struct pci_dev *dev)
+@@ -3855,6 +3855,106 @@ static void quirk_dma_func0_alias(struct pci_dev *dev)
  		pci_add_dma_alias(dev, PCI_DEVFN(PCI_SLOT(dev->devfn), 0));
  }
  
@@ -123,7 +129,7 @@ index f66f937..ce7fceb0 100644
  /*
   * https://bugzilla.redhat.com/show_bug.cgi?id=605888
   *
-@@ -4505,6 +4605,7 @@ static const struct pci_dev_acs_enabled {
+@@ -4519,6 +4619,7 @@ static const struct pci_dev_acs_enabled {
  	{ PCI_VENDOR_ID_CAVIUM, PCI_ANY_ID, pci_quirk_cavium_acs },
  	/* APM X-Gene */
  	{ PCI_VENDOR_ID_AMCC, 0xE004, pci_quirk_xgene_acs },
@@ -132,5 +138,5 @@ index f66f937..ce7fceb0 100644
  };
  
 -- 
-2.7.4
+2.5.2
 

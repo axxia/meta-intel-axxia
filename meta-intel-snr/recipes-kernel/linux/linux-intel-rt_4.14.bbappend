@@ -21,7 +21,8 @@ file://SIMICS-0006-x86-intel_rdt-Add-command-line-parameter-to-control-.patch \
 
 FRIO_PATCHES = " \
 file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
-file://FRIO-0002-drivers-pci-acs-override.patch \
+file://FRIO-0002-drivers-pci-Enable-overrides-for-missing-ACS-capabil.patch \
+file://FRIO-0003-PCI_INTERRUPT_PIN-should-always-read-0-for-SRIOV-Vir.patch \
 "
 
 SRC_URI_append_axxiax86-64 = " \

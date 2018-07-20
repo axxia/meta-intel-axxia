@@ -1,4 +1,4 @@
-From 7d5652486efbf68e7a4faa5b413fcad2ce34029e Mon Sep 17 00:00:00 2001
+From 2660fe8f9941561337a6182eceab73fe5a5794fb Mon Sep 17 00:00:00 2001
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 Date: Thu, 21 Sep 2017 16:19:46 +0300
 Subject: [PATCH 1/6] mtd: spi-nor: intel-spi: Add support for Intel Cedar Fork
@@ -15,7 +15,7 @@ Signed-off-by: Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/mtd/spi-nor/intel-spi-pci.c b/drivers/mtd/spi-nor/intel-spi-pci.c
-index e82652335ede..d5d72e7e7f6a 100644
+index e826523..d5d72e7 100644
 --- a/drivers/mtd/spi-nor/intel-spi-pci.c
 +++ b/drivers/mtd/spi-nor/intel-spi-pci.c
 @@ -63,6 +63,7 @@ static void intel_spi_pci_remove(struct pci_dev *pdev)
@@ -27,5 +27,5 @@ index e82652335ede..d5d72e7e7f6a 100644
  	{ },
  };
 -- 
-2.13.6
+2.5.2
 
