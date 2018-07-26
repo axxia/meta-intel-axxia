@@ -58,7 +58,8 @@ telnetd \
 tk \
 tmux \
 vlan \
-${@base_conditional('SIMICSFS', 'yes', 'simicsfs-client fuse', '', d)} "
+${@bb.utils.contains('DISTRO_FEATURES', 'simicsfs', \
+		     'simicsfs-client fuse', '', d)} "
 
 IMAGE_FEATURES_append = " dev-pkgs"
 
