@@ -226,7 +226,8 @@ ypbind-mt \
 zip \
 zlib \
 ${LXC_SUPPORT} \
-${@base_conditional('SIMICSFS', 'yes', 'simicsfs-client fuse', '', d)} "
+${@bb.utils.contains('DISTRO_FEATURES', 'simicsfs', \
+		     'simicsfs-client fuse', '', d)} "
 
 LXC_SUPPORT = "xz gnupg cgroup-lite libvirt libvirt-libvirtd \
 	       lxc lxc-setup lxc-templates "

@@ -393,7 +393,7 @@ NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
 9.8 Add simicsfs-client support (for large and sim images). Sources tgz archive
     should copied in meta-intel-axxia/download directory: simics-5.0.140.tgz
 
-    SIMICSFS = "yes"
+    DISTRO_FEATURES_append = " simicsfs"
 
 9.9 Other optional settings for saving disk space and build time:
    
