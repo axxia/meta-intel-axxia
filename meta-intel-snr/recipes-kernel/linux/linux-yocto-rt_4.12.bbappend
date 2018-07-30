@@ -13,7 +13,6 @@ SRCREV_meta_axxiax86-64 = "8359926e32b1f6a28734f4fc33f22c4beda8af38"
 RUNTARGET ?= "simics"
 
 SIMICS_PATCHES = " \
-file://SIMICS-0001-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch \
 file://SIMICS-0002-i2c-i801-Add-support-for-Intel-Cedar-Fork.patch \
 file://SIMICS-0003-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch \
 file://SIMICS-0004-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch \
