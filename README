@@ -74,21 +74,20 @@ revision: 9148b49e95ac24c1c457e0872f146d58f1007aa6
 Back Ported Linux Changes
 ========================
 
-Some changes that have been upstreamed, have not been back ported to
-Yocto Linux 4.12 (git://git.yoctoproject.org/linux-yocto-4.12) or the
-Intel Linux 4.14 kernel in meta-intel
-(git://github.com/intel/linux-intel-lts.git).  Only functional changes
-are included in this meta layer, and the upstream commit in kernel.org
-(https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git)
-is referenced below.  Any changes made to the upstream commit are
-described.
+Some changes that have been up-streamed have not yet been back ported
+to Yocto Linux 4.12 (git://git.yoctoproject.org/linux-yocto-4.12) or
+the Intel Linux 4.14 kernel in meta-intel
+(git://github.com/intel/linux-intel-lts.git).  The changes listed
+below have been back ported (for internal testing only).  In each
+case, any changes required are described and the publically available
+patch is referenced.
 
 The "title" of the commit (Subject: or first line) is used to identify
 the commit, as this is the easiest way to find it in the repositories.
 
 In the following descriptions, "with no changes" means that a patch
-was obtained using 'git format-patch -1 <sha>' in kernel.org and was
-applied using 'git am -3 <patch>'.
+was obtained using 'git format-patch -1 <sha>' from the referenced
+respoistory and sha and was applied using 'git am -3 <patch>'.
 
 In the meta layer, the patches for Yocto Linux 4.12 can be found in
 meta-intel-snr/recipes-kernel/linux/patches/4.12.  For Intel Linux
@@ -184,15 +183,6 @@ SIMICS-0007-x86-cpufeatures-Enumerate-cldemote-instruction.patch.
 
 Back ported to Intel Linux 4.14, with no changes, as
 SIMICS-0005-x86-cpufeatures-Enumerate-cldemote-instruction.patch.
-
-KVM: Expose new cpu features to guest
--------------------------------------
-
-80fef315a74d in kernel.org
-
-This will take some effort!  It's based on, even in the back port to
-4.14 case, other kvm changes that will have to be understood and back
-ported.
 
 x86/intel_rdt: Add command line parameter to control L2_CDP
 -----------------------------------------------------------
