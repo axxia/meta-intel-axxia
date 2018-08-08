@@ -50,7 +50,7 @@ Poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: rocko
-revision: c184cb1ad4343215ec564adfdcc87f7b3ad98c51
+revision: 9ed1178c87afce997d5a21cadae7461fb6bb48da
 
 OpenEmbedded
 ------------
@@ -68,7 +68,7 @@ Intel Meta Layer
 ----------------
 URI: git://git.yoctoproject.org/meta-intel
 branch: rocko
-revision: 9148b49e95ac24c1c457e0872f146d58f1007aa6
+revision: b4d10c37695806143fbaca94eea467ddd27ac7a8
 
 
 Back Ported Linux Changes
