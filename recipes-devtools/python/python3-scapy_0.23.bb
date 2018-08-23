@@ -11,3 +11,5 @@ PYPI_PACKAGE = "scapy-python3"
 
 SRC_URI[md5sum] = "8642d09ca727e7e2b455223ae94059b7"
 SRC_URI[sha256sum] = "8760991a67162f43af4d9e64828bcefc100ba88859b75177ae9f7ace56e58186"
+
+BBCLASSEXTEND = "native nativesdk"
