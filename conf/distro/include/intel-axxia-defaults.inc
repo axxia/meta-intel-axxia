@@ -1,0 +1,17 @@
+PREFERRED_RPROVIDER_iasl ?= "iasl"
+PREFERRED_RPROVIDER_iasl-native ?= "iasl-native"
+
+PREFERRED_VERSION_rpcbind ?= "0.2.3"
+
+GCC_VERSION = "${@bb.utils.contains('DISTRO_FEATURES', 'gcc9', '9%', '8%', d)}"
+PREFERRED_VERSION_gcc ?= "${GCC_VERSION}"
+PREFERRED_VERSION_gcc-runtime ?= "${GCC_VERSION}"
+PREFERRED_VERSION_gcc-sanitizers ?= "${GCC_VERSION}"
+PREFERRED_VERSION_gcc-source ?= "${GCC_VERSION}"
+PREFERRED_VERSION_gcc-runtime ?= "${GCC_VERSION}"
+PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCC_VERSION}"
+PREFERRED_VERSION_gcc-crosssdk-${SDK_SYS} ?= "${GCC_VERSION}"
+PREFERRED_VERSION_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GCC_VERSION}"
+PREFERRED_VERSION_libgcc ?= "${GCC_VERSION}"
+PREFERRED_VERSION_libgcc-initial ?= "${GCC_VERSION}"
+PREFERRED_VERSION_libgfortran ?= "${GCC_VERSION}"

@@ -1,0 +1,30 @@
+From 6be5c4d381342f75034cabc7888af6a5da5d01bb Mon Sep 17 00:00:00 2001
+From: Serhey Popovych <serhe.popovych@gmail.com>
+Date: Tue, 11 Dec 2018 02:30:50 -0500
+Subject: [PATCH 39/40] powerpc/powerpc64: Add support for musl ldso
+
+Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
+---
+ gcc/config/rs6000/linux64.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gcc/config/rs6000/linux64.h b/gcc/config/rs6000/linux64.h
+index dbb0f4c..83c07b2 100644
+--- a/gcc/config/rs6000/linux64.h
++++ b/gcc/config/rs6000/linux64.h
+@@ -437,10 +437,10 @@ extern int dot_symbols;
+ 
+ #undef MUSL_DYNAMIC_LINKER32
+ #define MUSL_DYNAMIC_LINKER32 \
+-  "/lib/ld-musl-powerpc" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
++  SYSTEMLIBS_DIR "ld-musl-powerpc" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
+ #undef MUSL_DYNAMIC_LINKER64
+ #define MUSL_DYNAMIC_LINKER64 \
+-  "/lib/ld-musl-powerpc64" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
++  SYSTEMLIBS_DIR "ld-musl-powerpc64" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
+ 
+ #undef  DEFAULT_ASM_ENDIAN
+ #if (TARGET_DEFAULT & MASK_LITTLE_ENDIAN)
+-- 
+2.7.4
+
