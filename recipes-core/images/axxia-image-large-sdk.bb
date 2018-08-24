@@ -40,6 +40,7 @@ nativesdk-python3-netserver \
 nativesdk-python3-nose \
 nativesdk-python3-pexpect \
 nativesdk-python3-pyexpect \
+nativesdk-python3-pycparser \
 nativesdk-python3-pyyaml \
 nativesdk-python3-pynetlinux \
 nativesdk-python3-robotframework \
