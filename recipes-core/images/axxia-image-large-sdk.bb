@@ -32,6 +32,7 @@ xz-dev"
 TOOLCHAIN_HOST_TASK_append = " \
 nativesdk-bison \
 nativesdk-python-cffi \
+nativesdk-python-pycparser \
 nativesdk-python-nose \
 nativesdk-python3-cffi \
 nativesdk-python3-dev \
@@ -40,6 +41,7 @@ nativesdk-python3-netserver \
 nativesdk-python3-nose \
 nativesdk-python3-pexpect \
 nativesdk-python3-pyexpect \
+nativesdk-python3-pycparser \
 nativesdk-python3-pyyaml \
 nativesdk-python3-pynetlinux \
 nativesdk-python3-robotframework \
