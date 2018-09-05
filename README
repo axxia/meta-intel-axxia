@@ -111,11 +111,10 @@ serial: 8250_mid: Enable HSU on Intel Cedar Fork PCH
 
 daf3930cf616 in kernel.org
 
-Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0001-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch.
-
-Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0002-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch.
+This commit disables the HSU modeled by Simics, because older versions
+of simics did not modle the HSU correctly.  The ASE uses the HSU, so
+back porting this commit breaks the ASE console.  Skipped for 4.12 and
+4.14.
 
 i2c: i801: Add support for Intel Cedar Fork
 -------------------------------------------
@@ -123,7 +122,7 @@ i2c: i801: Add support for Intel Cedar Fork
 cb09d943c70d in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0002-i2c-i801-Add-support-for-Intel-Cedar-Fork.patch.
+SIMICS-0001-i2c-i801-Add-support-for-Intel-Cedar-Fork.patch.
 
 This has already been back ported ot Intel Linux 4.14 as part of
 67936a41e597331c991528c5e5bd791cfbb1b1d6 which references a merge
@@ -135,10 +134,10 @@ pinctrl: intel: Add Intel Cedar Fork PCH pin controller support
 0f80dbc133e3 in kernel.org
 
 Back ported to Yocto Linux 4.12, with small changes, as
-SIMICS-0003-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch.
+SIMICS-0002-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch.
 
 Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0003-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch.
+SIMICS-0002-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch.
 
 mmc: sdhci-pci: Add support for Intel CDF
 -----------------------------------------
@@ -146,10 +145,10 @@ mmc: sdhci-pci: Add support for Intel CDF
 cdaba732ff2f in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0004-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch.
+SIMICS-0003-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch.
 
 Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0004-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch.
+SIMICS-0003-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch.
 
 intel_th: pci: Add Cedar Fork PCH support
 -----------------------------------------
@@ -157,7 +156,7 @@ intel_th: pci: Add Cedar Fork PCH support
 920ce7c33d in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0005-intel_th-pci-Add-Cedar-Fork-PCH-support.patch.
+SIMICS-0004-intel_th-pci-Add-Cedar-Fork-PCH-support.patch.
 
 This has already been back ported to Intel Linux 4.14 as part of
 3a98be090601398395e2bf04b949394a0fa03244 which references a merge tag.
@@ -168,7 +167,7 @@ pinctrl: intel: Make offset to interrupt status register configurable
 cf769bd86bcc in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0006-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch.
+SIMICS-0005-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch.
 
 This has already been back ported to Intel Linux 4.14 as
 8dba5c8b00e1ade3b18d19bc83b86e34580add00.
@@ -179,10 +178,10 @@ x86/cpufeatures: Enumerate cldemote instruction
 912413057395 in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0007-x86-cpufeatures-Enumerate-cldemote-instruction.patch.
+SIMICS-0006-x86-cpufeatures-Enumerate-cldemote-instruction.patch.
 
 Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0005-x86-cpufeatures-Enumerate-cldemote-instruction.patch.
+SIMICS-0004-x86-cpufeatures-Enumerate-cldemote-instruction.patch.
 
 x86/intel_rdt: Add command line parameter to control L2_CDP
 -----------------------------------------------------------
@@ -190,10 +189,10 @@ x86/intel_rdt: Add command line parameter to control L2_CDP
 31516de306c0 in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0008-x86-intel_rdt-Add-command-line-parameter-to-control-.patch.
+SIMICS-0007-x86-intel_rdt-Add-command-line-parameter-to-control-.patch.
 
 Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0006-x86-intel_rdt-Add-command-line-parameter-to-control-.patch.
+SIMICS-0005-x86-intel_rdt-Add-command-line-parameter-to-control-.patch.
 
 
 Building the meta-intel-axxia BSP layer
