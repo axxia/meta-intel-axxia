@@ -1,4 +1,4 @@
-From e97d06524f8781a27492141155ce7a88be22e206 Mon Sep 17 00:00:00 2001
+From 8830d6ae2f2e4c9acc69810968216304c20abde2 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Wed, 18 Jul 2018 19:04:50 -0500
 Subject: [PATCH] PCI_INTERRUPT_PIN Should Always Read 0
@@ -34,5 +34,5 @@ index 324c52e..0fcfe78 100644
  		if (IS_ENABLED(CONFIG_VFIO_PCI_INTX) && !vdev->nointx && pin)
  			return 1;
 -- 
-2.5.2
+2.7.4
 

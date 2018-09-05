@@ -1,7 +1,7 @@
-From 1f5f32336d275ca29dd9768f390fa4f80b0593ef Mon Sep 17 00:00:00 2001
+From 15ad876a4c757df02bdc04b3330bb876098d44dd Mon Sep 17 00:00:00 2001
 From: Ben Shelton <benjamin.h.shelton@intel.com>
 Date: Thu, 20 Aug 2015 17:21:00 -0500
-Subject: [PATCH 1/6] PCI/ASPM: Don't retrain link
+Subject: [PATCH 1/2] PCI/ASPM: Don't retrain link
 
 When using FPGA emulation rather than the actual ASIC, retraining the link will
 cause the chip to get into a bad state, so don't retrain the link.
@@ -13,7 +13,7 @@ Signed-off-by: Ben Shelton <benjamin.h.shelton@intel.com>
  1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/pci/pcie/aspm.c b/drivers/pci/pcie/aspm.c
-index 1dfa10c..bb90c58 100644
+index 1f5302b..7bdcf6a 100644
 --- a/drivers/pci/pcie/aspm.c
 +++ b/drivers/pci/pcie/aspm.c
 @@ -259,9 +259,7 @@ static void pcie_aspm_configure_common_clock(struct pcie_link_state *link)

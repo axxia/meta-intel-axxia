@@ -1,7 +1,7 @@
-From d86cd8a9e6ae204e605b047ed30446b9d3f6674c Mon Sep 17 00:00:00 2001
+From ccf4ba390d7c18e80ca081b19bb1a218215c542a Mon Sep 17 00:00:00 2001
 From: Fenghua Yu <fenghua.yu@intel.com>
 Date: Wed, 20 Dec 2017 14:57:24 -0800
-Subject: [PATCH 6/6] x86/intel_rdt: Add command line parameter to control
+Subject: [PATCH 5/5] x86/intel_rdt: Add command line parameter to control
  L2_CDP
 
 L2 CDP can be controlled by kernel parameter "rdt=".
@@ -22,10 +22,10 @@ Link: https://lkml.kernel.org/r/1513810644-78015-7-git-send-email-fenghua.yu@int
  2 files changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index fb385af482ff..c2805d6baf76 100644
+index 6be2b55..cd41876 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3634,7 +3634,8 @@
+@@ -3718,7 +3718,8 @@
  
  	rdt=		[HW,X86,RDT]
  			Turn on/off individual RDT features. List is:
@@ -36,7 +36,7 @@ index fb385af482ff..c2805d6baf76 100644
  				rdt=cmt,!mba
  
 diff --git a/arch/x86/kernel/cpu/intel_rdt.c b/arch/x86/kernel/cpu/intel_rdt.c
-index 18dd8f22e353..af5fdcea67f6 100644
+index 665d0f6..c979b2a 100644
 --- a/arch/x86/kernel/cpu/intel_rdt.c
 +++ b/arch/x86/kernel/cpu/intel_rdt.c
 @@ -645,6 +645,7 @@ enum {
@@ -56,5 +56,5 @@ index 18dd8f22e353..af5fdcea67f6 100644
  };
  #define NUM_RDT_OPTIONS ARRAY_SIZE(rdt_options)
 -- 
-2.13.6
+2.7.4
 

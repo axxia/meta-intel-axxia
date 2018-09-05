@@ -1,19 +1,28 @@
+From a6f2de98ad97130118d58cb202523c7e43e34647 Mon Sep 17 00:00:00 2001
 From: Gage Eads <gage.eads@intel.com>
-Subject: drivers/pci: Enable overrides for missing ACS capabilities
+Date: Wed, 5 Sep 2018 16:37:16 -0500
+Subject: [PATCH 2/2] drivers/pci: Enable overrides for missing ACS
+ capabilities
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 This allows us to override Linux’s conservative IOMMU
 group assignments that can make it difficult to assign
-devices to VMs. Detailed explanation here: 
+devices to VMs. Detailed explanation here:
 http://vfio.blogspot.com/2014/08/iommu-groups-inside-and-out.html
 
 Signed-off-by: Gage Eads <gage.eads@intel.com>
 Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
+ drivers/pci/quirks.c | 101 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 101 insertions(+)
+
 diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index 44e0ff37480b..c367e427576a 100644
+index f453792..59a6330 100644
 --- a/drivers/pci/quirks.c
 +++ b/drivers/pci/quirks.c
-@@ -3683,6 +3683,106 @@ static void quirk_dma_func0_alias(struct pci_dev *dev)
+@@ -3829,6 +3829,106 @@ static void quirk_dma_func0_alias(struct pci_dev *dev)
  		pci_add_dma_alias(dev, PCI_DEVFN(PCI_SLOT(dev->devfn), 0));
  }
  
@@ -120,7 +129,7 @@ index 44e0ff37480b..c367e427576a 100644
  /*
   * https://bugzilla.redhat.com/show_bug.cgi?id=605888
   *
-@@ -4160,6 +4260,7 @@ static const struct pci_dev_acs_enabled {
+@@ -4383,6 +4483,7 @@ static const struct pci_dev_acs_enabled {
  	{ 0x10df, 0x720, pci_quirk_mf_endpoint_acs }, /* Emulex Skyhawk-R */
  	/* Cavium ThunderX */
  	{ PCI_VENDOR_ID_CAVIUM, PCI_ANY_ID, pci_quirk_cavium_acs },
@@ -128,3 +137,6 @@ index 44e0ff37480b..c367e427576a 100644
  	{ 0 }
  };
  
+-- 
+2.7.4
+
