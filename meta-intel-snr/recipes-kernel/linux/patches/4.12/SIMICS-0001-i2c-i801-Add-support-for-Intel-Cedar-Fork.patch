@@ -1,7 +1,7 @@
-From 3c8126a7dac8064789ce1ab5478cd4e26a3ca932 Mon Sep 17 00:00:00 2001
+From 50be47fb91a369774b003a81021d4d847d58613a Mon Sep 17 00:00:00 2001
 From: Jarkko Nikula <jarkko.nikula@linux.intel.com>
 Date: Thu, 21 Sep 2017 16:23:16 +0300
-Subject: [PATCH 2/8] i2c: i801: Add support for Intel Cedar Fork
+Subject: [PATCH 1/7] i2c: i801: Add support for Intel Cedar Fork
 
 Add PCI ID for Intel Cedar Fork PCH.
 
@@ -15,7 +15,7 @@ Signed-off-by: Wolfram Sang <wsa@the-dreams.de>
  3 files changed, 6 insertions(+)
 
 diff --git a/Documentation/i2c/busses/i2c-i801 b/Documentation/i2c/busses/i2c-i801
-index 0500193434cb..d47702456926 100644
+index 0500193..d477024 100644
 --- a/Documentation/i2c/busses/i2c-i801
 +++ b/Documentation/i2c/busses/i2c-i801
 @@ -36,6 +36,7 @@ Supported adapters:
@@ -27,7 +27,7 @@ index 0500193434cb..d47702456926 100644
  
  On Intel Patsburg and later chipsets, both the normal host SMBus controller
 diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
-index ed7106e48ba4..ce274cfee847 100644
+index ed7106e..ce274cf 100644
 --- a/drivers/i2c/busses/Kconfig
 +++ b/drivers/i2c/busses/Kconfig
 @@ -131,6 +131,7 @@ config I2C_I801
@@ -39,7 +39,7 @@ index ed7106e48ba4..ce274cfee847 100644
  	  This driver can also be built as a module.  If so, the module
  	  will be called i2c-i801.
 diff --git a/drivers/i2c/busses/i2c-i801.c b/drivers/i2c/busses/i2c-i801.c
-index 5eda50bfb027..8eac00efadc1 100644
+index 5eda50b..8eac00e 100644
 --- a/drivers/i2c/busses/i2c-i801.c
 +++ b/drivers/i2c/busses/i2c-i801.c
 @@ -68,6 +68,7 @@
@@ -75,5 +75,5 @@ index 5eda50bfb027..8eac00efadc1 100644
  	case PCI_DEVICE_ID_INTEL_KABYLAKE_PCH_H_SMBUS:
  		priv->features |= FEATURE_I2C_BLOCK_READ;
 -- 
-2.13.6
+2.7.4
 

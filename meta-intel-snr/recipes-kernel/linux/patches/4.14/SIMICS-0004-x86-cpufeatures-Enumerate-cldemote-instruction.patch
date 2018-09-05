@@ -1,7 +1,7 @@
-From 9fdf279ec661bde575d3a0bd5a0333d55427a302 Mon Sep 17 00:00:00 2001
+From 6a1f963566cad0557e992d7a8728ca82a0ead337 Mon Sep 17 00:00:00 2001
 From: Fenghua Yu <fenghua.yu@intel.com>
 Date: Mon, 23 Apr 2018 11:29:22 -0700
-Subject: [PATCH 5/6] x86/cpufeatures: Enumerate cldemote instruction
+Subject: [PATCH 4/5] x86/cpufeatures: Enumerate cldemote instruction
 
 cldemote is a new instruction in future x86 processors. It hints
 to hardware that a specified cache line should be moved ("demoted")
@@ -28,10 +28,10 @@ Signed-off-by: Ingo Molnar <mingo@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-index 23a65439c37c..aca04f2ba7d5 100644
+index 8418462..fb0ad2d 100644
 --- a/arch/x86/include/asm/cpufeatures.h
 +++ b/arch/x86/include/asm/cpufeatures.h
-@@ -318,6 +318,7 @@
+@@ -327,6 +327,7 @@
  #define X86_FEATURE_AVX512_VPOPCNTDQ	(16*32+14) /* POPCNT for vectors of DW/QW */
  #define X86_FEATURE_LA57		(16*32+16) /* 5-level page tables */
  #define X86_FEATURE_RDPID		(16*32+22) /* RDPID instruction */
@@ -40,5 +40,5 @@ index 23a65439c37c..aca04f2ba7d5 100644
  /* AMD-defined CPU features, CPUID level 0x80000007 (EBX), word 17 */
  #define X86_FEATURE_OVERFLOW_RECOV	(17*32+ 0) /* MCA overflow recovery support */
 -- 
-2.13.6
+2.7.4
 
