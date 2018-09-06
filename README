@@ -390,7 +390,7 @@ NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
 
     * tar xf ase_jvl_external*.txz
     * 'cd ase/simics'
-    * tar cJf simics-<version>.txz simics-<version>
+    * tar zcvf simics-<version>.tgz simics-<version>
 
 9.9 Other optional settings for saving disk space and build time:
    
