@@ -365,7 +365,7 @@ d. Local Kernel repositories (development purpose)
    PREFERRED_VERSION_linux-yocto= "4.12%"
 
    for 4.14, only for linux-intel PREFERRED_PROVIDER_virtual/kernel
-   PREFERRED_VERSION_linux-intel= "4.12%"
+   PREFERRED_VERSION_linux-intel= "4.14%"
 
 NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
       linux-intel, or linux-intel-rt. See  9.5.
@@ -380,7 +380,7 @@ NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
     RUNTARGET = "frio"
 
 9.8 Add simicsfs-client support (for large and sim images). Sources tgz archive
-    should copied in meta-intel-axxia/download directory: simics-5.0.144.tgz
+    should copied in meta-intel-axxia/downloads directory: simics-5.0.144.tgz
 
     DISTRO_FEATURES_append = " simicsfs"
 
@@ -389,7 +389,7 @@ NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
 
     * tar xf ase_jvl_external*.txz
     * 'cd ase/simics'
-    * tar cJf simics-<version>.txz simics-<version>
+    * tar czf simics-<version>.tgz simics-<version>
 
 9.9 Other optional settings for saving disk space and build time:
    
