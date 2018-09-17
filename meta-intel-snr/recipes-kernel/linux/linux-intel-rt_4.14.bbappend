@@ -32,3 +32,5 @@ SRC_URI_append_axxiax86-64 = " \
 	"
 
 COMPATIBLE_MACHINE_axxiax86-64 = "${MACHINE}"
+
+require linux-axxia.inc
