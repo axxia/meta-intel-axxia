@@ -221,7 +221,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/poky.git
    $ cd poky
-   $ git checkout 90414ecd5cf72995074f3dc6b05cfbee0a1dab67
+   $ git checkout 9ed1178c87afce997d5a21cadae7461fb6bb48da
 
 3. Clone the Axxia meta layer. This provides meta data for building
    images for the Axxia specific board types.  See 'Sources' above to
@@ -263,7 +263,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/meta-intel
    $ cd meta-intel
-   $ git checkout f66ce51d059d291a441d896854be8db70de5a554
+   $ git checkout b4d10c37695806143fbaca94eea467ddd27ac7a8
 
 7. Create the build directory. The name is optional and will default
    to 'build', however it helps to choose a name to match the board
