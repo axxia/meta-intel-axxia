@@ -2,7 +2,7 @@ SUMMARY = "Simics Magic Pipe library (libmagicpipe)"
 DESCRIPTION = "Simics Magic Pipe library (libmagicpipe)"
 
 LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://Makefile;md5=fec19790807db68af67649564324cff0"
+LIC_FILES_CHKSUM = "file://Makefile;md5=1954481ecfe48bef2a1c90cc5930ec44"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/../../downloads:"
 

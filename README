@@ -380,16 +380,16 @@ NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
     RUNTARGET = "frio"
 
 9.8 Add simicsfs-client support (for large and sim images). Sources tgz archive
-    should copied in meta-intel-axxia/downloads directory: simics-5.0.144.tgz
+    should copied in meta-intel-axxia/downloads directory: simics-5.0.156.tgz
 
     DISTRO_FEATURES_append = " simicsfs"
 
-    To generate simics-5.0.1.44.tgz, get "ase_jvl_external*.txz" from
+    To generate simics-5.0.156.tgz, get "ase_jvl_external*.txz" from
     the SW download page (VIP), and do the following.
 
     * tar xf ase_jvl_external*.txz
     * 'cd ase/simics'
-    * tar czf simics-<version>.tgz simics-<version>
+    * tar czf simics-5.0.156.tgz simics-5.0.156
 
 9.9 Other optional settings for saving disk space and build time:
    
