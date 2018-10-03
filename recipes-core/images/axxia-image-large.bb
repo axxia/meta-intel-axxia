@@ -139,6 +139,7 @@ netbase \
 netcat \
 nfs-utils \
 nfs-utils-client \
+ntp \
 numactl \
 openssh \
 openssh-sftp \
@@ -214,6 +215,7 @@ util-linux \
 util-linux-libblkid \
 util-linux-libuuid \
 util-macros \
+vim \
 vlan \
 watchdog \
 wget \
