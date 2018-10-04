@@ -1,0 +1,57 @@
+From e95fb90a94a379ff61f597cd062be4800194ce20 Mon Sep 17 00:00:00 2001
+From: Tomas Melin <tomas.melin@vaisala.com>
+Date: Fri, 27 Oct 2017 15:16:30 +0300
+Subject: [PATCH 09/11] serial: 8250: fix potential deadlock in rs485-mode
+
+Canceling hrtimer when holding uart spinlock can deadlock.
+
+CPU0: syscall write
+          -> get uart port spinlock
+              -> write uart
+                  -> start_tx_rs485
+                      -> hrtimer_cancel
+                          -> wait for hrtimer callback to finish
+
+CPU1: hrtimer IRQ
+          -> run hrtimer
+              -> em485_handle_stop_tx
+                  -> get uart port spinlock
+
+CPU0 is waiting for the hrtimer callback to finish, but the hrtimer
+callback running on CPU1 is waiting to get the uart port spinlock.
+
+This deadlock can be avoided by not canceling the hrtimers in these paths.
+Setting active_timer=NULL can be done without accessing hrtimer,
+and that will effectively cancel operations that would otherwise have been
+performed by the hrtimer callback.
+
+Signed-off-by: Tomas Melin <tomas.melin@vaisala.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/tty/serial/8250/8250_port.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/drivers/tty/serial/8250/8250_port.c b/drivers/tty/serial/8250/8250_port.c
+index 75b5342..343f56b 100644
+--- a/drivers/tty/serial/8250/8250_port.c
++++ b/drivers/tty/serial/8250/8250_port.c
+@@ -1515,7 +1515,6 @@ static inline void __stop_tx(struct uart_8250_port *p)
+ 			return;
+ 
+ 		em485->active_timer = NULL;
+-		hrtimer_cancel(&em485->start_tx_timer);
+ 
+ 		__stop_tx_rs485(p);
+ 	}
+@@ -1577,8 +1576,6 @@ static inline void start_tx_rs485(struct uart_port *port)
+ 		serial8250_stop_rx(&up->port);
+ 
+ 	em485->active_timer = NULL;
+-	if (hrtimer_is_queued(&em485->stop_tx_timer))
+-		hrtimer_cancel(&em485->stop_tx_timer);
+ 
+ 	mcr = serial8250_in_MCR(up);
+ 	if (!!(up->port.rs485.flags & SER_RS485_RTS_ON_SEND) !=
+-- 
+2.7.4
+

@@ -16,6 +16,10 @@ file://SIMICS-0002-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch \
 file://SIMICS-0003-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch \
 file://SIMICS-0004-x86-cpufeatures-Enumerate-cldemote-instruction.patch \
 file://SIMICS-0005-x86-intel_rdt-Add-command-line-parameter-to-control-.patch \
+file://SIMICS-0006-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch \
+file://SIMICS-0007-drivers-tty-8250-use-setup_timer-helper.patch \
+file://SIMICS-0008-serial-8250-Convert-timers-to-use-timer_setup.patch \
+file://SIMICS-0009-serial-8250-fix-potential-deadlock-in-rs485-mode.patch \
 "
 
 FRIO_PATCHES = " \

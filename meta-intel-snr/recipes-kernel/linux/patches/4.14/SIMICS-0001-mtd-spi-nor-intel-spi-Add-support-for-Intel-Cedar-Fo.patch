@@ -1,8 +1,8 @@
-From 7d5652486efbf68e7a4faa5b413fcad2ce34029e Mon Sep 17 00:00:00 2001
+From 7a428926f35433be10443a63e9eebed26017665d Mon Sep 17 00:00:00 2001
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 Date: Thu, 21 Sep 2017 16:19:46 +0300
-Subject: [PATCH 1/6] mtd: spi-nor: intel-spi: Add support for Intel Cedar Fork
- SPI serial flash
+Subject: [PATCH 01/11] mtd: spi-nor: intel-spi: Add support for Intel Cedar
+ Fork SPI serial flash
 
 Intel Cedar Fork has the same SPI serial flash controller than Intel
 Denverton. Add the Intel Cedar Fork PCI ID to the driver list of
@@ -15,7 +15,7 @@ Signed-off-by: Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/mtd/spi-nor/intel-spi-pci.c b/drivers/mtd/spi-nor/intel-spi-pci.c
-index e82652335ede..d5d72e7e7f6a 100644
+index e826523..d5d72e7 100644
 --- a/drivers/mtd/spi-nor/intel-spi-pci.c
 +++ b/drivers/mtd/spi-nor/intel-spi-pci.c
 @@ -63,6 +63,7 @@ static void intel_spi_pci_remove(struct pci_dev *pdev)
@@ -27,5 +27,5 @@ index e82652335ede..d5d72e7e7f6a 100644
  	{ },
  };
 -- 
-2.13.6
+2.7.4
 
