@@ -1,0 +1,31 @@
+From 71eb81c1a59d45efff7969eb7c7cf3bac1c91eec Mon Sep 17 00:00:00 2001
+From: Allen Pais <allen.lkml@gmail.com>
+Date: Fri, 22 Sep 2017 13:56:48 +0530
+Subject: [PATCH 8/9] drivers: tty: 8250: use setup_timer() helper.
+
+    Use setup_timer function instead of initializing timer with the
+    function and data fields.
+
+Signed-off-by: Allen Pais <allen.lkml@gmail.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/tty/serial/8250/8250_core.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/tty/serial/8250/8250_core.c b/drivers/tty/serial/8250/8250_core.c
+index 1aab301..64440a9 100644
+--- a/drivers/tty/serial/8250/8250_core.c
++++ b/drivers/tty/serial/8250/8250_core.c
+@@ -520,8 +520,7 @@ static void __init serial8250_isa_init_ports(void)
+ 			base_ops = port->ops;
+ 		port->ops = &univ8250_port_ops;
+ 
+-		init_timer(&up->timer);
+-		up->timer.function = serial8250_timeout;
++		setup_timer(&up->timer, serial8250_timeout, 0UL);
+ 
+ 		up->ops = &univ8250_driver_ops;
+ 
+-- 
+2.7.4
+

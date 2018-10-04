@@ -1,7 +1,7 @@
-From 812e8538af4f874ac3d62294b46166d5e8794bc1 Mon Sep 17 00:00:00 2001
+From c80fefb48f960197202ad9ab59cbeea4d11b83e3 Mon Sep 17 00:00:00 2001
 From: Adrian Hunter <adrian.hunter@intel.com>
 Date: Mon, 18 Sep 2017 15:17:05 +0300
-Subject: [PATCH 4/6] mmc: sdhci-pci: Add support for Intel CDF
+Subject: [PATCH 03/11] mmc: sdhci-pci: Add support for Intel CDF
 
 Add PCI Id for Intel CDF.
 
@@ -13,10 +13,10 @@ Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
  2 files changed, 2 insertions(+)
 
 diff --git a/drivers/mmc/host/sdhci-pci-core.c b/drivers/mmc/host/sdhci-pci-core.c
-index 5bedf4b7f0f7..f896a116f727 100644
+index 44da037..372717a 100644
 --- a/drivers/mmc/host/sdhci-pci-core.c
 +++ b/drivers/mmc/host/sdhci-pci-core.c
-@@ -1319,6 +1319,7 @@ static const struct pci_device_id pci_ids[] = {
+@@ -1340,6 +1340,7 @@ static const struct pci_device_id pci_ids[] = {
  	SDHCI_PCI_DEVICE(INTEL, SPT_SDIO,  intel_byt_sdio),
  	SDHCI_PCI_DEVICE(INTEL, SPT_SD,    intel_byt_sd),
  	SDHCI_PCI_DEVICE(INTEL, DNV_EMMC,  intel_byt_emmc),
@@ -25,7 +25,7 @@ index 5bedf4b7f0f7..f896a116f727 100644
  	SDHCI_PCI_DEVICE(INTEL, BXT_SDIO,  intel_byt_sdio),
  	SDHCI_PCI_DEVICE(INTEL, BXT_SD,    intel_byt_sd),
 diff --git a/drivers/mmc/host/sdhci-pci.h b/drivers/mmc/host/sdhci-pci.h
-index 3e8ea3e566f6..683c39c271ce 100644
+index 3e8ea3e..683c39c 100644
 --- a/drivers/mmc/host/sdhci-pci.h
 +++ b/drivers/mmc/host/sdhci-pci.h
 @@ -26,6 +26,7 @@
@@ -37,5 +37,5 @@ index 3e8ea3e566f6..683c39c271ce 100644
  #define PCI_DEVICE_ID_INTEL_BXT_EMMC	0x0acc
  #define PCI_DEVICE_ID_INTEL_BXT_SDIO	0x0ad0
 -- 
-2.13.6
+2.7.4
 
