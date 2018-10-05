@@ -483,7 +483,7 @@ older Linux host.
 
 source (install directory)/environment-setup*
 cd $SDKTARGETSYSROOT/usr/src/kernel
-make clean silentoldconfig scripts
+make clean oldconfig scripts tools/objtool
 
 12.2 Creating .craff Images for Simics
 
