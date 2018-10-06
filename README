@@ -50,71 +50,50 @@ Poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: rocko
-revision: 9ed1178c87afce997d5a21cadae7461fb6bb48da
+revision: 05711ba18587aaaf4a9c465a1dd4537f27ceda93
 
 OpenEmbedded
 ------------
 URI: https://github.com/openembedded/meta-openembedded.git
 branch: rocko
-revision: 352531015014d1957d6444d114f4451e241c4d23
+revision: eae996301d9c097bcbeb8046f08041dc82bb62f8
 
 Yocto Virtualization Layer
 --------------------------
 URI: git://git.yoctoproject.org/meta-virtualization
 branch: rocko
-revision: bd77388f31929f38e7d4cc9c711f0f83f563007e
+revision: b704c689b67639214b9568a3d62e82df27e9434f
 
 Intel Meta Layer
 ----------------
 URI: git://git.yoctoproject.org/meta-intel
 branch: rocko
-revision: b4d10c37695806143fbaca94eea467ddd27ac7a8
+revision: 4ee8ff5ebe0657bd376d7a79703a21ec070ee779
 
 
 Back Ported Linux Changes
 ========================
 
-Some changes that have been up-streamed have not yet been back ported
+Some changes have been up-streamed, but have not yet been back ported
 to Yocto Linux 4.12 (git://git.yoctoproject.org/linux-yocto-4.12) or
 the Intel Linux 4.14 kernel in meta-intel
-(git://github.com/intel/linux-intel-lts.git).  The changes listed
-below have been back ported (for internal testing only).  In each
+(git://github.com/intel/linux-intel-lts.git).  Some of these have been
+added to this meta layer.  The changes are described below.  In each
 case, any changes required are described and the publically available
-patch is referenced.
+patch is referenced.  Only changes functionally required for internal
+testing have been back ported.
 
 The "title" of the commit (Subject: or first line) is used to identify
 the commit, as this is the easiest way to find it in the repositories.
 
 In the following descriptions, "with no changes" means that a patch
 was obtained using 'git format-patch -1 <sha>' from the referenced
-respoistory and sha and was applied using 'git am -3 <patch>'.
+respoistory and was applied using 'git am -3 <patch>'.
 
 In the meta layer, the patches for Yocto Linux 4.12 can be found in
 meta-intel-snr/recipes-kernel/linux/patches/4.12.  For Intel Linux
 4.14, the patches are in
 meta-intel-snr/recipes-kernel/linux/patches/4.14.
-
-mtd: spi-nor: intel-spi: Add support for Intel Cedar Fork SPI serial flash
---------------------------------------------------------------------------
-
-824af37ef2d0 in kernel.org
-
-This has already been back ported to Yocto Linux 4.12 as
-b373e336eb847be8d8280be42e779a70c8b9cde4 which references the commit
-in kernel.org.
-
-Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0001-mtd-spi-nor-intel-spi-Add-support-for-Intel-Cedar-Fo.patch.
-
-serial: 8250_mid: Enable HSU on Intel Cedar Fork PCH
-----------------------------------------------------
-
-daf3930cf616 in kernel.org
-
-This commit disables the HSU modeled by Simics, because older versions
-of simics did not modle the HSU correctly.  The ASE uses the HSU, so
-back porting this commit breaks the ASE console.  Skipped for 4.12 and
-4.14.
 
 i2c: i801: Add support for Intel Cedar Fork
 -------------------------------------------
@@ -127,6 +106,18 @@ SIMICS-0001-i2c-i801-Add-support-for-Intel-Cedar-Fork.patch.
 This has already been back ported ot Intel Linux 4.14 as part of
 67936a41e597331c991528c5e5bd791cfbb1b1d6 which references a merge
 branch.
+
+mtd: spi-nor: intel-spi: Add support for Intel Cedar Fork SPI serial flash
+--------------------------------------------------------------------------
+
+824af37ef2d0 in kernel.org
+
+This has already been back ported to Yocto Linux 4.12 as
+b373e336eb847be8d8280be42e779a70c8b9cde4 which references the commit
+in kernel.org.
+
+Back ported to Intel Linux 4.14, with no changes, as
+SIMICS-0001-mtd-spi-nor-intel-spi-Add-support-for-Intel-Cedar-Fo.patch.
 
 pinctrl: intel: Add Intel Cedar Fork PCH pin controller support
 ---------------------------------------------------------------
@@ -150,27 +141,23 @@ SIMICS-0003-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch.
 Back ported to Intel Linux 4.14, with no changes, as
 SIMICS-0003-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch.
 
-intel_th: pci: Add Cedar Fork PCH support
------------------------------------------
-
-920ce7c33d in kernel.org
-
-Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0004-intel_th-pci-Add-Cedar-Fork-PCH-support.patch.
-
-This has already been back ported to Intel Linux 4.14 as part of
-3a98be090601398395e2bf04b949394a0fa03244 which references a merge tag.
-
 pinctrl: intel: Make offset to interrupt status register configurable
 ---------------------------------------------------------------------
 
 cf769bd86bcc in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0005-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch.
+SIMICS-0004-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch
 
 This has already been back ported to Intel Linux 4.14 as
 8dba5c8b00e1ade3b18d19bc83b86e34580add00.
+
+intel_th: pci: Add Cedar Fork PCH support
+-----------------------------------------
+
+920ce7c33d in kernel.org
+
+Not back ported at present.
 
 x86/cpufeatures: Enumerate cldemote instruction
 -----------------------------------------------
@@ -178,10 +165,10 @@ x86/cpufeatures: Enumerate cldemote instruction
 912413057395 in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0006-x86-cpufeatures-Enumerate-cldemote-instruction.patch.
+SIMICS-0005-x86-cpufeatures-Enumerate-cldemote-instruction.patch
 
 Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0004-x86-cpufeatures-Enumerate-cldemote-instruction.patch.
+SIMICS-0004-x86-cpufeatures-Enumerate-cldemote-instruction.patch
 
 x86/intel_rdt: Add command line parameter to control L2_CDP
 -----------------------------------------------------------
@@ -189,10 +176,54 @@ x86/intel_rdt: Add command line parameter to control L2_CDP
 31516de306c0 in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0007-x86-intel_rdt-Add-command-line-parameter-to-control-.patch.
+SIMICS-0006-x86-intel_rdt-Add-command-line-parameter-to-control-.patch
 
 Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0005-x86-intel_rdt-Add-command-line-parameter-to-control-.patch.
+SIMICS-0005-x86-intel_rdt-Add-command-line-parameter-to-control-.patch
+
+serial: 8250_mid: Enable HSU on Intel Cedar Fork PCH
+----------------------------------------------------
+
+daf3930cf616 in kernel.org
+
+Back ported to Yocto Linux 4.12, with no changes, as
+SIMICS-0007-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch
+
+Back ported to Intel Linux 4.14, with no changes, as
+SIMICS-0006-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch
+
+drivers: tty: 8250: use setup_timer() helper.
+---------------------------------------------
+
+3056151 from kernel.org
+
+Back ported to Yocto Linux 4.12, with no changes, as
+SIMICS-0008-drivers-tty-8250-use-setup_timer-helper.patch
+
+Back ported to Intel Linux 4.14, with no changes, as
+SIMICS-0007-drivers-tty-8250-use-setup_timer-helper.patch
+
+serial: 8250: Convert timers to use timer_setup()
+-------------------------------------------------
+
+7c33564 from kernel.org
+
+Back ported to Yocto Linux 4.12, with no changes, as
+SIMICS-0009-serial-8250-Convert-timers-to-use-timer_setup.patch
+
+Back ported to Intel Linux 4.14, with no changes, as
+SIMICS-0008-serial-8250-Convert-timers-to-use-timer_setup.patch
+
+serial: 8250: fix potential deadlock in rs485-mode
+--------------------------------------------------
+
+b86f86e from kernel.org
+
+This has already been back ported to Yocto Linux 4.12 as
+b86f86e8e7c5264bb8f5835d60f9ec840d9f5a7a.
+
+Back ported to Intel Linux 4.14, with no changes, as
+SIMICS-0009-serial-8250-fix-potential-deadlock-in-rs485-mode.patch
 
 
 Building the meta-intel-axxia BSP layer
@@ -302,23 +333,27 @@ below shoud be replaced with the actual value you provided in step 1).
 
     DISTRO = "intel-axxia"
 
-9.2 Set Release version. Replace it with the tag for meta-intel-axxia
+9.2 Set the console to use in the .iso image.
+
+    GRUB_SERIAL = "console=ttyS4,115200"
+
+9.3 Set Release version. Replace it with the tag for meta-intel-axxia
     from step 3.
 
     RELEASE_VERSION = "(meta-intel-axxia-tag)"
 
-9.3 Depending on your processor, set these two options that control
+9.4 Depending on your processor, set these two options that control
     how much parallelism BitBake should use:
 
     BB_NUMBER_THREADS = "12"
     PARALLEL_MAKE = "-j 12"
 
-9.4 Select a specific machine to target the build with:
+9.5 Select a specific machine to target the build with:
 
     - Axxia SNR Mobile & Enterprise Communication Processors family.
     MACHINE = "axxiax86-64"
 
-9.5 Select the kernel to use.
+9.6 Select the kernel to use.
     Meta-intel-axxia is able to build the kernel from 2 sources:
 
 a. Yocto Project Source repositories (git.yoctoproject.org)
@@ -359,7 +394,7 @@ d. Local Kernel repositories (development purpose)
    NOTE: Full defconfig should be copied in recipes-kernel/linux,
          besides linux-local.bb recipe.
 
-9.6 Select the kernel version:
+9.7 Select the kernel version:
 
    for 4.12, only for linux-yocto PREFERRED_PROVIDER_virtual/kernel
    PREFERRED_VERSION_linux-yocto= "4.12%"
@@ -370,7 +405,7 @@ d. Local Kernel repositories (development purpose)
 NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
       linux-intel, or linux-intel-rt. See  9.5.
 
-9.7 Choose the System where the image will run between simulation and 
+9.8 Choose the System where the image will run between simulation and 
     emulation:
 
     for Simics Simulation System (default):
@@ -379,7 +414,7 @@ NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
     for Frio FPGA Emulation System:
     RUNTARGET = "frio"
 
-9.8 Add simicsfs-client support (for large and sim images). Sources tgz archive
+9.9 Add simicsfs-client support (for large and sim images). Sources tgz archive
     should copied in meta-intel-axxia/downloads directory: simics-5.0.156.tgz
 
     DISTRO_FEATURES_append = " simicsfs"
@@ -391,12 +426,12 @@ NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
     * 'cd ase/simics'
     * tar czf simics-5.0.156.tgz simics-5.0.156
 
-9.9 Other optional settings for saving disk space and build time:
+9.10 Other optional settings for saving disk space and build time:
    
    DL_DIR = "/(some-shared-location)/downloads"
    SSTATE_DIR = "/(some-shared-location)/sstate-cache
 
-9.10 Examples.
+9.11 Examples.
 
      See http://www.yoctoproject.org/docs/2.3/mega-manual/mega-manual.html
      for complete documentation on the Yocto build system.
@@ -406,6 +441,7 @@ NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
 MACHINE = "axxiax86-64"
 PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 PREFERRED_VERSION_linux-yocto = "4.12%"
+GRUB_SERIAL = "console=ttyS4,115200"
 DISTRO = "intel-axxia"
 RUNTARGET = "simics"
 DISTRO_FEATURES_append = " simicsfs"
