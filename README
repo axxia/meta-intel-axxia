@@ -426,12 +426,17 @@ NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
     * 'cd ase/simics'
     * tar czf simics-5.0.156.tgz simics-5.0.156
 
-9.10 Other optional settings for saving disk space and build time:
+9.10 Set the serial console depending on the bios you are using.
+    Default is ttyS4, but some old bios use ttyS5 or ttyS6.
+
+    SNR_SERIAL_CONSOLE = "ttyS5"
+
+9.11 Other optional settings for saving disk space and build time:
    
    DL_DIR = "/(some-shared-location)/downloads"
    SSTATE_DIR = "/(some-shared-location)/sstate-cache
 
-9.11 Examples.
+9.12 Examples.
 
      See http://www.yoctoproject.org/docs/2.3/mega-manual/mega-manual.html
      for complete documentation on the Yocto build system.
