@@ -36,6 +36,7 @@ dhcp-client \
 dhcp-server \
 diffutils \
 dmidecode \
+dosfstools \
 e2fsprogs \
 e2fsprogs-badblocks \
 e2fsprogs-e2fsck \
@@ -131,6 +132,7 @@ mdadm \
 mktemp \
 modutils-initscripts \
 msmtp \
+msr-tools \
 mtd-utils \
 ncurses \
 net-tools \
