@@ -4,6 +4,10 @@ meta-intel-axxia
 This is the official OpenEmbedded/Yocto BSP layer for Intel’s family of
 Axxia x86-64 Mobile & Enterprise Communication Processors.
 
+Note that this is a "Power On" branch for Victoria Canyon (Intel
+reference board) and will not work in ASE.  All references containing
+sim, or simics, are meant for Victoria Canyon.
+
 
 Supported MACHINES
 ==================
@@ -494,8 +498,9 @@ the output directory 'tmp/deploy/images/$MACHINE'.
 
 * (image type)-(machine name).ext2 (rootfs in EXT2 format)
 * (image type)-(machine name).ext4 (rootfs in EXT4 format)
-* (image type)-(machine name).tar.gz (rootfs in tar+GZIP format)
 * (image type)-(machine name).hddimg (rootfs in hddimg format)
+* (image type)-(machine name).iso (rootfs in ISO format)
+* (image type)-(machine name).tar.gz (rootfs in tar+GZIP format)
 * (image type)-(machine name).wic (rootfs in wic format)
 * modules-(machine name).tgz (modules in tar+GZIP format)
 * bzImage and bzImage-(machine name) (Linux Kernel binary)
