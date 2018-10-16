@@ -539,6 +539,33 @@ images as follows.
 
 craff -o (craff image) (Yocto .hddimg)
 
+12.3 Creating Bootable Disks for Victoria Canyon
+
+Here are three ways to boot Victoria Canyon.
+
+12.3.1 SATA or USB based on the .rootfs.wic image.
+
+* Write the .rootfs.wic image to a disk or USB device.
+* Clean up the partition table.  Linux utilities such as gdisk and
+  parted can do this.
+* Attach the device to Victoria Canyon.
+* The grub menu should default to "boot", and you should end up at the
+  Linux prompt.  By default, the login is root and there is no
+  password.
+
+12.3.2 SATA or USB based on the .iso image.
+
+* Write the .iso image to a disk or USB.
+* Attach the device to Victoria Canyon.
+* The grub menu should have the following entries.
+  * "boot" - This will boot to the Linux prompt with a read-only /.
+  * "install" - This will install to another attached device.
+  * "Reboot into Firmware interface" - Go back to the EFI menu.
+
+12.3.3 PXE BOOT
+
+TBD
+
 
 Guidelines for submitting patches
 =================================
