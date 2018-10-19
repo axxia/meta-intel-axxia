@@ -71,6 +71,7 @@ inetutils-telnetd \
 init-ifupdown \
 initscripts \
 iproute2 \
+iproute2-ss \
 iptables \
 iputils \
 irda-utils \
@@ -123,6 +124,7 @@ libxdmcp \
 lighttpd \
 logrotate \
 lrzsz \
+lsof \
 ltp \
 lvm2 \
 lzo \
@@ -141,6 +143,7 @@ netbase \
 netcat \
 nfs-utils \
 nfs-utils-client \
+nmap \
 ntp \
 numactl \
 openssh \

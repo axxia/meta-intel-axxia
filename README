@@ -62,6 +62,12 @@ URI: https://github.com/openembedded/meta-openembedded.git
 branch: rocko
 revision: eae996301d9c097bcbeb8046f08041dc82bb62f8
 
+Security
+--------
+URI: https://git.yoctoproject.org/git/meta-security
+branch: rocko
+revision: 74860b2b61afd033fba130044ae66567ead57aaf
+
 Yocto Virtualization Layer
 --------------------------
 URI: git://git.yoctoproject.org/meta-virtualization
@@ -323,6 +329,8 @@ below shoud be replaced with the actual value you provided in step 1).
             $YOCTO/meta-openembedded/meta-networking \
             $YOCTO/meta-openembedded/meta-filesystems \
             $YOCTO/meta-openembedded/meta-python \
+            $YOCTO/meta-openembedded/meta-perl \
+            $YOCTO/meta-security \
             $YOCTO/meta-virtualization \
             $YOCTO/meta-intel \
             $YOCTO/meta-intel-axxia \
