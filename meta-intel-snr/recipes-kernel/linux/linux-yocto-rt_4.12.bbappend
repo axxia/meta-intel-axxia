@@ -9,19 +9,19 @@ KMACHINE_axxiax86-64 = "intel-corei7-64"
 SRCREV_machine_axxiax86-64 = "ba4436db2de5c6a3d43bd664cdc22f250c3486c7"
 SRCREV_meta_axxiax86-64 = "8359926e32b1f6a28734f4fc33f22c4beda8af38"
 
-# "simics" for simulation system or "frio" for FPGA emulation system
-RUNTARGET ?= "simics"
+# "snr" for Victoria Canyon or ASE.  "frio" for FPGA emulation system
+RUNTARGET ?= "snr"
 
-SIMICS_PATCHES = " \
-file://SIMICS-0001-i2c-i801-Add-support-for-Intel-Cedar-Fork.patch \
-file://SIMICS-0002-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch \
-file://SIMICS-0003-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch \
-file://SIMICS-0004-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch \
-file://SIMICS-0005-x86-cpufeatures-Enumerate-cldemote-instruction.patch \
-file://SIMICS-0006-x86-intel_rdt-Add-command-line-parameter-to-control-.patch \
-file://SIMICS-0007-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch \
-file://SIMICS-0008-drivers-tty-8250-use-setup_timer-helper.patch \
-file://SIMICS-0009-serial-8250-Convert-timers-to-use-timer_setup.patch \
+SNR_PATCHES = " \
+file://SNR-0001-i2c-i801-Add-support-for-Intel-Cedar-Fork.patch \
+file://SNR-0002-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch \
+file://SNR-0003-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch \
+file://SNR-0004-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch \
+file://SNR-0005-x86-cpufeatures-Enumerate-cldemote-instruction.patch \
+file://SNR-0006-x86-intel_rdt-Add-command-line-parameter-to-control-.patch \
+file://SNR-0007-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch \
+file://SNR-0008-drivers-tty-8250-use-setup_timer-helper.patch \
+file://SNR-0009-serial-8250-Convert-timers-to-use-timer_setup.patch \
 "
 
 FRIO_PATCHES = " \
@@ -30,7 +30,7 @@ file://FRIO-0002-drivers-pci-acs-override.patch \
 "
 
 SRC_URI_append_axxiax86-64 = " \
-	${@base_conditional('RUNTARGET', 'simics', '${SIMICS_PATCHES}', '', d)} \
+	${@base_conditional('RUNTARGET', 'snr', '${SNR_PATCHES}', '', d)} \
 	${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
 	file://BOTH-001-PCI_INTERRUPT_PIN-Should-Always-Read-0.patch \
 	file://${RUNTARGET}-runtarget.scc \

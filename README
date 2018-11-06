@@ -5,8 +5,7 @@ This is the official OpenEmbedded/Yocto BSP layer for Intel’s family of
 Axxia x86-64 Mobile & Enterprise Communication Processors.
 
 Note that this is a "Power On" branch for Victoria Canyon (Intel
-reference board) and will not work in ASE.  All references containing
-sim, or simics, are meant for Victoria Canyon.
+reference board) and will not work in ASE.
 
 
 Supported MACHINES
@@ -111,7 +110,7 @@ i2c: i801: Add support for Intel Cedar Fork
 cb09d943c70d in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0001-i2c-i801-Add-support-for-Intel-Cedar-Fork.patch.
+SNR-0001-i2c-i801-Add-support-for-Intel-Cedar-Fork.patch.
 
 This has already been back ported ot Intel Linux 4.14 as part of
 67936a41e597331c991528c5e5bd791cfbb1b1d6 which references a merge
@@ -127,7 +126,7 @@ b373e336eb847be8d8280be42e779a70c8b9cde4 which references the commit
 in kernel.org.
 
 Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0001-mtd-spi-nor-intel-spi-Add-support-for-Intel-Cedar-Fo.patch.
+SNR-0001-mtd-spi-nor-intel-spi-Add-support-for-Intel-Cedar-Fo.patch.
 
 pinctrl: intel: Add Intel Cedar Fork PCH pin controller support
 ---------------------------------------------------------------
@@ -135,10 +134,10 @@ pinctrl: intel: Add Intel Cedar Fork PCH pin controller support
 0f80dbc133e3 in kernel.org
 
 Back ported to Yocto Linux 4.12, with small changes, as
-SIMICS-0002-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch.
+SNR-0002-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch.
 
 Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0002-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch.
+SNR-0002-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch.
 
 mmc: sdhci-pci: Add support for Intel CDF
 -----------------------------------------
@@ -146,10 +145,10 @@ mmc: sdhci-pci: Add support for Intel CDF
 cdaba732ff2f in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0003-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch.
+SNR-0003-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch.
 
 Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0003-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch.
+SNR-0003-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch.
 
 pinctrl: intel: Make offset to interrupt status register configurable
 ---------------------------------------------------------------------
@@ -157,7 +156,7 @@ pinctrl: intel: Make offset to interrupt status register configurable
 cf769bd86bcc in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0004-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch
+SNR-0004-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch
 
 This has already been back ported to Intel Linux 4.14 as
 8dba5c8b00e1ade3b18d19bc83b86e34580add00.
@@ -175,10 +174,10 @@ x86/cpufeatures: Enumerate cldemote instruction
 912413057395 in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0005-x86-cpufeatures-Enumerate-cldemote-instruction.patch
+SNR-0005-x86-cpufeatures-Enumerate-cldemote-instruction.patch
 
 Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0004-x86-cpufeatures-Enumerate-cldemote-instruction.patch
+SNR-0004-x86-cpufeatures-Enumerate-cldemote-instruction.patch
 
 x86/intel_rdt: Add command line parameter to control L2_CDP
 -----------------------------------------------------------
@@ -186,10 +185,10 @@ x86/intel_rdt: Add command line parameter to control L2_CDP
 31516de306c0 in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0006-x86-intel_rdt-Add-command-line-parameter-to-control-.patch
+SNR-0006-x86-intel_rdt-Add-command-line-parameter-to-control-.patch
 
 Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0005-x86-intel_rdt-Add-command-line-parameter-to-control-.patch
+SNR-0005-x86-intel_rdt-Add-command-line-parameter-to-control-.patch
 
 serial: 8250_mid: Enable HSU on Intel Cedar Fork PCH
 ----------------------------------------------------
@@ -197,10 +196,10 @@ serial: 8250_mid: Enable HSU on Intel Cedar Fork PCH
 daf3930cf616 in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0007-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch
+SNR-0007-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch
 
 Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0006-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch
+SNR-0006-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch
 
 drivers: tty: 8250: use setup_timer() helper.
 ---------------------------------------------
@@ -208,10 +207,10 @@ drivers: tty: 8250: use setup_timer() helper.
 3056151 from kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0008-drivers-tty-8250-use-setup_timer-helper.patch
+SNR-0008-drivers-tty-8250-use-setup_timer-helper.patch
 
 Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0007-drivers-tty-8250-use-setup_timer-helper.patch
+SNR-0007-drivers-tty-8250-use-setup_timer-helper.patch
 
 serial: 8250: Convert timers to use timer_setup()
 -------------------------------------------------
@@ -219,10 +218,10 @@ serial: 8250: Convert timers to use timer_setup()
 7c33564 from kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SIMICS-0009-serial-8250-Convert-timers-to-use-timer_setup.patch
+SNR-0009-serial-8250-Convert-timers-to-use-timer_setup.patch
 
 Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0008-serial-8250-Convert-timers-to-use-timer_setup.patch
+SNR-0008-serial-8250-Convert-timers-to-use-timer_setup.patch
 
 serial: 8250: fix potential deadlock in rs485-mode
 --------------------------------------------------
@@ -233,7 +232,7 @@ This has already been back ported to Yocto Linux 4.12 as
 b86f86e8e7c5264bb8f5835d60f9ec840d9f5a7a.
 
 Back ported to Intel Linux 4.14, with no changes, as
-SIMICS-0009-serial-8250-fix-potential-deadlock-in-rs485-mode.patch
+SNR-0009-serial-8250-fix-potential-deadlock-in-rs485-mode.patch
 
 
 Building the meta-intel-axxia BSP layer
@@ -429,8 +428,8 @@ NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
 10.8 Choose the System where the image will run between simulation and 
     emulation:
 
-    for Simics Simulation System (default):
-    RUNTARGET = "simics"
+    for Victoria Canyon or ASE (default):
+    RUNTARGET = "snr"
 
     for Frio FPGA Emulation System:
     RUNTARGET = "frio"
@@ -469,7 +468,7 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 PREFERRED_VERSION_linux-yocto = "4.12%"
 GRUB_SERIAL = "console=ttyS4,115200"
 DISTRO = "intel-axxia"
-RUNTARGET = "simics"
+RUNTARGET = "snr"
 DISTRO_FEATURES_append = " simicsfs"
 PACKAGE_CLASSES ?= "package_rpm"
 EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
@@ -614,9 +613,6 @@ Please see the meta-intel-axxia/MAINTAINERS file for more details.
 License
 =======
 
-All metadata (except simicsfs module) is MIT licensed unless otherwise stated.
-Souce code included in tree for individual recipes is under the LICENSE stated
-in each recipe (.bb file) unless otherwise stated.
-
-The simicsfs external module is licensed under the GPLv2 (licence file included
-meta-intel-axxia layer).
+All metadata is MIT licensed unless otherwise stated.  Souce code
+included in tree for individual recipes is under the LICENSE stated in
+each recipe (.bb file) unless otherwise stated.
