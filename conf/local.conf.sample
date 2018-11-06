@@ -1,7 +1,7 @@
 MACHINE = "axxiax86-64"
 
-# System where the image will run: simics, frio
-RUNTARGET = "simics"
+# System where the image will run: snr, frio
+RUNTARGET = "snr"
 
 # Kernel providers: linux-yocto, linux-yocto-rt, linux-axxia, linux-axxia-rt
 #                   linux-intel, linux-intel-rt
