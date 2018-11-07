@@ -1,8 +1,16 @@
-DESCRIPTION = "A large and complete image including all Intel Axxia \
-required packages."
+DESCRIPTION = "A more complete image when size doesn't matter as much."
 
 require recipes-core/images/core-image-minimal-dev.bb
 require axxia-image.inc
+
+IMAGE_FEATURES_append = " \
+dev-pkgs \
+tools-sdk \
+tools-debug \
+eclipse-debug \
+tools-testapps \
+debug-tweaks \
+ssh-server-openssh"
 
 IMAGE_INSTALL = " \
 acl \
@@ -77,6 +85,7 @@ iptables \
 iputils \
 irda-utils \
 kdump \
+kernel-devsrc \
 kernel-modules \
 kexec \
 kexec-tools \
@@ -237,8 +246,41 @@ ${LXC_SUPPORT} \
 ${@bb.utils.contains('DISTRO_FEATURES', 'simicsfs', \
 		     'simicsfs-client fuse', '', d)} "
 
+TOOLCHAIN_TARGET_TASK_append = " \
+binutils-staticdev \
+elfutils-dev \
+libelf \
+libnl-dev \
+libunwind-dev \
+numactl-dev \
+python-dev \
+slang-dev \
+strace-dev \
+systemtap \
+systemtap-dev \
+xz-dev"
+
 LXC_SUPPORT = "xz gnupg cgroup-lite libvirt libvirt-libvirtd \
 	       lxc lxc-setup lxc-templates "
 
 SDKIMAGE_FEATURES = "dev-pkgs dbg-pkgs staticdev-pkgs"
+
 TOOLCHAIN_TARGET_TASK_append = " libc-staticdev"
+
+TOOLCHAIN_HOST_TASK_append = " \
+nativesdk-bison \
+nativesdk-python-cffi \
+nativesdk-python-pycparser \
+nativesdk-python-nose \
+nativesdk-python3-cffi \
+nativesdk-python3-dev \
+nativesdk-python3-distutils \
+nativesdk-python3-netserver \
+nativesdk-python3-nose \
+nativesdk-python3-pexpect \
+nativesdk-python3-pyexpect \
+nativesdk-python3-pycparser \
+nativesdk-python3-pyyaml \
+nativesdk-python3-pynetlinux \
+nativesdk-python3-robotframework \
+nativesdk-python3-scapy "
