@@ -1,6 +1,5 @@
 Common targets are:
     axxia-image-sim
     axxia-image-small
-    axxia-image-large
-    axxia-image-large-sdk
+    axxia-image-vcn
 

@@ -306,8 +306,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ git checkout <the revision specified in Dependencies above>
 
 7. Clone the Yocto security meta layer. This provides recipes for some
-   utilities used in the axxia-image-large and axxia-image-large-sdk
-   images.
+   utilities used in the axxia-image-vcn image.
 
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/meta-security
@@ -499,13 +498,8 @@ Available root filesystem types:
    * axxia-image-sim
      An image used in simulation.
 
-   * axxia-image-large
-     A more complete image.
-
-   * axxia-image-large-sdk
-     Image that includes everything within axxia-image-large plus 
-     meta-toolchain, development headers and libraries to form a 
-     standalone SDK.
+   * axxia-image-vcn
+     A more complete image.  Contains the SDK and LTP.
 
 Once complete the images for the target machine will be available in 
 the output directory 'tmp/deploy/images/$MACHINE'.
@@ -529,7 +523,7 @@ script.  To set up the environment to use the tools, source
 environment-setup* in the install directory.
 
 Note that to include the Linux source (to build external modules), use
-'bitbake axxia-image-large-sdk -c populate_sdk'.  For other targets,
+'bitbake axxia-image-vcn -c populate_sdk'.  For other targets,
 the Linux source will not be available.
 
 After the installation completes, do the following.
