@@ -1,7 +1,7 @@
 From 95a1a66532e2b9ec25e7914861a515004a207045 Mon Sep 17 00:00:00 2001
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 Date: Mon, 28 May 2018 14:27:48 +0300
-Subject: [PATCH 6/6] pinctrl: cedarfork: Correct EAST pin ordering
+Subject: pinctrl: cedarfork: Correct EAST pin ordering
 
 The driver missed the fact that PECI_SMB_DATA has moved from EAST
 community 224 to 182 instead. Correct the pin ordering accordingly.

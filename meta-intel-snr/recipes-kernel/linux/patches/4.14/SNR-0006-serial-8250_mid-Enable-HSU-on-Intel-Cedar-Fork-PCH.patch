@@ -1,7 +1,7 @@
 From 727407de88d353ffaa50aba5ccce20016de2ff09 Mon Sep 17 00:00:00 2001
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Date: Fri, 22 Sep 2017 15:11:56 +0300
-Subject: [PATCH 06/11] serial: 8250_mid: Enable HSU on Intel Cedar Fork PCH
+Subject: serial: 8250_mid: Enable HSU on Intel Cedar Fork PCH
 
 Intel Cedar Fork PCH has similar HSU as has been used on Intel Denverton.
 Add PCI ID to get it enumerated.

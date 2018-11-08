@@ -1,7 +1,7 @@
 From b6b3ff842b6db539a44b2a513fa7c2d6242b25f4 Mon Sep 17 00:00:00 2001
 From: Jarkko Nikula <jarkko.nikula@linux.intel.com>
 Date: Thu, 21 Sep 2017 16:23:16 +0300
-Subject: [PATCH 1/9] i2c: i801: Add support for Intel Cedar Fork
+Subject: i2c: i801: Add support for Intel Cedar Fork
 
 Add PCI ID for Intel Cedar Fork PCH.
 

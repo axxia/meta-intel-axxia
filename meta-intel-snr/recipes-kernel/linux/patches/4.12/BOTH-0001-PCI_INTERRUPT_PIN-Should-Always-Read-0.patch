@@ -1,7 +1,7 @@
 From e97d06524f8781a27492141155ce7a88be22e206 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Wed, 18 Jul 2018 19:04:50 -0500
-Subject: [PATCH] PCI_INTERRUPT_PIN Should Always Read 0
+Subject: PCI_INTERRUPT_PIN Should Always Read 0
 
 For SRIOV virtual functions, PCI_INTERRUPT_PIN
 should always be 0.  Some SRIOV devices don't
