@@ -1,7 +1,7 @@
 From e95fb90a94a379ff61f597cd062be4800194ce20 Mon Sep 17 00:00:00 2001
 From: Tomas Melin <tomas.melin@vaisala.com>
 Date: Fri, 27 Oct 2017 15:16:30 +0300
-Subject: [PATCH 09/11] serial: 8250: fix potential deadlock in rs485-mode
+Subject: serial: 8250: fix potential deadlock in rs485-mode
 
 Canceling hrtimer when holding uart spinlock can deadlock.
 
