@@ -234,6 +234,17 @@ b86f86e8e7c5264bb8f5835d60f9ec840d9f5a7a.
 Back ported to Intel Linux 4.14, with no changes, as
 SNR-0009-serial-8250-fix-potential-deadlock-in-rs485-mode.patch
 
+pinctrl: cedarfork: Correct EAST pin ordering
+---------------------------------------------
+
+a319b56 from kernel.org
+
+Back ported to Yocto Linux 4.12, with no changes, as
+SNR-0010-pinctrl-cedarfork-Correct-EAST-pin-ordering.patch
+
+Back ported to Intel Linux 4.14, with no changes, as
+SNR-0010-pinctrl-cedarfork-Correct-EAST-pin-ordering.patch
+
 
 Building the meta-intel-axxia BSP layer
 =======================================
