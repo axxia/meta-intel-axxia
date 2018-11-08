@@ -1,8 +1,7 @@
 From a56b156c586434c3d2cda9244aaa93d9503616b7 Mon Sep 17 00:00:00 2001
 From: Fenghua Yu <fenghua.yu@intel.com>
 Date: Wed, 20 Dec 2017 14:57:24 -0800
-Subject: [PATCH 05/11] x86/intel_rdt: Add command line parameter to control
- L2_CDP
+Subject: x86/intel_rdt: Add command line parameter to control L2_CDP
 
 L2 CDP can be controlled by kernel parameter "rdt=".
 If "rdt=l2cdp", L2 CDP is turned on.

@@ -1,7 +1,7 @@
 From c80fefb48f960197202ad9ab59cbeea4d11b83e3 Mon Sep 17 00:00:00 2001
 From: Adrian Hunter <adrian.hunter@intel.com>
 Date: Mon, 18 Sep 2017 15:17:05 +0300
-Subject: [PATCH 03/11] mmc: sdhci-pci: Add support for Intel CDF
+Subject: mmc: sdhci-pci: Add support for Intel CDF
 
 Add PCI Id for Intel CDF.
 

@@ -1,7 +1,7 @@
 From 580878fd9da80a185964d1b90ecbf6e82ecb6635 Mon Sep 17 00:00:00 2001
 From: Allen Pais <allen.lkml@gmail.com>
 Date: Fri, 22 Sep 2017 13:56:48 +0530
-Subject: [PATCH 07/11] drivers: tty: 8250: use setup_timer() helper.
+Subject: drivers: tty: 8250: use setup_timer() helper.
 
     Use setup_timer function instead of initializing timer with the
     function and data fields.

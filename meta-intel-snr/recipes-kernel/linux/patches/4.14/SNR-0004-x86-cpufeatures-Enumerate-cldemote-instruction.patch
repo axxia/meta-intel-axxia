@@ -1,7 +1,7 @@
 From d5a7f2a7f9b189af42cc0d44a5313747dc468db9 Mon Sep 17 00:00:00 2001
 From: Fenghua Yu <fenghua.yu@intel.com>
 Date: Mon, 23 Apr 2018 11:29:22 -0700
-Subject: [PATCH 04/11] x86/cpufeatures: Enumerate cldemote instruction
+Subject: x86/cpufeatures: Enumerate cldemote instruction
 
 cldemote is a new instruction in future x86 processors. It hints
 to hardware that a specified cache line should be moved ("demoted")
