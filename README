@@ -245,6 +245,17 @@ SNR-0010-pinctrl-cedarfork-Correct-EAST-pin-ordering.patch
 Back ported to Intel Linux 4.14, with no changes, as
 SNR-0010-pinctrl-cedarfork-Correct-EAST-pin-ordering.patch
 
+serial: 8250_port: Disable DMA operations for kernel console
+------------------------------------------------------------
+
+This has been disscussed, but not yet accepted into Linux.  See, for example, https://lore.kernel.org/patchwork/patch/905631.
+
+Back ported to Yocto Linux 4.12, with no changes, as
+SNR-0011-serial-8250_port-Disable-DMA-operations-for-kernel-c.patch
+
+Back ported to Intel Linux 4.14, with no changes, as
+SNR-0011-serial-8250_port-Disable-DMA-operations-for-kernel-c.patch
+
 
 Building the meta-intel-axxia BSP layer
 =======================================
