@@ -5,7 +5,7 @@
 # Serial console is set to ttyS6.
 # Based on meta-intel's systemd-bootdisk-microcode.wks file.
 
-part /boot --source bootimg-efi --sourceparams="loader=systemd-boot,initrd=microcode.cpio" --ondisk sda --label msdos --active --align 1024 --use-uuid
+part /boot --source bootimg-efi --sourceparams="loader=systemd-boot,initrd=microcode.cpio" --size 50 --ondisk sda --label msdos --active --align 1024 --use-uuid
 
 part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
 
