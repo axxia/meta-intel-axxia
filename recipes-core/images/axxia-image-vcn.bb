@@ -145,7 +145,7 @@ mktemp \
 modutils-initscripts \
 msmtp \
 msr-tools \
-mtd-utils \
+mtd-utils-misc \
 ncurses \
 net-tools \
 netkit-tftp-client \
