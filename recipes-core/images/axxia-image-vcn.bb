@@ -220,6 +220,7 @@ telnetd \
 time \
 tk \
 tmux \
+tpm2.0-tools \
 tzdata \
 udev \
 udev-extraconf \
