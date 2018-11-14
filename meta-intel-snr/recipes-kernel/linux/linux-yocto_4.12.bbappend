@@ -6,8 +6,8 @@ KV = "4.12"
 LINUX_VERSION_axxiax86-64 = "4.12.29"
 KBRANCH_axxiax86-64 = "standard/base"
 KMACHINE_axxiax86-64 = "intel-corei7-64"
-SRCREV_machine_axxiax86-64 = "b290449bd3283fb698adfae63a082987c393414c"
-SRCREV_meta_axxiax86-64 = "8359926e32b1f6a28734f4fc33f22c4beda8af38"
+SRCREV_machine_axxiax86-64 = "81034b38737e13dacf23b59e9ce34a06b6bea350"
+SRCREV_meta_axxiax86-64 = "12333728637b4fc73c48cc742e444cb5f60485fd"
 
 # "snr" for Victoria Canyon or ASE.  "frio" for FPGA emulation system
 RUNTARGET ?= "snr"
