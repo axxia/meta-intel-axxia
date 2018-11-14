@@ -359,6 +359,7 @@ below shoud be replaced with the actual value you provided in step 1).
             $YOCTO/meta-openembedded/meta-python \
             $YOCTO/meta-openembedded/meta-perl \
             $YOCTO/meta-security \
+            $YOCTO/meta-security/meta-tpm \
             $YOCTO/meta-virtualization \
             $YOCTO/meta-intel \
             $YOCTO/meta-intel-axxia \

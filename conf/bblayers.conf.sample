@@ -15,6 +15,7 @@ BBLAYERS ?= " \
   ##OEROOT##/../meta-openembedded/meta-perl \
   ##OEROOT##/../meta-virtualization \
   ##OEROOT##/../meta-security \
+  ##OEROOT##/../meta-security/meta-tpm \
   ##OEROOT##/../meta-intel \
   ##OEROOT##/../meta-intel-axxia \
   ##OEROOT##/../meta-intel-axxia/meta-intel-snr \
