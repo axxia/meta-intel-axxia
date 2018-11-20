@@ -23,7 +23,6 @@ file://SNR-0007-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch \
 file://SNR-0008-drivers-tty-8250-use-setup_timer-helper.patch \
 file://SNR-0009-serial-8250-Convert-timers-to-use-timer_setup.patch \
 file://SNR-0010-pinctrl-cedarfork-Correct-EAST-pin-ordering.patch \
-file://SNR-0011-serial-8250_port-Disable-DMA-operations-for-kernel-c.patch \
 "
 
 FRIO_PATCHES = " \
