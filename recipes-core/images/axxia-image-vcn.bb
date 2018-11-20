@@ -155,6 +155,7 @@ mtd-utils-misc \
 ncurses \
 net-tools \
 netkit-tftp-client \
+netkit-ftp \
 netbase \
 netcat \
 nfs-utils \
