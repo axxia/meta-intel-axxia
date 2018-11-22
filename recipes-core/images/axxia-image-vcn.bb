@@ -136,12 +136,6 @@ logrotate \
 lrzsz \
 lsof \
 ltp \
-lttng-modules \
-lttng-modules-dev \
-lttng-tools \
-lttng-tools-dev \
-lttng-ust \
-lttng-ust-dev \
 lvm2 \
 lzo \
 man \
@@ -252,7 +246,27 @@ zip \
 zlib \
 ${LXC_SUPPORT} \
 ${@bb.utils.contains('DISTRO_FEATURES', 'simicsfs', \
-		     'simicsfs-client fuse', '', d)} "
+		     'simicsfs-client fuse', '', d)} \
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
+                        'linux-local', '', '${LTTNG_SUPPORT}', d)} "
+
+LXC_SUPPORT ?= " \
+cgroup-lite \
+gnupg \
+libvirt \
+libvirt-libvirtd \
+lxc \
+lxc-setup \
+lxc-templates \
+xz"
+
+LTTNG_SUPPORT ?= " \
+lttng-modules \
+lttng-modules-dev \
+lttng-tools \
+lttng-tools-dev \
+lttng-ust \
+lttng-ust-dev"
 
 TOOLCHAIN_TARGET_TASK_append = " \
 binutils-staticdev \
@@ -267,9 +281,6 @@ strace-dev \
 systemtap \
 systemtap-dev \
 xz-dev"
-
-LXC_SUPPORT = "xz gnupg cgroup-lite libvirt libvirt-libvirtd \
-	       lxc lxc-setup lxc-templates "
 
 SDKIMAGE_FEATURES = "dev-pkgs dbg-pkgs staticdev-pkgs"
 
