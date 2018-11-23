@@ -33,6 +33,7 @@ busybox \
 busybox-udhcpc \
 bzip2 \
 chkconfig \
+cifs-utils \
 coreutils \
 cpio \
 cracklib \
@@ -45,6 +46,7 @@ dhcp-client \
 dhcp-server \
 diffutils \
 dmidecode \
+dos2unix \
 dosfstools \
 e2fsprogs \
 e2fsprogs-badblocks \
@@ -79,6 +81,7 @@ inetutils \
 inetutils-telnetd \
 init-ifupdown \
 initscripts \
+ipmiutil \
 iproute2 \
 iproute2-ss \
 iptables \
@@ -97,12 +100,14 @@ libasan \
 libcap \
 libcheck \
 libdaemon \
+libdrm \
 libevent \
 libffi \
 libgcc \
 libgcrypt \
 libgpg-error \
 libice \
+libjpeg-turbo \
 libkmod \
 libnfsidmap \
 libnl \
@@ -114,7 +119,9 @@ libogg \
 libpam \
 libpcap \
 libpcap-dev \
+libpciaccess \
 libpcre \
+libpng \
 libpython2 \
 libpython3 \
 libsamplerate0 \
@@ -131,15 +138,18 @@ libusb1 \
 libxau \
 libxcb \
 libxdmcp \
+libxml2 \
 lighttpd \
 logrotate \
 lrzsz \
 lsof \
+lsscsi \
 ltp \
 lvm2 \
 lzo \
 man \
 man-pages \
+mcelog \
 mdadm \
 mktemp \
 modutils-initscripts \
@@ -201,6 +211,7 @@ readline \
 rpcbind \
 rpm \
 run-postinsts \
+samba \
 sed \
 setserial \
 shadow \
