@@ -20,6 +20,7 @@ gdb \
 gdbserver \
 iasl \
 inetutils \
+kernel-dev \
 kernel-modules \
 kmod \
 ldd \

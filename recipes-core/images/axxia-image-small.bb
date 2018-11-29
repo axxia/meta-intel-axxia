@@ -13,6 +13,7 @@ axxia-rc-local \
 libgcc \
 inetutils \
 gdbserver \
+kernel-dev \
 kernel-modules \
 libasan \
 libubsan "

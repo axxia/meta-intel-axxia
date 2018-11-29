@@ -88,6 +88,7 @@ iptables \
 iputils \
 irda-utils \
 kdump \
+kernel-dev \
 kernel-devsrc \
 kernel-modules \
 kexec \
