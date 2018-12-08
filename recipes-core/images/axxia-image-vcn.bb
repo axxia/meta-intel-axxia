@@ -87,6 +87,7 @@ iproute2-ss \
 iptables \
 iputils \
 irda-utils \
+jansson \
 kdump \
 kernel-devsrc \
 kernel-modules \
