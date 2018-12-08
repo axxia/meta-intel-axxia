@@ -232,6 +232,7 @@ telnetd \
 time \
 tk \
 tmux \
+tpm2-abrmd \
 tpm2.0-tools \
 tzdata \
 udev \
