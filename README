@@ -245,6 +245,28 @@ SNR-0010-pinctrl-cedarfork-Correct-EAST-pin-ordering.patch
 Back ported to Intel Linux 4.14, with no changes, as
 SNR-0010-pinctrl-cedarfork-Correct-EAST-pin-ordering.patch
 
+vfio/pci: Mask buggy SR-IOV VF INTx support
+-------------------------------------------
+
+db04264 from kernel.org
+
+Back ported to Yocto Linux 4.12, with minor changes, as
+BOTH-0001-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch.
+
+Back ported to Yocto Linux 4.14, with minor changes, as
+BOTH-0001-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch.
+
+iommu/vt-d: Handle domain agaw being less than iommu agaw
+---------------------------------------------------------
+
+From https://lkml.org/lkml/2018/11/22/371
+
+Back ported to Yocto Linux 4.12, with no changes, as
+BOTH-0002-iommu-vt-d-Handle-domain-agaw-being-less-than-iommu-.patch.
+
+Back ported to Yocto Linux 4.14, with no changes, as
+BOTH-0002-iommu-vt-d-Handle-domain-agaw-being-less-than-iommu-.patch.
+
 Building the meta-intel-axxia BSP layer
 =======================================
 
