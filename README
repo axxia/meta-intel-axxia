@@ -267,6 +267,17 @@ BOTH-0002-iommu-vt-d-Handle-domain-agaw-being-less-than-iommu-.patch.
 Back ported to Yocto Linux 4.14, with no changes, as
 BOTH-0002-iommu-vt-d-Handle-domain-agaw-being-less-than-iommu-.patch.
 
+uio/uio_pci_generic: don't fail probe if pdev->irq == NULL
+----------------------------------------------------------
+
+acec09e from kernel.org
+
+Back ported to Yocto Linux 4.12, with no changes, as
+BOTH-0003-uio-uio_pci_generic-don-t-fail-probe-if-pdev-irq-NUL.patch
+
+Back ported to Yocto Linux 4.14, with no changes, as
+BOTH-0003-uio-uio_pci_generic-don-t-fail-probe-if-pdev-irq-NUL.patch
+
 Building the meta-intel-axxia BSP layer
 =======================================
 

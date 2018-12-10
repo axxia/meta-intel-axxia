@@ -35,6 +35,7 @@ SRC_URI_append_axxiax86-64 = " \
 	${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
 	file://BOTH-0001-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch \
 	file://BOTH-0002-iommu-vt-d-Handle-domain-agaw-being-less-than-iommu-.patch \
+	file://BOTH-0003-uio-uio_pci_generic-don-t-fail-probe-if-pdev-irq-NUL.patch \
 	file://${RUNTARGET}-runtarget.scc \
 	file://common.scc \
 	"
