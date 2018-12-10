@@ -144,10 +144,7 @@ mmc: sdhci-pci: Add support for Intel CDF
 
 cdaba732ff2f in kernel.org
 
-Back ported to Yocto Linux 4.12, with no changes, as
-SNR-0003-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch.
-
-Back ported to Intel Linux 4.14, with no changes, as
+Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
 SNR-0003-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch.
 
 pinctrl: intel: Make offset to interrupt status register configurable
@@ -156,17 +153,10 @@ pinctrl: intel: Make offset to interrupt status register configurable
 cf769bd86bcc in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SNR-0004-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch
+SNR-0004-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch.
 
 This has already been back ported to Intel Linux 4.14 as
 8dba5c8b00e1ade3b18d19bc83b86e34580add00.
-
-intel_th: pci: Add Cedar Fork PCH support
------------------------------------------
-
-920ce7c33d in kernel.org
-
-Not back ported at present.
 
 x86/cpufeatures: Enumerate cldemote instruction
 -----------------------------------------------
@@ -174,10 +164,10 @@ x86/cpufeatures: Enumerate cldemote instruction
 912413057395 in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SNR-0005-x86-cpufeatures-Enumerate-cldemote-instruction.patch
+SNR-0005-x86-cpufeatures-Enumerate-cldemote-instruction.patch.
 
 Back ported to Intel Linux 4.14, with no changes, as
-SNR-0004-x86-cpufeatures-Enumerate-cldemote-instruction.patch
+SNR-0004-x86-cpufeatures-Enumerate-cldemote-instruction.patch.
 
 x86/intel_rdt: Add command line parameter to control L2_CDP
 -----------------------------------------------------------
@@ -185,10 +175,10 @@ x86/intel_rdt: Add command line parameter to control L2_CDP
 31516de306c0 in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SNR-0006-x86-intel_rdt-Add-command-line-parameter-to-control-.patch
+SNR-0006-x86-intel_rdt-Add-command-line-parameter-to-control-.patch.
 
 Back ported to Intel Linux 4.14, with no changes, as
-SNR-0005-x86-intel_rdt-Add-command-line-parameter-to-control-.patch
+SNR-0005-x86-intel_rdt-Add-command-line-parameter-to-control-.patch.
 
 serial: 8250_mid: Enable HSU on Intel Cedar Fork PCH
 ----------------------------------------------------
@@ -196,10 +186,10 @@ serial: 8250_mid: Enable HSU on Intel Cedar Fork PCH
 daf3930cf616 in kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SNR-0007-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch
+SNR-0007-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch.
 
 Back ported to Intel Linux 4.14, with no changes, as
-SNR-0006-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch
+SNR-0006-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch.
 
 drivers: tty: 8250: use setup_timer() helper.
 ---------------------------------------------
@@ -207,10 +197,10 @@ drivers: tty: 8250: use setup_timer() helper.
 3056151 from kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SNR-0008-drivers-tty-8250-use-setup_timer-helper.patch
+SNR-0008-drivers-tty-8250-use-setup_timer-helper.patch.
 
 Back ported to Intel Linux 4.14, with no changes, as
-SNR-0007-drivers-tty-8250-use-setup_timer-helper.patch
+SNR-0007-drivers-tty-8250-use-setup_timer-helper.patch.
 
 serial: 8250: Convert timers to use timer_setup()
 -------------------------------------------------
@@ -218,10 +208,10 @@ serial: 8250: Convert timers to use timer_setup()
 7c33564 from kernel.org
 
 Back ported to Yocto Linux 4.12, with no changes, as
-SNR-0009-serial-8250-Convert-timers-to-use-timer_setup.patch
+SNR-0009-serial-8250-Convert-timers-to-use-timer_setup.patch.
 
 Back ported to Intel Linux 4.14, with no changes, as
-SNR-0008-serial-8250-Convert-timers-to-use-timer_setup.patch
+SNR-0008-serial-8250-Convert-timers-to-use-timer_setup.patch.
 
 serial: 8250: fix potential deadlock in rs485-mode
 --------------------------------------------------
@@ -232,18 +222,95 @@ This has already been back ported to Yocto Linux 4.12 as
 b86f86e8e7c5264bb8f5835d60f9ec840d9f5a7a.
 
 Back ported to Intel Linux 4.14, with no changes, as
-SNR-0009-serial-8250-fix-potential-deadlock-in-rs485-mode.patch
+SNR-0009-serial-8250-fix-potential-deadlock-in-rs485-mode.patch.
 
 pinctrl: cedarfork: Correct EAST pin ordering
 ---------------------------------------------
 
 a319b56 from kernel.org
 
-Back ported to Yocto Linux 4.12, with no changes, as
-SNR-0010-pinctrl-cedarfork-Correct-EAST-pin-ordering.patch
+Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
+SNR-0010-pinctrl-cedarfork-Correct-EAST-pin-ordering.patch.
 
-Back ported to Intel Linux 4.14, with no changes, as
-SNR-0010-pinctrl-cedarfork-Correct-EAST-pin-ordering.patch
+spi-nor: intel-spi: Fix number of protected range registers for BYT/LPT
+-----------------------------------------------------------------------
+
+9cbb035 from kernel.org
+
+Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
+SNR-0011-spi-nor-intel-spi-Fix-number-of-protected-range-regi.patch.
+
+spi-nor: intel-spi: Remove useless 'buf' parameter in the HW/SW cycle
+---------------------------------------------------------------------
+
+e58348b from kernel.org
+
+Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
+SNR-0012-spi-nor-intel-spi-Remove-useless-buf-parameter-in-th.patch.
+
+spi-nor: intel-spi: Check transfer length in the HW/SW cycle
+------------------------------------------------------------
+
+db2ce7f from kernel.org
+
+Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
+SNR-0013-spi-nor-intel-spi-Check-transfer-length-in-the-HW-SW.patch.
+
+spi-nor: intel-spi: Use SW sequencer for BYT/LPT
+------------------------------------------------
+
+fc2b347 from kernel.org
+
+Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
+SNR-0014-spi-nor-intel-spi-Use-SW-sequencer-for-BYT-LPT.patch.
+
+spi-nor: intel-spi: Remove 'Atomic Cycle Sequence' in intel_spi_write()
+-----------------------------------------------------------------------
+
+aecf59e from kernel.org
+
+Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
+SNR-0015-spi-nor-intel-spi-Remove-Atomic-Cycle-Sequence-in-in.patch.
+
+spi-nor: intel-spi: Don't assume OPMENU0/1 to be programmed by BIOS
+-------------------------------------------------------------------
+
+8c473dd from kernel.org
+
+Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
+SNR-0016-spi-nor-intel-spi-Don-t-assume-OPMENU0-1-to-be-progr.patch.
+
+spi-nor: intel-spi: Remove the unnecessary HSFSTS register RW
+-------------------------------------------------------------
+
+6e995b8 from kernel.org
+
+Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
+SNR-0017-spi-nor-intel-spi-Remove-the-unnecessary-HSFSTS-regi.patch.
+
+spi-nor: intel-spi: Rename swseq to swseq_reg in 'struct intel_spi'
+-------------------------------------------------------------------
+
+2421f1c from kernel.org
+
+Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
+SNR-0018-spi-nor-intel-spi-Rename-swseq-to-swseq_reg-in-struc.patch.
+
+spi-nor: intel-spi: Fall back to use SW sequencer to erase
+----------------------------------------------------------
+
+3163d12 from kernel.org
+
+Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
+SNR-0019-spi-nor-intel-spi-Fall-back-to-use-SW-sequencer-to-e.patch.
+
+spi-nor: intel-spi: Remove EXPERT dependency
+--------------------------------------------
+
+b8cc001 from kernel.org
+
+Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
+SNR-0020-spi-nor-intel-spi-Remove-EXPERT-dependency.patch.
 
 vfio/pci: Mask buggy SR-IOV VF INTx support
 -------------------------------------------

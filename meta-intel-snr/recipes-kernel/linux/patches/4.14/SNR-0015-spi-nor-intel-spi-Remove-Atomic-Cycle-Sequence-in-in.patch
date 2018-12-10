@@ -1,0 +1,35 @@
+From 426322d200ab0ecc0f03981a7c96da021d412233 Mon Sep 17 00:00:00 2001
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 11 Sep 2017 02:41:56 -0700
+Subject: spi-nor: intel-spi: Remove 'Atomic Cycle Sequence' in intel_spi_write()
+
+So far intel_spi_write() uses the HW sequencer to do the write. But
+the HW sequencer register HSFSTS_CTL does not have such a field for
+'Atomic Cycle Sequence', remove it.
+
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Signed-off-by: Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>
+---
+ drivers/mtd/spi-nor/intel-spi.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/drivers/mtd/spi-nor/intel-spi.c b/drivers/mtd/spi-nor/intel-spi.c
+index 4f5060b..17cbb9a 100644
+--- a/drivers/mtd/spi-nor/intel-spi.c
++++ b/drivers/mtd/spi-nor/intel-spi.c
+@@ -572,11 +572,6 @@ static ssize_t intel_spi_write(struct spi_nor *nor, loff_t to, size_t len,
+ 		val |= HSFSTS_CTL_AEL | HSFSTS_CTL_FCERR | HSFSTS_CTL_FDONE;
+ 		val |= (block_size - 1) << HSFSTS_CTL_FDBC_SHIFT;
+ 		val |= HSFSTS_CTL_FCYCLE_WRITE;
+-
+-		/* Write enable */
+-		if (ispi->preopcodes[1] == SPINOR_OP_WREN)
+-			val |= SSFSTS_CTL_SPOP;
+-		val |= SSFSTS_CTL_ACS;
+ 		writel(val, ispi->base + HSFSTS_CTL);
+ 
+ 		ret = intel_spi_write_block(ispi, write_buf, block_size);
+-- 
+2.7.4
+

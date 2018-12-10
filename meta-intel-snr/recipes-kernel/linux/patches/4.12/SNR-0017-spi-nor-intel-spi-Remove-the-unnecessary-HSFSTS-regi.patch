@@ -1,0 +1,41 @@
+From 007a49d3217022d54c1a7995206d8663c9115b56 Mon Sep 17 00:00:00 2001
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 11 Sep 2017 02:41:58 -0700
+Subject: spi-nor: intel-spi: Remove the unnecessary HSFSTS register RW
+
+There is no code that alters the HSFSTS register content in between
+in intel_spi_write(). Remove the unnecessary RW to save some cycles.
+
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Signed-off-by: Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>
+---
+ drivers/mtd/spi-nor/intel-spi.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/mtd/spi-nor/intel-spi.c b/drivers/mtd/spi-nor/intel-spi.c
+index c44f9fa..405c2d9 100644
+--- a/drivers/mtd/spi-nor/intel-spi.c
++++ b/drivers/mtd/spi-nor/intel-spi.c
+@@ -611,7 +611,6 @@ static ssize_t intel_spi_write(struct spi_nor *nor, loff_t to, size_t len,
+ 		val |= HSFSTS_CTL_AEL | HSFSTS_CTL_FCERR | HSFSTS_CTL_FDONE;
+ 		val |= (block_size - 1) << HSFSTS_CTL_FDBC_SHIFT;
+ 		val |= HSFSTS_CTL_FCYCLE_WRITE;
+-		writel(val, ispi->base + HSFSTS_CTL);
+ 
+ 		ret = intel_spi_write_block(ispi, write_buf, block_size);
+ 		if (ret) {
+@@ -620,8 +619,8 @@ static ssize_t intel_spi_write(struct spi_nor *nor, loff_t to, size_t len,
+ 		}
+ 
+ 		/* Start the write now */
+-		val = readl(ispi->base + HSFSTS_CTL);
+-		writel(val | HSFSTS_CTL_FGO, ispi->base + HSFSTS_CTL);
++		val |= HSFSTS_CTL_FGO;
++		writel(val, ispi->base + HSFSTS_CTL);
+ 
+ 		ret = intel_spi_wait_hw_busy(ispi);
+ 		if (ret) {
+-- 
+2.7.4
+
