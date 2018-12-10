@@ -1,0 +1,95 @@
+From 82c1b95941c42df201785ef94e4634181f01c822 Mon Sep 17 00:00:00 2001
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 11 Sep 2017 02:41:55 -0700
+Subject: spi-nor: intel-spi: Use SW sequencer for BYT/LPT
+
+Baytrail/Lynx Point SPI controller's HW sequencer only supports basic
+operations. This is determined by the chipset design, however current
+codes try to use register values in OPMENU0/OPMENU1 to see whether SW
+sequencer should be used, which is wrong. In fact OPMENU0/OPMENU1 can
+remain unprogrammed by some bootloaders.
+
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Signed-off-by: Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>
+---
+ drivers/mtd/spi-nor/intel-spi.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/mtd/spi-nor/intel-spi.c b/drivers/mtd/spi-nor/intel-spi.c
+index e64756c..4f5060b 100644
+--- a/drivers/mtd/spi-nor/intel-spi.c
++++ b/drivers/mtd/spi-nor/intel-spi.c
+@@ -290,6 +290,7 @@ static int intel_spi_init(struct intel_spi *ispi)
+ 		ispi->pregs = ispi->base + BYT_PR;
+ 		ispi->nregions = BYT_FREG_NUM;
+ 		ispi->pr_num = BYT_PR_NUM;
++		ispi->swseq = true;
+ 
+ 		if (writeable) {
+ 			/* Disable write protection */
+@@ -310,6 +311,7 @@ static int intel_spi_init(struct intel_spi *ispi)
+ 		ispi->pregs = ispi->base + LPT_PR;
+ 		ispi->nregions = LPT_FREG_NUM;
+ 		ispi->pr_num = LPT_PR_NUM;
++		ispi->swseq = true;
+ 		break;
+ 
+ 	case INTEL_SPI_BXT:
+@@ -324,12 +326,24 @@ static int intel_spi_init(struct intel_spi *ispi)
+ 		return -EINVAL;
+ 	}
+ 
+-	/* Disable #SMI generation */
++	/* Disable #SMI generation from HW sequencer */
+ 	val = readl(ispi->base + HSFSTS_CTL);
+ 	val &= ~HSFSTS_CTL_FSMIE;
+ 	writel(val, ispi->base + HSFSTS_CTL);
+ 
+ 	/*
++	 * Some controllers can only do basic operations using hardware
++	 * sequencer. All other operations are supposed to be carried out
++	 * using software sequencer.
++	 */
++	if (ispi->swseq) {
++		/* Disable #SMI generation from SW sequencer */
++		val = readl(ispi->sregs + SSFSTS_CTL);
++		val &= ~SSFSTS_CTL_FSMIE;
++		writel(val, ispi->sregs + SSFSTS_CTL);
++	}
++
++	/*
+ 	 * BIOS programs allowed opcodes and then locks down the register.
+ 	 * So read back what opcodes it decided to support. That's the set
+ 	 * we are going to support as well.
+@@ -337,13 +351,6 @@ static int intel_spi_init(struct intel_spi *ispi)
+ 	opmenu0 = readl(ispi->sregs + OPMENU0);
+ 	opmenu1 = readl(ispi->sregs + OPMENU1);
+ 
+-	/*
+-	 * Some controllers can only do basic operations using hardware
+-	 * sequencer. All other operations are supposed to be carried out
+-	 * using software sequencer. If we find that BIOS has programmed
+-	 * opcodes for the software sequencer we use that over the hardware
+-	 * sequencer.
+-	 */
+ 	if (opmenu0 && opmenu1) {
+ 		for (i = 0; i < ARRAY_SIZE(ispi->opcodes) / 2; i++) {
+ 			ispi->opcodes[i] = opmenu0 >> i * 8;
+@@ -353,13 +360,6 @@ static int intel_spi_init(struct intel_spi *ispi)
+ 		val = readl(ispi->sregs + PREOP_OPTYPE);
+ 		ispi->preopcodes[0] = val;
+ 		ispi->preopcodes[1] = val >> 8;
+-
+-		/* Disable #SMI generation from SW sequencer */
+-		val = readl(ispi->sregs + SSFSTS_CTL);
+-		val &= ~SSFSTS_CTL_FSMIE;
+-		writel(val, ispi->sregs + SSFSTS_CTL);
+-
+-		ispi->swseq = true;
+ 	}
+ 
+ 	intel_spi_dump_regs(ispi);
+-- 
+2.7.4
+

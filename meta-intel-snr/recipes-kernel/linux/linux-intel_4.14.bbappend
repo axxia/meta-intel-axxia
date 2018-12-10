@@ -21,6 +21,16 @@ file://SNR-0007-drivers-tty-8250-use-setup_timer-helper.patch \
 file://SNR-0008-serial-8250-Convert-timers-to-use-timer_setup.patch \
 file://SNR-0009-serial-8250-fix-potential-deadlock-in-rs485-mode.patch \
 file://SNR-0010-pinctrl-cedarfork-Correct-EAST-pin-ordering.patch \
+file://SNR-0011-spi-nor-intel-spi-Fix-number-of-protected-range-regi.patch \
+file://SNR-0012-spi-nor-intel-spi-Remove-useless-buf-parameter-in-th.patch \
+file://SNR-0013-spi-nor-intel-spi-Check-transfer-length-in-the-HW-SW.patch \
+file://SNR-0014-spi-nor-intel-spi-Use-SW-sequencer-for-BYT-LPT.patch \
+file://SNR-0015-spi-nor-intel-spi-Remove-Atomic-Cycle-Sequence-in-in.patch \
+file://SNR-0016-spi-nor-intel-spi-Don-t-assume-OPMENU0-1-to-be-progr.patch \
+file://SNR-0017-spi-nor-intel-spi-Remove-the-unnecessary-HSFSTS-regi.patch \
+file://SNR-0018-spi-nor-intel-spi-Rename-swseq-to-swseq_reg-in-struc.patch \
+file://SNR-0019-spi-nor-intel-spi-Fall-back-to-use-SW-sequencer-to-e.patch \
+file://SNR-0020-spi-nor-intel-spi-Remove-EXPERT-dependency.patch \
 "
 
 FRIO_PATCHES = " \

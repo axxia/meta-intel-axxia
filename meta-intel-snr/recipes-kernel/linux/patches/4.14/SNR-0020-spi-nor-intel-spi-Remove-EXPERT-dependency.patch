@@ -1,0 +1,44 @@
+From 45cd13698efda42a6a9b55353cfb6e3fb9f5ee26 Mon Sep 17 00:00:00 2001
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 24 Oct 2017 00:40:53 -0700
+Subject: spi-nor: intel-spi: Remove EXPERT dependency
+
+The idea to have the intel-spi driver dependent on EXPERT was exactly
+because we did not want ordinary users playing with the device and
+inadvertently overwrite their BIOSes (if it is not protected). This
+seems to be superfluous hence remove it.
+
+Suggested-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Acked-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>
+---
+ drivers/mtd/spi-nor/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/mtd/spi-nor/Kconfig b/drivers/mtd/spi-nor/Kconfig
+index bc2b43a..12689a4 100644
+--- a/drivers/mtd/spi-nor/Kconfig
++++ b/drivers/mtd/spi-nor/Kconfig
+@@ -90,7 +90,7 @@ config SPI_INTEL_SPI
+ 	tristate
+ 
+ config SPI_INTEL_SPI_PCI
+-	tristate "Intel PCH/PCU SPI flash PCI driver" if EXPERT
++	tristate "Intel PCH/PCU SPI flash PCI driver"
+ 	depends on X86 && PCI
+ 	select SPI_INTEL_SPI
+ 	help
+@@ -106,7 +106,7 @@ config SPI_INTEL_SPI_PCI
+ 	  will be called intel-spi-pci.
+ 
+ config SPI_INTEL_SPI_PLATFORM
+-	tristate "Intel PCH/PCU SPI flash platform driver" if EXPERT
++	tristate "Intel PCH/PCU SPI flash platform driver"
+ 	depends on X86
+ 	select SPI_INTEL_SPI
+ 	help
+-- 
+2.7.4
+
