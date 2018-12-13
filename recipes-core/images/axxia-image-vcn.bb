@@ -155,6 +155,7 @@ mcelog \
 mdadm \
 mktemp \
 modutils-initscripts \
+mokutil \
 msmtp \
 msr-tools \
 mtd-utils-misc \
