@@ -22,7 +22,6 @@ base-files \
 base-passwd \
 bash \
 bc \
-beecrypt \
 bind \
 bind-utils \
 bison \
@@ -74,7 +73,6 @@ grep \
 groff \
 gzip \
 hdparm \
-hostap-utils \
 iasl \
 icu \
 inetutils \
@@ -88,6 +86,7 @@ iptables \
 iputils \
 irda-utils \
 jansson \
+iw \
 kdump \
 kernel-dev \
 kernel-devsrc \
@@ -111,7 +110,6 @@ libgpg-error \
 libice \
 libjpeg-turbo \
 libkmod \
-libnfsidmap \
 libnl \
 libnl-genl \
 libnl-nf \
@@ -153,7 +151,6 @@ man \
 man-pages \
 mcelog \
 mdadm \
-mktemp \
 modutils-initscripts \
 mokutil \
 msmtp \
@@ -176,7 +173,6 @@ openssh-sftp-server \
 openssl \
 opkg \
 opkg-arch-config \
-ossp-uuid \
 packagegroup-core-boot \
 packagegroup-core-buildessential \
 parted \
@@ -220,7 +216,6 @@ setserial \
 shadow \
 shadow-securetty \
 sqlite3 \
-stat \
 strace \
 strongswan \
 sudo \
@@ -252,8 +247,6 @@ vlan \
 watchdog \
 wget \
 which \
-wireless-tools \
-wpa-supplicant \
 yp-tools \
 yp-tools-dev \
 ypbind-mt \
@@ -271,7 +264,7 @@ gnupg \
 libvirt \
 libvirt-libvirtd \
 lxc \
-lxc-setup \
+lxc-networking \
 lxc-templates \
 xz"
 
