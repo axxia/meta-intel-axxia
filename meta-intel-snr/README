@@ -50,8 +50,7 @@ are required:
 In local.conf, set axxiax86-64 machine and add to the white list the
 following packages:
 
-    PNWHITELIST_intel += "rmc-db rmc rmc-efi thermald intel-microcode \
-		          iucode-tool"
+    PNWHITELIST_intel += " thermald intel-microcode iucode-tool"
 
 
 Maintenance
