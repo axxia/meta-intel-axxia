@@ -52,45 +52,45 @@ This layer depends on:
 Poky
 ----
 URI: git://git.yoctoproject.org/poky.git
-branch: rocko
-revision: 68a612b7d31d270348ef5439d7f779c309bdb6ec
+branch: thud
+revision: 6b504019d6f3a19610594e65810ac245d8fcb4be
 
 OpenEmbedded
 ------------
 URI: https://github.com/openembedded/meta-openembedded.git
-branch: rocko
-revision: eae996301d9c097bcbeb8046f08041dc82bb62f8
+branch: thud
+revision: a15d7f6ebcb0ed76c83c28f854d55e3f9d5b3677
 
 Yocto Virtualization Layer
 --------------------------
 URI: git://git.yoctoproject.org/meta-virtualization
-branch: rocko
-revision: b704c689b67639214b9568a3d62e82df27e9434f
+branch: thud
+revision: cf352d74935ec17964700f5b4f86f9a63b3a2183
 
 Intel Meta Layer
 ----------------
 URI: git://git.yoctoproject.org/meta-intel
-branch: rocko
-revision: 4ee8ff5ebe0657bd376d7a79703a21ec070ee779
+branch: thud
+revision: 8c3556b75bee2b155112eb6df76aef982b892bae
 
 Security
 --------
 URI: https://git.yoctoproject.org/git/meta-security
-branch: rocko
-revision: 74860b2b61afd033fba130044ae66567ead57aaf
+branch: thud
+revision: dcb0395033e1b4a5d44d467d041114c5cb5e13eb
 
 
 Back Ported Linux Changes
 ========================
 
 Some changes have been up-streamed, but have not yet been back ported
-to Yocto Linux 4.12 (git://git.yoctoproject.org/linux-yocto-4.12) or
-the Intel Linux 4.14 kernel in meta-intel
-(git://github.com/intel/linux-intel-lts.git).  Some of these have been
-added to this meta layer.  The changes are described below.  In each
-case, any changes required are described and the publically available
-patch is referenced.  Only changes functionally required for internal
-testing have been back ported.
+to Yocto Linux 4.12 (git://git.yoctoproject.org/linux-yocto-4.12), or 
+to Yocto Linux 4.14 (git://git.yoctoproject.org/linux-yocto-4.14) or 
+to Yocto Linux 4.18 (git://git.yoctoproject.org/linux-yocto-4.18).
+Some of these have been added to this meta layer. The changes are
+described below. In each case, any changes required are described and
+the publically available patch is referenced.  Only changes
+functionally required for internal testing have been back ported.
 
 The "title" of the commit (Subject: or first line) is used to identify
 the commit, as this is the easiest way to find it in the repositories.
@@ -100,9 +100,10 @@ was obtained using 'git format-patch -1 <sha>' from the referenced
 respoistory and was applied using 'git am -3 <patch>'.
 
 In the meta layer, the patches for Yocto Linux 4.12 can be found in
-meta-intel-snr/recipes-kernel/linux/patches/4.12.  For Intel Linux
-4.14, the patches are in
-meta-intel-snr/recipes-kernel/linux/patches/4.14.
+meta-intel-snr/recipes-kernel/linux/patches/4.12; for Yocto Linux 4.14,
+the patches are in meta-intel-snr/recipes-kernel/linux/patches/4.14
+and for Yocto Linux 4.18, the patches are in 
+meta-intel-snr/recipes-kernel/linux/patches/4.18
 
 i2c: i801: Add support for Intel Cedar Fork
 -------------------------------------------
@@ -369,15 +370,15 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
 2. Clone the Axxia meta layer. This provides meta data for building
    images for the Axxia specific board types.  See 'Sources' above to
    select the right meta-intel-axxia repository, branch, and version.
-   Use the 'rocko' branch or the tag specified in the release notes.
+   Use the 'thud' branch or the tag specified in the release notes.
 
    $ cd $YOCTO
    $ (the git clone command chosen above)
    $ cd meta-intel-axxia
 
-   If using the 'rocko' branch.
+   If using the 'thud' branch.
 
-   $ git checkout rocko
+   $ git checkout thud
 
    If using the tag specified in the releases notes.
 
