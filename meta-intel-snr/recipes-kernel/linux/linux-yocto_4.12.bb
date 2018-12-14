@@ -2,6 +2,18 @@ FILESEXTRAPATHS_prepend := "\
 :${THISDIR}/patches/${KV}\
 :${THISDIR}/frags/${KV}:"
 
+require recipes-kernel/linux/linux-yocto.inc
+
+SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;name=machine;branch=${KBRANCH}; \
+           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA}"
+
+DEPENDS += "openssl-native util-linux-native"
+
+PV = "${LINUX_VERSION}+git${SRCPV}"
+
+KMETA = "kernel-meta"
+KCONF_BSP_AUDIT_LEVEL = "2"
+
 KV = "4.12"
 LINUX_VERSION_axxiax86-64 = "4.12.29"
 KBRANCH_axxiax86-64 = "standard/base"
@@ -41,8 +53,8 @@ file://FRIO-0002-drivers-pci-acs-override.patch \
 "
 
 SRC_URI_append_axxiax86-64 = " \
-	${@base_conditional('RUNTARGET', 'snr', '${SNR_PATCHES}', '', d)} \
-	${@base_conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
+	${@oe.utils.conditional('RUNTARGET', 'snr', '${SNR_PATCHES}', '', d)} \
+	${@oe.utils.conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
 	file://BOTH-0001-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch \
 	file://BOTH-0002-iommu-vt-d-Handle-domain-agaw-being-less-than-iommu-.patch \
 	file://BOTH-0003-uio-uio_pci_generic-don-t-fail-probe-if-pdev-irq-NUL.patch \
