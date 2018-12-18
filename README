@@ -342,8 +342,8 @@ acec09e from kernel.org
 Back ported to Yocto Linux 4.12, with no changes, as
 BOTH-0003-uio-uio_pci_generic-don-t-fail-probe-if-pdev-irq-NUL.patch
 
-Back ported to Yocto Linux 4.14, with no changes, as
-BOTH-0003-uio-uio_pci_generic-don-t-fail-probe-if-pdev-irq-NUL.patch
+This is already part of Intel Linux 4.14 as
+acec09e67dc450d09a912735855326c3f1146a37.
 
 Building the meta-intel-axxia BSP layer
 =======================================
