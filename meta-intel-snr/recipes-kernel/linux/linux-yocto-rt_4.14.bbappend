@@ -3,11 +3,11 @@ FILESEXTRAPATHS_prepend := "\
 :${THISDIR}/frags/${KV}:"
 
 KV = "4.14"
-LINUX_VERSION_axxiax86-64 = "4.14.76"
+LINUX_VERSION_axxiax86-64 = "4.14.79"
 KBRANCH_axxiax86-64 = "v4.14/standard/preempt-rt/base"
 KMACHINE_axxiax86-64 = "intel-corei7-64"
-SRCREV_machine_axxiax86-64 = "eafe398ca1404953c2a01559c83d3a983f8717b1"
-SRCREV_meta_axxiax86-64 = "3435617380af107e31ec4e36173b9cf1f8a371a0"
+SRCREV_machine_axxiax86-64 = "82ac7b2b8048b537481bf16b8acda1cc9bfe9565"
+SRCREV_meta_axxiax86-64 = "7fc4e9eb69bd011f7ef99380c261079a3e59a709"
 
 # "snr" for Victoria Canyon or ASE.  "frio" for FPGA emulation system
 RUNTARGET ?= "snr"
