@@ -222,6 +222,7 @@ sudo \
 swig \
 sysfsutils \
 sysklogd \
+systemd-analyze \
 tar \
 tcl \
 tcp-wrappers \
