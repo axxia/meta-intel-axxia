@@ -5,6 +5,14 @@ do_install_append() {
     # copy removed Makefile from documentation dir for "clean" target
     cp -a --parents Documentation/Makefile $kerneldir/build/
 
+    if [ "${ARCH}" = "x86" ]; then
+        # files for 'make tools/objtool' to succeed with kernel-devel
+        cp -a --parents arch/x86/lib/inat.c $kerneldir/build/
+        cp -a --parents arch/x86/lib/insn.c $kerneldir/build/
+	cp -a --parents arch/x86/lib/x86-opcode-map.txt $kerneldir/build/
+	cp -a --parents arch/x86/tools/gen-insn-attr-x86.awk $kerneldir/build/
+    fi
+
     # copy required headers for out-of-tree modules build
     cd ${B}
     cp --parents $(find  -type f -name "unistd_*.h") $kerneldir/build
