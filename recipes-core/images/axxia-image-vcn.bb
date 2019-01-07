@@ -254,6 +254,7 @@ wget \
 which \
 wireless-tools \
 wpa-supplicant \
+yasm \
 yp-tools \
 yp-tools-dev \
 ypbind-mt \
