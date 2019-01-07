@@ -53,7 +53,7 @@ Poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: rocko
-revision: 68a612b7d31d270348ef5439d7f779c309bdb6ec
+revision: c3dd2826dd1cd940203609133ecea58ef450d813
 
 OpenEmbedded
 ------------
