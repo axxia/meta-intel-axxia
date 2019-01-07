@@ -248,6 +248,7 @@ vlan \
 watchdog \
 wget \
 which \
+yasm \
 yp-tools \
 yp-tools-dev \
 ypbind-mt \
