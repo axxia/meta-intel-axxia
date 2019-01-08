@@ -192,6 +192,7 @@ python-distutils \
 python-modules \
 python-netserver \
 python-nose \
+python-scapy \
 python3-cffi \
 python3-core \
 python3-dev \
