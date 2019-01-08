@@ -208,13 +208,13 @@ python3-pyexpect \
 python3-pyyaml \
 python3-pynetlinux \
 python3-robotframework \
-python3-scapy \
 quota \
 readline \
 rpcbind \
 rpm \
 run-postinsts \
 samba \
+scapy \
 sed \
 setserial \
 shadow \
