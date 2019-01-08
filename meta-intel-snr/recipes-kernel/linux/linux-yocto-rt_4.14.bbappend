@@ -1,5 +1,5 @@
 FILESEXTRAPATHS_prepend := "\
-:${THISDIR}/patches/${KV}\
+:${THISDIR}/patches/${KV}-yocto\
 :${THISDIR}/frags/${KV}:"
 
 KV = "4.14"
