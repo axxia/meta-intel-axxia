@@ -4,9 +4,6 @@ meta-intel-axxia
 This is the official OpenEmbedded/Yocto BSP layer for Intel’s family of
 Axxia x86-64 Mobile & Enterprise Communication Processors.
 
-Note that this is a "Power On" branch for Victoria Canyon (Intel
-reference board) and will not work in ASE.
-
 
 Supported MACHINES
 ==================
@@ -20,8 +17,7 @@ for more information):
 Reference Boards
 ================
 
-Snowridge - based on x86_64 architecture - hardware is not available
-yet, just the simulator.
+Snowridge - based on x86_64 architecture
 
 
 Sources
@@ -53,31 +49,31 @@ Poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: thud
-revision: 6b504019d6f3a19610594e65810ac245d8fcb4be
+revision: HEAD
 
 OpenEmbedded
 ------------
 URI: https://github.com/openembedded/meta-openembedded.git
 branch: thud
-revision: a15d7f6ebcb0ed76c83c28f854d55e3f9d5b3677
+revision: HEAD
 
 Yocto Virtualization Layer
 --------------------------
 URI: git://git.yoctoproject.org/meta-virtualization
 branch: thud
-revision: cf352d74935ec17964700f5b4f86f9a63b3a2183
+revision: HEAD
 
 Intel Meta Layer
 ----------------
 URI: git://git.yoctoproject.org/meta-intel
 branch: thud
-revision: 8c3556b75bee2b155112eb6df76aef982b892bae
+revision: HEAD
 
 Security
 --------
 URI: https://git.yoctoproject.org/git/meta-security
 branch: thud
-revision: dcb0395033e1b4a5d44d467d041114c5cb5e13eb
+revision: HEAD
 
 
 Back Ported Linux Changes
@@ -86,10 +82,11 @@ Back Ported Linux Changes
 Some changes have been up-streamed, but have not yet been back ported
 to Yocto Linux 4.12 (git://git.yoctoproject.org/linux-yocto-4.12), or 
 to Yocto Linux 4.14 (git://git.yoctoproject.org/linux-yocto-4.14) or 
-to Yocto Linux 4.18 (git://git.yoctoproject.org/linux-yocto-4.18).
+to Yocto Linux 4.18 (git://git.yoctoproject.org/linux-yocto-4.18), or
+to Intel Linux 4.14 (git://github.com/intel/linux-intel-lts.git).
 Some of these have been added to this meta layer. The changes are
 described below. In each case, any changes required are described and
-the publically available patch is referenced.  Only changes
+the publically available patch is referenced. Only changes
 functionally required for internal testing have been back ported.
 
 The "title" of the commit (Subject: or first line) is used to identify
@@ -100,10 +97,14 @@ was obtained using 'git format-patch -1 <sha>' from the referenced
 respoistory and was applied using 'git am -3 <patch>'.
 
 In the meta layer, the patches for Yocto Linux 4.12 can be found in
-meta-intel-snr/recipes-kernel/linux/patches/4.12; for Yocto Linux 4.14,
-the patches are in meta-intel-snr/recipes-kernel/linux/patches/4.14
+meta-intel-snr/recipes-kernel/linux/patches/4.12; 
+for Yocto Linux 4.14, the patches are in 
+meta-intel-snr/recipes-kernel/linux/patches/4.14-yocto;
+for Intel Linux 4.14, the patches are in 
+meta-intel-snr/recipes-kernel/linux/patches/4.14-intel;
 and for Yocto Linux 4.18, the patches are in 
-meta-intel-snr/recipes-kernel/linux/patches/4.18
+meta-intel-snr/recipes-kernel/linux/patches/4.18.
+
 
 i2c: i801: Add support for Intel Cedar Fork
 -------------------------------------------
@@ -343,8 +344,8 @@ acec09e from kernel.org
 Back ported to Yocto Linux 4.12, with no changes, as
 BOTH-0003-uio-uio_pci_generic-don-t-fail-probe-if-pdev-irq-NUL.patch
 
-Back ported to Yocto Linux 4.14, with no changes, as
-BOTH-0003-uio-uio_pci_generic-don-t-fail-probe-if-pdev-irq-NUL.patch
+This is already part of Intel Linux 4.14 as
+acec09e67dc450d09a912735855326c3f1146a37
 
 Building the meta-intel-axxia BSP layer
 =======================================
@@ -485,7 +486,7 @@ below shoud be replaced with the actual value you provided in step 1).
     MACHINE = "axxiax86-64"
 
 10.6 Select the kernel to use.
-    Meta-intel-axxia is able to build the kernel from 2 sources:
+    Meta-intel-axxia is able to build the kernel from 3 sources:
 
 a. Yocto Project Source repositories (git.yoctoproject.org)
 
@@ -497,7 +498,11 @@ a. Yocto Project Source repositories (git.yoctoproject.org)
 
    will build kernel from Yocto repos:
    4.12: http://git.yoctoproject.org/git/linux-yocto-4.12
-        standard/base or standard/preempt-rt/base branch
+         standard/base or standard/preempt-rt/base branch
+   4.14: git://git.yoctoproject.org/linux-yocto.git
+         v4.14/standard/base or v4.14/standard/preempt-rt/base branch
+   4.18: git://git.yoctoproject.org/linux-yocto.git
+         v4.18/standard/base or v4.18/standard/preempt-rt/base branch
 
 b. Public Intel Github (github.com/intel)
 
@@ -509,9 +514,11 @@ b. Public Intel Github (github.com/intel)
 
    will build kernel from Intel Github public repos:
    4.14: git://github.com/intel/linux-intel-lts.git
-         4.14/yocto/base or 4.14/yocto/base-rt branch
+         4.14/base or 4.14/base-rt branch
+   4.19: git://github.com/intel/linux-intel-lts.git
+         4.19/base or 4.9/yocto/base-rt
 
-d. Local Kernel repositories (development purpose)
+c. Local Kernel repositories (development purpose)
 
    PREFERRED_PROVIDER_virtual/kernel = "linux-local"
 
@@ -527,14 +534,20 @@ d. Local Kernel repositories (development purpose)
 
 10.7 Select the kernel version:
 
-   for 4.12, only for linux-yocto PREFERRED_PROVIDER_virtual/kernel
-   PREFERRED_VERSION_linux-yocto= "4.12%"
+   for 4.12 (only for linux-yocto)
+   PREFERRED_VERSION_(preferred-provider)= "4.12%"
 
-   for 4.14, only for linux-intel PREFERRED_PROVIDER_virtual/kernel
-   PREFERRED_VERSION_linux-intel= "4.14%"
+   for 4.14 (for linux-yocto and linux-intel)
+   PREFERRED_VERSION_(preferred-provider)= "4.14%"
+
+   for 4.18 (only for linux-yocto)
+   PREFERRED_VERSION_(preferred-provider)= "4.18%"
+
+   for 4.19 (only for linux-intel)
+   PREFERRED_VERSION_(preferred-provider)= "4.19%"
 
 NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
-      linux-intel, or linux-intel-rt. See  9.5.
+      linux-intel, linux-intel-rt, or linux-local. See  9.5.
 
 10.8 Choose the System where the image will run between simulation and 
     emulation:
@@ -576,7 +589,7 @@ NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
 
 MACHINE = "axxiax86-64"
 PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
-PREFERRED_VERSION_linux-yocto = "4.12%"
+PREFERRED_VERSION_linux-yocto = "4.18%"
 GRUB_SERIAL = "console=ttyS4,115200"
 DISTRO = "intel-axxia"
 RUNTARGET = "snr"
@@ -611,7 +624,7 @@ Available root filesystem types:
      An image used in simulation.
 
    * axxia-image-vcn
-     A more complete image.  Contains the SDK and LTP.
+     A more complete image. Contains the SDK and LTP.
 
 Once complete the images for the target machine will be available in 
 the output directory 'tmp/deploy/images/$MACHINE'.
