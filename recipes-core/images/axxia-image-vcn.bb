@@ -79,7 +79,6 @@ inetutils \
 inetutils-telnetd \
 init-ifupdown \
 initscripts \
-ipmiutil \
 iproute2 \
 iproute2-ss \
 iptables \
