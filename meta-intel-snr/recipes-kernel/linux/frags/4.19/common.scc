@@ -2,6 +2,7 @@ include features/intel-txt/intel-txt.scc
 include features/ixgbe/ixgbe.scc
 include features/iommu/iommu.scc
 include features/kprobes/kprobes.scc
+include features/numa/numa.scc
 include features/uprobe/uprobe-enable.scc
 include features/debug/debug-dyndbg.scc
 include features/debug/debug-kernel.scc
