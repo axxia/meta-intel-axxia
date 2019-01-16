@@ -1,5 +1,4 @@
 include features/profiling/profiling.scc
-include features/numa/numa.scc
 include features/kdump/kdump-enable.scc
 include features/latencytop/latencytop.scc
 include features/edac/edac-enable.scc
