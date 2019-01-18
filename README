@@ -312,6 +312,14 @@ b8cc001 from kernel.org
 Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
 SNR-0020-spi-nor-intel-spi-Remove-EXPERT-dependency.patch.
 
+i2c: ismt: Add support for Intel Cedar Fork
+-------------------------------------------
+
+5cda2d8 from kernel.org
+
+Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
+SNR-0021-i2c-ismt-Add-support-for-Intel-Cedar-Fork.patch.
+
 vfio/pci: Mask buggy SR-IOV VF INTx support
 -------------------------------------------
 

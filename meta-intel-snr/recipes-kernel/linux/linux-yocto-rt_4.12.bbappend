@@ -33,6 +33,7 @@ file://SNR-0017-spi-nor-intel-spi-Remove-the-unnecessary-HSFSTS-regi.patch \
 file://SNR-0018-spi-nor-intel-spi-Rename-swseq-to-swseq_reg-in-struc.patch \
 file://SNR-0019-spi-nor-intel-spi-Fall-back-to-use-SW-sequencer-to-e.patch \
 file://SNR-0020-spi-nor-intel-spi-Remove-EXPERT-dependency.patch \
+file://SNR-0021-i2c-ismt-Add-support-for-Intel-Cedar-Fork.patch \
 "
 
 FRIO_PATCHES = " \
