@@ -10,7 +10,9 @@ KMACHINE_axxiax86-64 = "intel-corei7-64"
 # "snr" for Victoria Canyon or ASE.  "frio" for FPGA emulation system
 RUNTARGET ?= "snr"
 
-SNR_PATCHES = ""
+SNR_PATCHES = " \
+file://SNR-0001-i2c-ismt-Add-support-for-Intel-Cedar-Fork.patch \
+"
 
 FRIO_PATCHES = " \
 file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
