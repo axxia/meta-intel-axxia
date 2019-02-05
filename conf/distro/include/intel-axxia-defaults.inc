@@ -15,3 +15,10 @@ PREFERRED_VERSION_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GCC_VERSION
 PREFERRED_VERSION_libgcc ?= "${GCC_VERSION}"
 PREFERRED_VERSION_libgcc-initial ?= "${GCC_VERSION}"
 PREFERRED_VERSION_libgfortran ?= "${GCC_VERSION}"
+
+GLIBC_VERSION = "${@bb.utils.contains('DISTRO_FEATURES', 'gcc9', '2.29', '2.28', d)}"
+PREFERRED_VERSION_glibc ?= "${GLIBC_VERSION}"
+PREFERRED_VERSION_glibc-scripts ?= "${GLIBC_VERSION}"
+PREFERRED_VERSION_glibc-mtrace ?= "${GLIBC_VERSION}"
+PREFERRED_VERSION_glibc-locale ?= "${GLIBC_VERSION}"
+PREFERRED_VERSION_cross-localedef-native ?= "${GLIBC_VERSION}"
