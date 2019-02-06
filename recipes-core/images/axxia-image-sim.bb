@@ -64,8 +64,6 @@ ${@bb.utils.contains('DISTRO_FEATURES', 'simicsfs', \
 
 IMAGE_FEATURES_append = " dev-pkgs"
 
-IMAGE_LINGUAS = " "
-
 LICENSE = "MIT"
 
 inherit core-image

@@ -18,8 +18,6 @@ kernel-modules \
 libasan \
 libubsan "
 
-IMAGE_LINGUAS = " "
-
 LICENSE = "MIT"
 
 inherit core-image
