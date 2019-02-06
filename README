@@ -47,38 +47,7 @@ to Yocto, but may not have been accepted yet.
 Dependencies
 ============
 
-This layer depends on:
-
-Poky
-----
-URI: git://git.yoctoproject.org/poky.git
-branch: rocko
-revision: c3dd2826dd1cd940203609133ecea58ef450d813
-
-OpenEmbedded
-------------
-URI: https://github.com/openembedded/meta-openembedded.git
-branch: rocko
-revision: eae996301d9c097bcbeb8046f08041dc82bb62f8
-
-Yocto Virtualization Layer
---------------------------
-URI: git://git.yoctoproject.org/meta-virtualization
-branch: rocko
-revision: b704c689b67639214b9568a3d62e82df27e9434f
-
-Intel Meta Layer
-----------------
-URI: git://git.yoctoproject.org/meta-intel
-branch: rocko
-revision: 4ee8ff5ebe0657bd376d7a79703a21ec070ee779
-
-Security
---------
-URI: https://git.yoctoproject.org/git/meta-security
-branch: rocko
-revision: 74860b2b61afd033fba130044ae66567ead57aaf
-
+See DEPENDENCIES.
 
 Back Ported Linux Changes
 ========================
