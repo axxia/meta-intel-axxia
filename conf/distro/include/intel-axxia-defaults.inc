@@ -22,3 +22,5 @@ PREFERRED_VERSION_glibc-scripts ?= "${GLIBC_VERSION}"
 PREFERRED_VERSION_glibc-mtrace ?= "${GLIBC_VERSION}"
 PREFERRED_VERSION_glibc-locale ?= "${GLIBC_VERSION}"
 PREFERRED_VERSION_cross-localedef-native ?= "${GLIBC_VERSION}"
+
+PREFERRED_VERSION_libxcrypt ?= "${@bb.utils.contains('DISTRO_FEATURES', 'gcc9','4.4%', '4.1%', d)}"
