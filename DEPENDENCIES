@@ -1,0 +1,32 @@
+Dependencies
+============
+
+poky
+----
+URI: git://git.yoctoproject.org/poky.git
+branch: thud
+revision: HEAD
+
+meta-openembedded
+-----------------
+URI: https://github.com/openembedded/meta-openembedded.git
+branch: thud
+revision: HEAD
+
+meta-virtualization
+-------------------
+URI: git://git.yoctoproject.org/meta-virtualization
+branch: thud
+revision: HEAD
+
+meta-intel
+----------
+URI: git://git.yoctoproject.org/meta-intel
+branch: thud
+revision: HEAD
+
+meta-security
+-------------
+URI: https://git.yoctoproject.org/git/meta-security
+branch: thud
+revision: HEAD
