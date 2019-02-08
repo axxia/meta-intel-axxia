@@ -91,6 +91,9 @@ kdump \
 kernel-dev \
 kernel-devsrc \
 kernel-modules \
+kernel-module-kvm \
+kernel-module-kvm-intel \
+kernel-module-kvm-amd \
 kexec \
 kexec-tools \
 kmod \
@@ -205,6 +208,7 @@ python3-pyyaml \
 python3-pynetlinux \
 python3-robotframework \
 python3-scapy \
+qemu \
 quota \
 readline \
 rpcbind \
