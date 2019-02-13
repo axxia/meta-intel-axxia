@@ -6,6 +6,9 @@ poky
 URI: git://git.yoctoproject.org/poky.git
 branch: thud
 revision: HEAD
+NOTE: Revert "nativesdk-*-provides-dummy: Fixes to allow correct
+operation with opkg" (commit 179c5cb7fd0f06970135187f1203507aa55d6bde)
+as this breaks the '-c populate_sdk' build.
 
 meta-openembedded
 -----------------
