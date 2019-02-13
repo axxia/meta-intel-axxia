@@ -5,31 +5,35 @@ poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: thud
-revision: HEAD
-NOTE: Revert "nativesdk-*-provides-dummy: Fixes to allow correct
-operation with opkg" (commit 179c5cb7fd0f06970135187f1203507aa55d6bde)
-as this breaks the '-c populate_sdk' build.
+revision: 6b6b442f3e7091f4b1314766cf2d3a9919df07bd
+
+NOTE
+
+The commit after the above, 'nativesdk-*-provides-dummy: Fixes to
+allow correct operation with opkg' (commit
+179c5cb7fd0f06970135187f1203507aa55d6bde) breaks '-c populate_sdk'
+builds.  Reverting that single commit resolves the problem.
 
 meta-openembedded
 -----------------
 URI: https://github.com/openembedded/meta-openembedded.git
 branch: thud
-revision: HEAD
+revision: cca27b5ea7569d2730ee5da7ee7f47b39d775d89
 
 meta-virtualization
 -------------------
 URI: git://git.yoctoproject.org/meta-virtualization
 branch: thud
-revision: HEAD
+revision: d051460bac9a0a8999703aa7feeb546e9026385c
 
 meta-intel
 ----------
 URI: git://git.yoctoproject.org/meta-intel
 branch: thud
-revision: HEAD
+revision: 9ad66b4c4c22c140151c1ac12a5c189aa3202c93
 
 meta-security
 -------------
 URI: https://git.yoctoproject.org/git/meta-security
 branch: thud
-revision: HEAD
+revision: 31dc4e7532fa7a82060e0b50e5eb8d0414aa7e93
