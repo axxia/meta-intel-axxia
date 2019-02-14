@@ -15,6 +15,9 @@ PREFERRED_VERSION_linux-yocto = "4.12%"
 # Add simicsfs-client support (sources should be in meta-intel-axxia/download)
 DISTRO_FEATURES_append = " simicsfs"
 
+# Enable GCC9 feature for a newer version of gcc and glibc
+#DISTRO_FEATURES_append = " gcc9"
+
 # Release version should be the tag for meta-intel-axxia from release note (README).
 # RELEASE_VERSION = "" 
 
