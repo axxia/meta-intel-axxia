@@ -7,13 +7,6 @@ URI: git://git.yoctoproject.org/poky.git
 branch: thud
 revision: 6b6b442f3e7091f4b1314766cf2d3a9919df07bd
 
-NOTE
-
-The commit after the above, 'nativesdk-*-provides-dummy: Fixes to
-allow correct operation with opkg' (commit
-179c5cb7fd0f06970135187f1203507aa55d6bde) breaks '-c populate_sdk'
-builds.  Reverting that single commit resolves the problem.
-
 meta-openembedded
 -----------------
 URI: https://github.com/openembedded/meta-openembedded.git
