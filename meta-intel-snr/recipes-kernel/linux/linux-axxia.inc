@@ -1,3 +1,5 @@
+require recipes-kernel/linux/linux-yocto_virtualization.inc
+
 kernel_do_deploy_append() {
 	install -d ${DEPLOYDIR}
 	install -m 0644 ${KBUILD_OUTPUT}/System.map \
