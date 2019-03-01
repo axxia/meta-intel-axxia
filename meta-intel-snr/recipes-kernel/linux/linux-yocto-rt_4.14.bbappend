@@ -1,16 +1,10 @@
-FILESEXTRAPATHS_prepend := "\
-:${THISDIR}/patches/${KV}-yocto\
-:${THISDIR}/frags/${KV}:"
+FILESEXTRAPATHS_prepend := ":${THISDIR}/patches/${KV}-yocto:"
 
 KV = "4.14"
 LINUX_VERSION_axxiax86-64 = "4.14.79"
 KBRANCH_axxiax86-64 = "v4.14/standard/preempt-rt/base"
-KMACHINE_axxiax86-64 = "intel-corei7-64"
 SRCREV_machine_axxiax86-64 = "82ac7b2b8048b537481bf16b8acda1cc9bfe9565"
 SRCREV_meta_axxiax86-64 = "7fc4e9eb69bd011f7ef99380c261079a3e59a709"
-
-# "snr" for Victoria Canyon or ASE.  "frio" for FPGA emulation system
-RUNTARGET ?= "snr"
 
 SNR_PATCHES = " \
 file://SNR-0001-mtd-spi-nor-intel-spi-Add-support-for-Intel-Cedar-Fo.patch \
@@ -40,16 +34,5 @@ FRIO_PATCHES = " \
 file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
 file://FRIO-0002-drivers-pci-acs-override.patch \
 "
-
-SRC_URI_append_axxiax86-64 = " \
-	${@oe.utils.conditional('RUNTARGET', 'snr', '${SNR_PATCHES}', '', d)} \
-	${@oe.utils.conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
-	file://BOTH-0001-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch \
-	file://BOTH-0002-iommu-vt-d-Handle-domain-agaw-being-less-than-iommu-.patch \
-	file://${RUNTARGET}-runtarget.scc \
-	file://common.scc \
-	"
-
-COMPATIBLE_MACHINE_axxiax86-64 = "${MACHINE}"
 
 require linux-axxia.inc
