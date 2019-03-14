@@ -47,4 +47,7 @@ do_install_append() {
 	install -m 0644 ${WORKDIR}/38-nac.link ${D}${sysconfdir}/systemd/network/38-nac.link
 	install -m 0644 ${WORKDIR}/39-nac.link ${D}${sysconfdir}/systemd/network/39-nac.link
 	install -m 0644 ${WORKDIR}/99-default.link ${D}${sysconfdir}/systemd/network/99-default.link
+
+	# Manually disable resolved service since the use of SYSTEMD_AUTO_ENABLE has no effect
+	rm -rf ${D}${sysconfdir}/systemd/system/multi-user.target.wants/systemd-resolved.service
 }
