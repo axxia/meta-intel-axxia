@@ -16,6 +16,7 @@ IMAGE_INSTALL = " \
 acl \
 at \
 attr \
+autoconf \
 autofs \
 axxia-rc-local \
 base-files \
@@ -212,6 +213,7 @@ qemu \
 quota \
 readline \
 rpcbind \
+rpcsvc-proto \
 rpm \
 run-postinsts \
 samba \
