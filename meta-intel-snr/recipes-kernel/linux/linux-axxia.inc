@@ -21,6 +21,10 @@ SRC_URI_append_axxiax86-64 = " \
 
 require recipes-kernel/linux/linux-yocto_virtualization.inc
 
+# Temporary stop reporting kernel option warnings
+KCONF_AUDIT_LEVEL = "0"
+KCONF_BSP_AUDIT_LEVEL = "0"
+
 kernel_do_deploy_append() {
 	install -d ${DEPLOYDIR}
 	install -m 0644 ${KBUILD_OUTPUT}/System.map \
