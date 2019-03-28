@@ -430,7 +430,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    type. For example, we will use axxia.
 
    $ cd $YOCTO
-   $ source meta-intel-axxia/axxia-env
+   $ source meta-intel-axxia/meta-intel-axxia/axxia-env
    $ source poky/oe-init-build-env axxia-build
 
 9. Check the conf/bblayers.conf file and edit if necessary.
@@ -453,7 +453,7 @@ below shoud be replaced with the actual value you provided in step 1).
             $YOCTO/meta-security/meta-tpm \
             $YOCTO/meta-virtualization \
             $YOCTO/meta-intel \
-            $YOCTO/meta-intel-axxia \
+            $YOCTO/meta-intel-axxia/meta-intel-axxia \
             $YOCTO/meta-intel-axxia/meta-intel-snr \
             "
 
