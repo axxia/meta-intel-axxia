@@ -9,5 +9,6 @@ include features/debug/debug-kernel.scc
 include features/vfio/vfio.scc
 include features/netfilter/netfilter.scc
 include features/security/security.scc
+include cfg/debug/mem/debug-strict-devmem.scc
 
 kconf non-hardware common-non-hw.cfg
