@@ -33,3 +33,5 @@ kernel_do_deploy_append() {
 	rm -f System.map
 	ln -sf System${KERNEL_IMAGE_BASE_NAME}.map System.map
 }
+
+KERNEL_EXTRA_FEATURES = ""

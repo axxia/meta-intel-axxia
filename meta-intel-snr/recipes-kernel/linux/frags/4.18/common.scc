@@ -7,5 +7,7 @@ include features/uprobe/uprobe-enable.scc
 include features/debug/debug-dyndbg.scc
 include features/debug/debug-kernel.scc
 include features/vfio/vfio.scc
+include features/netfilter/netfilter.scc
+include features/taskstats/taskstats.scc
 
 kconf non-hardware common-non-hw.cfg
