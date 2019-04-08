@@ -27,6 +27,7 @@ bind \
 bind-utils \
 bison \
 bluez5 \
+bridge-utils \
 boost \
 boost-dev \
 busybox \
@@ -74,6 +75,7 @@ grep \
 groff \
 gzip \
 hdparm \
+hwloc \
 iasl \
 icu \
 inetutils \
@@ -146,6 +148,7 @@ libxml2 \
 lighttpd \
 logrotate \
 lrzsz \
+lshw \
 lsof \
 lsscsi \
 ltp \
@@ -248,6 +251,7 @@ usbutils \
 util-linux \
 util-linux-libblkid \
 util-linux-libuuid \
+util-linux-lscpu \
 util-macros \
 vim \
 vlan \
