@@ -21,8 +21,8 @@ DISTRO_FEATURES_append = " simicsfs"
 # Release version should be the tag for meta-intel-axxia from release note (README).
 # RELEASE_VERSION = "" 
 
-BB_NUMBER_THREADS = "12"
-PARALLEL_MAKE = "-j 12"
+BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
+PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"
 
 # Assume directories were created at the same level with poky
 # DL_DIR = "##OEROOT##/../downloads"
