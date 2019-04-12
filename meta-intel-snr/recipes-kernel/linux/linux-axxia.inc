@@ -28,10 +28,10 @@ KCONF_BSP_AUDIT_LEVEL = "0"
 kernel_do_deploy_append() {
 	install -d ${DEPLOYDIR}
 	install -m 0644 ${KBUILD_OUTPUT}/System.map \
-		${DEPLOYDIR}/System${KERNEL_IMAGE_BASE_NAME}.map
+		${DEPLOYDIR}/System${KERNEL_ARTIFACT_NAME}.map
 	cd ${DEPLOYDIR}
 	rm -f System.map
-	ln -sf System${KERNEL_IMAGE_BASE_NAME}.map System.map
+	ln -sf System${KERNEL_ARTIFACT_NAME}.map System.map
 }
 
 KERNEL_EXTRA_FEATURES = ""
