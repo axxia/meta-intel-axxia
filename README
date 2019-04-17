@@ -547,7 +547,8 @@ c. Local Kernel repositories (development purpose)
    PREFERRED_VERSION_(preferred-provider)= "4.19%"
 
 NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
-      linux-intel, linux-intel-rt, or linux-local. See  9.5.
+      linux-intel or linux-intel-rt. See  9.5.
+NOTE: No preferred version should be set for linux-local provider.
 
 10.8 Choose the System where the image will run between simulation and 
     emulation:
