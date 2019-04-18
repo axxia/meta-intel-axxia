@@ -134,6 +134,7 @@ libsamplerate0 \
 libsm \
 libsndfile1 \
 libtasn1 \
+libthrift \
 libtirpc \
 libtool \
 libubsan \
@@ -178,6 +179,7 @@ openssh \
 openssh-sftp \
 openssh-sftp-server \
 openssl \
+openssl-dev \
 opkg \
 opkg-arch-config \
 packagegroup-core-boot \
@@ -199,6 +201,7 @@ python-distutils \
 python-modules \
 python-netserver \
 python-nose \
+python-thrift \
 python3-cffi \
 python3-core \
 python3-dev \
@@ -237,6 +240,8 @@ tcl \
 tcp-wrappers \
 tcpdump \
 telnetd \
+thrift \
+thrift-dev \
 time \
 tk \
 tmux \
