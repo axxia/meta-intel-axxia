@@ -3,6 +3,8 @@ PREFERRED_RPROVIDER_iasl-native ?= "iasl-native"
 
 PREFERRED_VERSION_rpcbind ?= "0.2.3"
 
+PREFERRED_VERSION_thrift ?= "0.11.0"
+
 GCC_VERSION = "${@bb.utils.contains('DISTRO_FEATURES', 'gcc9', '9%', '8%', d)}"
 PREFERRED_VERSION_gcc ?= "${GCC_VERSION}"
 PREFERRED_VERSION_gcc-runtime ?= "${GCC_VERSION}"

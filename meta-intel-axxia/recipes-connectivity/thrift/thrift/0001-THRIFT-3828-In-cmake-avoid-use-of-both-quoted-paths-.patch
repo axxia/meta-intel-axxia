@@ -1,0 +1,161 @@
+From 64e82dad28728a3444b46ac66955b3ccf02068b9 Mon Sep 17 00:00:00 2001
+From: Daniel Dragomir <daniel.dragomir@windriver.com>
+Date: Thu, 2 May 2019 03:03:51 +0300
+Subject: [PATCH] THRIFT-3828 In cmake avoid use of both quoted paths and
+ SYSTEM with include_directories()
+
+This allows us to avoid issues where there are no paths to be added to
+the include path (include_directories() errors when given an empty
+string).
+
+Specifically, gcc-6 requires that libraries stop passing paths like
+'/usr/include' (or they will get libstdc++ build errors), so these paths
+will be empty more often in the future.
+---
+ compiler/cpp/test/CMakeLists.txt | 2 +-
+ lib/c_glib/CMakeLists.txt        | 2 +-
+ lib/c_glib/test/CMakeLists.txt   | 2 +-
+ lib/cpp/CMakeLists.txt           | 8 ++++----
+ lib/cpp/test/CMakeLists.txt      | 4 ++--
+ test/cpp/CMakeLists.txt          | 6 +++---
+ tutorial/cpp/CMakeLists.txt      | 2 +-
+ 7 files changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/compiler/cpp/test/CMakeLists.txt b/compiler/cpp/test/CMakeLists.txt
+index c1fe914..f5d7be4 100644
+--- a/compiler/cpp/test/CMakeLists.txt
++++ b/compiler/cpp/test/CMakeLists.txt
+@@ -19,7 +19,7 @@
+ 
+ 
+ if(${WITH_PLUGIN})
+-    include_directories(SYSTEM "${Boost_INCLUDE_DIRS}")
++    include_directories(${Boost_INCLUDE_DIRS})
+ 
+     # Make sure gen-cpp files can be included
+     include_directories("${CMAKE_CURRENT_BINARY_DIR}")
+diff --git a/lib/c_glib/CMakeLists.txt b/lib/c_glib/CMakeLists.txt
+index 3743a68..6439807 100644
+--- a/lib/c_glib/CMakeLists.txt
++++ b/lib/c_glib/CMakeLists.txt
+@@ -63,7 +63,7 @@ if(OPENSSL_FOUND AND WITH_OPENSSL)
+     list( APPEND thriftcpp_SOURCES
+ 	    src/thrift/c_glib/transport/thrift_ssl_socket.c
+     )
+-    include_directories(SYSTEM "${OPENSSL_INCLUDE_DIR}")
++    include_directories(${OPENSSL_INCLUDE_DIR})
+     list(APPEND SYSLIBS "${OPENSSL_LIBRARIES}")
+ endif()
+ 
+diff --git a/lib/c_glib/test/CMakeLists.txt b/lib/c_glib/test/CMakeLists.txt
+index fb3e41c..9d4fbb2 100644
+--- a/lib/c_glib/test/CMakeLists.txt
++++ b/lib/c_glib/test/CMakeLists.txt
+@@ -20,7 +20,7 @@
+ 
+ set(TEST_PREFIX "c_glib")
+ 
+-include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
++include_directories(${Boost_INCLUDE_DIRS})
+ 
+ #Make sure gen-cpp and gen-c_glib files can be included
+ include_directories("${CMAKE_CURRENT_BINARY_DIR}")
+diff --git a/lib/cpp/CMakeLists.txt b/lib/cpp/CMakeLists.txt
+index 734af72..997438b 100755
+--- a/lib/cpp/CMakeLists.txt
++++ b/lib/cpp/CMakeLists.txt
+@@ -17,7 +17,7 @@
+ # under the License.
+ #
+ 
+-include_directories(SYSTEM "${Boost_INCLUDE_DIRS}")
++include_directories(${Boost_INCLUDE_DIRS})
+ include_directories(src)
+ 
+ # SYSLIBS contains libraries that need to be linked to all lib targets
+@@ -97,7 +97,7 @@ if(OPENSSL_FOUND AND WITH_OPENSSL)
+        src/thrift/transport/TSSLSocket.cpp
+        src/thrift/transport/TSSLServerSocket.cpp
+     )
+-    include_directories(SYSTEM "${OPENSSL_INCLUDE_DIR}")
++    include_directories(${OPENSSL_INCLUDE_DIR})
+     list(APPEND SYSLIBS "${OPENSSL_LIBRARIES}")
+ endif()
+ 
+@@ -172,7 +172,7 @@ endif()
+ 
+ if(WITH_LIBEVENT)
+     find_package(Libevent REQUIRED)  # Libevent comes with CMake support form upstream
+-    include_directories(SYSTEM ${LIBEVENT_INCLUDE_DIRS})
++    include_directories(${LIBEVENT_INCLUDE_DIRS})
+ 
+     ADD_LIBRARY_THRIFT(thriftnb ${thriftcppnb_SOURCES})
+     TARGET_LINK_LIBRARIES_THRIFT(thriftnb ${SYSLIBS} ${LIBEVENT_LIBRARIES})
+@@ -181,7 +181,7 @@ endif()
+ 
+ if(WITH_ZLIB)
+     find_package(ZLIB REQUIRED)
+-    include_directories(SYSTEM ${ZLIB_INCLUDE_DIRS})
++    include_directories(${ZLIB_INCLUDE_DIRS})
+ 
+     ADD_LIBRARY_THRIFT(thriftz ${thriftcppz_SOURCES})
+     TARGET_LINK_LIBRARIES_THRIFT(thriftz ${SYSLIBS} ${ZLIB_LIBRARIES})
+diff --git a/lib/cpp/test/CMakeLists.txt b/lib/cpp/test/CMakeLists.txt
+index 5c5ed18..5c8d3b9 100644
+--- a/lib/cpp/test/CMakeLists.txt
++++ b/lib/cpp/test/CMakeLists.txt
+@@ -17,7 +17,7 @@
+ # under the License.
+ #
+ 
+-include_directories(SYSTEM "${Boost_INCLUDE_DIRS}")
++include_directories(${Boost_INCLUDE_DIRS})
+ 
+ add_definitions("-D__STDC_FORMAT_MACROS")
+ add_definitions("-D__STDC_LIMIT_MACROS")
+@@ -128,7 +128,7 @@ endif ()
+ add_test(NAME TServerIntegrationTest COMMAND TServerIntegrationTest)
+ 
+ if(WITH_ZLIB)
+-include_directories(SYSTEM "${ZLIB_INCLUDE_DIRS}")
++include_directories(${ZLIB_INCLUDE_DIRS})
+ add_executable(TransportTest TransportTest.cpp)
+ target_link_libraries(TransportTest
+     testgencpp
+diff --git a/test/cpp/CMakeLists.txt b/test/cpp/CMakeLists.txt
+index cdd63db..7299c11 100755
+--- a/test/cpp/CMakeLists.txt
++++ b/test/cpp/CMakeLists.txt
+@@ -20,13 +20,13 @@
+ # Contains the thrift specific LINK_AGAINST_THRIFT_LIBRARY
+ include(ThriftMacros)
+ 
+-include_directories(SYSTEM "${Boost_INCLUDE_DIRS}")
++include_directories(${Boost_INCLUDE_DIRS})
+ 
+ find_package(OpenSSL REQUIRED)
+-include_directories(SYSTEM "${OPENSSL_INCLUDE_DIR}")
++include_directories(${OPENSSL_INCLUDE_DIR})
+ 
+ find_package(Libevent REQUIRED)  # Libevent comes with CMake support from upstream
+-include_directories(SYSTEM ${LIBEVENT_INCLUDE_DIRS})
++include_directories(${LIBEVENT_INCLUDE_DIRS})
+ 
+ #Make sure gen-cpp files can be included
+ include_directories("${CMAKE_CURRENT_BINARY_DIR}")
+diff --git a/tutorial/cpp/CMakeLists.txt b/tutorial/cpp/CMakeLists.txt
+index 8634b41..e0b69bd 100644
+--- a/tutorial/cpp/CMakeLists.txt
++++ b/tutorial/cpp/CMakeLists.txt
+@@ -17,7 +17,7 @@
+ # under the License.
+ #
+ 
+-include_directories(SYSTEM "${Boost_INCLUDE_DIRS}")
++include_directories(${Boost_INCLUDE_DIRS})
+ 
+ #Make sure gen-cpp files can be included
+ include_directories("${CMAKE_CURRENT_BINARY_DIR}")
+-- 
+2.7.4
+
