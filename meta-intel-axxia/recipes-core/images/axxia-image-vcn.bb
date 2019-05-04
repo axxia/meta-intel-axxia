@@ -201,6 +201,7 @@ python-distutils \
 python-modules \
 python-netserver \
 python-nose \
+python-psutil \
 python-thrift \
 python3-cffi \
 python3-core \
@@ -210,6 +211,7 @@ python3-modules \
 python3-netserver \
 python3-nose \
 python3-pexpect \
+python3-psutil \
 python3-pyexpect \
 python3-pyyaml \
 python3-pynetlinux \
