@@ -135,6 +135,9 @@ libsm \
 libsndfile1 \
 libtasn1 \
 libthrift \
+libthrift-c-glib \
+libthriftnb \
+libthriftz \
 libtirpc \
 libtool \
 libubsan \
@@ -243,7 +246,9 @@ tcp-wrappers \
 tcpdump \
 telnetd \
 thrift \
+thrift-compiler \
 thrift-dev \
+thrift-staticdev \
 time \
 tk \
 tmux \
