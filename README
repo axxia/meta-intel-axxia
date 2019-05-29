@@ -45,49 +45,16 @@ Dependencies
 
 See DEPENDENCIES.
 
-Poky
-----
-URI: git://git.yoctoproject.org/poky.git
-branch: thud
-revision: HEAD
-
-OpenEmbedded
-------------
-URI: https://github.com/openembedded/meta-openembedded.git
-branch: thud
-revision: HEAD
-
-Yocto Virtualization Layer
---------------------------
-URI: git://git.yoctoproject.org/meta-virtualization
-branch: thud
-revision: HEAD
-
-Intel Meta Layer
-----------------
-URI: git://git.yoctoproject.org/meta-intel
-branch: thud
-revision: HEAD
-
-Security
---------
-URI: https://git.yoctoproject.org/git/meta-security
-branch: thud
-revision: HEAD
-
 
 Back Ported Linux Changes
 ========================
 
 Some changes have been up-streamed, but have not yet been back ported
-to Yocto Linux 4.12 (git://git.yoctoproject.org/linux-yocto-4.12), or 
-to Yocto Linux 4.14 (git://git.yoctoproject.org/linux-yocto-4.14) or 
-to Yocto Linux 4.18 (git://git.yoctoproject.org/linux-yocto-4.18), or
-to Intel Linux 4.14 (git://github.com/intel/linux-intel-lts.git).
-Some of these have been added to this meta layer. The changes are
-described below. In each case, any changes required are described and
-the publically available patch is referenced. Only changes
-functionally required for internal testing have been back ported.
+to Linux 4.19 (git://github.com/intel/linux-intel-lts.git). Some of
+these have been added to this meta layer. The changes are described
+below. In each case, any changes required are described and the
+publically available patch is referenced. Only changes functionally
+required for internal testing have been back ported.
 
 The "title" of the commit (Subject: or first line) is used to identify
 the commit, as this is the easiest way to find it in the repositories.
@@ -96,256 +63,17 @@ In the following descriptions, "with no changes" means that a patch
 was obtained using 'git format-patch -1 <sha>' from the referenced
 respoistory and was applied using 'git am -3 <patch>'.
 
-In the meta layer, the patches for Yocto Linux 4.12 can be found in
-meta-intel-snr/recipes-kernel/linux/patches/4.12; 
-for Yocto Linux 4.14, the patches are in 
-meta-intel-snr/recipes-kernel/linux/patches/4.14-yocto;
-for Intel Linux 4.14, the patches are in 
-meta-intel-snr/recipes-kernel/linux/patches/4.14-intel;
-and for Yocto Linux 4.18, the patches are in 
-meta-intel-snr/recipes-kernel/linux/patches/4.18.
+In the meta layer, the patches for Linux 4.19 can be found in
+meta-intel-snr/recipes-kernel/linux/patches/4.19.
 
-
-i2c: i801: Add support for Intel Cedar Fork
+i2c: ismt: Add support for Intel Cedar Fork
 -------------------------------------------
 
-cb09d943c70d in kernel.org
+5cda2d8 from kernel.org
 
-Back ported to Yocto Linux 4.12, with no changes, as
-SNR-0001-i2c-i801-Add-support-for-Intel-Cedar-Fork.patch.
+Back ported to Yocto Linux 4.19, with no changes, as
+SNR-0001-i2c-ismt-Add-support-for-Intel-Cedar-Fork.patch.
 
-This has already been back ported ot Intel Linux 4.14 as part of
-67936a41e597331c991528c5e5bd791cfbb1b1d6 which references a merge
-branch.
-
-mtd: spi-nor: intel-spi: Add support for Intel Cedar Fork SPI serial flash
---------------------------------------------------------------------------
-
-824af37ef2d0 in kernel.org
-
-This has already been back ported to Yocto Linux 4.12 as
-b373e336eb847be8d8280be42e779a70c8b9cde4 which references the commit
-in kernel.org.
-
-Back ported to Intel Linux 4.14, with no changes, as
-SNR-0001-mtd-spi-nor-intel-spi-Add-support-for-Intel-Cedar-Fo.patch.
-
-pinctrl: intel: Add Intel Cedar Fork PCH pin controller support
----------------------------------------------------------------
-
-0f80dbc133e3 in kernel.org
-
-Back ported to Yocto Linux 4.12, with small changes, as
-SNR-0002-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch.
-
-Back ported to Intel Linux 4.14, with no changes, as
-SNR-0002-pinctrl-intel-Add-Intel-Cedar-Fork-PCH-pin-controlle.patch.
-
-mmc: sdhci-pci: Add support for Intel CDF
------------------------------------------
-
-cdaba732ff2f in kernel.org
-
-Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
-SNR-0003-mmc-sdhci-pci-Add-support-for-Intel-CDF.patch.
-
-pinctrl: intel: Make offset to interrupt status register configurable
----------------------------------------------------------------------
-
-cf769bd86bcc in kernel.org
-
-Back ported to Yocto Linux 4.12, with no changes, as
-SNR-0004-pinctrl-intel-Make-offset-to-interrupt-status-regist.patch.
-
-This has already been back ported to Intel Linux 4.14 as
-8dba5c8b00e1ade3b18d19bc83b86e34580add00.
-
-x86/cpufeatures: Enumerate cldemote instruction
------------------------------------------------
-
-912413057395 in kernel.org
-
-Back ported to Yocto Linux 4.12, with no changes, as
-SNR-0005-x86-cpufeatures-Enumerate-cldemote-instruction.patch.
-
-Back ported to Intel Linux 4.14, with no changes, as
-SNR-0004-x86-cpufeatures-Enumerate-cldemote-instruction.patch.
-
-x86/intel_rdt: Add command line parameter to control L2_CDP
------------------------------------------------------------
-
-31516de306c0 in kernel.org
-
-Back ported to Yocto Linux 4.12, with no changes, as
-SNR-0006-x86-intel_rdt-Add-command-line-parameter-to-control-.patch.
-
-Back ported to Intel Linux 4.14, with no changes, as
-SNR-0005-x86-intel_rdt-Add-command-line-parameter-to-control-.patch.
-
-serial: 8250_mid: Enable HSU on Intel Cedar Fork PCH
-----------------------------------------------------
-
-daf3930cf616 in kernel.org
-
-Back ported to Yocto Linux 4.12, with no changes, as
-SNR-0007-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch.
-
-Back ported to Intel Linux 4.14, with no changes, as
-SNR-0006-serial-8250_mid-Enable-HSU-on-Intel-Cedar-Fork-PCH.patch.
-
-drivers: tty: 8250: use setup_timer() helper.
----------------------------------------------
-
-3056151 from kernel.org
-
-Back ported to Yocto Linux 4.12, with no changes, as
-SNR-0008-drivers-tty-8250-use-setup_timer-helper.patch.
-
-Back ported to Intel Linux 4.14, with no changes, as
-SNR-0007-drivers-tty-8250-use-setup_timer-helper.patch.
-
-serial: 8250: Convert timers to use timer_setup()
--------------------------------------------------
-
-7c33564 from kernel.org
-
-Back ported to Yocto Linux 4.12, with no changes, as
-SNR-0009-serial-8250-Convert-timers-to-use-timer_setup.patch.
-
-Back ported to Intel Linux 4.14, with no changes, as
-SNR-0008-serial-8250-Convert-timers-to-use-timer_setup.patch.
-
-serial: 8250: fix potential deadlock in rs485-mode
---------------------------------------------------
-
-b86f86e from kernel.org
-
-This has already been back ported to Yocto Linux 4.12 as
-b86f86e8e7c5264bb8f5835d60f9ec840d9f5a7a.
-
-Back ported to Intel Linux 4.14, with no changes, as
-SNR-0009-serial-8250-fix-potential-deadlock-in-rs485-mode.patch.
-
-pinctrl: cedarfork: Correct EAST pin ordering
----------------------------------------------
-
-a319b56 from kernel.org
-
-Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
-SNR-0010-pinctrl-cedarfork-Correct-EAST-pin-ordering.patch.
-
-spi-nor: intel-spi: Fix number of protected range registers for BYT/LPT
------------------------------------------------------------------------
-
-9cbb035 from kernel.org
-
-Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
-SNR-0011-spi-nor-intel-spi-Fix-number-of-protected-range-regi.patch.
-
-spi-nor: intel-spi: Remove useless 'buf' parameter in the HW/SW cycle
----------------------------------------------------------------------
-
-e58348b from kernel.org
-
-Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
-SNR-0012-spi-nor-intel-spi-Remove-useless-buf-parameter-in-th.patch.
-
-spi-nor: intel-spi: Check transfer length in the HW/SW cycle
-------------------------------------------------------------
-
-db2ce7f from kernel.org
-
-Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
-SNR-0013-spi-nor-intel-spi-Check-transfer-length-in-the-HW-SW.patch.
-
-spi-nor: intel-spi: Use SW sequencer for BYT/LPT
-------------------------------------------------
-
-fc2b347 from kernel.org
-
-Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
-SNR-0014-spi-nor-intel-spi-Use-SW-sequencer-for-BYT-LPT.patch.
-
-spi-nor: intel-spi: Remove 'Atomic Cycle Sequence' in intel_spi_write()
------------------------------------------------------------------------
-
-aecf59e from kernel.org
-
-Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
-SNR-0015-spi-nor-intel-spi-Remove-Atomic-Cycle-Sequence-in-in.patch.
-
-spi-nor: intel-spi: Don't assume OPMENU0/1 to be programmed by BIOS
--------------------------------------------------------------------
-
-8c473dd from kernel.org
-
-Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
-SNR-0016-spi-nor-intel-spi-Don-t-assume-OPMENU0-1-to-be-progr.patch.
-
-spi-nor: intel-spi: Remove the unnecessary HSFSTS register RW
--------------------------------------------------------------
-
-6e995b8 from kernel.org
-
-Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
-SNR-0017-spi-nor-intel-spi-Remove-the-unnecessary-HSFSTS-regi.patch.
-
-spi-nor: intel-spi: Rename swseq to swseq_reg in 'struct intel_spi'
--------------------------------------------------------------------
-
-2421f1c from kernel.org
-
-Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
-SNR-0018-spi-nor-intel-spi-Rename-swseq-to-swseq_reg-in-struc.patch.
-
-spi-nor: intel-spi: Fall back to use SW sequencer to erase
-----------------------------------------------------------
-
-3163d12 from kernel.org
-
-Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
-SNR-0019-spi-nor-intel-spi-Fall-back-to-use-SW-sequencer-to-e.patch.
-
-spi-nor: intel-spi: Remove EXPERT dependency
---------------------------------------------
-
-b8cc001 from kernel.org
-
-Back ported to Yocto Linux 4.12 and Intel Linux 4.14, with no changes, as
-SNR-0020-spi-nor-intel-spi-Remove-EXPERT-dependency.patch.
-
-vfio/pci: Mask buggy SR-IOV VF INTx support
--------------------------------------------
-
-db04264 from kernel.org
-
-Back ported to Yocto Linux 4.12, with minor changes, as
-BOTH-0001-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch.
-
-Back ported to Yocto Linux 4.14, with minor changes, as
-BOTH-0001-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch.
-
-iommu/vt-d: Handle domain agaw being less than iommu agaw
----------------------------------------------------------
-
-From https://lkml.org/lkml/2018/11/22/371
-
-Back ported to Yocto Linux 4.12, with no changes, as
-BOTH-0002-iommu-vt-d-Handle-domain-agaw-being-less-than-iommu-.patch.
-
-Back ported to Yocto Linux 4.14, with no changes, as
-BOTH-0002-iommu-vt-d-Handle-domain-agaw-being-less-than-iommu-.patch.
-
-uio/uio_pci_generic: don't fail probe if pdev->irq == NULL
-----------------------------------------------------------
-
-acec09e from kernel.org
-
-Back ported to Yocto Linux 4.12, with no changes, as
-BOTH-0003-uio-uio_pci_generic-don-t-fail-probe-if-pdev-irq-NUL.patch
-
-This is already part of Intel Linux 4.14 as
-acec09e67dc450d09a912735855326c3f1146a37
 
 Building the meta-intel-axxia BSP layer
 =======================================
@@ -488,37 +216,16 @@ below shoud be replaced with the actual value you provided in step 1).
 10.6 Select the kernel to use.
     Meta-intel-axxia is able to build the kernel from 3 sources:
 
-a. Yocto Project Source repositories (git.yoctoproject.org)
-
-   for standard
-   PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
-
-   for preempt-rt
-   PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
-
-   will build kernel from Yocto repos:
-   4.12: http://git.yoctoproject.org/git/linux-yocto-4.12
-         standard/base or standard/preempt-rt/base branch
-   4.14: git://git.yoctoproject.org/linux-yocto.git
-         v4.14/standard/base or v4.14/standard/preempt-rt/base branch
-   4.18: git://git.yoctoproject.org/linux-yocto.git
-         v4.18/standard/base or v4.18/standard/preempt-rt/base branch
-
-b. Public Intel Github (github.com/intel)
+a. Public Intel Github (github.com/intel)
 
    for standard
    PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 
-   for preempt-rt
-   PREFERRED_PROVIDER_virtual/kernel = "linux-intel-rt"
-
    will build kernel from Intel Github public repos:
-   4.14: git://github.com/intel/linux-intel-lts.git
-         4.14/base or 4.14/base-rt branch
    4.19: git://github.com/intel/linux-intel-lts.git
          4.19/base or 4.9/yocto/base-rt
 
-c. Local Kernel repositories (development purpose)
+b. Local Kernel repositories (development purpose)
 
    PREFERRED_PROVIDER_virtual/kernel = "linux-local"
 
@@ -534,24 +241,12 @@ c. Local Kernel repositories (development purpose)
 
 10.7 Select the kernel version:
 
-   for 4.12 (only for linux-yocto)
-   PREFERRED_VERSION_(preferred-provider)= "4.12%"
-
-   for 4.14 (for linux-yocto and linux-intel)
-   PREFERRED_VERSION_(preferred-provider)= "4.14%"
-
-   for 4.18 (only for linux-yocto)
-   PREFERRED_VERSION_(preferred-provider)= "4.18%"
-
-   for 4.19 (only for linux-intel)
    PREFERRED_VERSION_(preferred-provider)= "4.19%"
 
-NOTE: (preferred-provider) can be linux-yocto, linux-yocto-rt,
-      linux-intel or linux-intel-rt. See  9.5.
 NOTE: No preferred version should be set for linux-local provider.
 
-10.8 Choose the System where the image will run between simulation and 
-    emulation:
+10.8 Choose the System where the image will run between hardware/simulation
+     and emulation:
 
     for Victoria Canyon or ASE (default):
     RUNTARGET = "snr"
@@ -572,7 +267,7 @@ NOTE: No preferred version should be set for linux-local provider.
     * tar czf simics-5.0.183.tgz simics-5.0.183
 
 10.10 Add gcc9 support for a newer version of gcc and glibc instead
-    the default one from upstream:
+    the default one from upstream. This should not normally be used!
 
     DISTRO_FEATURES_append = " gcc9"
 
@@ -594,8 +289,8 @@ NOTE: No preferred version should be set for linux-local provider.
      Here are the local.conf files used for open builds:
 
 MACHINE = "axxiax86-64"
-PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
-PREFERRED_VERSION_linux-yocto = "4.18%"
+PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
+PREFERRED_VERSION_linux-intel = "4.19%"
 GRUB_SERIAL = "console=ttyS4,115200"
 DISTRO = "intel-axxia"
 RUNTARGET = "snr"
