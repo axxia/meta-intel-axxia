@@ -1,4 +1,4 @@
-From f9fd1c19955a84650cd3c2fed1715f98a5604ecd Mon Sep 17 00:00:00 2001
+From 2649bfe1e477a08c46fc54cd15e41b8d91093901 Mon Sep 17 00:00:00 2001
 From: Jarkko Nikula <jarkko.nikula@linux.intel.com>
 Date: Wed, 19 Dec 2018 09:01:58 +0200
 Subject: i2c: ismt: Add support for Intel Cedar Fork
@@ -14,7 +14,7 @@ Signed-off-by: Wolfram Sang <wsa@the-dreams.de>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/i2c/busses/i2c-ismt.c b/drivers/i2c/busses/i2c-ismt.c
-index 22ffcb7..48d5c7f 100644
+index 0d1c3ec..02d23ed 100644
 --- a/drivers/i2c/busses/i2c-ismt.c
 +++ b/drivers/i2c/busses/i2c-ismt.c
 @@ -75,6 +75,7 @@

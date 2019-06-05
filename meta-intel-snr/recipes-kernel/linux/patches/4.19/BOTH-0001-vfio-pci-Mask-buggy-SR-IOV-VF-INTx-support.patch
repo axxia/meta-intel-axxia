@@ -1,4 +1,4 @@
-From dc9daab17bf416f7a79996d35f0de11ff06149c9 Mon Sep 17 00:00:00 2001
+From 59b18a2ffdbeab4911f46f385cd1da8d8cdb59fa Mon Sep 17 00:00:00 2001
 From: Alex Williamson <alex.williamson@redhat.com>
 Date: Tue, 25 Sep 2018 13:01:27 -0600
 Subject: vfio/pci: Mask buggy SR-IOV VF INTx support
@@ -28,10 +28,10 @@ Back-ported-by: John Jacques <john.jacques@intel.com>
  2 files changed, 33 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-index 324c52e..f9df59b 100644
+index cddb453..50cdedf 100644
 --- a/drivers/vfio/pci/vfio_pci.c
 +++ b/drivers/vfio/pci/vfio_pci.c
-@@ -416,10 +416,14 @@ static int vfio_pci_get_irq_count(struct vfio_pci_device *vdev, int irq_type)
+@@ -434,10 +434,14 @@ static int vfio_pci_get_irq_count(struct vfio_pci_device *vdev, int irq_type)
  {
  	if (irq_type == VFIO_PCI_INTX_IRQ_INDEX) {
  		u8 pin;
@@ -49,10 +49,10 @@ index 324c52e..f9df59b 100644
  		u8 pos;
  		u16 flags;
 diff --git a/drivers/vfio/pci/vfio_pci_config.c b/drivers/vfio/pci/vfio_pci_config.c
-index 816a25cf..12ed6e6 100644
+index 115a36f..1d97529 100644
 --- a/drivers/vfio/pci/vfio_pci_config.c
 +++ b/drivers/vfio/pci/vfio_pci_config.c
-@@ -1582,6 +1582,15 @@ static int vfio_ecap_init(struct vfio_pci_device *vdev)
+@@ -1610,6 +1610,15 @@ static int vfio_ecap_init(struct vfio_pci_device *vdev)
  }
  
  /*
@@ -68,7 +68,7 @@ index 816a25cf..12ed6e6 100644
   * For each device we allocate a pci_config_map that indicates the
   * capability occupying each dword and thus the struct perm_bits we
   * use for read and write.  We also allocate a virtualized config
-@@ -1646,6 +1655,24 @@ int vfio_config_init(struct vfio_pci_device *vdev)
+@@ -1674,6 +1683,24 @@ int vfio_config_init(struct vfio_pci_device *vdev)
  	if (pdev->is_virtfn) {
  		*(__le16 *)&vconfig[PCI_VENDOR_ID] = cpu_to_le16(pdev->vendor);
  		*(__le16 *)&vconfig[PCI_DEVICE_ID] = cpu_to_le16(pdev->device);

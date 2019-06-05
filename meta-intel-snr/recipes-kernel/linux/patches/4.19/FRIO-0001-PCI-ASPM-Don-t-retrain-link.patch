@@ -1,4 +1,4 @@
-From 1f5f32336d275ca29dd9768f390fa4f80b0593ef Mon Sep 17 00:00:00 2001
+From 85a5ff5c4db6826522e5b830e65df28bb9014a5e Mon Sep 17 00:00:00 2001
 From: Ben Shelton <benjamin.h.shelton@intel.com>
 Date: Thu, 20 Aug 2015 17:21:00 -0500
 Subject: PCI/ASPM: Don't retrain link
@@ -13,10 +13,10 @@ Signed-off-by: Ben Shelton <benjamin.h.shelton@intel.com>
  1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/pci/pcie/aspm.c b/drivers/pci/pcie/aspm.c
-index 1dfa10c..bb90c58 100644
+index f78860c..36e4459 100644
 --- a/drivers/pci/pcie/aspm.c
 +++ b/drivers/pci/pcie/aspm.c
-@@ -259,9 +259,7 @@ static void pcie_aspm_configure_common_clock(struct pcie_link_state *link)
+@@ -265,9 +265,7 @@ static void pcie_aspm_configure_common_clock(struct pcie_link_state *link)
  		reg16 &= ~PCI_EXP_LNKCTL_CCC;
  	pcie_capability_write_word(parent, PCI_EXP_LNKCTL, reg16);
  

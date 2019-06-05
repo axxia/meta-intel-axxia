@@ -1,5 +1,10 @@
+From e8cb717741104ddf844ee2e900153b6f256bf1b9 Mon Sep 17 00:00:00 2001
 From: Gage Eads <gage.eads@intel.com>
+Date: Wed, 5 Jun 2019 17:07:37 -0500
 Subject: drivers/pci: Enable overrides for missing ACS capabilities
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 This allows us to override Linux’s conservative IOMMU
 group assignments that can make it difficult to assign
@@ -13,10 +18,10 @@ Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
  1 file changed, 101 insertions(+)
 
 diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index a4d11d1..a6a754d1 100644
+index 37d897b..b6a46fa 100644
 --- a/drivers/pci/quirks.c
 +++ b/drivers/pci/quirks.c
-@@ -3706,6 +3706,106 @@ static void quirk_dma_func0_alias(struct pci_dev *dev)
+@@ -3823,6 +3823,106 @@ static void quirk_dma_func0_alias(struct pci_dev *dev)
  		pci_add_dma_alias(dev, PCI_DEVFN(PCI_SLOT(dev->devfn), 0));
  }
  
@@ -123,7 +128,7 @@ index a4d11d1..a6a754d1 100644
  /*
   * https://bugzilla.redhat.com/show_bug.cgi?id=605888
   *
-@@ -4393,6 +4493,7 @@ static const struct pci_dev_acs_enabled {
+@@ -4515,6 +4615,7 @@ static const struct pci_dev_acs_enabled {
  	{ PCI_VENDOR_ID_AMPERE, 0xE00A, pci_quirk_xgene_acs },
  	{ PCI_VENDOR_ID_AMPERE, 0xE00B, pci_quirk_xgene_acs },
  	{ PCI_VENDOR_ID_AMPERE, 0xE00C, pci_quirk_xgene_acs },
