@@ -8,11 +8,23 @@ do_install_append() {
         cp -a --parents Documentation/Makefile $kerneldir/build/
 
         # required files for "tools/objtool" target
+        cp -a --parents tools/objtool $kerneldir/build/
+        cp -a --parents tools/build/fixdep.c $kerneldir/build/
         if [ "${ARCH}" = "x86" ]; then
             cp -a --parents arch/x86/lib/inat.c $kerneldir/build/
             cp -a --parents arch/x86/lib/insn.c $kerneldir/build/
             cp -a --parents arch/x86/lib/x86-opcode-map.txt $kerneldir/build/
             cp -a --parents arch/x86/tools/gen-insn-attr-x86.awk $kerneldir/build/
+        fi
+
+        # required files for "modules_prepare" target
+        cp -a --parents kernel/bounds.c $kerneldir/build/
+        cp -a --parents kernel/time/timeconst.bc $kerneldir/build/
+        cp -a --parents tools/lib $kerneldir/build/
+        cp -a --parents tools/include $kerneldir/build/
+        cp -a --parents tools/scripts/utilities.mak $kerneldir/build/
+        if [ "${ARCH}" = "x86" ]; then
+            cp -a --parents arch/x86/kernel/asm-offsets*.c $kerneldir/build/
         fi
     )
 
