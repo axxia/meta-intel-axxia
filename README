@@ -177,6 +177,10 @@ below shoud be replaced with the actual value you provided in step 1).
             $YOCTO/meta-openembedded/meta-filesystems \
             $YOCTO/meta-openembedded/meta-python \
             $YOCTO/meta-openembedded/meta-perl \
+	    $YOCTO/meta-openembedded/meta-gnome \
+	    $YOCTO/meta-openembedded/meta-multimedia \
+	    $YOCTO/meta-openembedded/meta-xfce \
+	    $YOCTO/meta-ros \
             $YOCTO/meta-security \
             $YOCTO/meta-security/meta-tpm \
             $YOCTO/meta-virtualization \
@@ -296,7 +300,7 @@ DISTRO = "intel-axxia"
 RUNTARGET = "snr"
 DISTRO_FEATURES_append = " simicsfs"
 PACKAGE_CLASSES ?= "package_rpm"
-EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
+EXTRA_IMAGE_FEATURES ?= "debug-tweaks x11-base"
 USER_CLASSES ?= "buildstats image-mklibs image-prelink"
 PATCHRESOLVE = "noop"
 BB_DISKMON_DIRS = "\

@@ -187,6 +187,10 @@ opkg \
 opkg-arch-config \
 packagegroup-core-boot \
 packagegroup-core-buildessential \
+packagegroup-core-x11 \
+packagegroup-core-x11-base \
+packagegroup-core-x11-xserver \
+packagegroup-xfce-base \
 parted \
 pciutils \
 perl \
@@ -194,6 +198,7 @@ perl-module-bigint \
 pkgconfig \
 pmtools \
 popt \
+postfix \
 ppp \
 procps \
 psmisc \
@@ -206,6 +211,7 @@ python-netserver \
 python-nose \
 python-psutil \
 python-thrift \
+python3 \
 python3-cffi \
 python3-core \
 python3-dev \
@@ -213,7 +219,9 @@ python3-distutils \
 python3-modules \
 python3-netserver \
 python3-nose \
+python3-paramiko \
 python3-pexpect \
+python3-prctl \
 python3-psutil \
 python3-pyexpect \
 python3-pyyaml \
@@ -239,6 +247,7 @@ sudo \
 swig \
 sysfsutils \
 sysklogd \
+sysstat \
 systemd-analyze \
 tar \
 tcl \
@@ -249,11 +258,13 @@ thrift \
 thrift-compiler \
 thrift-dev \
 thrift-staticdev \
+tigervnc \
 time \
 tk \
 tmux \
 tpm2-abrmd \
 tpm2.0-tools \
+tshark \
 tzdata \
 udev \
 udev-extraconf \
@@ -270,6 +281,8 @@ vlan \
 watchdog \
 wget \
 which \
+wireshark \
+xterm \
 yasm \
 yp-tools \
 yp-tools-dev \
@@ -281,6 +294,8 @@ ${@bb.utils.contains('DISTRO_FEATURES', 'simicsfs', \
 		     'simicsfs-client fuse', '', d)} \
 ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
                         'linux-local', '', '${LTTNG_SUPPORT}', d)} "
+
+REQUIRED_DISTRO_FEATURES = "x11"
 
 LXC_SUPPORT ?= " \
 cgroup-lite \
