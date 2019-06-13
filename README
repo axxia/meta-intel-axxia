@@ -74,6 +74,54 @@ i2c: ismt: Add support for Intel Cedar Fork
 Back ported to Yocto Linux 4.19, with no changes, as
 SNR-0001-i2c-ismt-Add-support-for-Intel-Cedar-Fork.patch.
 
+PCI/AER: Remove pci_cleanup_aer_uncorrect_error_status() calls
+--------------------------------------------------------------
+
+62b36c3 from kernel.org
+
+Back ported to Yocto Linux 4.19, with no changes, as
+SNR-0002-PCI-AER-Remove-pci_cleanup_aer_uncorrect_error_statu.patch.
+
+dmaengine: ioat: fix prototype of ioat_enumerate_channels
+---------------------------------------------------------
+
+f4d34aa from kernel.org
+
+Back ported to Yocto Linux 4.19, with no changes, as
+SNR-0003-dmaengine-ioat-fix-prototype-of-ioat_enumerate_chann.patch.
+
+dmaengine: ioatdma: Add Snow Ridge ioatdma device id
+----------------------------------------------------
+
+4d75873 from kernel.org
+
+Back ported to Yocto Linux 4.19, with no changes, as
+SNR-0004-dmaengine-ioatdma-Add-Snow-Ridge-ioatdma-device-id.patch.
+
+dmaengine: ioatdma: disable DCA enabling on IOATDMA v3.4
+--------------------------------------------------------
+
+11e31e2 from kernel.org
+
+Back ported to Yocto Linux 4.19, with no changes, as
+SNR-0005-dmaengine-ioatdma-disable-DCA-enabling-on-IOATDMA-v3.patch.
+
+dmaengine: ioatdma: add descriptor pre-fetch support for v3.4
+-------------------------------------------------------------
+
+e0100d4 from kernel.org
+
+Back ported to Yocto Linux 4.19, with no changes, as
+SNR-0006-dmaengine-ioatdma-add-descriptor-pre-fetch-support-f.patch
+
+dmaengine: ioatdma: support latency tolerance report (LTR) for v3.4
+-------------------------------------------------------------------
+
+528314b from kernel.org
+
+Back ported to Yocto Linux 4.19, with no changes, as
+SNR-0007-dmaengine-ioatdma-support-latency-tolerance-report-L.patch
+
 
 Building the meta-intel-axxia BSP layer
 =======================================

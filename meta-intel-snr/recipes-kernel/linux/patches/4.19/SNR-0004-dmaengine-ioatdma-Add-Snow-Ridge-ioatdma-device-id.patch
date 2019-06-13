@@ -1,0 +1,60 @@
+From bf02cceebc659851569ae5f43c4653a19901fe70 Mon Sep 17 00:00:00 2001
+From: Dave Jiang <dave.jiang@intel.com>
+Date: Fri, 22 Feb 2019 09:59:54 -0700
+Subject: dmaengine: ioatdma: Add Snow Ridge ioatdma device id
+
+Add Snowridge Xeon-D ioatdma PCI device id. Also applies for Icelake
+SP Xeon. This introduces ioatdma v3.4 platform. Also bumping driver version
+to 5.0 since we are adding additional code for 3.4 support.
+
+Signed-off-by: Dave Jiang <dave.jiang@intel.com>
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
+---
+ drivers/dma/ioat/dma.h  | 2 +-
+ drivers/dma/ioat/hw.h   | 2 ++
+ drivers/dma/ioat/init.c | 3 +++
+ 3 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/dma/ioat/dma.h b/drivers/dma/ioat/dma.h
+index 1ab42ec..aaafd0e 100644
+--- a/drivers/dma/ioat/dma.h
++++ b/drivers/dma/ioat/dma.h
+@@ -27,7 +27,7 @@
+ #include "registers.h"
+ #include "hw.h"
+ 
+-#define IOAT_DMA_VERSION  "4.00"
++#define IOAT_DMA_VERSION  "5.00"
+ 
+ #define IOAT_DMA_DCA_ANY_CPU		~0
+ 
+diff --git a/drivers/dma/ioat/hw.h b/drivers/dma/ioat/hw.h
+index abcc51b..3e38877 100644
+--- a/drivers/dma/ioat/hw.h
++++ b/drivers/dma/ioat/hw.h
+@@ -66,6 +66,8 @@
+ 
+ #define PCI_DEVICE_ID_INTEL_IOAT_SKX	0x2021
+ 
++#define PCI_DEVICE_ID_INTEL_IOAT_ICX	0x0b00
++
+ #define IOAT_VER_1_2            0x12    /* Version 1.2 */
+ #define IOAT_VER_2_0            0x20    /* Version 2.0 */
+ #define IOAT_VER_3_0            0x30    /* Version 3.0 */
+diff --git a/drivers/dma/ioat/init.c b/drivers/dma/ioat/init.c
+index 2d810df..3161dfb 100644
+--- a/drivers/dma/ioat/init.c
++++ b/drivers/dma/ioat/init.c
+@@ -119,6 +119,9 @@ static const struct pci_device_id ioat_pci_tbl[] = {
+ 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IOAT_BDXDE2) },
+ 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IOAT_BDXDE3) },
+ 
++	/* I/OAT v3.4 platforms */
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IOAT_ICX) },
++
+ 	{ 0, }
+ };
+ MODULE_DEVICE_TABLE(pci, ioat_pci_tbl);
+-- 
+2.7.4
+
