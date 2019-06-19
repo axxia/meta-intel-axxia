@@ -194,6 +194,7 @@ perl-module-bigint \
 pkgconfig \
 pmtools \
 popt \
+postfix \
 ppp \
 procps \
 psmisc \
@@ -206,6 +207,7 @@ python-netserver \
 python-nose \
 python-psutil \
 python-thrift \
+python3 \
 python3-cffi \
 python3-core \
 python3-dev \
@@ -213,7 +215,9 @@ python3-distutils \
 python3-modules \
 python3-netserver \
 python3-nose \
+python3-paramiko \
 python3-pexpect \
+python3-prctl \
 python3-psutil \
 python3-pyexpect \
 python3-pyyaml \
@@ -239,6 +243,7 @@ sudo \
 swig \
 sysfsutils \
 sysklogd \
+sysstat \
 systemd-analyze \
 tar \
 tcl \
@@ -254,6 +259,7 @@ tk \
 tmux \
 tpm2-abrmd \
 tpm2.0-tools \
+tshark \
 tzdata \
 udev \
 udev-extraconf \
