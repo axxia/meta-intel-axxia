@@ -1,0 +1,38 @@
+From 5e8c299fcc20a16da59c136788c15ba04e5abdb6 Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Wed, 29 May 2019 11:51:10 -0500
+Subject: drivers/watchdog: Ignore 'No Reboot' Bit
+
+Early versions of the SNR chip do not allow the "no reboot"
+bit to be accessed.  This commit simply assumes that it is
+writeable without checking in order to allow the watchdog to
+but used in Linux.  This will be fixed in later versions of
+the chip.
+
+Signed-off-by: John Jacques <john.jacques@intel.com>
+---
+ drivers/watchdog/iTCO_wdt.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/watchdog/iTCO_wdt.c b/drivers/watchdog/iTCO_wdt.c
+index 347f038..9fed7d0 100644
+--- a/drivers/watchdog/iTCO_wdt.c
++++ b/drivers/watchdog/iTCO_wdt.c
+@@ -460,6 +460,7 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
+ 	 * Get the Memory-Mapped GCS or PMC register, we need it for the
+ 	 * NO_REBOOT flag (TCO v2 and v3).
+ 	 */
++#if 0
+ 	if (p->iTCO_version >= 2 && !pdata->update_no_reboot_bit) {
+ 		p->gcs_pmc_res = platform_get_resource(pdev,
+ 						       IORESOURCE_MEM,
+@@ -478,6 +479,7 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
+ 
+ 	/* Set the NO_REBOOT bit to prevent later reboots, just for sure */
+ 	p->update_no_reboot_bit(p->no_reboot_priv, true);
++#endif
+ 
+ 	/* The TCO logic uses the TCO_EN bit in the SMI_EN register */
+ 	if (!devm_request_region(dev, p->smi_res->start,
+-- 
+2.7.4

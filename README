@@ -122,6 +122,16 @@ dmaengine: ioatdma: support latency tolerance report (LTR) for v3.4
 Back ported to Yocto Linux 4.19, with no changes, as
 SNR-0007-dmaengine-ioatdma-support-latency-tolerance-report-L.patch
 
+drivers/watchdog: Ignore 'No Reboot' Bit
+----------------------------------------
+
+This has not been upstreamed, and there is no plan to upstream it.
+
+Early versions of the SNR chip do not allow the "no reboot" bit to be
+accessed.  This commit simply assumes that it is writeable without
+checking in order to allow the watchdog to but used in Linux.  This
+will be fixed in later versions of the chip.
+
 
 Building the meta-intel-axxia BSP layer
 =======================================
