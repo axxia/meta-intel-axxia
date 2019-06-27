@@ -244,7 +244,6 @@ swig \
 sysfsutils \
 sysklogd \
 sysstat \
-systemd-analyze \
 tar \
 tcl \
 tcp-wrappers \
