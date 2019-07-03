@@ -176,7 +176,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/poky.git
    $ cd poky
-   $ git checkout <the revision specified in Dependencies above>
+   $ git checkout <the revision specified in DEPENDENCIES>
 
 4. The Open Embedded project provides many useful layers and packages
    such as networking. Download the Open Embedded Yocto Project hosted
@@ -185,7 +185,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ cd $YOCTO
    $ git clone https://github.com/openembedded/meta-openembedded.git
    $ cd meta-openembedded
-   $ git checkout <the revision specified in Dependencies above>
+   $ git checkout <the revision specified in DEPENDENCIES>
 
 5. Clone Yocto Virtualization Layer which provides packages for
    virtualization such as Linux Container Support (lxc).
@@ -193,7 +193,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/meta-virtualization
    $ cd meta-virtualization
-   $ git checkout <the revision specified in Dependencies above>
+   $ git checkout <the revision specified in DEPENDENCIES>
 
 6. Clone the Intel meta layer. This provides Intel hardware support 
    metadata which are inherited in axxiax86-64 BSP.
@@ -201,7 +201,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/meta-intel
    $ cd meta-intel
-   $ git checkout <the revision specified in Dependencies above>
+   $ git checkout <the revision specified in DEPENDENCIES>
 
 7. Clone the Yocto security meta layer. This provides recipes for some
    utilities used in the axxia-image-vcn image.
@@ -209,9 +209,17 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/meta-security
    $ cd meta-security
-   $ git checkout <the revision specified in Dependencies above>
+   $ git checkout <the revision specified in DEPENDENCIES>
 
-8. Create the build directory. The name is optional and will default
+8. Clone the ROS layer.  This provides ROS (robot operating system)
+   components.
+
+   $ cd $YOCTO
+   $ git clone git://github.com/bmwcarit/meta-ros.git
+   $ cd meta-ros
+   $ git checkout <the revision specified in DEPENDENCIES>
+
+9. Create the build directory. The name is optional and will default
    to 'build', however it helps to choose a name to match the board
    type. For example, we will use axxia.
 
@@ -219,7 +227,7 @@ http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
    $ source meta-intel-axxia/meta-intel-axxia/axxia-env
    $ source poky/oe-init-build-env axxia-build
 
-9. Check the conf/bblayers.conf file and edit if necessary.
+10. Check the conf/bblayers.conf file and edit if necessary.
 
    $ pwd (you should be at $YOCTO/axxia-build)
    $ vi conf/bblayers.conf
@@ -236,6 +244,7 @@ below shoud be replaced with the actual value you provided in step 1).
             $YOCTO/meta-openembedded/meta-python \
             $YOCTO/meta-openembedded/meta-perl \
             $YOCTO/meta-security \
+            $YOCTO/meta-ros \
             $YOCTO/meta-security/meta-tpm \
             $YOCTO/meta-virtualization \
             $YOCTO/meta-intel \
@@ -243,35 +252,35 @@ below shoud be replaced with the actual value you provided in step 1).
             $YOCTO/meta-intel-axxia/meta-intel-snr \
             "
 
-10. Check the conf/local.conf file and edit if necessary.
+11. Check the conf/local.conf file and edit if necessary.
 
    $ vi conf/local.conf
 
-10.1 Set distribution configuration to have all Axxia specific features.
+11.1 Set distribution configuration to have all Axxia specific features.
 
     DISTRO = "intel-axxia"
 
-10.2 Set the console to use in the .iso image.
+11.2 Set the console to use in the .iso image.
 
     GRUB_SERIAL = "console=ttyS4,115200"
 
-10.3 Set Release version. Replace it with the tag for meta-intel-axxia
+11.3 Set Release version. Replace it with the tag for meta-intel-axxia
     from step 3.
 
     RELEASE_VERSION = "(meta-intel-axxia-tag)"
 
-10.4 Depending on your processor, set these two options that control
+11.4 Depending on your processor, set these two options that control
     how much parallelism BitBake should use:
 
     BB_NUMBER_THREADS = "12"
     PARALLEL_MAKE = "-j 12"
 
-10.5 Select a specific machine to target the build with:
+11.5 Select a specific machine to target the build with:
 
     - Axxia SNR Mobile & Enterprise Communication Processors family.
     MACHINE = "axxiax86-64"
 
-10.6 Select the kernel to use.
+11.6 Select the kernel to use.
     Meta-intel-axxia is able to build the kernel from 3 sources:
 
 a. Public Intel Github (github.com/intel)
@@ -297,13 +306,13 @@ b. Local Kernel repositories (development purpose)
    NOTE: Full defconfig should be copied in recipes-kernel/linux,
          besides linux-local.bb recipe.
 
-10.7 Select the kernel version:
+11.7 Select the kernel version:
 
    PREFERRED_VERSION_(preferred-provider)= "4.19%"
 
 NOTE: No preferred version should be set for linux-local provider.
 
-10.8 Choose the System where the image will run between hardware/simulation
+11.8 Choose the System where the image will run between hardware/simulation
      and emulation:
 
     for Victoria Canyon or ASE (default):
@@ -312,7 +321,7 @@ NOTE: No preferred version should be set for linux-local provider.
     for Frio FPGA Emulation System:
     RUNTARGET = "frio"
 
-10.9 Add simicsfs-client support (for large and sim images). Sources tgz archive
+11.9 Add simicsfs-client support (for large and sim images). Sources tgz archive
     should copied in meta-intel-axxia/downloads directory: simics-5.0.183.tgz
 
     DISTRO_FEATURES_append = " simicsfs"
@@ -324,22 +333,22 @@ NOTE: No preferred version should be set for linux-local provider.
     * 'cd ase/simics'
     * tar czf simics-5.0.183.tgz simics-5.0.183
 
-10.10 Add gcc9 support for a newer version of gcc and glibc instead
+11.10 Add gcc9 support for a newer version of gcc and glibc instead
     the default one from upstream. This should not normally be used!
 
     DISTRO_FEATURES_append = " gcc9"
 
-10.11 Set the serial console depending on the bios you are using.
+11.11 Set the serial console depending on the bios you are using.
     Default is ttyS4, but some old bios use ttyS5 or ttyS6.
 
     SNR_SERIAL_CONSOLE = "ttyS5"
 
-10.12 Other optional settings for saving disk space and build time:
+11.12 Other optional settings for saving disk space and build time:
    
    DL_DIR = "/(some-shared-location)/downloads"
    SSTATE_DIR = "/(some-shared-location)/sstate-cache
 
-10.13 Examples.
+11.13 Examples.
 
      See http://www.yoctoproject.org/docs/2.3/mega-manual/mega-manual.html
      for complete documentation on the Yocto build system.
@@ -370,7 +379,7 @@ PACKAGECONFIG_append_pn-qemu-native = " sdl"
 PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
 CONF_VERSION = "1"
 
-11. Select the image type and start the build
+12. Select the image type and start the build
    $ cd $YOCTO/axxia-build
    $ bitbake (image type)
 
@@ -388,7 +397,7 @@ Available root filesystem types:
 Once complete the images for the target machine will be available in 
 the output directory 'tmp/deploy/images/$MACHINE'.
 
-12. Images generated:
+13. Images generated:
 
 * (image type)-(machine name).ext2 (rootfs in EXT2 format)
 * (image type)-(machine name).ext4 (rootfs in EXT4 format)
@@ -399,7 +408,7 @@ the output directory 'tmp/deploy/images/$MACHINE'.
 * modules-(machine name).tgz (modules in tar+GZIP format)
 * bzImage and bzImage-(machine name) (Linux Kernel binary)
 
-13. Build and install the SDK:
+14. Build and install the SDK:
 
 In step 10. above, add '-c populate_sdk' to create the SDK install
 self extracting script in tmp/deploy/sdk.  Simply run the poky*.sh
@@ -412,7 +421,7 @@ the Linux source will not be available.
 
 After the installation completes, do the following.
 
-13.1 Optional Linux Module Tools Update
+14.1 Optional Linux Module Tools Update
 
 If external Linux modules need to be buildable on multiple versions of
 Linux hosts, and the tools were installed on the most recent version,
@@ -425,7 +434,11 @@ source (install directory)/environment-setup*
 cd $SDKTARGETSYSROOT/usr/src/kernel
 make clean oldconfig scripts tools/objtool
 
-13.2 Creating .craff Images for Simics
+Note that the Linux host will need to be set up to build Linux for the
+above to work.  On Ubuntu, for example, this would mean 'apt-get
+install libncurses5-dev flex bison libssl-dev dkms libelf-dev'.
+
+14.2 Creating .craff Images for Simics
 
 When in the simics environment, the 'craff' utility should be
 available.  Use 'craff' to create .craff images from the .hddimg
@@ -433,11 +446,11 @@ images as follows.
 
 craff -o (craff image) (Yocto .hddimg)
 
-13.3 Creating Bootable Disks for Victoria Canyon
+14.3 Creating Bootable Disks for Victoria Canyon
 
 Here are three ways to boot Victoria Canyon.
 
-13.3.1 SATA or USB based on the .rootfs.wic image.
+14.3.1 SATA or USB based on the .rootfs.wic image.
 
 * Write the .rootfs.wic image to a disk or USB device.
 * Clean up the partition table.  Linux utilities such as gdisk and
@@ -447,7 +460,7 @@ Here are three ways to boot Victoria Canyon.
   Linux prompt.  By default, the login is root and there is no
   password.
 
-13.3.2 SATA or USB based on the .iso image.
+14.3.2 SATA or USB based on the .iso image.
 
 * Write the .iso image to a disk or USB.
 * Attach the device to Victoria Canyon.
@@ -456,7 +469,7 @@ Here are three ways to boot Victoria Canyon.
   * "install" - This will install to another attached device.
   * "Reboot into Firmware interface" - Go back to the EFI menu.
 
-13.3.3 PXE BOOT
+14.3.3 PXE BOOT
 
 TBD
 
