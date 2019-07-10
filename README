@@ -132,6 +132,11 @@ accessed.  This commit simply assumes that it is writeable without
 checking in order to allow the watchdog to but used in Linux.  This
 will be fixed in later versions of the chip.
 
+Note that, by default, this patch will do nothing.  To enable it, add
+'iTCO_wdt.assume_noreboot_access=1' to the Linux command line.
+
+Included as SNR-0008-drivers-watchdog-Ignore-No-Reboot-Bit.patch.
+
 
 Building the meta-intel-axxia BSP layer
 =======================================
