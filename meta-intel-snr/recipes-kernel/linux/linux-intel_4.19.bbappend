@@ -9,6 +9,7 @@ file://SNR-0005-dmaengine-ioatdma-disable-DCA-enabling-on-IOATDMA-v3.patch \
 file://SNR-0006-dmaengine-ioatdma-add-descriptor-pre-fetch-support-f.patch \
 file://SNR-0007-dmaengine-ioatdma-support-latency-tolerance-report-L.patch \
 file://SNR-0008-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
+file://SNR-0009-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
 "
 
 FRIO_PATCHES = " \

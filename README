@@ -137,6 +137,22 @@ Note that, by default, this patch will do nothing.  To enable it, add
 
 Included as SNR-0008-drivers-watchdog-Ignore-No-Reboot-Bit.patch.
 
+clocksource: Add option to force acpi_pm as clocksource watchdog
+----------------------------------------------------------------
+
+Add a kernel command line option to force the use of acpi_pm as the
+watchdog clocksource. To use it, add the following to the kernel
+command line:
+
+    ricardo_clocksource_wd=force_acpi_pm_wd
+
+and in dmesg look for:
+
+    RICARDO: Force acpi_pm as watchdog
+
+Included as
+SNR-0009-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch.
+
 
 Building the meta-intel-axxia BSP layer
 =======================================
