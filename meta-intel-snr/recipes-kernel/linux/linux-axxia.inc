@@ -20,10 +20,6 @@ SRC_URI_append_axxiax86-64 = " \
 
 require recipes-kernel/linux/linux-yocto_virtualization.inc
 
-# Temporary stop reporting kernel option warnings
-KCONF_AUDIT_LEVEL = "0"
-KCONF_BSP_AUDIT_LEVEL = "0"
-
 do_configure_append() {
 	sed -i s@UTS_VERSION=\"\#\$VERSION\"@UTS_VERSION=\"${RELEASE_VERSION}\ \#\$VERSION\"@g \
 	       ${STAGING_KERNEL_DIR}/scripts/mkcompile_h
