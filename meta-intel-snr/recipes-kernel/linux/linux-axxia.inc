@@ -19,6 +19,7 @@ SRC_URI_append_axxiax86-64 = " \
 	"
 
 require recipes-kernel/linux/linux-yocto_virtualization.inc
+SRC_URI_remove_axxiax86-64 = " file://lxc.scc file://docker.scc"
 
 do_configure_append() {
 	sed -i s@UTS_VERSION=\"\#\$VERSION\"@UTS_VERSION=\"${RELEASE_VERSION}\ \#\$VERSION\"@g \
