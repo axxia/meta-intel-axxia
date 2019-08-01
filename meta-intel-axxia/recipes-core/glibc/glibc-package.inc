@@ -15,7 +15,12 @@ RPROVIDES_glibc-thread-db = "eglibc-thread-db"
 RPROVIDES_${PN}-pcprofile = "eglibc-pcprofile"
 RPROVIDES_${PN}-dbg = "eglibc-dbg"
 libc_baselibs = "${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/libmvec-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
-libc_baselibs_append_aarch64 = " /lib/ld-linux-aarch64*.so.1"
+ARCH_DYNAMIC_LOADER = ""
+# The aarch64 ABI says the dynamic linker -must- be
+# /lib/ld-linux-aarch64{,_be}.so.1. With usrmerge, that may mean that
+# we need to install it in /usr/lib.
+ARCH_DYNAMIC_LOADER_aarch64 = "ld-linux-${TARGET_ARCH}.so.1"
+libc_baselibs_append = " ${@oe.utils.conditional('ARCH_DYNAMIC_LOADER', '', '', '${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}', d)}"
 INSANE_SKIP_${PN}_append_aarch64 = " libdir"
 
 FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf"
@@ -114,20 +119,20 @@ do_install_append () {
 		echo "d root root 0755 /var/run/nscd none" \
 			> ${D}${sysconfdir}/default/volatiles/98_nscd
 	fi
+
+	# The dynamic loader will have been installed into
+	# ${base_libdir}. However, if that isn't going to end up being
+	# available in the ABI-mandated location, then a symlink must
+        # be created.
+
+	if [ -n "${ARCH_DYNAMIC_LOADER}" -a ! -e "${D}${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
+		install -d ${D}${root_prefix}/lib
+		ln -s ${@oe.path.relative('${root_prefix}/lib', '${base_libdir}')}/${ARCH_DYNAMIC_LOADER} \
+				${D}${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}
+	fi
 }
 
 do_install_append_aarch64 () {
-	if [ "${base_libdir}" != "${nonarch_base_libdir}" ]; then
-		# The aarch64 ABI says the dynamic linker -must- be /lib/ld-linux-aarch64[_be].so.1
-		install -d ${D}${nonarch_base_libdir}
-		if [ -e ${D}${base_libdir}/ld-linux-aarch64.so.1 ]; then
-			ln -s ${@oe.path.relative('${nonarch_base_libdir}', '${base_libdir}')}/ld-linux-aarch64.so.1 \
-				${D}${nonarch_base_libdir}/ld-linux-aarch64.so.1
-		elif [ -e ${D}${base_libdir}/ld-linux-aarch64_be.so.1 ]; then
-			ln -s ${@oe.path.relative('${nonarch_base_libdir}', '${base_libdir}')}/ld-linux-aarch64_be.so.1 \
-				${D}${nonarch_base_libdir}/ld-linux-aarch64_be.so.1
-		fi
-	fi
 	do_install_armmultilib
 }
 
@@ -143,6 +148,7 @@ do_install_armmultilib () {
 	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h bits/wordsize.h
 	oe_multilib_header bits/local_lim.h bits/mman.h bits/msq.h bits/pthreadtypes.h bits/pthreadtypes-arch.h  bits/sem.h  bits/semaphore.h bits/setjmp.h
 	oe_multilib_header bits/shm.h bits/sigstack.h bits/stat.h bits/statfs.h bits/typesizes.h
+	oe_multilib_header bits/procfs-id.h bits/procfs.h bits/shmlba.h
 
 	oe_multilib_header fpu_control.h gnu/lib-names.h gnu/stubs.h ieee754.h
 
@@ -155,27 +161,34 @@ bashscripts = "mtrace sotruss xtrace"
 
 do_stash_locale () {
 	dest=${LOCALESTASH}
-	install -d ${dest}${base_libdir} ${dest}${bindir} ${dest}${libdir} ${dest}${datadir}
-	if [ "${base_libdir}" != "${libdir}" ]; then
-		cp -fpPR ${D}${base_libdir}/* ${dest}${base_libdir}
-	fi
+	install -d $dest${base_libdir} $dest${bindir} $dest${libdir} $dest${datadir}
+	# Hide away the locale data from the deployment
 	if [ -e ${D}${bindir}/localedef ]; then
-		mv -f ${D}${bindir}/localedef ${dest}${bindir}
+		cp -a ${D}${bindir}/localedef $dest${bindir}
 	fi
 	if [ -e ${D}${libdir}/gconv ]; then
-		mv -f ${D}${libdir}/gconv ${dest}${libdir}
-	fi
-	if [ -e ${D}${exec_prefix}/lib ]; then
-		cp -fpPR ${D}${exec_prefix}/lib ${dest}${exec_prefix}
+		cp -a ${D}${libdir}/gconv $dest${libdir}
 	fi
 	if [ -e ${D}${datadir}/i18n ]; then
-		mv ${D}${datadir}/i18n ${dest}${datadir}
+		cp -a  ${D}${datadir}/i18n $dest${datadir}
 	fi
-	cp -fpPR ${D}${datadir}/* ${dest}${datadir}
-	rm -rf ${D}${datadir}/locale/
-	cp -fpPR ${WORKDIR}/SUPPORTED ${dest}
 
-	target=${dest}/scripts
+	# Make a copy of all the libraries into the locale stash
+	cp -fpPR ${D}${libdir}/* $dest${libdir}
+	if [ "${base_libdir}" != "${libdir}" ]; then
+		cp -fpPR ${D}${base_libdir}/* $dest${base_libdir}
+	fi
+	if [ -e ${D}${exec_prefix}/lib ]; then
+		if [ ${exec_prefix}/lib != ${base_libdir} ] && [ ${exec_prefix}/lib != ${libdir} ]; then
+			cp -fpPR ${D}${exec_prefix}/lib $dest${exec_prefix}
+		fi
+	fi
+
+	cp -fpPR ${D}${datadir}/* $dest${datadir}
+	rm -rf ${D}${datadir}/locale/
+	cp -fpPR ${WORKDIR}/SUPPORTED $dest
+
+	target=$dest/scripts
 	mkdir -p $target
 	for i in ${bashscripts}; do
 		if [ -f ${D}${bindir}/$i ]; then
@@ -197,27 +210,38 @@ python do_stash_locale_setscene () {
 }
 addtask do_stash_locale_setscene
 
-do_poststash_install_cleanup () {
-	# Remove all files which do_stash_locale would remove (mv)
-	# since that task could have come from sstate and not get run.
+PACKAGE_PREPROCESS_FUNCS += "stash_locale_package_cleanup"
+SYSROOT_PREPROCESS_FUNCS += "stash_locale_sysroot_cleanup"
+stash_locale_cleanup () {
+	cleanupdir=$1
+	# Remove all files which do_stash_locale() copies
 	for i in ${bashscripts}; do
-	    rm -f ${D}${bindir}/$i
+		rm -f $cleanupdir${bindir}/$i
 	done
-	rm -f ${D}${bindir}/localedef
-	rm -rf ${D}${datadir}/i18n
-	rm -rf ${D}${libdir}/gconv
-	rm -rf ${D}/${localedir}
-	rm -rf ${D}${datadir}/locale
-	if [ "${libdir}" != "${exec_prefix}/lib" ]; then
-		if [ -d ${D}${exec_prefix}/lib ]; then
-			# error out if directory isn't empty
-			# this dir should only contain locale dir
-			# which has been deleted in the previous step
-			rmdir ${D}${exec_prefix}/lib
+	rm -f $cleanupdir${bindir}/localedef
+	rm -rf $cleanupdir${datadir}/i18n
+	rm -rf $cleanupdir${libdir}/gconv
+	rm -rf $cleanupdir${localedir}
+	rm -rf $cleanupdir${datadir}/locale
+	if [ "${libdir}" != "${exec_prefix}/lib" ] && [ "${root_prefix}/lib" != "${exec_prefix}/lib" ]; then
+		if [ -d "$cleanupdir${exec_prefix}/lib" ]; then
+			if [ -z "${ARCH_DYNAMIC_LOADER}" -o \
+			     ! -e "$cleanupdir${exec_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
+				# error out if directory isn't empty
+				# this dir should only contain locale dir
+				# which has been deleted in the previous step
+				rmdir $cleanupdir${exec_prefix}/lib
+			fi
 		fi
 	fi
 }
-addtask do_poststash_install_cleanup after do_stash_locale do_install before do_populate_sysroot do_package
+
+stash_locale_sysroot_cleanup() {
+	stash_locale_cleanup ${SYSROOT_DESTDIR}
+}
+stash_locale_package_cleanup() {
+	stash_locale_cleanup ${PKGD}
+}
 
 pkg_postinst_nscd () {
 	if [ -z "$D" ]; then

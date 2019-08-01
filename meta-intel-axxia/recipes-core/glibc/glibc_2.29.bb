@@ -51,11 +51,11 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
            file://0023-Define-DUMMY_LOCALE_T-if-not-defined.patch \
            file://0024-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch \
            file://0025-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
-           file://0026-reset-dl_load_write_lock-after-forking.patch \
-           file://0027-Acquire-ld.so-lock-before-switching-to-malloc_atfork.patch \
            file://0028-intl-Emit-no-lines-in-bison-generated-files.patch \
            file://0029-inject-file-assembly-directives.patch \
            file://0030-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
+           file://0001-x86-64-memcmp-Use-unsigned-Jcc-instructions-on-size-.patch \
+           file://CVE-2019-9169.patch \
 "
 
 S = "${WORKDIR}/git"
@@ -68,11 +68,6 @@ BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
 TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir}"
 
 GLIBC_BROKEN_LOCALES = ""
-#
-# We will skip parsing glibc when target system C library selection is not glibc
-# this helps in easing out parsing for non-glibc system libraries
-#
-COMPATIBLE_HOST_libc-musl_class-target = "null"
 
 GLIBCPIE ??= ""
 
@@ -88,12 +83,12 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
                 --enable-stackguard-randomization \
                 --disable-crypt \
                 --with-default-link \
+                --enable-nscd \
+                ${@bb.utils.contains_any('SELECTED_OPTIMIZATION', '-O0 -Og', '--disable-werror', '', d)} \
                 ${GLIBCPIE} \
                 ${GLIBC_EXTRA_OECONF}"
 
 EXTRA_OECONF += "${@get_libc_fpu_setting(bb, d)}"
-EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'libc-inet-anl', '--enable-nscd', '--disable-nscd', d)}"
-
 
 do_patch_append() {
     bb.build.exec_func('do_fix_readlib_c', d)
@@ -115,7 +110,7 @@ do_configure () {
 
 do_compile () {
 	# -Wl,-rpath-link <staging>/lib in LDFLAGS can cause breakage if another glibc is in staging
-	unset LDFLAGS
+	LDFLAGS="-fuse-ld=bfd"
 	base_do_compile
 	echo "Adjust ldd script"
 	if [ -n "${RTLDLIST}" ]
@@ -126,7 +121,6 @@ do_compile () {
 		echo "ldd \"${prevrtld} ${RTLDLIST}\" -> \"${newrtld}\""
 		sed -i ${B}/elf/ldd -e "s#^RTLDLIST=.*\$#RTLDLIST=\"${newrtld}\"#"
 	fi
-
 }
 
 require glibc-package.inc
