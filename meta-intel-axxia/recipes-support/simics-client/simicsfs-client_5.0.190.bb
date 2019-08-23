@@ -8,8 +8,8 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/../../downloads:"
 
 SRC_URI = "file://simics-${PV}.tgz"
 
-SRC_URI[md5sum] = "66cb0a61098fa23c3bc2d6b7ebc7ea98"
-SRC_URI[sha256sum] = "6f4a214d1611ccdc7df002d33a2287a96ffc2db0c0026c4a9eca06316fbcb28d"
+SRC_URI[md5sum] = "c3b69ffff751fa6bdf258bd802c14ac3"
+SRC_URI[sha256sum] = "8efbda455b18ffc420eb3ecaa45c3ed546937ee9345ae6c732b0faaae11b8a7a"
 
 DEPENDS = "fuse libmagicpipe"
 RDEPENDS_${PN} = "fuse"
