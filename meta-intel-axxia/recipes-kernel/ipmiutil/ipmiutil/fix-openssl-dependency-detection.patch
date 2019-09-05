@@ -1,0 +1,78 @@
+Fix openssl dependency detection
+
+The following error is intermittent and didn't have clear steps to
+reproduce it:
+
+lanplus_crypt_impl.c: In function 'lanplus_encrypt_aes_cbc_128':
+lanplus_crypt_impl.c:204:17: error: storage size of 'ctx' isn't known
+    EVP_CIPHER_CTX ctx;            
+                   ^~~
+lanplus_crypt_impl.c: In function 'lanplus_decrypt_aes_cbc_128':
+lanplus_crypt_impl.c:284:17: error: storage size of 'ctx' isn't known
+    EVP_CIPHER_CTX  ctx;           
+                    ^~~
+Makefile:474: recipe for target 'lanplus_crypt_impl.o' failed
+
+The problem is that SSL11 flag (which test if openssl version 11
+is available in sysroot) was not set even if it should be (openssl
+v11 is present):
+
+#ifdef SSL11
+    EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+    pctx = ctx; 
+#else
+    VP_CIPHER_CTX ctx;
+    pctx = &ctx;
+#endif 
+
+In configure.ac, SSL11 flag is set after a quick test for openssl
+version stored in sslver variable:
+if test "$sslver" = "1.1"; then
+    echo "Detected openssl-$sslver"
+    MD2_CFLAGS="-DSKIP_MD2 -DSSL11"
+
+The value of sslver is set in 2 ways: if openssl rpm is installed
+it use the rpm command to get the version; if not installed
+"openssl version" command is used:
+
+which rpm >/dev/null 2>&1  
+if test $? -eq 0 ; then
+      sslver=`rpm -q openssl-devel |cut -f3 -d'-' |cut -f1-2 -d'.'`
+ else
+      sslver=`openssl version |awk '{ print $2 }'|cut -f1-2 -d'.'`
+fi
+
+Since in a yocto build, the sysroot-destdir of the dependency package
+is installed in recipe-sysroot from the build package, there is no rpm
+used. So it should always use "openssl version".
+
+Sometimes (can't reproduce in devshell) the test command "which rpm"
+didn't fail and it continue with the rpm -q test which fails:
+
+error: cannot open Packages database in /var/lib/rpm
+error: cannot open Packages database in /var/lib/rpm
+No openssl /usr/lib/libcrypto.so detected
+
+With this patch, I remove the rpm test and force the build to continue
+with "openssl version" command to get the openssl version.
+
+Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
+
+Index: ipmiutil-3.0.5/configure.ac
+===================================================================
+--- ipmiutil-3.0.5.orig/configure.ac
++++ ipmiutil-3.0.5/configure.ac
+@@ -416,13 +416,7 @@ else
+            sed -i 's/# Default-Start:/# Default-Start: 3 4 5/' $init_scripts
+ 	   sed -i 's/# Default-Stop:/# Default-Stop:  0 1 2 6/' $init_scripts
+ 	fi
+-    # The openssl rpm might not be installed
+-    which rpm >/dev/null 2>&1
+-	if test $? -eq 0 ; then
+-		sslver=`rpm -q openssl-devel |cut -f3 -d'-' |cut -f1-2 -d'.'`
+-    else
+         sslver=`openssl version |awk '{ print $2 }'|cut -f1-2 -d'.'`
+-	fi 
+ 	if test "$sslver" = "1.1"; then
+ 		echo "Detected openssl-$sslver" 
+ 		MD2_CFLAGS="-DSKIP_MD2 -DSSL11"
