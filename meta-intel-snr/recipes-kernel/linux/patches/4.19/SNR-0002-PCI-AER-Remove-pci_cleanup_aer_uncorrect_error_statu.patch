@@ -1,4 +1,4 @@
-From 03a29b6fcd7d81a48f1f819d778275fe3c2d2525 Mon Sep 17 00:00:00 2001
+From 95151a78e60cb0966c7b40ecb3abd240e5e60e51 Mon Sep 17 00:00:00 2001
 From: Oza Pawandeep <poza@codeaurora.org>
 Date: Fri, 28 Sep 2018 13:00:56 -0500
 Subject: PCI/AER: Remove pci_cleanup_aer_uncorrect_error_status() calls

@@ -1,4 +1,4 @@
-From 9f7830b3d9a95f90aaeef568977852b24be67245 Mon Sep 17 00:00:00 2001
+From 075f0bb92e65d96dac8e32b2db4bc82518ebe57b Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Wed, 29 May 2019 11:51:10 -0500
 Subject: drivers/watchdog: Ignore 'No Reboot' Bit

@@ -1,4 +1,4 @@
-From 2649bfe1e477a08c46fc54cd15e41b8d91093901 Mon Sep 17 00:00:00 2001
+From d079f81acbaf00c6c9da2f5e11110a525eaa38aa Mon Sep 17 00:00:00 2001
 From: Jarkko Nikula <jarkko.nikula@linux.intel.com>
 Date: Wed, 19 Dec 2018 09:01:58 +0200
 Subject: i2c: ismt: Add support for Intel Cedar Fork

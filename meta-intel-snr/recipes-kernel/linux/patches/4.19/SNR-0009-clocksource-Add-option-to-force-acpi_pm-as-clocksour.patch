@@ -1,4 +1,4 @@
-From fbc7f2030212a592f368f82a6d2e62bdda572b24 Mon Sep 17 00:00:00 2001
+From 7fb17e08942be83c3f23a5d4ebbae2408b4e14a4 Mon Sep 17 00:00:00 2001
 From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 Date: Sat, 23 Mar 2019 17:23:17 -0700
 Subject: clocksource: Add option to force acpi_pm as clocksource watchdog

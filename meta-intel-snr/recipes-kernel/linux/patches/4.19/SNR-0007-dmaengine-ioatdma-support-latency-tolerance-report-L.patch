@@ -1,4 +1,4 @@
-From c3335756feefe40ed073d6affc9adce03421424f Mon Sep 17 00:00:00 2001
+From f9ebb98f010b6d0d15d8fa9f4deb801e2846b28d Mon Sep 17 00:00:00 2001
 From: Dave Jiang <dave.jiang@intel.com>
 Date: Fri, 22 Feb 2019 10:00:10 -0700
 Subject: dmaengine: ioatdma: support latency tolerance report (LTR) for v3.4

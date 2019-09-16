@@ -1,4 +1,4 @@
-From 0356ae249d284aa774dbfeed1a70e36eb3455b24 Mon Sep 17 00:00:00 2001
+From 6cb26c09efe449688e0807147c392ef24ab1ec0f Mon Sep 17 00:00:00 2001
 From: Dave Jiang <dave.jiang@intel.com>
 Date: Fri, 22 Feb 2019 10:00:05 -0700
 Subject: dmaengine: ioatdma: add descriptor pre-fetch support for v3.4

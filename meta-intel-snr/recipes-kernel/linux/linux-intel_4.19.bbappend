@@ -14,7 +14,7 @@ file://SNR-0009-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
 
 FRIO_PATCHES = " \
 file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
-file://FRIO-0002-drivers-pci-acs-override.patch \
+file://FRIO-0002-drivers-pci-Enable-overrides-for-missing-ACS-capabil.patch \
 "
 
 require linux-axxia.inc

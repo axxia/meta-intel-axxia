@@ -1,4 +1,4 @@
-From bf02cceebc659851569ae5f43c4653a19901fe70 Mon Sep 17 00:00:00 2001
+From d88fade3f10761d9033bc965257451b2d73fd58b Mon Sep 17 00:00:00 2001
 From: Dave Jiang <dave.jiang@intel.com>
 Date: Fri, 22 Feb 2019 09:59:54 -0700
 Subject: dmaengine: ioatdma: Add Snow Ridge ioatdma device id

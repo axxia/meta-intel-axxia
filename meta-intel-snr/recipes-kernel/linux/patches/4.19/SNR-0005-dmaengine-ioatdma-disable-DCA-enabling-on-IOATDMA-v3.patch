@@ -1,4 +1,4 @@
-From d8cbbaaba907a2a5bb7a0266816c7d2700ab0ae1 Mon Sep 17 00:00:00 2001
+From e19d19535d22b3221e18108c0a1b51f4900cdce7 Mon Sep 17 00:00:00 2001
 From: Dave Jiang <dave.jiang@intel.com>
 Date: Fri, 22 Feb 2019 09:59:59 -0700
 Subject: dmaengine: ioatdma: disable DCA enabling on IOATDMA v3.4

@@ -1,4 +1,4 @@
-From 4313dfb4b3da13557c3a523cd5617d9f934a401d Mon Sep 17 00:00:00 2001
+From 0ecc589bb62ba145a3e376e10a2600d99e3fe85c Mon Sep 17 00:00:00 2001
 From: Rami Rosen <ramirose@gmail.com>
 Date: Fri, 5 Oct 2018 00:03:10 +0300
 Subject: dmaengine: ioat: fix prototype of ioat_enumerate_channels
