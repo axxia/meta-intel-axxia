@@ -21,6 +21,7 @@ file://SNR-0017-PM-arch-x86-Rework-the-MSR_IA32_ENERGY_PERF_BIAS-han.patch \
 file://SNR-0018-PM-arch-x86-MSR_IA32_ENERGY_PERF_BIAS-sysfs-interfac.patch \
 file://SNR-0019-Documentation-ABI-Document-umwait-control-sysfs-inte.patch \
 file://SNR-0020-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch \
+file://SNR-0021-EDAC-i10nm-Add-a-driver-for-Intel-10nm-server-proces.patch \
 "
 
 FRIO_PATCHES = " \
