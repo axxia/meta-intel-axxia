@@ -1,0 +1,68 @@
+From 2438b0df7a4ecdf6f808bb764706775acb731ccb Mon Sep 17 00:00:00 2001
+From: Fenghua Yu <fenghua.yu@intel.com>
+Date: Wed, 19 Jun 2019 18:33:54 -0700
+Subject: x86/cpufeatures: Enumerate user wait instructions
+
+umonitor, umwait, and tpause are a set of user wait instructions.
+
+umonitor arms address monitoring hardware using an address. The
+address range is determined by using CPUID.0x5. A store to
+an address within the specified address range triggers the
+monitoring hardware to wake up the processor waiting in umwait.
+
+umwait instructs the processor to enter an implementation-dependent
+optimized state while monitoring a range of addresses. The optimized
+state may be either a light-weight power/performance optimized state
+(C0.1 state) or an improved power/performance optimized state
+(C0.2 state).
+
+tpause instructs the processor to enter an implementation-dependent
+optimized state C0.1 or C0.2 state and wake up when time-stamp counter
+reaches specified timeout.
+
+The three instructions may be executed at any privilege level.
+
+The instructions provide power saving method while waiting in
+user space. Additionally, they can allow a sibling hyperthread to
+make faster progress while this thread is waiting. One example of an
+application usage of umwait is when waiting for input data from another
+application, such as a user level multi-threaded packet processing
+engine.
+
+Availability of the user wait instructions is indicated by the presence
+of the CPUID feature flag WAITPKG CPUID.0x07.0x0:ECX[5].
+
+Detailed information on the instructions and CPUID feature WAITPKG flag
+can be found in the latest Intel Architecture Instruction Set Extensions
+and Future Features Programming Reference and Intel 64 and IA-32
+Architectures Software Developer's Manual.
+
+Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Ashok Raj <ashok.raj@intel.com>
+Reviewed-by: Andy Lutomirski <luto@kernel.org>
+Cc: "Borislav Petkov" <bp@alien8.de>
+Cc: "H Peter Anvin" <hpa@zytor.com>
+Cc: "Peter Zijlstra" <peterz@infradead.org>
+Cc: "Tony Luck" <tony.luck@intel.com>
+Cc: "Ravi V Shankar" <ravi.v.shankar@intel.com>
+Link: https://lkml.kernel.org/r/1560994438-235698-2-git-send-email-fenghua.yu@intel.com
+---
+ arch/x86/include/asm/cpufeatures.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index 0cf7049..c049c44 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -322,6 +322,7 @@
+ #define X86_FEATURE_UMIP		(16*32+ 2) /* User Mode Instruction Protection */
+ #define X86_FEATURE_PKU			(16*32+ 3) /* Protection Keys for Userspace */
+ #define X86_FEATURE_OSPKE		(16*32+ 4) /* OS Protection Keys Enable */
++#define X86_FEATURE_WAITPKG		(16*32+ 5) /* UMONITOR/UMWAIT/TPAUSE Instructions */
+ #define X86_FEATURE_AVX512_VBMI2	(16*32+ 6) /* Additional AVX512 Vector Bit Manipulation Instructions */
+ #define X86_FEATURE_GFNI		(16*32+ 8) /* Galois Field New Instructions */
+ #define X86_FEATURE_VAES		(16*32+ 9) /* Vector AES */
+-- 
+2.7.4
+

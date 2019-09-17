@@ -153,6 +153,106 @@ and in dmesg look for:
 Included as
 SNR-0009-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch.
 
+x86/umwait: Initialize umwait control values
+--------------------------------------------
+
+"Add support for Tremont AiA instructions", part 1 of 10.
+
+bd688c6 from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0010-x86-umwait-Initialize-umwait-control-values.patch
+
+x86/umwait: Add sysfs interface to control umwait C0.2 state
+------------------------------------------------------------
+
+"Add support for Tremont AiA instructions", part 2 of 10.
+
+ff4b353 from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0011-x86-umwait-Add-sysfs-interface-to-control-umwait-C0..patch
+
+x86/umwait: Fix error handling in umwait_init()
+-----------------------------------------------
+
+"Add support for Tremont AiA instructions", part 3 of 10.
+
+e740925 from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0012-x86-umwait-Fix-error-handling-in-umwait_init.patch
+
+x86/umwait: Add sysfs interface to control umwait maximum time
+--------------------------------------------------------------
+
+"Add support for Tremont AiA instructions", part 4 of 10.
+
+bd9a0c9 from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0013-x86-umwait-Add-sysfs-interface-to-control-umwait-max.patch
+
+x86/cpufeatures: Enumerate user wait instructions
+-------------------------------------------------
+
+"Add support for Tremont AiA instructions", part 5 of 10.
+
+6dbbf5e from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0014-x86-cpufeatures-Enumerate-user-wait-instructions.patch
+
+x86/cpufeatures: Enumerate MOVDIRI instruction
+----------------------------------------------
+
+"Add support for Tremont AiA instructions", part 6 of 10.
+
+33823f4d from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0015-x86-cpufeatures-Enumerate-MOVDIRI-instruction.patch
+
+x86/cpufeatures: Enumerate MOVDIR64B instruction
+------------------------------------------------
+
+"Add support for Tremont AiA instructions", part 7 of 10.
+
+ace6485 from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0016-x86-cpufeatures-Enumerate-MOVDIR64B-instruction.patch
+
+PM / arch: x86: Rework the MSR_IA32_ENERGY_PERF_BIAS handling
+-------------------------------------------------------------
+
+"Add support for Tremont AiA instructions", part 8 of 10.
+
+5861381 from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0017-PM-arch-x86-Rework-the-MSR_IA32_ENERGY_PERF_BIAS-han.patch
+
+PM / arch: x86: MSR_IA32_ENERGY_PERF_BIAS sysfs interface
+---------------------------------------------------------
+
+"Add support for Tremont AiA instructions", part 9 of 10.
+
+b9c273b from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0018-PM-arch-x86-MSR_IA32_ENERGY_PERF_BIAS-sysfs-interfac.patch
+
+Documentation/ABI: Document umwait control sysfs interfaces
+-----------------------------------------------------------
+
+"Add support for Tremont AiA instructions", part 10 of 10.
+
+203dffa from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0019-Documentation-ABI-Document-umwait-control-sysfs-inte.patch
+
 
 Building the meta-intel-axxia BSP layer
 =======================================

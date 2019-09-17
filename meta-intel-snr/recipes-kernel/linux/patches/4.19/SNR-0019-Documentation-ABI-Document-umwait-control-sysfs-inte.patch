@@ -1,0 +1,61 @@
+From 4dbc7366ecd4bae028bbdef08547aa5515f3507b Mon Sep 17 00:00:00 2001
+From: Fenghua Yu <fenghua.yu@intel.com>
+Date: Wed, 19 Jun 2019 18:33:58 -0700
+Subject: Documentation/ABI: Document umwait control sysfs interfaces
+
+Since two new sysfs interface files are created for umwait control, add
+an ABI document entry for the files:
+
+   /sys/devices/system/cpu/umwait_control/enable_c02
+   /sys/devices/system/cpu/umwait_control/max_time
+
+[ tglx: Made the write value instructions readable ]
+
+Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Ashok Raj <ashok.raj@intel.com>
+Cc: "Borislav Petkov" <bp@alien8.de>
+Cc: "H Peter Anvin" <hpa@zytor.com>
+Cc: "Andy Lutomirski" <luto@kernel.org>
+Cc: "Peter Zijlstra" <peterz@infradead.org>
+Cc: "Tony Luck" <tony.luck@intel.com>
+Cc: "Ravi V Shankar" <ravi.v.shankar@intel.com>
+Link: https://lkml.kernel.org/r/1560994438-235698-6-git-send-email-fenghua.yu@intel.com
+---
+ Documentation/ABI/testing/sysfs-devices-system-cpu | 23 ++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
+index cdf71d0..e9a81be 100644
+--- a/Documentation/ABI/testing/sysfs-devices-system-cpu
++++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
+@@ -529,3 +529,26 @@ Description:	Intel Energy and Performance Bias Hint (EPB)
+ 
+ 		This attribute is present for all online CPUs supporting the
+ 		Intel EPB feature.
++
++What:		/sys/devices/system/cpu/umwait_control
++		/sys/devices/system/cpu/umwait_control/enable_c02
++		/sys/devices/system/cpu/umwait_control/max_time
++Date:		May 2019
++Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
++Description:	Umwait control
++
++		enable_c02: Read/write interface to control umwait C0.2 state
++			Read returns C0.2 state status:
++				0: C0.2 is disabled
++				1: C0.2 is enabled
++
++			Write 'y' or '1'  or 'on' to enable C0.2 state.
++			Write 'n' or '0'  or 'off' to disable C0.2 state.
++
++			The interface is case insensitive.
++
++		max_time: Read/write interface to control umwait maximum time
++			  in TSC-quanta that the CPU can reside in either C0.1
++			  or C0.2 state. The time is an unsigned 32-bit number.
++			  Note that a value of zero means there is no limit.
++			  Low order two bits must be zero.
+-- 
+2.7.4
+
