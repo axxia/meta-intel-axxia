@@ -20,11 +20,13 @@ file://SNR-0016-x86-cpufeatures-Enumerate-MOVDIR64B-instruction.patch \
 file://SNR-0017-PM-arch-x86-Rework-the-MSR_IA32_ENERGY_PERF_BIAS-han.patch \
 file://SNR-0018-PM-arch-x86-MSR_IA32_ENERGY_PERF_BIAS-sysfs-interfac.patch \
 file://SNR-0019-Documentation-ABI-Document-umwait-control-sysfs-inte.patch \
+file://SNR-0020-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch \
 "
 
 FRIO_PATCHES = " \
 file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
 file://FRIO-0002-drivers-pci-Enable-overrides-for-missing-ACS-capabil.patch \
+file://FRIO-0003-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch \
 "
 
 require linux-axxia.inc

@@ -253,6 +253,14 @@ Documentation/ABI: Document umwait control sysfs interfaces
 Back ported to Linux 4.19, with no changes, as
 SNR-0019-Documentation-ABI-Document-umwait-control-sysfs-inte.patch
 
+vfio/pci: Mask buggy SR-IOV VF INTx support
+-------------------------------------------
+
+db04264 from kernel.org
+
+Back ported ot Linux 4.19, with no changes, as
+SNR-0020-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch
+
 
 Building the meta-intel-axxia BSP layer
 =======================================
