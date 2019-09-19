@@ -459,16 +459,16 @@ NOTE: No preferred version should be set for linux-local provider.
     RUNTARGET = "frio"
 
 11.9 Add simicsfs-client support (for large and sim images). Sources tgz archive
-    should copied in meta-intel-axxia/downloads directory: simics-5.0.190.tgz
+    should copied in meta-intel-axxia/downloads directory: simics-5.0.192.tgz
 
     DISTRO_FEATURES_append = " simicsfs"
 
-    To generate simics-5.0.190.tgz, get "ase_jvl_external*.txz" from
+    To generate simics-5.0.192.tgz, get "ase_jvl_external*.txz" from
     the SW download page (VIP), and do the following.
 
     * tar xf ase_jvl_external*.txz
     * 'cd ase/simics'
-    * tar czf simics-5.0.190.tgz simics-5.0.190
+    * tar czf simics-5.0.192.tgz simics-5.0.192
 
 11.10 Add gcc9 support for a newer version of gcc and glibc instead
     the default one from upstream. This should not normally be used!
