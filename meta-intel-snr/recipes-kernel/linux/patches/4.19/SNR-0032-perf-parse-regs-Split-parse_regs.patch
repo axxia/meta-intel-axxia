@@ -1,0 +1,115 @@
+From a8ca5c3fbbd32ea519e6a063f9cdfa68b9240d44 Mon Sep 17 00:00:00 2001
+From: Kan Liang <kan.liang@linux.intel.com>
+Date: Tue, 14 May 2019 13:19:32 -0700
+Subject: [PATCH 11/44] perf parse-regs: Split parse_regs
+
+The available registers for --int-regs and --user-regs may be different,
+e.g. XMM registers.
+
+Split parse_regs into two dedicated functions for --int-regs and
+--user-regs respectively.
+
+Modify the warning message. "--user-regs=?" should be applied to show
+the available registers for --user-regs.
+
+Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
+Tested-by: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Cc: Andi Kleen <ak@linux.intel.com>
+Cc: Jiri Olsa <jolsa@kernel.org>
+Link: http://lkml.kernel.org/r/1557865174-56264-1-git-send-email-kan.liang@linux.intel.com
+[ Changed docs as suggested by Ravi and agreed by Kan ]
+Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
+---
+ tools/perf/Documentation/perf-record.txt |  3 ++-
+ tools/perf/builtin-record.c              |  4 ++--
+ tools/perf/util/parse-regs-options.c     | 19 ++++++++++++++++---
+ tools/perf/util/parse-regs-options.h     |  3 ++-
+ 4 files changed, 22 insertions(+), 7 deletions(-)
+
+diff --git a/tools/perf/Documentation/perf-record.txt b/tools/perf/Documentation/perf-record.txt
+index 246dee0..bdb3f1f 100644
+--- a/tools/perf/Documentation/perf-record.txt
++++ b/tools/perf/Documentation/perf-record.txt
+@@ -392,7 +392,8 @@ symbolic names, e.g. on x86, ax, si. To list the available registers use
+ --intr-regs=ax,bx. The list of register is architecture dependent.
+ 
+ --user-regs::
+-Capture user registers at sample time. Same arguments as -I.
++Similar to -I, but capture user registers at sample time. To list the available
++user registers use --user-regs=\?.
+ 
+ --running-time::
+ Record running and enabled time for read events (:S)
+diff --git a/tools/perf/builtin-record.c b/tools/perf/builtin-record.c
+index 9509458..f937220 100644
+--- a/tools/perf/builtin-record.c
++++ b/tools/perf/builtin-record.c
+@@ -1637,10 +1637,10 @@ static struct option __record_options[] = {
+ 		    "use per-thread mmaps"),
+ 	OPT_CALLBACK_OPTARG('I', "intr-regs", &record.opts.sample_intr_regs, NULL, "any register",
+ 		    "sample selected machine registers on interrupt,"
+-		    " use '-I?' to list register names", parse_regs),
++		    " use '-I?' to list register names", parse_intr_regs),
+ 	OPT_CALLBACK_OPTARG(0, "user-regs", &record.opts.sample_user_regs, NULL, "any register",
+ 		    "sample selected machine registers on interrupt,"
+-		    " use '-I?' to list register names", parse_regs),
++		    " use '--user-regs=?' to list register names", parse_user_regs),
+ 	OPT_BOOLEAN(0, "running-time", &record.opts.running_time,
+ 		    "Record running/enabled time of read (:S) events"),
+ 	OPT_CALLBACK('k', "clockid", &record.opts,
+diff --git a/tools/perf/util/parse-regs-options.c b/tools/perf/util/parse-regs-options.c
+index 9cb187a..b21617f 100644
+--- a/tools/perf/util/parse-regs-options.c
++++ b/tools/perf/util/parse-regs-options.c
+@@ -5,8 +5,8 @@
+ #include <subcmd/parse-options.h>
+ #include "util/parse-regs-options.h"
+ 
+-int
+-parse_regs(const struct option *opt, const char *str, int unset)
++static int
++__parse_regs(const struct option *opt, const char *str, int unset, bool intr)
+ {
+ 	uint64_t *mode = (uint64_t *)opt->value;
+ 	const struct sample_reg *r;
+@@ -48,7 +48,8 @@ parse_regs(const struct option *opt, const char *str, int unset)
+ 					break;
+ 			}
+ 			if (!r->name) {
+-				ui__warning("Unknown register \"%s\", check man page or run \"perf record -I?\"\n", s);
++				ui__warning("Unknown register \"%s\", check man page or run \"perf record %s?\"\n",
++					    s, intr ? "-I" : "--user-regs=");
+ 				goto error;
+ 			}
+ 
+@@ -69,3 +70,15 @@ parse_regs(const struct option *opt, const char *str, int unset)
+ 	free(os);
+ 	return ret;
+ }
++
++int
++parse_user_regs(const struct option *opt, const char *str, int unset)
++{
++	return __parse_regs(opt, str, unset, false);
++}
++
++int
++parse_intr_regs(const struct option *opt, const char *str, int unset)
++{
++	return __parse_regs(opt, str, unset, true);
++}
+diff --git a/tools/perf/util/parse-regs-options.h b/tools/perf/util/parse-regs-options.h
+index cdefb1a..2b23d25 100644
+--- a/tools/perf/util/parse-regs-options.h
++++ b/tools/perf/util/parse-regs-options.h
+@@ -2,5 +2,6 @@
+ #ifndef _PERF_PARSE_REGS_OPTIONS_H
+ #define _PERF_PARSE_REGS_OPTIONS_H 1
+ struct option;
+-int parse_regs(const struct option *opt, const char *str, int unset);
++int parse_user_regs(const struct option *opt, const char *str, int unset);
++int parse_intr_regs(const struct option *opt, const char *str, int unset);
+ #endif /* _PERF_PARSE_REGS_OPTIONS_H */
+-- 
+2.7.4
+

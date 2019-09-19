@@ -1,0 +1,60 @@
+From 77ff6348dcf352db86a7edff341b06497e939652 Mon Sep 17 00:00:00 2001
+From: Andrew Murray <andrew.murray@arm.com>
+Date: Thu, 10 Jan 2019 13:53:24 +0000
+Subject: [PATCH 30/44] perf/core: Add function to test for event exclusion
+ flags
+
+Add a function that tests if any of the perf event exclusion flags
+are set on a given event.
+
+Signed-off-by: Andrew Murray <andrew.murray@arm.com>
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Cc: Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Matt Turner <mattst88@gmail.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Will Deacon <will.deacon@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: robin.murphy@arm.com
+Cc: suzuki.poulose@arm.com
+Link: https://lkml.kernel.org/r/1547128414-50693-3-git-send-email-andrew.murray@arm.com
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+---
+ include/linux/perf_event.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
+index cc9f5d1..2f2bbeb 100644
+--- a/include/linux/perf_event.h
++++ b/include/linux/perf_event.h
+@@ -1010,6 +1010,15 @@ perf_event__output_id_sample(struct perf_event *event,
+ extern void
+ perf_log_lost_samples(struct perf_event *event, u64 lost);
+ 
++static inline bool event_has_any_exclude_flag(struct perf_event *event)
++{
++	struct perf_event_attr *attr = &event->attr;
++
++	return attr->exclude_idle || attr->exclude_user ||
++	       attr->exclude_kernel || attr->exclude_hv ||
++	       attr->exclude_guest || attr->exclude_host;
++}
++
+ static inline bool is_sampling_event(struct perf_event *event)
+ {
+ 	return event->attr.sample_period != 0;
+-- 
+2.7.4
+

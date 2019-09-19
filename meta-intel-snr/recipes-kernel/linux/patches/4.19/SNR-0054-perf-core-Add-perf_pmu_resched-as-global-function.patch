@@ -1,0 +1,68 @@
+From 75839746aaef6b82df839f8a73ad2298caaa0672 Mon Sep 17 00:00:00 2001
+From: Stephane Eranian <eranian@google.com>
+Date: Mon, 8 Apr 2019 10:32:51 -0700
+Subject: [PATCH 33/44] perf/core: Add perf_pmu_resched() as global function
+
+This patch add perf_pmu_resched() a global function that can be called
+to force rescheduling of events for a given PMU. The function locks
+both cpuctx and task_ctx internally. This will be used by a subsequent
+patch.
+
+Signed-off-by: Stephane Eranian <eranian@google.com>
+[ Simplified the calling convention. ]
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Arnaldo Carvalho de Melo <acme@redhat.com>
+Cc: Jiri Olsa <jolsa@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Vince Weaver <vincent.weaver@maine.edu>
+Cc: kan.liang@intel.com
+Cc: nelson.dsouza@intel.com
+Cc: tonyj@suse.com
+Link: https://lkml.kernel.org/r/20190408173252.37932-2-eranian@google.com
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+---
+ include/linux/perf_event.h |  3 +++
+ kernel/events/core.c       | 10 ++++++++++
+ 2 files changed, 13 insertions(+)
+
+diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
+index 2f2bbeb..c0654c8 100644
+--- a/include/linux/perf_event.h
++++ b/include/linux/perf_event.h
+@@ -883,6 +883,9 @@ extern void perf_sched_cb_dec(struct pmu *pmu);
+ extern void perf_sched_cb_inc(struct pmu *pmu);
+ extern int perf_event_task_disable(void);
+ extern int perf_event_task_enable(void);
++
++extern void perf_pmu_resched(struct pmu *pmu);
++
+ extern int perf_event_refresh(struct perf_event *event, int refresh);
+ extern void perf_event_update_userpage(struct perf_event *event);
+ extern int perf_event_release_kernel(struct perf_event *event);
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index af389eb..751bda7 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -2476,6 +2476,16 @@ static void ctx_resched(struct perf_cpu_context *cpuctx,
+ 	perf_pmu_enable(cpuctx->ctx.pmu);
+ }
+ 
++void perf_pmu_resched(struct pmu *pmu)
++{
++	struct perf_cpu_context *cpuctx = this_cpu_ptr(pmu->pmu_cpu_context);
++	struct perf_event_context *task_ctx = cpuctx->task_ctx;
++
++	perf_ctx_lock(cpuctx, task_ctx);
++	ctx_resched(cpuctx, task_ctx, EVENT_ALL|EVENT_CPU);
++	perf_ctx_unlock(cpuctx, task_ctx);
++}
++
+ /*
+  * Cross CPU call to install and enable a performance event
+  *
+-- 
+2.7.4
+

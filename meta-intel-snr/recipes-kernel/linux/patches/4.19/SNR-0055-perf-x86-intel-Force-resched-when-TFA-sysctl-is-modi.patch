@@ -1,0 +1,206 @@
+From b0deca698aa55240f5da7622cae040dcd5de3203 Mon Sep 17 00:00:00 2001
+From: Stephane Eranian <eranian@google.com>
+Date: Mon, 8 Apr 2019 10:32:52 -0700
+Subject: [PATCH 34/44] perf/x86/intel: Force resched when TFA sysctl is
+ modified
+
+This patch provides guarantee to the sysadmin that when TFA is disabled, no PMU
+event is using PMC3 when the echo command returns. Vice-Versa, when TFA
+is enabled, PMU can use PMC3 immediately (to eliminate possible multiplexing).
+
+  $ perf stat -a -I 1000 --no-merge -e branches,branches,branches,branches
+     1.000123979    125,768,725,208      branches
+     1.000562520    125,631,000,456      branches
+     1.000942898    125,487,114,291      branches
+     1.001333316    125,323,363,620      branches
+     2.004721306    125,514,968,546      branches
+     2.005114560    125,511,110,861      branches
+     2.005482722    125,510,132,724      branches
+     2.005851245    125,508,967,086      branches
+     3.006323475    125,166,570,648      branches
+     3.006709247    125,165,650,056      branches
+     3.007086605    125,164,639,142      branches
+     3.007459298    125,164,402,912      branches
+     4.007922698    125,045,577,140      branches
+     4.008310775    125,046,804,324      branches
+     4.008670814    125,048,265,111      branches
+     4.009039251    125,048,677,611      branches
+     5.009503373    125,122,240,217      branches
+     5.009897067    125,122,450,517      branches
+
+Then on another connection, sysadmin does:
+
+  $ echo  1 >/sys/devices/cpu/allow_tsx_force_abort
+
+Then perf stat adjusts the events immediately:
+
+     5.010286029    125,121,393,483      branches
+     5.010646308    125,120,556,786      branches
+     6.011113588    124,963,351,832      branches
+     6.011510331    124,964,267,566      branches
+     6.011889913    124,964,829,130      branches
+     6.012262996    124,965,841,156      branches
+     7.012708299    124,419,832,234      branches [79.69%]
+     7.012847908    124,416,363,853      branches [79.73%]
+     7.013225462    124,400,723,712      branches [79.73%]
+     7.013598191    124,376,154,434      branches [79.70%]
+     8.014089834    124,250,862,693      branches [74.98%]
+     8.014481363    124,267,539,139      branches [74.94%]
+     8.014856006    124,259,519,786      branches [74.98%]
+     8.014980848    124,225,457,969      branches [75.04%]
+     9.015464576    124,204,235,423      branches [75.03%]
+     9.015858587    124,204,988,490      branches [75.04%]
+     9.016243680    124,220,092,486      branches [74.99%]
+     9.016620104    124,231,260,146      branches [74.94%]
+
+And vice-versa if the syadmin does:
+
+  $ echo  0 >/sys/devices/cpu/allow_tsx_force_abort
+
+Events are again spread over the 4 counters:
+
+    10.017096277    124,276,230,565      branches [74.96%]
+    10.017237209    124,228,062,171      branches [75.03%]
+    10.017478637    124,178,780,626      branches [75.03%]
+    10.017853402    124,198,316,177      branches [75.03%]
+    11.018334423    124,602,418,933      branches [85.40%]
+    11.018722584    124,602,921,320      branches [85.42%]
+    11.019095621    124,603,956,093      branches [85.42%]
+    11.019467742    124,595,273,783      branches [85.42%]
+    12.019945736    125,110,114,864      branches
+    12.020330764    125,109,334,472      branches
+    12.020688740    125,109,818,865      branches
+    12.021054020    125,108,594,014      branches
+    13.021516774    125,109,164,018      branches
+    13.021903640    125,108,794,510      branches
+    13.022270770    125,107,756,978      branches
+    13.022630819    125,109,380,471      branches
+    14.023114989    125,133,140,817      branches
+    14.023501880    125,133,785,858      branches
+    14.023868339    125,133,852,700      branches
+
+Signed-off-by: Stephane Eranian <eranian@google.com>
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Arnaldo Carvalho de Melo <acme@redhat.com>
+Cc: Jiri Olsa <jolsa@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Vince Weaver <vincent.weaver@maine.edu>
+Cc: kan.liang@intel.com
+Cc: nelson.dsouza@intel.com
+Cc: tonyj@suse.com
+Link: https://lkml.kernel.org/r/20190408173252.37932-3-eranian@google.com
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+---
+ arch/x86/events/core.c       |  4 ++++
+ arch/x86/events/intel/core.c | 50 ++++++++++++++++++++++++++++++++++++++++++--
+ arch/x86/events/perf_event.h |  1 +
+ 3 files changed, 53 insertions(+), 2 deletions(-)
+
+diff --git a/arch/x86/events/core.c b/arch/x86/events/core.c
+index 9c89ad3..95c900b 100644
+--- a/arch/x86/events/core.c
++++ b/arch/x86/events/core.c
+@@ -676,6 +676,10 @@ static inline int is_x86_event(struct perf_event *event)
+ 	return event->pmu == &pmu;
+ }
+ 
++struct pmu *x86_get_pmu(void)
++{
++	return &pmu;
++}
+ /*
+  * Event scheduler state:
+  *
+diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
+index 97a86f9..b7e45a3 100644
+--- a/arch/x86/events/intel/core.c
++++ b/arch/x86/events/intel/core.c
+@@ -4090,6 +4090,50 @@ static ssize_t freeze_on_smi_store(struct device *cdev,
+ 	return count;
+ }
+ 
++static void update_tfa_sched(void *ignored)
++{
++	struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
++
++	/*
++	 * check if PMC3 is used
++	 * and if so force schedule out for all event types all contexts
++	 */
++	if (test_bit(3, cpuc->active_mask))
++		perf_pmu_resched(x86_get_pmu());
++}
++
++static ssize_t show_sysctl_tfa(struct device *cdev,
++			      struct device_attribute *attr,
++			      char *buf)
++{
++	return snprintf(buf, 40, "%d\n", allow_tsx_force_abort);
++}
++
++static ssize_t set_sysctl_tfa(struct device *cdev,
++			      struct device_attribute *attr,
++			      const char *buf, size_t count)
++{
++	bool val;
++	ssize_t ret;
++
++	ret = kstrtobool(buf, &val);
++	if (ret)
++		return ret;
++
++	/* no change */
++	if (val == allow_tsx_force_abort)
++		return count;
++
++	allow_tsx_force_abort = val;
++
++	get_online_cpus();
++	on_each_cpu(update_tfa_sched, NULL, 1);
++	put_online_cpus();
++
++	return count;
++}
++
++
+ static DEVICE_ATTR_RW(freeze_on_smi);
+ 
+ static ssize_t branches_show(struct device *cdev,
+@@ -4122,7 +4166,9 @@ static struct attribute *intel_pmu_caps_attrs[] = {
+        NULL
+ };
+ 
+-static DEVICE_BOOL_ATTR(allow_tsx_force_abort, 0644, allow_tsx_force_abort);
++static DEVICE_ATTR(allow_tsx_force_abort, 0644,
++		   show_sysctl_tfa,
++		   set_sysctl_tfa);
+ 
+ static struct attribute *intel_pmu_attrs[] = {
+ 	&dev_attr_freeze_on_smi.attr,
+@@ -4619,7 +4665,7 @@ __init int intel_pmu_init(void)
+ 			x86_pmu.get_event_constraints = tfa_get_event_constraints;
+ 			x86_pmu.enable_all = intel_tfa_pmu_enable_all;
+ 			x86_pmu.commit_scheduling = intel_tfa_commit_scheduling;
+-			intel_pmu_attrs[1] = &dev_attr_allow_tsx_force_abort.attr.attr;
++			intel_pmu_attrs[1] = &dev_attr_allow_tsx_force_abort.attr;
+ 		}
+ 
+ 		pr_cont("Skylake events, ");
+diff --git a/arch/x86/events/perf_event.h b/arch/x86/events/perf_event.h
+index 29a052f..4418128 100644
+--- a/arch/x86/events/perf_event.h
++++ b/arch/x86/events/perf_event.h
+@@ -752,6 +752,7 @@ static struct perf_pmu_events_ht_attr event_attr_##v = {		\
+ 	.event_str_ht	= ht,						\
+ }
+ 
++struct pmu *x86_get_pmu(void);
+ extern struct x86_pmu x86_pmu __read_mostly;
+ 
+ static inline bool x86_pmu_has_lbr_callstack(void)
+-- 
+2.7.4
+

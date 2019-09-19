@@ -43,6 +43,7 @@ openssh \
 openssh-sftp \
 pciutils \
 packagegroup-core-full-cmdline \
+perf \
 perl-module-bigint \
 python-cffi \
 python-core \

@@ -1,0 +1,205 @@
+From 28189b054832c222980571f7d9977f5b30a57ef0 Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Sat, 21 Sep 2019 14:54:49 -0500
+Subject: [PATCH 44/44] topology: Create core_cpus and die_cpus sysfs
+ attributes
+
+Create CPU topology sysfs attributes: "core_cpus" and "core_cpus_list"
+
+These attributes represent all of the logical CPUs that share the
+same core.
+
+These attriutes is synonymous with the existing "thread_siblings" and
+"thread_siblings_list" attribute, which will be deprecated.
+
+Create CPU topology sysfs attributes: "die_cpus" and "die_cpus_list".
+These attributes represent all of the logical CPUs that share the
+same die.
+
+Suggested-by: Brice Goglin <Brice.Goglin@inria.fr>
+Signed-off-by: Len Brown <len.brown@intel.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Ingo Molnar <mingo@kernel.org>
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Link: https://lkml.kernel.org/r/071c23a298cd27ede6ed0b6460cae190d193364f.1557769318.git.len.brown@intel.com
+Back-ported-by: John Jacques <john.jacques@intel.com>
+---
+ arch/x86/include/asm/smp.h      |  1 +
+ arch/x86/include/asm/topology.h |  1 +
+ arch/x86/kernel/smpboot.c       | 22 ++++++++++++++++++++++
+ arch/x86/xen/smp_pv.c           |  1 +
+ drivers/base/topology.c         | 12 ++++++++++++
+ include/linux/topology.h        |  3 +++
+ 6 files changed, 40 insertions(+)
+
+diff --git a/arch/x86/include/asm/smp.h b/arch/x86/include/asm/smp.h
+index 547c4fe..7bab660 100644
+--- a/arch/x86/include/asm/smp.h
++++ b/arch/x86/include/asm/smp.h
+@@ -23,6 +23,7 @@ extern unsigned int num_processors;
+ 
+ DECLARE_PER_CPU_READ_MOSTLY(cpumask_var_t, cpu_sibling_map);
+ DECLARE_PER_CPU_READ_MOSTLY(cpumask_var_t, cpu_core_map);
++DECLARE_PER_CPU_READ_MOSTLY(cpumask_var_t, cpu_die_map);
+ /* cpus sharing the last level cache: */
+ DECLARE_PER_CPU_READ_MOSTLY(cpumask_var_t, cpu_llc_shared_map);
+ DECLARE_PER_CPU_READ_MOSTLY(u16, cpu_llc_id);
+diff --git a/arch/x86/include/asm/topology.h b/arch/x86/include/asm/topology.h
+index 9de16b4..4b14d23 100644
+--- a/arch/x86/include/asm/topology.h
++++ b/arch/x86/include/asm/topology.h
+@@ -111,6 +111,7 @@ extern const struct cpumask *cpu_coregroup_mask(int cpu);
+ #define topology_core_id(cpu)			(cpu_data(cpu).cpu_core_id)
+ 
+ #ifdef CONFIG_SMP
++#define topology_die_cpumask(cpu)		(per_cpu(cpu_die_map, cpu))
+ #define topology_core_cpumask(cpu)		(per_cpu(cpu_core_map, cpu))
+ #define topology_sibling_cpumask(cpu)		(per_cpu(cpu_sibling_map, cpu))
+ 
+diff --git a/arch/x86/kernel/smpboot.c b/arch/x86/kernel/smpboot.c
+index c2496b2..98fb4cc 100644
+--- a/arch/x86/kernel/smpboot.c
++++ b/arch/x86/kernel/smpboot.c
+@@ -90,6 +90,10 @@ EXPORT_PER_CPU_SYMBOL(cpu_sibling_map);
+ DEFINE_PER_CPU_READ_MOSTLY(cpumask_var_t, cpu_core_map);
+ EXPORT_PER_CPU_SYMBOL(cpu_core_map);
+ 
++/* representing HT, core, and die siblings of each logical CPU */
++DEFINE_PER_CPU_READ_MOSTLY(cpumask_var_t, cpu_die_map);
++EXPORT_PER_CPU_SYMBOL(cpu_die_map);
++
+ DEFINE_PER_CPU_READ_MOSTLY(cpumask_var_t, cpu_llc_shared_map);
+ 
+ /* Per CPU bogomips and other parameters */
+@@ -513,6 +517,15 @@ static bool match_pkg(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
+ 	return false;
+ }
+ 
++static bool match_die(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
++{
++	if ((c->phys_proc_id == o->phys_proc_id) &&
++		(c->cpu_die_id == o->cpu_die_id))
++		return true;
++	return false;
++}
++
++
+ #if defined(CONFIG_SCHED_SMT) || defined(CONFIG_SCHED_MC)
+ static inline int x86_sched_itmt_flags(void)
+ {
+@@ -575,6 +588,7 @@ void set_cpu_sibling_map(int cpu)
+ 		cpumask_set_cpu(cpu, topology_sibling_cpumask(cpu));
+ 		cpumask_set_cpu(cpu, cpu_llc_shared_mask(cpu));
+ 		cpumask_set_cpu(cpu, topology_core_cpumask(cpu));
++		cpumask_set_cpu(cpu, topology_die_cpumask(cpu));
+ 		c->booted_cores = 1;
+ 		return;
+ 	}
+@@ -623,6 +637,9 @@ void set_cpu_sibling_map(int cpu)
+ 		}
+ 		if (match_pkg(c, o) && !topology_same_node(c, o))
+ 			x86_has_numa_in_package = true;
++
++		if ((i == cpu) || (has_mp && match_die(c, o)))
++			link_mask(topology_die_cpumask, cpu, i);
+ 	}
+ 
+ 	threads = cpumask_weight(topology_sibling_cpumask(cpu));
+@@ -1217,6 +1234,7 @@ static __init void disable_smp(void)
+ 		physid_set_mask_of_physid(0, &phys_cpu_present_map);
+ 	cpumask_set_cpu(0, topology_sibling_cpumask(0));
+ 	cpumask_set_cpu(0, topology_core_cpumask(0));
++	cpumask_set_cpu(0, topology_die_cpumask(0));
+ }
+ 
+ /*
+@@ -1312,6 +1330,7 @@ void __init native_smp_prepare_cpus(unsigned int max_cpus)
+ 	for_each_possible_cpu(i) {
+ 		zalloc_cpumask_var(&per_cpu(cpu_sibling_map, i), GFP_KERNEL);
+ 		zalloc_cpumask_var(&per_cpu(cpu_core_map, i), GFP_KERNEL);
++		zalloc_cpumask_var(&per_cpu(cpu_die_map, i), GFP_KERNEL);
+ 		zalloc_cpumask_var(&per_cpu(cpu_llc_shared_map, i), GFP_KERNEL);
+ 	}
+ 
+@@ -1532,6 +1551,8 @@ static void remove_siblinginfo(int cpu)
+ 			cpu_data(sibling).booted_cores--;
+ 	}
+ 
++	for_each_cpu(sibling, topology_die_cpumask(cpu))
++		cpumask_clear_cpu(cpu, topology_die_cpumask(sibling));
+ 	for_each_cpu(sibling, topology_sibling_cpumask(cpu))
+ 		cpumask_clear_cpu(cpu, topology_sibling_cpumask(sibling));
+ 	for_each_cpu(sibling, cpu_llc_shared_mask(cpu))
+@@ -1539,6 +1560,7 @@ static void remove_siblinginfo(int cpu)
+ 	cpumask_clear(cpu_llc_shared_mask(cpu));
+ 	cpumask_clear(topology_sibling_cpumask(cpu));
+ 	cpumask_clear(topology_core_cpumask(cpu));
++	cpumask_clear(topology_die_cpumask(cpu));
+ 	c->cpu_core_id = 0;
+ 	c->booted_cores = 0;
+ 	cpumask_clear_cpu(cpu, cpu_sibling_setup_mask);
+diff --git a/arch/x86/xen/smp_pv.c b/arch/x86/xen/smp_pv.c
+index e3b18ad..837abe8 100644
+--- a/arch/x86/xen/smp_pv.c
++++ b/arch/x86/xen/smp_pv.c
+@@ -249,6 +249,7 @@ static void __init xen_pv_smp_prepare_cpus(unsigned int max_cpus)
+ 	for_each_possible_cpu(i) {
+ 		zalloc_cpumask_var(&per_cpu(cpu_sibling_map, i), GFP_KERNEL);
+ 		zalloc_cpumask_var(&per_cpu(cpu_core_map, i), GFP_KERNEL);
++		zalloc_cpumask_var(&per_cpu(cpu_die_map, i), GFP_KERNEL);
+ 		zalloc_cpumask_var(&per_cpu(cpu_llc_shared_map, i), GFP_KERNEL);
+ 	}
+ 	set_cpu_sibling_map(0);
+diff --git a/drivers/base/topology.c b/drivers/base/topology.c
+index dc3c19b..4e033d4c 100644
+--- a/drivers/base/topology.c
++++ b/drivers/base/topology.c
+@@ -53,10 +53,18 @@ define_siblings_show_func(thread_siblings, sibling_cpumask);
+ static DEVICE_ATTR_RO(thread_siblings);
+ static DEVICE_ATTR_RO(thread_siblings_list);
+ 
++define_siblings_show_func(core_cpus, sibling_cpumask);
++static DEVICE_ATTR_RO(core_cpus);
++static DEVICE_ATTR_RO(core_cpus_list);
++
+ define_siblings_show_func(core_siblings, core_cpumask);
+ static DEVICE_ATTR_RO(core_siblings);
+ static DEVICE_ATTR_RO(core_siblings_list);
+ 
++define_siblings_show_func(die_cpus, die_cpumask);
++static DEVICE_ATTR_RO(die_cpus);
++static DEVICE_ATTR_RO(die_cpus_list);
++
+ define_siblings_show_func(package_cpus, core_cpumask);
+ static DEVICE_ATTR_RO(package_cpus);
+ static DEVICE_ATTR_RO(package_cpus_list);
+@@ -83,8 +91,12 @@ static struct attribute *default_attrs[] = {
+ 	&dev_attr_core_id.attr,
+ 	&dev_attr_thread_siblings.attr,
+ 	&dev_attr_thread_siblings_list.attr,
++	&dev_attr_core_cpus.attr,
++	&dev_attr_core_cpus_list.attr,
+ 	&dev_attr_core_siblings.attr,
+ 	&dev_attr_core_siblings_list.attr,
++	&dev_attr_die_cpus.attr,
++	&dev_attr_die_cpus_list.attr,
+ 	&dev_attr_package_cpus.attr,
+ 	&dev_attr_package_cpus_list.attr,
+ #ifdef CONFIG_SCHED_BOOK
+diff --git a/include/linux/topology.h b/include/linux/topology.h
+index 5cc8595..47a3e3c 100644
+--- a/include/linux/topology.h
++++ b/include/linux/topology.h
+@@ -196,6 +196,9 @@ static inline int cpu_to_mem(int cpu)
+ #ifndef topology_core_cpumask
+ #define topology_core_cpumask(cpu)		cpumask_of(cpu)
+ #endif
++#ifndef topology_die_cpumask
++#define topology_die_cpumask(cpu)		cpumask_of(cpu)
++#endif
+ 
+ #ifdef CONFIG_SCHED_SMT
+ static inline const struct cpumask *cpu_smt_mask(int cpu)
+-- 
+2.7.4
+

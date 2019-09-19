@@ -1,0 +1,85 @@
+From 63cfcdf7a723de050754b36ecca3af921572d8e2 Mon Sep 17 00:00:00 2001
+From: Kan Liang <kan.liang@linux.intel.com>
+Date: Tue, 2 Apr 2019 12:45:01 -0700
+Subject: [PATCH 04/44] perf/x86/intel/ds: Extract code of event update in
+ short period
+
+The drain_pebs() could be called twice in a short period for auto-reload
+event in pmu::read(). The intel_pmu_save_and_restart_reload() should be
+called to update the event->count.
+
+This case should also be handled on Icelake. Extract the code for
+later reuse.
+
+Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Arnaldo Carvalho de Melo <acme@redhat.com>
+Cc: Jiri Olsa <jolsa@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Stephane Eranian <eranian@google.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Vince Weaver <vincent.weaver@maine.edu>
+Cc: acme@kernel.org
+Cc: jolsa@kernel.org
+Link: https://lkml.kernel.org/r/20190402194509.2832-5-kan.liang@linux.intel.com
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+---
+ arch/x86/events/intel/ds.c | 33 ++++++++++++++++++++-------------
+ 1 file changed, 20 insertions(+), 13 deletions(-)
+
+diff --git a/arch/x86/events/intel/ds.c b/arch/x86/events/intel/ds.c
+index a479926..a584e06 100644
+--- a/arch/x86/events/intel/ds.c
++++ b/arch/x86/events/intel/ds.c
+@@ -1491,6 +1491,25 @@ static void intel_pmu_drain_pebs_core(struct pt_regs *iregs)
+ 	__intel_pmu_pebs_event(event, iregs, at, top, 0, n);
+ }
+ 
++static void intel_pmu_pebs_event_update_no_drain(struct cpu_hw_events *cpuc, int size)
++{
++	struct perf_event *event;
++	int bit;
++
++	/*
++	 * The drain_pebs() could be called twice in a short period
++	 * for auto-reload event in pmu::read(). There are no
++	 * overflows have happened in between.
++	 * It needs to call intel_pmu_save_and_restart_reload() to
++	 * update the event->count for this case.
++	 */
++	for_each_set_bit(bit, (unsigned long *)&cpuc->pebs_enabled, size) {
++		event = cpuc->events[bit];
++		if (event->hw.flags & PERF_X86_EVENT_AUTO_RELOAD)
++			intel_pmu_save_and_restart_reload(event, 0);
++	}
++}
++
+ static void intel_pmu_drain_pebs_nhm(struct pt_regs *iregs)
+ {
+ 	struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
+@@ -1518,19 +1537,7 @@ static void intel_pmu_drain_pebs_nhm(struct pt_regs *iregs)
+ 	}
+ 
+ 	if (unlikely(base >= top)) {
+-		/*
+-		 * The drain_pebs() could be called twice in a short period
+-		 * for auto-reload event in pmu::read(). There are no
+-		 * overflows have happened in between.
+-		 * It needs to call intel_pmu_save_and_restart_reload() to
+-		 * update the event->count for this case.
+-		 */
+-		for_each_set_bit(bit, (unsigned long *)&cpuc->pebs_enabled,
+-				 size) {
+-			event = cpuc->events[bit];
+-			if (event->hw.flags & PERF_X86_EVENT_AUTO_RELOAD)
+-				intel_pmu_save_and_restart_reload(event, 0);
+-		}
++		intel_pmu_pebs_event_update_no_drain(cpuc, size);
+ 		return;
+ 	}
+ 
+-- 
+2.7.4
+

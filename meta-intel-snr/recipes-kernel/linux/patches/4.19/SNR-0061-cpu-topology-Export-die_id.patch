@@ -1,0 +1,72 @@
+From 3a36043e30af3d18eb25bf38ab901559fd92ffa3 Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Sat, 21 Sep 2019 14:50:41 -0500
+Subject: [PATCH 40/44] cpu/topology: Export die_id
+
+Export die_id in cpu topology, for the benefit of hardware that has
+multiple-die/package.
+
+Signed-off-by: Len Brown <len.brown@intel.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Ingo Molnar <mingo@kernel.org>
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Cc: linux-doc@vger.kernel.org
+Link: https://lkml.kernel.org/r/e7d1caaf4fbd24ee40db6d557ab28d7d83298900.1557769318.git.len.brown@intel.com
+Back-ported-by: John Jacques <john.jacques@intel.com>
+---
+ Documentation/cputopology.txt | 1 +
+ drivers/base/topology.c       | 4 ++++
+ include/linux/topology.h      | 3 +++
+ 3 files changed, 8 insertions(+)
+
+diff --git a/Documentation/cputopology.txt b/Documentation/cputopology.txt
+index c6e7e91..a8534ed 100644
+--- a/Documentation/cputopology.txt
++++ b/Documentation/cputopology.txt
+@@ -81,6 +81,7 @@ For an architecture to support this feature, it must define some of
+ these macros in include/asm-XXX/topology.h::
+ 
+ 	#define topology_physical_package_id(cpu)
++	#define topology_die_id(cpu)
+ 	#define topology_core_id(cpu)
+ 	#define topology_book_id(cpu)
+ 	#define topology_drawer_id(cpu)
+diff --git a/drivers/base/topology.c b/drivers/base/topology.c
+index 5fd9f16..50352cf 100644
+--- a/drivers/base/topology.c
++++ b/drivers/base/topology.c
+@@ -43,6 +43,9 @@ static ssize_t name##_list_show(struct device *dev,			\
+ define_id_show_func(physical_package_id);
+ static DEVICE_ATTR_RO(physical_package_id);
+ 
++define_id_show_func(die_id);
++static DEVICE_ATTR_RO(die_id);
++
+ define_id_show_func(core_id);
+ static DEVICE_ATTR_RO(core_id);
+ 
+@@ -72,6 +75,7 @@ static DEVICE_ATTR_RO(drawer_siblings_list);
+ 
+ static struct attribute *default_attrs[] = {
+ 	&dev_attr_physical_package_id.attr,
++	&dev_attr_die_id.attr,
+ 	&dev_attr_core_id.attr,
+ 	&dev_attr_thread_siblings.attr,
+ 	&dev_attr_thread_siblings_list.attr,
+diff --git a/include/linux/topology.h b/include/linux/topology.h
+index cb0775e..5cc8595 100644
+--- a/include/linux/topology.h
++++ b/include/linux/topology.h
+@@ -184,6 +184,9 @@ static inline int cpu_to_mem(int cpu)
+ #ifndef topology_physical_package_id
+ #define topology_physical_package_id(cpu)	((void)(cpu), -1)
+ #endif
++#ifndef topology_die_id
++#define topology_die_id(cpu)			((void)(cpu), -1)
++#endif
+ #ifndef topology_core_id
+ #define topology_core_id(cpu)			((void)(cpu), 0)
+ #endif
+-- 
+2.7.4
+

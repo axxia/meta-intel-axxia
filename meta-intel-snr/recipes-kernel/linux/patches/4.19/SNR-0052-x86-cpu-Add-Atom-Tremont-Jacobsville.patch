@@ -1,0 +1,55 @@
+From 7f116b341e4c7bd284555c9af48088c47ed9b753 Mon Sep 17 00:00:00 2001
+From: Kan Liang <kan.liang@linux.intel.com>
+Date: Fri, 25 Jan 2019 11:59:01 -0800
+Subject: [PATCH 31/44] x86/cpu: Add Atom Tremont (Jacobsville)
+
+Add the Atom Tremont model number to the Intel family list.
+
+[ Tony: Also update comment at head of file to say "_X" suffix is
+  also used for microserver parts. ]
+
+Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
+Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Aristeu Rozanski <aris@redhat.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: linux-edac <linux-edac@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+Cc: Megha Dey <megha.dey@linux.intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Cc: Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: x86-ml <x86@kernel.org>
+Link: https://lkml.kernel.org/r/20190125195902.17109-4-tony.luck@intel.com
+---
+ arch/x86/include/asm/intel-family.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/arch/x86/include/asm/intel-family.h b/arch/x86/include/asm/intel-family.h
+index aebedba..f60ddd6 100644
+--- a/arch/x86/include/asm/intel-family.h
++++ b/arch/x86/include/asm/intel-family.h
+@@ -6,7 +6,7 @@
+  * "Big Core" Processors (Branded as Core, Xeon, etc...)
+  *
+  * The "_X" parts are generally the EP and EX Xeons, or the
+- * "Extreme" ones, like Broadwell-E.
++ * "Extreme" ones, like Broadwell-E, or Atom microserver.
+  *
+  * While adding a new CPUID for a new microarchitecture, add a new
+  * group to keep logically sorted out in chronological order. Within
+@@ -77,6 +77,7 @@
+ #define INTEL_FAM6_ATOM_GOLDMONT	0x5C /* Apollo Lake */
+ #define INTEL_FAM6_ATOM_GOLDMONT_X	0x5F /* Denverton */
+ #define INTEL_FAM6_ATOM_GOLDMONT_PLUS	0x7A /* Gemini Lake */
++#define INTEL_FAM6_ATOM_TREMONT_X	0x86 /* Jacobsville */
+ 
+ /* Xeon Phi */
+ 
+-- 
+2.7.4
+

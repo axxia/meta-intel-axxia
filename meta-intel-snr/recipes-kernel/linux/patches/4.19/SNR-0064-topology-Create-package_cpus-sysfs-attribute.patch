@@ -1,0 +1,58 @@
+From 4ba8b8d6c86b396b4900b06c327dc780f20ad7be Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Sat, 21 Sep 2019 14:53:02 -0500
+Subject: [PATCH 43/44] topology: Create package_cpus sysfs attribute
+
+The existing sysfs cpu/topology/core_siblings (and core_siblings_list)
+attributes are documented, implemented, and used by programs to represent
+set of logical CPUs sharing the same package.
+
+This makes sense if the next topology level above a core is always a
+package.  But on systems where there is a die topology level between a core
+and a package, the name and its definition become inconsistent.
+
+So without changing its function, add a name for this map that describes
+what it actually is -- package CPUs -- the set of CPUs that share the same
+package.
+
+This new name will be immune to changes in topology, since it describes
+threads at the current level, not siblings at a contained level.
+
+Suggested-by: Brice Goglin <Brice.Goglin@inria.fr>
+Signed-off-by: Len Brown <len.brown@intel.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Ingo Molnar <mingo@kernel.org>
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Link: https://lkml.kernel.org/r/d9d3228b82fb5665e6f93a0ccd033fe022558521.1557769318.git.len.brown@intel.com
+Back-ported-by: John Jacques <john.jacques@intel.com>
+---
+ drivers/base/topology.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/base/topology.c b/drivers/base/topology.c
+index 50352cf..dc3c19b 100644
+--- a/drivers/base/topology.c
++++ b/drivers/base/topology.c
+@@ -57,6 +57,10 @@ define_siblings_show_func(core_siblings, core_cpumask);
+ static DEVICE_ATTR_RO(core_siblings);
+ static DEVICE_ATTR_RO(core_siblings_list);
+ 
++define_siblings_show_func(package_cpus, core_cpumask);
++static DEVICE_ATTR_RO(package_cpus);
++static DEVICE_ATTR_RO(package_cpus_list);
++
+ #ifdef CONFIG_SCHED_BOOK
+ define_id_show_func(book_id);
+ static DEVICE_ATTR_RO(book_id);
+@@ -81,6 +85,8 @@ static struct attribute *default_attrs[] = {
+ 	&dev_attr_thread_siblings_list.attr,
+ 	&dev_attr_core_siblings.attr,
+ 	&dev_attr_core_siblings_list.attr,
++	&dev_attr_package_cpus.attr,
++	&dev_attr_package_cpus_list.attr,
+ #ifdef CONFIG_SCHED_BOOK
+ 	&dev_attr_book_id.attr,
+ 	&dev_attr_book_siblings.attr,
+-- 
+2.7.4
+

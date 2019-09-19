@@ -1,0 +1,68 @@
+From 7ce11ce1b97d338ac9325ac8e7ae65029ea7430b Mon Sep 17 00:00:00 2001
+From: Kan Liang <kan.liang@linux.intel.com>
+Date: Tue, 28 May 2019 15:08:31 -0700
+Subject: [PATCH 19/44] perf/x86/regs: Check reserved bits
+
+The perf fuzzer triggers a warning which map to:
+
+        if (WARN_ON_ONCE(idx >= ARRAY_SIZE(pt_regs_offset)))
+                return 0;
+
+The bits between XMM registers and generic registers are reserved.
+But perf_reg_validate() doesn't check these bits.
+
+Add PERF_REG_X86_RESERVED for reserved bits on X86.
+Check the reserved bits in perf_reg_validate().
+
+Reported-by: Vince Weaver <vincent.weaver@maine.edu>
+Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Arnaldo Carvalho de Melo <acme@redhat.com>
+Cc: Jiri Olsa <jolsa@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Stephane Eranian <eranian@google.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Fixes: 878068ea270e ("perf/x86: Support outputting XMM registers")
+Link: https://lkml.kernel.org/r/1559081314-9714-2-git-send-email-kan.liang@linux.intel.com
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+---
+ arch/x86/kernel/perf_regs.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/arch/x86/kernel/perf_regs.c b/arch/x86/kernel/perf_regs.c
+index 07c30ee..bb7e113 100644
+--- a/arch/x86/kernel/perf_regs.c
++++ b/arch/x86/kernel/perf_regs.c
+@@ -74,6 +74,9 @@ u64 perf_reg_value(struct pt_regs *regs, int idx)
+ 	return regs_get_register(regs, pt_regs_offset[idx]);
+ }
+ 
++#define PERF_REG_X86_RESERVED	(((1ULL << PERF_REG_X86_XMM0) - 1) & \
++				 ~((1ULL << PERF_REG_X86_MAX) - 1))
++
+ #ifdef CONFIG_X86_32
+ #define REG_NOSUPPORT ((1ULL << PERF_REG_X86_R8) | \
+ 		       (1ULL << PERF_REG_X86_R9) | \
+@@ -86,7 +89,7 @@ u64 perf_reg_value(struct pt_regs *regs, int idx)
+ 
+ int perf_reg_validate(u64 mask)
+ {
+-	if (!mask || (mask & REG_NOSUPPORT))
++	if (!mask || (mask & (REG_NOSUPPORT | PERF_REG_X86_RESERVED)))
+ 		return -EINVAL;
+ 
+ 	return 0;
+@@ -112,7 +115,7 @@ void perf_get_regs_user(struct perf_regs *regs_user,
+ 
+ int perf_reg_validate(u64 mask)
+ {
+-	if (!mask || (mask & REG_NOSUPPORT))
++	if (!mask || (mask & (REG_NOSUPPORT | PERF_REG_X86_RESERVED)))
+ 		return -EINVAL;
+ 
+ 	return 0;
+-- 
+2.7.4
+

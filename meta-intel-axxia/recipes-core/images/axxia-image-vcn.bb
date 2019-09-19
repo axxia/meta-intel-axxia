@@ -192,6 +192,7 @@ packagegroup-core-boot \
 packagegroup-core-buildessential \
 parted \
 pciutils \
+perf \
 perl \
 perl-module-bigint \
 pkgconfig \
