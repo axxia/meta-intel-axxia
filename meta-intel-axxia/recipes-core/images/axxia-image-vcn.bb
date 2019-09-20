@@ -14,6 +14,7 @@ ssh-server-openssh"
 
 IMAGE_INSTALL = " \
 acl \
+aer-inject \
 at \
 attr \
 autoconf \
@@ -160,6 +161,8 @@ lvm2 \
 lzo \
 man \
 man-pages \
+mce-inject \
+mce-test \
 mcelog \
 mdadm \
 modutils-initscripts \
