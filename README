@@ -269,6 +269,20 @@ d4dc89d from kernel.org
 Back ported ot Linux 4.19, with no changes, as
 SNR-0021-EDAC-i10nm-Add-a-driver-for-Intel-10nm-server-proces.patch
 
+45 patches for perf (core and uncore)
+-------------------------------------
+
+SNR-0022-perf-x86-kvm-Avoid-unnecessary-work-in-guest-filteri.patch
+
+through
+
+SNR-0066-Revert-Changes-to-tools-perf.patch
+
+All except the last commit can be found in kernel.org.  The last
+commit removes all changes made to tools/perf by the previous commits.
+This back-port is only for the Linux driver.  To get a list of core
+and uncore registers, use 'perf list'.
+
 
 Building the meta-intel-axxia BSP layer
 =======================================
