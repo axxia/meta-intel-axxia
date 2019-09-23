@@ -306,7 +306,7 @@ CONF_VERSION = "1"
 #NO32LIBS = "0"
 
 # Uncomment the following lines to enable multilib builds
-require conf/multilib.conf
+#require conf/multilib.conf
 #MULTILIBS = "multilib:lib32"
 #DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
 

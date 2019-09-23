@@ -16,7 +16,7 @@ PREFERRED_VERSION_linux-yocto = "4.12%"
 DISTRO_FEATURES_append = " simicsfs"
 
 # Enable "multilib"
-require conf/multilib.conf
+#require conf/multilib.conf
 
 # Enable GCC9 feature for a newer version of gcc and glibc
 #DISTRO_FEATURES_append = " gcc9"
