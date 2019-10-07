@@ -6,6 +6,7 @@ SECTION = "devel"
 inherit native
 
 SRC_URI += "file://bjam-native-build-bjam.debug.patch \
+	    file://build.sh-use-DNDEBUG-also-in-debug-builds.patch \
 "
 
 do_compile() {
