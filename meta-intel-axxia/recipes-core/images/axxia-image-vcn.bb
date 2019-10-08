@@ -122,6 +122,7 @@ libnl-genl \
 libnl-nf \
 libnl-route \
 libnss-mdns \
+libnss-nis \
 libogg \
 libpam \
 libpcap \
