@@ -46,6 +46,7 @@ dbus \
 dbus-glib \
 dhcp-client \
 dhcp-server \
+dhrystone \
 diffutils \
 dmidecode \
 dos2unix \
@@ -152,6 +153,7 @@ libxcb \
 libxdmcp \
 libxml2 \
 lighttpd \
+lmbench \
 logrotate \
 lrzsz \
 lshw \
