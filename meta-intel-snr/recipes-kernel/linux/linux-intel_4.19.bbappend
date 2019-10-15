@@ -67,6 +67,7 @@ file://SNR-0063-x86-topology-Define-topology_logical_die_id.patch \
 file://SNR-0064-topology-Create-package_cpus-sysfs-attribute.patch \
 file://SNR-0065-topology-Create-core_cpus-and-die_cpus-sysfs-attribu.patch \
 file://SNR-0066-Revert-Changes-to-tools-perf.patch \
+file://SNR-0067-pinctrl-intel-Avoid-potential-glitches-if-pin-is-in-.patch \
 "
 
 FRIO_PATCHES = " \
