@@ -267,6 +267,7 @@ tmux \
 tpm2-abrmd \
 tpm2.0-tools \
 tshark \
+turbostat \
 tzdata \
 udev \
 udev-extraconf \
