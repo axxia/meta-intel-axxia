@@ -1,3 +1,9 @@
+do_install_prepend() {
+    # In kernel > 4.19.66, there were some files removed. Cheap trick to avoid error:
+    # cp: cannot stat 'arch/x86/purgatory/string.c': No such file or directory
+    [ "${ARCH}" = "x86" ] && touch ${S}/arch/x86/purgatory/string.c
+}
+
 do_install_append() {
     # required files from kernel sources
     (
@@ -42,5 +48,9 @@ do_install_append() {
         done
     )
 
-    chown -R root:root ${D}    
+    # Remove string.c if empty; file was created only to avoid a copy error
+    [ ! -s ${S}/arch/x86/purgatory/string.c ] && \
+    rm ${S}/arch/x86/purgatory/string.c $kerneldir/build/arch/x86/purgatory/string.c
+
+    chown -R root:root ${D}
 }
