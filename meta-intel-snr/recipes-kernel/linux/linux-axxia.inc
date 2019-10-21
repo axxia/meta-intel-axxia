@@ -20,6 +20,11 @@ SRC_URI_append_axxiax86-64 = " \
 require recipes-kernel/linux/linux-yocto_virtualization.inc
 SRC_URI_remove_axxiax86-64 = " file://lxc.scc file://docker.scc"
 
+# If this kernel package is not set as virtual/kernel provider,
+# allow to be used as alternative kernel.
+KERNEL_PACKAGE_NAME = "${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
+		       '${PN}', 'kernel', 'kernel-${PN}', d)}"
+
 do_configure_append() {
 	sed -i s@UTS_VERSION=\"\#\$VERSION\"@UTS_VERSION=\"${RELEASE_VERSION}\ \#\$VERSION\"@g \
 	       ${STAGING_KERNEL_DIR}/scripts/mkcompile_h

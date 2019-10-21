@@ -290,6 +290,7 @@ ypbind-mt \
 zip \
 zlib \
 ${LXC_SUPPORT} \
+${ALTERNATIVE_KERNELS} \
 ${@bb.utils.contains('DISTRO_FEATURES', 'simicsfs', \
 		     'simicsfs-client fuse', '', d)} \
 ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
@@ -304,6 +305,11 @@ lxc \
 lxc-networking \
 lxc-templates \
 xz"
+
+ALTERNATIVE_KERNELS ?= " \
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', 'linux-intel', '', 'kernel-linux-intel', d)} \
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', 'linux-intel-rt', '', 'kernel-linux-intel-rt', d)} \
+"
 
 LTTNG_SUPPORT ?= " \
 lttng-modules \
