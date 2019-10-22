@@ -23,7 +23,7 @@ meta-intel
 ----------
 URI: git://git.yoctoproject.org/meta-intel
 branch: thud
-revision: c200851435f39acd2fe4abbf7a05fbf617833964
+revision: a930f946b915624dcc02358725d235b3224fb61b
 
 meta-security
 -------------
