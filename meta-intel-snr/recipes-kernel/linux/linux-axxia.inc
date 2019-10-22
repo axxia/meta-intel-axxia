@@ -1,8 +1,9 @@
 FILESEXTRAPATHS_prepend := "\
-:${THISDIR}/patches/${KV}\
-:${THISDIR}/frags/${KV}:"
+:${THISDIR}/patches/${KERNEL_MAJOR_VERSION}\
+:${THISDIR}/frags/${KERNEL_MAJOR_VERSION}:"
 
 LINUX_VERSION_EXTENSION = "-intel-axxia-${LINUX_KERNEL_TYPE}"
+KERNEL_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 
 KMACHINE_axxiax86-64 = "intel-corei7-64"
 COMPATIBLE_MACHINE_axxiax86-64 = "${MACHINE}"
