@@ -307,8 +307,14 @@ lxc-templates \
 xz"
 
 ALTERNATIVE_KERNELS ?= " \
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', 'linux-intel', '', 'kernel-linux-intel', d)} \
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', 'linux-intel-rt', '', 'kernel-linux-intel-rt', d)} \
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
+	'linux-intel', '',          'kernel-linux-intel', d)} \
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
+	'linux-intel-rt', '',       'kernel-linux-intel-rt', d)} \
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
+	'linux-intel-debug', '',    'kernel-linux-intel-debug', d)} \
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
+	'linux-intel-rt-debug', '', 'kernel-linux-intel-rt-debug', d)} \
 "
 
 LTTNG_SUPPORT ?= " \
