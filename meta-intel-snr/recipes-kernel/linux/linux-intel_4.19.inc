@@ -1,3 +1,9 @@
+LINUX_VERSION_standard = "4.19.78"
+LINUX_VERSION_preempt-rt = "4.19.72"
+SRCREV_standard = "fb2607123169ee7f1283cef35ef95ba86c425d48"
+SRCREV_preempt-rt = "cf2e1ceb823576067ce01f02f1750a45c35adae5"
+SRCREV_meta = "ad6f8b357720ca8167a090713b7746230cf4b314"
+
 SNR_PATCHES = " \
 file://SNR-0001-i2c-ismt-Add-support-for-Intel-Cedar-Fork.patch \
 file://SNR-0002-PCI-AER-Remove-pci_cleanup_aer_uncorrect_error_statu.patch \
@@ -73,3 +79,13 @@ file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
 file://FRIO-0002-drivers-pci-Enable-overrides-for-missing-ACS-capabil.patch \
 file://FRIO-0003-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch \
 "
+
+LINUX_VERSION_pn-linux-intel = "${LINUX_VERSION_standard}"
+LINUX_VERSION_pn-linux-intel-debug = "${LINUX_VERSION_standard}"
+LINUX_VERSION_pn-linux-intel-rt = "${LINUX_VERSION_preempt-rt}"
+LINUX_VERSION_pn-linux-intel-rt-debug = "${LINUX_VERSION_preempt-rt}"
+
+SRCREV_machine_pn-linux-intel = "${SRCREV_standard}"
+SRCREV_machine_pn-linux-intel-debug = "${SRCREV_standard}"
+SRCREV_machine_pn-linux-intel-rt = "${SRCREV_preempt-rt}"
+SRCREV_machine_pn-linux-intel-rt-debug = "${SRCREV_preempt-rt}"
