@@ -443,8 +443,8 @@ below shoud be replaced with the actual value you provided in step 1).
     - Axxia SNR Mobile & Enterprise Communication Processors family.
     MACHINE = "axxiax86-64"
 
-11.6 Select the kernel to use.
-    Meta-intel-axxia is able to build the kernel from 3 sources:
+11.6 Select the main kernel to use (virtual/kernel provider).
+    Meta-intel-axxia is able to build the kernel from 2 sources:
 
 a. Public Intel Github (github.com/intel)
 
@@ -469,13 +469,37 @@ b. Local Kernel repositories (development purpose)
    NOTE: Full defconfig should be copied in recipes-kernel/linux,
          besides linux-local.bb recipe.
 
-11.7 Select the kernel version:
+11.7 Select the version for the main kernel:
 
    PREFERRED_VERSION_(preferred-provider)= "4.19%"
 
 NOTE: No preferred version should be set for linux-local provider.
 
-11.8 Choose the System where the image will run between hardware/simulation
+11.8 Build multiple versions of the kernel in one build
+
+   By default, meta-intel-axxia builds 4 versions of kernel in one build:
+   linux-intel, linux-intel-rt and a debug version for each.
+   
+   The kernel which is set as virtual/kernel provider will be installed
+   as usual in the deploy directory of the build. Alternative kernels
+   will be installed in deploy directory under separate folders having
+   the following template name: kernel-<PN>. 
+   
+   Alternative kernels will be also installed in rootfs on /boot directory.
+   Kernels can be swhitch by recreating the bzImage symlink in /boot.
+   Default is the kernel set as preferred provider for virtual/kernel.
+
+   Note that kernel modules archives should be deployed for each kernel
+   version as we do for virtual/kernel provider. Archives with kernel
+   modules are found in each separate folder (kernel-<PN>) from deploy
+   directory of the build.
+
+   If don't want to build alternative kernels, just reset the following
+   variable in local.conf:
+
+   ALTERNATIVE_KERNELS = ""
+
+11.9 Choose the System where the image will run between hardware/simulation
      and emulation:
 
     for Victoria Canyon or ASE (default):
@@ -484,11 +508,11 @@ NOTE: No preferred version should be set for linux-local provider.
     for Frio FPGA Emulation System:
     RUNTARGET = "frio"
 
-11.9 Enable "multilib" support if desired.
+11.10 Enable "multilib" support if desired.
 
     require conf/multilib.conf
 
-11.10 Add simicsfs-client support (for large and sim images). Sources
+11.11 Add simicsfs-client support (for large and sim images). Sources
       tgz archive should copied in meta-intel-axxia/downloads directory:
       simics-5.0.192.tgz
 
@@ -501,22 +525,22 @@ NOTE: No preferred version should be set for linux-local provider.
     * 'cd ase/simics'
     * tar czf simics-5.0.192.tgz simics-5.0.192
 
-11.11 Add gcc9 support for a newer version of gcc and glibc instead
+11.12 Add gcc9 support for a newer version of gcc and glibc instead
       the default one from upstream. This should not normally be used!
 
     DISTRO_FEATURES_append = " gcc9"
 
-11.12 Set the serial console depending on the bios you are using.
+11.13 Set the serial console depending on the bios you are using.
       Default is ttyS4, but some old bios use ttyS5 or ttyS6.
 
     SNR_SERIAL_CONSOLE = "ttyS5"
 
-11.13 Other optional settings for saving disk space and build time:
+11.14 Other optional settings for saving disk space and build time:
    
    DL_DIR = "/(some-shared-location)/downloads"
    SSTATE_DIR = "/(some-shared-location)/sstate-cache
 
-11.14 Examples.
+11.15 Examples.
 
      See http://www.yoctoproject.org/docs/2.3/mega-manual/mega-manual.html
      for complete documentation on the Yocto build system.
