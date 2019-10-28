@@ -5,13 +5,13 @@ poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: thud
-revision: e6949336479e611a142834b6d9241514cbaeaf80
+revision: 51f6145f8f99a02df1dad937684f014b0172e72a
 
 meta-openembedded
 -----------------
 URI: https://github.com/openembedded/meta-openembedded.git
 branch: thud
-revision: 2d088d252624b19df384aecc434d23afb636178f
+revision: 446bd615fd7cb9bc7a159fe5c2019ed08d1a7a93
 
 meta-virtualization
 -------------------
