@@ -510,7 +510,7 @@ NOTE: No preferred version should be set for linux-local provider.
 
 11.10 Enable "multilib" support if desired.
 
-    require conf/multilib.conf
+    DISTRO_FEATURES_append = " multilib"
 
 11.11 Add simicsfs-client support (for large and sim images). Sources
       tgz archive should copied in meta-intel-axxia/downloads directory:

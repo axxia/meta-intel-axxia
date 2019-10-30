@@ -293,6 +293,8 @@ ${LXC_SUPPORT} \
 ${ALTERNATIVE_KERNELS} \
 ${@bb.utils.contains('DISTRO_FEATURES', 'simicsfs', \
 		     'simicsfs-client fuse', '', d)} \
+${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
+		     '${MULTILIB_PACKAGES}', '', d)}  \
 ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
                         'linux-local', '', '${LTTNG_SUPPORT}', d)} "
 
@@ -324,6 +326,58 @@ lttng-tools \
 lttng-tools-dev \
 lttng-ust \
 lttng-ust-dev"
+
+MULTILIB_PACKAGES ?= " \
+lib32-libaio \
+lib32-libasan \
+lib32-libcap \
+lib32-libcheck \
+lib32-libdaemon \
+lib32-libdrm \
+lib32-libevent \
+lib32-libffi \
+lib32-libgcc \
+lib32-libgcrypt \
+lib32-libgpg-error \
+lib32-libgpiod \
+lib32-libice \
+lib32-libjpeg-turbo \
+lib32-libkmod \
+lib32-libnl \
+lib32-libnl-genl \
+lib32-libnl-nf \
+lib32-libnl-route \
+lib32-libnss-mdns \
+lib32-libnss-nis \
+lib32-libogg \
+lib32-libpam \
+lib32-libpcap \
+lib32-libpcap-dev \
+lib32-libpciaccess \
+lib32-libpcre \
+lib32-libpng \
+lib32-libpython2 \
+lib32-libpython3 \
+lib32-libsamplerate0 \
+lib32-libsm \
+lib32-libsndfile1 \
+lib32-libtasn1 \
+lib32-libthrift \
+lib32-libthrift-c-glib \
+lib32-libthriftnb \
+lib32-libthriftz \
+lib32-libtirpc \
+lib32-libtool \
+lib32-libubsan \
+lib32-libudev \
+lib32-libunwind \
+lib32-libusb-compat \
+lib32-libusb1 \
+lib32-libxau \
+lib32-libxcb \
+lib32-libxdmcp \
+lib32-libxml2 \
+"
 
 TOOLCHAIN_TARGET_TASK_append = " \
 binutils-staticdev \

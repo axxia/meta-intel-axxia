@@ -17,7 +17,16 @@ kernel-dev \
 kernel-modules \
 libasan \
 libgcc \
-libubsan "
+libubsan \
+${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
+		     '${MULTILIB_PACKAGES}', '', d)}  \
+"
+
+MULTILIB_PACKAGES ?= " \
+lib32-libasan \
+lib32-libgcc \
+lib32-libubsan \
+"
 
 LICENSE = "MIT"
 

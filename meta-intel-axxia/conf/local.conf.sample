@@ -16,7 +16,7 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 DISTRO_FEATURES_append = " simicsfs"
 
 # Enable "multilib"
-#require conf/multilib.conf
+#DISTRO_FEATURES_append = " multilib"
 
 # Enable GCC9 feature for a newer version of gcc and glibc
 #DISTRO_FEATURES_append = " gcc9"
