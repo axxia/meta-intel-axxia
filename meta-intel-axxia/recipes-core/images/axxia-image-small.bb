@@ -11,12 +11,12 @@ ${CORE_IMAGE_EXTRA_INSTALL} \
 IMAGE_INSTALL_append = " \
 axxia-rc-local \
 dhcp-client \
-libgcc \
-inetutils \
 gdbserver \
+inetutils \
 kernel-dev \
 kernel-modules \
 libasan \
+libgcc \
 libubsan "
 
 LICENSE = "MIT"
