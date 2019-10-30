@@ -60,8 +60,23 @@ telnetd \
 tk \
 tmux \
 vlan \
+${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
+		     '${MULTILIB_PACKAGES}', '', d)}  \
 ${@bb.utils.contains('DISTRO_FEATURES', 'simicsfs', \
 		     'simicsfs-client fuse', '', d)} "
+		     
+MULTILIB_PACKAGES ?= " \
+lib32-libasan \
+lib32-libgcc \
+lib32-libnl \
+lib32-libnl-genl \
+lib32-libnl-nf \
+lib32-libnl-route \
+lib32-libpcap \
+lib32-libpython2 \
+lib32-libubsan \
+lib32-libudev \
+"
 
 IMAGE_FEATURES_append = " dev-pkgs"
 
