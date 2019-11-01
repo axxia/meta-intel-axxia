@@ -5,3 +5,7 @@ DUMMYPROVIDES_append = "\
 	perl-module-warnings \
 	perl-module-warnings-register \
 "
+
+DUMMYPROVIDES_remove = "\
+	${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
+	' /bin/sh /bin/bash', '', d)}"
