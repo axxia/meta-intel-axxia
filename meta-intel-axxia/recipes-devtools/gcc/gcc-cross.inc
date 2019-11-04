@@ -196,6 +196,8 @@ do_install () {
 	# We use libiberty from binutils
 	find ${D}${exec_prefix}/lib -name libiberty.a | xargs rm -f
 	find ${D}${exec_prefix}/lib -name libiberty.h | xargs rm -f
+
+	find ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include-fixed -type f -not -name "README" -not -name limits.h -not -name syslimits.h | xargs rm -f
 }
 
 do_package[noexec] = "1"
@@ -205,11 +207,15 @@ do_package_write_rpm[noexec] = "1"
 do_package_write_deb[noexec] = "1"
 
 BUILDDIRSTASH = "${WORKDIR}/stashed-builddir"
+
 do_gcc_stash_builddir[dirs] = "${B}"
 do_gcc_stash_builddir[cleandirs] = "${BUILDDIRSTASH}"
 do_gcc_stash_builddir () {
 	dest=${BUILDDIRSTASH}
 	hardlinkdir . $dest
+	# Makefile does move-if-change which can end up with 'timestamp' as file contents so break links to those files
+	rm $dest/gcc/include/*.h
+	cp gcc/include/*.h $dest/gcc/include/
 }
 addtask do_gcc_stash_builddir after do_compile before do_install
 SSTATETASKS += "do_gcc_stash_builddir"
