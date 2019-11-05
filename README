@@ -295,6 +295,16 @@ https://lore.kernel.org/linux-gpio/20191014095104.77689-1-andriy.shevchenko@linu
 Back ported as
 SNR-0067-pinctrl-intel-Avoid-potential-glitches-if-pin-is-in-.patch
 
+intel_idle: add support for Jacobsville
+---------------------------------------------------------------
+
+Enables the intel_idle driver/module.
+
+from kernel.org 04b1d5d09849
+
+Back ported as
+SNR-0068-intel_idle-add-support-for-Jacobsville.patch
+
 
 Building the meta-intel-axxia BSP layer
 =======================================
