@@ -39,6 +39,11 @@ kernel_do_deploy_append() {
 		cd ${DEPLOYDIR}
 		rm -f System.map
 		ln -sf System-${PN}${KERNEL_ARTIFACT_NAME}.map System.map
+	else
+		# Expose kernel tree in work-shared if not preferred provider for virtual/kernel
+		rm -f ${TMPDIR}/work-shared/${MACHINE}/kernel-*-${PN}
+		ln -sf ${STAGING_KERNEL_DIR} ${TMPDIR}/work-shared/${MACHINE}/kernel-source-${PN}
+		ln -sf ${STAGING_KERNEL_BUILDDIR} ${TMPDIR}/work-shared/${MACHINE}/kernel-build-artifacts-${PN}
 	fi
 }
 
