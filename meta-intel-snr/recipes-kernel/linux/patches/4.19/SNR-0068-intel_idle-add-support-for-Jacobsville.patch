@@ -1,0 +1,29 @@
+From 4088cbc34cbdeaddb89996929117d6d9ba732958 Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Tue, 5 Nov 2019 14:44:51 -0600
+Subject: intel_idle: add support for Jacobsville
+
+Jacobsville uses the same C-states as Denverton.
+
+Signed-off-by: Zhang Rui <rui.zhang@intel.com>
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Back-ported-by: John Jacques <john.jacques@intel.com>
+---
+ drivers/idle/intel_idle.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/idle/intel_idle.c b/drivers/idle/intel_idle.c
+index c4bb67ed8da3..d2f154f12f31 100644
+--- a/drivers/idle/intel_idle.c
++++ b/drivers/idle/intel_idle.c
+@@ -1106,6 +1106,7 @@ static const struct x86_cpu_id intel_idle_ids[] __initconst = {
+ 	ICPU(INTEL_FAM6_ATOM_GOLDMONT,		idle_cpu_bxt),
+ 	ICPU(INTEL_FAM6_ATOM_GOLDMONT_PLUS,	idle_cpu_bxt),
+ 	ICPU(INTEL_FAM6_ATOM_GOLDMONT_X,	idle_cpu_dnv),
++	ICPU(INTEL_FAM6_ATOM_TREMONT_X,		idle_cpu_dnv),
+ 	{}
+ };
+ 
+-- 
+2.23.0
+
