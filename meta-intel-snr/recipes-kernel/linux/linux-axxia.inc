@@ -31,6 +31,15 @@ do_configure_append() {
 	       ${STAGING_KERNEL_DIR}/scripts/mkcompile_h
 }
 
+do_shared_workdir_append() {
+	if [ "${KERNEL_PACKAGE_NAME}" != "kernel" ]; then
+		# Expose kernel tree in work-shared if not preferred provider for virtual/kernel
+		rm -f ${TMPDIR}/work-shared/${MACHINE}/kernel-*-${PN}
+		ln -sf ${STAGING_KERNEL_DIR} ${TMPDIR}/work-shared/${MACHINE}/kernel-source-${PN}
+		ln -sf ${STAGING_KERNEL_BUILDDIR} ${TMPDIR}/work-shared/${MACHINE}/kernel-build-artifacts-${PN}
+	fi
+}
+
 kernel_do_deploy_append() {
 	install -d ${DEPLOYDIR}
 	install -m 0644 ${KBUILD_OUTPUT}/System.map \
@@ -39,11 +48,6 @@ kernel_do_deploy_append() {
 		cd ${DEPLOYDIR}
 		rm -f System.map
 		ln -sf System-${PN}${KERNEL_ARTIFACT_NAME}.map System.map
-	else
-		# Expose kernel tree in work-shared if not preferred provider for virtual/kernel
-		rm -f ${TMPDIR}/work-shared/${MACHINE}/kernel-*-${PN}
-		ln -sf ${STAGING_KERNEL_DIR} ${TMPDIR}/work-shared/${MACHINE}/kernel-source-${PN}
-		ln -sf ${STAGING_KERNEL_BUILDDIR} ${TMPDIR}/work-shared/${MACHINE}/kernel-build-artifacts-${PN}
 	fi
 }
 
