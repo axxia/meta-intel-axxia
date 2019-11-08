@@ -1,15 +1,3 @@
-ALTERNATIVE_KERNELS ?= " \
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
-	'linux-intel', '',          'linux-intel', d)} \
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
-	'linux-intel-rt', '',       'linux-intel-rt', d)} \
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
-	'linux-intel-debug', '',    'linux-intel-debug', d)} \
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
-	'linux-intel-rt-debug', '', 'linux-intel-rt-debug', d)} \
-"
-ALTERNATIVE_KERNELS_INSTALL ?= "${@d.getVar('ALTERNATIVE_KERNELS').replace('linux-','kernel-linux-')}"
-
 PREFERRED_VERSION_linux-intel-debug ?= "4.19%"
 PREFERRED_VERSION_linux-intel-rt-debug ?= "4.19%"
 

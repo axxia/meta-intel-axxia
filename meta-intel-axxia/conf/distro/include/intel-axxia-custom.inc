@@ -1,3 +1,17 @@
+# Set alternative kernels (different from virtual/kenrel provider)
+ALTERNATIVE_KERNELS ?= " \
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
+	'linux-intel', '',          'linux-intel', d)} \
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
+	'linux-intel-rt', '',       'linux-intel-rt', d)} \
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
+	'linux-intel-debug', '',    'linux-intel-debug', d)} \
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
+	'linux-intel-rt-debug', '', 'linux-intel-rt-debug', d)} \
+"
+ALTERNATIVE_KERNELS_INSTALL ?= \
+"${@d.getVar('ALTERNATIVE_KERNELS').replace('linux-','kernel-linux-')}"
+
 # Fix multilib install file conflicts
 ALTERNATIVE_PRIORITY_libtool = "20"
 ALTERNATIVE_PRIORITY_lib32-libtool = "10"
