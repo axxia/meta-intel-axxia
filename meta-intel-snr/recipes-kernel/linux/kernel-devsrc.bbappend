@@ -220,4 +220,3 @@ fakeroot do_install_alternative_kernels() {
 }
 addtask do_install_alternative_kernels after do_install before do_package
 do_install_alternative_kernels[depends] += "virtual/fakeroot-native:do_populate_sysroot"
-do_install_alternative_kernels[nostamp] = "1"
