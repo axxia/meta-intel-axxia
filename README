@@ -636,9 +636,10 @@ source (install directory)/environment-setup*
 cd $SDKTARGETSYSROOT/usr/src/kernel
 make clean oldconfig scripts tools/objtool
 
-Note that the Linux host will need to be set up to build Linux for the
-above to work.  On Ubuntu, for example, this would mean 'apt-get
-install libncurses5-dev flex bison libssl-dev dkms libelf-dev'.
+The SDK should contain all you need to run the above. In case the Linux
+build fails because of missing packages on the host, be sure you have
+the following installed: libncurses5-dev flex bison libssl-dev dkms
+libelf-dev (for Ubuntu).
 
 14.2 Creating .craff Images for Simics
 

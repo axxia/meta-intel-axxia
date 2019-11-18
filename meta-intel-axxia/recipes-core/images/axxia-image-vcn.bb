@@ -372,6 +372,7 @@ lib32-libxml2 \
 TOOLCHAIN_TARGET_TASK_append = " \
 binutils-staticdev \
 elfutils-dev \
+libc-staticdev \
 libelf \
 libnl-dev \
 libunwind-dev \
@@ -385,10 +386,17 @@ xz-dev"
 
 SDKIMAGE_FEATURES = "dev-pkgs dbg-pkgs staticdev-pkgs"
 
-TOOLCHAIN_TARGET_TASK_append = " libc-staticdev"
-
 TOOLCHAIN_HOST_TASK_append = " \
 nativesdk-bison \
+nativesdk-elfutils-dev \
+nativesdk-flex \
+nativesdk-libelf \
+nativesdk-ncurses-dev \
+nativesdk-ncurses-libform \
+nativesdk-ncurses-libmenu \
+nativesdk-ncurses-libncurses \
+nativesdk-ncurses-libpanel \
+nativesdk-openssl-dev \
 nativesdk-python-cffi \
 nativesdk-python-pycparser \
 nativesdk-python-nose \
