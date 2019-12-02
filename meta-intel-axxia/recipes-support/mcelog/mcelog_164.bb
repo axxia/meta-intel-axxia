@@ -9,7 +9,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/utils/cpu/mce/mcelog.git;protocol=http; 
     file://run-ptest \
 "
 
-SRCREV = "e53631f84a181be371c08e0b961180bff77fd2ab"
+SRCREV = "ee90ff20ce6a4d5e016aa249ce8b37f359f9fda4"
 
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://README.md;md5=74bb47b9a68850cb398665cf78b31de6"
@@ -20,10 +20,17 @@ inherit autotools-brokensep ptest
 
 COMPATIBLE_HOST = '(x86_64.*|i.86.*)-linux'
 
+inherit update-rc.d
+
+INITSCRIPT_NAME = "mcelog"
+INITSCRIPT_PARAMS = "start 99 2 3 4 5 ."
+
 do_install_append() {
     install -d ${D}${sysconfdir}/cron.hourly
     install -m 0755 ${S}/mcelog.cron ${D}${sysconfdir}/cron.hourly/
     sed -i 's/bash/sh/' ${D}${sysconfdir}/cron.hourly/mcelog.cron
+    install -d ${D}/etc/init.d
+    cp ${FILE_DIRNAME}/mcelog/mcelog.sysvinit ${D}/etc/init.d/mcelog
 }
 
 do_install_ptest() {
