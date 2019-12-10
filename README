@@ -625,15 +625,17 @@ After the installation completes, do the following.
 
 14.1 Optional Linux Module Tools Update
 
-If external Linux modules need to be buildable on multiple versions of
-Linux hosts, and the tools were installed on the most recent version,
-external Linux modules may not build.  This is because the version of
-glibc on the Linux host that the SDK install script was executed on
-are expected.  To use an older version, simply do the following on the
-older Linux host.
+If external Linux modules need to be buildable after installing the
+SDK, the Linux kernel sources need to be updated as follows.  Note
+that this needs to be done for all four kernels!
 
 source (install directory)/environment-setup*
-cd $SDKTARGETSYSROOT/usr/src/kernel
+unset HOST_EXTRACFLAGS
+cd $SDKTARGETSYSROOT/lib/modules
+
+Then, for each Linux kernel directory, run the following in the
+'build' directory inside the Linux kernel directory.
+
 make clean oldconfig scripts tools/objtool
 
 The SDK should contain all you need to run the above. In case the Linux
