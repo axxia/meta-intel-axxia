@@ -630,7 +630,6 @@ SDK, the Linux kernel sources need to be updated as follows.  Note
 that this needs to be done for all four kernels!
 
 source (install directory)/environment-setup*
-unset HOST_EXTRACFLAGS
 cd $SDKTARGETSYSROOT/lib/modules
 
 Then, for each Linux kernel directory, run the following in the
