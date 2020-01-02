@@ -465,19 +465,21 @@ a. Public Intel Github (github.com/intel)
    4.19: git://github.com/intel/linux-intel-lts.git
          4.19/base or 4.9/yocto/base-rt
 
-b. Local Kernel repositories (development purpose)
+b. Local Kernel repositories (for Linux development)
+
+   If you want to base a Yocto build on a local Linux kernel, do the
+   following... First, make the following changes to local.conf.
 
    PREFERRED_PROVIDER_virtual/kernel = "linux-local"
+   LOCAL_KERNEL_PATH = "<path to local Linux repository>"
+   LOCAL_KERNEL_BRANCH = "<branch in the repository>"
 
-   To use a local kernel repository, you also need to add in local.conf
-   or to ajust directly in recipes-kernel/linux/linux-local.bb recipe:
+   Then, in the meta-intel-axxia* clone, add a Linux configuration
+   file.  Copy a full configuration to
+   meta-intel-axxia/recipes-kernel/linux/defconfig.
 
-   LOCAL_KERNEL_PATH = "(path-to-local-kernel-repository)"
-   LOCAL_KERNEL_BRANCH = "(kernel-branch)"
-
-   NOTE: All changes should be committed in the local kernel.
-   NOTE: Full defconfig should be copied in recipes-kernel/linux,
-         besides linux-local.bb recipe.
+   NOTE: All changes must be committed in the local kernel, as the
+         build will clone it using git.
 
 11.7 Select the version for the main kernel:
 
