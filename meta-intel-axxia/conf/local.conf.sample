@@ -18,8 +18,8 @@ DISTRO_FEATURES_append = " simicsfs"
 # Enable "multilib"
 #DISTRO_FEATURES_append = " multilib"
 
-# Enable GCC9 feature for a newer version of gcc and glibc
-#DISTRO_FEATURES_append = " gcc9"
+# Enable GCC8 feature for the previous version of gcc and glibc
+#DISTRO_FEATURES_append = " gcc8"
 
 # Release version should be the tag for meta-intel-axxia from release note (README).
 # RELEASE_VERSION = "" 
