@@ -494,17 +494,13 @@ NOTE: No preferred version should be set for linux-local provider.
    
    The kernel which is set as virtual/kernel provider will be installed
    as usual in the deploy directory of the build. Alternative kernels
-   will be installed in deploy directory under separate folders having
-   the following template name: kernel-<PN>. 
+   with their modules will be installed in deploy directory under separate
+   folders having the following template name: kernel-<PN>. 
    
-   Alternative kernels will be also installed in rootfs on /boot directory.
+   Alternative kernels will be also installed in rootfs on /boot directory
+   and the modules for all kernels in /lib/modules/<KENREL_VERSION>.
    Kernels can be swhitch by recreating the bzImage symlink in /boot.
    Default is the kernel set as preferred provider for virtual/kernel.
-
-   Note that kernel modules archives should be deployed for each kernel
-   version as we do for virtual/kernel provider. Archives with kernel
-   modules are found in each separate folder (kernel-<PN>) from deploy
-   directory of the build.
 
    If don't want to build alternative kernels, just reset the following
    variable in local.conf:

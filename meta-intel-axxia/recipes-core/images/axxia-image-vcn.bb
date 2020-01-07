@@ -291,7 +291,9 @@ ypbind-mt \
 zip \
 zlib \
 ${LXC_SUPPORT} \
-${ALTERNATIVE_KERNELS_INSTALL} \
+${@oe.utils.conditional('ALTERNATIVE_KERNELS', '', '', ' \
+			${ALTERNATIVE_KERNELS_INSTALL} \
+			${ALTERNATIVE_KERNELS_MODULES_INSTALL}', d)} \
 ${@bb.utils.contains('DISTRO_FEATURES', 'simicsfs', \
 		     'simicsfs-client fuse', '', d)} \
 ${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
