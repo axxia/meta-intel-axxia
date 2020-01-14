@@ -601,7 +601,6 @@ the output directory 'tmp/deploy/images/$MACHINE'.
 
 * (image type)-(machine name).ext2 (rootfs in EXT2 format)
 * (image type)-(machine name).ext4 (rootfs in EXT4 format)
-* (image type)-(machine name).hddimg (rootfs in hddimg format)
 * (image type)-(machine name).iso (rootfs in ISO format)
 * (image type)-(machine name).tar.gz (rootfs in tar+GZIP format)
 * (image type)-(machine name).wic (rootfs in wic format)
@@ -635,19 +634,11 @@ build fails because of missing packages on the host, be sure you have
 the following installed: libncurses5-dev flex bison libssl-dev dkms
 libelf-dev (for Ubuntu).
 
-14.2 Creating .craff Images for Simics
-
-When in the simics environment, the 'craff' utility should be
-available.  Use 'craff' to create .craff images from the .hddimg
-images as follows.
-
-craff -o (craff image) (Yocto .hddimg)
-
-14.3 Creating Bootable Disks for Victoria Canyon
+14.2 Creating Bootable Disks for Victoria Canyon
 
 Here are three ways to boot Victoria Canyon.
 
-14.3.1 SATA or USB based on the .rootfs.wic image.
+14.2.1 SATA or USB based on the .rootfs.wic image.
 
 * Write the .rootfs.wic image to a disk or USB device.
 * Clean up the partition table.  Linux utilities such as gdisk and
@@ -657,7 +648,7 @@ Here are three ways to boot Victoria Canyon.
   Linux prompt.  By default, the login is root and there is no
   password.
 
-14.3.2 SATA or USB based on the .iso image.
+14.2.2 SATA or USB based on the .iso image.
 
 * Write the .iso image to a disk or USB.
 * Attach the device to Victoria Canyon.
@@ -666,7 +657,7 @@ Here are three ways to boot Victoria Canyon.
   * "install" - This will install to another attached device.
   * "Reboot into Firmware interface" - Go back to the EFI menu.
 
-14.3.3 PXE BOOT
+14.2.3 PXE BOOT
 
 TBD
 
