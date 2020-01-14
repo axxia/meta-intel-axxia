@@ -285,6 +285,7 @@ watchdog \
 wget \
 which \
 yasm \
+xfsprogs \
 yp-tools \
 yp-tools-dev \
 ypbind-mt \
