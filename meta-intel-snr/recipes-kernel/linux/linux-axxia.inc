@@ -58,3 +58,15 @@ kernel_do_deploy_append() {
 KERNEL_EXTRA_FEATURES = ""
 
 FILES_${KERNEL_PACKAGE_NAME}-modules += "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.*"
+
+# Clean alternative kernels if virtual/kernel's clean or cleansstate is run
+ALTERNATIVE_KERNELS_CLEAN = "${@':do_clean '.join(d.getVar('ALTERNATIVE_KERNELS')[1:].split(' '))}:do_clean"
+ALTERNATIVE_KERNELS_CLEANSSTATE = "${@':do_cleansstate '.join(d.getVar('ALTERNATIVE_KERNELS')[1:].split(' '))}:do_cleansstate"
+ALTERNATIVE_KERNELS_CLEAN_CHECK = "${@oe.utils.conditional('ALTERNATIVE_KERNELS', '', '', \
+				   '${ALTERNATIVE_KERNELS_CLEAN}', d)}"
+ALTERNATIVE_KERNELS_CLEANSSTATE_CHECK = "${@oe.utils.conditional('ALTERNATIVE_KERNELS', '', '', \
+					'${ALTERNATIVE_KERNELS_CLEANSSTATE}', d)}"
+do_clean[depends] += "${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', '${PN}', \
+		     '${ALTERNATIVE_KERNELS_CLEAN_CHECK}', '', d)}"
+do_cleansstate[depends] += "${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', '${PN}', \
+			   '${ALTERNATIVE_KERNELS_CLEANSSTATE_CHECK}', '', d)}"
