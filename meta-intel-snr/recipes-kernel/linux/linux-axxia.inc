@@ -70,3 +70,6 @@ do_clean[depends] += "${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel
 		     '${ALTERNATIVE_KERNELS_CLEAN_CHECK}', '', d)}"
 do_cleansstate[depends] += "${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', '${PN}', \
 			   '${ALTERNATIVE_KERNELS_CLEANSSTATE_CHECK}', '', d)}"
+
+# Compile tools needed by external modules each time kernel is clean
+do_clean[depends] += "make-mod-scripts:do_cleansstate"
