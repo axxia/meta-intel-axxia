@@ -294,7 +294,8 @@ zlib \
 ${LXC_SUPPORT} \
 ${@oe.utils.conditional('ALTERNATIVE_KERNELS', '', '', ' \
 			${ALTERNATIVE_KERNELS_INSTALL} \
-			${ALTERNATIVE_KERNELS_MODULES_INSTALL}', d)} \
+			${ALTERNATIVE_KERNELS_MODULES_INSTALL} \
+			${ALTERNATIVE_KERNELS_LTTNG_MODULES}', d)} \
 ${@bb.utils.contains('DISTRO_FEATURES', 'simicsfs', \
 		     'simicsfs-client fuse', '', d)} \
 ${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \

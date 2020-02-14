@@ -15,6 +15,9 @@ ALTERNATIVE_KERNELS_INSTALL ?= \
 ALTERNATIVE_KERNELS_MODULES_INSTALL ?= \
 "${@'-modules '.join(d.getVar('ALTERNATIVE_KERNELS_INSTALL')[1:].split(' '))}-modules"
 
+ALTERNATIVE_KERNELS_LTTNG_MODULES ?= \
+"${@d.getVar('ALTERNATIVE_KERNELS').replace('linux-','lttng-modules-linux-')}"
+
 # Fix multilib install file conflicts
 ALTERNATIVE_PRIORITY_libtool = "20"
 ALTERNATIVE_PRIORITY_lib32-libtool = "10"
