@@ -17,7 +17,7 @@ PREFERRED_VERSION_boost ?= "1.70.0"
 PREFERRED_VERSION_boost-native ?= "1.70.0"
 PREFERRED_VERSION_bjam-native ?= "1.70.0"
 
-GCC_VERSION = "${@bb.utils.contains('DISTRO_FEATURES', 'gcc8', '8%', '9%', d)}"
+GCC_VERSION = "${@bb.utils.contains('DISTRO_FEATURES', 'gcc8', '8.%', '9.%', d)}"
 PREFERRED_VERSION_gcc ?= "${GCC_VERSION}"
 PREFERRED_VERSION_gcc-runtime ?= "${GCC_VERSION}"
 PREFERRED_VERSION_gcc-sanitizers ?= "${GCC_VERSION}"

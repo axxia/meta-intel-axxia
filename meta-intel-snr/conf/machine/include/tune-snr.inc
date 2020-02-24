@@ -11,7 +11,7 @@ require conf/machine/include/tune-core2.inc
 
 # Extra tune features
 TUNEVALID[snr] = "Enable snr specific processor optimizations"
-CPU_MATCH = "${@bb.utils.contains('DISTRO_FEATURES', 'gcc8', 'core2', 'tremont', d)}"
+CPU_MATCH = "${@bb.utils.contains('PREFERRED_VERSION_gcc', '9.%', 'tremont', 'core2', d)}"
 TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'snr', ' -march=${CPU_MATCH} -mtune=${CPU_MATCH} -mfpmath=sse -msse4.2', '', d)}"
 
 # Extra tune selections
