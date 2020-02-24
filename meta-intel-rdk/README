@@ -1,0 +1,152 @@
+meta-intel-axxia-rdk
+====================
+
+This layer adds the following components to the meta-intel-axxia layer.
+
+  - RDK kernel modules including ADK NetD (Network Driver).
+  - [optional] RDK userspace tools.
+
+Use of this layer assumes that the RDK relase is available locally.
+
+Dependencies
+============
+
+This layer depends on:
+
+Meta Intel Axxia Layer (and its dependencies)
+---------------------------------------------
+URI: https://github.com/axxia/meta-intel-axxia.git
+branch: thud
+tag: (tag specified in the release notes)
+
+Updates to meta-intel-axxia README
+==================================
+
+This section contains updates and additions to the meta-intel-axxia
+README, which are needed to apply this layer.
+
+## Sources
+
+### In-Distribution builds
+For in-distribution builds, the Intel github.com repositories provide
+two layer variants: meta-intel-axxia-rdk and
+meta-intel-axxia-rdk_private. Unless instructed otherwise, the
+publicly available meta-intel-axxia-rdk should be used to provide
+in-distribution support.
+
+   $ git clone https://github.com/axxia/meta-intel-axxia-rdk.git
+
+The private repository is used for development and is not supported.
+To access the private repository, request permission from Intel. 
+
+   $ git clone https://github.com/axxia/meta-intel-axxia-rdk_private.git meta-intel-axxia-rdk
+
+In all cases, use the 'thud' branch or the tag specified in the
+release notes.
+
+## Building the meta-intel-axxia BSP layer
+
+1: Clone the Axxia RDK meta layer. This provides meta data for
+   building in-distribution images for the Axxia specific board types.
+   See 'Sources' above to select the right meta-intel-axxia repository,
+   branch, and version.
+
+   $ cd $YOCTO
+   $ <the git clone command chosen above>
+   $ cd meta-intel-axxia-rdk
+   $ git checkout thud (or git checkout tags/<tag from the release notes>)
+
+   If you have downloaded RDK archives locally, then add the following:
+
+   $ mkdir downloads
+   $ cd downloads
+   $ cp /your/path/to/rdk_klm_src_<releaseinfo>.txz .
+   $ ln -s rdk_klm_src_<releaseinfo>.txz rdk_klm_src.tar.xz
+
+   If RDK userspace feature is included, then add the following.
+
+   $ cp /your/path/to/rdk_user_src_<releaseinfo>.txz .
+   $ ln -s rdk_user_src_<releaseinfo>.txz rdk_user_src.tar.xz
+
+2: Edit the conf/bblayers.conf file
+
+   $ pwd (you should be at $YOCTO/axxia)
+   $ vi conf/bblayers.conf
+
+3: Edit BBLAYERS variable as follows. Replace references to $YOCTO
+   below with the actual value you provided in step 1.
+
+   BBLAYERS ?= " \
+            $YOCTO/poky/meta \
+            $YOCTO/poky/meta-poky \
+            $YOCTO/meta-openembedded/meta-oe \
+            $YOCTO/meta-openembedded/meta-networking \
+            $YOCTO/meta-openembedded/meta-filesystems \
+            $YOCTO/meta-openembedded/meta-python \
+            $YOCTO/meta-openembedded/meta-perl \
+            $YOCTO/meta-virtualization \
+            $YOCTO/meta-security \
+            $YOCTO/meta-intel \
+            $YOCTO/meta-intel-axxia \
+            $YOCTO/meta-intel-axxia/meta-intel-snr \
+            $YOCTO/meta-intel-axxia-rdk \
+            "
+
+4: Edit the conf/local.conf file:
+
+   $ vi conf/local.conf
+
+4.1: Set distribution configuration to have all Axxia specific features.
+
+     DISTRO = "intel-axxia-indist"
+
+4.2: Enable RDK userspace support (optional)
+
+     DISTRO_FEATURES_append = " rdk-userspace"
+
+4.3: If RDK userspace feature is included, set the release info for rdk-tools
+     package as follows.
+
+     RDK_TOOLS_VERSION = "<releaseinfo>"
+     
+4.4: If RDK userspace feature is included, choose the IES API mode of
+     operation through IES_ENABLE_SHM variable: 
+     - "true" value for SHM (shared-memory model) - default 
+     - "false" value for RPC (remote procedure call)
+
+     IES_ENABLE_SHM = "false"
+
+4.5: To get RDK archives from a remote location (http, https server), set
+     the following variables:
+
+     RDK_KLM_ARCHIVE = "http[s]://<server_path>/rdk_klm_src_<version>.<extension>"
+     RDK_TOOLS_ARCHIVE = "http[s]://<server_path>/rdk_user_src_<version>.<extension>"
+
+     Note: Because no md5/sha256 checksum is set in the recipe, we'll
+     get some warning: do_fetch: Missing md5/sha256 SRC_URI checksum.
+     Build will continue anyway, but to get ride of those warnings, you
+     can set md5 and sha256 checksums as follow:
+     * for RDK_KLM_ARCHIVE in recipes-kernel/linux/linux-indist.inc
+           and /recipes-kernel/linux-firmware/linux-firmware_%.bbappend
+     * for RDK_TOOLS_ARCHIVE in recipes-extended/rdk-tools/rdk-tools.bb
+
+4.6: Set the version of the RDK KLM modules throught RDK_KLM_VERSION variable
+     in order to customize the path where the drivers will be installed in
+     the kernel tree (drivers/staging/intel/<rdk-klm-version>) and to customize
+     the commit message in the kernel git repository from work-shared directory.
+
+     RDK_KLM_VERSION = "<rdk-klm-version>"
+
+     If not set, the value of this variable will be extracted from the RDK KLM
+     archive name (rdk_klm_src_<releaseinfo>.txz).
+
+4.7: Header files exported by KLM to user space can be accessed as
+     follows.  When cross-compiling, add the following to the compile
+     flags.
+
+     -I$(SDKTARGETSYSROOT)/usr/kernel-headers/include
+
+     When using the axxia-image-vcn root file system on SNR add the
+     following.
+
+     -I/usr/kernel-headers/include
