@@ -8,4 +8,4 @@ DUMMYPROVIDES_append = "\
 
 DUMMYPROVIDES_remove = "\
 	${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
-	' /bin/sh /bin/bash', '', d)}"
+	'bash /bin/sh /bin/bash', '', d)}"
