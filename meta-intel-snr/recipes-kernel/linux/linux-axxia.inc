@@ -18,9 +18,6 @@ SRC_URI_append_axxiax86-64 = " \
 	file://common.scc \
 	"
 
-require recipes-kernel/linux/linux-yocto_virtualization.inc
-SRC_URI_remove_axxiax86-64 = " file://lxc.scc file://docker.scc"
-
 # If this kernel package is not set as virtual/kernel provider,
 # allow to be used as alternative kernel.
 KERNEL_PACKAGE_NAME = "${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
@@ -55,6 +52,7 @@ kernel_do_deploy_append() {
 	fi
 }
 
+KERNEL_MODULE_AUTOLOAD += "openvswitch kvm"
 KERNEL_EXTRA_FEATURES = ""
 
 FILES_${KERNEL_PACKAGE_NAME}-modules += "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.*"
