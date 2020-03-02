@@ -18,6 +18,6 @@ BBLAYERS ?= " \
   ##OEROOT##/../meta-ros \
   ##OEROOT##/../meta-virtualization \
   ##OEROOT##/../meta-intel \
-  ##OEROOT##/../meta-intel-axxia/meta-intel-axxia \
   ##OEROOT##/../meta-intel-axxia/meta-intel-snr \
+  ##OEROOT##/../meta-intel-axxia/meta-intel-axxia \
   "

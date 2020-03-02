@@ -49,5 +49,5 @@ PACKAGECONFIG_append_pn-qemu-native = " sdl"
 PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
 CONF_VERSION = "1"
 
-# For more options check meta-axxia layer for README and 
+# For more options check meta-intel-axxia layer for README and 
 # conf/local.conf.sample.extended
