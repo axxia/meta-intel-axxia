@@ -1,2 +1,3 @@
 meta-intel-axxia/downloads/simics*
 meta-intel-axxia/recipes-kernel/linux/defconfig
+meta-intel-rdk/downloads/*
