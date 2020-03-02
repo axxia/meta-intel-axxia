@@ -1,3 +1,7 @@
+# Set specific versions required by RDK drivers/tools
+PREFERRED_VERSION_thrift ?= "0.11.0"
+PREFERRED_VERSION_thrift-native ?= "0.11.0"
+
 # Location to populate with the RDK source code archive
 RDK_ARCHIVE_PATH ?= "${LAYERDIR}/downloads"
 
