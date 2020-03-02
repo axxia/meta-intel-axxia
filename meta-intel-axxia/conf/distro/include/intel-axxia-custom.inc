@@ -18,6 +18,15 @@ ALTERNATIVE_KERNELS_MODULES_INSTALL ?= \
 ALTERNATIVE_KERNELS_LTTNG_MODULES ?= \
 "${@d.getVar('ALTERNATIVE_KERNELS').replace('linux-','lttng-modules-linux-')}"
 
+ALTERNATIVE_KERNELS_CLEAN_TASK = \
+"${@':do_clean '.join(d.getVar('ALTERNATIVE_KERNELS')[1:].split(' '))}:do_clean"
+ALTERNATIVE_KERNELS_CLEANSSTATE_TASK = \
+"${@':do_cleansstate '.join(d.getVar('ALTERNATIVE_KERNELS')[1:].split(' '))}:do_cleansstate"
+ALTERNATIVE_KERNELS_CLEAN = \
+"${@oe.utils.conditional('ALTERNATIVE_KERNELS', '', '', '${ALTERNATIVE_KERNELS_CLEAN_TASK}', d)}"
+ALTERNATIVE_KERNELS_CLEANSSTATE = \
+"${@oe.utils.conditional('ALTERNATIVE_KERNELS', '', '', '${ALTERNATIVE_KERNELS_CLEANSSTATE_TASK}', d)}"
+
 # Fix multilib install file conflicts
 ALTERNATIVE_PRIORITY_libtool = "20"
 ALTERNATIVE_PRIORITY_lib32-libtool = "10"
