@@ -12,7 +12,9 @@
 LOCAL_KERNEL_PATH ?= "path-to-local-kernel-repository"
 LOCAL_KERNEL_BRANCH ?= "standard/base"
 
-require recipes-kernel/linux/linux-yocto.inc
+require recipes-kernel/linux/linux-yocto.inc \
+	${@bb.utils.contains('BBFILE_COLLECTIONS', 'intel-rdk', \
+			     'recipes-kernel/linux/linux-indist.inc', '', d)}
 
 LINUX_VERSION_EXTENSION = "-intel-axxia-local-dev"
 
