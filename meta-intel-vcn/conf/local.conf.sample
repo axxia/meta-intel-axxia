@@ -12,7 +12,7 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 #PREFERRED_VERSION_linux-intel-debug = "4.19%"
 #PREFERRED_VERSION_linux-intel-rt-debug = "4.19%"
 
-# Add simicsfs-client support (sources should be in meta-intel-axxia/download)
+# Add simicsfs-client support (sources should be in meta-intel-vcn/download)
 DISTRO_FEATURES_append = " simicsfs"
 
 # Enable "multilib"
@@ -21,7 +21,7 @@ DISTRO_FEATURES_append = " simicsfs"
 # Enable GCC8 feature for the previous version of gcc and glibc
 #DISTRO_FEATURES_append = " gcc8"
 
-# Release version should be the tag for meta-intel-axxia from release note (README).
+# Release version should be the meta-intel-axxia repository tag from release note.
 # RELEASE_VERSION = "" 
 
 BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
@@ -49,5 +49,5 @@ PACKAGECONFIG_append_pn-qemu-native = " sdl"
 PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
 CONF_VERSION = "1"
 
-# For more options check meta-intel-axxia layer for README and 
+# For more options check meta-intel-vcn layer for README and 
 # conf/local.conf.sample.extended

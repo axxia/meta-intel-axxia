@@ -33,7 +33,7 @@ Intel Meta Layer
 ----------------
 URI: git://git.yoctoproject.org/meta-intel
 
-Check DEPENDENCIES.axxia for branch and revision.
+Check DEPENDENCIES.vcn for branch and revision.
 
 
 Table of Contents
@@ -313,7 +313,7 @@ II. Building meta-intel-snr
 ---------------------------------------
 
 To build a full Intel Axxia reference platform, please follow the
-instructions from README.axxia file.
+instructions from README.vcn file.
 
 
 2. Build with other OpenEmbedded/Yocto layers

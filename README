@@ -36,11 +36,12 @@ This layer contains metadata for RDK kernel modules (including ADK NetD)
 and RDK userspace tools. This layer depends on meta-intel-snr layer and
 its dependencies. Check README.rdk for more details.
 
-meta-intel-axxia
-----------------
+meta-intel-vcn
+--------------
 This is the OpenEmbedded/Yocto layer containing metadata to build a full
-Intel Axxia reference platform. This layer depends on meta-intel-snr
-layer and its dependencies. Check README.axxia for more details.
+Intel Axxia reference platform for Victoria Canyon board and simulation/
+emulation systems. This layer depends on meta-intel-snr layer and its
+dependencies. Check README.vcn for more details.
 
 
 Guidelines for submitting patches

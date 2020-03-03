@@ -1,8 +1,9 @@
-meta-intel-axxia
-================
+meta-intel-vcn
+==============
 
 This is the OpenEmbedded/Yocto layer containing metadata to build a full
-Intel Axxia reference platform for SnowRidge BSP (axxiax86-64).
+Intel Axxia reference platform for Victoria Canyon board and simulation/
+emulation systems.
 
 Details about supported BSPs and reference platforms in README.snr.
 
@@ -19,7 +20,7 @@ Table of Contents
 =================
 
  I. Prerequisites
-II. Building meta-intel-axxia
+II. Building meta-intel-vcn
     1. Clone OpenEmbedded/Yocto layers
     2. Prepare and customize the build
     3. Select the image type and start the build
@@ -49,7 +50,7 @@ full path.
    $ export YOCTO=$HOME/yocto # should also add to your ~/.bashrc file.
 
 
-II. Building meta-intel-axxia
+II. Building meta-intel-vcn
 =============================
 
 1. Clone OpenEmbedded/Yocto layers
@@ -133,7 +134,7 @@ II. Building meta-intel-axxia
    type. For example, we will use axxia.
 
    $ cd $YOCTO
-   $ source meta-intel-axxia/meta-intel-axxia/axxia-env
+   $ source meta-intel-axxia/meta-intel-vcn/axxia-env
    $ source poky/oe-init-build-env axxia-build
 
 2.2. Check the conf/bblayers.conf file and edit if necessary.
@@ -158,7 +159,7 @@ below shoud be replaced with the actual value you provided prior).
             $YOCTO/meta-virtualization \
             $YOCTO/meta-intel \
             $YOCTO/meta-intel-axxia/meta-intel-snr \
-            $YOCTO/meta-intel-axxia/meta-intel-axxia \
+            $YOCTO/meta-intel-axxia/meta-intel-vcn \
             "
 
 2.3. Check the conf/local.conf file and edit if necessary.
@@ -170,7 +171,7 @@ below shoud be replaced with the actual value you provided prior).
     DISTRO = "intel-axxia"
 
 2.3.2. Set Release version. Replace it with the tag for meta-intel-axxia
-    from step 1.1.
+    repository from step 1.1.
 
     RELEASE_VERSION = "(meta-intel-axxia-tag)"
 
@@ -201,9 +202,9 @@ b. Local Kernel repositories (for Linux development)
    LOCAL_KERNEL_PATH = "<path to local Linux repository>"
    LOCAL_KERNEL_BRANCH = "<branch in the repository>"
 
-   Then, in the meta-intel-axxia layer, add a Linux configuration file
+   Then, in the meta-intel-vcn layer, add a Linux configuration file
    next to linux.loca.bb recipe. Copy a full configuration to
-   meta-intel-axxia/recipes-kernel/linux/defconfig.
+   meta-intel-vcn/recipes-kernel/linux/defconfig.
 
    NOTE: All changes must be committed in the local kernel, as the
          build will clone it using git.
@@ -247,7 +248,7 @@ NOTE: No preferred version should be set for linux-local provider.
     DISTRO_FEATURES_append = " multilib"
 
 2.3.9. Add simicsfs-client support (for large and sim images). Sources
-     tgz archive should copied in meta-intel-axxia/downloads directory:
+     tgz archive should copied in meta-intel-vcn/downloads directory:
      simics-5.0.195.tgz
 
     DISTRO_FEATURES_append = " simicsfs"

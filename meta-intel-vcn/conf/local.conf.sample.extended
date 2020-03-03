@@ -88,7 +88,7 @@ DISTRO = "intel-axxia"
 # useful to most new users.
 # DISTRO ?= "poky-bleeding"
 
-# Release version should be the tag for meta-intel-axxia from release note (README).                                                                                                                                                                                                                                       
+# Release version should be the meta-intel-axxia repository tag from release note.
 # RELEASE_VERSION = ""
 
 # System where the image will run: snr, frio
@@ -103,7 +103,7 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 #PREFERRED_VERSION_linux-intel-debug = "4.19%"
 #PREFERRED_VERSION_linux-intel-rt-debug = "4.19%"
 
-# Add simicsfs-client support (sources should be in meta-intel-axxia/download)
+# Add simicsfs-client support (sources should be in meta-intel-vcn/download)
 DISTRO_FEATURES_append = " simicsfs"
 
 # Enable "multilib"

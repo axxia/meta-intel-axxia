@@ -53,7 +53,7 @@ rdk userspace tools.
 ------------------------------------------------
 
 To enable RDK layer in Intel Axxia reference platform build, after
-following the instructions from README.axxia file, the following
+following the instructions from README.vcn file, the following
 additional steps are required:
 
    Edit the conf/bblayers.conf file
