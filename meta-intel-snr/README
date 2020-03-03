@@ -1,23 +1,29 @@
-meta-intel-axxia/meta-intel-snr
-===============================
+meta-intel-snr
+==============
 
-This is the official layer for Intel Snowridge BSP.
+This is the OpenEmbedded/Yocto layer for Intel Axxia SnowRidge BSP.
+This layer contains the official machine configuration file and kernel
+recipes with patches and fragments.
 
 
 Supported MACHINES
 ==================
 
-Boards Supported by this layer (Please refer to the associate .conf
-for more information):
+- axxiax86-64 - This BSP is optimized for Intel Axxia x86 Mobile &
+                Enterprise Communication Processors family (64-bit)
+                such as SnowRidge SoCs.
+                
+Please refer to the associate .conf for more information.
 
-	* axxiax86-64 - Axxia x86 Mobile & Enterprise Communication 
-                        Processors family (64-bit)
 
-Reference Boards
-================
+Reference platforms
+===================
 
-Snowridge - based on x86_64 architecture - hardware is not available
-yet, just the simulator.
+- Victoria Canyon board
+
+- Advanced Simulation Environment (ASE)
+
+- Frio FPGA Emulation System
 
 
 Dependencies
@@ -26,45 +32,304 @@ Dependencies
 Intel Meta Layer
 ----------------
 URI: git://git.yoctoproject.org/meta-intel
-branch: thud
-revision: HEAD
+
+Check DEPENDENCIES.axxia for branch and revision.
 
 
-Building with Yocto poky
-========================
+Table of Contents
+=================
 
-For building the SNR BSP layer using Yocto poky layer, please refer
-to the README file from the main layer meta-intel-axxia.
+ I. Back Ported Linux Changes
+II. Building meta-intel-snr
+    1. Build Intel Axxia reference platform
+    2. Building with other OpenEmbedded/Yocto layers
 
 
-Building with Wind River Linux 17
-=================================
+I. Back Ported Linux Changes
+============================
 
-In order to build SNR BSP layer with olter yocto-compatible layers,
-such as Wind River Linux 17 layers, the following additional steps
+Some changes have been up-streamed, but have not yet been back ported
+to Linux 4.19 (git://github.com/intel/linux-intel-lts.git). Some of
+these have been added to this meta layer. The changes are described
+below. In each case, any changes required are described and the
+publically available patch is referenced. Only changes functionally
+required for internal testing have been back ported.
+
+The "title" of the commit (Subject: or first line) is used to identify
+the commit, as this is the easiest way to find it in the repositories.
+
+In the following descriptions, "with no changes" means that a patch
+was obtained using 'git format-patch -1 <sha>' from the referenced
+respoistory and was applied using 'git am -3 <patch>'.
+
+In the meta layer, the patches for Linux 4.19 can be found in
+meta-intel-snr/recipes-kernel/linux/patches/4.19.
+
+i2c: ismt: Add support for Intel Cedar Fork
+-------------------------------------------
+
+5cda2d8 from kernel.org
+
+Back ported to Yocto Linux 4.19, with no changes, as
+SNR-0001-i2c-ismt-Add-support-for-Intel-Cedar-Fork.patch.
+
+PCI/AER: Remove pci_cleanup_aer_uncorrect_error_status() calls
+--------------------------------------------------------------
+
+62b36c3 from kernel.org
+
+Back ported to Yocto Linux 4.19, with no changes, as
+SNR-0002-PCI-AER-Remove-pci_cleanup_aer_uncorrect_error_statu.patch.
+
+dmaengine: ioat: fix prototype of ioat_enumerate_channels
+---------------------------------------------------------
+
+f4d34aa from kernel.org
+
+Back ported to Yocto Linux 4.19, with no changes, as
+SNR-0003-dmaengine-ioat-fix-prototype-of-ioat_enumerate_chann.patch.
+
+dmaengine: ioatdma: Add Snow Ridge ioatdma device id
+----------------------------------------------------
+
+4d75873 from kernel.org
+
+Back ported to Yocto Linux 4.19, with no changes, as
+SNR-0004-dmaengine-ioatdma-Add-Snow-Ridge-ioatdma-device-id.patch.
+
+dmaengine: ioatdma: disable DCA enabling on IOATDMA v3.4
+--------------------------------------------------------
+
+11e31e2 from kernel.org
+
+Back ported to Yocto Linux 4.19, with no changes, as
+SNR-0005-dmaengine-ioatdma-disable-DCA-enabling-on-IOATDMA-v3.patch.
+
+dmaengine: ioatdma: add descriptor pre-fetch support for v3.4
+-------------------------------------------------------------
+
+e0100d4 from kernel.org
+
+Back ported to Yocto Linux 4.19, with no changes, as
+SNR-0006-dmaengine-ioatdma-add-descriptor-pre-fetch-support-f.patch
+
+dmaengine: ioatdma: support latency tolerance report (LTR) for v3.4
+-------------------------------------------------------------------
+
+528314b from kernel.org
+
+Back ported to Yocto Linux 4.19, with no changes, as
+SNR-0007-dmaengine-ioatdma-support-latency-tolerance-report-L.patch
+
+drivers/watchdog: Ignore 'No Reboot' Bit
+----------------------------------------
+
+This has not been upstreamed, and there is no plan to upstream it.
+
+Early versions of the SNR chip do not allow the "no reboot" bit to be
+accessed.  This commit simply assumes that it is writeable without
+checking in order to allow the watchdog to but used in Linux.  This
+will be fixed in later versions of the chip.
+
+Note that, by default, this patch will do nothing.  To enable it, add
+'iTCO_wdt.assume_noreboot_access=1' to the Linux command line.
+
+Included as SNR-0008-drivers-watchdog-Ignore-No-Reboot-Bit.patch.
+
+clocksource: Add option to force acpi_pm as clocksource watchdog
+----------------------------------------------------------------
+
+Add a kernel command line option to force the use of acpi_pm as the
+watchdog clocksource. To use it, add the following to the kernel
+command line:
+
+    ricardo_clocksource_wd=force_acpi_pm_wd
+
+and in dmesg look for:
+
+    RICARDO: Force acpi_pm as watchdog
+
+Included as
+SNR-0009-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch.
+
+x86/umwait: Initialize umwait control values
+--------------------------------------------
+
+"Add support for Tremont AiA instructions", part 1 of 10.
+
+bd688c6 from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0010-x86-umwait-Initialize-umwait-control-values.patch
+
+x86/umwait: Add sysfs interface to control umwait C0.2 state
+------------------------------------------------------------
+
+"Add support for Tremont AiA instructions", part 2 of 10.
+
+ff4b353 from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0011-x86-umwait-Add-sysfs-interface-to-control-umwait-C0..patch
+
+x86/umwait: Fix error handling in umwait_init()
+-----------------------------------------------
+
+"Add support for Tremont AiA instructions", part 3 of 10.
+
+e740925 from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0012-x86-umwait-Fix-error-handling-in-umwait_init.patch
+
+x86/umwait: Add sysfs interface to control umwait maximum time
+--------------------------------------------------------------
+
+"Add support for Tremont AiA instructions", part 4 of 10.
+
+bd9a0c9 from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0013-x86-umwait-Add-sysfs-interface-to-control-umwait-max.patch
+
+x86/cpufeatures: Enumerate user wait instructions
+-------------------------------------------------
+
+"Add support for Tremont AiA instructions", part 5 of 10.
+
+6dbbf5e from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0014-x86-cpufeatures-Enumerate-user-wait-instructions.patch
+
+x86/cpufeatures: Enumerate MOVDIRI instruction
+----------------------------------------------
+
+"Add support for Tremont AiA instructions", part 6 of 10.
+
+33823f4d from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0015-x86-cpufeatures-Enumerate-MOVDIRI-instruction.patch
+
+x86/cpufeatures: Enumerate MOVDIR64B instruction
+------------------------------------------------
+
+"Add support for Tremont AiA instructions", part 7 of 10.
+
+ace6485 from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0016-x86-cpufeatures-Enumerate-MOVDIR64B-instruction.patch
+
+PM / arch: x86: Rework the MSR_IA32_ENERGY_PERF_BIAS handling
+-------------------------------------------------------------
+
+"Add support for Tremont AiA instructions", part 8 of 10.
+
+5861381 from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0017-PM-arch-x86-Rework-the-MSR_IA32_ENERGY_PERF_BIAS-han.patch
+
+PM / arch: x86: MSR_IA32_ENERGY_PERF_BIAS sysfs interface
+---------------------------------------------------------
+
+"Add support for Tremont AiA instructions", part 9 of 10.
+
+b9c273b from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0018-PM-arch-x86-MSR_IA32_ENERGY_PERF_BIAS-sysfs-interfac.patch
+
+Documentation/ABI: Document umwait control sysfs interfaces
+-----------------------------------------------------------
+
+"Add support for Tremont AiA instructions", part 10 of 10.
+
+203dffa from kernel.org
+
+Back ported to Linux 4.19, with no changes, as
+SNR-0019-Documentation-ABI-Document-umwait-control-sysfs-inte.patch
+
+vfio/pci: Mask buggy SR-IOV VF INTx support
+-------------------------------------------
+
+db04264 from kernel.org
+
+Back ported ot Linux 4.19, with no changes, as
+SNR-0020-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch
+
+EDAC, i10nm: Add a driver for Intel 10nm server processors
+----------------------------------------------------------
+
+d4dc89d from kernel.org
+
+Back ported ot Linux 4.19, with no changes, as
+SNR-0021-EDAC-i10nm-Add-a-driver-for-Intel-10nm-server-proces.patch
+
+45 patches for perf (core and uncore)
+-------------------------------------
+
+SNR-0022-perf-x86-kvm-Avoid-unnecessary-work-in-guest-filteri.patch
+
+through
+
+SNR-0066-Revert-Changes-to-tools-perf.patch
+
+All except the last commit can be found in kernel.org.  The last
+commit removes all changes made to tools/perf by the previous commits.
+This back-port is only for the Linux driver.  To get a list of core
+and uncore registers, use 'perf list'.
+
+pinctrl: intel: Avoid potential glitches if pin is in GPIO mode
+---------------------------------------------------------------
+
+This change to the pinctrl (gpio) driver starts with the current state
+when enabling a pin instead of setting the pin to input.  Upstream in
+progress at
+
+https://lore.kernel.org/linux-gpio/20191014095104.77689-1-andriy.shevchenko@linux.intel.com/raw
+
+Back ported as
+SNR-0067-pinctrl-intel-Avoid-potential-glitches-if-pin-is-in-.patch
+
+intel_idle: add support for Jacobsville
+---------------------------------------------------------------
+
+Enables the intel_idle driver/module.
+
+from kernel.org 04b1d5d09849
+
+Back ported as
+SNR-0068-intel_idle-add-support-for-Jacobsville.patch
+
+
+
+II. Building meta-intel-snr
+===========================
+
+1. Build Intel Axxia reference platform
+---------------------------------------
+
+To build a full Intel Axxia reference platform, please follow the
+instructions from README.axxia file.
+
+
+2. Build with other OpenEmbedded/Yocto layers
+---------------------------------------------
+
+In order to build SNR BSP layer with other yocto-compatible layers,
+such as Wind River Linux ones, the following additional steps
 are required:
 
     bitbake-layers add-layer <path-to-layer>/meta-intel
     bitbake-layers add-layer <path-to-layer>/meta-intel-snr
 
-In local.conf, set axxiax86-64 machine and add to the white list the
-following packages:
+In local.conf, set axxiax86-64 machine, choose linux-intel kernel
+provider and add to the white list the following packages if necesary:
 
     PNWHITELIST_intel += " thermald intel-microcode iucode-tool"
-
-
-Maintenance
-===========
-
-Maintainers: Daniel Dragomir <daniel.dragomir@windriver.com>
-	     John Jacques <john.jacques@intel.com>
-
-Please see the meta-intel-axxia/MAINTAINERS file for more details.
-
-
-License
-=======
-
-All metadata is MIT licensed unless otherwise stated.  Souce code
-included in tree for individual recipes is under the LICENSE stated in
-each recipe (.bb file) unless otherwise stated.
+    PNWHITELIST_intel += " linux-intel linux-intel-rt"
+    
+Also, be sure linux-intel is not blacklisted somewhere in other layers.
