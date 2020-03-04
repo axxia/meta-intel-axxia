@@ -133,7 +133,6 @@ libpcap-dev \
 libpciaccess \
 libpcre \
 libpng \
-libpython2 \
 libpython3 \
 libsamplerate0 \
 libsm \
@@ -207,15 +206,6 @@ postfix \
 ppp \
 procps \
 psmisc \
-python-cffi \
-python-core \
-python-dev \
-python-distutils \
-python-modules \
-python-netserver \
-python-nose \
-python-psutil \
-python-thrift \
 python3 \
 python3-cffi \
 python3-core \
@@ -351,7 +341,6 @@ lib32-libpcap-dev \
 lib32-libpciaccess \
 lib32-libpcre \
 lib32-libpng \
-lib32-libpython2 \
 lib32-libpython3 \
 lib32-libsamplerate0 \
 lib32-libsm \
@@ -382,7 +371,7 @@ libelf \
 libnl-dev \
 libunwind-dev \
 numactl-dev \
-python-dev \
+python3-dev \
 slang-dev \
 strace-dev \
 systemtap \
@@ -402,9 +391,6 @@ nativesdk-ncurses-libmenu \
 nativesdk-ncurses-libncurses \
 nativesdk-ncurses-libpanel \
 nativesdk-openssl-dev \
-nativesdk-python-cffi \
-nativesdk-python-pycparser \
-nativesdk-python-nose \
 nativesdk-python3-cffi \
 nativesdk-python3-dev \
 nativesdk-python3-distutils \
