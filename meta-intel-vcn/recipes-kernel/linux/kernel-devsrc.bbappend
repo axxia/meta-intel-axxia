@@ -53,7 +53,7 @@ do_install() {
 	    cp Module.markers $kerneldir/build
 	fi
 
-	cp .config $kerneldir/build
+	cp -a .config $kerneldir/build
 
 	# This scripts copy blow up QA, so for now, we require a more
 	# complex 'make scripts' to restore these, versus copying them
@@ -61,7 +61,7 @@ do_install() {
 	# be dealt with.
 	# cp -a scripts $kerneldir/build
 
-    if [ -d arch/${ARCH}/scripts ]; then
+        if [ -d arch/${ARCH}/scripts ]; then
 	    cp -a arch/${ARCH}/scripts $kerneldir/build/arch/${ARCH}
 	fi
 	if [ -f arch/${ARCH}/*lds ]; then
@@ -70,6 +70,17 @@ do_install() {
 
 	rm -f $kerneldir/build/scripts/*.o
 	rm -f $kerneldir/build/scripts/*/*.o
+
+	if [ "${ARCH}" = "powerpc" ]; then
+	    if [ -e arch/powerpc/lib/crtsavres.S ] ||
+		   [ -e arch/powerpc/lib/crtsavres.o ]; then
+		cp -a --parents arch/powerpc/lib/crtsavres.[So] $kerneldir/build/
+	    fi
+	fi
+
+	if [ "${ARCH}" = "arm64" ]; then
+	    cp -a --parents arch/arm64/kernel/vdso/vdso.lds $kerneldir/build/
+	fi
 
 	cp -a include $kerneldir/build/include
     )
@@ -92,11 +103,50 @@ do_install() {
 
 	    # extra files, just in case
 	    cp -a --parents tools/objtool/* $kerneldir/build/
-	    cp -a --parents tools/lib/str_error_r.c $kerneldir/build/
-	    cp -a --parents tools/lib/string.c $kerneldir/build/
+	    cp -a --parents tools/lib/* $kerneldir/build/
 	    cp -a --parents tools/lib/subcmd/* $kerneldir/build/
 
 	    cp -a --parents tools/include/* $kerneldir/build/
+
+	    cp -a --parents $(find tools/arch/${ARCH}/ -type f) $kerneldir/build/
+	fi
+
+	if [ "${ARCH}" = "arm64" ]; then
+	    # arch/arm64/include/asm/xen references arch/arm
+	    cp -a --parents arch/arm/include/asm/xen $kerneldir/build/
+	    # arch/arm64/include/asm/opcodes.h references arch/arm
+	    cp -a --parents arch/arm/include/asm/opcodes.h $kerneldir/build/
+
+            cp -a --parents arch/arm64/kernel/vdso/*gettimeofday.* $kerneldir/build/
+            cp -a --parents arch/arm64/kernel/vdso/sigreturn.S $kerneldir/build/
+            cp -a --parents arch/arm64/kernel/vdso/note.S $kerneldir/build/
+            cp -a --parents arch/arm64/kernel/vdso/gen_vdso_offsets.sh $kerneldir/build/
+
+            cp -a --parents arch/arm64/kernel/module.lds $kerneldir/build/ 2>/dev/null || :
+	fi
+
+	if [ "${ARCH}" = "powerpc" ]; then
+	    # 5.0 needs these files, but don't error if they aren't present in the source
+	    cp -a --parents arch/${ARCH}/kernel/syscalls/syscall.tbl $kerneldir/build/ 2>/dev/null || :
+	    cp -a --parents arch/${ARCH}/kernel/syscalls/syscalltbl.sh $kerneldir/build/ 2>/dev/null || :
+	    cp -a --parents arch/${ARCH}/kernel/syscalls/syscallhdr.sh $kerneldir/build/ 2>/dev/null || :
+	fi
+
+	# include the machine specific headers for ARM variants, if available.
+	if [ "${ARCH}" = "arm" ]; then
+	    cp -a --parents arch/${ARCH}/mach-*/include $kerneldir/build/
+
+	    # include a few files for 'make prepare'
+	    cp -a --parents arch/arm/tools/gen-mach-types $kerneldir/build/
+	    cp -a --parents arch/arm/tools/mach-types $kerneldir/build/
+
+	    # ARM syscall table tools only exist for kernels v4.10 or later
+            SYSCALL_TOOLS=$(find arch/arm/tools -name "syscall*")
+            if [ -n "$SYSCALL_TOOLS" ] ; then
+	        cp -a --parents $SYSCALL_TOOLS $kerneldir/build/
+            fi
+
+            cp -a --parents arch/arm/kernel/module.lds $kerneldir/build/
 	fi
 
 	if [ -d arch/${ARCH}/include ]; then
@@ -111,19 +161,21 @@ do_install() {
 	cp -a --parents tools/include/tools/be_byteshift.h $kerneldir/build/
 
 	# required for generate missing syscalls prepare phase
-	cp -a --parents arch/x86/entry/syscalls/syscall_32.tbl $kerneldir/build
+	cp -a --parents $(find arch/x86 -type f -name "syscall_32.tbl") $kerneldir/build
+	cp -a --parents $(find arch/arm -type f -name "*.tbl") $kerneldir/build 2>/dev/null || :
 
 	if [ "${ARCH}" = "x86" ]; then
 	    # files for 'make prepare' to succeed with kernel-devel
-	    cp -a --parents arch/x86/entry/syscalls/syscall_32.tbl $kerneldir/build/
-	    cp -a --parents arch/x86/entry/syscalls/syscalltbl.sh $kerneldir/build/
-	    cp -a --parents arch/x86/entry/syscalls/syscallhdr.sh $kerneldir/build/
-	    cp -a --parents arch/x86/entry/syscalls/syscall_64.tbl $kerneldir/build/
+	    cp -a --parents $(find arch/x86 -type f -name "syscall_32.tbl") $kerneldir/build/
+	    cp -a --parents $(find arch/x86 -type f -name "syscalltbl.sh") $kerneldir/build/
+	    cp -a --parents $(find arch/x86 -type f -name "syscallhdr.sh") $kerneldir/build/
+	    cp -a --parents $(find arch/x86 -type f -name "syscall_64.tbl") $kerneldir/build/
 	    cp -a --parents arch/x86/tools/relocs_32.c $kerneldir/build/
 	    cp -a --parents arch/x86/tools/relocs_64.c $kerneldir/build/
 	    cp -a --parents arch/x86/tools/relocs.c $kerneldir/build/
 	    cp -a --parents arch/x86/tools/relocs_common.c $kerneldir/build/
 	    cp -a --parents arch/x86/tools/relocs.h $kerneldir/build/
+	    cp -a --parents arch/x86/tools/gen-insn-attr-x86.awk $kerneldir/build/ 2>/dev/null || :
 	    cp -a --parents arch/x86/purgatory/purgatory.c $kerneldir/build/
 
 	    # 4.18 + have unified the purgatory files, so we ignore any errors if
@@ -139,6 +191,23 @@ do_install() {
 	    cp -a --parents arch/x86/boot/string.c $kerneldir/build/
 	    cp -a --parents arch/x86/boot/compressed/string.c $kerneldir/build/ 2>/dev/null || :
 	    cp -a --parents arch/x86/boot/ctype.h $kerneldir/build/
+
+	    # objtool requires these files
+	    cp -a --parents arch/x86/lib/inat.c $kerneldir/build/ 2>/dev/null || :
+	    cp -a --parents arch/x86/lib/insn.c $kerneldir/build/ 2>/dev/null || :
+	fi
+
+	if [ "${ARCH}" = "mips" ]; then
+	    cp -a --parents arch/mips/Kbuild.platforms $kerneldir/build/
+	    cp --parents $(find	 -type f -name "Platform") $kerneldir/build
+	    cp --parents arch/mips/boot/tools/relocs* $kerneldir/build
+	    cp -a --parents arch/mips/kernel/asm-offsets.c $kerneldir/build
+	    cp -a --parents kernel/time/timeconst.bc $kerneldir/build
+	    cp -a --parents kernel/bounds.c $kerneldir/build
+	    cp -a --parents Kbuild $kerneldir/build
+	    cp -a --parents arch/mips/kernel/syscalls/*.sh $kerneldir/build 2>/dev/null || :
+	    cp -a --parents arch/mips/kernel/syscalls/*.tbl $kerneldir/build 2>/dev/null || :
+	    cp -a --parents arch/mips/tools/elf-entry.c $kerneldir/build 2>/dev/null || :
 	fi
 
         # required to build scripts/selinux/genheaders/genheaders
