@@ -109,9 +109,6 @@ DISTRO_FEATURES_append = " simicsfs"
 # Enable "multilib"
 #DISTRO_FEATURES_append = " multilib"
 
-# Enable GCC8 feature for the previous version of gcc and glibc
-#DISTRO_FEATURES_append = " gcc8"
-
 #
 # Package Management configuration
 #
