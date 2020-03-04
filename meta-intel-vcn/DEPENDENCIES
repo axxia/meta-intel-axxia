@@ -4,35 +4,35 @@ Dependencies
 poky
 ----
 URI: git://git.yoctoproject.org/poky.git
-branch: thud
-revision: 958427e9d2ee7276887f2b02ba85cf0996dea553
+branch: master
+revision: HEAD
 
 meta-openembedded
 -----------------
 URI: https://github.com/openembedded/meta-openembedded.git
-branch: thud
-revision: 446bd615fd7cb9bc7a159fe5c2019ed08d1a7a93
+branch: master
+revision: HEAD
 
 meta-virtualization
 -------------------
 URI: git://git.yoctoproject.org/meta-virtualization
-branch: thud
-revision: 7685c7d415e0002c448007960837ae8898cd57a5
+branch: master
+revision: HEAD
 
 meta-intel
 ----------
 URI: git://git.yoctoproject.org/meta-intel
-branch: thud
-revision: a930f946b915624dcc02358725d235b3224fb61b
+branch: master
+revision: HEAD
 
 meta-security
 -------------
 URI: https://git.yoctoproject.org/git/meta-security
-branch: thud
-revision: 31dc4e7532fa7a82060e0b50e5eb8d0414aa7e93
+branch: master
+revision: HEAD
 
 meta-ros
 --------
 URI: git://github.com/bmwcarit/meta-ros.git
 branch: master
-revision: 7d24d8c960a7ae9eb65789395965e8f1b83b366e
+revision: HEAD
