@@ -1,7 +1,6 @@
 # Overwrite RDEPENDS to remove all connman subpackages
 RDEPENDS_${PN} = "\
     blktool \
-    lrzsz \
     ${KEXECTOOLS} \
     alsa-utils-amixer \
     alsa-utils-aplay \
