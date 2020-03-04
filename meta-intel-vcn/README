@@ -117,15 +117,7 @@ II. Building meta-intel-vcn
    $ cd meta-security
    $ git checkout <the revision specified in DEPENDENCIES>
 
-1.7. Clone the ROS layer.  This provides ROS (robot operating system)
-   components.
 
-   $ cd $YOCTO
-   $ git clone git://github.com/bmwcarit/meta-ros.git
-   $ cd meta-ros
-   $ git checkout <the revision specified in DEPENDENCIES>
-   
-   
 2. Prepare and customize the build
 ----------------------------------
 

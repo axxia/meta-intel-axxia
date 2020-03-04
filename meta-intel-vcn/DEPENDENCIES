@@ -30,9 +30,3 @@ meta-security
 URI: https://git.yoctoproject.org/git/meta-security
 branch: master
 revision: HEAD
-
-meta-ros
---------
-URI: git://github.com/bmwcarit/meta-ros.git
-branch: master
-revision: HEAD
