@@ -266,7 +266,7 @@ time \
 tk \
 tmux \
 tpm2-abrmd \
-tpm2.0-tools \
+tpm2-tools \
 tshark \
 turbostat \
 tzdata \
