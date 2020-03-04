@@ -6,8 +6,6 @@ PREFERRED_RPROVIDER_iasl-native ?= "iasl-native"
 
 PREFERRED_VERSION_autofs ?= "5.1.5"
 
-PREFERRED_VERSION_rpcbind ?= "0.2.3"
-
 PREFERRED_VERSION_mcelog ?= "164"
 
 PREFERRED_VERSION_thrift ?= "0.11.0"
