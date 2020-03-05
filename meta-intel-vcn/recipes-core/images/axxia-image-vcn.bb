@@ -34,7 +34,6 @@ boost-dev \
 busybox \
 busybox-udhcpc \
 bzip2 \
-chkconfig \
 cifs-utils \
 coreutils \
 cpio \
@@ -192,6 +191,7 @@ openssl \
 openssl-dev \
 opkg \
 opkg-arch-config \
+opkg-utils \
 packagegroup-core-boot \
 packagegroup-core-buildessential \
 parted \
