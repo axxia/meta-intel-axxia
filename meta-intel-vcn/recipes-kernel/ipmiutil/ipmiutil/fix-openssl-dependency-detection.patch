@@ -35,11 +35,13 @@ The value of sslver is set in 2 ways: if openssl rpm is installed
 it use the rpm command to get the version; if not installed
 "openssl version" command is used:
 
-which rpm >/dev/null 2>&1  
+sslver=""
+which rpm >/dev/null 2>&1
 if test $? -eq 0 ; then
-      sslver=`rpm -q openssl-devel |cut -f3 -d'-' |cut -f1-2 -d'.'`
- else
-      sslver=`openssl version |awk '{ print $2 }'|cut -f1-2 -d'.'`
+	sslver=`rpm -q openssl-devel |cut -f3 -d'-' |cut -f1-2 -d'.'`
+fi
+if test "$sslver" = ""; then
+	sslver=`openssl version |awk '{ print $2 }'|cut -f1-2 -d'.'`
 fi
 
 Since in a yocto build, the sysroot-destdir of the dependency package
@@ -57,22 +59,31 @@ With this patch, I remove the rpm test and force the build to continue
 with "openssl version" command to get the openssl version.
 
 Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
+---
+ configure.ac | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-Index: ipmiutil-3.0.5/configure.ac
-===================================================================
---- ipmiutil-3.0.5.orig/configure.ac
-+++ ipmiutil-3.0.5/configure.ac
-@@ -416,13 +416,7 @@ else
+diff --git a/configure.ac b/configure.ac
+index 64300f0..2a84007 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -427,15 +427,7 @@ else
             sed -i 's/# Default-Start:/# Default-Start: 3 4 5/' $init_scripts
  	   sed -i 's/# Default-Stop:/# Default-Stop:  0 1 2 6/' $init_scripts
  	fi
 -    # The openssl rpm might not be installed
+-	sslver=""
 -    which rpm >/dev/null 2>&1
 -	if test $? -eq 0 ; then
 -		sslver=`rpm -q openssl-devel |cut -f3 -d'-' |cut -f1-2 -d'.'`
--    else
-         sslver=`openssl version |awk '{ print $2 }'|cut -f1-2 -d'.'`
--	fi 
+-	fi
+-	if test "$sslver" = ""; then
+-		sslver=`openssl version |awk '{ print $2 }'|cut -f1-2 -d'.'`
+-	fi
++	sslver=`openssl version |awk '{ print $2 }'|cut -f1-2 -d'.'`
  	if test "$sslver" = "1.1"; then
  		echo "Detected openssl-$sslver" 
  		MD2_CFLAGS="-DSKIP_MD2 -DSSL11"
+-- 
+2.17.1
+
