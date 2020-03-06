@@ -15,7 +15,7 @@ SRC_URI[sha256sum] = "c4ad38b6cb4a3498310d405a91fef37b9a8e79a50cd0968148ee2524d2
 
 BBCLASSEXTEND = "native nativesdk"
 
-inherit pkgconfig autotools pythonnative
+inherit pkgconfig autotools python3native
 
 B = "${S}"
 
@@ -33,7 +33,7 @@ PACKAGECONFIG ??= "libevent openssl boost glib static"
 PACKAGECONFIG[libevent] = "--with-libevent=${STAGING_EXECPREFIXDIR},--without-libevent,libevent,"
 PACKAGECONFIG[openssl] = "--with-openssl=${STAGING_EXECPREFIXDIR},--without-openssl,openssl,"
 PACKAGECONFIG[boost] = "--with-boost=${STAGING_EXECPREFIXDIR},--without-boost,boost,"
-PACKAGECONFIG[python] = "--with-python,--without-python,python,"
+PACKAGECONFIG[python] = "--with-python,--without-python,python3,"
 PACKAGECONFIG[glib] = "--with-c_glib,--without-c_glib,glib-2.0,"
 PACKAGECONFIG[static] = "--enable-static,--disable-static,,"
 
