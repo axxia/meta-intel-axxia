@@ -179,8 +179,8 @@ a. Public Intel Github (github.com/intel)
    PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
    
    will build kernel from Intel Github public repos:
-   4.19: git://github.com/intel/linux-intel-lts.git
-         4.19/base or 4.9/yocto/base-rt
+   5.4: git://github.com/intel/linux-intel-lts.git
+         5.4/yocto or 5.4/preempt-rt
          
    Other versions for the Intel kernel are: linux-intel-rt,
    linux-intel-debug, linux-intel-rt-debug.
@@ -203,7 +203,7 @@ b. Local Kernel repositories (for Linux development)
 
 2.3.5. Select the version for the main kernel:
 
-   PREFERRED_VERSION_(preferred-provider)= "4.19%"
+   PREFERRED_VERSION_(preferred-provider)= "5.4%"
 
 NOTE: No preferred version should be set for linux-local provider.
 
@@ -282,7 +282,7 @@ NOTE: No preferred version should be set for linux-local provider.
 
 MACHINE = "axxiax86-64"
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
-PREFERRED_VERSION_linux-intel = "4.19%"
+PREFERRED_VERSION_linux-intel = "5.4%"
 GRUB_SERIAL = "console=ttyS4,115200"
 DISTRO = "intel-axxia"
 RUNTARGET = "snr"
