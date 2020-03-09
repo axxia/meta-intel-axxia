@@ -49,11 +49,10 @@ I. Back Ported Linux Changes
 ============================
 
 Some changes have been up-streamed, but have not yet been back ported
-to Linux 5.4 (git://github.com/intel/linux-intel-lts.git). Some of
-these have been added to this meta layer. The changes are described
-below. In each case, any changes required are described and the
-publically available patch is referenced. Only changes functionally
-required for internal testing have been back ported.
+to Linux 5.4. Some of these have been added to this meta layer. The
+changes are described below. In each case, any changes required are
+described and the publically available patch is referenced. Only changes
+functionally required for internal testing have been back ported.
 
 The "title" of the commit (Subject: or first line) is used to identify
 the commit, as this is the easiest way to find it in the repositories.

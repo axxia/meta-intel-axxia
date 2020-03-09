@@ -172,7 +172,7 @@ below shoud be replaced with the actual value you provided prior).
     MACHINE = "axxiax86-64"
 
 2.3.4. Select the main kernel to use (virtual/kernel provider).
-     You can build the kernel from 2 sources:
+     You can build the kernel from 3 sources:
 
 a. Public Intel Github (github.com/intel)
 
@@ -184,8 +184,19 @@ a. Public Intel Github (github.com/intel)
          
    Other versions for the Intel kernel are: linux-intel-rt,
    linux-intel-debug, linux-intel-rt-debug.
+   
+b. Yocto Git (git.yoctoproject.org)
 
-b. Local Kernel repositories (for Linux development)
+   PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
+   
+   will build kernel from Intel Github public repos:
+   5.4: git://git.yoctoproject.org/linux-yocto.git
+         v5.4/standard/base or v5.4/standard/preempt-rt/base
+         
+   Other versions for the Intel kernel are: linux-yocto-rt,
+   linux-yocto-debug, linux-yocto-rt-debug.
+
+c. Local Kernel repositories (for Linux development)
 
    If you want to base a Yocto build on a local Linux kernel, do the
    following. First, make the following changes to local.conf.
@@ -212,6 +223,15 @@ NOTE: No preferred version should be set for linux-local provider.
    By default, with intel-axxia distro, 4 versions of kernel are built
    in one build linux-intel, linux-intel-rt and debug versions for each.
    
+   By default, with intel-axxia distro, 4 versions of kernel are built
+   in one build depending on the generic provider for virtual/kernel:
+
+   - for any linux-intel* kernel provider, bitbake will build linux-intel,
+     linux-intel-rt, linux-intel-debug and linux-intel-rt-debug kernels
+   
+   - for any linux-yocto* kernel provider, bitbake will build linux-yocto,
+     linux-yocto-rt, linux-yocto-debug and linux-yocto-rt-debug kernels
+  
    The kernel which is set as virtual/kernel provider will be installed
    as usual in the deploy directory of the build. Alternative kernels
    with their modules will be installed in deploy directory under 

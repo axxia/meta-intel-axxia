@@ -4,6 +4,7 @@ MACHINE = "axxiax86-64"
 RUNTARGET = "snr"
 
 # Kernel providers: linux-intel, linux-intel-rt, linux-intel-debug, linux-intel-rt-debug
+# linux-yocto, linux-yocto-rt, linux-yocto-debug, linux-yocto-rt-debug
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 
 # Kernel versions: only 5.4 is supported and is set by default
@@ -11,6 +12,10 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 #PREFERRED_VERSION_linux-intel-rt = "5.4%"
 #PREFERRED_VERSION_linux-intel-debug = "5.4%"
 #PREFERRED_VERSION_linux-intel-rt-debug = "5.4%"
+#PREFERRED_VERSION_linux-yocto = "5.4%"
+#PREFERRED_VERSION_linux-yocto-rt = "5.4%"
+#PREFERRED_VERSION_linux-yocto-debug = "5.4%"
+#PREFERRED_VERSION_linux-yocto-rt-debug = "5.4%"
 
 # Add simicsfs-client support (sources should be in meta-intel-vcn/download)
 DISTRO_FEATURES_append = " simicsfs"
