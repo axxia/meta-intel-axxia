@@ -6,11 +6,11 @@ RUNTARGET = "snr"
 # Kernel providers: linux-intel, linux-intel-rt, linux-intel-debug, linux-intel-rt-debug
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 
-# Kernel versions: only 4.19 is supported and is set by default
-#PREFERRED_VERSION_linux-intel = "4.19%"
-#PREFERRED_VERSION_linux-intel-rt = "4.19%"
-#PREFERRED_VERSION_linux-intel-debug = "4.19%"
-#PREFERRED_VERSION_linux-intel-rt-debug = "4.19%"
+# Kernel versions: only 5.4 is supported and is set by default
+#PREFERRED_VERSION_linux-intel = "5.4%"
+#PREFERRED_VERSION_linux-intel-rt = "5.4%"
+#PREFERRED_VERSION_linux-intel-debug = "5.4%"
+#PREFERRED_VERSION_linux-intel-rt-debug = "5.4%"
 
 # Add simicsfs-client support (sources should be in meta-intel-vcn/download)
 DISTRO_FEATURES_append = " simicsfs"

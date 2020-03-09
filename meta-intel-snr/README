@@ -49,7 +49,7 @@ I. Back Ported Linux Changes
 ============================
 
 Some changes have been up-streamed, but have not yet been back ported
-to Linux 4.19 (git://github.com/intel/linux-intel-lts.git). Some of
+to Linux 5.4 (git://github.com/intel/linux-intel-lts.git). Some of
 these have been added to this meta layer. The changes are described
 below. In each case, any changes required are described and the
 publically available patch is referenced. Only changes functionally
@@ -62,64 +62,9 @@ In the following descriptions, "with no changes" means that a patch
 was obtained using 'git format-patch -1 <sha>' from the referenced
 respoistory and was applied using 'git am -3 <patch>'.
 
-In the meta layer, the patches for Linux 4.19 can be found in
-meta-intel-snr/recipes-kernel/linux/patches/4.19.
+In the meta layer, the patches for Linux 5.4 can be found in
+meta-intel-snr/recipes-kernel/linux/patches/5.4.
 
-i2c: ismt: Add support for Intel Cedar Fork
--------------------------------------------
-
-5cda2d8 from kernel.org
-
-Back ported to Yocto Linux 4.19, with no changes, as
-SNR-0001-i2c-ismt-Add-support-for-Intel-Cedar-Fork.patch.
-
-PCI/AER: Remove pci_cleanup_aer_uncorrect_error_status() calls
---------------------------------------------------------------
-
-62b36c3 from kernel.org
-
-Back ported to Yocto Linux 4.19, with no changes, as
-SNR-0002-PCI-AER-Remove-pci_cleanup_aer_uncorrect_error_statu.patch.
-
-dmaengine: ioat: fix prototype of ioat_enumerate_channels
----------------------------------------------------------
-
-f4d34aa from kernel.org
-
-Back ported to Yocto Linux 4.19, with no changes, as
-SNR-0003-dmaengine-ioat-fix-prototype-of-ioat_enumerate_chann.patch.
-
-dmaengine: ioatdma: Add Snow Ridge ioatdma device id
-----------------------------------------------------
-
-4d75873 from kernel.org
-
-Back ported to Yocto Linux 4.19, with no changes, as
-SNR-0004-dmaengine-ioatdma-Add-Snow-Ridge-ioatdma-device-id.patch.
-
-dmaengine: ioatdma: disable DCA enabling on IOATDMA v3.4
---------------------------------------------------------
-
-11e31e2 from kernel.org
-
-Back ported to Yocto Linux 4.19, with no changes, as
-SNR-0005-dmaengine-ioatdma-disable-DCA-enabling-on-IOATDMA-v3.patch.
-
-dmaengine: ioatdma: add descriptor pre-fetch support for v3.4
--------------------------------------------------------------
-
-e0100d4 from kernel.org
-
-Back ported to Yocto Linux 4.19, with no changes, as
-SNR-0006-dmaengine-ioatdma-add-descriptor-pre-fetch-support-f.patch
-
-dmaengine: ioatdma: support latency tolerance report (LTR) for v3.4
--------------------------------------------------------------------
-
-528314b from kernel.org
-
-Back ported to Yocto Linux 4.19, with no changes, as
-SNR-0007-dmaengine-ioatdma-support-latency-tolerance-report-L.patch
 
 drivers/watchdog: Ignore 'No Reboot' Bit
 ----------------------------------------
@@ -134,7 +79,7 @@ will be fixed in later versions of the chip.
 Note that, by default, this patch will do nothing.  To enable it, add
 'iTCO_wdt.assume_noreboot_access=1' to the Linux command line.
 
-Included as SNR-0008-drivers-watchdog-Ignore-No-Reboot-Bit.patch.
+Included as SNR-0001-drivers-watchdog-Ignore-No-Reboot-Bit.patch.
 
 clocksource: Add option to force acpi_pm as clocksource watchdog
 ----------------------------------------------------------------
@@ -150,160 +95,7 @@ and in dmesg look for:
     RICARDO: Force acpi_pm as watchdog
 
 Included as
-SNR-0009-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch.
-
-x86/umwait: Initialize umwait control values
---------------------------------------------
-
-"Add support for Tremont AiA instructions", part 1 of 10.
-
-bd688c6 from kernel.org
-
-Back ported to Linux 4.19, with no changes, as
-SNR-0010-x86-umwait-Initialize-umwait-control-values.patch
-
-x86/umwait: Add sysfs interface to control umwait C0.2 state
-------------------------------------------------------------
-
-"Add support for Tremont AiA instructions", part 2 of 10.
-
-ff4b353 from kernel.org
-
-Back ported to Linux 4.19, with no changes, as
-SNR-0011-x86-umwait-Add-sysfs-interface-to-control-umwait-C0..patch
-
-x86/umwait: Fix error handling in umwait_init()
------------------------------------------------
-
-"Add support for Tremont AiA instructions", part 3 of 10.
-
-e740925 from kernel.org
-
-Back ported to Linux 4.19, with no changes, as
-SNR-0012-x86-umwait-Fix-error-handling-in-umwait_init.patch
-
-x86/umwait: Add sysfs interface to control umwait maximum time
---------------------------------------------------------------
-
-"Add support for Tremont AiA instructions", part 4 of 10.
-
-bd9a0c9 from kernel.org
-
-Back ported to Linux 4.19, with no changes, as
-SNR-0013-x86-umwait-Add-sysfs-interface-to-control-umwait-max.patch
-
-x86/cpufeatures: Enumerate user wait instructions
--------------------------------------------------
-
-"Add support for Tremont AiA instructions", part 5 of 10.
-
-6dbbf5e from kernel.org
-
-Back ported to Linux 4.19, with no changes, as
-SNR-0014-x86-cpufeatures-Enumerate-user-wait-instructions.patch
-
-x86/cpufeatures: Enumerate MOVDIRI instruction
-----------------------------------------------
-
-"Add support for Tremont AiA instructions", part 6 of 10.
-
-33823f4d from kernel.org
-
-Back ported to Linux 4.19, with no changes, as
-SNR-0015-x86-cpufeatures-Enumerate-MOVDIRI-instruction.patch
-
-x86/cpufeatures: Enumerate MOVDIR64B instruction
-------------------------------------------------
-
-"Add support for Tremont AiA instructions", part 7 of 10.
-
-ace6485 from kernel.org
-
-Back ported to Linux 4.19, with no changes, as
-SNR-0016-x86-cpufeatures-Enumerate-MOVDIR64B-instruction.patch
-
-PM / arch: x86: Rework the MSR_IA32_ENERGY_PERF_BIAS handling
--------------------------------------------------------------
-
-"Add support for Tremont AiA instructions", part 8 of 10.
-
-5861381 from kernel.org
-
-Back ported to Linux 4.19, with no changes, as
-SNR-0017-PM-arch-x86-Rework-the-MSR_IA32_ENERGY_PERF_BIAS-han.patch
-
-PM / arch: x86: MSR_IA32_ENERGY_PERF_BIAS sysfs interface
----------------------------------------------------------
-
-"Add support for Tremont AiA instructions", part 9 of 10.
-
-b9c273b from kernel.org
-
-Back ported to Linux 4.19, with no changes, as
-SNR-0018-PM-arch-x86-MSR_IA32_ENERGY_PERF_BIAS-sysfs-interfac.patch
-
-Documentation/ABI: Document umwait control sysfs interfaces
------------------------------------------------------------
-
-"Add support for Tremont AiA instructions", part 10 of 10.
-
-203dffa from kernel.org
-
-Back ported to Linux 4.19, with no changes, as
-SNR-0019-Documentation-ABI-Document-umwait-control-sysfs-inte.patch
-
-vfio/pci: Mask buggy SR-IOV VF INTx support
--------------------------------------------
-
-db04264 from kernel.org
-
-Back ported ot Linux 4.19, with no changes, as
-SNR-0020-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch
-
-EDAC, i10nm: Add a driver for Intel 10nm server processors
-----------------------------------------------------------
-
-d4dc89d from kernel.org
-
-Back ported ot Linux 4.19, with no changes, as
-SNR-0021-EDAC-i10nm-Add-a-driver-for-Intel-10nm-server-proces.patch
-
-45 patches for perf (core and uncore)
--------------------------------------
-
-SNR-0022-perf-x86-kvm-Avoid-unnecessary-work-in-guest-filteri.patch
-
-through
-
-SNR-0066-Revert-Changes-to-tools-perf.patch
-
-All except the last commit can be found in kernel.org.  The last
-commit removes all changes made to tools/perf by the previous commits.
-This back-port is only for the Linux driver.  To get a list of core
-and uncore registers, use 'perf list'.
-
-pinctrl: intel: Avoid potential glitches if pin is in GPIO mode
----------------------------------------------------------------
-
-This change to the pinctrl (gpio) driver starts with the current state
-when enabling a pin instead of setting the pin to input.  Upstream in
-progress at
-
-https://lore.kernel.org/linux-gpio/20191014095104.77689-1-andriy.shevchenko@linux.intel.com/raw
-
-Back ported as
-SNR-0067-pinctrl-intel-Avoid-potential-glitches-if-pin-is-in-.patch
-
-intel_idle: add support for Jacobsville
----------------------------------------------------------------
-
-Enables the intel_idle driver/module.
-
-from kernel.org 04b1d5d09849
-
-Back ported as
-SNR-0068-intel_idle-add-support-for-Jacobsville.patch
-
+SNR-0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch.
 
 
 II. Building meta-intel-snr
