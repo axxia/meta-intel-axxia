@@ -263,7 +263,10 @@ do_install() {
     # required headers for out-of-tree modules build
     (
         cd $B
-        cp --parents $(find  -type f -name "unistd_*.h") $kerneldir/build
+        if [ "${ARCH}" = "x86" ]; then
+            cp -a --parents arch/x86/include/generated/asm/*.h $kerneldir/build/
+            cp -a --parents arch/x86/include/generated/uapi/asm/*.h $kerneldir/build/
+        fi
     )
 
     # enforce all scripts to use /usr/bin/awk
