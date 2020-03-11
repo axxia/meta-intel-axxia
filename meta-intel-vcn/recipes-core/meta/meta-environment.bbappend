@@ -36,7 +36,7 @@ for kernel in $SDKTARGETSYSROOT/lib/modules/*; do
         continue
     fi
     cd $kernel/build
-    make clean oldconfig scripts tools/objtool
+    make clean oldconfig scripts tools/objtool modules_prepare
     status=$?
     if [[ $status -ne 0 ]]; then
         echo -e "${RED}Error: External modules setup fails for kernel $(basename $kernel) with status $status.${NC}" >&2
