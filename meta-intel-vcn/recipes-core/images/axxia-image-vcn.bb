@@ -117,6 +117,7 @@ libgcc \
 libgcrypt \
 libgpg-error \
 libgpiod \
+libgpiod-tools \
 libice \
 libjpeg-turbo \
 libkmod \
