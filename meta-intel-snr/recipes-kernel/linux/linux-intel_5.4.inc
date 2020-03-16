@@ -1,8 +1,8 @@
-LINUX_VERSION_standard = "5.4.15"
-LINUX_VERSION_preempt-rt = "5.4.17"
-SRCREV_standard = "02993e98844e27886cb628787a7fa1c49ba8e5fb"
-SRCREV_preempt-rt = "70203fc0ad9d604075f02adf6a81d8b21e0a7013"
-SRCREV_meta = "fbf9214a547a70d1c42d5ce94c5d990f04256819"
+LINUX_VERSION_standard = "5.4.22"
+LINUX_VERSION_preempt-rt = "5.4.22"
+SRCREV_standard = "6938453b63e5b5ec190d2d1ba7c01654f5ca0323"
+SRCREV_preempt-rt = "375ba61f63b918a9e12ac53fa7d96bdab2a31d46"
+SRCREV_meta = "b8c82ba37370e4698ff0c42f3e54b8b4f2fb4ac0"
 
 SNR_PATCHES = " \
 file://SNR-0001-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
