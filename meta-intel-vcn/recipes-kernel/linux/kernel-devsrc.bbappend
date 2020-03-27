@@ -284,7 +284,7 @@ fakeroot do_install_alternative_kernels() {
     for kernel in ${ALTERNATIVE_KERNELS}; do
         S="${TMPDIR}/work-shared/${MACHINE}/kernel-source-$kernel"
         B="${TMPDIR}/work-shared/${MACHINE}/kernel-build-artifacts-$kernel"
-        KERNEL_VERSION="$(cat $B/kernel-$kernel-abiversion)"
+        KERNEL_VERSION="$(cat $B/altkernel-$kernel-abiversion)"
         do_install
     done
 }

@@ -10,7 +10,7 @@ DEPENDS += "${KERNEL} make-mod-scripts"
 KERNEL_PATH = "${TMPDIR}/work-shared/${MACHINE}/kernel-source-${KERNEL}"
 KERNEL_OUTPUT = "${TMPDIR}/work-shared/${MACHINE}/kernel-build-artifacts-${KERNEL}"
 
-export KERNEL_VERSION = "${@oe.utils.read_file('${KERNEL_OUTPUT}/kernel-${KERNEL}-abiversion')}"
+export KERNEL_VERSION = "${@oe.utils.read_file('${KERNEL_OUTPUT}/altkernel-${KERNEL}-abiversion')}"
 export KBUILD_OUTPUT = "${KERNEL_OUTPUT}"
 
 EXTRA_OEMAKE = "KERNEL_SRC=${KERNEL_PATH} KERNELDIR='${KERNEL_PATH}'"
@@ -51,9 +51,9 @@ fix_alternative_rdepends () {
 	# For lttng-modules built for alternative kernels, some sub-packages have on runtime depends
 	# sub-packages from the main kernel. Replace them with alternative kernels sub-packages.
 	if [ "${KERNEL_PACKAGE_NAME}" != "kernel" ]; then
-		sed -i "s/kernel-${KERNEL_VERSION}/kernel-${KERNEL}-${KERNEL_VERSION}/g" \
+		sed -i "s/kernel-${KERNEL_VERSION}/altkernel-${KERNEL}-${KERNEL_VERSION}/g" \
 			${PKGDESTWORK}/runtime/*
-		sed -i "s/kernel-module-kvm-${KERNEL_VERSION}/kernel-${KERNEL}-module-kvm-${KERNEL_VERSION}/g" \
+		sed -i "s/kernel-module-kvm-${KERNEL_VERSION}/altkernel-${KERNEL}-module-kvm-${KERNEL_VERSION}/g" \
 			${PKGDESTWORK}/runtime/*
 	fi
 }

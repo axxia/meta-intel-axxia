@@ -26,7 +26,7 @@ ALTERNATIVE_KERNELS ?= \
 	.split('-')[1:2])}_ALTERNATIVE_KERNELS}"
 
 ALTERNATIVE_KERNELS_INSTALL ?= \
-"${@d.getVar('ALTERNATIVE_KERNELS').replace('linux-','kernel-linux-')}"
+"${@d.getVar('ALTERNATIVE_KERNELS').replace('linux-','altkernel-linux-')}"
 
 ALTERNATIVE_KERNELS_MODULES_INSTALL ?= \
 "${@'-modules '.join(d.getVar('ALTERNATIVE_KERNELS_INSTALL')[1:].split(' '))}-modules"
