@@ -145,6 +145,8 @@ PACKAGE_CLASSES ?= "package_rpm"
 # variable can contain the following options:
 #  "dbg-pkgs"       - add -dbg packages for all installed packages
 #                     (adds symbol information for debugging/profiling)
+#  "src-pkgs"       - add -src packages for all installed packages
+#                     (adds source code for debugging)
 #  "dev-pkgs"       - add -dev packages for all installed packages
 #                     (useful if you want to develop against libs in the image)
 #  "ptest-pkgs"     - add -ptest packages for all ptest-enabled packages
@@ -256,19 +258,35 @@ BB_DISKMON_DIRS ??= "\
 #
 # Qemu configuration
 #
-# By default qemu will build with a builtin VNC server where graphical output can be
-# seen. The two lines below enable the SDL backend too. By default libsdl2-native will
-# be built, if you want to use your host's libSDL instead of the minimal libsdl built
-# by libsdl2-native then uncomment the ASSUME_PROVIDED line below.
-PACKAGECONFIG_append_pn-qemu-native = " sdl"
-PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
+# By default native qemu will build with a builtin VNC server where graphical output can be
+# seen. The line below enables the SDL UI frontend too.
+PACKAGECONFIG_append_pn-qemu-system-native = " sdl"
+# By default libsdl2-native will be built, if you want to use your host's libSDL instead of 
+# the minimal libsdl built by libsdl2-native then uncomment the ASSUME_PROVIDED line below.
 #ASSUME_PROVIDED += "libsdl2-native"
+
+# You can also enable the Gtk UI frontend, which takes somewhat longer to build, but adds
+# a handy set of menus for controlling the emulator.
+#PACKAGECONFIG_append_pn-qemu-system-native = " gtk+"
+
+#
+# Hash Equivalence
+#
+# Enable support for automatically running a local hash equivalence server and
+# instruct bitbake to use a hash equivalence aware signature generator. Hash
+# equivalence improves reuse of sstate by detecting when a given sstate
+# artifact can be reused as equivalent, even if the current task hash doesn't
+# match the one that generated the artifact.
+#
+# A shared hash equivalent server can be set with "<HOSTNAME>:<PORT>" format
+#
+#BB_HASHSERVE = "auto"
+#BB_SIGNATURE_HANDLER = "OEEquivHash"
 
 # CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
 # track the version of this file when it was generated. This can safely be ignored if
 # this doesn't mean anything to you.
 CONF_VERSION = "1"
-
 
 # BBMASK contains regular expressions that can be used to tell BitBake to ignore
 # certain recipes.
@@ -296,22 +314,10 @@ CONF_VERSION = "1"
 # For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE = "-j 4" would
 # be appropriate for example.
 
-
-# glibc configurability is used to reduce minimal image's size.
-# the all supported glibc options are listed in DISTRO_FEATURES_LIBC
-# and disabled by default. Uncomment and copy the DISTRO_FEATURES_LIBC
-# and DISTRO_FEATURES definitions to local.conf to enable the options.
-#DISTRO_FEATURES_LIBC = "ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
-#               libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
-#               libc-getlogin libc-idn libc-inet libc-inet-anl libc-libm libc-locales libc-locale-code \
-#               libc-memusage libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams \
-#               libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc \
-#               libc-posix-wchar-io"
-
-#DISTRO_FEATURES = "alsa bluetooth ext2 irda pcmcia usbgadget usbhost wifi nfs zeroconf pci ${DISTRO_FEATURES_LIBC}"
-
-# If you want to get an image based on directfb without x11, Please copy this variable to build/conf/local.conf
-#DISTRO_FEATURES = "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g directfb ${DISTRO_FEATURES_LIBC}"
+# If you want to get an image based on directfb without x11 alter
+# DISTRO_FEATURES:
+DISTRO_FEATURES_append = " directfb"
+DISTRO_FEATURES_remove = "x11"
 
 # ENABLE_BINARY_LOCALE_GENERATION controls the generation of binary locale
 # packages at build time using qemu-native. Disabling it (by setting it to 0)
@@ -554,7 +560,7 @@ CONF_VERSION = "1"
 #
 # By including the security_flags include file you enable flags
 # to the compiler and linker that cause them to generate more secure
-# code, this is enabled by default in the poky-lsb distro.
+# code.
 # This does affect compile speed slightly.
 #
 # Use the following line to enable the security compiler and linker flags to your build
@@ -562,18 +568,18 @@ CONF_VERSION = "1"
 
 # Image level user/group configuration.
 # Inherit extrausers to make the setting of EXTRA_USERS_PARAMS effective.
-#INHERIT += "extrausers"
+#IMAGE_CLASSES += "extrausers"
 # User / group settings
-# The settings are sperated by the ; character.
+# The settings are separated by the ; character.
 # Each setting is actually a command. The supported commands are useradd,
 # groupadd, userdel, groupdel, usermod and groupmod.
 #EXTRA_USERS_PARAMS = "\
-#useradd -p '' tester; \
-#groupadd developers; \
-#userdel nobody; \
-#groupdel video; \
-#groupmod -g 1020 developers; \
-#usermod -s /bin/sh tester; \
+#    useradd -p '' tester; \
+#    groupadd developers; \
+#    userdel nobody; \
+#    groupdel video; \
+#    groupmod -g 1020 developers; \
+#    usermod -s /bin/sh tester; \
 #"
 
 # Various packages dynamically add users and groups to the system at package
@@ -605,7 +611,6 @@ CONF_VERSION = "1"
 # show an example of how it can be done
 # You'll also need your fortran recipe to depend on libgfortran
 #FORTRAN_forcevariable = ",fortran"
-#RUNTIMETARGET_append_pn-gcc-runtime = " libquadmath"
 
 #
 # Kernel image features
@@ -667,5 +672,6 @@ CONF_VERSION = "1"
 #
 #DISTRO_FEATURES_append = " systemd"
 #DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
+#VIRTUAL-RUNTIME_login_manager = "shadow-base"
 #VIRTUAL-RUNTIME_init_manager = "systemd"
 #VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
