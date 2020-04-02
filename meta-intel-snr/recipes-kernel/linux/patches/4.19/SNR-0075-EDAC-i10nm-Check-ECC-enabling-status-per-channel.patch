@@ -1,0 +1,40 @@
+From 23cf4ae2630360c64d4af391728d21cb4616214c Mon Sep 17 00:00:00 2001
+From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Date: Wed, 26 Jun 2019 14:16:38 +0800
+Subject: [PATCH 7/8] EDAC, i10nm: Check ECC enabling status per channel
+
+The i10nm_edac only checks the ECC enabling status for the first
+channel of the memory controller. If there aren't memory DIMMs
+populated on the first channel, but at least one DIMM populated
+on the second channel, it will wrongly report that the ECC for
+the memory controller is disabled that fails to load the i10nm_edac
+driver. Fix it by checking ECC enabling status per channel.
+
+[Tony: Also report which channel has ECC disabled]
+
+Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+---
+ drivers/edac/i10nm_base.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/edac/i10nm_base.c b/drivers/edac/i10nm_base.c
+index 48c6cec..72cc20a 100644
+--- a/drivers/edac/i10nm_base.c
++++ b/drivers/edac/i10nm_base.c
+@@ -168,9 +168,9 @@ static int i10nm_get_dimm_config(struct mem_ctl_info *mci)
+ 				ndimms += skx_get_nvdimm_info(dimm, imc, i, j,
+ 							      EDAC_MOD_STR);
+ 		}
+-		if (ndimms && !i10nm_check_ecc(imc, 0)) {
+-			i10nm_printk(KERN_ERR, "ECC is disabled on imc %d\n",
+-				     imc->mc);
++		if (ndimms && !i10nm_check_ecc(imc, i)) {
++			i10nm_printk(KERN_ERR, "ECC is disabled on imc %d channel %d\n",
++				     imc->mc, i);
+ 			return -ENODEV;
+ 		}
+ 	}
+-- 
+2.6.4
+

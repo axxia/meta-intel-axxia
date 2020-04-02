@@ -304,6 +304,17 @@ from kernel.org 04b1d5d09849
 Back ported as
 SNR-0068-intel_idle-add-support-for-Jacobsville.patch
 
+8 patches for EDAC support
+--------------------------
+
+SNR-0021-EDAC-i10nm-Add-a-driver-for-Intel-10nm-server-proces.patch is not sufficient to get EDAC working on SNR.  The following are also required.
+
+SNR-0069-x86-mce-Add-macros-for-the-corrected-error-count-bit.patch
+
+through
+
+SNR-0076-EDAC-skx-i10nm-Fix-source-ID-register-offset.patch
+
 
 
 II. Building meta-intel-snr

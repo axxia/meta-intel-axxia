@@ -73,6 +73,14 @@ file://SNR-0065-topology-Create-core_cpus-and-die_cpus-sysfs-attribu.patch \
 file://SNR-0066-Revert-Changes-to-tools-perf.patch \
 file://SNR-0067-pinctrl-intel-Avoid-potential-glitches-if-pin-is-in-.patch \
 file://SNR-0068-intel_idle-add-support-for-Jacobsville.patch \
+file://SNR-0069-x86-mce-Add-macros-for-the-corrected-error-count-bit.patch \
+file://SNR-0070-ACPI-ADXL-Add-address-translation-interface-using-an.patch \
+file://SNR-0071-EDAC-skx_common-Separate-common-code-out-from-skx_ed.patch \
+file://SNR-0072-EDAC-skx_edac-Delete-duplicated-code.patch \
+file://SNR-0073-EDAC-skx-i10nm-Make-skx_common.c-a-pure-library.patch \
+file://SNR-0074-EDAC-i10nm-Add-Intel-additional-Ice-Lake-support.patch \
+file://SNR-0075-EDAC-i10nm-Check-ECC-enabling-status-per-channel.patch \
+file://SNR-0076-EDAC-skx-i10nm-Fix-source-ID-register-offset.patch \
 "
 
 FRIO_PATCHES = " \

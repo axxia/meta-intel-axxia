@@ -1,0 +1,292 @@
+From e4827d26a376234f8a568ece879c37d71d332692 Mon Sep 17 00:00:00 2001
+From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Date: Thu, 21 Mar 2019 15:13:39 -0700
+Subject: [PATCH 5/8] EDAC, skx, i10nm: Make skx_common.c a pure library
+
+The following Kconfig constellations fail randconfig builds:
+
+  CONFIG_ACPI_NFIT=y
+  CONFIG_EDAC_DEBUG=y
+  CONFIG_EDAC_SKX=m
+  CONFIG_EDAC_I10NM=y
+
+or
+
+  CONFIG_ACPI_NFIT=y
+  CONFIG_EDAC_DEBUG=y
+  CONFIG_EDAC_SKX=y
+  CONFIG_EDAC_I10NM=m
+
+with:
+  ...
+  CC [M]  drivers/edac/skx_common.o
+  ...
+  .../skx_common.o:.../skx_common.c:672: undefined reference to `__this_module'
+
+That is because if one of the two drivers - skx_edac or i10nm_edac - is
+built-in and the other one is a module, the shared file skx_common.c
+gets linked into a module object by kbuild. Therefore, when linking that
+same file into vmlinux, the '__this_module' symbol used in debugfs isn't
+defined, leading to the above error.
+
+Fix it by moving all debugfs code from skx_common.c to both skx_base.c
+and i10nm_base.c respectively. Thus, skx_common.c doesn't refer to the
+'__this_module' symbol anymore.
+
+Clarify skx_common.c's purpose at the top of the file for future
+reference, while at it.
+
+ [ bp: Make text more readable. ]
+
+Fixes: d4dc89d069aa ("EDAC, i10nm: Add a driver for Intel 10nm server processors")
+Reported-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: James Morse <james.morse@arm.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-edac <linux-edac@vger.kernel.org>
+Link: https://lkml.kernel.org/r/20190321221339.GA32323@agluck-desk
+---
+ drivers/edac/i10nm_base.c | 52 ++++++++++++++++++++++++++++++++++++++++--
+ drivers/edac/skx_base.c   | 50 ++++++++++++++++++++++++++++++++++++++++-
+ drivers/edac/skx_common.c | 57 +++++++++--------------------------------------
+ drivers/edac/skx_common.h |  8 -------
+ 4 files changed, 109 insertions(+), 58 deletions(-)
+
+diff --git a/drivers/edac/i10nm_base.c b/drivers/edac/i10nm_base.c
+index c334fb7..6f06aec 100644
+--- a/drivers/edac/i10nm_base.c
++++ b/drivers/edac/i10nm_base.c
+@@ -181,6 +181,54 @@ static struct notifier_block i10nm_mce_dec = {
+ 	.priority	= MCE_PRIO_EDAC,
+ };
+ 
++#ifdef CONFIG_EDAC_DEBUG
++/*
++ * Debug feature.
++ * Exercise the address decode logic by writing an address to
++ * /sys/kernel/debug/edac/i10nm_test/addr.
++ */
++static struct dentry *i10nm_test;
++
++static int debugfs_u64_set(void *data, u64 val)
++{
++	struct mce m;
++
++	pr_warn_once("Fake error to 0x%llx injected via debugfs\n", val);
++
++	memset(&m, 0, sizeof(m));
++	/* ADDRV + MemRd + Unknown channel */
++	m.status = MCI_STATUS_ADDRV + 0x90;
++	/* One corrected error */
++	m.status |= BIT_ULL(MCI_STATUS_CEC_SHIFT);
++	m.addr = val;
++	skx_mce_check_error(NULL, 0, &m);
++
++	return 0;
++}
++DEFINE_SIMPLE_ATTRIBUTE(fops_u64_wo, NULL, debugfs_u64_set, "%llu\n");
++
++static void setup_i10nm_debug(void)
++{
++	i10nm_test = edac_debugfs_create_dir("i10nm_test");
++	if (!i10nm_test)
++		return;
++
++	if (!edac_debugfs_create_file("addr", 0200, i10nm_test,
++				      NULL, &fops_u64_wo)) {
++		debugfs_remove(i10nm_test);
++		i10nm_test = NULL;
++	}
++}
++
++static void teardown_i10nm_debug(void)
++{
++	debugfs_remove_recursive(i10nm_test);
++}
++#else
++static inline void setup_i10nm_debug(void) {}
++static inline void teardown_i10nm_debug(void) {}
++#endif /*CONFIG_EDAC_DEBUG*/
++
+ static int __init i10nm_init(void)
+ {
+ 	u8 mc = 0, src_id = 0, node_id = 0;
+@@ -249,7 +297,7 @@ static int __init i10nm_init(void)
+ 
+ 	opstate_init();
+ 	mce_register_decode_chain(&i10nm_mce_dec);
+-	setup_skx_debug("i10nm_test");
++	setup_i10nm_debug();
+ 
+ 	i10nm_printk(KERN_INFO, "%s\n", I10NM_REVISION);
+ 
+@@ -262,7 +310,7 @@ static int __init i10nm_init(void)
+ static void __exit i10nm_exit(void)
+ {
+ 	edac_dbg(2, "\n");
+-	teardown_skx_debug();
++	teardown_i10nm_debug();
+ 	mce_unregister_decode_chain(&i10nm_mce_dec);
+ 	skx_adxl_put();
+ 	skx_remove();
+diff --git a/drivers/edac/skx_base.c b/drivers/edac/skx_base.c
+index adae4c8..a5c8fa3 100644
+--- a/drivers/edac/skx_base.c
++++ b/drivers/edac/skx_base.c
+@@ -540,6 +540,54 @@ static struct notifier_block skx_mce_dec = {
+ 	.priority	= MCE_PRIO_EDAC,
+ };
+ 
++#ifdef CONFIG_EDAC_DEBUG
++/*
++ * Debug feature.
++ * Exercise the address decode logic by writing an address to
++ * /sys/kernel/debug/edac/skx_test/addr.
++ */
++static struct dentry *skx_test;
++
++static int debugfs_u64_set(void *data, u64 val)
++{
++	struct mce m;
++
++	pr_warn_once("Fake error to 0x%llx injected via debugfs\n", val);
++
++	memset(&m, 0, sizeof(m));
++	/* ADDRV + MemRd + Unknown channel */
++	m.status = MCI_STATUS_ADDRV + 0x90;
++	/* One corrected error */
++	m.status |= BIT_ULL(MCI_STATUS_CEC_SHIFT);
++	m.addr = val;
++	skx_mce_check_error(NULL, 0, &m);
++
++	return 0;
++}
++DEFINE_SIMPLE_ATTRIBUTE(fops_u64_wo, NULL, debugfs_u64_set, "%llu\n");
++
++static void setup_skx_debug(void)
++{
++	skx_test = edac_debugfs_create_dir("skx_test");
++	if (!skx_test)
++		return;
++
++	if (!edac_debugfs_create_file("addr", 0200, skx_test,
++				      NULL, &fops_u64_wo)) {
++		debugfs_remove(skx_test);
++		skx_test = NULL;
++	}
++}
++
++static void teardown_skx_debug(void)
++{
++	debugfs_remove_recursive(skx_test);
++}
++#else
++static inline void setup_skx_debug(void) {}
++static inline void teardown_skx_debug(void) {}
++#endif /*CONFIG_EDAC_DEBUG*/
++
+ /*
+  * skx_init:
+  *	make sure we are running on the correct cpu model
+@@ -619,7 +667,7 @@ static int __init skx_init(void)
+ 	/* Ensure that the OPSTATE is set correctly for POLL or NMI */
+ 	opstate_init();
+ 
+-	setup_skx_debug("skx_test");
++	setup_skx_debug();
+ 
+ 	mce_register_decode_chain(&skx_mce_dec);
+ 
+diff --git a/drivers/edac/skx_common.c b/drivers/edac/skx_common.c
+index 513523a..67fb6cc 100644
+--- a/drivers/edac/skx_common.c
++++ b/drivers/edac/skx_common.c
+@@ -1,7 +1,15 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * Common codes for both the skx_edac driver and Intel 10nm server EDAC driver.
+- * Originally split out from the skx_edac driver.
++ *
++ * Shared code by both skx_edac and i10nm_edac. Originally split out
++ * from the skx_edac driver.
++ *
++ * This file is linked into both skx_edac and i10nm_edac drivers. In
++ * order to avoid link errors, this file must be like a pure library
++ * without including symbols and defines which would otherwise conflict,
++ * when linked once into a module and into a built-in object, at the
++ * same time. For example, __this_module symbol references when that
++ * file is being linked into a built-in object.
+  *
+  * Copyright (c) 2018, Intel Corporation.
+  */
+@@ -642,48 +650,3 @@ void skx_remove(void)
+ 		kfree(d);
+ 	}
+ }
+-
+-#ifdef CONFIG_EDAC_DEBUG
+-/*
+- * Debug feature.
+- * Exercise the address decode logic by writing an address to
+- * /sys/kernel/debug/edac/dirname/addr.
+- */
+-static struct dentry *skx_test;
+-
+-static int debugfs_u64_set(void *data, u64 val)
+-{
+-	struct mce m;
+-
+-	pr_warn_once("Fake error to 0x%llx injected via debugfs\n", val);
+-
+-	memset(&m, 0, sizeof(m));
+-	/* ADDRV + MemRd + Unknown channel */
+-	m.status = MCI_STATUS_ADDRV + 0x90;
+-	/* One corrected error */
+-	m.status |= BIT_ULL(MCI_STATUS_CEC_SHIFT);
+-	m.addr = val;
+-	skx_mce_check_error(NULL, 0, &m);
+-
+-	return 0;
+-}
+-DEFINE_SIMPLE_ATTRIBUTE(fops_u64_wo, NULL, debugfs_u64_set, "%llu\n");
+-
+-void setup_skx_debug(const char *dirname)
+-{
+-	skx_test = edac_debugfs_create_dir(dirname);
+-	if (!skx_test)
+-		return;
+-
+-	if (!edac_debugfs_create_file("addr", 0200, skx_test,
+-				      NULL, &fops_u64_wo)) {
+-		debugfs_remove(skx_test);
+-		skx_test = NULL;
+-	}
+-}
+-
+-void teardown_skx_debug(void)
+-{
+-	debugfs_remove_recursive(skx_test);
+-}
+-#endif /*CONFIG_EDAC_DEBUG*/
+diff --git a/drivers/edac/skx_common.h b/drivers/edac/skx_common.h
+index d25374e..d18fa98 100644
+--- a/drivers/edac/skx_common.h
++++ b/drivers/edac/skx_common.h
+@@ -141,12 +141,4 @@ int skx_mce_check_error(struct notifier_block *nb, unsigned long val,
+ 
+ void skx_remove(void);
+ 
+-#ifdef CONFIG_EDAC_DEBUG
+-void setup_skx_debug(const char *dirname);
+-void teardown_skx_debug(void);
+-#else
+-static inline void setup_skx_debug(const char *dirname) {}
+-static inline void teardown_skx_debug(void) {}
+-#endif /*CONFIG_EDAC_DEBUG*/
+-
+ #endif /* _SKX_COMM_EDAC_H */
+-- 
+2.6.4
+
