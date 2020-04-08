@@ -8,3 +8,7 @@ PREFERRED_VERSION_linux-yocto-rt-debug ?= "5.4%"
 
 PREFERRED_VERSION_thrift ?= "0.11.0"
 PREFERRED_VERSION_thrift-native ?= "0.11.0"
+
+PREFERRED_VERSION_boost ?= "1.70.0"
+PREFERRED_VERSION_boost-native ?= "1.70.0"
+PREFERRED_VERSION_bjam-native ?= "1.70.0"
