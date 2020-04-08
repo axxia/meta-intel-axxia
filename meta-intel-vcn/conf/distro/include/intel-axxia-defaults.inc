@@ -13,6 +13,10 @@ PREFERRED_VERSION_mcelog ?= "164"
 PREFERRED_VERSION_thrift ?= "0.11.0"
 PREFERRED_VERSION_thrift-native ?= "0.11.0"
 
+PREFERRED_VERSION_boost ?= "1.70.0"
+PREFERRED_VERSION_boost-native ?= "1.70.0"
+PREFERRED_VERSION_bjam-native ?= "1.70.0"
+
 GCC_VERSION = "${@bb.utils.contains('DISTRO_FEATURES', 'gcc8', '8.%', '9.%', d)}"
 PREFERRED_VERSION_gcc ?= "${GCC_VERSION}"
 PREFERRED_VERSION_gcc-runtime ?= "${GCC_VERSION}"
