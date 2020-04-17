@@ -1,6 +1,8 @@
 DESCRIPTION = "A minimal image used in simulation."
 
 require axxia-image.inc
+require ${@bb.utils.contains('BBFILE_COLLECTIONS', 'intel-rdk', \
+			     'axxia-rdk.inc', '', d)}
 
 IMAGE_INSTALL = " \
 packagegroup-core-boot \
@@ -64,7 +66,7 @@ ${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
 		     '${MULTILIB_PACKAGES}', '', d)}  \
 ${@bb.utils.contains('DISTRO_FEATURES', 'simicsfs', \
 		     'simicsfs-client fuse', '', d)} "
-		     
+
 MULTILIB_PACKAGES ?= " \
 lib32-libasan \
 lib32-libgcc \

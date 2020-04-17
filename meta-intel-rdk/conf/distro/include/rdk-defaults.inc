@@ -5,10 +5,5 @@ PREFERRED_VERSION_boost ?= "1.70.0"
 PREFERRED_VERSION_boost-native ?= "1.70.0"
 PREFERRED_VERSION_bjam-native ?= "1.70.0"
 
-IMAGE_INSTALL_append_axxiax86-64 = " linux-firmware-klm-qat \
-${PREFERRED_PROVIDER_virtual/kernel}-kernel-headers \
-${@bb.utils.contains('DISTRO_FEATURES', 'rdk-userspace', \
-                     'rdk-tools rdk-tools-dev', '', d)}"
-
 # Enable RDK userspace support
 #DISTRO_FEATURES_append = " rdk-userspace"
