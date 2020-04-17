@@ -1,4 +1,6 @@
-FILESEXTRAPATHS_prepend := "${RDK_ARCHIVE_PATH}:${THISDIR}/frags:"
+FILESEXTRAPATHS_prepend := "${LAYER_PATH_meta-intel-rdk}/downloads:${THISDIR}/frags:"
+
+RDK_KLM_ARCHIVE ?= "file://rdk_klm_src.tar.xz"
 
 SRC_URI_append_axxiax86-64 = " ${RDK_KLM_ARCHIVE} \
 			       file://rdk-modules.scc "
@@ -14,7 +16,7 @@ do_patch_rdk_modules () {
     # Get release tag from the archive name
     case ${RDK_KLM_ARCHIVE} in
         file*)
-            RELEASE_TAG="$(echo ${RDK_ARCHIVE_PATH}/${RDK_KLM_ARCHIVE} | sed 's/file:\/\///g')"
+            RELEASE_TAG="$(echo ${LAYER_PATH_meta-intel-rdk}/downloads/${RDK_KLM_ARCHIVE} | sed 's/file:\/\///g')"
             [ -L "${RELEASE_TAG}" ] && RELEASE_TAG="$(readlink ${RELEASE_TAG})"
             RELEASE_TAG="$(basename ${RELEASE_TAG})";;
 	http*)

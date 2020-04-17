@@ -3,9 +3,11 @@ DESCRIPTION = "Intel RDK package containing all userspace (API and CLI) sources.
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
+RDK_TOOLS_ARCHIVE ?= "file://rdk_user_src.tar.xz"
+
 SRC_URI = "${RDK_TOOLS_ARCHIVE}"
 
-FILESEXTRAPATHS_prepend := "${RDK_ARCHIVE_PATH}:"
+FILESEXTRAPATHS_prepend := "${LAYER_PATH_meta-intel-rdk}/downloads:"
 
 BB_STRICT_CHECKSUM_axxiax86-64 = "0"
 
