@@ -1,4 +1,6 @@
-FILESEXTRAPATHS_prepend := "${RDK_ARCHIVE_PATH}:"
+FILESEXTRAPATHS_prepend := "${LAYER_PATH_meta-intel-rdk}/downloads:"
+
+RDK_KLM_ARCHIVE ?= "file://rdk_klm_src.tar.xz"
 
 SRC_URI_append_axxiax86-64 = " ${RDK_KLM_ARCHIVE}"
 
