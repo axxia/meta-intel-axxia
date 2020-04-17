@@ -33,7 +33,7 @@ export OPENSSL_ROOT = "${STAGING_DIR_HOST}/usr"
 
 # Choose IES API mode of operation: "true" for SHM (shared-memory model)
 # which is the default or "false" for RPC (remote procedure call)
-export IES_ENABLE_SHM ?= "true"
+export IES_ENABLE_SHM ??= "true"
 
 # Extra flags required by ies_api_install target from the main Makefile
 IES_EXTRA_FLAGS = "host_alias=${HOST_SYS}"
