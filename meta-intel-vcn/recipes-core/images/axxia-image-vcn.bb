@@ -2,6 +2,8 @@ DESCRIPTION = "A more complete image when size doesn't matter as much."
 
 require recipes-core/images/core-image-minimal-dev.bb
 require axxia-image.inc
+require ${@bb.utils.contains('BBFILE_COLLECTIONS', 'intel-rdk', \
+			     'axxia-rdk.inc', '', d)}
 
 IMAGE_FEATURES_append = " \
 dev-pkgs \
