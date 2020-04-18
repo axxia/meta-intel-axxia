@@ -10,6 +10,8 @@ BB_STRICT_CHECKSUM_axxiax86-64 = "0"
 # Ignore RDK kernel option warnings
 KCONF_BSP_AUDIT_LEVEL = "0"
 
+DEPENDS_append = " rsync-native"
+
 do_patch_rdk_modules () {
     STAGING_PATH="drivers/staging/intel"
 
