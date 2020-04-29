@@ -1,5 +1,5 @@
 # Set alternative kernels (different from virtual/kenrel provider)
-ALTERNATIVE_KERNELS ?= "\
+INTEL_ALTERNATIVE_KERNELS ?= "\
 ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
 	'linux-intel', '',          ' linux-intel', d)}\
 ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
@@ -9,6 +9,13 @@ ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
 ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
 	'linux-intel-rt-debug', '', ' linux-intel-rt-debug', d)}\
 "
+
+LOCAL_ALTERNATIVE_KERNELS ?= ""
+
+ALTERNATIVE_KERNELS ?= \
+"${${@''.join(d.getVar('PREFERRED_PROVIDER_virtual/kernel').upper()\
+	.split('-')[1:2])}_ALTERNATIVE_KERNELS}"
+
 ALTERNATIVE_KERNELS_INSTALL ?= \
 "${@d.getVar('ALTERNATIVE_KERNELS').replace('linux-','kernel-linux-')}"
 
