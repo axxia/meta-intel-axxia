@@ -21,6 +21,8 @@ ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
 	'linux-yocto-rt-debug', '', ' linux-yocto-rt-debug', d)}\
 "
 
+LOCAL_ALTERNATIVE_KERNELS ?= ""
+
 ALTERNATIVE_KERNELS ?= \
 "${${@''.join(d.getVar('PREFERRED_PROVIDER_virtual/kernel').upper()\
 	.split('-')[1:2])}_ALTERNATIVE_KERNELS}"
