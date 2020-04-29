@@ -96,6 +96,17 @@ and in dmesg look for:
 Included as
 SNR-0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch.
 
+Support EDAC on SNR Bx Stepping Parts
+-------------------------------------
+
+Without this, EDAC only works on A stepping parts.  This is based on a
+commit that has been submitted to
+git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git as
+ce20670828c1.
+
+Included as
+SNR-0003-Support-EDAC-on-SNR-Bx-Stepping-Parts.patch
+
 
 II. Building meta-intel-snr
 ===========================
