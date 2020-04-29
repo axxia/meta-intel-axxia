@@ -81,6 +81,7 @@ file://SNR-0073-EDAC-skx-i10nm-Make-skx_common.c-a-pure-library.patch \
 file://SNR-0074-EDAC-i10nm-Add-Intel-additional-Ice-Lake-support.patch \
 file://SNR-0075-EDAC-i10nm-Check-ECC-enabling-status-per-channel.patch \
 file://SNR-0076-EDAC-skx-i10nm-Fix-source-ID-register-offset.patch \
+file://SNR-0077-Support-EDAC-on-SNR-Bx-Stepping-Parts.patch \
 "
 
 FRIO_PATCHES = " \

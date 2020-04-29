@@ -1,0 +1,49 @@
+From 40987080f497c634e0f530c95a4edcdb77c2a3ad Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Wed, 29 Apr 2020 12:53:16 -0500
+Subject: Support EDAC on SNR Bx Stepping Parts
+
+This is a limited back port, only tested on SNR Ax and Bx steppings
+of the following commit.
+
+EDAC/i10nm: Update driver to support different bus number config register offsets
+ce20670828c1 from git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git
+
+That change is intened for Linux 5.8, and is based on other unrelated
+updates to arch/x86.  This back port just updates the bus number
+configuration offset based on the CPU stepping.
+
+Backported-by: John Jacques <john.jacques@intel.com>
+---
+ drivers/edac/i10nm_base.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/edac/i10nm_base.c b/drivers/edac/i10nm_base.c
+index 83392f2841de..d6993be39280 100644
+--- a/drivers/edac/i10nm_base.c
++++ b/drivers/edac/i10nm_base.c
+@@ -239,6 +239,7 @@ static int __init i10nm_init(void)
+ 	struct skx_dev *d;
+ 	int rc, i, off[3] = {0xd0, 0xc8, 0xcc};
+ 	u64 tolm, tohm;
++	int offset;
+ 
+ 	edac_dbg(2, "\n");
+ 
+@@ -254,7 +255,12 @@ static int __init i10nm_init(void)
+ 	if (rc)
+ 		return rc;
+ 
+-	rc = skx_get_all_bus_mappings(0x3452, 0xcc, I10NM, &i10nm_edac_list);
++	if (boot_cpu_data.x86_stepping >= 4)
++		offset = 0xd0;
++	else
++		offset = 0xcc;
++
++	rc = skx_get_all_bus_mappings(0x3452, offset, I10NM, &i10nm_edac_list);
+ 	if (rc < 0)
+ 		goto fail;
+ 	if (rc == 0) {
+-- 
+2.23.0
+
