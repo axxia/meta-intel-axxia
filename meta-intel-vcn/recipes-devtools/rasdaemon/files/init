@@ -1,0 +1,40 @@
+#! /bin/sh
+# /etc/init.d/rasdaemon: start rasdaemon daemon.
+
+. /etc/init.d/functions
+
+# Defaults
+PIDFILE=/var/run/rasdaemon.pid
+
+case "$1" in
+  start)
+    echo -n "Starting RASdaemon services:"
+    if [ ! -f "$PIDFILE" ]; then
+	start-stop-daemon -o --start --quiet --name rasdaemon --pidfile "$PIDFILE" \
+		--exec /usr/sbin/rasdaemon 
+	echo -n " rasdaemon"
+    fi
+    echo "."
+    /usr/sbin/rasdaemon --record
+    ;;
+    
+  stop)
+    echo -n "Stopping RASdaemon services:"
+    if [ -f  "$PIDFILE" ] ; then
+	start-stop-daemon -o --stop  --quiet --pidfile $PIDFILE --name rasdaemon
+    fi
+    echo -n " rasdaemon"
+    echo "."
+    ;;
+  restart|reload|force-reload)
+    $0 stop
+    # Allow the daemons time to exit completely.
+    sleep 2
+    $0 start
+    ;;
+  *)
+    echo "Usage: /etc/init.d/rasdaemon {start|stop|restart|reload|force-reload}"
+    exit 1
+esac
+
+exit 0
