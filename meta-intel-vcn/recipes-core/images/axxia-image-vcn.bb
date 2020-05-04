@@ -238,6 +238,7 @@ python3-robotframework \
 python3-scapy \
 qemu \
 quota \
+rasdaemon \
 readline \
 rpcbind \
 rpcsvc-proto \
