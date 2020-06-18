@@ -228,6 +228,7 @@ python3-robotframework \
 python3-scapy \
 qemu \
 quota \
+radvd \
 rasdaemon \
 readline \
 rpcbind \
