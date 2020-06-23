@@ -58,6 +58,7 @@ do_compile () {
 	oe_runmake ${QAT_PARALLEL_MAKE} qat_lib
 	oe_runmake ${IES_EXTRA_FLAGS} ies_api_install
 	oe_runmake cli
+	oe_runmake nura
 }
 
 do_install () {
