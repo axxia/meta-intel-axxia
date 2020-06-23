@@ -31,6 +31,8 @@ export IES_API_OUTPUT_DIR = "${IES_API_DIR}"
 export IES_API_CORE_DIR = "user_modules/ies-api/core"
 export OPENSSL_ROOT = "${STAGING_DIR_HOST}/usr"
 
+export NURA_DIR = "${WORKDIR}/rdk/nvm_ura"
+
 # Choose IES API mode of operation: "true" for SHM (shared-memory model)
 # which is the default or "false" for RPC (remote procedure call)
 export IES_ENABLE_SHM ??= "true"
@@ -57,7 +59,7 @@ do_compile () {
 	oe_runmake cpk-ae-lib netd-lib
 	oe_runmake ${QAT_PARALLEL_MAKE} qat_lib
 	oe_runmake ${IES_EXTRA_FLAGS} ies_api_install
-	oe_runmake cli
+	oe_runmake cli nura
 }
 
 do_install () {
