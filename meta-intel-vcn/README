@@ -272,6 +272,11 @@ NOTE: No preferred version should be set for linux-local provider.
     * 'cd ase/simics'
     * tar czf simics-5.0.195.tgz simics-5.0.195
 
+2.3.10. Add gcc8 support for the previous version of gcc instead of
+      the default which is gcc9.
+
+      DISTRO_FEATURES_append = " gcc8"
+    
 2.3.10. Set the serial console depending on the bios you are using.
       Default is ttyS4, but some old bios use ttyS5 or ttyS6.
 
