@@ -249,16 +249,16 @@ NOTE: No preferred version should be set for linux-local provider.
 
 2.3.9. Add simicsfs-client support (for large and sim images). Sources
      tgz archive should copied in meta-intel-vcn/downloads directory:
-     simics-5.0.195.tgz
+     simics-6.0.24.tgz
 
     DISTRO_FEATURES_append = " simicsfs"
 
-    To generate simics-5.0.195.tgz, get "ase_jvl_external*.txz" from
+    To generate simics-6.0.24.tgz, get "ase_jvl_external*.txz" from
     the SW download page (VIP), and do the following.
 
     * tar xf ase_jvl_external*.txz
     * 'cd ase/simics'
-    * tar czf simics-5.0.195.tgz simics-5.0.195
+    * tar czf simics-6.0.24.tgz simics-6.0.24
 
 2.3.10. Add gcc8 support for the previous version of gcc and glibc
       instead of the default which is gcc9.
