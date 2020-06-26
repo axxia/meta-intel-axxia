@@ -44,9 +44,9 @@ IES_EXTRA_FLAGS = "host_alias=${HOST_SYS}"
 export IES_API_CFLAGS = "-g -Wno-unused-result -U_FORTIFY_SOURCE \
 			 -D_FORTIFY_SOURCE=0 -Wno-address-of-packed-member"
 
-# qat_lib target from the main Makefile don't support random ordering
-# of some operations, thus force it make to run single-threaded
-QAT_PARALLEL_MAKE = "-j1"
+# qat_lib and nura targets doesn't support random ordering of some operations,
+# thus force them to build single-threaded
+NO_PARALLEL = "-j1"
 
 # Don't remove libtool *.la files
 REMOVE_LIBTOOL_LA = "0"
@@ -57,9 +57,10 @@ CXXFLAGS += " -I${SYSROOT}/usr/kernel-headers/include/klm "
 do_compile () {
 	cd ${WORKDIR}/rdk
 	oe_runmake cpk-ae-lib netd-lib
-	oe_runmake ${QAT_PARALLEL_MAKE} qat_lib
+	oe_runmake ${NO_PARALLEL} qat_lib
 	oe_runmake ${IES_EXTRA_FLAGS} ies_api_install
-	oe_runmake cli nura
+	oe_runmake cli
+	oe_runmake ${NO_PARALLEL} nura
 }
 
 do_install () {
