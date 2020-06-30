@@ -37,6 +37,9 @@ export NURA_DIR = "${WORKDIR}/rdk/nvm_ura"
 # which is the default or "false" for RPC (remote procedure call)
 export IES_ENABLE_SHM ??= "true"
 
+# Choose whether to enable LTTng support for RDK (experimental)
+export RDK_LTTNG_ENABLE ??= "false"
+
 # Extra flags required by ies_api_install target from the main Makefile
 IES_EXTRA_FLAGS = "host_alias=${HOST_SYS}"
 
