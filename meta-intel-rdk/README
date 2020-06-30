@@ -154,3 +154,11 @@ in conf/local.conf:
      following.
 
      -I/usr/kernel-headers/include
+
+3.9. Experimental: If RDK userspace feature is included, choose to
+     enable LTTng support for RDK user-space:
+
+     - "true" - enables LTTng for RDK Userspace.
+     - "false" - disables LTTng for RDK Userspace.
+
+     RDK_LTTNG_ENABLE = "false"
