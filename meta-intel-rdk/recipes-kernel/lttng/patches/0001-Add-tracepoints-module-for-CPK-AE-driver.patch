@@ -40,8 +40,8 @@ index cc1c065..9abae2f 100644
    endif
  endif # CONFIG_DYNAMIC_FTRACE
  
-+ccflags-y += -I/workspace/sw/bhshelto/snr/iwa-rte-cpk-ae-driver
-+ccflags-y += -I/workspace/sw/bhshelto/snr/iwa-rte-cpk-ae-driver/lttng
++CFLAGS_lttng-probe-nis-ae.o += -I$(srctree)/drivers/staging/intel/$(RDK_KLM_VERSION)/ice_sw_ae
++CFLAGS_lttng-probe-nis-ae.o += -I$(srctree)/drivers/staging/intel/$(RDK_KLM_VERSION)/ice_sw_ae/lttng
 +obj-$(CONFIG_LTTNG) += lttng-probe-nis-ae.o
 +
  # vim:syntax=make
