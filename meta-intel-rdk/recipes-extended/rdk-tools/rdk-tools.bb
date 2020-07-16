@@ -14,7 +14,8 @@ BB_STRICT_CHECKSUM_axxiax86-64 = "0"
 RDK_TOOLS_VERSION ?= "unknown_release_info"
 PR = "${RDK_TOOLS_VERSION}"
 
-DEPENDS = "virtual/kernel libnl libpcap openssl rsync-native thrift"
+DEPENDS = "virtual/kernel libnl libpcap openssl rsync-native thrift \
+	   ${@oe.utils.conditional('RDK_LTTNG_ENABLE', 'true', 'lttng-ust lttng-tools', '', d)}"
 
 inherit autotools
 
@@ -42,6 +43,9 @@ export RDK_LTTNG_ENABLE ??= "false"
 
 # Extra flags required by ies_api_install target from the main Makefile
 IES_EXTRA_FLAGS = "host_alias=${HOST_SYS}"
+
+# Set LTTng instalation path (recipe sysroot)
+export LTTNG_ROOT = "${STAGING_DIR_HOST}${prefix}"
 
 # Overwrite IES_API_CFLAGS to unset global FORTIFY_SOURCE flag
 export IES_API_CFLAGS = "-g -Wno-unused-result -U_FORTIFY_SOURCE \
