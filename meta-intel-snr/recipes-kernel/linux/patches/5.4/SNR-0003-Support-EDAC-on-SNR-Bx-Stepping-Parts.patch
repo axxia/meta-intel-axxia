@@ -1,7 +1,7 @@
-From 17d00ff1da6f09b59e1ec340d2d58736fa4be68f Mon Sep 17 00:00:00 2001
+From 6715c22498ff069e568c755cad37b2f6f8444d75 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Wed, 29 Apr 2020 12:53:16 -0500
-Subject: Support EDAC on SNR Bx Stepping Parts
+Subject: [PATCH 3/3] Support EDAC on SNR Bx Stepping Parts
 
 This is a limited back port, only tested on SNR Ax and Bx steppings
 of the following commit.
