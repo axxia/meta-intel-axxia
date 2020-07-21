@@ -5,7 +5,7 @@ poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: thud
-revision: 958427e9d2ee7276887f2b02ba85cf0996dea553
+revision: 3315b9f4a55c7f9ded954fe990174e9382827739
 
 meta-openembedded
 -----------------
@@ -34,5 +34,5 @@ revision: 31dc4e7532fa7a82060e0b50e5eb8d0414aa7e93
 meta-ros
 --------
 URI: git://github.com/bmwcarit/meta-ros.git
-branch: master
-revision: 7d24d8c960a7ae9eb65789395965e8f1b83b366e
+branch: thud
+revision: e84c4a025c1eb0d769b85885f514cd406070cc71
