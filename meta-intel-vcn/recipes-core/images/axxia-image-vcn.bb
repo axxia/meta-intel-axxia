@@ -80,6 +80,7 @@ groff \
 gzip \
 hdparm \
 hwloc \
+i2c-tools \
 iasl \
 icu \
 inetutils \
