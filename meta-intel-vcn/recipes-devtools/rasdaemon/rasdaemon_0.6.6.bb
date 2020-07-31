@@ -4,12 +4,11 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d3070efe0afa3dc41608bd82c00bb0dc"
 
 SRC_URI = "git://github.com/mchehab/rasdaemon.git;branch=master \
-        file://rasdaemon-fix-error-handling-in-ras_mc_event_opendb.patch \
-	file://0001-Fix-system-header-includes.patch \
-	file://rasdaemon.service \
-	file://init"
+           file://0001-Fix-system-header-includes.patch \
+           file://rasdaemon.service \
+           file://init"
 
-SRCREV = "0ba3d356b7b05ccc25e26a6b8536fa6ef7abb3c9"
+SRCREV = "32b978fcf73215c90ce7383580224e4295930ae7"
 
 S = "${WORKDIR}/git"
 
