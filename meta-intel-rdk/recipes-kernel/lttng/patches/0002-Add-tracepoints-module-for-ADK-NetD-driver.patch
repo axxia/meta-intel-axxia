@@ -1,0 +1,83 @@
+From 8629670cbc34ec25092b3c9c2f2f7b6b90a62b25 Mon Sep 17 00:00:00 2001
+From: Ben Shelton <benjamin.h.shelton@intel.com>
+Date: Fri, 10 Jul 2020 17:21:53 +0000
+Subject: [PATCH 2/2] Add tracepoints module for ADK NetD driver
+
+Signed-off-by: Ben Shelton <benjamin.h.shelton@intel.com>
+---
+ .../events/lttng-module/adk_netd.h            | 14 ++++++++++
+ probes/Kbuild                                 |  4 +++
+ probes/lttng-probe-adk-netd.c                 | 27 +++++++++++++++++++
+ 3 files changed, 45 insertions(+)
+ create mode 100644 instrumentation/events/lttng-module/adk_netd.h
+ create mode 100644 probes/lttng-probe-adk-netd.c
+
+diff --git a/instrumentation/events/lttng-module/adk_netd.h b/instrumentation/events/lttng-module/adk_netd.h
+new file mode 100644
+index 0000000..c144018
+--- /dev/null
++++ b/instrumentation/events/lttng-module/adk_netd.h
+@@ -0,0 +1,14 @@
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM adk_netd
++
++#if !defined(_LTTNG_ADK_NETD_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _LTTNG_ADK_NETD_H
++
++#include "../../../probes/lttng-tracepoint-event.h"
++#include <linux/tracepoint.h>
++
++#include "adk_netd_tracepoints_kmod.h"
++
++#endif /* !defined(_LTTNG_ADK_NETD_H) || defined(TRACE_HEADER_MULTI_READ) */
++
++#include "../../../probes/define_trace.h"
+diff --git a/probes/Kbuild b/probes/Kbuild
+index 9abae2f..7f1ec0e 100644
+--- a/probes/Kbuild
++++ b/probes/Kbuild
+@@ -270,4 +270,8 @@ CFLAGS_lttng-probe-nis-ae.o += -I$(srctree)/drivers/staging/intel/$(RDK_KLM_VERSION)/ice_sw_ae
+ CFLAGS_lttng-probe-nis-ae.o += -I$(srctree)/drivers/staging/intel/$(RDK_KLM_VERSION)/ice_sw_ae/lttng
+ obj-$(CONFIG_LTTNG) += lttng-probe-nis-ae.o
+
++CFLAGS_lttng-probe-adk-netd.o += -I$(srctree)/drivers/staging/intel/$(RDK_KLM_VERSION)/adk_netd
++CFLAGS_lttng-probe-adk-netd.o += -I$(srctree)/drivers/staging/intel/$(RDK_KLM_VERSION)/adk_netd/lttng
++obj-$(CONFIG_LTTNG) += lttng-probe-adk-netd.o
++
+ # vim:syntax=make
+diff --git a/probes/lttng-probe-adk-netd.c b/probes/lttng-probe-adk-netd.c
+new file mode 100644
+index 0000000..09f7d2a
+--- /dev/null
++++ b/probes/lttng-probe-adk-netd.c
+@@ -0,0 +1,27 @@
++#include <linux/module.h>
++#include "../lttng-tracer.h"
++
++/*
++ * Build-time verification of mismatch between mainline
++ * TRACE_EVENT() arguments and the LTTng-modules adaptation
++ * layer LTTNG_TRACEPOINT_EVENT() arguments.
++ */
++#include <adk_netd_tracepoints.h>
++
++#undef TRACE_INCLUDE_PATH
++#undef TRACE_INCLUDE_FILE
++
++/* Create LTTng tracepoint probes */
++#define LTTNG_PACKAGE_BUILD
++#define CREATE_TRACE_POINTS
++#define TRACE_INCLUDE_PATH ../instrumentation/events/lttng-module
++
++#include "../instrumentation/events/lttng-module/adk_netd.h"
++
++MODULE_LICENSE("GPL and additional rights");
++MODULE_AUTHOR("Ben Shelton <benjamin.h.shelton@intel.com>");
++MODULE_DESCRIPTION("LTTng probes for the ADK Netdriver");
++MODULE_VERSION(__stringify(LTTNG_MODULES_MAJOR_VERSION) "."
++	       __stringify(LTTNG_MODULES_MINOR_VERSION) "."
++	       __stringify(LTTNG_MODULES_PATCHLEVEL_VERSION)
++	       LTTNG_MODULES_EXTRAVERSION);
+-- 
+2.17.1
+
