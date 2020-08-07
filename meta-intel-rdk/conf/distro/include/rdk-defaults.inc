@@ -10,3 +10,11 @@ PREFERRED_VERSION_thrift-native ??= "${@bb.utils.contains('IES_ENABLE_SHM', 'fal
 PREFERRED_VERSION_boost         ??= "${@bb.utils.contains('IES_ENABLE_SHM', 'false', '1.70.0', '', d)}"
 PREFERRED_VERSION_boost-native  ??= "${@bb.utils.contains('IES_ENABLE_SHM', 'false', '1.70.0', '', d)}"
 PREFERRED_VERSION_bjam-native   ??= "${@bb.utils.contains('IES_ENABLE_SHM', 'false', '1.70.0', '', d)}"
+
+# Skip lttng-modules recipes for alternative kernels if meta-intel-vcn layer is not used
+# or alternative kernels are not supported
+BBMASK += "${@oe.utils.conditional('ALTERNATIVE_KERNELS', '', \
+		'meta-intel-rdk/recipes-kernel/lttng/lttng-modules-alternative*', '', d)} \
+	   ${@bb.utils.contains('BBFILE_COLLECTIONS', 'intel-vcn', \
+		'', 'meta-intel-rdk/recipes-kernel/lttng/lttng-modules-alternative*', d)} \
+	  "
