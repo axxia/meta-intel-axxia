@@ -7,6 +7,9 @@ FILESEXTRAPATHS_prepend := "${COREBASE}/meta/recipes-kernel/lttng/${BPN}:"
 
 DEPENDS += "${KERNEL} make-mod-scripts"
 
+# Ensure kernel artifacts are deployed in work-shared 
+do_compile[depends] += "${KERNEL}:do_deploy"
+
 KERNEL_PATH = "${TMPDIR}/work-shared/${MACHINE}/kernel-source-${KERNEL}"
 KERNEL_OUTPUT = "${TMPDIR}/work-shared/${MACHINE}/kernel-build-artifacts-${KERNEL}"
 
