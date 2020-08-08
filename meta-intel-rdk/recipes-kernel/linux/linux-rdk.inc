@@ -26,8 +26,10 @@ do_patch_rdk_modules () {
     [ -z "${RELEASE_TAG}" ] && RELEASE_TAG="unknown_release_info" \
                             || RELEASE_TAG="${RELEASE_TAG#?}"
 
-    # If no version for KLM modules is set in local.conf, use RELEASE_TAG
-    [ -z "${RDK_KLM_VERSION}" -a -n "${RELEASE_TAG}" ] && RDK_KLM_VERSION="${RELEASE_TAG}"
+    # If no version for KLM modules is set in local.conf, use RELEASE_TAG and store
+    # the value in rdk-klm-version file saved in WORKDIR for kernel_do_deploy task
+    [ -z "${RDK_KLM_VERSION}" -a -n "${RELEASE_TAG}" ] && RDK_KLM_VERSION="${RELEASE_TAG}" \
+                                                       && echo $RDK_KLM_VERSION > ${WORKDIR}/rdk-klm-version
 
     STAGING_PATH="${STAGING_PATH}/${RDK_KLM_VERSION}"
 
@@ -109,6 +111,14 @@ do_kernel_configme[depends] += "${PN}:do_patch_rdk_modules"
 do_install_append() {
      install -d ${D}/usr/kernel-headers
      make headers_install INSTALL_HDR_PATH="${D}/usr/kernel-headers"
+}
+
+kernel_do_deploy_append() {
+    # Store RDK KLM version in a shared location (STAGING_KERNEL_BUILDDIR)
+    # to be availabe from external modules recipes such as lttng-modules
+    # when RDK_KLM_VERSION is not set from local.conf
+    [ -z "${RDK_KLM_VERSION}" -a -f ${WORKDIR}/rdk-klm-version ] && \
+        mv ${WORKDIR}/rdk-klm-version ${STAGING_KERNEL_BUILDDIR} || 2>/dev/null
 }
 
 sysroot_stage_all_append() {
