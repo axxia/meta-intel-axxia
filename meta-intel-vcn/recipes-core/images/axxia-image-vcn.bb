@@ -172,6 +172,7 @@ mce-inject \
 mce-test \
 mcelog \
 mdadm \
+meson \
 modutils-initscripts \
 mokutil \
 msmtp \
@@ -185,6 +186,7 @@ netbase \
 netcat \
 nfs-utils \
 nfs-utils-client \
+ninja \
 nmap \
 ntp \
 numactl \
