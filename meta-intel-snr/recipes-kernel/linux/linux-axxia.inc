@@ -24,8 +24,10 @@ KERNEL_PACKAGE_NAME = "${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kerne
 		       '${PN}', 'kernel', 'kernel-${PN}', d)}"
 
 do_configure_append() {
-	sed -i s@UTS_VERSION=\"\#\$VERSION\"@UTS_VERSION=\"${RELEASE_VERSION}\ \#\$VERSION\"@g \
-	       ${STAGING_KERNEL_DIR}/scripts/mkcompile_h
+	if [ "${RELEASE_VERSION}" != "" ]; then
+		sed -i s@UTS_VERSION=\"\#\$VERSION\"@UTS_VERSION=\"${RELEASE_VERSION}\ \#\$VERSION\"@g \
+			${STAGING_KERNEL_DIR}/scripts/mkcompile_h
+	fi
 }
 
 do_install_append() {
