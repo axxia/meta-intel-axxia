@@ -222,6 +222,7 @@ python-netserver \
 python-nose \
 python-pip \
 python-psutil \
+python-pyparsing \
 python-thrift \
 python3 \
 python3-cffi \
