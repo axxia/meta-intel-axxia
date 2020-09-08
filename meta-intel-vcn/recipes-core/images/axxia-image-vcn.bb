@@ -220,6 +220,7 @@ python-distutils \
 python-modules \
 python-netserver \
 python-nose \
+python-pip \
 python-psutil \
 python-thrift \
 python3 \
