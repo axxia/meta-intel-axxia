@@ -222,6 +222,7 @@ python3-netserver \
 python3-nose \
 python3-paramiko \
 python3-pexpect \
+python3-pip \
 python3-prctl \
 python3-psutil \
 python3-pyexpect \
