@@ -51,6 +51,7 @@ dhcp-server \
 dhrystone \
 diffutils \
 dmidecode \
+docker \
 dos2unix \
 dosfstools \
 e2fsprogs \
