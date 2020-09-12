@@ -1,0 +1,93 @@
+From c3e064f58560538771dd43b1346626145f34ddaf Mon Sep 17 00:00:00 2001
+From: Beniamin Sandu <beniaminsandu@gmail.com>
+Date: Mon, 20 Jul 2020 13:20:57 +0300
+Subject: perf/x86/cstate: Add Tremont support
+
+Backport of ecf71fbccb9ac5cb964eb7de59bb9da3755b7885 upstream.
+
+Tremont is Intel's successor to Goldmont Plus. From the perspective of
+Intel cstate residency counters, there is nothing changed compared with
+Goldmont Plus and Goldmont.
+
+Share glm_cstates with Goldmont Plus and Goldmont.
+Update the comments for Tremont.
+
+Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+Reviewed-by: Andi Kleen <ak@linux.intel.com>
+Link: https://lkml.kernel.org/r/1580236279-35492-2-git-send-email-kan.liang@linux.intel.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Beniamin Sandu <beniamin.sandu@windriver.com>
+---
+ arch/x86/events/intel/cstate.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
+
+diff --git a/arch/x86/events/intel/cstate.c b/arch/x86/events/intel/cstate.c
+index 4a650eb3d94a3..2ebea12455234 100644
+--- a/arch/x86/events/intel/cstate.c
++++ b/arch/x86/events/intel/cstate.c
+@@ -40,17 +40,17 @@
+  * Model specific counters:
+  *	MSR_CORE_C1_RES: CORE C1 Residency Counter
+  *			 perf code: 0x00
+- *			 Available model: SLM,AMT,GLM,CNL
++ *			 Available model: SLM,AMT,GLM,CNL,TNT
+  *			 Scope: Core (each processor core has a MSR)
+  *	MSR_CORE_C3_RESIDENCY: CORE C3 Residency Counter
+  *			       perf code: 0x01
+  *			       Available model: NHM,WSM,SNB,IVB,HSW,BDW,SKL,GLM,
+-						CNL
++						CNL,TNT
+  *			       Scope: Core
+  *	MSR_CORE_C6_RESIDENCY: CORE C6 Residency Counter
+  *			       perf code: 0x02
+  *			       Available model: SLM,AMT,NHM,WSM,SNB,IVB,HSW,BDW,
+- *						SKL,KNL,GLM,CNL
++ *						SKL,KNL,GLM,CNL,TNT
+  *			       Scope: Core
+  *	MSR_CORE_C7_RESIDENCY: CORE C7 Residency Counter
+  *			       perf code: 0x03
+@@ -58,17 +58,18 @@
+  *			       Scope: Core
+  *	MSR_PKG_C2_RESIDENCY:  Package C2 Residency Counter.
+  *			       perf code: 0x00
+- *			       Available model: SNB,IVB,HSW,BDW,SKL,KNL,GLM,CNL
++ *			       Available model: SNB,IVB,HSW,BDW,SKL,KNL,GLM,CNL,
++ *						TNT
+  *			       Scope: Package (physical package)
+  *	MSR_PKG_C3_RESIDENCY:  Package C3 Residency Counter.
+  *			       perf code: 0x01
+  *			       Available model: NHM,WSM,SNB,IVB,HSW,BDW,SKL,KNL,
+- *						GLM,CNL
++ *						GLM,CNL,TNT
+  *			       Scope: Package (physical package)
+  *	MSR_PKG_C6_RESIDENCY:  Package C6 Residency Counter.
+  *			       perf code: 0x02
+  *			       Available model: SLM,AMT,NHM,WSM,SNB,IVB,HSW,BDW
+- *						SKL,KNL,GLM,CNL
++ *						SKL,KNL,GLM,CNL,TNT
+  *			       Scope: Package (physical package)
+  *	MSR_PKG_C7_RESIDENCY:  Package C7 Residency Counter.
+  *			       perf code: 0x03
+@@ -84,7 +85,7 @@
+  *			       Scope: Package (physical package)
+  *	MSR_PKG_C10_RESIDENCY: Package C10 Residency Counter.
+  *			       perf code: 0x06
+- *			       Available model: HSW ULT,KBL,GLM,CNL
++ *			       Available model: HSW ULT,KBL,GLM,CNL,TNT
+  *			       Scope: Package (physical package)
+  *
+  */
+@@ -584,6 +585,8 @@ static const struct x86_cpu_id intel_cstates_match[] __initconst = {
+ 	X86_CSTATES_MODEL(INTEL_FAM6_ATOM_GOLDMONT_X, glm_cstates),
+ 
+ 	X86_CSTATES_MODEL(INTEL_FAM6_ATOM_GOLDMONT_PLUS, glm_cstates),
++	X86_CSTATES_MODEL(INTEL_FAM6_ATOM_TREMONT_X, glm_cstates),
++	X86_CSTATES_MODEL(INTEL_FAM6_ATOM_TREMONT, glm_cstates),
+ 
+ 	X86_CSTATES_MODEL(INTEL_FAM6_ICELAKE_MOBILE, snb_cstates),
+ 	{ },
+-- 
+2.23.0
+

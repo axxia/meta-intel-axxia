@@ -277,6 +277,41 @@ through
 
 SNR-0066-Revert-Changes-to-tools-perf.patch
 
+and
+
+SNR-0078-perf-vendor-events-intel-Add-Tremontx-event-file-v1..patch \
+file://SNR-0079-x86-cpu-Add-Elkhart-Lake-to-Intel-family.patch \
+file://SNR-0080-perf-x86-msr-Add-Tremont-support.patch \
+file://SNR-0081-perf-x86-cstate-Add-Tremont-support.patch \
+file://SNR-0082-perf-x86-intel-Add-more-available-bits-for-OFFCORE_R.patch \
+"
+
+FRIO_PATCHES = " \
+file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
+file://FRIO-0002-drivers-pci-Enable-overrides-for-missing-ACS-capabil.patch \
+file://FRIO-0003-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch \
+"
+
+LINUX_VERSION_pn-linux-intel = "${LINUX_VERSION_standard}"
+LINUX_VERSION_pn-linux-intel-debug = "${LINUX_VERSION_standard}"
+-UU-:@----F4  linux-intel_4.19.inc   79% L89   Git:local/next/thud  (Fundamental)
+45 patches for perf (core and uncore)
+-------------------------------------
+
+SNR-0022-perf-x86-kvm-Avoid-unnecessary-work-in-guest-filteri.patch
+
+through
+
+SNR-0066-Revert-Changes-to-tools-perf.patch
+
+and
+
+SNR-0078-perf-vendor-events-intel-Add-Tremontx-event-file-v1..patch
+
+through
+
+SNR-0082-perf-x86-intel-Add-more-available-bits-for-OFFCORE_R.patch
+
 All except the last commit can be found in kernel.org.  The last
 commit removes all changes made to tools/perf by the previous commits.
 This back-port is only for the Linux driver.  To get a list of core
