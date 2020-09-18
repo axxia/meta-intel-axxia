@@ -18,6 +18,7 @@ IMAGE_INSTALL = " \
 acl \
 aer-inject \
 at \
+atftp \
 attr \
 autoconf \
 autofs \
