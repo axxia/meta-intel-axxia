@@ -4,6 +4,9 @@ DESCRIPTION="SimicsFS gives you access to the file system of your real computer 
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://Makefile;md5=075374b44f8665b7a5008a68d58fd22b"
 
+SIMICS_VERSION ?= "6.0.45"
+PV = "${SIMICS_VERSION}"
+
 FILESEXTRAPATHS_prepend := "${THISDIR}/../../downloads:"
 
 SRC_URI = "file://simics-${PV}.tgz"
