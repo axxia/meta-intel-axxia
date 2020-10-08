@@ -17,6 +17,13 @@ PREFERRED_VERSION_boost ?= "1.70.0"
 PREFERRED_VERSION_boost-native ?= "1.70.0"
 PREFERRED_VERSION_bjam-native ?= "1.70.0"
 
+PYTHON_VERSION ?= "3.5"
+PYTHON_BASEVERSION_forcevariable = "${@oe.utils.conditional('PYTHON_PN', 'python3', '${PYTHON_VERSION}', '2.7', d)}"
+PYTHON_ABI_forcevariable = "${@oe.utils.conditional('PYTHON_PN', 'python3', 'm', '', d)}"
+PREFERRED_VERSION_python3 ?= "${PYTHON_VERSION}%"
+PREFERRED_VERSION_python3-native ?= "${PYTHON_VERSION}%"
+PREFERRED_VERSION_nativesdk-python3 ?= "${PYTHON_VERSION}%"
+
 GCC_VERSION = "${@bb.utils.contains('DISTRO_FEATURES', 'gcc8', '8.%', '9.%', d)}"
 PREFERRED_VERSION_gcc ?= "${GCC_VERSION}"
 PREFERRED_VERSION_gcc-runtime ?= "${GCC_VERSION}"
