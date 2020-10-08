@@ -1,0 +1,38 @@
+From 8683d7c9c5e7ee81e4281927af2f7a1aec1e248a Mon Sep 17 00:00:00 2001
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Mon, 28 Jan 2019 15:57:54 +0000
+Subject: [PATCH] _tkinter module needs tk module along with tcl. tk is
+ not yet integrated in yocto so we skip the check for this module. Avoid a
+ warning by not adding this module to missing variable.
+
+Upstream-Status: Inappropriate [distribution]
+
+Also simply disable the tk module since its not in DEPENDS.
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ setup.py | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/setup.py b/setup.py
+index 8744345..6cd5e65 100644
+--- a/setup.py
++++ b/setup.py
+@@ -1666,10 +1666,12 @@ class PyBuildExt(build_ext):
+         self.extensions.extend(exts)
+ 
+         # Call the method for detecting whether _tkinter can be compiled
+-        self.detect_tkinter(inc_dirs, lib_dirs)
++        # self.detect_tkinter(inc_dirs, lib_dirs)
+ 
+-        if '_tkinter' not in [e.name for e in self.extensions]:
+-            missing.append('_tkinter')
++        # tkinter module will not be avalaible as yocto
++        # doesn't have tk integrated (yet)
++        # if '_tkinter' not in [e.name for e in self.extensions]:
++        #    missing.append('_tkinter')
+ 
+ ##         # Uncomment these lines if you want to play with xxmodule.c
+ ##         ext = Extension('xx', ['xxmodule.c'])
+-- 
+2.17.1
+
