@@ -261,44 +261,39 @@ NOTE: No preferred version should be set for linux-local provider.
 
 2.3.9. Add simicsfs-client support (for large and sim images). Sources
      tgz archive should copied in meta-intel-vcn/downloads directory:
-     simics-<simics-version>.tgz
+     simics-6.0.24.tgz
 
     DISTRO_FEATURES_append = " simicsfs"
 
-    To generate simics-<simics-version>.tgz, get "ase_jvl_external*.txz" from
+    To generate simics-6.0.24.tgz, get "ase_jvl_external*.txz" from
     the SW download page (VIP), and do the following.
 
     * tar xf ase_jvl_external*.txz
     * 'cd ase/simics'
-    * tar czf simics-<simics-version>.tgz simics-<simics-version>
+    * tar czf simics-6.0.24.tgz simics-6.0.24
 
-2.3.10. Set SIMICS version if different than default. Source tgz archive for
-     this version should be available in meta-intel-vcn/downloads directory.
+2.3.10. Add gcc8 support for the previous version of gcc instead of
+      the default which is gcc9.
 
-    SIMICS_VERSION = "<simics-version>"
-
-2.3.11. Add gcc8 support for the previous version of gcc and glibc
-      instead of the default which is gcc9.
-
-    DISTRO_FEATURES_append = " gcc8"
-
-2.3.12. Set the serial console depending on the bios you are using.
+      DISTRO_FEATURES_append = " gcc8"
+    
+2.3.10. Set the serial console depending on the bios you are using.
       Default is ttyS4, but some old bios use ttyS5 or ttyS6.
 
     SNR_SERIAL_CONSOLE = "ttyS5"
     
-2.3.13. Set the console to use in the .iso image if different than the
+2.3.11. Set the console to use in the .iso image if different than the
       following default value:
 
     GRUB_SERIAL = "console=ttyS4,115200"
     
-2.3.14. Depending on your host processor, set these two options that
+2.3.12. Depending on your host processor, set these two options that
       control how much parallelism BitBake should use (optional):
 
     BB_NUMBER_THREADS = "12"
     PARALLEL_MAKE = "-j 12"
 
-2.3.15. Other optional settings for saving disk space and build time:
+2.3.13. Other optional settings for saving disk space and build time:
    
     DL_DIR = "/(some-shared-location)/downloads"
     SSTATE_DIR = "/(some-shared-location)/sstate-cache
