@@ -109,8 +109,8 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 #PREFERRED_VERSION_linux-yocto-rt-debug = "5.4%"
 
 # Add simicsfs-client support (sources should be in meta-intel-vcn/download)
-# and set simics version if different than default
-DISTRO_FEATURES_append = " simicsfs"
+# and set simics version to compile (mandatory).
+#DISTRO_FEATURES_append = " simicsfs"
 #SIMICS_VERSION = ""
 
 # Enable "multilib"
