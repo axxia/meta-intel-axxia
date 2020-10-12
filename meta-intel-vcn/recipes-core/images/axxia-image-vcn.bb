@@ -123,6 +123,7 @@ libgpiod-tools \
 libice \
 libjpeg-turbo \
 libkmod \
+liblzma \
 libnl \
 libnl-genl \
 libnl-nf \
@@ -158,6 +159,8 @@ libxdmcp \
 libxml2 \
 lighttpd \
 lmbench \
+lmdb \
+lmdb-dev \
 logrotate \
 lrzsz \
 lshw \
