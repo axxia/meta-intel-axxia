@@ -283,6 +283,7 @@ util-linux-libblkid \
 util-linux-libuuid \
 util-linux-lscpu \
 util-macros \
+valgrind \
 vim \
 vlan \
 watchdog \
