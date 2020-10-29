@@ -8,9 +8,8 @@ export RDK_KLM_VERSION
 
 do_patch_rdk() {
 	cd ${S}
-	for fname in $(find ${WORKDIR}/rdk/klm/*/lttng -type f -name "*.patch" -printf '%f\n' | sort); do
-		find ${WORKDIR}/rdk/klm/*/lttng -type f -name $fname | xargs -t -n 1 patch -p1 -i
-	done
+	cp $(find ${WORKDIR}/rdk/klm -path "*/lttng/*.patch") ${S}
+	ls ${S}/*.patch | sort | xargs -t -n 1 patch -p1 -i
 }
 do_patch[postfuncs] += "do_patch_rdk"
 
