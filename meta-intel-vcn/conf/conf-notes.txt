@@ -1,5 +1,16 @@
-Common targets are:
+
+You can now run 'bitbake <target>'
+
+Specific Intel AXXIA targets are:
     axxia-image-sim
     axxia-image-small
     axxia-image-vcn
+
+Other common targets are:
+    core-image-minimal
+    core-image-sato
+    meta-toolchain
+    meta-ide-support
+
+You can also run generated qemu images with a command like 'runqemu qemux86'
 
