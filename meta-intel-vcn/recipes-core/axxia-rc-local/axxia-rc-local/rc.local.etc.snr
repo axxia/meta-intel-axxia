@@ -21,29 +21,5 @@ echo "Running /etc/rc.local..."
 mkdir -p /host
 type simicsfs-client &>/dev/null && simicsfs-client -o allow_other /host
 
-# Run udhcpc on the Ethernet interface.
-
-TOUT=20
-
-until [ -f /sys/class/net/eth0/operstate ] || [ $TOUT -eq 0 ]
-do
-    sleep 1
-    (( TOUT-- ))
-done
-
-if [ $TOUT -ne 0 ]
-then
-    TOUT=20
-    ifconfig eth0 up
-
-    until [ "up" == "`cat /sys/class/net/eth0/operstate`" ] || [ $TOUT -eq 0 ]
-    do
-	sleep 1
-	(( TOUT-- ))
-    done
-
-    if [ $TOUT -ne 0 ]
-    then
-	udhcpc -b --interface=eth0
-    fi
-fi
+# Return success.
+exit 0
