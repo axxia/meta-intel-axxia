@@ -24,8 +24,8 @@ do_compile () {
 }
 
 do_install () {
-	install -d ${D}${bindir}
+	install -d ${D}${bindir} ${D}/host
 	install -m 0755 ${S}/simicsfs-client  ${D}${bindir}/simicsfs-client
 }
 
-FILES_${PN} = "${bindir}/simicsfs-client"
+FILES_${PN} = "${bindir}/simicsfs-client /host"
