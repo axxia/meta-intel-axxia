@@ -6,7 +6,7 @@ do_install_append() {
 # Fix resolv.conf in case one interface is used for nfsroot
 if [ $nfsroot -ne 0 ]; then
     if [ -n "$(grep nameserver /proc/net/pnp)" ]; then
-       ln -sf /proc/net/pnp /etc/resolv.conf
+       ln -sf /proc/net/pnp $(readlink /etc/resolv.conf)
     fi
 fi
 EOF
