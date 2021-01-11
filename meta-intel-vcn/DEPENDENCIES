@@ -17,7 +17,7 @@ meta-virtualization
 -------------------
 URI: git://git.yoctoproject.org/meta-virtualization
 branch: dunfell
-revision: ffd787fb850e5a1657a01febc8402c74832147a1
+revision: 92cd3467502bd27b98a76862ca6525ce425a8479
 
 meta-intel
 ----------
