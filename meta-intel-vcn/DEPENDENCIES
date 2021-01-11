@@ -17,7 +17,7 @@ meta-virtualization
 -------------------
 URI: git://git.yoctoproject.org/meta-virtualization
 branch: thud
-revision: 7685c7d415e0002c448007960837ae8898cd57a5
+revision: c1cbfdd3952e3f112a1d16a3cdc2675d0d896a8f
 
 meta-intel
 ----------
