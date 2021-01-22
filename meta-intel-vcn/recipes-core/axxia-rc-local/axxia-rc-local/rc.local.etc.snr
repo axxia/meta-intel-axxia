@@ -20,6 +20,12 @@ echo "Running /etc/rc.local..."
 # Automatically mount host filesystem using simicsfs-client.
 type simicsfs-client &>/dev/null && simicsfs-client -o allow_other /host
 
+# In a read-only roots, create writable mountpoint from /lib/modules
+if [ -d /lib/modules -a ! -w /lib/modules ]; then
+    mount --bind /lib/modules /lib/modules
+    mount -o remount,rw /lib/modules
+fi
+
 # Run udhcpc on the Ethernet interface.
 
 TOUT=20
