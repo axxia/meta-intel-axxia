@@ -13,6 +13,7 @@ axxia-rc-local \
 dhcp-client \
 gdbserver \
 inetutils \
+initscripts-readonly-rootfs-overlay \
 kernel-dev \
 kernel-modules \
 libasan \
