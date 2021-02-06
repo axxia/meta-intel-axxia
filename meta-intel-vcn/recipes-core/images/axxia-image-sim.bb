@@ -22,6 +22,7 @@ gdb \
 gdbserver \
 iasl \
 inetutils \
+initscripts-readonly-rootfs-overlay \
 kernel-dev \
 kernel-modules \
 kmod \
