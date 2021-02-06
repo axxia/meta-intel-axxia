@@ -26,6 +26,7 @@ II. Building meta-intel-vcn
     3. Select the image type and start the build
     4. Build and install the SDK
     5. Creating Bootable Disks for Victoria Canyon
+    6. Read-only rootfs with writable overlayfs
 
 
 I. Prerequisites
@@ -422,3 +423,54 @@ described here.  The files needed to boot are available.
   * Multiple root file systems are also available.  The contents are
     described above (see axxia-image-small, axxia-image-sim, and
     axxia-image-vcn).  Various formats are available.
+
+
+6. Read-only rootfs with writable overlayfs
+-------------------------------------------
+
+Having a read-only root file system is useful for many scenarios:
+* Separate user specific changes from system configuration
+* Allow factory reset, by deleting the user specific changes
+* Have a fallback image in case the user specific changes made the root
+  file system no longer bootable
+* Share root file system to boot multiple boards via NFS
+
+Because some data on the root file system changes on first boot or
+while the system is running, just mounting the complete root file
+system as read-only breaks many applications.
+
+Instead of having a read-only root files system and symlinking/bind
+mounting files and directories that could potentially change while the
+system is running to a writable partition, mounting a writable overlay
+root file system, that uses a read-only file system as its base and
+writes changed data to another writable partition.
+
+Here no investigation of writable files are needed and factory reset
+can be done by just deleting all files or formatting the writable
+volume. In case when upperdir of the overlay is mounted as tmpfs, all
+the changes will be reset on reboot.
+
+In order to boot the rootfs read-only with writable overlayfs, set the
+custom init-readonly-overlay script as init script for boot with the
+following Kernel command line parameter:
+
+    init=/init-readonly-overlay
+
+This will mount the rootfs read-only in /media/rfs/ro, a tmpfs
+mountpoint will be created in /media/rfs/rw and an overlayfs will be
+mounted on root / directory using the readonly rootfs as lowerdir and
+the tmpfs one as upperdir. All the user specific changes will be stored
+in tmpfs, so will be volative.
+
+For persistent user changes, a new read-write partition need to be
+present and set with the following Kernel command line parameter:
+
+    rootrw=/dev/sda2
+
+More details on how to setup a writable root file system overlay on
+top of a read-only root file system can be found in
+meta-readonly-rootfs-overlay layer [1], and details about overlays can
+be found in the Kernel official documentation [2].
+
+1. https://github.com/cmhe/meta-readonly-rootfs-overlay
+2. https://www.kernel.org/doc/Documentation/filesystems/overlayfs.txt
