@@ -15,7 +15,16 @@ while read dev mtpt fstype rest; do
         case $fstype in
             nfs | nfs4)
                 nfsroot=1
-                nfs_addr=`echo $rest | sed -e 's/^.*addr=\([0-9.]*\).*$/\1/'`
+                nfs_addr=$(echo $rest | sed -e 's/^.*addr=\([0-9.]*\).*$/\1/')
+                break
+                ;;
+            overlay)
+                lowerdir=$(echo $rest | sed -e 's/^.*lowerdir=\(\S*\).*,upperdir.*$/\1/')
+                lowerdir_fstype=$(grep " $lowerdir " /proc/mounts | sed -e 's/^[^ ]* \([^ ]*\) \([^ ]*\) .*$/\2/')
+                if [ $( echo $lowerdir_fstype | grep -Ec "^nfs|^nfs4" ) -ne 0 ]; then
+                     nfsroot=1
+                     nfs_addr=$(grep " $lowerdir " /proc/mounts | sed -e 's/^.*addr=\([0-9.]*\).*$/\1/')
+                fi
                 break
                 ;;
             *)
