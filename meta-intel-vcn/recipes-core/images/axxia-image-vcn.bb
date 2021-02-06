@@ -86,6 +86,7 @@ inetutils \
 inetutils-telnetd \
 init-ifupdown \
 initscripts \
+initscripts-readonly-rootfs-overlay \
 ipmiutil \
 iperf3 \
 iproute2 \
