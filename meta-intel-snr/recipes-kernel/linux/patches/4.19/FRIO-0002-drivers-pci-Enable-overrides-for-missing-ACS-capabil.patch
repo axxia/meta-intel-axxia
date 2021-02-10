@@ -1,7 +1,8 @@
-From 82500b2d52d7b1396286ccdfe066eeb77c4d4b53 Mon Sep 17 00:00:00 2001
+From 26f9f33acab760ce3511109cbc55304b3afd064d Mon Sep 17 00:00:00 2001
 From: Gage Eads <gage.eads@intel.com>
 Date: Wed, 5 Jun 2019 17:07:37 -0500
-Subject: drivers/pci: Enable overrides for missing ACS capabilities
+Subject: [PATCH 2/2] drivers/pci: Enable overrides for missing ACS
+ capabilities
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -14,14 +15,14 @@ http://vfio.blogspot.com/2014/08/iommu-groups-inside-and-out.html
 Signed-off-by: Gage Eads <gage.eads@intel.com>
 Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- drivers/pci/quirks.c | 101 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/pci/quirks.c | 101 +++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 101 insertions(+)
 
 diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index 28c64f8..6a42a8a 100644
+index af2149632102..ce59f205e016 100644
 --- a/drivers/pci/quirks.c
 +++ b/drivers/pci/quirks.c
-@@ -3841,6 +3841,106 @@ static void quirk_dma_func0_alias(struct pci_dev *dev)
+@@ -3915,6 +3915,106 @@ static void quirk_dma_func0_alias(struct pci_dev *dev)
  		pci_add_dma_alias(dev, PCI_DEVFN(PCI_SLOT(dev->devfn), 0));
  }
  
@@ -128,14 +129,14 @@ index 28c64f8..6a42a8a 100644
  /*
   * https://bugzilla.redhat.com/show_bug.cgi?id=605888
   *
-@@ -4533,6 +4633,7 @@ static const struct pci_dev_acs_enabled {
- 	{ PCI_VENDOR_ID_AMPERE, 0xE00A, pci_quirk_xgene_acs },
+@@ -4687,6 +4787,7 @@ static const struct pci_dev_acs_enabled {
  	{ PCI_VENDOR_ID_AMPERE, 0xE00B, pci_quirk_xgene_acs },
  	{ PCI_VENDOR_ID_AMPERE, 0xE00C, pci_quirk_xgene_acs },
+ 	{ PCI_VENDOR_ID_BROADCOM, 0xD714, pci_quirk_brcm_acs },
 +	{ PCI_ANY_ID, PCI_ANY_ID, pcie_acs_overrides },
  	{ 0 }
  };
  
 -- 
-2.7.4
+2.17.1
 

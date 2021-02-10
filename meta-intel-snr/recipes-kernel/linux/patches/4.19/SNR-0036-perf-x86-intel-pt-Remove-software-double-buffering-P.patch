@@ -1,0 +1,55 @@
+From 2602710205b80f3c116222cd62131b1a23887e2b Mon Sep 17 00:00:00 2001
+From: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Date: Fri, 3 May 2019 11:55:36 +0300
+Subject: [PATCH 36/78] perf/x86/intel/pt: Remove software double buffering PMU
+ capability
+
+Now that all AUX allocations are high-order by default, the software
+double buffering PMU capability doesn't make sense any more, get rid
+of it. In case some PMUs choose to opt out, we can re-introduce it.
+
+Signed-off-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Acked-by: Peter Zijlstra <a.p.zijlstra@chello.nl>
+Cc: Arnaldo Carvalho de Melo <acme@redhat.com>
+Cc: Jiri Olsa <jolsa@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Stephane Eranian <eranian@google.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Vince Weaver <vincent.weaver@maine.edu>
+Cc: adrian.hunter@intel.com
+Link: http://lkml.kernel.org/r/20190503085536.24119-3-alexander.shishkin@linux.intel.com
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+---
+ arch/x86/events/intel/pt.c | 3 +--
+ include/linux/perf_event.h | 1 -
+ 2 files changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/arch/x86/events/intel/pt.c b/arch/x86/events/intel/pt.c
+index f52aadaf6941..f4fb43234288 100644
+--- a/arch/x86/events/intel/pt.c
++++ b/arch/x86/events/intel/pt.c
+@@ -1518,8 +1518,7 @@ static __init int pt_init(void)
+ 	}
+ 
+ 	if (!intel_pt_validate_hw_cap(PT_CAP_topa_multiple_entries))
+-		pt_pmu.pmu.capabilities =
+-			PERF_PMU_CAP_AUX_NO_SG | PERF_PMU_CAP_AUX_SW_DOUBLEBUF;
++		pt_pmu.pmu.capabilities = PERF_PMU_CAP_AUX_NO_SG;
+ 
+ 	pt_pmu.pmu.capabilities	|= PERF_PMU_CAP_EXCLUSIVE | PERF_PMU_CAP_ITRACE;
+ 	pt_pmu.pmu.attr_groups		 = pt_attr_groups;
+diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
+index f3a88b9b2f64..c26790fbce81 100644
+--- a/include/linux/perf_event.h
++++ b/include/linux/perf_event.h
+@@ -240,7 +240,6 @@ struct perf_event;
+ #define PERF_PMU_CAP_NO_INTERRUPT		0x01
+ #define PERF_PMU_CAP_NO_NMI			0x02
+ #define PERF_PMU_CAP_AUX_NO_SG			0x04
+-#define PERF_PMU_CAP_AUX_SW_DOUBLEBUF		0x08
+ #define PERF_PMU_CAP_EXCLUSIVE			0x10
+ #define PERF_PMU_CAP_ITRACE			0x20
+ #define PERF_PMU_CAP_HETEROGENEOUS_CPUS		0x40
+-- 
+2.17.1
+
