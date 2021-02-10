@@ -1,0 +1,117 @@
+From 1079abe5fd269844f0df2ccb3cfb220419d4937e Mon Sep 17 00:00:00 2001
+From: Kan Liang <kan.liang@linux.intel.com>
+Date: Tue, 14 May 2019 13:19:33 -0700
+Subject: [PATCH 31/78] perf parse-regs: Add generic support for
+ arch__intr/user_reg_mask()
+
+There may be different register mask for use with intr or user on some
+platforms, e.g. Icelake.
+
+Add weak functions arch__intr_reg_mask() and arch__user_reg_mask() to
+return intr and user register mask respectively.
+
+Check mask before printing or comparing the register name.
+
+Generic code always return PERF_REGS_MASK. No functional change.
+
+Suggested-by: Arnaldo Carvalho de Melo <acme@redhat.com>
+Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
+Tested-by: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Cc: Andi Kleen <ak@linux.intel.com>
+Cc: Jiri Olsa <jolsa@kernel.org>
+Link: http://lkml.kernel.org/r/1557865174-56264-2-git-send-email-kan.liang@linux.intel.com
+Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
+---
+ tools/perf/util/parse-regs-options.c | 13 ++++++++++---
+ tools/perf/util/perf_regs.c          | 10 ++++++++++
+ tools/perf/util/perf_regs.h          |  2 ++
+ 3 files changed, 22 insertions(+), 3 deletions(-)
+
+diff --git a/tools/perf/util/parse-regs-options.c b/tools/perf/util/parse-regs-options.c
+index f3b8f4f760b9..b82e2a097df8 100644
+--- a/tools/perf/util/parse-regs-options.c
++++ b/tools/perf/util/parse-regs-options.c
+@@ -12,6 +12,7 @@ __parse_regs(const struct option *opt, const char *str, int unset, bool intr)
+ 	const struct sample_reg *r;
+ 	char *s, *os = NULL, *p;
+ 	int ret = -1;
++	uint64_t mask;
+ 
+ 	if (unset)
+ 		return 0;
+@@ -22,6 +23,11 @@ __parse_regs(const struct option *opt, const char *str, int unset, bool intr)
+ 	if (*mode)
+ 		return -1;
+ 
++	if (intr)
++		mask = arch__intr_reg_mask();
++	else
++		mask = arch__user_reg_mask();
++
+ 	/* str may be NULL in case no arg is passed to -I */
+ 	if (str) {
+ 		/* because str is read-only */
+@@ -37,14 +43,15 @@ __parse_regs(const struct option *opt, const char *str, int unset, bool intr)
+ 			if (!strcmp(s, "?")) {
+ 				fprintf(stderr, "available registers: ");
+ 				for (r = sample_reg_masks; r->name; r++) {
+-					fprintf(stderr, "%s ", r->name);
++					if (r->mask & mask)
++						fprintf(stderr, "%s ", r->name);
+ 				}
+ 				fputc('\n', stderr);
+ 				/* just printing available regs */
+ 				goto error;
+ 			}
+ 			for (r = sample_reg_masks; r->name; r++) {
+-				if (!strcasecmp(s, r->name))
++				if ((r->mask & mask) && !strcasecmp(s, r->name))
+ 					break;
+ 			}
+ 			if (!r->name) {
+@@ -65,7 +72,7 @@ __parse_regs(const struct option *opt, const char *str, int unset, bool intr)
+ 
+ 	/* default to all possible regs */
+ 	if (*mode == 0)
+-		*mode = PERF_REGS_MASK;
++		*mode = mask;
+ error:
+ 	free(os);
+ 	return ret;
+diff --git a/tools/perf/util/perf_regs.c b/tools/perf/util/perf_regs.c
+index 2acfcc527cac..2774cec1f15f 100644
+--- a/tools/perf/util/perf_regs.c
++++ b/tools/perf/util/perf_regs.c
+@@ -13,6 +13,16 @@ int __weak arch_sdt_arg_parse_op(char *old_op __maybe_unused,
+ 	return SDT_ARG_SKIP;
+ }
+ 
++uint64_t __weak arch__intr_reg_mask(void)
++{
++	return PERF_REGS_MASK;
++}
++
++uint64_t __weak arch__user_reg_mask(void)
++{
++	return PERF_REGS_MASK;
++}
++
+ #ifdef HAVE_PERF_REGS_SUPPORT
+ int perf_reg_value(u64 *valp, struct regs_dump *regs, int id)
+ {
+diff --git a/tools/perf/util/perf_regs.h b/tools/perf/util/perf_regs.h
+index 9f9b25bf7106..2f41b10698ad 100644
+--- a/tools/perf/util/perf_regs.h
++++ b/tools/perf/util/perf_regs.h
+@@ -23,6 +23,8 @@ enum {
+ };
+ 
+ int arch_sdt_arg_parse_op(char *old_op, char **new_op);
++uint64_t arch__intr_reg_mask(void);
++uint64_t arch__user_reg_mask(void);
+ 
+ #ifdef HAVE_PERF_REGS_SUPPORT
+ #include <perf_regs.h>
+-- 
+2.17.1
+

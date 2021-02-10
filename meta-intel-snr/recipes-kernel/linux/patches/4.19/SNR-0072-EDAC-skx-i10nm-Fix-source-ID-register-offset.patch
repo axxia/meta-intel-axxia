@@ -1,0 +1,77 @@
+From 8569bec1f311842f415d57655bd997bc696c6954 Mon Sep 17 00:00:00 2001
+From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Date: Wed, 26 Jun 2019 14:16:55 +0800
+Subject: [PATCH 72/78] EDAC, skx, i10nm: Fix source ID register offset
+
+The source ID register offset for Skylake server is 0xf0, while for
+Icelake server is 0xf8. Pass the correct offset to get the source ID.
+
+Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+---
+ drivers/edac/i10nm_base.c | 2 +-
+ drivers/edac/skx_base.c   | 2 +-
+ drivers/edac/skx_common.c | 4 ++--
+ drivers/edac/skx_common.h | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/edac/i10nm_base.c b/drivers/edac/i10nm_base.c
+index 72cc20a90ac1..83392f2841de 100644
+--- a/drivers/edac/i10nm_base.c
++++ b/drivers/edac/i10nm_base.c
+@@ -267,7 +267,7 @@ static int __init i10nm_init(void)
+ 		goto fail;
+ 
+ 	list_for_each_entry(d, i10nm_edac_list, list) {
+-		rc = skx_get_src_id(d, &src_id);
++		rc = skx_get_src_id(d, 0xf8, &src_id);
+ 		if (rc < 0)
+ 			goto fail;
+ 
+diff --git a/drivers/edac/skx_base.c b/drivers/edac/skx_base.c
+index a5c8fa3a249a..0fcf3785e8f3 100644
+--- a/drivers/edac/skx_base.c
++++ b/drivers/edac/skx_base.c
+@@ -639,7 +639,7 @@ static int __init skx_init(void)
+ 	}
+ 
+ 	list_for_each_entry(d, skx_edac_list, list) {
+-		rc = skx_get_src_id(d, &src_id);
++		rc = skx_get_src_id(d, 0xf0, &src_id);
+ 		if (rc < 0)
+ 			goto fail;
+ 		rc = skx_get_node_id(d, &node_id);
+diff --git a/drivers/edac/skx_common.c b/drivers/edac/skx_common.c
+index 67fb6cc0b618..43b859d27415 100644
+--- a/drivers/edac/skx_common.c
++++ b/drivers/edac/skx_common.c
+@@ -136,11 +136,11 @@ void skx_set_decode(skx_decode_f decode)
+ 	skx_decode = decode;
+ }
+ 
+-int skx_get_src_id(struct skx_dev *d, u8 *id)
++int skx_get_src_id(struct skx_dev *d, int off, u8 *id)
+ {
+ 	u32 reg;
+ 
+-	if (pci_read_config_dword(d->util_all, 0xf0, &reg)) {
++	if (pci_read_config_dword(d->util_all, off, &reg)) {
+ 		skx_printk(KERN_ERR, "Failed to read src id\n");
+ 		return -ENODEV;
+ 	}
+diff --git a/drivers/edac/skx_common.h b/drivers/edac/skx_common.h
+index d18fa98669af..08cc971a50ea 100644
+--- a/drivers/edac/skx_common.h
++++ b/drivers/edac/skx_common.h
+@@ -118,7 +118,7 @@ int __init skx_adxl_get(void);
+ void __exit skx_adxl_put(void);
+ void skx_set_decode(skx_decode_f decode);
+ 
+-int skx_get_src_id(struct skx_dev *d, u8 *id);
++int skx_get_src_id(struct skx_dev *d, int off, u8 *id);
+ int skx_get_node_id(struct skx_dev *d, u8 *id);
+ 
+ int skx_get_all_bus_mappings(unsigned int did, int off, enum type,
+-- 
+2.17.1
+

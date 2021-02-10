@@ -1,0 +1,87 @@
+From 3fe31b43292580001076f388508df0e5811c20e9 Mon Sep 17 00:00:00 2001
+From: Andi Kleen <ak@linux.intel.com>
+Date: Tue, 2 Apr 2019 12:45:03 -0700
+Subject: [PATCH 25/78] perf/x86/lbr: Avoid reading the LBRs when adaptive PEBS
+ handles them
+
+With adaptive PEBS the CPU can directly supply the LBR information,
+so we don't need to read it again. But the LBRs still need to be
+enabled. Add a special count to the cpuc that distinguishes these
+two cases, and avoid reading the LBRs unnecessarily when PEBS is
+active.
+
+Signed-off-by: Andi Kleen <ak@linux.intel.com>
+Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Arnaldo Carvalho de Melo <acme@redhat.com>
+Cc: Jiri Olsa <jolsa@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Stephane Eranian <eranian@google.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Vince Weaver <vincent.weaver@maine.edu>
+Cc: acme@kernel.org
+Cc: jolsa@kernel.org
+Link: https://lkml.kernel.org/r/20190402194509.2832-7-kan.liang@linux.intel.com
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+---
+ arch/x86/events/intel/lbr.c  | 13 ++++++++++++-
+ arch/x86/events/perf_event.h |  1 +
+ 2 files changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/arch/x86/events/intel/lbr.c b/arch/x86/events/intel/lbr.c
+index 58889f952959..b8cac31f089c 100644
+--- a/arch/x86/events/intel/lbr.c
++++ b/arch/x86/events/intel/lbr.c
+@@ -488,6 +488,8 @@ void intel_pmu_lbr_add(struct perf_event *event)
+ 	 * be 'new'. Conversely, a new event can get installed through the
+ 	 * context switch path for the first time.
+ 	 */
++	if (x86_pmu.intel_cap.pebs_baseline && event->attr.precise_ip > 0)
++		cpuc->lbr_pebs_users++;
+ 	perf_sched_cb_inc(event->ctx->pmu);
+ 	if (!cpuc->lbr_users++ && !event->total_time_running)
+ 		intel_pmu_lbr_reset();
+@@ -507,8 +509,11 @@ void intel_pmu_lbr_del(struct perf_event *event)
+ 		task_ctx->lbr_callstack_users--;
+ 	}
+ 
++	if (x86_pmu.intel_cap.pebs_baseline && event->attr.precise_ip > 0)
++		cpuc->lbr_pebs_users--;
+ 	cpuc->lbr_users--;
+ 	WARN_ON_ONCE(cpuc->lbr_users < 0);
++	WARN_ON_ONCE(cpuc->lbr_pebs_users < 0);
+ 	perf_sched_cb_dec(event->ctx->pmu);
+ }
+ 
+@@ -658,7 +663,13 @@ void intel_pmu_lbr_read(void)
+ {
+ 	struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
+ 
+-	if (!cpuc->lbr_users)
++	/*
++	 * Don't read when all LBRs users are using adaptive PEBS.
++	 *
++	 * This could be smarter and actually check the event,
++	 * but this simple approach seems to work for now.
++	 */
++	if (!cpuc->lbr_users || cpuc->lbr_users == cpuc->lbr_pebs_users)
+ 		return;
+ 
+ 	if (x86_pmu.intel_cap.lbr_format == LBR_FORMAT_32)
+diff --git a/arch/x86/events/perf_event.h b/arch/x86/events/perf_event.h
+index 2a72688de630..824b1636771e 100644
+--- a/arch/x86/events/perf_event.h
++++ b/arch/x86/events/perf_event.h
+@@ -234,6 +234,7 @@ struct cpu_hw_events {
+ 	 * Intel LBR bits
+ 	 */
+ 	int				lbr_users;
++	int				lbr_pebs_users;
+ 	struct perf_branch_stack	lbr_stack;
+ 	struct perf_branch_entry	lbr_entries[MAX_LBR_ENTRIES];
+ 	struct er_account		*lbr_sel;
+-- 
+2.17.1
+
