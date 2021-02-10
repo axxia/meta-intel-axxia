@@ -1,8 +1,8 @@
-LINUX_VERSION_standard = "4.19.78"
-LINUX_VERSION_preempt-rt = "4.19.72"
-SRCREV_standard = "fb2607123169ee7f1283cef35ef95ba86c425d48"
-SRCREV_preempt-rt = "cf2e1ceb823576067ce01f02f1750a45c35adae5"
-SRCREV_meta = "ad6f8b357720ca8167a090713b7746230cf4b314"
+LINUX_VERSION_standard = "4.19.165"
+LINUX_VERSION_preempt-rt = "4.19.165"
+SRCREV_standard = "1748e670e59b98d2d0c72184f251548c300fa529"
+SRCREV_preempt-rt = "4b0ea4d493b0f8fca0979b4351660cc4e01594c1"
+SRCREV_meta = "147f6b827c6e7766cb2b61da4e17479ffcd216c2"
 
 SNR_PATCHES = " \
 file://SNR-0001-i2c-ismt-Add-support-for-Intel-Cedar-Fork.patch \
