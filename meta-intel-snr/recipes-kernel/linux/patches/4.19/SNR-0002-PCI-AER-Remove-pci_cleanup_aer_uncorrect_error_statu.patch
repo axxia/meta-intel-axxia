@@ -1,7 +1,8 @@
-From 95151a78e60cb0966c7b40ecb3abd240e5e60e51 Mon Sep 17 00:00:00 2001
+From 731eb0f20fa64938c3b5f35c7ee2f636bbd1c586 Mon Sep 17 00:00:00 2001
 From: Oza Pawandeep <poza@codeaurora.org>
 Date: Fri, 28 Sep 2018 13:00:56 -0500
-Subject: PCI/AER: Remove pci_cleanup_aer_uncorrect_error_status() calls
+Subject: [PATCH 02/78] PCI/AER: Remove
+ pci_cleanup_aer_uncorrect_error_status() calls
 
 After bfcb79fca19d ("PCI/ERR: Run error recovery callbacks for all affected
 devices"), AER errors are always cleared by the PCI core and drivers don't
@@ -18,10 +19,10 @@ Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
  1 file changed, 7 deletions(-)
 
 diff --git a/drivers/dma/ioat/init.c b/drivers/dma/ioat/init.c
-index 21a5708..569af3f 100644
+index 0fec3c554fe3..2d810dfcdc48 100644
 --- a/drivers/dma/ioat/init.c
 +++ b/drivers/dma/ioat/init.c
-@@ -1259,7 +1259,6 @@ static pci_ers_result_t ioat_pcie_error_detected(struct pci_dev *pdev,
+@@ -1258,7 +1258,6 @@ static pci_ers_result_t ioat_pcie_error_detected(struct pci_dev *pdev,
  static pci_ers_result_t ioat_pcie_error_slot_reset(struct pci_dev *pdev)
  {
  	pci_ers_result_t result = PCI_ERS_RESULT_RECOVERED;
@@ -29,7 +30,7 @@ index 21a5708..569af3f 100644
  
  	dev_dbg(&pdev->dev, "%s post reset handling\n", DRV_NAME);
  
-@@ -1274,12 +1273,6 @@ static pci_ers_result_t ioat_pcie_error_slot_reset(struct pci_dev *pdev)
+@@ -1273,12 +1272,6 @@ static pci_ers_result_t ioat_pcie_error_slot_reset(struct pci_dev *pdev)
  		pci_wake_from_d3(pdev, false);
  	}
  
@@ -43,5 +44,5 @@ index 21a5708..569af3f 100644
  }
  
 -- 
-2.7.4
+2.17.1
 

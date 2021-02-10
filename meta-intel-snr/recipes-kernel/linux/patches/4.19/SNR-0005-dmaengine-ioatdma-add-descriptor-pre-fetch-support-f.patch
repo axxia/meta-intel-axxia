@@ -1,0 +1,104 @@
+From 7a5386d32457a42c38af4edbe90e421b8b811b87 Mon Sep 17 00:00:00 2001
+From: Dave Jiang <dave.jiang@intel.com>
+Date: Fri, 22 Feb 2019 10:00:05 -0700
+Subject: [PATCH 05/78] dmaengine: ioatdma: add descriptor pre-fetch support
+ for v3.4
+
+Adding support for new feature on ioatdma 3.4 hardware that provides
+descriptor pre-fetching in order to reduce small DMA latencies.
+
+Signed-off-by: Dave Jiang <dave.jiang@intel.com>
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
+---
+ drivers/dma/ioat/dma.c       | 12 ++++++++++++
+ drivers/dma/ioat/init.c      |  8 ++++++--
+ drivers/dma/ioat/registers.h | 10 ++++++++++
+ 3 files changed, 28 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/dma/ioat/dma.c b/drivers/dma/ioat/dma.c
+index 890cadf3ec5d..48d62d8e2c53 100644
+--- a/drivers/dma/ioat/dma.c
++++ b/drivers/dma/ioat/dma.c
+@@ -384,6 +384,7 @@ struct ioat_ring_ent **
+ ioat_alloc_ring(struct dma_chan *c, int order, gfp_t flags)
+ {
+ 	struct ioatdma_chan *ioat_chan = to_ioat_chan(c);
++	struct ioatdma_device *ioat_dma = ioat_chan->ioat_dma;
+ 	struct ioat_ring_ent **ring;
+ 	int total_descs = 1 << order;
+ 	int i, chunks;
+@@ -450,6 +451,17 @@ ioat_alloc_ring(struct dma_chan *c, int order, gfp_t flags)
+ 	}
+ 	ring[i]->hw->next = ring[0]->txd.phys;
+ 
++	/* setup descriptor pre-fetching for v3.4 */
++	if (ioat_dma->cap & IOAT_CAP_DPS) {
++		u16 drsctl = IOAT_CHAN_DRSZ_2MB | IOAT_CHAN_DRS_EN;
++
++		if (chunks == 1)
++			drsctl |= IOAT_CHAN_DRS_AUTOWRAP;
++
++		writew(drsctl, ioat_chan->reg_base + IOAT_CHAN_DRSCTL_OFFSET);
++
++	}
++
+ 	return ring;
+ }
+ 
+diff --git a/drivers/dma/ioat/init.c b/drivers/dma/ioat/init.c
+index 58dd1bfd3edd..020bcdecb3fb 100644
+--- a/drivers/dma/ioat/init.c
++++ b/drivers/dma/ioat/init.c
+@@ -138,10 +138,10 @@ static int ioat3_dma_self_test(struct ioatdma_device *ioat_dma);
+ static int ioat_dca_enabled = 1;
+ module_param(ioat_dca_enabled, int, 0644);
+ MODULE_PARM_DESC(ioat_dca_enabled, "control support of dca service (default: 1)");
+-int ioat_pending_level = 4;
++int ioat_pending_level = 7;
+ module_param(ioat_pending_level, int, 0644);
+ MODULE_PARM_DESC(ioat_pending_level,
+-		 "high-water mark for pushing ioat descriptors (default: 4)");
++		 "high-water mark for pushing ioat descriptors (default: 7)");
+ static char ioat_interrupt_style[32] = "msix";
+ module_param_string(ioat_interrupt_style, ioat_interrupt_style,
+ 		    sizeof(ioat_interrupt_style), 0644);
+@@ -1188,6 +1188,10 @@ static int ioat3_dma_probe(struct ioatdma_device *ioat_dma, int dca)
+ 	if (err)
+ 		return err;
+ 
++	if (ioat_dma->cap & IOAT_CAP_DPS)
++		writeb(ioat_pending_level + 1,
++		       ioat_dma->reg_base + IOAT_PREFETCH_LIMIT_OFFSET);
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/dma/ioat/registers.h b/drivers/dma/ioat/registers.h
+index 2f3bbc88ff2a..2b517d6db5fd 100644
+--- a/drivers/dma/ioat/registers.h
++++ b/drivers/dma/ioat/registers.h
+@@ -84,6 +84,9 @@
+ #define IOAT_CAP_PQ				0x00000200
+ #define IOAT_CAP_DWBES				0x00002000
+ #define IOAT_CAP_RAID16SS			0x00020000
++#define IOAT_CAP_DPS				0x00800000
++
++#define IOAT_PREFETCH_LIMIT_OFFSET		0x4C	/* CHWPREFLMT */
+ 
+ #define IOAT_CHANNEL_MMIO_SIZE			0x80	/* Each Channel MMIO space is this size */
+ 
+@@ -243,4 +246,11 @@
+ 
+ #define IOAT_CHANERR_MASK_OFFSET		0x2C	/* 32-bit Channel Error Register */
+ 
++#define IOAT_CHAN_DRSCTL_OFFSET			0xB6
++#define IOAT_CHAN_DRSZ_4KB			0x0000
++#define IOAT_CHAN_DRSZ_8KB			0x0001
++#define IOAT_CHAN_DRSZ_2MB			0x0009
++#define IOAT_CHAN_DRS_EN			0x0100
++#define IOAT_CHAN_DRS_AUTOWRAP			0x0200
++
+ #endif /* _IOAT_REGISTERS_H_ */
+-- 
+2.17.1
+
