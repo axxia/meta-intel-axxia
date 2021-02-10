@@ -3,7 +3,14 @@ KERNEL = "${@d.getVar('ALTERNATIVE_KERNELS')[1:].split(' ')[${ALTERNATIVE_KERNEL
 BPN = "lttng-modules"
 PN = "lttng-modules-${KERNEL}"
 
-FILESEXTRAPATHS_prepend := "${COREBASE}/meta/recipes-kernel/lttng/${BPN}:"
+FILESEXTRAPATHS_prepend := "${COREBASE}/meta/recipes-kernel/lttng/${BPN}:${THISDIR}/${PN}:"
+
+SRC_URI_append = " \
+	file://0001-fix-KVM-x86-Use-gpa_t-for-cr2-gpa-to-fix-TDP-support.patch \
+	file://0002-fix-ext4-limit-the-length-of-per-inode-prealloc-list.patch \
+	file://0003-fix-writeback-Fix-sync-livelock-due-to-b_dirty_time-.patch \
+	file://0004-fix-version-ranges-for-ext4_discard_preallocations-a.patch \
+	"
 
 DEPENDS += "${KERNEL} make-mod-scripts"
 
