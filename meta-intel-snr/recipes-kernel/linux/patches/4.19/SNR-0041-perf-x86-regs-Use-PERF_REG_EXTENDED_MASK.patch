@@ -1,0 +1,76 @@
+From dc18a37079094d1940fa17ecf57e649aa1b9d73d Mon Sep 17 00:00:00 2001
+From: Kan Liang <kan.liang@linux.intel.com>
+Date: Tue, 28 May 2019 15:08:34 -0700
+Subject: [PATCH 41/78] perf/x86/regs: Use PERF_REG_EXTENDED_MASK
+
+Use the macro defined in kernel ABI header to replace the local name.
+
+No functional change.
+
+Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Arnaldo Carvalho de Melo <acme@redhat.com>
+Cc: Jiri Olsa <jolsa@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Stephane Eranian <eranian@google.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Vince Weaver <vincent.weaver@maine.edu>
+Link: https://lkml.kernel.org/r/1559081314-9714-5-git-send-email-kan.liang@linux.intel.com
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+---
+ tools/arch/x86/include/uapi/asm/perf_regs.h | 3 +++
+ tools/perf/arch/x86/include/perf_regs.h     | 1 -
+ tools/perf/arch/x86/util/perf_regs.c        | 4 ++--
+ 3 files changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/tools/arch/x86/include/uapi/asm/perf_regs.h b/tools/arch/x86/include/uapi/asm/perf_regs.h
+index f3329cabce5c..62a6965637fd 100644
+--- a/tools/arch/x86/include/uapi/asm/perf_regs.h
++++ b/tools/arch/x86/include/uapi/asm/perf_regs.h
+@@ -31,4 +31,7 @@ enum perf_event_x86_regs {
+ 	PERF_REG_X86_32_MAX = PERF_REG_X86_GS + 1,
+ 	PERF_REG_X86_64_MAX = PERF_REG_X86_R15 + 1,
+ };
++
++#define PERF_REG_EXTENDED_MASK	(~((1ULL << PERF_REG_X86_XMM0) - 1))
++
+ #endif /* _ASM_X86_PERF_REGS_H */
+diff --git a/tools/perf/arch/x86/include/perf_regs.h b/tools/perf/arch/x86/include/perf_regs.h
+index b7cd91a9014f..b7321337d100 100644
+--- a/tools/perf/arch/x86/include/perf_regs.h
++++ b/tools/perf/arch/x86/include/perf_regs.h
+@@ -9,7 +9,6 @@
+ void perf_regs_load(u64 *regs);
+ 
+ #define PERF_REGS_MAX PERF_REG_X86_XMM_MAX
+-#define PERF_XMM_REGS_MASK	(~((1ULL << PERF_REG_X86_XMM0) - 1))
+ #ifndef HAVE_ARCH_X86_64_SUPPORT
+ #define PERF_REGS_MASK ((1ULL << PERF_REG_X86_32_MAX) - 1)
+ #define PERF_SAMPLE_REGS_ABI PERF_SAMPLE_REGS_ABI_32
+diff --git a/tools/perf/arch/x86/util/perf_regs.c b/tools/perf/arch/x86/util/perf_regs.c
+index 7886ca5263e3..3666c0076df9 100644
+--- a/tools/perf/arch/x86/util/perf_regs.c
++++ b/tools/perf/arch/x86/util/perf_regs.c
+@@ -277,7 +277,7 @@ uint64_t arch__intr_reg_mask(void)
+ 		.type			= PERF_TYPE_HARDWARE,
+ 		.config			= PERF_COUNT_HW_CPU_CYCLES,
+ 		.sample_type		= PERF_SAMPLE_REGS_INTR,
+-		.sample_regs_intr	= PERF_XMM_REGS_MASK,
++		.sample_regs_intr	= PERF_REG_EXTENDED_MASK,
+ 		.precise_ip		= 1,
+ 		.disabled 		= 1,
+ 		.exclude_kernel		= 1,
+@@ -293,7 +293,7 @@ uint64_t arch__intr_reg_mask(void)
+ 	fd = sys_perf_event_open(&attr, 0, -1, -1, 0);
+ 	if (fd != -1) {
+ 		close(fd);
+-		return (PERF_XMM_REGS_MASK | PERF_REGS_MASK);
++		return (PERF_REG_EXTENDED_MASK | PERF_REGS_MASK);
+ 	}
+ 
+ 	return PERF_REGS_MASK;
+-- 
+2.17.1
+

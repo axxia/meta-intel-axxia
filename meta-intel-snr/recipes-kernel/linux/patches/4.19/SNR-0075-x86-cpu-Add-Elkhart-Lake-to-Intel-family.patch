@@ -1,0 +1,38 @@
+From 9e2f73e7769739bdd2e8844170b190313e09f4a9 Mon Sep 17 00:00:00 2001
+From: Beniamin Sandu <beniaminsandu@gmail.com>
+Date: Mon, 20 Jul 2020 13:13:11 +0300
+Subject: [PATCH 75/78] x86/cpu: Add Elkhart Lake to Intel family
+
+Backport of 0f65605a8d744b3a205d0a2cd8f20707e31fc023 upstream.
+
+Add the model number/CPUID of atom based Elkhart Lake to the Intel
+family.
+
+Signed-off-by: Gayatri Kammela <gayatri.kammela@intel.com>
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Rahul Tanwar <rahul.tanwar@linux.intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Link: https://lkml.kernel.org/r/20190905193020.14707-3-tony.luck@intel.com
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+Signed-off-by: Beniamin Sandu <beniaminsandu@gmail.com>
+---
+ arch/x86/include/asm/intel-family.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/x86/include/asm/intel-family.h b/arch/x86/include/asm/intel-family.h
+index 2a8e5f78e23c..a48bcd4cd5a0 100644
+--- a/arch/x86/include/asm/intel-family.h
++++ b/arch/x86/include/asm/intel-family.h
+@@ -84,6 +84,7 @@
+ #define INTEL_FAM6_ATOM_GOLDMONT_X	0x5F /* Denverton */
+ #define INTEL_FAM6_ATOM_GOLDMONT_PLUS	0x7A /* Gemini Lake */
+ #define INTEL_FAM6_ATOM_TREMONT_X	0x86 /* Jacobsville */
++#define INTEL_FAM6_ATOM_TREMONT		0x96 /* Elkhart Lake */
+ 
+ /* Xeon Phi */
+ 
+-- 
+2.17.1
+
