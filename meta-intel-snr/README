@@ -81,21 +81,13 @@ PCI/AER: Remove pci_cleanup_aer_uncorrect_error_status() calls
 Back ported to Yocto Linux 4.19, with no changes, as
 SNR-0002-PCI-AER-Remove-pci_cleanup_aer_uncorrect_error_statu.patch.
 
-dmaengine: ioat: fix prototype of ioat_enumerate_channels
----------------------------------------------------------
-
-f4d34aa from kernel.org
-
-Back ported to Yocto Linux 4.19, with no changes, as
-SNR-0003-dmaengine-ioat-fix-prototype-of-ioat_enumerate_chann.patch.
-
 dmaengine: ioatdma: Add Snow Ridge ioatdma device id
 ----------------------------------------------------
 
 4d75873 from kernel.org
 
 Back ported to Yocto Linux 4.19, with no changes, as
-SNR-0004-dmaengine-ioatdma-Add-Snow-Ridge-ioatdma-device-id.patch.
+SNR-0003-dmaengine-ioatdma-Add-Snow-Ridge-ioatdma-device-id.patch.
 
 dmaengine: ioatdma: disable DCA enabling on IOATDMA v3.4
 --------------------------------------------------------
@@ -103,7 +95,7 @@ dmaengine: ioatdma: disable DCA enabling on IOATDMA v3.4
 11e31e2 from kernel.org
 
 Back ported to Yocto Linux 4.19, with no changes, as
-SNR-0005-dmaengine-ioatdma-disable-DCA-enabling-on-IOATDMA-v3.patch.
+SNR-0004-dmaengine-ioatdma-disable-DCA-enabling-on-IOATDMA-v3.patch.
 
 dmaengine: ioatdma: add descriptor pre-fetch support for v3.4
 -------------------------------------------------------------
@@ -111,7 +103,7 @@ dmaengine: ioatdma: add descriptor pre-fetch support for v3.4
 e0100d4 from kernel.org
 
 Back ported to Yocto Linux 4.19, with no changes, as
-SNR-0006-dmaengine-ioatdma-add-descriptor-pre-fetch-support-f.patch
+SNR-0005-dmaengine-ioatdma-add-descriptor-pre-fetch-support-f.patch
 
 dmaengine: ioatdma: support latency tolerance report (LTR) for v3.4
 -------------------------------------------------------------------
@@ -119,7 +111,7 @@ dmaengine: ioatdma: support latency tolerance report (LTR) for v3.4
 528314b from kernel.org
 
 Back ported to Yocto Linux 4.19, with no changes, as
-SNR-0007-dmaengine-ioatdma-support-latency-tolerance-report-L.patch
+SNR-0006-dmaengine-ioatdma-support-latency-tolerance-report-L.patch
 
 drivers/watchdog: Ignore 'No Reboot' Bit
 ----------------------------------------
@@ -134,7 +126,7 @@ will be fixed in later versions of the chip.
 Note that, by default, this patch will do nothing.  To enable it, add
 'iTCO_wdt.assume_noreboot_access=1' to the Linux command line.
 
-Included as SNR-0008-drivers-watchdog-Ignore-No-Reboot-Bit.patch.
+Included as SNR-0007-drivers-watchdog-Ignore-No-Reboot-Bit.patch.
 
 clocksource: Add option to force acpi_pm as clocksource watchdog
 ----------------------------------------------------------------
@@ -150,7 +142,7 @@ and in dmesg look for:
     RICARDO: Force acpi_pm as watchdog
 
 Included as
-SNR-0009-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch.
+SNR-0008-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch.
 
 x86/umwait: Initialize umwait control values
 --------------------------------------------
@@ -160,7 +152,7 @@ x86/umwait: Initialize umwait control values
 bd688c6 from kernel.org
 
 Back ported to Linux 4.19, with no changes, as
-SNR-0010-x86-umwait-Initialize-umwait-control-values.patch
+SNR-0009-x86-umwait-Initialize-umwait-control-values.patch
 
 x86/umwait: Add sysfs interface to control umwait C0.2 state
 ------------------------------------------------------------
@@ -170,7 +162,7 @@ x86/umwait: Add sysfs interface to control umwait C0.2 state
 ff4b353 from kernel.org
 
 Back ported to Linux 4.19, with no changes, as
-SNR-0011-x86-umwait-Add-sysfs-interface-to-control-umwait-C0..patch
+SNR-0010-x86-umwait-Add-sysfs-interface-to-control-umwait-C0..patch
 
 x86/umwait: Fix error handling in umwait_init()
 -----------------------------------------------
@@ -180,7 +172,7 @@ x86/umwait: Fix error handling in umwait_init()
 e740925 from kernel.org
 
 Back ported to Linux 4.19, with no changes, as
-SNR-0012-x86-umwait-Fix-error-handling-in-umwait_init.patch
+SNR-0011-x86-umwait-Fix-error-handling-in-umwait_init.patch
 
 x86/umwait: Add sysfs interface to control umwait maximum time
 --------------------------------------------------------------
@@ -190,7 +182,7 @@ x86/umwait: Add sysfs interface to control umwait maximum time
 bd9a0c9 from kernel.org
 
 Back ported to Linux 4.19, with no changes, as
-SNR-0013-x86-umwait-Add-sysfs-interface-to-control-umwait-max.patch
+SNR-0012-x86-umwait-Add-sysfs-interface-to-control-umwait-max.patch
 
 x86/cpufeatures: Enumerate user wait instructions
 -------------------------------------------------
@@ -200,7 +192,7 @@ x86/cpufeatures: Enumerate user wait instructions
 6dbbf5e from kernel.org
 
 Back ported to Linux 4.19, with no changes, as
-SNR-0014-x86-cpufeatures-Enumerate-user-wait-instructions.patch
+SNR-0013-x86-cpufeatures-Enumerate-user-wait-instructions.patch
 
 x86/cpufeatures: Enumerate MOVDIRI instruction
 ----------------------------------------------
@@ -210,7 +202,7 @@ x86/cpufeatures: Enumerate MOVDIRI instruction
 33823f4d from kernel.org
 
 Back ported to Linux 4.19, with no changes, as
-SNR-0015-x86-cpufeatures-Enumerate-MOVDIRI-instruction.patch
+SNR-0014-x86-cpufeatures-Enumerate-MOVDIRI-instruction.patch
 
 x86/cpufeatures: Enumerate MOVDIR64B instruction
 ------------------------------------------------
@@ -220,7 +212,7 @@ x86/cpufeatures: Enumerate MOVDIR64B instruction
 ace6485 from kernel.org
 
 Back ported to Linux 4.19, with no changes, as
-SNR-0016-x86-cpufeatures-Enumerate-MOVDIR64B-instruction.patch
+SNR-0015-x86-cpufeatures-Enumerate-MOVDIR64B-instruction.patch
 
 PM / arch: x86: Rework the MSR_IA32_ENERGY_PERF_BIAS handling
 -------------------------------------------------------------
@@ -230,7 +222,7 @@ PM / arch: x86: Rework the MSR_IA32_ENERGY_PERF_BIAS handling
 5861381 from kernel.org
 
 Back ported to Linux 4.19, with no changes, as
-SNR-0017-PM-arch-x86-Rework-the-MSR_IA32_ENERGY_PERF_BIAS-han.patch
+SNR-0016-PM-arch-x86-Rework-the-MSR_IA32_ENERGY_PERF_BIAS-han.patch
 
 PM / arch: x86: MSR_IA32_ENERGY_PERF_BIAS sysfs interface
 ---------------------------------------------------------
@@ -240,7 +232,7 @@ PM / arch: x86: MSR_IA32_ENERGY_PERF_BIAS sysfs interface
 b9c273b from kernel.org
 
 Back ported to Linux 4.19, with no changes, as
-SNR-0018-PM-arch-x86-MSR_IA32_ENERGY_PERF_BIAS-sysfs-interfac.patch
+SNR-0017-PM-arch-x86-MSR_IA32_ENERGY_PERF_BIAS-sysfs-interfac.patch
 
 Documentation/ABI: Document umwait control sysfs interfaces
 -----------------------------------------------------------
@@ -250,15 +242,7 @@ Documentation/ABI: Document umwait control sysfs interfaces
 203dffa from kernel.org
 
 Back ported to Linux 4.19, with no changes, as
-SNR-0019-Documentation-ABI-Document-umwait-control-sysfs-inte.patch
-
-vfio/pci: Mask buggy SR-IOV VF INTx support
--------------------------------------------
-
-db04264 from kernel.org
-
-Back ported ot Linux 4.19, with no changes, as
-SNR-0020-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch
+SNR-0018-Documentation-ABI-Document-umwait-control-sysfs-inte.patch
 
 EDAC, i10nm: Add a driver for Intel 10nm server processors
 ----------------------------------------------------------
@@ -266,68 +250,29 @@ EDAC, i10nm: Add a driver for Intel 10nm server processors
 d4dc89d from kernel.org
 
 Back ported ot Linux 4.19, with no changes, as
-SNR-0021-EDAC-i10nm-Add-a-driver-for-Intel-10nm-server-proces.patch
+SNR-0019-EDAC-i10nm-Add-a-driver-for-Intel-10nm-server-proces.patch
 
 45 patches for perf (core and uncore)
 -------------------------------------
 
-SNR-0022-perf-x86-kvm-Avoid-unnecessary-work-in-guest-filteri.patch
+SNR-0020-perf-x86-kvm-Avoid-unnecessary-work-in-guest-filteri.patch
 
 through
 
-SNR-0066-Revert-Changes-to-tools-perf.patch
+SNR-0063-Revert-Changes-to-tools-perf.patch
 
 and
 
-SNR-0078-perf-vendor-events-intel-Add-Tremontx-event-file-v1..patch \
-file://SNR-0079-x86-cpu-Add-Elkhart-Lake-to-Intel-family.patch \
-file://SNR-0080-perf-x86-msr-Add-Tremont-support.patch \
-file://SNR-0081-perf-x86-cstate-Add-Tremont-support.patch \
-file://SNR-0082-perf-x86-intel-Add-more-available-bits-for-OFFCORE_R.patch \
-"
-
-FRIO_PATCHES = " \
-file://FRIO-0001-PCI-ASPM-Don-t-retrain-link.patch \
-file://FRIO-0002-drivers-pci-Enable-overrides-for-missing-ACS-capabil.patch \
-file://FRIO-0003-vfio-pci-Mask-buggy-SR-IOV-VF-INTx-support.patch \
-"
-
-LINUX_VERSION_pn-linux-intel = "${LINUX_VERSION_standard}"
-LINUX_VERSION_pn-linux-intel-debug = "${LINUX_VERSION_standard}"
--UU-:@----F4  linux-intel_4.19.inc   79% L89   Git:local/next/thud  (Fundamental)
-45 patches for perf (core and uncore)
--------------------------------------
-
-SNR-0022-perf-x86-kvm-Avoid-unnecessary-work-in-guest-filteri.patch
+SNR-0074-perf-vendor-events-intel-Add-Tremontx-event-file-v1..patch
 
 through
 
-SNR-0066-Revert-Changes-to-tools-perf.patch
-
-and
-
-SNR-0078-perf-vendor-events-intel-Add-Tremontx-event-file-v1..patch
-
-through
-
-SNR-0082-perf-x86-intel-Add-more-available-bits-for-OFFCORE_R.patch
+SNR-0078-perf-x86-intel-Add-more-available-bits-for-OFFCORE_R.patch
 
 All except the last commit can be found in kernel.org.  The last
 commit removes all changes made to tools/perf by the previous commits.
 This back-port is only for the Linux driver.  To get a list of core
 and uncore registers, use 'perf list'.
-
-pinctrl: intel: Avoid potential glitches if pin is in GPIO mode
----------------------------------------------------------------
-
-This change to the pinctrl (gpio) driver starts with the current state
-when enabling a pin instead of setting the pin to input.  Upstream in
-progress at
-
-https://lore.kernel.org/linux-gpio/20191014095104.77689-1-andriy.shevchenko@linux.intel.com/raw
-
-Back ported as
-SNR-0067-pinctrl-intel-Avoid-potential-glitches-if-pin-is-in-.patch
 
 intel_idle: add support for Jacobsville
 ---------------------------------------------------------------
@@ -337,18 +282,19 @@ Enables the intel_idle driver/module.
 from kernel.org 04b1d5d09849
 
 Back ported as
-SNR-0068-intel_idle-add-support-for-Jacobsville.patch
+SNR-0064-intel_idle-add-support-for-Jacobsville.patch
 
 9 patches for EDAC support
 --------------------------
 
-SNR-0021-EDAC-i10nm-Add-a-driver-for-Intel-10nm-server-proces.patch is not sufficient to get EDAC working on SNR.  The following are also required.
+SNR-0019-EDAC-i10nm-Add-a-driver-for-Intel-10nm-server-proces.patch
+is not sufficient to get EDAC working on SNR. The following are also required:
 
-SNR-0069-x86-mce-Add-macros-for-the-corrected-error-count-bit.patch
+SNR-0065-x86-mce-Add-macros-for-the-corrected-error-count-bit.patch
 
 through
 
-SNR-0077-Support-EDAC-on-SNR-Bx-Stepping-Parts.patch
+SNR-0073-Support-EDAC-on-SNR-Bx-Stepping-Parts.patch
 
 
 II. Building meta-intel-snr
