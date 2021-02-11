@@ -29,6 +29,10 @@ lib32-libgcc \
 lib32-libubsan \
 "
 
+TOOLCHAIN_TARGET_TASK_append = " kernel-devsrc"
+
+TOOLCHAIN_HOST_TASK_append = " nativesdk-elfutils-dev"
+
 LICENSE = "MIT"
 
 inherit core-image
