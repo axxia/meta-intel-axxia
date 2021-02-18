@@ -282,10 +282,6 @@ NOTE: No preferred version should be set for linux-local provider.
 
     DISTRO_FEATURES_append = " gcc8"
 
-2.3.11. Select the version of python3 to use: 3.8 (default) or 3.6.
-
-    PYTHON_VERSION = "3.6"
-    
 2.3.12. Set the console to use in the .iso image if different than the
       following default value:
 

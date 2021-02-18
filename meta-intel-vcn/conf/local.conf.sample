@@ -28,9 +28,6 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 # Enable GCC8 feature for the previous version of gcc
 #DISTRO_FEATURES_append = " gcc8"
 
-# Select the version of python3 to use: 3.8 (default) or 3.6
-#PYTHON_VERSION = "3.6"
-
 # Release version should be the meta-intel-axxia repository tag from release note.
 # RELEASE_VERSION = "" 
 
