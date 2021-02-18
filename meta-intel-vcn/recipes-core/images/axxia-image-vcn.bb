@@ -46,8 +46,6 @@ curl \
 db \
 dbus \
 dbus-glib \
-dhcp-client \
-dhcp-server \
 dhrystone \
 diffutils \
 dmidecode \

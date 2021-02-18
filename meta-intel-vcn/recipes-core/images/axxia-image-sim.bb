@@ -12,8 +12,6 @@ ${CORE_IMAGE_EXTRA_INSTALL} \
 IMAGE_INSTALL_append = " \
 axxia-rc-local \
 boost \
-dhcp-client \
-dhcp-server \
 dmidecode \
 e2fsprogs-resize2fs \
 ethtool \
