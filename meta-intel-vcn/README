@@ -277,11 +277,6 @@ NOTE: No preferred version should be set for linux-local provider.
     * 'cd ase/simics'
     * tar czf simics-<simics-version>.tgz simics-<simics-version>
 
-2.3.10. Add gcc8 support for the previous version of gcc and glibc
-      instead of the default which is gcc9.
-
-    DISTRO_FEATURES_append = " gcc8"
-
 2.3.12. Set the console to use in the .iso image if different than the
       following default value:
 
