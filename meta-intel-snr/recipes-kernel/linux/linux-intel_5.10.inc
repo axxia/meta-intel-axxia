@@ -7,7 +7,6 @@ SRCREV_meta = "8f72218572b1d4a5f053ced2bbf0558d0557072d"
 SNR_PATCHES = " \
 file://SNR-0001-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
 file://SNR-0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
-file://SNR-0003-Support-EDAC-on-SNR-Bx-Stepping-Parts.patch \
 "
 
 FRIO_PATCHES = " \
