@@ -56,7 +56,6 @@ BOOST_LIBS += "\
 
 inherit python3-dir
 PYTHON_ROOT = "${STAGING_DIR_HOST}/${prefix}"
-CXXFLAGS_append = " -I${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
 
 # Make a package for each library, plus -dev
 PACKAGES = "${PN}-dbg ${BOOST_PACKAGES}"
