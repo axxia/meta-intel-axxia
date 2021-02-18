@@ -2,7 +2,7 @@ SUMMARY = "SimicsFS client that talks to a simulated device"
 DESCRIPTION="SimicsFS gives you access to the file system of your real computer inside the simulated machine. This greatly simplifies the process of importing files into the simulated machine."
 
 LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://Makefile;md5=075374b44f8665b7a5008a68d58fd22b"
+LIC_FILES_CHKSUM = "file://Makefile;md5=20958840d6f20430bde553874ab6cc12"
 
 SIMICS_VERSION ?= "generic"
 PV = "${SIMICS_VERSION}"
