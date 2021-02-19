@@ -1,7 +1,7 @@
-From 552caa86e4b3947b781e0a6334fc02cec9c88b9d Mon Sep 17 00:00:00 2001
+From 0f0517fa30b3b80c5b7c9f8089aa095e4779a782 Mon Sep 17 00:00:00 2001
 From: Gage Eads <gage.eads@intel.com>
 Date: Wed, 5 Jun 2019 17:07:37 -0500
-Subject: [PATCH] drivers/pci: Enable overrides for missing ACS capabilities
+Subject: drivers/pci: Enable overrides for missing ACS capabilities
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -18,11 +18,11 @@ Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
  1 file changed, 101 insertions(+)
 
 diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index 308f744393eb..0d005e3727d4 100644
+index fb1dc11e7cc5..918032fbdacb 100644
 --- a/drivers/pci/quirks.c
 +++ b/drivers/pci/quirks.c
-@@ -3935,6 +3935,106 @@ static void quirk_dma_func0_alias(struct pci_dev *dev)
- 		pci_add_dma_alias(dev, PCI_DEVFN(PCI_SLOT(dev->devfn), 0));
+@@ -3952,6 +3952,106 @@ static void quirk_dma_func0_alias(struct pci_dev *dev)
+ 		pci_add_dma_alias(dev, PCI_DEVFN(PCI_SLOT(dev->devfn), 0), 1);
  }
  
 +static bool acs_on_downstream;
@@ -128,10 +128,10 @@ index 308f744393eb..0d005e3727d4 100644
  /*
   * https://bugzilla.redhat.com/show_bug.cgi?id=605888
   *
-@@ -4669,6 +4769,7 @@ static const struct pci_dev_acs_enabled {
- 	{ PCI_VENDOR_ID_BROADCOM, 0xD714, pci_quirk_brcm_acs },
- 	/* Amazon Annapurna Labs */
- 	{ PCI_VENDOR_ID_AMAZON_ANNAPURNA_LABS, 0x0031, pci_quirk_al_acs },
+@@ -4769,6 +4869,7 @@ static const struct pci_dev_acs_enabled {
+ 	{ PCI_VENDOR_ID_ZHAOXIN, 0x9083, pci_quirk_mf_endpoint_acs },
+ 	/* Zhaoxin Root/Downstream Ports */
+ 	{ PCI_VENDOR_ID_ZHAOXIN, PCI_ANY_ID, pci_quirk_zhaoxin_pcie_ports_acs },
 +	{ PCI_ANY_ID, PCI_ANY_ID, pcie_acs_overrides },
  	{ 0 }
  };
