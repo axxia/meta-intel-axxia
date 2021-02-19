@@ -2,7 +2,7 @@ SUMMARY = "Simics Magic Pipe library (libmagicpipe)"
 DESCRIPTION = "Simics Magic Pipe library (libmagicpipe)"
 
 LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://Makefile;md5=1954481ecfe48bef2a1c90cc5930ec44"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
 SIMICS_VERSION ?= "generic"
 PV = "${SIMICS_VERSION}"
@@ -10,9 +10,6 @@ PV = "${SIMICS_VERSION}"
 FILESEXTRAPATHS_prepend := "${THISDIR}/../../downloads:"
 
 SRC_URI = "file://simics-${PV}.tgz"
-
-SRC_URI[md5sum] = "c3b69ffff751fa6bdf258bd802c14ac3"
-SRC_URI[sha256sum] = "8efbda455b18ffc420eb3ecaa45c3ed546937ee9345ae6c732b0faaae11b8a7a"
 
 S = "${WORKDIR}/simics-${PV}/src/misc/${PN}"
 
