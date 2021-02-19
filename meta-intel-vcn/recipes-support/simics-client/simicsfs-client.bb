@@ -2,7 +2,7 @@ SUMMARY = "SimicsFS client that talks to a simulated device"
 DESCRIPTION="SimicsFS gives you access to the file system of your real computer inside the simulated machine. This greatly simplifies the process of importing files into the simulated machine."
 
 LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://Makefile;md5=075374b44f8665b7a5008a68d58fd22b"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
 SIMICS_VERSION ?= "generic"
 PV = "${SIMICS_VERSION}"
@@ -10,9 +10,6 @@ PV = "${SIMICS_VERSION}"
 FILESEXTRAPATHS_prepend := "${THISDIR}/../../downloads:"
 
 SRC_URI = "file://simics-${PV}.tgz"
-
-SRC_URI[md5sum] = "c3b69ffff751fa6bdf258bd802c14ac3"
-SRC_URI[sha256sum] = "8efbda455b18ffc420eb3ecaa45c3ed546937ee9345ae6c732b0faaae11b8a7a"
 
 DEPENDS = "fuse libmagicpipe"
 RDEPENDS_${PN} = "fuse"
