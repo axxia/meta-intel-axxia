@@ -85,6 +85,10 @@ do_patch_rdk_modules () {
         find ${STAGING_PATH}/${KLM_DRIVER} -name "Makefile" -exec \
            sed -i s#$(dirname ${STAGING_PATH})#${STAGING_PATH}#g {} +
 
+        # fix syntax in Kconfig: replace '---help---' with 'help'
+        find ${STAGING_PATH}/${KLM_DRIVER} -name 'Kconfig*' | \
+	   xargs sed -i 's/^[[:space:]]*---help---/\thelp/'
+
         # Create git commit for ${KLMC} module
 	git add -A
 	if [ "qat" = "${KLMC}" ]; then
