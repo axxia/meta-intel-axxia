@@ -60,7 +60,7 @@ II. Building meta-intel-vcn
 1.1. Clone the Intel Axxia repository. This provides OpenEmbedded/Yocto
    layers with metadata for building images for the Intel Axxia specific
    reference platforms. See 'Sources' from the main README to select the
-   right repository. Use the 'dunfell' branch or the tag specified in the
+   right repository. Use the 'master' branch or the tag specified in the
    release notes.
 
    $ cd $YOCTO
@@ -70,9 +70,9 @@ II. Building meta-intel-vcn
    $ git clone https://github.com/axxia/meta-intel-axxia.git
    $ cd meta-intel-axxia
 
-   If using the 'dunfell' branch.
+   If using the 'master' branch.
 
-   $ git checkout dunfell
+   $ git checkout master
 
    If using the tag specified in the releases notes.
 
@@ -180,8 +180,8 @@ a. Public Intel Github (github.com/intel)
    PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
    
    will build kernel from Intel Github public repos:
-   5.4: git://github.com/intel/linux-intel-lts.git
-         5.4/yocto or 5.4/preempt-rt
+   5.10: git://github.com/intel/linux-intel-lts.git
+         5.10/yocto or 5.10/preempt-rt
          
    Other versions for the Intel kernel are: linux-intel-rt,
    linux-intel-debug, linux-intel-rt-debug.
@@ -191,8 +191,8 @@ b. Yocto Git (git.yoctoproject.org)
    PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
    
    will build kernel from Intel Github public repos:
-   5.4: git://git.yoctoproject.org/linux-yocto.git
-         v5.4/standard/base or v5.4/standard/preempt-rt/base
+   5.10: git://git.yoctoproject.org/linux-yocto.git
+         v5.10/standard/base or v5.10/standard/preempt-rt/base
          
    Other versions for the Intel kernel are: linux-yocto-rt,
    linux-yocto-debug, linux-yocto-rt-debug.
@@ -215,7 +215,7 @@ c. Local Kernel repositories (for Linux development)
 
 2.3.5. Select the version for the main kernel:
 
-   PREFERRED_VERSION_(preferred-provider)= "5.4%"
+   PREFERRED_VERSION_(preferred-provider)= "5.10%"
 
 NOTE: No preferred version should be set for linux-local provider.
 
@@ -277,18 +277,13 @@ NOTE: No preferred version should be set for linux-local provider.
     * 'cd ase/simics'
     * tar czf simics-<simics-version>.tgz simics-<simics-version>
 
-2.3.12. Set the console to use in the .iso image if different than the
-      following default value:
-
-    GRUB_SERIAL = "console=ttyS4,115200"
-    
-2.3.13. Depending on your host processor, set these two options that
+2.3.10. Depending on your host processor, set these two options that
       control how much parallelism BitBake should use (optional):
 
     BB_NUMBER_THREADS = "12"
     PARALLEL_MAKE = "-j 12"
 
-2.3.14. Other optional settings for saving disk space and build time:
+2.3.11. Other optional settings for saving disk space and build time:
    
     DL_DIR = "/(some-shared-location)/downloads"
     SSTATE_DIR = "/(some-shared-location)/sstate-cache
@@ -302,8 +297,7 @@ NOTE: No preferred version should be set for linux-local provider.
 
 MACHINE = "axxiax86-64"
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
-PREFERRED_VERSION_linux-intel = "5.4%"
-GRUB_SERIAL = "console=ttyS4,115200"
+PREFERRED_VERSION_linux-intel = "5.10%"
 DISTRO = "intel-axxia"
 RUNTARGET = "snr"
 DISTRO_FEATURES_append = " simicsfs"
