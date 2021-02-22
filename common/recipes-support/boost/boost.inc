@@ -62,9 +62,12 @@ PACKAGES = "${PN}-dbg ${BOOST_PACKAGES}"
 python __anonymous () {
     packages = []
     extras = []
+    pn = d.getVar("PN")
     for lib in d.getVar('BOOST_LIBS').split():
         extras.append("--with-%s" % lib)
         pkg = "boost-%s" % lib.replace("_", "-")
+        if "-native" in pn:
+            pkg = pkg + "-native"
         packages.append(pkg)
         if not d.getVar("FILES_%s" % pkg):
                 d.setVar("FILES_%s" % pkg, "${libdir}/libboost_%s*.so.*" % lib)
