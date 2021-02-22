@@ -10,7 +10,7 @@ appropriate person, and that it will be seen by other users who may be
 facing similar problems or questions.
 
 Please submit any patches against meta-intel-axxia BSPs to the mailing
-list (meta-lsi@yoctoproject.org) and cc: the maintainers.
+list (meta-axxia@yoctoproject.org) and cc: the maintainers.
 For guidelines for submitting patches, please see README file.
 
 Descriptions of section entries:
@@ -28,6 +28,6 @@ Maintainers List (try to look for most precise areas first)
 
 		-----------------------------------
 AXXIAX86-64
-M:	Daniel Dragomir <daniel.dragomir@windriver.com>
 M:	John Jacques <john.jacques@intel.com>
+M:	Daniel Dragomir <daniel.dragomir@windriver.com>
 F:	meta-intel-axxia/
