@@ -63,14 +63,18 @@ python __anonymous () {
     packages = []
     extras = []
     pn = d.getVar("PN")
+    mlprefix = d.getVar("MLPREFIX")
     for lib in d.getVar('BOOST_LIBS').split():
         extras.append("--with-%s" % lib)
-        pkg = "boost-%s" % lib.replace("_", "-")
+        pkg = "boost-%s" % (lib.replace("_", "-"))
         if "-native" in pn:
             pkg = pkg + "-native"
-        packages.append(pkg)
+        packages.append(mlprefix + pkg)
         if not d.getVar("FILES_%s" % pkg):
-                d.setVar("FILES_%s" % pkg, "${libdir}/libboost_%s*.so.*" % lib)
+                d.setVar("FILES_%s%s" % (mlprefix, pkg), "${libdir}/libboost_%s*.so.*" % lib)
+        else:
+                d.setVar("FILES_%s%s" % (mlprefix, pkg), d.getVar("FILES_%s" % pkg))
+
     d.setVar("BOOST_PACKAGES", " ".join(packages))
     d.setVar("BJAM_EXTRA", " ".join(extras))
 }
