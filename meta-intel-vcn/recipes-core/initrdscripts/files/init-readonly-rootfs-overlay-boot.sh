@@ -24,7 +24,7 @@ ROOT_ROMOUNTOPTIONS_DEVICE="noatime,nodiratime"
 
 ROOT_RWFSTYPE=""
 ROOT_RWMOUNTOPTIONS="rw,noatime,mode=755 tmpfs"
-ROOT_RWMOUNTOPTIONS_DEVICE="rw,noatime,mode=755"
+ROOT_RWMOUNTOPTIONS_DEVICE="rw,noatime"
 
 early_setup() {
 	mkdir -p /proc
