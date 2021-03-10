@@ -7,3 +7,5 @@ do_install_append () {
 }
 
 FILES_${PN}_append = " ${sysconfdir}/exports"
+
+INITSCRIPT_PARAMS = "stop 20 0 1 6 ."
