@@ -37,21 +37,10 @@ export LTTNG_ROOT = "${STAGING_DIR_HOST}${prefix}"
 # Add new include path for KLM headers exported for userspace
 CXXFLAGS += " -I${SYSROOT}/usr/kernel-headers/include/klm "
 
-do_configure_append () {
-	# Use python3 since python2 is deprecated
-	sed -i "s#\/usr\/bin\/env python#\/usr\/bin\/env python3#g" \
-		${S}/user_modules/ies-api/tools/meson/*
-}
-
 do_compile () {
 	cd ${S}
 	oe_runmake cpk-ae-lib netd-lib qat_lib
-	oe_runmake ies_api_install nura install
-
-	# install netd headers from NETD_CLIENT_SRC/linux directory
-	cp -r user_modules/netd/linux install/include
-	
-	oe_runmake cli 
+	oe_runmake ies_api_install nura install cli
 }
 
 do_install () {
