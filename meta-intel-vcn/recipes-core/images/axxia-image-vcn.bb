@@ -52,6 +52,7 @@ dmidecode \
 docker \
 dos2unix \
 dosfstools \
+dtc \
 e2fsprogs \
 e2fsprogs-badblocks \
 e2fsprogs-e2fsck \
