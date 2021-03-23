@@ -13,6 +13,7 @@ IMAGE_INSTALL_append = " \
 axxia-rc-local \
 boost \
 dmidecode \
+dtc \
 e2fsprogs-resize2fs \
 ethtool \
 expect \
