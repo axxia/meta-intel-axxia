@@ -15,6 +15,7 @@ boost \
 dhcp-client \
 dhcp-server \
 dmidecode \
+dtc \
 e2fsprogs-resize2fs \
 ethtool \
 expect \
