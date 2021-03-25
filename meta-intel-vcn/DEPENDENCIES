@@ -5,7 +5,7 @@ poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: dunfell
-revision: 569b1f5d67c57de957e243997c53ec2f81dc8dfe
+revision: fadf7d3343305337c38a5243797723c68e88276a
 
 meta-openembedded
 -----------------
