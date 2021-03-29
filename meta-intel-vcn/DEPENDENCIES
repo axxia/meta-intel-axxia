@@ -5,28 +5,28 @@ poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: master
-revision: 22d7989e8f3871553e57909b8e031b6b17dcb0e0
+revision: 57b37e3b03d9074bdb6bed5cc4a850385332cc63
 
 meta-openembedded
 -----------------
 URI: https://github.com/openembedded/meta-openembedded.git
 branch: master
-revision: 589aa162cead42acdd7e8dbd7c0243b95e341f19
+revision: 6e99122ed81b7dcb8bffd82f0fefaed3898de8b0
 
 meta-virtualization
 -------------------
 URI: git://git.yoctoproject.org/meta-virtualization
 branch: master
-revision: 55b5e02d067b8d6f59397a3ea49bd3139d544445
+revision: 438ed8b5065aac2bfd69c57e807befb42c8cc889
 
 meta-intel
 ----------
 URI: git://git.yoctoproject.org/meta-intel
 branch: master
-revision: 850940e3e5ebc75328fa75e718235342cb6c2172
+revision: f5c204c99b669d6dea12abbc19e8f7462379095c
 
 meta-security
 -------------
 URI: https://git.yoctoproject.org/git/meta-security
 branch: master
-revision: fffd85ac87079fedc9fae2c7e211461cd98855ba
+revision: 775870980bc72df7126d910364f44b907727c1d5
