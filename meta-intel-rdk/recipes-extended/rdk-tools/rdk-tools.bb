@@ -17,22 +17,24 @@ PR = "${RDK_TOOLS_VERSION}"
 DEPENDS = "virtual/kernel libnl libpcap openssl rsync-native thrift \
 	   ${@oe.utils.conditional('RDK_LTTNG_ENABLE', 'true', 'lttng-ust lttng-tools', '', d)}"
 
+S = "${WORKDIR}/rdk"
+
 inherit autotools
 
 export SDKTARGETSYSROOT = "${STAGING_DIR_HOST}"
 
-export LIB_CPKAE_DIR = "${WORKDIR}/rdk/user_modules/cpk-ae-lib"
+export LIB_CPKAE_DIR = "${S}/user_modules/cpk-ae-lib"
 
-export QAT_DIR = "${WORKDIR}/rdk/user_modules/qat"
+export QAT_DIR = "${S}/user_modules/qat"
 export LIB_QAT18_DIR = "${QAT_DIR}"
 
-export IES_API_DIR = "${WORKDIR}/rdk/user_modules/ies-api"
+export IES_API_DIR = "${S}/user_modules/ies-api"
 export IES_API_BUILD_DIR = "${IES_API_DIR}"
 export IES_API_OUTPUT_DIR = "${IES_API_DIR}"
 export IES_API_CORE_DIR = "user_modules/ies-api/core"
 export OPENSSL_ROOT = "${STAGING_DIR_HOST}/usr"
 
-export NURA_DIR = "${WORKDIR}/rdk/nvm_ura"
+export NURA_DIR = "${S}/nvm_ura"
 
 # Choose IES API mode of operation: "true" for SHM (shared-memory model)
 # which is the default or "false" for RPC (remote procedure call)
@@ -62,7 +64,7 @@ REMOVE_LIBTOOL_LA = "0"
 CXXFLAGS += " -I${SYSROOT}/usr/kernel-headers/include/klm "
 
 do_compile () {
-	cd ${WORKDIR}/rdk
+	cd ${S}
 	oe_runmake cpk-ae-lib netd-lib
 	oe_runmake ${NO_PARALLEL} qat_lib
 	oe_runmake ${IES_EXTRA_FLAGS} ies_api_install
@@ -71,14 +73,14 @@ do_compile () {
 }
 
 do_install () {
-	oe_runmake -C ${WORKDIR}/rdk install
+	oe_runmake -C ${S} install
 
 	install -d ${D}${bindir} ${D}${libdir}
 	install -d ${D}${includedir} ${D}${sysconfdir}
-	cp -r ${WORKDIR}/rdk/install/bin/* ${D}${bindir}
-	cp -r ${WORKDIR}/rdk/install/lib/* ${D}${libdir}
-	cp -r ${WORKDIR}/rdk/install/include/* ${D}${includedir}
-	cp -r ${WORKDIR}/rdk/install/etc/* ${D}${sysconfdir}
+	cp -r ${S}/install/bin/* ${D}${bindir}
+	cp -r ${S}/install/lib/* ${D}${libdir}
+	cp -r ${S}/install/include/* ${D}${includedir}
+	cp -r ${S}/install/etc/* ${D}${sysconfdir}
 
 	# fix symlinks removed on install by "rsync -L --no-l"
 	cp -r ${IES_API_DIR}/lib/* ${D}${libdir}
