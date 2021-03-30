@@ -36,6 +36,8 @@ libnl-route \
 libpcap \
 libubsan \
 libudev \
+libxcrypt \
+libxcrypt-compat \
 msr-tools \
 mtools \
 ncurses \
@@ -94,3 +96,5 @@ inherit core-image
 IMAGE_ROOTFS_SIZE = "16384"
 
 SDKIMAGE_FEATURES = "dev-pkgs dbg-pkgs staticdev-pkgs"
+
+PACKAGE_EXCLUDE_append = "libxcrypt-compat-dev"
