@@ -159,6 +159,8 @@ libusb-compat \
 libusb1 \
 libxau \
 libxcb \
+libxcrypt \
+libxcrypt-compat \
 libxdmcp \
 libxml2 \
 lighttpd \
@@ -341,7 +343,6 @@ lib32-libdrm \
 lib32-libevent \
 lib32-libffi \
 lib32-libgcc \
-lib32-libgcrypt \
 lib32-libgpg-error \
 lib32-libgpiod \
 lib32-libice \
@@ -422,3 +423,5 @@ nativesdk-python3-pyyaml \
 nativesdk-python3-pynetlinux \
 nativesdk-python3-robotframework \
 nativesdk-python3-scapy "
+
+PACKAGE_EXCLUDE_append = "libxcrypt-compat-dev"
