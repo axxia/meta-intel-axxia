@@ -40,7 +40,9 @@ CXXFLAGS += " -I${SYSROOT}/usr/kernel-headers/include/klm "
 do_compile () {
 	cd ${S}
 	oe_runmake cpk-ae-lib netd-lib qat_lib
-	oe_runmake ies_api_install nura install cli
+	oe_runmake ies_api_install
+	oe_runmake -j1 nura
+	oe_runmake install cli
 }
 
 do_install () {
