@@ -35,6 +35,7 @@ libnl-route \
 libpcap \
 libubsan \
 libudev \
+msr-tools \
 mtools \
 ncurses \
 netcat \
