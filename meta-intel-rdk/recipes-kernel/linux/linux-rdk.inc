@@ -66,7 +66,7 @@ do_patch_rdk_modules () {
 	[ ! -d ${WORKDIR}/rdk/klm/${KLMC} ] && continue
 
         if [ "hqm" = "${KLMC}" ]; then
-	   ${WORKDIR}/rdk/klm/${KLMC}/${KLMC}/scripts/patch_kernel_tree.sh \
+	   ${WORKDIR}/rdk/klm/${KLMC}/hqmv2/scripts/patch_kernel_tree.sh \
               ${STAGING_KERNEL_DIR} ${STAGING_PATH}
         else
 	   ${WORKDIR}/rdk/klm/${KLMC}/scripts/patch_kernel_tree.sh \
@@ -78,6 +78,7 @@ do_patch_rdk_modules () {
            "cpk")    KLM_DRIVER="ice_sw";;
            "cpk-ae") KLM_DRIVER="ice_sw_ae";;
            "netd")   KLM_DRIVER="adk_netd";;
+           "hqm")    KLM_DRIVER="dlb2";;
            *)        KLM_DRIVER="${KLMC}";;
         esac
 
@@ -132,20 +133,11 @@ sysroot_stage_all_append() {
         sysroot_stage_dir "${D}/usr/kernel-headers" "${KERNEL_HEADERS}"
 
         install -d ${KLM_HEADERS}
-        mv ${KERNEL_HEADERS}/include/linux/adf_cfg*.h ${KLM_HEADERS}
-
-	# hqm gets renamed dlb in newer versions of HQM...
-	if [ -e ${KERNEL_HEADERS}/include/linux/hqm_user.h ]
-	then
-		mv ${KERNEL_HEADERS}/include/linux/hqm_user.h ${KLM_HEADERS}
-	fi
-	if [ -e ${KERNEL_HEADERS}/include/linux/dlb_user.h ]
-	then
-		mv ${KERNEL_HEADERS}/include/linux/dlb_user.h ${KLM_HEADERS}
-	fi
-
-        mv ${KERNEL_HEADERS}/include/linux/ice_sw_ae*.h ${KLM_HEADERS}
-        mv ${KERNEL_HEADERS}/include/linux/adk_netd*.h ${KLM_HEADERS}
+        mv ${KERNEL_HEADERS}/include/linux/adf_cfg*.h ${KLM_HEADERS} 2>/dev/null || :
+        mv ${KERNEL_HEADERS}/include/linux/hqm_user.h ${KLM_HEADERS} 2>/dev/null || :
+        mv ${KERNEL_HEADERS}/include/linux/dlb_user.h ${KLM_HEADERS} 2>/dev/null || :
+        mv ${KERNEL_HEADERS}/include/linux/ice_sw_ae*.h ${KLM_HEADERS} 2>/dev/null || :
+        mv ${KERNEL_HEADERS}/include/linux/adk_netd*.h ${KLM_HEADERS} 2>/dev/null || :
     fi
 }
 
