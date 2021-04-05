@@ -113,6 +113,7 @@ ldd \
 less \
 libaio \
 libasan \
+libbsd \
 libcap \
 libcheck \
 libdaemon \
