@@ -26,6 +26,7 @@ kernel-modules \
 kmod \
 ldd \
 libasan \
+libbsd \
 libgcc \
 libnl \
 libnl-genl \
