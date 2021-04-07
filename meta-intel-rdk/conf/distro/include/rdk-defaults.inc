@@ -17,5 +17,4 @@ BBMASK += "${@oe.utils.conditional('ALTERNATIVE_KERNELS', '', \
 		'meta-intel-rdk/recipes-kernel/lttng/lttng-modules-alternative*', '', d)} \
 	   ${@bb.utils.contains('BBFILE_COLLECTIONS', 'intel-vcn', \
 		'', 'meta-intel-rdk/recipes-kernel/lttng/lttng-modules-alternative*', d)} \
-	   recipes-extended/rdk-tools \
 	  "
