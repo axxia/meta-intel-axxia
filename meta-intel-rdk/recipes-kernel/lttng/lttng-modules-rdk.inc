@@ -7,9 +7,12 @@ SRC_URI_append = " ${RDK_KLM_ARCHIVE}"
 export RDK_KLM_VERSION
 
 do_patch_rdk() {
-	cd ${S}
-	cp $(find ${WORKDIR}/rdk/klm -path "*/lttng/*.patch") ${S}
-	ls ${S}/*.patch | sort | xargs -t -n 1 patch -p1 -i
+    cd ${S}
+    RDK_LTTNG_PATCHES=$(find ${WORKDIR}/rdk/klm -path "*/lttng/*.patch")
+    if [ ! -z "${RDK_LTTNG_PATCHES}" ]; then
+        cp ${RDK_LTTNG_PATCHES} ${S}
+        ls ${S}/*.patch | sort | xargs -t -n 1 patch -p1 -i
+    fi
 }
 do_patch[postfuncs] += "do_patch_rdk"
 
