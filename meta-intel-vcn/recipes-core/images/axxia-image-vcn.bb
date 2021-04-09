@@ -23,6 +23,7 @@ attr \
 autoconf \
 autofs \
 axxia-rc-local \
+babeltrace \
 base-files \
 base-passwd \
 bash \
@@ -219,6 +220,7 @@ ppp \
 procps \
 psmisc \
 python3 \
+python3-babeltrace \
 python3-cffi \
 python3-core \
 python3-dev \
