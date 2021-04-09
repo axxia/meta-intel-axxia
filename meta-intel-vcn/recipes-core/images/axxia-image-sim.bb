@@ -11,6 +11,7 @@ ${CORE_IMAGE_EXTRA_INSTALL} \
 
 IMAGE_INSTALL_append = " \
 axxia-rc-local \
+babeltrace \
 boost \
 dhcp-client \
 dhcp-server \
@@ -49,6 +50,7 @@ pciutils \
 packagegroup-core-full-cmdline \
 perf \
 perl-module-bigint \
+python3-babeltrace \
 python3-cffi \
 python3-core \
 python3-dev \
