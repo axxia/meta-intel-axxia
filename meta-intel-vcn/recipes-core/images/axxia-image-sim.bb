@@ -34,7 +34,7 @@ libnl-genl \
 libnl-nf \
 libnl-route \
 libpcap \
-libpython2 \
+libpython3 \
 libubsan \
 libudev \
 mtools \
@@ -48,13 +48,13 @@ pciutils \
 packagegroup-core-full-cmdline \
 perf \
 perl-module-bigint \
-python-cffi \
-python-core \
-python-dev \
-python-distutils \
-python-modules \
-python-netserver \
-python-nose \
+python3-cffi \
+python3-core \
+python3-dev \
+python3-distutils \
+python3-modules \
+python3-netserver \
+python3-nose \
 readline \
 swig \
 tcl \
@@ -76,7 +76,7 @@ lib32-libnl-genl \
 lib32-libnl-nf \
 lib32-libnl-route \
 lib32-libpcap \
-lib32-libpython2 \
+lib32-libpython3 \
 lib32-libubsan \
 lib32-libudev \
 "
