@@ -11,7 +11,7 @@ BOOST_VER = "${@"_".join(d.getVar("PV").split("."))}"
 BOOST_MAJ = "${@"_".join(d.getVar("PV").split(".")[0:2])}"
 BOOST_P = "boost_${BOOST_VER}"
 
-SRC_URI = "https://dl.bintray.com/boostorg/release/${PV}/source/${BOOST_P}.tar.bz2"
+SRC_URI = "https://sourceforge.net/projects/boost/files/boost/${PV}/${BOOST_P}.tar.bz2"
 SRC_URI[md5sum] = "242ecc63507711d6706b9b0c0d0c7d4f"
 SRC_URI[sha256sum] = "430ae8354789de4fd19ee52f3b1f739e1fba576f0aded0897c3c2bc00fb38778"
 
