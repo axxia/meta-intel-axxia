@@ -119,7 +119,6 @@ do_install_append() {
         mkdir -p ${D}${libdir}/python-sysconfigdata
         sysconfigfile=`find ${D} -name _sysconfig*.py`
         cp $sysconfigfile ${D}${libdir}/python-sysconfigdata/_sysconfigdata.py
-	ln -sf ../python-sysconfigdata/_sysconfigdata.py ${D}${libdir}/python${PYTHON_MAJMIN}
 
         sed -i  \
                 -e "s,^ 'LIBDIR'.*, 'LIBDIR': '${STAGING_LIBDIR}'\,,g" \
