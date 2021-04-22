@@ -25,6 +25,8 @@ inetutils \
 initscripts-readonly-rootfs-overlay \
 kernel-dev \
 kernel-modules \
+kexec \
+kexec-tools \
 kmod \
 ldd \
 libasan \
