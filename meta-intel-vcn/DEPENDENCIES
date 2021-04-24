@@ -4,29 +4,29 @@ Dependencies
 poky
 ----
 URI: git://git.yoctoproject.org/poky.git
-branch: master
-revision: 57b37e3b03d9074bdb6bed5cc4a850385332cc63
+branch: hardknott
+revision: 58cbdaecf75b0248f96780b6882e8d4f232d038a
 
 meta-openembedded
 -----------------
 URI: https://github.com/openembedded/meta-openembedded.git
-branch: master
-revision: 6e99122ed81b7dcb8bffd82f0fefaed3898de8b0
+branch: hardknott
+revision: c3a36263f91e42302ad7c347e051cf1cd83e39f6
 
 meta-virtualization
 -------------------
 URI: git://git.yoctoproject.org/meta-virtualization
-branch: master
-revision: 438ed8b5065aac2bfd69c57e807befb42c8cc889
+branch: hardknott
+revision: f058b195580f90ea8fb2751fe76168e06a746934
 
 meta-intel
 ----------
 URI: git://git.yoctoproject.org/meta-intel
-branch: master
-revision: f5c204c99b669d6dea12abbc19e8f7462379095c
+branch: hardknott
+revision: 4d5791d9ff515ba1660234b1987eae4d4e90eeca
 
 meta-security
 -------------
 URI: https://git.yoctoproject.org/git/meta-security
-branch: master
-revision: 775870980bc72df7126d910364f44b907727c1d5
+branch: hardknott
+revision: c6b1eec0e5e94b02160ce0ac3aa9582cbbf7b0ed
