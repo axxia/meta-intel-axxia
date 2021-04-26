@@ -27,7 +27,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 if [ -z "$SDKTARGETSYSROOT" ]; then
-    echo -e "${RED}Error: There is no SDK setup. Please source top-level SDK environment script first.${NC}" >&2
+    echo "${RED}Error: There is no SDK setup. Please source top-level SDK environment script first.${NC}" >&2
     exit 1
 fi
 
@@ -38,8 +38,8 @@ for kernel in $SDKTARGETSYSROOT/lib/modules/*; do
     cd $kernel/build
     make clean oldconfig scripts tools/objtool modules_prepare
     status=$?
-    if [[ $status -ne 0 ]]; then
-        echo -e "${RED}Error: External modules setup fails for kernel $(basename $kernel) with status $status.${NC}" >&2
+    if [ $status -ne 0 ]; then
+        echo "${RED}Error: External modules setup fails for kernel $(basename $kernel) with status $status.${NC}" >&2
         exit $status
     fi
     cd -
