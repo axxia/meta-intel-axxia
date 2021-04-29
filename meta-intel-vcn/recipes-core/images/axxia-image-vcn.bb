@@ -97,6 +97,7 @@ iptables \
 iputils \
 irda-utils \
 jansson \
+json-c \
 iw \
 kdump \
 kernel-dev \
