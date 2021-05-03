@@ -5,7 +5,7 @@ poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: dunfell
-revision: 569b1f5d67c57de957e243997c53ec2f81dc8dfe
+revision: fadf7d3343305337c38a5243797723c68e88276a
 
 meta-openembedded
 -----------------
@@ -17,7 +17,7 @@ meta-virtualization
 -------------------
 URI: git://git.yoctoproject.org/meta-virtualization
 branch: dunfell
-revision: ffd787fb850e5a1657a01febc8402c74832147a1
+revision: 89abc62b47f6f20db9d00a8ec9b2c1b6b60ac3f9
 
 meta-intel
 ----------
