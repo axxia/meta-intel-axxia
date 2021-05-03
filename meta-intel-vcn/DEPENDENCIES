@@ -5,7 +5,7 @@ poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: thud
-revision: 3315b9f4a55c7f9ded954fe990174e9382827739
+revision: 2faacaf8f4bf5afff9dab8d9164a83788465224f
 
 meta-openembedded
 -----------------
@@ -17,7 +17,7 @@ meta-virtualization
 -------------------
 URI: git://git.yoctoproject.org/meta-virtualization
 branch: thud
-revision: 7685c7d415e0002c448007960837ae8898cd57a5
+revision: 3713719dff5b011a47e8f34559c0c985bd3e9ba3
 
 meta-intel
 ----------
