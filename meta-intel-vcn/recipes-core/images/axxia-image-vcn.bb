@@ -225,9 +225,12 @@ psmisc \
 python3 \
 python3-babeltrace \
 python3-cffi \
+python3-colorama \
 python3-core \
 python3-dev \
 python3-distutils \
+python3-humanfriendly \
+python3-lxml \
 python3-modules \
 python3-netserver \
 python3-nose \
