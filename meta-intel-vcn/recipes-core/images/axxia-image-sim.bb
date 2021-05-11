@@ -13,6 +13,7 @@ IMAGE_INSTALL_append = " \
 axxia-rc-local \
 babeltrace \
 boost \
+boost-dev \
 dmidecode \
 dtc \
 e2fsprogs-resize2fs \
@@ -37,6 +38,10 @@ libnl-genl \
 libnl-nf \
 libnl-route \
 libpcap \
+libthrift \
+libthrift-c-glib \
+libthriftnb \
+libthriftz \
 libubsan \
 libudev \
 libxcrypt \
