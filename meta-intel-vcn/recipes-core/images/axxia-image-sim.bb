@@ -13,6 +13,7 @@ IMAGE_INSTALL_append = " \
 axxia-rc-local \
 babeltrace \
 boost \
+cpupower \
 dhcp-client \
 dhcp-server \
 dmidecode \

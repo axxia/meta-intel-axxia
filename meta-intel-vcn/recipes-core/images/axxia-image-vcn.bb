@@ -42,6 +42,7 @@ chkconfig \
 cifs-utils \
 coreutils \
 cpio \
+cpupower \
 cracklib \
 cronie \
 curl \
