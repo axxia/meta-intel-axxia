@@ -150,7 +150,7 @@ in conf/local.conf:
 
      -I$(SDKTARGETSYSROOT)/usr/kernel-headers/include
 
-     When using the axxia-image-vcn root file system on SNR add the
+     When using the axxia-image-dev root file system on SNR add the
      following.
 
      -I/usr/kernel-headers/include
