@@ -111,7 +111,7 @@ II. Building meta-intel-vcn
    $ git checkout <the revision specified in DEPENDENCIES>
 
 1.6. Clone the Yocto security meta layer. This provides recipes for some
-   utilities used in the axxia-image-vcn image.
+   utilities used in the axxia-image-dev image.
 
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/meta-security
@@ -341,14 +341,14 @@ CONF_VERSION = "1"
    $ bitbake (image type)
 
 Available root filesystem types:
-   * axxia-image-small 
+   * axxia-image-min
      A small image used in simulation, flash, or as a ram disk. Should
      be sufficient to use the RTE. 
 
-   * axxia-image-sim
+   * axxia-image-run
      An image used in simulation.
 
-   * axxia-image-vcn
+   * axxia-image-dev
      A more complete image. Contains the SDK and LTP.
 
 Once complete the images for the target machine will be available in 
@@ -368,9 +368,9 @@ the output directory 'tmp/deploy/images/$MACHINE'.
 4. Build and install the SDK
 ----------------------------
 
-Run 'populate_sdk' task for axxia-image-vcn image to build the SDK. 
+Run 'populate_sdk' task for axxia-image-dev image to build the SDK.
 
-    $ bitbake axxia-image-vcn -c populate_sdk
+    $ bitbake axxia-image-dev -c populate_sdk
 
 It will install a self extracting script in tmp/deploy/sdk. Simply run
 the poky*.sh script. To set up the environment to use the tools, source
@@ -428,8 +428,8 @@ described here.  The files needed to boot are available.
     available as <TMPDIR>/deploy/images/axxiax86-64/kernel-*/bzImage.
     Available versions of the kernel are described above.
   * Multiple root file systems are also available.  The contents are
-    described above (see axxia-image-small, axxia-image-sim, and
-    axxia-image-vcn).  Various formats are available.
+    described above (see axxia-image-min, axxia-image-run, and
+    axxia-image-dev).  Various formats are available.
 
 
 6. Read-only rootfs with writable overlayfs
