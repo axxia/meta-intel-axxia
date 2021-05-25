@@ -2,9 +2,9 @@
 You can now run 'bitbake <target>'
 
 Specific Intel AXXIA targets are:
-    axxia-image-sim
-    axxia-image-small
-    axxia-image-vcn
+    axxia-image-run
+    axxia-image-min
+    axxia-image-dev
 
 Other common targets are:
     core-image-minimal
