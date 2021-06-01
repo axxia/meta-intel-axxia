@@ -61,7 +61,7 @@ do_patch_rdk_modules () {
     fi
 
     # Install each driver in the specific path and create commits
-    for KLMC in cpk cpk-ae hqm ies qat netd
+    for KLMC in cpk cpk-ae hqm i3c ies qat netd
     do
 	[ ! -d ${WORKDIR}/rdk/klm/${KLMC} ] && continue
 
@@ -73,12 +73,14 @@ do_patch_rdk_modules () {
               ${STAGING_KERNEL_DIR} ${STAGING_PATH}
         fi
 
-        # Handle drivers name differences (cpk->ice_sw; cpk-ae->ice_sw_ae; netd->adk_netd)
+        # Handle drivers name differences (cpk->ice_sw; cpk-ae->ice_sw_ae;
+        # netd->adk_netd; hqm->dlb2; i3c->i3c-rdk)
         case ${KLMC} in
            "cpk")    KLM_DRIVER="ice_sw";;
            "cpk-ae") KLM_DRIVER="ice_sw_ae";;
            "netd")   KLM_DRIVER="adk_netd";;
            "hqm")    KLM_DRIVER="dlb2";;
+           "i3c")    KLM_DRIVER="i3c-rdk";;
            *)        KLM_DRIVER="${KLMC}";;
         esac
 
