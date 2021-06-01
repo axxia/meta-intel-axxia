@@ -42,6 +42,7 @@ bzip2 \
 cifs-utils \
 coreutils \
 cpio \
+cpupower \
 cracklib \
 cronie \
 curl \

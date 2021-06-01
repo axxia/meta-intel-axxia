@@ -14,6 +14,7 @@ axxia-rc-local \
 babeltrace \
 boost \
 boost-dev \
+cpupower \
 dmidecode \
 dtc \
 e2fsprogs-resize2fs \
