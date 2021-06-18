@@ -96,6 +96,18 @@ and in dmesg look for:
 Included as
 SNR-0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch.
 
+Support Serial Flash Access (MTD) to Boot Flash
+-----------------------------------------------
+
+Allows access to the secondary boot flash from Linux using the MTD driver.
+
+SNR-0003-mtd-spi-nor-intel-spi-Move-platform-data-header-to-x.patch
+SNR-0004-mtd-spi-nor-intel-spi-Add-is_protected-and-bios_lock.patch
+
+and
+
+SNR-0005-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch
+
 
 II. Building meta-intel-snr
 ===========================
