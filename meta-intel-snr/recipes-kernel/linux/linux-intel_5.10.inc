@@ -7,6 +7,9 @@ SRCREV_meta = "eb09284047fec2f09d62068c338ae320c6681bd1"
 SNR_PATCHES = " \
 file://SNR-0001-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
 file://SNR-0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
+file://SNR-0003-mtd-spi-nor-intel-spi-Move-platform-data-header-to-x.patch \
+file://SNR-0004-mtd-spi-nor-intel-spi-Add-is_protected-and-bios_lock.patch \
+file://SNR-0005-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
 "
 
 FRIO_PATCHES = " \
