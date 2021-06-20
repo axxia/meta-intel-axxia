@@ -11,8 +11,7 @@ require conf/machine/include/tune-core2.inc
 
 # Extra tune features
 TUNEVALID[snr] = "Enable snr specific processor optimizations"
-CPU_MATCH = "${@bb.utils.contains('PREFERRED_VERSION_gcc', '9.%', 'tremont', 'core2', d)}"
-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'snr', ' -march=${CPU_MATCH} -mtune=${CPU_MATCH} -mfpmath=sse -msse4.2', '', d)}"
+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'snr', ' -march=tremont -mtune=tremont -mfpmath=sse -msse4.2', '', d)}"
 
 # Extra tune selections
 AVAILTUNES += "snr-32"
@@ -20,18 +19,18 @@ TUNE_FEATURES_tune-snr-32 = "${TUNE_FEATURES_tune-x86} snr"
 BASE_LIB_tune-snr-32 = "lib"
 TUNE_PKGARCH_tune-snr-32 = "snr-32"
 PACKAGE_EXTRA_ARCHS_tune-snr-32 = "${PACKAGE_EXTRA_ARCHS_tune-core2-32} snr-32"
-QEMU_EXTRAOPTIONS_snr-32 = " -cpu n270,check=false"
+QEMU_EXTRAOPTIONS_snr-32 = " -cpu Tremont,check=false"
 
 AVAILTUNES += "snr-64"
 TUNE_FEATURES_tune-snr-64 = "${TUNE_FEATURES_tune-x86-64} snr"
 BASE_LIB_tune-snr-64 = "lib64"
 TUNE_PKGARCH_tune-snr-64 = "snr-64"
 PACKAGE_EXTRA_ARCHS_tune-snr-64 = "${PACKAGE_EXTRA_ARCHS_tune-core2-64} snr-64"
-QEMU_EXTRAOPTIONS_snr-64 = " -cpu core2duo,check=false"
+QEMU_EXTRAOPTIONS_snr-64 = " -cpu Tremont,check=false"
 
 AVAILTUNES += "snr-64-x32"
 TUNE_FEATURES_tune-snr-64-x32 = "${TUNE_FEATURES_tune-x86-64-x32} snr"
 BASE_LIB_tune-snr-64-x32 = "libx32"
 TUNE_PKGARCH_tune-snr-64-x32 = "snr-64-x32"
 PACKAGE_EXTRA_ARCHS_tune-snr-64-x32 = "${PACKAGE_EXTRA_ARCHS_tune-core2-64-x32} snr-64-x32"
-QEMU_EXTRAOPTIONS_snr-64-x32 = " -cpu core2duo,check=false"
+QEMU_EXTRAOPTIONS_snr-64-x32 = " -cpu Tremont,check=false"
