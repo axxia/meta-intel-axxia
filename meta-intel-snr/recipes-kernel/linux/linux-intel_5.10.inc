@@ -10,6 +10,7 @@ file://SNR-0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
 file://SNR-0003-mtd-spi-nor-intel-spi-Move-platform-data-header-to-x.patch \
 file://SNR-0004-mtd-spi-nor-intel-spi-Add-is_protected-and-bios_lock.patch \
 file://SNR-0005-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
+file://SNR-0006-drivers-dma-idxd-Copy-the-Next-Kernel-Version.patch \
 "
 
 FRIO_PATCHES = " \
