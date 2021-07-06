@@ -1,7 +1,7 @@
-From bbea2fa044061483472d25b0804e5f4dd384b5b1 Mon Sep 17 00:00:00 2001
+From 0cb960f6575f730487365b83d878cfa5744cb159 Mon Sep 17 00:00:00 2001
 From: Kan Liang <kan.liang@linux.intel.com>
 Date: Tue, 28 May 2019 15:08:30 -0700
-Subject: [PATCH 37/78] perf/x86: Disable extended registers for non-supported
+Subject: [PATCH 37/81] perf/x86: Disable extended registers for non-supported
  PMUs
 
 The perf fuzzer caused Skylake machine to crash:
@@ -165,5 +165,5 @@ index e5ce97cd687f..7a9396edd25a 100644
  
  	if (ret)
 -- 
-2.17.1
+2.25.1
 

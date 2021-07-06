@@ -1,7 +1,7 @@
-From 39d0d11575f1196887b3303941bba7f688559974 Mon Sep 17 00:00:00 2001
+From c66d864307b58c94e9813c652485931650dc6d4e Mon Sep 17 00:00:00 2001
 From: Chao Peng <chao.p.peng@linux.intel.com>
 Date: Wed, 24 Oct 2018 16:05:06 +0800
-Subject: [PATCH 35/78] perf/x86/intel/pt: Export pt_cap_get()
+Subject: [PATCH 35/81] perf/x86/intel/pt: Export pt_cap_get()
 
 pt_cap_get() is required by the upcoming PT support in KVM guests.
 
@@ -296,5 +296,5 @@ index b523f51c5400..fa4b4fd2dbed 100644
  
  #endif /* _ASM_X86_INTEL_PT_H */
 -- 
-2.17.1
+2.25.1
 

@@ -1,7 +1,7 @@
-From f613596aac0999397b0c11e16c6035bd504ca1c5 Mon Sep 17 00:00:00 2001
+From 6d00d9f7cee4ace16d7241ecd3fe765428d67550 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Wed, 29 May 2019 11:51:10 -0500
-Subject: [PATCH 07/78] drivers/watchdog: Ignore 'No Reboot' Bit
+Subject: [PATCH 07/81] drivers/watchdog: Ignore 'No Reboot' Bit
 
 Early versions of the SNR chip do not allow the "no reboot"
 bit to be accessed.  This commit simply assumes that it is
@@ -106,5 +106,5 @@ index 347f0389b089..86c38edcee50 100644
  	/* The TCO logic uses the TCO_EN bit in the SMI_EN register */
  	if (!devm_request_region(dev, p->smi_res->start,
 -- 
-2.17.1
+2.25.1
 

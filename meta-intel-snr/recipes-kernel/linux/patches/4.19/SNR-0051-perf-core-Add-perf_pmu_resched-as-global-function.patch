@@ -1,7 +1,7 @@
-From 7941447aca1ab772733af12cc1593fbd58789777 Mon Sep 17 00:00:00 2001
+From 20329875b8ff7eeb185a9f1ea6afdf867bff3947 Mon Sep 17 00:00:00 2001
 From: Stephane Eranian <eranian@google.com>
 Date: Mon, 8 Apr 2019 10:32:51 -0700
-Subject: [PATCH 51/78] perf/core: Add perf_pmu_resched() as global function
+Subject: [PATCH 51/81] perf/core: Add perf_pmu_resched() as global function
 
 This patch add perf_pmu_resched() a global function that can be called
 to force rescheduling of events for a given PMU. The function locks
@@ -64,5 +64,5 @@ index 7a9396edd25a..5b83936cb603 100644
   * Cross CPU call to install and enable a performance event
   *
 -- 
-2.17.1
+2.25.1
 

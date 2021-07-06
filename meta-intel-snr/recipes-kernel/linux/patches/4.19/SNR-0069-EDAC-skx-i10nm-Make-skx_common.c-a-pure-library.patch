@@ -1,7 +1,7 @@
-From 06a7feec4ad82e7e057d30861db46113de82c6d4 Mon Sep 17 00:00:00 2001
+From df8f4aea60ea1669b65bb99d38a9b26a22e52580 Mon Sep 17 00:00:00 2001
 From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 Date: Thu, 21 Mar 2019 15:13:39 -0700
-Subject: [PATCH 69/78] EDAC, skx, i10nm: Make skx_common.c a pure library
+Subject: [PATCH 69/81] EDAC, skx, i10nm: Make skx_common.c a pure library
 
 The following Kconfig constellations fail randconfig builds:
 
@@ -288,5 +288,5 @@ index d25374e34d4f..d18fa98669af 100644
 -
  #endif /* _SKX_COMM_EDAC_H */
 -- 
-2.17.1
+2.25.1
 

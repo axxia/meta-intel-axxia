@@ -1,7 +1,7 @@
-From 772365b9bc75eb35e5d7dc84bb4cf15501fca041 Mon Sep 17 00:00:00 2001
+From 8f315aaabba6e6686ee33db240ce5bbb03543c47 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Sat, 21 Sep 2019 14:42:33 -0500
-Subject: [PATCH 53/78] perf/x86/intel: Add Icelake support
+Subject: [PATCH 53/81] perf/x86/intel: Add Icelake support
 
 Add Icelake core PMU perf code, including constraint tables and the main
 enable code.
@@ -300,5 +300,5 @@ index 4e3f3c770d0f..5d9ac57ef02b 100644
  
  #define X86_PMC_IDX_MAX					       64
 -- 
-2.17.1
+2.25.1
 

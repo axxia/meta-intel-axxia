@@ -1,7 +1,7 @@
-From 4737ada7dd2cf1193286ec5abf3f81c43c3c046b Mon Sep 17 00:00:00 2001
+From 14edcba59ef9d3c2d55b77a49e881fe97a60fb5b Mon Sep 17 00:00:00 2001
 From: Kan Liang <kan.liang@linux.intel.com>
 Date: Tue, 30 Apr 2019 17:53:46 -0700
-Subject: [PATCH 46/78] perf/x86/intel/uncore: Support MMIO type uncore blocks
+Subject: [PATCH 46/81] perf/x86/intel/uncore: Support MMIO type uncore blocks
 
 A new MMIO type uncore box is introduced on Snow Ridge server. The
 counters of MMIO type uncore box can only be accessed by MMIO.
@@ -240,5 +240,5 @@ index 776b2143d5a0..2ebf4cda2057 100644
  extern raw_spinlock_t pci2phy_map_lock;
  extern struct list_head pci2phy_map_head;
 -- 
-2.17.1
+2.25.1
 

@@ -1,7 +1,7 @@
-From 77cdab7684205f000c0ef7e2bd2c8bb5e10e6899 Mon Sep 17 00:00:00 2001
+From 248c23bf0536aa71825343f4afdcbe288fcbccac Mon Sep 17 00:00:00 2001
 From: Kan Liang <kan.liang@linux.intel.com>
 Date: Mon, 4 Feb 2019 14:23:29 -0800
-Subject: [PATCH 50/78] x86/cpufeature: Add facility to check for min microcode
+Subject: [PATCH 50/81] x86/cpufeature: Add facility to check for min microcode
  revisions
 
 For bug workarounds or checks, it is useful to check for specific
@@ -110,5 +110,5 @@ index 751e59057466..2f163e6646b6 100644
 +}
 +EXPORT_SYMBOL_GPL(x86_cpu_has_min_microcode_rev);
 -- 
-2.17.1
+2.25.1
 

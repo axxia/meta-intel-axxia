@@ -1,7 +1,7 @@
-From 57e27651649fec295f5e7f85b170205b5248169d Mon Sep 17 00:00:00 2001
+From 36c20d383eac226942fb9fe55bc16cba949e7584 Mon Sep 17 00:00:00 2001
 From: Len Brown <len.brown@intel.com>
 Date: Mon, 13 May 2019 13:58:49 -0400
-Subject: [PATCH 60/78] x86/topology: Define topology_logical_die_id()
+Subject: [PATCH 60/81] x86/topology: Define topology_logical_die_id()
 
 Define topology_logical_die_id() ala existing topology_logical_package_id()
 
@@ -150,5 +150,5 @@ index 68f0730e6926..df4c4444bdda 100644
  }
  
 -- 
-2.17.1
+2.25.1
 

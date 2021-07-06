@@ -1,7 +1,7 @@
-From 4e42009aef731c257b5beac19185196ef74a53f4 Mon Sep 17 00:00:00 2001
+From 42530bd494c7263a2d86b600d3a1cd5c0d678628 Mon Sep 17 00:00:00 2001
 From: Fenghua Yu <fenghua.yu@intel.com>
 Date: Wed, 24 Oct 2018 14:57:17 -0700
-Subject: [PATCH 15/78] x86/cpufeatures: Enumerate MOVDIR64B instruction
+Subject: [PATCH 15/81] x86/cpufeatures: Enumerate MOVDIR64B instruction
 
 MOVDIR64B moves 64-bytes as direct-store with 64-bytes write atomicity.
 Direct store is implemented by using write combining (WC) for writing
@@ -48,5 +48,5 @@ index 300bd873b913..450568b7806c 100644
  /* AMD-defined CPU features, CPUID level 0x80000007 (EBX), word 17 */
  #define X86_FEATURE_OVERFLOW_RECOV	(17*32+ 0) /* MCA overflow recovery support */
 -- 
-2.17.1
+2.25.1
 

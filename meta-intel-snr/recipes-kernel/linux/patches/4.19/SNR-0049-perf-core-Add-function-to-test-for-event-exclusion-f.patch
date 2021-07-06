@@ -1,7 +1,7 @@
-From 3b5875adac4d726cf0ad6f3cafa311731244bf3c Mon Sep 17 00:00:00 2001
+From df5e191d11fe6b724a21f6dcec8d6d46fca292e0 Mon Sep 17 00:00:00 2001
 From: Andrew Murray <andrew.murray@arm.com>
 Date: Thu, 10 Jan 2019 13:53:24 +0000
-Subject: [PATCH 49/78] perf/core: Add function to test for event exclusion
+Subject: [PATCH 49/81] perf/core: Add function to test for event exclusion
  flags
 
 Add a function that tests if any of the perf event exclusion flags
@@ -56,5 +56,5 @@ index 517a66297b2c..b4c3bc53c321 100644
  {
  	return event->attr.sample_period != 0;
 -- 
-2.17.1
+2.25.1
 

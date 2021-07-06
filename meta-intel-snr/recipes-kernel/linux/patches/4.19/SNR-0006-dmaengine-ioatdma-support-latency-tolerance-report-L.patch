@@ -1,7 +1,7 @@
-From 9bae7f84d50277cad05b23f9eb6e3667dd3b949d Mon Sep 17 00:00:00 2001
+From f0b4a40e2416b5ef27b9ae4b55cf417a1245d431 Mon Sep 17 00:00:00 2001
 From: Dave Jiang <dave.jiang@intel.com>
 Date: Fri, 22 Feb 2019 10:00:10 -0700
-Subject: [PATCH 06/78] dmaengine: ioatdma: support latency tolerance report
+Subject: [PATCH 06/81] dmaengine: ioatdma: support latency tolerance report
  (LTR) for v3.4
 
 IOATDMA 3.4 supports PCIe LTR mechanism. The registers are non-standard
@@ -85,5 +85,5 @@ index 2b517d6db5fd..99c1c24d465d 100644
 +
  #endif /* _IOAT_REGISTERS_H_ */
 -- 
-2.17.1
+2.25.1
 

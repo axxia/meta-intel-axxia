@@ -1,7 +1,7 @@
-From 0419725dbf9731d15cf8d0d8091389602cfd0041 Mon Sep 17 00:00:00 2001
+From 660b6aaeeda792789baa60bb1fbdfeb625c088f0 Mon Sep 17 00:00:00 2001
 From: Kan Liang <kan.liang@linux.intel.com>
 Date: Tue, 30 Apr 2019 17:53:48 -0700
-Subject: [PATCH 48/78] perf/x86/intel/uncore: Add IMC uncore support for Snow
+Subject: [PATCH 48/81] perf/x86/intel/uncore: Add IMC uncore support for Snow
  Ridge
 
 IMC uncore unit can only be accessed via MMIO on Snow Ridge.
@@ -283,5 +283,5 @@ index 3d8752b37413..b10a5ec79e48 100644
 +
  /* end of SNR uncore support */
 -- 
-2.17.1
+2.25.1
 

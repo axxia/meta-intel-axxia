@@ -1,7 +1,7 @@
-From 6b26a3afd582490830bbfb39b07d1498ed1e0c94 Mon Sep 17 00:00:00 2001
+From e15c40648560c4f44daa311dbf555110db5bd056 Mon Sep 17 00:00:00 2001
 From: Kan Liang <kan.liang@linux.intel.com>
 Date: Mon, 13 May 2019 13:59:02 -0400
-Subject: [PATCH 44/78] perf/x86/intel/uncore: Cosmetic renames in response to
+Subject: [PATCH 44/81] perf/x86/intel/uncore: Cosmetic renames in response to
  multi-die/pkg support
 
 Syntax update only -- no logical or functional change.
@@ -327,5 +327,5 @@ index 851f76fc61dd..3d8752b37413 100644
  		if (filter_pdev) {
  			pci_write_config_dword(filter_pdev, reg1->reg,
 -- 
-2.17.1
+2.25.1
 

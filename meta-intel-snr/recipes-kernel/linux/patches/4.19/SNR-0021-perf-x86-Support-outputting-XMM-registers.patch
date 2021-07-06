@@ -1,7 +1,7 @@
-From 9bac9bcdf7ce3fd3854242a86296497a22c5170f Mon Sep 17 00:00:00 2001
+From e7d30cce428d2d37841d10f29d71ddcb7ecc2a40 Mon Sep 17 00:00:00 2001
 From: Kan Liang <kan.liang@linux.intel.com>
 Date: Tue, 2 Apr 2019 12:44:59 -0700
-Subject: [PATCH 21/78] perf/x86: Support outputting XMM registers
+Subject: [PATCH 21/81] perf/x86: Support outputting XMM registers
 
 Starting from Icelake, XMM registers can be collected in PEBS record.
 But current code only output the pt_regs.
@@ -244,5 +244,5 @@ index c06c4c16c6b6..07c30ee17425 100644
  
  	return 0;
 -- 
-2.17.1
+2.25.1
 

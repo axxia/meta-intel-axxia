@@ -1,7 +1,7 @@
-From 550df630e0387d507d7b068c03c2c3c6b7d87646 Mon Sep 17 00:00:00 2001
+From 12ffe4f3e94450ceca962beae686a8aa43b7db4c Mon Sep 17 00:00:00 2001
 From: Kan Liang <kan.liang@linux.intel.com>
 Date: Tue, 28 May 2019 15:08:32 -0700
-Subject: [PATCH 39/78] perf/x86: Clean up PEBS_XMM_REGS
+Subject: [PATCH 39/81] perf/x86: Clean up PEBS_XMM_REGS
 
 Use generic macro PERF_REG_EXTENDED_MASK to replace PEBS_XMM_REGS to
 avoid duplication.
@@ -87,5 +87,5 @@ index b7397a935817..ab63c16d0517 100644
   * Per register state.
   */
 -- 
-2.17.1
+2.25.1
 

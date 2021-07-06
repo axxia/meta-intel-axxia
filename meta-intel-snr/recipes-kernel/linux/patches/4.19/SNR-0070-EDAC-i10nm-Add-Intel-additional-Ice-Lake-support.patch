@@ -1,7 +1,7 @@
-From e3e66baf1b3c16e8689396f8eea1777adfb3b49a Mon Sep 17 00:00:00 2001
+From dfdd94ec3d08581f98aee88a04e597ef9a305bf1 Mon Sep 17 00:00:00 2001
 From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 Date: Thu, 13 Jun 2019 16:40:27 +0800
-Subject: [PATCH 70/78] EDAC, i10nm: Add Intel additional Ice-Lake support
+Subject: [PATCH 70/81] EDAC, i10nm: Add Intel additional Ice-Lake support
 
 Two new CPU models share the same memory controller
 architecture with Jacobsville/Tremont, so can use the
@@ -29,5 +29,5 @@ index 6f06aec4877c..48c6cecc9683 100644
  };
  MODULE_DEVICE_TABLE(x86cpu, i10nm_cpuids);
 -- 
-2.17.1
+2.25.1
 

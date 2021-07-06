@@ -1,7 +1,7 @@
-From be4ab11453bc12c91750b0ef08d1edb7fbfaa009 Mon Sep 17 00:00:00 2001
+From 032f5a14fbe2efecc4b3bf8714f18b9889db9fe7 Mon Sep 17 00:00:00 2001
 From: Fenghua Yu <fenghua.yu@intel.com>
 Date: Wed, 19 Jun 2019 18:33:58 -0700
-Subject: [PATCH 18/78] Documentation/ABI: Document umwait control sysfs
+Subject: [PATCH 18/81] Documentation/ABI: Document umwait control sysfs
  interfaces
 
 Since two new sysfs interface files are created for umwait control, add
@@ -58,5 +58,5 @@ index 988f28520168..3935169d2b39 100644
 +			  Note that a value of zero means there is no limit.
 +			  Low order two bits must be zero.
 -- 
-2.17.1
+2.25.1
 

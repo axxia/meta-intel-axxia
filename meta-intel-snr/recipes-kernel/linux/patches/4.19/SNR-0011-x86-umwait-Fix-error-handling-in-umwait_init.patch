@@ -1,7 +1,7 @@
-From b379d4cf971a74766d846370c0bd9fb511e627a9 Mon Sep 17 00:00:00 2001
+From e5e3a0a66afda6ff94d237d50bd1e3491c75dd25 Mon Sep 17 00:00:00 2001
 From: Fenghua Yu <fenghua.yu@intel.com>
 Date: Fri, 9 Aug 2019 18:40:37 -0700
-Subject: [PATCH 11/78] x86/umwait: Fix error handling in umwait_init()
+Subject: [PATCH 11/81] x86/umwait: Fix error handling in umwait_init()
 
 Currently, failure of cpuhp_setup_state() is ignored and the syscore ops
 and the control interfaces can still be added even after the failure. But,
@@ -115,5 +115,5 @@ index 56149d630e35..18fa99a39283 100644
  	register_syscore_ops(&umwait_syscore_ops);
  
 -- 
-2.17.1
+2.25.1
 

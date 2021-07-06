@@ -1,7 +1,7 @@
-From b6f53688844ce59ac8a8e1c7595c5379ad4b020b Mon Sep 17 00:00:00 2001
+From a24353bae485794f1d2ac8fc1f18e60a7ffeb448 Mon Sep 17 00:00:00 2001
 From: Jarkko Nikula <jarkko.nikula@linux.intel.com>
 Date: Wed, 19 Dec 2018 09:01:58 +0200
-Subject: [PATCH 01/78] i2c: ismt: Add support for Intel Cedar Fork
+Subject: [PATCH 01/81] i2c: ismt: Add support for Intel Cedar Fork
 
 Add PCI ID for the Intel Cedar Fork iSMT SMBus controller.
 
@@ -34,5 +34,5 @@ index 0d1c3ec8cb40..02d23edb2fb1 100644
  	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_AVOTON_SMT) },
  	{ 0, }
 -- 
-2.17.1
+2.25.1
 

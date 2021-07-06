@@ -1,7 +1,7 @@
-From 42f4f10cd4b6103112432e8ef6c3909176f0729f Mon Sep 17 00:00:00 2001
+From b03a6086e9526fad7ccd6eb2cde9f02c656189f1 Mon Sep 17 00:00:00 2001
 From: Tony Luck <tony.luck@intel.com>
 Date: Mon, 15 Oct 2018 16:11:31 -0700
-Subject: [PATCH 66/78] ACPI/ADXL: Add address translation interface using an
+Subject: [PATCH 66/81] ACPI/ADXL: Add address translation interface using an
  ACPI DSM
 
 Some new Intel servers provide an interface so that the OS can ask the
@@ -282,5 +282,5 @@ index 000000000000..2a629acb4c3f
 +
 +#endif /* _LINUX_ADXL_H */
 -- 
-2.17.1
+2.25.1
 

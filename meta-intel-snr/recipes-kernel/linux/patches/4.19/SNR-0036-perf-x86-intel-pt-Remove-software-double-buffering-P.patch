@@ -1,7 +1,7 @@
-From 2602710205b80f3c116222cd62131b1a23887e2b Mon Sep 17 00:00:00 2001
+From 5e170715948e75d79da9f0ad2518886cb080d6fa Mon Sep 17 00:00:00 2001
 From: Alexander Shishkin <alexander.shishkin@linux.intel.com>
 Date: Fri, 3 May 2019 11:55:36 +0300
-Subject: [PATCH 36/78] perf/x86/intel/pt: Remove software double buffering PMU
+Subject: [PATCH 36/81] perf/x86/intel/pt: Remove software double buffering PMU
  capability
 
 Now that all AUX allocations are high-order by default, the software
@@ -51,5 +51,5 @@ index f3a88b9b2f64..c26790fbce81 100644
  #define PERF_PMU_CAP_ITRACE			0x20
  #define PERF_PMU_CAP_HETEROGENEOUS_CPUS		0x40
 -- 
-2.17.1
+2.25.1
 

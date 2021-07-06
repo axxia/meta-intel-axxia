@@ -1,7 +1,7 @@
-From 3ea375fde40ae29dbaf7c01b3aa19820d9442125 Mon Sep 17 00:00:00 2001
+From 8d9f36b37b4dd17acd60edba3533420d09adcd10 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Fri, 11 Sep 2020 17:12:00 -0500
-Subject: [PATCH 74/78] perf vendor events intel: Add Tremontx event file v1.02
+Subject: [PATCH 74/81] perf vendor events intel: Add Tremontx event file v1.02
 
 Backport of 11e54d35e6d5c3533b706753224ef38ea235684b upstream
 
@@ -1011,5 +1011,5 @@ index 000000000000..93e407a0f645
 +]
 \ No newline at end of file
 -- 
-2.17.1
+2.25.1
 

@@ -1,7 +1,7 @@
-From b3364b9df48d2c2e56067c14c5d4319f9c5f2e31 Mon Sep 17 00:00:00 2001
+From 90df2019d71b10599beba644e1b1e3d3244bee0c Mon Sep 17 00:00:00 2001
 From: Beniamin Sandu <beniaminsandu@gmail.com>
 Date: Mon, 20 Jul 2020 13:16:29 +0300
-Subject: [PATCH 76/78] perf/x86/msr: Add Tremont support
+Subject: [PATCH 76/81] perf/x86/msr: Add Tremont support
 
 Backport of 0aa0e0d6b34b89649e6b5882a7e025a0eb9bd832 upstream.
 
@@ -33,5 +33,5 @@ index ace6c1e752fb..c1dd9c708da7 100644
  	case INTEL_FAM6_XEON_PHI_KNL:
  	case INTEL_FAM6_XEON_PHI_KNM:
 -- 
-2.17.1
+2.25.1
 

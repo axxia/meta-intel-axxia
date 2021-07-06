@@ -1,7 +1,7 @@
-From ebec2ba8e21702f4313617ceb19fc12f067ac169 Mon Sep 17 00:00:00 2001
+From 2c081055cffb1d84975775c0ad27a3682aadccb5 Mon Sep 17 00:00:00 2001
 From: Andrew Murray <andrew.murray@arm.com>
 Date: Thu, 10 Jan 2019 13:53:25 +0000
-Subject: [PATCH 33/78] perf/core: Add PERF_PMU_CAP_NO_EXCLUDE for exclusion
+Subject: [PATCH 33/81] perf/core: Add PERF_PMU_CAP_NO_EXCLUDE for exclusion
  incapable PMUs
 
 Many PMU drivers do not have the capability to exclude counting events
@@ -77,5 +77,5 @@ index b8b74a4a524c..e5ce97cd687f 100644
  		module_put(pmu->module);
  
 -- 
-2.17.1
+2.25.1
 

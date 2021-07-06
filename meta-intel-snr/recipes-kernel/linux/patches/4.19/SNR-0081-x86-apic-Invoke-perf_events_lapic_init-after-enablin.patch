@@ -1,0 +1,51 @@
+From 6bc960c67584172e4a530f5c2b1ae279241c0059 Mon Sep 17 00:00:00 2001
+From: Thomas Gleixner <tglx@linutronix.de>
+Date: Mon, 22 Jul 2019 20:47:07 +0200
+Subject: [PATCH 81/81] x86/apic: Invoke perf_events_lapic_init() after
+ enabling APIC
+
+If the APIC is soft disabled then unmasking an LVT entry does not work and
+the write is ignored. perf_events_lapic_init() tries to do so.
+
+Move the invocation after the point where the APIC has been enabled.
+
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Link: https://lkml.kernel.org/r/20190722105218.962517234@linutronix.de
+---
+ arch/x86/kernel/apic/apic.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/arch/x86/kernel/apic/apic.c b/arch/x86/kernel/apic/apic.c
+index ab8187271d47..afd82b1e8d71 100644
+--- a/arch/x86/kernel/apic/apic.c
++++ b/arch/x86/kernel/apic/apic.c
+@@ -1529,7 +1529,6 @@ static void setup_local_APIC(void)
+ 	int cpu = smp_processor_id();
+ 	unsigned int value;
+ 
+-
+ 	if (disable_apic) {
+ 		disable_ioapic_support();
+ 		return;
+@@ -1552,8 +1551,6 @@ static void setup_local_APIC(void)
+ 		apic_write(APIC_ESR, 0);
+ 	}
+ #endif
+-	perf_events_lapic_init();
+-
+ 	/*
+ 	 * Double-check whether this APIC is really registered.
+ 	 * This is meaningless in clustered apic mode, so we skip it.
+@@ -1640,6 +1637,8 @@ static void setup_local_APIC(void)
+ 	value |= SPURIOUS_APIC_VECTOR;
+ 	apic_write(APIC_SPIV, value);
+ 
++	perf_events_lapic_init();
++
+ 	/*
+ 	 * Set up LVT0, LVT1:
+ 	 *
+-- 
+2.25.1
+

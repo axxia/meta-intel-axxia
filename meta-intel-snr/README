@@ -296,6 +296,19 @@ through
 
 SNR-0073-Support-EDAC-on-SNR-Bx-Stepping-Parts.patch
 
+8 more patches for perf
+-----------------------
+
+In addition to the perf patches above, "45 patches for perf (core and
+uncore)", add the following.  This adds the capture, in perf logs, of
+the performance trace instruction pwrite and others.
+
+SNR-0074-perf-vendor-events-intel-Add-Tremontx-event-file-v1..patch
+
+through
+
+SNR-0081-x86-apic-Invoke-perf_events_lapic_init-after-enablin.patch
+
 
 II. Building meta-intel-snr
 ===========================

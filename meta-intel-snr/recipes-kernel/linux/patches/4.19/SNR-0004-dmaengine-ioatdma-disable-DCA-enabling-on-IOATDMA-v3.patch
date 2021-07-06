@@ -1,7 +1,7 @@
-From 675fa87d0ca685bf79a22b4ce1e003b964e035b9 Mon Sep 17 00:00:00 2001
+From bba36f90462c777c1681c30edd49b8332d9ba24b Mon Sep 17 00:00:00 2001
 From: Dave Jiang <dave.jiang@intel.com>
 Date: Fri, 22 Feb 2019 09:59:59 -0700
-Subject: [PATCH 04/78] dmaengine: ioatdma: disable DCA enabling on IOATDMA
+Subject: [PATCH 04/81] dmaengine: ioatdma: disable DCA enabling on IOATDMA
  v3.4
 
 IOATDMA v3.4 does not support DCA. Disable
@@ -39,5 +39,5 @@ index 3161dfbca505..58dd1bfd3edd 100644
  		if (is_skx_ioat(pdev))
  			device->version = IOAT_VER_3_2;
 -- 
-2.17.1
+2.25.1
 

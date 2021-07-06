@@ -1,7 +1,7 @@
-From 83d91e634fe039783c058944edb44c1b7e2c61e5 Mon Sep 17 00:00:00 2001
+From e346c054c54ee1db417b43b622f53ada2a120007 Mon Sep 17 00:00:00 2001
 From: Fenghua Yu <fenghua.yu@intel.com>
 Date: Wed, 19 Jun 2019 18:33:54 -0700
-Subject: [PATCH 13/78] x86/cpufeatures: Enumerate user wait instructions
+Subject: [PATCH 13/81] x86/cpufeatures: Enumerate user wait instructions
 
 umonitor, umwait, and tpause are a set of user wait instructions.
 
@@ -64,5 +64,5 @@ index f7f9604b10cc..935b2e39fd9a 100644
  #define X86_FEATURE_GFNI		(16*32+ 8) /* Galois Field New Instructions */
  #define X86_FEATURE_VAES		(16*32+ 9) /* Vector AES */
 -- 
-2.17.1
+2.25.1
 

@@ -1,7 +1,7 @@
-From 1dd8f4dcd22a2d91a141cb8b9673d3f8bf781ffb Mon Sep 17 00:00:00 2001
+From eed76f6301085286e548db96a93a085db9bf22fb Mon Sep 17 00:00:00 2001
 From: Kan Liang <kan.liang@linux.intel.com>
 Date: Tue, 28 May 2019 15:08:31 -0700
-Subject: [PATCH 38/78] perf/x86/regs: Check reserved bits
+Subject: [PATCH 38/81] perf/x86/regs: Check reserved bits
 
 The perf fuzzer triggers a warning which map to:
 
@@ -64,5 +64,5 @@ index 07c30ee17425..bb7e1132290b 100644
  
  	return 0;
 -- 
-2.17.1
+2.25.1
 

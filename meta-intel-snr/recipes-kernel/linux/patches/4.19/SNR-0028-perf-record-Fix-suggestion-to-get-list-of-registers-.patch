@@ -1,7 +1,7 @@
-From 27b3d4c6a818d70d40cf5751c3965e806f4c2243 Mon Sep 17 00:00:00 2001
+From 6e3732849abca2d75d938262391611f6f0417e41 Mon Sep 17 00:00:00 2001
 From: Arnaldo Carvalho de Melo <acme@redhat.com>
 Date: Mon, 13 May 2019 15:55:01 -0300
-Subject: [PATCH 28/78] perf record: Fix suggestion to get list of registers
+Subject: [PATCH 28/81] perf record: Fix suggestion to get list of registers
  usable with --user-regs and --intr-regs
 
   $ perf record -h -I
@@ -71,5 +71,5 @@ index 22ebeb92ac51..950945865776 100644
  		    "Record running/enabled time of read (:S) events"),
  	OPT_CALLBACK('k', "clockid", &record.opts,
 -- 
-2.17.1
+2.25.1
 

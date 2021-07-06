@@ -1,7 +1,7 @@
-From dc18a37079094d1940fa17ecf57e649aa1b9d73d Mon Sep 17 00:00:00 2001
+From 0e66aca4f3fe4b1f70d63adfe88583362eef5a27 Mon Sep 17 00:00:00 2001
 From: Kan Liang <kan.liang@linux.intel.com>
 Date: Tue, 28 May 2019 15:08:34 -0700
-Subject: [PATCH 41/78] perf/x86/regs: Use PERF_REG_EXTENDED_MASK
+Subject: [PATCH 41/81] perf/x86/regs: Use PERF_REG_EXTENDED_MASK
 
 Use the macro defined in kernel ABI header to replace the local name.
 
@@ -72,5 +72,5 @@ index 7886ca5263e3..3666c0076df9 100644
  
  	return PERF_REGS_MASK;
 -- 
-2.17.1
+2.25.1
 

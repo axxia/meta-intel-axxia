@@ -1,7 +1,7 @@
-From 5535a424830a409b8078f228cbb24b23cbfbabfc Mon Sep 17 00:00:00 2001
+From cfcfc9f1aa7c1fa98873ee4a76400c3b9c2966fa Mon Sep 17 00:00:00 2001
 From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 Date: Wed, 26 Jun 2019 14:16:38 +0800
-Subject: [PATCH 71/78] EDAC, i10nm: Check ECC enabling status per channel
+Subject: [PATCH 71/81] EDAC, i10nm: Check ECC enabling status per channel
 
 The i10nm_edac only checks the ECC enabling status for the first
 channel of the memory controller. If there aren't memory DIMMs
@@ -36,5 +36,5 @@ index 48c6cecc9683..72cc20a90ac1 100644
  		}
  	}
 -- 
-2.17.1
+2.25.1
 

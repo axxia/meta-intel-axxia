@@ -83,6 +83,9 @@ file://SNR-0075-x86-cpu-Add-Elkhart-Lake-to-Intel-family.patch \
 file://SNR-0076-perf-x86-msr-Add-Tremont-support.patch \
 file://SNR-0077-perf-x86-cstate-Add-Tremont-support.patch \
 file://SNR-0078-perf-x86-intel-Add-more-available-bits-for-OFFCORE_R.patch \
+file://SNR-0079-perf-ring_buffer-Use-high-order-allocations-for-AUX-.patch \
+file://SNR-0080-perf-Cap-allocation-order-at-aux_watermark.patch \
+file://SNR-0081-x86-apic-Invoke-perf_events_lapic_init-after-enablin.patch \
 "
 
 FRIO_PATCHES = " \

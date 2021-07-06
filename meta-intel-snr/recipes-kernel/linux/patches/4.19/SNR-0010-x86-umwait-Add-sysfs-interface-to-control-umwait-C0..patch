@@ -1,7 +1,7 @@
-From 02bf6cbfb9184737c502542827eccbad9bc44127 Mon Sep 17 00:00:00 2001
+From f60a04706e527e0b9b625a806d3e1e9056b4edde Mon Sep 17 00:00:00 2001
 From: Fenghua Yu <fenghua.yu@intel.com>
 Date: Wed, 19 Jun 2019 18:33:56 -0700
-Subject: [PATCH 10/78] x86/umwait: Add sysfs interface to control umwait C0.2
+Subject: [PATCH 10/81] x86/umwait: Add sysfs interface to control umwait C0.2
  state
 
 C0.2 state in umwait and tpause instructions can be enabled or disabled
@@ -203,5 +203,5 @@ index 0a113c731df3..56149d630e35 100644
  }
  device_initcall(umwait_init);
 -- 
-2.17.1
+2.25.1
 

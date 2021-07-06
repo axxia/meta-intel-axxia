@@ -1,7 +1,7 @@
-From f4d33dc0bfd8df4c687d5a38184d48f3bcbfd176 Mon Sep 17 00:00:00 2001
+From bb470e830b4b6af10a9428d15807b9890ca669a5 Mon Sep 17 00:00:00 2001
 From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 Date: Sat, 23 Mar 2019 17:23:17 -0700
-Subject: [PATCH 08/78] clocksource: Add option to force acpi_pm as clocksource
+Subject: [PATCH 08/81] clocksource: Add option to force acpi_pm as clocksource
  watchdog
 
 Add a kernel command line option to force the use of acpi_pm as the
@@ -158,5 +158,5 @@ index f80bb104c41a..e3ef3317aefd 100644
  }
  fs_initcall(clocksource_done_booting);
 -- 
-2.17.1
+2.25.1
 

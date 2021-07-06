@@ -1,7 +1,7 @@
-From c1efc41ef83664ea40c52fb70bee68e454f7b34f Mon Sep 17 00:00:00 2001
+From 7ab800d30fbda8ce390b2f36a57a613e17fb2198 Mon Sep 17 00:00:00 2001
 From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 Date: Wed, 30 Jan 2019 11:15:17 -0800
-Subject: [PATCH 67/78] EDAC, skx_common: Separate common code out from
+Subject: [PATCH 67/81] EDAC, skx_common: Separate common code out from
  skx_edac
 
 Parts of skx_edac can be shared with the Intel 10nm server EDAC driver.
@@ -878,5 +878,5 @@ index 000000000000..d25374e34d4f
 +
 +#endif /* _SKX_COMM_EDAC_H */
 -- 
-2.17.1
+2.25.1
 

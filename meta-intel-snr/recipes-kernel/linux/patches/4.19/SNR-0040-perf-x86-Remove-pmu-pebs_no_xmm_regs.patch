@@ -1,7 +1,7 @@
-From 5bc5dbf0514d077f8db4430d8180703bb1ac712e Mon Sep 17 00:00:00 2001
+From b26de1b26d9da5caa753eb8ae6add17c5e861164 Mon Sep 17 00:00:00 2001
 From: Kan Liang <kan.liang@linux.intel.com>
 Date: Tue, 28 May 2019 15:08:33 -0700
-Subject: [PATCH 40/78] perf/x86: Remove pmu->pebs_no_xmm_regs
+Subject: [PATCH 40/81] perf/x86: Remove pmu->pebs_no_xmm_regs
 
 We don't need pmu->pebs_no_xmm_regs anymore, the capabilities
 PERF_PMU_CAP_EXTENDED_REGS can be used to check if XMM registers
@@ -78,5 +78,5 @@ index ab63c16d0517..29a052f38bec 100644
  	int		pebs_buffer_size;
  	int		max_pebs_events;
 -- 
-2.17.1
+2.25.1
 

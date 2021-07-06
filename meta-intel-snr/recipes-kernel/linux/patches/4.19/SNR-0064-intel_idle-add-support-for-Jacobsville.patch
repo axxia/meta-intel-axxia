@@ -1,7 +1,7 @@
-From 9d5cc8cdace8eac20aea7d093a1e336548064b1d Mon Sep 17 00:00:00 2001
+From d3b9ab6b314baadd2e7adcaddf26e853c4ac4d79 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Tue, 5 Nov 2019 14:44:51 -0600
-Subject: [PATCH 64/78] intel_idle: add support for Jacobsville
+Subject: [PATCH 64/81] intel_idle: add support for Jacobsville
 
 Jacobsville uses the same C-states as Denverton.
 
@@ -25,5 +25,5 @@ index c4bb67ed8da3..d2f154f12f31 100644
  };
  
 -- 
-2.17.1
+2.25.1
 

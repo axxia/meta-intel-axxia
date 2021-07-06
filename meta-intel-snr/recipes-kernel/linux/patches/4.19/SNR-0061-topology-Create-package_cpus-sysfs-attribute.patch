@@ -1,7 +1,7 @@
-From 24323983e9a87bb70c46e30079b616ab722d2b3a Mon Sep 17 00:00:00 2001
+From 784374439123189912871ae3d8e724bb45c30ffd Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Sat, 21 Sep 2019 14:53:02 -0500
-Subject: [PATCH 61/78] topology: Create package_cpus sysfs attribute
+Subject: [PATCH 61/81] topology: Create package_cpus sysfs attribute
 
 The existing sysfs cpu/topology/core_siblings (and core_siblings_list)
 attributes are documented, implemented, and used by programs to represent
@@ -54,5 +54,5 @@ index 50352cf96f85..dc3c19b482f3 100644
  	&dev_attr_book_id.attr,
  	&dev_attr_book_siblings.attr,
 -- 
-2.17.1
+2.25.1
 

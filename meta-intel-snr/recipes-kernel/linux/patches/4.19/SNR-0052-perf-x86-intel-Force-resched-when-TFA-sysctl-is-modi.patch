@@ -1,7 +1,7 @@
-From 90dfcbd8bb51d75976e97e95e2f7cbbbca9dd4fb Mon Sep 17 00:00:00 2001
+From 85be14f58822689cca87582f94efef75c891fc40 Mon Sep 17 00:00:00 2001
 From: Stephane Eranian <eranian@google.com>
 Date: Mon, 8 Apr 2019 10:32:52 -0700
-Subject: [PATCH 52/78] perf/x86/intel: Force resched when TFA sysctl is
+Subject: [PATCH 52/81] perf/x86/intel: Force resched when TFA sysctl is
  modified
 
 This patch provides guarantee to the sysadmin that when TFA is disabled, no PMU
@@ -202,5 +202,5 @@ index 29a052f38bec..44181285252b 100644
  
  static inline bool x86_pmu_has_lbr_callstack(void)
 -- 
-2.17.1
+2.25.1
 

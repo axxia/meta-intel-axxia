@@ -1,7 +1,7 @@
-From aeffd05b724be0d6513f485261e4913516fe2125 Mon Sep 17 00:00:00 2001
+From f3cecf361d30bd1c2d0abdb50bdb77153beba095 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Sat, 21 Sep 2019 14:54:49 -0500
-Subject: [PATCH 62/78] topology: Create core_cpus and die_cpus sysfs
+Subject: [PATCH 62/81] topology: Create core_cpus and die_cpus sysfs
  attributes
 
 Create CPU topology sysfs attributes: "core_cpus" and "core_cpus_list"
@@ -201,5 +201,5 @@ index 5cc8595dd0e4..47a3e3c08036 100644
  #ifdef CONFIG_SCHED_SMT
  static inline const struct cpumask *cpu_smt_mask(int cpu)
 -- 
-2.17.1
+2.25.1
 

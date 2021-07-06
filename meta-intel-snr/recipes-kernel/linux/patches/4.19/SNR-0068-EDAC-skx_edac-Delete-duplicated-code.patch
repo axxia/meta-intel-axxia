@@ -1,7 +1,7 @@
-From f9e7d3fbc2658ed18fa20db3476d3dbfd7958e5b Mon Sep 17 00:00:00 2001
+From 56e31c6af832063bcf115bd4b2710661f6dfbaee Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Thu, 2 Apr 2020 11:19:08 -0500
-Subject: [PATCH 68/78] EDAC, skx_edac: Delete duplicated code
+Subject: [PATCH 68/81] EDAC, skx_edac: Delete duplicated code
 
 Delete the duplicated code from skx_edac.c and rename skx_edac.c to
 skx_base.c. Update the Makefile to build the skx_edac driver from
@@ -1925,5 +1925,5 @@ index dd209e0dd9ab..000000000000
 -MODULE_AUTHOR("Tony Luck");
 -MODULE_DESCRIPTION("MC Driver for Intel Skylake server processors");
 -- 
-2.17.1
+2.25.1
 

@@ -1,7 +1,7 @@
-From a911a87d76512f5399272b98e5c5d83145c20f6e Mon Sep 17 00:00:00 2001
+From 3e133346103f211ceea7901923aafeff89b6d900 Mon Sep 17 00:00:00 2001
 From: Kan Liang <kan.liang@linux.intel.com>
 Date: Mon, 13 May 2019 13:58:57 -0400
-Subject: [PATCH 43/78] perf/x86/intel/uncore: Support multi-die/package
+Subject: [PATCH 43/81] perf/x86/intel/uncore: Support multi-die/package
 
 Uncore becomes die-scope on Xeon Cascade Lake-AP. Uncore driver needs to
 support die-scope uncore units.
@@ -117,5 +117,5 @@ index 5d81e75d25bb..485a2a6a96af 100644
  	uncore_init = (struct intel_uncore_init_fun *)id->driver_data;
  	if (uncore_init->pci_init) {
 -- 
-2.17.1
+2.25.1
 

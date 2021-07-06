@@ -1,7 +1,7 @@
-From eb7e29287265fff870566f597b7ed3df5c142f9e Mon Sep 17 00:00:00 2001
+From 2b831426032c09bc2eea410271a6c202540cdd9b Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Sat, 21 Sep 2019 19:46:52 -0500
-Subject: [PATCH 63/78] Revert Changes to tools/perf
+Subject: [PATCH 63/81] Revert Changes to tools/perf
 
 Revert all changes to tools/perf made by the back ports
 for perf to Linux 4.19 for SNR.
@@ -295,5 +295,5 @@ index 2f41b10698ad..f732e3af2bd4 100644
  #ifdef HAVE_PERF_REGS_SUPPORT
  #include <perf_regs.h>
 -- 
-2.17.1
+2.25.1
 

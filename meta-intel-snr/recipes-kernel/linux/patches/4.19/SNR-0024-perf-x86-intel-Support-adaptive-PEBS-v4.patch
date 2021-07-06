@@ -1,7 +1,7 @@
-From 0bf8b90c530e8d1ac2bfec37190fdf24b14da6ba Mon Sep 17 00:00:00 2001
+From 8cf2cec6fa07f4eb2e13207db7dc0f19ae6c6451 Mon Sep 17 00:00:00 2001
 From: Kan Liang <kan.liang@linux.intel.com>
 Date: Tue, 2 Apr 2019 12:45:02 -0700
-Subject: [PATCH 24/78] perf/x86/intel: Support adaptive PEBS v4
+Subject: [PATCH 24/81] perf/x86/intel: Support adaptive PEBS v4
 
 Adaptive PEBS is a new way to report PEBS sampling information. Instead
 of a fixed size record for all PEBS events it allows to configure the
@@ -785,5 +785,5 @@ index 35f4b406377f..4e3f3c770d0f 100644
   * IBS cpuid feature detection
   */
 -- 
-2.17.1
+2.25.1
 

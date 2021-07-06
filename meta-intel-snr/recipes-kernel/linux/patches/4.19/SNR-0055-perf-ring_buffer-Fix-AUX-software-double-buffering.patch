@@ -1,7 +1,7 @@
-From f91bd3e5df2a069fe5acf9110cfcea295f4a2212 Mon Sep 17 00:00:00 2001
+From ef2f17a990d64a4d52e848a59eb7268328d20023 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Sat, 21 Sep 2019 14:46:59 -0500
-Subject: [PATCH 55/78] perf/ring_buffer: Fix AUX software double buffering
+Subject: [PATCH 55/81] perf/ring_buffer: Fix AUX software double buffering
 
 This recent commit:
 
@@ -47,5 +47,5 @@ index 12f351b253bb..34e1667e4254 100644
  				return -EINVAL;
  
 -- 
-2.17.1
+2.25.1
 

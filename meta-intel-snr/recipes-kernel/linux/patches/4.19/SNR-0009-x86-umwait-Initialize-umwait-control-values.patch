@@ -1,7 +1,7 @@
-From 79d6fcb0615317ffe4967cde51fdaf49dede390b Mon Sep 17 00:00:00 2001
+From 874611a1a9cf21abe50e941ff54f7763d01c9468 Mon Sep 17 00:00:00 2001
 From: Fenghua Yu <fenghua.yu@intel.com>
 Date: Wed, 19 Jun 2019 18:33:55 -0700
-Subject: [PATCH 09/78] x86/umwait: Initialize umwait control values
+Subject: [PATCH 09/81] x86/umwait: Initialize umwait control values
 
 umwait or tpause allows the processor to enter a light-weight
 power/performance optimized state (C0.1 state) or an improved
@@ -151,5 +151,5 @@ index 000000000000..0a113c731df3
 +}
 +device_initcall(umwait_init);
 -- 
-2.17.1
+2.25.1
 

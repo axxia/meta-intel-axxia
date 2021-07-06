@@ -1,7 +1,7 @@
-From 243e87563942b1fd35d57a3cf9a4ac4bfcc04378 Mon Sep 17 00:00:00 2001
+From 45ec48969600ba245a4c83d1c93a5d3775a1a5f3 Mon Sep 17 00:00:00 2001
 From: Len Brown <len.brown@intel.com>
 Date: Mon, 13 May 2019 13:58:48 -0400
-Subject: [PATCH 59/78] x86/topology: Define topology_die_id()
+Subject: [PATCH 59/81] x86/topology: Define topology_die_id()
 
 topology_die_id(cpu) is a simple macro for use inside the kernel to get the
 die_id associated with the given cpu.
@@ -28,5 +28,5 @@ index e0232f7042c3..3777dbe9c0ff 100644
  
  #ifdef CONFIG_SMP
 -- 
-2.17.1
+2.25.1
 

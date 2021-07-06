@@ -1,7 +1,7 @@
-From 47ad089fcaf5e3e0bf5509954ff19530afe1999d Mon Sep 17 00:00:00 2001
+From a1b6c9ec3f2a1b9c0a66824a6861cc1f7f8a77ad Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Sat, 21 Sep 2019 14:50:41 -0500
-Subject: [PATCH 58/78] cpu/topology: Export die_id
+Subject: [PATCH 58/81] cpu/topology: Export die_id
 
 Export die_id in cpu topology, for the benefit of hardware that has
 multiple-die/package.
@@ -68,5 +68,5 @@ index cb0775e1ee4b..5cc8595dd0e4 100644
  #define topology_core_id(cpu)			((void)(cpu), 0)
  #endif
 -- 
-2.17.1
+2.25.1
 

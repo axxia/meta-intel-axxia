@@ -1,7 +1,7 @@
-From 4be926f105dff81c34f3ddc15da34620ef0e6ee6 Mon Sep 17 00:00:00 2001
+From 899f9f945f6fedf6be75dd7a94e4b160f7c770c0 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Sat, 21 Sep 2019 14:49:09 -0500
-Subject: [PATCH 56/78] x86/topology: Add CPUID.1F multi-die/package support
+Subject: [PATCH 56/81] x86/topology: Add CPUID.1F multi-die/package support
 
 Some new systems have multiple software-visible die within each package.
 
@@ -227,5 +227,5 @@ index a6364757f970..68f0730e6926 100644
  		return topology_sane(c, o, "smt");
  	}
 -- 
-2.17.1
+2.25.1
 

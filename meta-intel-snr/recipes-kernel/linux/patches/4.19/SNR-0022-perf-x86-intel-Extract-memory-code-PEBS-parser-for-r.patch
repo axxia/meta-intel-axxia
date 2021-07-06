@@ -1,7 +1,7 @@
-From e5e662019056b6fc345e4c6b989ad662c13324a1 Mon Sep 17 00:00:00 2001
+From 82e16e27572d9112bdb40093e421493aba54256c Mon Sep 17 00:00:00 2001
 From: Andi Kleen <ak@linux.intel.com>
 Date: Tue, 2 Apr 2019 12:45:00 -0700
-Subject: [PATCH 22/78] perf/x86/intel: Extract memory code PEBS parser for
+Subject: [PATCH 22/81] perf/x86/intel: Extract memory code PEBS parser for
  reuse
 
 Extract some code related to memory profiling from the PEBS record
@@ -150,5 +150,5 @@ index d987a948f293..3d657bf7934a 100644
  
  	/*
 -- 
-2.17.1
+2.25.1
 

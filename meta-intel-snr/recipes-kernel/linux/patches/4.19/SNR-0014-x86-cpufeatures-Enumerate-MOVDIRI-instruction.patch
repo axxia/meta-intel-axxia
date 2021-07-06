@@ -1,7 +1,7 @@
-From 8c7c680d29cf9c172225ac245d52c5280f5e5089 Mon Sep 17 00:00:00 2001
+From 8e47de81e0aabbdb0914dcb6c0fedd48caaf71b5 Mon Sep 17 00:00:00 2001
 From: Fenghua Yu <fenghua.yu@intel.com>
 Date: Wed, 24 Oct 2018 14:57:16 -0700
-Subject: [PATCH 14/78] x86/cpufeatures: Enumerate MOVDIRI instruction
+Subject: [PATCH 14/81] x86/cpufeatures: Enumerate MOVDIRI instruction
 
 MOVDIRI moves doubleword or quadword from register to memory through
 direct store which is implemented by using write combining (WC) for
@@ -53,5 +53,5 @@ index 935b2e39fd9a..300bd873b913 100644
  /* AMD-defined CPU features, CPUID level 0x80000007 (EBX), word 17 */
  #define X86_FEATURE_OVERFLOW_RECOV	(17*32+ 0) /* MCA overflow recovery support */
 -- 
-2.17.1
+2.25.1
 

@@ -1,7 +1,7 @@
-From 54dd5a92485b088499a0d434d76952475c1cb0a7 Mon Sep 17 00:00:00 2001
+From 8a22897cf1ea866c6858bc2645987f8f7dc48b04 Mon Sep 17 00:00:00 2001
 From: Kan Liang <kan.liang@linux.intel.com>
 Date: Tue, 14 May 2019 13:19:34 -0700
-Subject: [PATCH 32/78] perf regs x86: Add X86 specific arch__intr_reg_mask()
+Subject: [PATCH 32/81] perf regs x86: Add X86 specific arch__intr_reg_mask()
 
 XMM registers can be collected on Icelake and later platforms.
 
@@ -134,5 +134,5 @@ index 71d7604dbf0b..7886ca5263e3 100644
 +	return PERF_REGS_MASK;
 +}
 -- 
-2.17.1
+2.25.1
 

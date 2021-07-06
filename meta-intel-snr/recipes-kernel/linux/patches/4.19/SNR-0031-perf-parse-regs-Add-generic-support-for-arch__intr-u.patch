@@ -1,7 +1,7 @@
-From 1079abe5fd269844f0df2ccb3cfb220419d4937e Mon Sep 17 00:00:00 2001
+From ff4abc4969ffeeb22151ddc0efa17d3d250418cd Mon Sep 17 00:00:00 2001
 From: Kan Liang <kan.liang@linux.intel.com>
 Date: Tue, 14 May 2019 13:19:33 -0700
-Subject: [PATCH 31/78] perf parse-regs: Add generic support for
+Subject: [PATCH 31/81] perf parse-regs: Add generic support for
  arch__intr/user_reg_mask()
 
 There may be different register mask for use with intr or user on some
@@ -113,5 +113,5 @@ index 9f9b25bf7106..2f41b10698ad 100644
  #ifdef HAVE_PERF_REGS_SUPPORT
  #include <perf_regs.h>
 -- 
-2.17.1
+2.25.1
 

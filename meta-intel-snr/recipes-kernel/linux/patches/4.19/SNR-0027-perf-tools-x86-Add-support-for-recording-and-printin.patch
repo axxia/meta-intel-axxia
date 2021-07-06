@@ -1,7 +1,7 @@
-From 4c0be42a92e5cba6df4fbba74a4a3997ef06165a Mon Sep 17 00:00:00 2001
+From 0b6348f7e9d3825c0cd9876b627eaed0c3f41d6c Mon Sep 17 00:00:00 2001
 From: Andi Kleen <ak@linux.intel.com>
 Date: Mon, 6 May 2019 07:19:24 -0700
-Subject: [PATCH 27/78] perf tools x86: Add support for recording and printing
+Subject: [PATCH 27/81] perf tools x86: Add support for recording and printing
  XMM registers
 
 Icelake and later platforms support collecting XMM registers with PEBS
@@ -159,5 +159,5 @@ index f732e3af2bd4..9f9b25bf7106 100644
  
  extern const struct sample_reg sample_reg_masks[];
 -- 
-2.17.1
+2.25.1
 

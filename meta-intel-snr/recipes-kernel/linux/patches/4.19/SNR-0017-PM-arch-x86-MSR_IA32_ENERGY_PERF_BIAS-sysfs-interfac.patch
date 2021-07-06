@@ -1,7 +1,7 @@
-From 3a8c7dbda1465f4cbd83524019220dc379489638 Mon Sep 17 00:00:00 2001
+From 85c31322bbf29ffd065dcc281a1dd68a94b4b589 Mon Sep 17 00:00:00 2001
 From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
 Date: Thu, 21 Mar 2019 23:20:17 +0100
-Subject: [PATCH 17/78] PM / arch: x86: MSR_IA32_ENERGY_PERF_BIAS sysfs
+Subject: [PATCH 17/81] PM / arch: x86: MSR_IA32_ENERGY_PERF_BIAS sysfs
  interface
 
 The Performance and Energy Bias Hint (EPB) is expected to be set by
@@ -220,5 +220,5 @@ index 8d53cc88bd22..f4dd73396f28 100644
  
  static __init int intel_epb_init(void)
 -- 
-2.17.1
+2.25.1
 

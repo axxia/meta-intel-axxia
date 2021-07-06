@@ -1,7 +1,7 @@
-From b45df289a4b573df3913e93b3d70c989525288dd Mon Sep 17 00:00:00 2001
+From a165f1acb32dd19abbc53f86bbb6de6b6a31c49d Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Sat, 21 Sep 2019 13:11:40 -0500
-Subject: [PATCH 26/78] perf/x86/intel: Add Tremont core PMU support
+Subject: [PATCH 26/81] perf/x86/intel: Add Tremont core PMU support
 
 Add perf core PMU support for Intel Tremont CPU.
 
@@ -154,5 +154,5 @@ index ade84a93927e..e89736f9d0f8 100644
  	case INTEL_FAM6_WESTMERE_EP:
  	case INTEL_FAM6_WESTMERE_EX:
 -- 
-2.17.1
+2.25.1
 

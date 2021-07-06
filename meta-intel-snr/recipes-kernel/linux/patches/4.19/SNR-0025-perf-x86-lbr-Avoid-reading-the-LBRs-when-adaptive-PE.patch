@@ -1,7 +1,7 @@
-From 3fe31b43292580001076f388508df0e5811c20e9 Mon Sep 17 00:00:00 2001
+From 49f4d33d1718860161ba02baa27d50f3398cad42 Mon Sep 17 00:00:00 2001
 From: Andi Kleen <ak@linux.intel.com>
 Date: Tue, 2 Apr 2019 12:45:03 -0700
-Subject: [PATCH 25/78] perf/x86/lbr: Avoid reading the LBRs when adaptive PEBS
+Subject: [PATCH 25/81] perf/x86/lbr: Avoid reading the LBRs when adaptive PEBS
  handles them
 
 With adaptive PEBS the CPU can directly supply the LBR information,
@@ -83,5 +83,5 @@ index 2a72688de630..824b1636771e 100644
  	struct perf_branch_entry	lbr_entries[MAX_LBR_ENTRIES];
  	struct er_account		*lbr_sel;
 -- 
-2.17.1
+2.25.1
 

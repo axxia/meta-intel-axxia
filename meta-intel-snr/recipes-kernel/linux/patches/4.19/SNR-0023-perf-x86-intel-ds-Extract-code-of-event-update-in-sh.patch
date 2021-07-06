@@ -1,7 +1,7 @@
-From e883e8761eb78988bb162bb5ac4749b80474bbe2 Mon Sep 17 00:00:00 2001
+From a5193e50849122d691f48c933d64b3a6bea65838 Mon Sep 17 00:00:00 2001
 From: Kan Liang <kan.liang@linux.intel.com>
 Date: Tue, 2 Apr 2019 12:45:01 -0700
-Subject: [PATCH 23/78] perf/x86/intel/ds: Extract code of event update in
+Subject: [PATCH 23/81] perf/x86/intel/ds: Extract code of event update in
  short period
 
 The drain_pebs() could be called twice in a short period for auto-reload
@@ -81,5 +81,5 @@ index 3d657bf7934a..6fd310698bdd 100644
  	}
  
 -- 
-2.17.1
+2.25.1
 

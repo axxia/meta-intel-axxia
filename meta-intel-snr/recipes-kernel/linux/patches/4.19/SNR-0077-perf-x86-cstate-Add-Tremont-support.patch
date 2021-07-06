@@ -1,7 +1,7 @@
-From e0f61d114154415c48b635a1bae83bdd62450560 Mon Sep 17 00:00:00 2001
+From 05baadd4f74650ccd36243ff72c98fe9109c7fdf Mon Sep 17 00:00:00 2001
 From: Beniamin Sandu <beniaminsandu@gmail.com>
 Date: Mon, 20 Jul 2020 13:20:57 +0300
-Subject: [PATCH 77/78] perf/x86/cstate: Add Tremont support
+Subject: [PATCH 77/81] perf/x86/cstate: Add Tremont support
 
 Backport of ecf71fbccb9ac5cb964eb7de59bb9da3755b7885 upstream.
 
@@ -89,5 +89,5 @@ index 3b3cd12c0692..f6851274e425 100644
  	X86_CSTATES_MODEL(INTEL_FAM6_ICELAKE_MOBILE, snb_cstates),
  	{ },
 -- 
-2.17.1
+2.25.1
 

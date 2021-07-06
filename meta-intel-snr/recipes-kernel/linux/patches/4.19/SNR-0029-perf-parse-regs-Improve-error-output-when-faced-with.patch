@@ -1,7 +1,7 @@
-From eb3d8c9f4906dafc6df4e07c20f6ce1b73299ebe Mon Sep 17 00:00:00 2001
+From b9f711af994b00382daf173eed93e8565e83076d Mon Sep 17 00:00:00 2001
 From: Arnaldo Carvalho de Melo <acme@redhat.com>
 Date: Mon, 13 May 2019 14:28:32 -0400
-Subject: [PATCH 29/78] perf parse-regs: Improve error output when faced with
+Subject: [PATCH 29/81] perf parse-regs: Improve error output when faced with
  unknown register name
 
 Add quotes around the register name and suggest using 'perf record -I?'
@@ -59,5 +59,5 @@ index e5ad120e7f69..409745663718 100644
  			}
  
 -- 
-2.17.1
+2.25.1
 

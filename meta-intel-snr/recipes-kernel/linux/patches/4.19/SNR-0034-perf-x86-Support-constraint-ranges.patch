@@ -1,7 +1,7 @@
-From 887b75b53b087f9ec03fc100edc1b466f8007c05 Mon Sep 17 00:00:00 2001
+From 03b6e6491c1b7344633f79dc65e7c171d6e0ede9 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Sat, 21 Sep 2019 13:23:40 -0500
-Subject: [PATCH 34/78] perf/x86: Support constraint ranges
+Subject: [PATCH 34/81] perf/x86: Support constraint ranges
 
 Icelake extended the general counters to 8, even when SMT is enabled.
 However only a (large) subset of the events can be used on all 8
@@ -160,5 +160,5 @@ index 824b1636771e..b7397a935817 100644
  	__EVENT_CONSTRAINT(code, n,			\
  			  ARCH_PERFMON_EVENTSEL_EVENT|X86_ALL_EVENT_FLAGS, \
 -- 
-2.17.1
+2.25.1
 

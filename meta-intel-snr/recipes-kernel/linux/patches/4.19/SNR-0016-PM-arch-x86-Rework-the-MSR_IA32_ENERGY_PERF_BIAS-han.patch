@@ -1,7 +1,7 @@
-From 7c9745029b973572ee37edf4bfb9d69ad0b97838 Mon Sep 17 00:00:00 2001
+From 6dc37fc311a31abf7f3a514e1e5a79dc69156f68 Mon Sep 17 00:00:00 2001
 From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
 Date: Thu, 21 Mar 2019 23:18:01 +0100
-Subject: [PATCH 16/78] PM / arch: x86: Rework the MSR_IA32_ENERGY_PERF_BIAS
+Subject: [PATCH 16/81] PM / arch: x86: Rework the MSR_IA32_ENERGY_PERF_BIAS
  handling
 
 The current handling of MSR_IA32_ENERGY_PERF_BIAS in the kernel is
@@ -344,5 +344,5 @@ index d67c0035165c..23968c11b933 100644
  	CPUHP_AP_PERF_X86_ONLINE,
  	CPUHP_AP_PERF_X86_UNCORE_ONLINE,
 -- 
-2.17.1
+2.25.1
 

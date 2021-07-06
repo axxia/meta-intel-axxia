@@ -1,7 +1,7 @@
-From 72951516943a66deeaa30e45211deed890cd39e1 Mon Sep 17 00:00:00 2001
+From 09ad0bf1d6b8fa82774c716dcfc05deab3f40aba Mon Sep 17 00:00:00 2001
 From: Fenghua Yu <fenghua.yu@intel.com>
 Date: Wed, 19 Jun 2019 18:33:57 -0700
-Subject: [PATCH 12/78] x86/umwait: Add sysfs interface to control umwait
+Subject: [PATCH 12/81] x86/umwait: Add sysfs interface to control umwait
  maximum time
 
 IA32_UMWAIT_CONTROL[31:2] determines the maximum time in TSC-quanta
@@ -84,5 +84,5 @@ index 18fa99a39283..32b4dc9030aa 100644
  };
  
 -- 
-2.17.1
+2.25.1
 

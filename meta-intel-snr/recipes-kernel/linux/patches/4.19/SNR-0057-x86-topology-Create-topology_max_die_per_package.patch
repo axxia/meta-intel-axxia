@@ -1,7 +1,7 @@
-From d9a702872f1920eb9bbe9150f60502bb629fc77b Mon Sep 17 00:00:00 2001
+From 0a8e2a3b74480354d2cbeee48807e410ef74b28b Mon Sep 17 00:00:00 2001
 From: Len Brown <len.brown@intel.com>
 Date: Mon, 13 May 2019 13:58:46 -0400
-Subject: [PATCH 57/78] x86/topology: Create topology_max_die_per_package()
+Subject: [PATCH 57/81] x86/topology: Create topology_max_die_per_package()
 
 topology_max_packages() is available to size resources to cover all
 packages in the system.
@@ -87,5 +87,5 @@ index 3f7141dd4ce8..873125122218 100644
  	return 0;
  }
 -- 
-2.17.1
+2.25.1
 

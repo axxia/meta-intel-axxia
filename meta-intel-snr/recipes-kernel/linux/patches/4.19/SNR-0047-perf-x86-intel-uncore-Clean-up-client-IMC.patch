@@ -1,7 +1,7 @@
-From 221a66be29f4d4e6b3e943b6ba001fbf8cdc79f3 Mon Sep 17 00:00:00 2001
+From ab8788ead706a5ff9484f766a06a9d3f2fd59ddd Mon Sep 17 00:00:00 2001
 From: Kan Liang <kan.liang@linux.intel.com>
 Date: Tue, 30 Apr 2019 17:53:47 -0700
-Subject: [PATCH 47/78] perf/x86/intel/uncore: Clean up client IMC
+Subject: [PATCH 47/81] perf/x86/intel/uncore: Clean up client IMC
 
 The client IMC block is accessed by MMIO. Current code uses an informal
 way to access the block, which is not recommended.
@@ -131,5 +131,5 @@ index 2d328386f83a..deaee471749c 100644
  
  static struct intel_uncore_type snb_uncore_imc = {
 -- 
-2.17.1
+2.25.1
 
