@@ -107,6 +107,15 @@ ce20670828c1.
 Included as
 SNR-0003-Support-EDAC-on-SNR-Bx-Stepping-Parts.patch
 
+2 patches for perf
+------------------
+
+SNR-0004-perf-Cap-allocation-order-at-aux_watermark.patch and
+SNR-0005-perf-intel-pt-Use-aux_watermark.patch.
+
+Removes some limitations to the use of PTWRITE.  Without the above
+'perf record' and 'per script' issue warnings about lost data.
+
 
 II. Building meta-intel-snr
 ===========================

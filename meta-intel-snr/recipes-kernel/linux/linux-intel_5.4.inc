@@ -8,6 +8,8 @@ SNR_PATCHES = " \
 file://SNR-0001-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
 file://SNR-0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
 file://SNR-0003-Support-EDAC-on-SNR-Bx-Stepping-Parts.patch \
+file://SNR-0004-perf-Cap-allocation-order-at-aux_watermark.patch \
+file://SNR-0005-perf-intel-pt-Use-aux_watermark.patch \
 "
 
 FRIO_PATCHES = " \
