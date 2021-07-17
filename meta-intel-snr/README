@@ -108,6 +108,15 @@ and
 
 SNR-0005-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch
 
+Support for SIOV
+---------------------------------------------------------------------
+
+SNR-0006-platform-msi-Add-device-MSI-infrastructure.patch
+
+and
+
+SNR-0007-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch
+
 
 II. Building meta-intel-snr
 ===========================

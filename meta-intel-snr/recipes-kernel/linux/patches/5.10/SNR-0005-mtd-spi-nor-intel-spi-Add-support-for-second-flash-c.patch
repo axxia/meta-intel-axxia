@@ -1,8 +1,7 @@
-From a612b955c278309e835e66a6368a9dfb942445a5 Mon Sep 17 00:00:00 2001
+From 8337b8f2062d814e5a8e4f9261dd6a3f6fcbddd6 Mon Sep 17 00:00:00 2001
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 Date: Fri, 31 May 2019 18:03:12 +0300
-Subject: [PATCH 3/3] mtd: spi-nor: intel-spi: Add support for second flash
- chip
+Subject: mtd: spi-nor: intel-spi: Add support for second flash chip
 
 Intel SPI flash controller has been supporting two chip selects long
 time already even if the most common configuration is to have single

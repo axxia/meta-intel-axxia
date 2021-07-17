@@ -1,8 +1,7 @@
-From 7d11b02b4b99a27ffc496df471e37271fa839a25 Mon Sep 17 00:00:00 2001
+From 0a0c8d8d2a13a5742a8b7500d871d60d55bb4495 Mon Sep 17 00:00:00 2001
 From: Tamar Mashiah <tamar.mashiah@intel.com>
 Date: Tue, 8 Jun 2021 08:34:08 +0300
-Subject: [PATCH 2/3] mtd: spi-nor: intel-spi: Add is_protected and bios_lock
- attributes
+Subject: mtd: spi-nor: intel-spi: Add is_protected and bios_lock attributes
 
 The manufacturing access to the PCH/SoC SPI device is traditionally
 performed via userspace driver accessing registers via /dev/mem but due

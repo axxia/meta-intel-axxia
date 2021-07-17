@@ -1,4 +1,4 @@
-From ccc465dc5a361f5d6fd9b95e6be0367cf11432ea Mon Sep 17 00:00:00 2001
+From b9766febe6185ceef626d36e17ef5443ad3378fe Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Fri, 19 Jun 2020 20:31:25 +0000
 Subject: drivers/watchdog: Ignore 'No Reboot' Bit
@@ -105,5 +105,5 @@ index a370a185a41c..876a6ac59a29 100644
  	if (turn_SMI_watchdog_clear_off >= p->iTCO_version) {
  		/*
 -- 
-2.17.1
+2.25.1
 

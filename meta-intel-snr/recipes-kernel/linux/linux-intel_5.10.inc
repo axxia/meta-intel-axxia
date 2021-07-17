@@ -10,6 +10,8 @@ file://SNR-0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
 file://SNR-0003-mtd-spi-nor-intel-spi-Move-platform-data-header-to-x.patch \
 file://SNR-0004-mtd-spi-nor-intel-spi-Add-is_protected-and-bios_lock.patch \
 file://SNR-0005-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
+file://SNR-0006-platform-msi-Add-device-MSI-infrastructure.patch \
+file://SNR-0007-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch \
 "
 
 FRIO_PATCHES = " \

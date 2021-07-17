@@ -1,4 +1,4 @@
-From 31593126393ed1aef0063884ee84a1ec411d11cd Mon Sep 17 00:00:00 2001
+From 10702706e59e8923acce7515896ef360734625c1 Mon Sep 17 00:00:00 2001
 From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 Date: Sat, 23 Mar 2019 17:23:17 -0700
 Subject: clocksource: Add option to force acpi_pm as clocksourc watchdog
@@ -157,5 +157,5 @@ index 02441ead3c3b..d3d8cdb4c25e 100644
  }
  fs_initcall(clocksource_done_booting);
 -- 
-2.17.1
+2.25.1
 
