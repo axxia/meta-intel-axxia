@@ -16,6 +16,7 @@ debug-tweaks \
 ssh-server-openssh"
 
 IMAGE_INSTALL = " \
+accel-config \
 acl \
 aer-inject \
 at \
