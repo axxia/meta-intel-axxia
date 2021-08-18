@@ -49,6 +49,7 @@ libudev \
 libxcrypt \
 libxcrypt-compat \
 msr-tools \
+mtd-utils-misc \
 mtools \
 ncurses \
 netcat \
