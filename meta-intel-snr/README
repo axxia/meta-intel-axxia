@@ -117,6 +117,13 @@ and
 
 SNR-0007-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch
 
+Custom Patch for SPI Flash Support
+----------------------------------
+
+SNR-0008-drivers-mtd-Do-Not-Use-the-FSR-for-Some-Parts.patch removes
+the USE_FSR flag from n25q512a, n25q512ax3, n25q00, n25q00a, and
+mt25qu02g.  There is no plan to upstream this!
+
 
 II. Building meta-intel-snr
 ===========================

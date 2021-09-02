@@ -1,0 +1,62 @@
+From aa3dc34b7b6b366bda734a783f11a9cb46f9e50d Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Thu, 2 Sep 2021 15:18:53 -0500
+Subject: [PATCH] drivers/mtd: Do Not Use the FSR for Some Parts
+
+Specifically, in drivers/mtd/spi-nor/spi-nor.c, remove
+USE_FSR from n25q512a, n25q512ax3, n25q00, n25q00a, and
+mt25qu02g.
+
+The FSR is used to determine when a write failed, but some
+varients of these parts do not update the register as the
+driver expects.
+
+This is NOT intended to be up-streamed!
+
+Signed-off-by: John Jacques <john.jacques@intel.com>
+---
+ drivers/mtd/spi-nor/micron-st.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/mtd/spi-nor/micron-st.c b/drivers/mtd/spi-nor/micron-st.c
+index ef3695080710..8d73f085a961 100644
+--- a/drivers/mtd/spi-nor/micron-st.c
++++ b/drivers/mtd/spi-nor/micron-st.c
+@@ -46,10 +46,10 @@ static const struct flash_info st_parts[] = {
+ 	{ "n25q256ax1",  INFO(0x20bb19, 0, 64 * 1024,  512,
+ 			      SECT_4K | USE_FSR | SPI_NOR_QUAD_READ) },
+ 	{ "mt25ql512a",  INFO6(0x20ba20, 0x104400, 64 * 1024, 1024,
+-			       SECT_4K | USE_FSR | SPI_NOR_DUAL_READ |
++			       SECT_4K | SPI_NOR_DUAL_READ |
+ 			       SPI_NOR_QUAD_READ | SPI_NOR_4B_OPCODES) },
+ 	{ "n25q512ax3",  INFO(0x20ba20, 0, 64 * 1024, 1024,
+-			      SECT_4K | USE_FSR | SPI_NOR_QUAD_READ |
++			      SECT_4K | SPI_NOR_QUAD_READ |
+ 			      SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB |
+ 			      SPI_NOR_4BIT_BP | SPI_NOR_BP3_SR_BIT6) },
+ 	{ "mt25qu512a",  INFO6(0x20bb20, 0x104400, 64 * 1024, 1024,
+@@ -60,18 +60,18 @@ static const struct flash_info st_parts[] = {
+ 			      SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB |
+ 			      SPI_NOR_4BIT_BP | SPI_NOR_BP3_SR_BIT6) },
+ 	{ "n25q00",      INFO(0x20ba21, 0, 64 * 1024, 2048,
+-			      SECT_4K | USE_FSR | SPI_NOR_QUAD_READ |
++			      SECT_4K | SPI_NOR_QUAD_READ |
+ 			      SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB |
+ 			      SPI_NOR_4BIT_BP | SPI_NOR_BP3_SR_BIT6 |
+ 			      NO_CHIP_ERASE) },
+ 	{ "n25q00a",     INFO(0x20bb21, 0, 64 * 1024, 2048,
+-			      SECT_4K | USE_FSR | SPI_NOR_QUAD_READ |
++			      SECT_4K | SPI_NOR_QUAD_READ |
+ 			      NO_CHIP_ERASE) },
+ 	{ "mt25ql02g",   INFO(0x20ba22, 0, 64 * 1024, 4096,
+ 			      SECT_4K | USE_FSR | SPI_NOR_QUAD_READ |
+ 			      NO_CHIP_ERASE) },
+ 	{ "mt25qu02g",   INFO(0x20bb22, 0, 64 * 1024, 4096,
+-			      SECT_4K | USE_FSR | SPI_NOR_DUAL_READ |
++			      SECT_4K | SPI_NOR_DUAL_READ |
+ 			      SPI_NOR_QUAD_READ | NO_CHIP_ERASE) },
+ 
+ 	{ "m25p05",  INFO(0x202010,  0,  32 * 1024,   2, 0) },
+-- 
+2.25.1
+
