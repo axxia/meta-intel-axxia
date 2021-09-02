@@ -12,6 +12,7 @@ file://SNR-0004-mtd-spi-nor-intel-spi-Add-is_protected-and-bios_lock.patch \
 file://SNR-0005-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
 file://SNR-0006-platform-msi-Add-device-MSI-infrastructure.patch \
 file://SNR-0007-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch \
+file://SNR-0008-drivers-mtd-Do-Not-Use-the-FSR-for-Some-Parts.patch \
 "
 
 FRIO_PATCHES = " \
