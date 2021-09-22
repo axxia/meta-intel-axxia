@@ -1,7 +1,8 @@
-meta-intel-snr
+meta-intel-bsp
 ==============
 
-This is the OpenEmbedded/Yocto layer for Intel Axxia SnowRidge BSP.
+This is the OpenEmbedded/Yocto layer for Intel Axxia x86_64 BSPs based
+on Intel Snow Ridge and Intel Grand Ridge CPUs.
 This layer contains the official machine configuration file and kernel
 recipes with patches and fragments.
 
@@ -33,14 +34,14 @@ Intel Meta Layer
 ----------------
 URI: git://git.yoctoproject.org/meta-intel
 
-Check DEPENDENCIES.vcn for branch and revision.
+Check DEPENDENCIES.distro for branch and revision.
 
 
 Table of Contents
 =================
 
  I. Back Ported Linux Changes
-II. Building meta-intel-snr
+II. Building meta-intel-bsp
     1. Build Intel Axxia reference platform
     2. Building with other OpenEmbedded/Yocto layers
 
@@ -62,7 +63,7 @@ was obtained using 'git format-patch -1 <sha>' from the referenced
 respoistory and was applied using 'git am -3 <patch>'.
 
 In the meta layer, the patches for Linux 5.10 can be found in
-meta-intel-snr/recipes-kernel/linux/patches/5.10.
+meta-intel-bsp/recipes-kernel/linux/patches/5.10.
 
 
 drivers/watchdog: Ignore 'No Reboot' Bit
@@ -106,14 +107,14 @@ Removes some limitations to the use of PTWRITE.  Without the above
 'perf record' and 'per script' issue warnings about lost data.
 
 
-II. Building meta-intel-snr
+II. Building meta-intel-bsp
 ===========================
 
 1. Build Intel Axxia reference platform
 ---------------------------------------
 
 To build a full Intel Axxia reference platform, please follow the
-instructions from README.vcn file.
+instructions from README.distro file.
 
 
 2. Build with other OpenEmbedded/Yocto layers
@@ -124,7 +125,7 @@ such as Wind River Linux ones, the following additional steps
 are required:
 
     bitbake-layers add-layer <path-to-layer>/meta-intel
-    bitbake-layers add-layer <path-to-layer>/meta-intel-snr
+    bitbake-layers add-layer <path-to-layer>/meta-intel-bsp
 
 In local.conf, set axxiax86-64 machine, choose linux-intel kernel
 provider and add to the white list the following packages if necesary:

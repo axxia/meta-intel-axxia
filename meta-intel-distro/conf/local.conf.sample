@@ -7,7 +7,7 @@ RUNTARGET = "snr"
 # linux-yocto, linux-yocto-rt, linux-yocto-debug, linux-yocto-rt-debug
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 
-# Add simicsfs-client support (sources should be in meta-intel-vcn/download)
+# Add simicsfs-client support (sources should be in meta-intel-distro/download)
 # and set simics version to compile (mandatory).
 #DISTRO_FEATURES_append = " simicsfs"
 #SIMICS_VERSION = ""
@@ -49,5 +49,5 @@ PACKAGECONFIG_append_pn-qemu-native = " sdl"
 PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
 CONF_VERSION = "1"
 
-# For more options check meta-intel-vcn layer for README and 
+# For more options check meta-intel-distro layer for README and 
 # conf/local.conf.sample.extended

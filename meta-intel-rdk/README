@@ -12,7 +12,7 @@ Use of this layer assumes that the RDK relase is available locally.
 Dependencies
 ============
 
-This layer depends on meta-intel-snr BSP layer and its dependencies.
+This layer depends on meta-intel-bsp layer and its dependencies.
 
 
 Table of Contents
@@ -53,7 +53,7 @@ rdk userspace tools.
 ------------------------------------------------
 
 To enable RDK layer in Intel Axxia reference platform build, after
-following the instructions from README.vcn file, the following
+following the instructions from README.distro file, the following
 additional steps are required:
 
    Edit the conf/bblayers.conf file
@@ -71,7 +71,7 @@ additional steps are required:
 ---------------------------------------------------
 
 In order to build RDK layer with other yocto-compatible layers, such as
-Wind River Linux ones, after following the instructions from README.snr
+Wind River Linux ones, after following the instructions from README.bsp
 file, the following additional steps are required:
 
     bitbake-layers add-layer <path-to-layer>/meta-intel-rdk

@@ -1,17 +1,17 @@
-meta-intel-vcn
-==============
+meta-intel-distro
+=================
 
 This is the OpenEmbedded/Yocto layer containing metadata to build a full
 Intel Axxia reference platform for Victoria Canyon board and simulation/
 emulation systems.
 
-Details about supported BSPs and reference platforms in README.snr.
+Details about supported BSPs and reference platforms in README.bsp.
 
 
 Dependencies
 ============
 
-This layer depends on meta-intel-snr BSP layer and its dependencies.
+This layer depends on meta-intel-bsp layer and its dependencies.
 
 For a complete list of dependent layers, please check DEPENDENCIES.
 
@@ -20,7 +20,7 @@ Table of Contents
 =================
 
  I. Prerequisites
-II. Building meta-intel-vcn
+II. Building meta-intel-distro
     1. Clone OpenEmbedded/Yocto layers
     2. Prepare and customize the build
     3. Select the image type and start the build
@@ -51,8 +51,8 @@ full path.
    $ export YOCTO=$HOME/yocto # should also add to your ~/.bashrc file.
 
 
-II. Building meta-intel-vcn
-=============================
+II. Building meta-intel-distro
+==============================
 
 1. Clone OpenEmbedded/Yocto layers
 ----------------------------------
@@ -127,7 +127,7 @@ II. Building meta-intel-vcn
    type. For example, we will use axxia.
 
    $ cd $YOCTO
-   $ source meta-intel-axxia/meta-intel-vcn/axxia-env
+   $ source meta-intel-axxia/meta-intel-distro/axxia-env
    $ source poky/oe-init-build-env axxia-build
 
 2.2. Check the conf/bblayers.conf file and edit if necessary.
@@ -151,8 +151,8 @@ below shoud be replaced with the actual value you provided prior).
             $YOCTO/meta-ros \
             $YOCTO/meta-virtualization \
             $YOCTO/meta-intel \
-            $YOCTO/meta-intel-axxia/meta-intel-snr \
-            $YOCTO/meta-intel-axxia/meta-intel-vcn \
+            $YOCTO/meta-intel-axxia/meta-intel-bsp \
+            $YOCTO/meta-intel-axxia/meta-intel-distro \
             "
 
 2.3. Check the conf/local.conf file and edit if necessary.
@@ -206,9 +206,9 @@ c. Local Kernel repositories (for Linux development)
    LOCAL_KERNEL_PATH = "<path to local Linux repository>"
    LOCAL_KERNEL_BRANCH = "<branch in the repository>"
 
-   Then, in the meta-intel-vcn layer, add a Linux configuration file
+   Then, in the meta-intel-distro layer, add a Linux configuration file
    next to linux.loca.bb recipe. Copy a full configuration to
-   meta-intel-vcn/recipes-kernel/linux/defconfig.
+   meta-intel-distro/recipes-kernel/linux/defconfig.
 
    NOTE: All changes must be committed in the local kernel, as the
          build will clone it using git.
@@ -266,7 +266,7 @@ NOTE: No preferred version should be set for linux-local provider.
     DISTRO_FEATURES_append = " simicsfs"
     SIMICS_VERSION = "<simics-version>"
 
-    Sources tgz archive should be copied in meta-intel-vcn/downloads
+    Sources tgz archive should be copied in meta-intel-distro/downloads
     directory: simics-<simics-version>.tgz and should match the version
     set in SIMICS_VERSION.
 

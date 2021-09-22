@@ -22,26 +22,27 @@ OpenEmbedded/Yocto layers
 
 This repository is hosting the following modular layers:
 
-meta-intel-snr
+meta-intel-bsp
 --------------
-This is the OpenEmbedded/Yocto layer for Intel Axxia SnowRidge BSP.
+This is the OpenEmbedded/Yocto layer for Intel Axxia x86_64 BSPs based
+on Intel Snow Ridge and Intel Grand Ridge CPUs.
 This layer contains the official machine configuration file and kernel
 recipes with patches and fragments. This layer depends on meta-intel
-layer. Check README.snr for more details.
+layer. Check README.bsp for more details.
 
 meta-intel-rdk
 --------------
 This is the OpenEmbedded/Yocto layer for Intel Axxia RDK components.
 This layer contains metadata for RDK kernel modules (including ADK NetD)
-and RDK userspace tools. This layer depends on meta-intel-snr layer and
+and RDK userspace tools. This layer depends on meta-intel-bsp layer and
 its dependencies. Check README.rdk for more details.
 
-meta-intel-vcn
---------------
+meta-intel-distro
+-----------------
 This is the OpenEmbedded/Yocto layer containing metadata to build a full
 Intel Axxia reference platform for Victoria Canyon board and simulation/
-emulation systems. This layer depends on meta-intel-snr layer and its
-dependencies. Check README.vcn for more details.
+emulation systems. This layer depends on meta-intel-bsp layer and its
+dependencies. Check README.distro for more details.
 
 
 Guidelines for submitting patches
