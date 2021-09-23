@@ -14,6 +14,7 @@ accel-config \
 axxia-rc-local \
 babeltrace \
 boost \
+boost-dev \
 cpupower \
 dmidecode \
 dtc \
@@ -27,17 +28,28 @@ inetutils \
 initscripts-readonly-rootfs-overlay \
 kernel-dev \
 kernel-modules \
+kexec \
+kexec-tools \
 kmod \
 ldd \
 libasan \
+libbsd \
 libgcc \
 libnl \
 libnl-genl \
 libnl-nf \
 libnl-route \
 libpcap \
+libthrift \
+libthrift-c-glib \
+libthriftnb \
+libthriftz \
 libubsan \
 libudev \
+libxcrypt \
+libxcrypt-compat \
+msr-tools \
+mtd-utils-misc \
 mtools \
 ncurses \
 netcat \
@@ -96,3 +108,5 @@ inherit core-image
 IMAGE_ROOTFS_SIZE = "16384"
 
 SDKIMAGE_FEATURES = "dev-pkgs dbg-pkgs staticdev-pkgs"
+
+PACKAGE_EXCLUDE_append = "libxcrypt-compat-dev"

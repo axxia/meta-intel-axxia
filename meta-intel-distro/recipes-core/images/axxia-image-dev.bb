@@ -1,6 +1,6 @@
 DESCRIPTION = "A more complete image used for development, \
 when size doesn't matter as much."
-	       
+
 require recipes-core/images/core-image-minimal-dev.bb
 require axxia-image.inc
 require ${@bb.utils.contains('BBFILE_COLLECTIONS', 'intel-rdk', \
@@ -100,6 +100,7 @@ iptables \
 iputils \
 irda-utils \
 jansson \
+json-c \
 iw \
 kdump \
 kernel-dev \
@@ -115,6 +116,7 @@ ldd \
 less \
 libaio \
 libasan \
+libbsd \
 libcap \
 libcheck \
 libdaemon \
@@ -161,6 +163,8 @@ libusb-compat \
 libusb1 \
 libxau \
 libxcb \
+libxcrypt \
+libxcrypt-compat \
 libxdmcp \
 libxml2 \
 lighttpd \
@@ -224,9 +228,12 @@ psmisc \
 python3 \
 python3-babeltrace \
 python3-cffi \
+python3-colorama \
 python3-core \
 python3-dev \
 python3-distutils \
+python3-humanfriendly \
+python3-lxml \
 python3-modules \
 python3-netserver \
 python3-nose \
@@ -424,3 +431,5 @@ nativesdk-python3-pyyaml \
 nativesdk-python3-pynetlinux \
 nativesdk-python3-robotframework \
 nativesdk-python3-scapy "
+
+PACKAGE_EXCLUDE_append = "libxcrypt-compat-dev"
