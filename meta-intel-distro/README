@@ -255,7 +255,7 @@ NOTE: No preferred version should be set for linux-local provider.
 2.3.7. Choose the reference platform where the image will run:
 
     for Victoria Canyon board or ASE (default):
-    RUNTARGET = "snr"
+    RUNTARGET = "vcn"
 
     for Frio FPGA Emulation System:
     RUNTARGET = "frio"
@@ -312,7 +312,7 @@ MACHINE = "intel-axxia-snr"
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 PREFERRED_VERSION_linux-intel = "5.10%"
 DISTRO = "intel-axxia"
-RUNTARGET = "snr"
+RUNTARGET = "vcn"
 DISTRO_FEATURES_append = " simicsfs"
 PACKAGE_CLASSES ?= "package_rpm"
 EXTRA_IMAGE_FEATURES ?= "debug-tweaks"

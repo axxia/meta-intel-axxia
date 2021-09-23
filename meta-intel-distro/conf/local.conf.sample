@@ -1,8 +1,9 @@
 # Intel Axxia hardware board target machine: intel-axxia-snr or intel-axxia-grr
 MACHINE = "intel-axxia-snr"
 
-# System where the image will run: snr, frio
-RUNTARGET = "snr"
+# System where the image will run: 'vcn' for Victoria Canyon board or ASE, 
+# 'frio' for Frio FPGA Emulation System
+RUNTARGET = "vcn"
 
 # Kernel providers: linux-intel, linux-intel-rt, linux-intel-debug, linux-intel-rt-debug
 # linux-yocto, linux-yocto-rt, linux-yocto-debug, linux-yocto-rt-debug

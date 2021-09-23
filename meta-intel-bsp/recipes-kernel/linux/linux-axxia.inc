@@ -9,15 +9,15 @@ KMACHINE_intel-axxia-snr = "intel-corei7-64"
 COMPATIBLE_MACHINE_intel-axxia-grr = "${MACHINE}"
 COMPATIBLE_MACHINE_intel-axxia-snr = "${MACHINE}"
 
-# "snr" for Victoria Canyon or ASE.  "frio" for FPGA emulation system
-RUNTARGET ?= "snr"
+# "vcn" for Victoria Canyon or ASE.  "frio" for FPGA emulation system
+RUNTARGET ?= "vcn"
 
 SRC_URI_append_intel-axxia-snr = " \
-	${@oe.utils.conditional('RUNTARGET', 'snr', '${SNR_PATCHES}', '${FRIO_PATCHES}', d)} \
+	${@oe.utils.conditional('RUNTARGET', 'vcn', '${SNR_PATCHES}', '${FRIO_PATCHES}', d)} \
 	"
 
 SRC_URI_append_intel-axxia-grr = " \
-	${@oe.utils.conditional('RUNTARGET', 'snr', '${GRR_PATCHES}', '${FRIO_PATCHES}', d)} \
+	${@oe.utils.conditional('RUNTARGET', 'vcn', '${GRR_PATCHES}', '${FRIO_PATCHES}', d)} \
 	"
 
 SRC_URI_append = " \
