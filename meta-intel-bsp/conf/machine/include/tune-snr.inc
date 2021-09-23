@@ -6,6 +6,9 @@
 
 DEFAULTTUNE ?= "snr-64"
 
+DEFAULTTUNE_virtclass-multilib-lib32 ?= "snr-32"
+MULTILIBS = "multilib:lib32"
+
 # Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
 require conf/machine/include/tune-core2.inc
 

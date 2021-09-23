@@ -1,13 +1,8 @@
-#@TYPE: Machine
-#@NAME: axxiax86-64
-#@DESCRIPTION: Machine configuration for INTEL Axxia x86_64 systems (Intel Snowridge CPU) with MMX, SSE, SSE2, SSE3, SSSE3, SSE4.1 and SSE4.2 instruction set support. Supports a moderately wide range of drivers that should boot and be usable on "typical" hardware.
-
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-intel"
 PREFERRED_VERSION_linux-intel ?= "5.10%"
 PREFERRED_VERSION_linux-intel-rt ?= "5.10%"
 
 require conf/machine/include/meta-intel.inc
-require conf/machine/include/tune-snr.inc
 require conf/machine/include/intel-common-pkgarch.inc
 
 MACHINE_FEATURES += "pcbios efi"
@@ -18,15 +13,6 @@ KERNEL_IMAGETYPE = "bzImage"
 KEEPUIMAGE = "no"
 
 EFI_PROVIDER ?= "grub-efi"
-
-SYSLINUX_OPTS = "serial 0 115200"
-SERIAL_CONSOLES = "115200;ttyS4"
-SERIAL_CONSOLES_CHECK = "${SERIAL_CONSOLES}"
-
-APPEND = "console=tty0 console=ttyS4,115200 intel_iommu=on idle=poll"
-
-DEFAULTTUNE_virtclass-multilib-lib32 = "snr-32"
-MULTILIBS = "multilib:lib32"
 
 IMAGE_FSTYPES += " ext2"
 IMAGE_FSTYPES += " tar.gz"
