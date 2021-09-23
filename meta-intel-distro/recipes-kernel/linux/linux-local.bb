@@ -26,14 +26,15 @@ PV = "dev-version"
 
 DEPENDS_append = " elfutils-native openssl-native util-linux-native"
 
-SRCREV_machine_axxiax86-64 = "${AUTOREV}"
+SRCREV_machine = "${AUTOREV}"
 
-SRC_URI_axxiax86-64 = " \
+SRC_URI = " \
 	git://${LOCAL_KERNEL_PATH};name=machine;branch=${LOCAL_KERNEL_BRANCH} \
 	file://defconfig \
 	"
 
 do_kernel_configme[depends] += "${PN}:do_prepare_recipe_sysroot"
 
-COMPATIBLE_MACHINE_axxiax86-64 = "${MACHINE}"
+COMPATIBLE_MACHINE_intel-axxia-snr = "${MACHINE}"
+COMPATIBLE_MACHINE_intel-axxia-grr = "${MACHINE}"
 KERNEL_VERSION_SANITY_SKIP = "1"

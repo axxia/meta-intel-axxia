@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/systemd:"
 
-SRC_URI_append_axxiax86-64 = " file://10-eth.link \
+SRC_URI_append = " file://10-eth.link \
 	file://20-nac.link \
 	file://21-nac.link \
 	file://22-nac.link \

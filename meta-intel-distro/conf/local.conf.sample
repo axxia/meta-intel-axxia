@@ -1,4 +1,5 @@
-MACHINE = "axxiax86-64"
+# Intel Axxia hardware board target machine: intel-axxia-snr or intel-axxia-grr
+MACHINE = "intel-axxia-snr"
 
 # System where the image will run: snr, frio
 RUNTARGET = "snr"

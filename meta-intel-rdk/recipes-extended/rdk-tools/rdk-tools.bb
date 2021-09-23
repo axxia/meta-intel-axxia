@@ -9,7 +9,7 @@ SRC_URI = "${RDK_TOOLS_ARCHIVE}"
 
 FILESEXTRAPATHS_prepend := "${LAYER_PATH_meta-intel-rdk}/downloads:"
 
-BB_STRICT_CHECKSUM_axxiax86-64 = "0"
+BB_STRICT_CHECKSUM = "0"
 
 RDK_TOOLS_VERSION ?= "unknown_release_info"
 PR = "${RDK_TOOLS_VERSION}"
