@@ -1,4 +1,4 @@
-From b9766febe6185ceef626d36e17ef5443ad3378fe Mon Sep 17 00:00:00 2001
+From ea905eea34829f856d55f1b815c770e2d022bdf8 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Fri, 19 Jun 2020 20:31:25 +0000
 Subject: drivers/watchdog: Ignore 'No Reboot' Bit
@@ -16,10 +16,10 @@ Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
  1 file changed, 33 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/watchdog/iTCO_wdt.c b/drivers/watchdog/iTCO_wdt.c
-index a370a185a41c..876a6ac59a29 100644
+index 519a539eeb9e..345545c6b3bb 100644
 --- a/drivers/watchdog/iTCO_wdt.c
 +++ b/drivers/watchdog/iTCO_wdt.c
-@@ -129,6 +129,11 @@ module_param(turn_SMI_watchdog_clear_off, int, 0);
+@@ -131,6 +131,11 @@ module_param(turn_SMI_watchdog_clear_off, int, 0);
  MODULE_PARM_DESC(turn_SMI_watchdog_clear_off,
  	"Turn off SMI clearing watchdog (depends on TCO-version)(default=1)");
  
@@ -31,7 +31,7 @@ index a370a185a41c..876a6ac59a29 100644
  /*
   * Some TCO specific functions
   */
-@@ -277,10 +282,12 @@ static int iTCO_wdt_start(struct watchdog_device *wd_dev)
+@@ -279,10 +284,12 @@ static int iTCO_wdt_start(struct watchdog_device *wd_dev)
  	iTCO_vendor_pre_start(p->smi_res, wd_dev->timeout);
  
  	/* disable chipset's NO_REBOOT bit */
@@ -48,7 +48,7 @@ index a370a185a41c..876a6ac59a29 100644
  	}
  
  	/* Force the timer to its reload value by writing to the TCO_RLD
-@@ -318,7 +325,8 @@ static int iTCO_wdt_stop(struct watchdog_device *wd_dev)
+@@ -320,7 +327,8 @@ static int iTCO_wdt_stop(struct watchdog_device *wd_dev)
  	val = inw(TCO1_CNT(p));
  
  	/* Set the NO_REBOOT bit to prevent later reboots, just for sure */
@@ -58,7 +58,7 @@ index a370a185a41c..876a6ac59a29 100644
  
  	spin_unlock(&p->io_lock);
  
-@@ -497,25 +505,28 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
+@@ -503,25 +511,28 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
  	 * Get the Memory-Mapped GCS or PMC register, we need it for the
  	 * NO_REBOOT flag (TCO v2 and v3).
  	 */
