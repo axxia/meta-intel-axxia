@@ -4,11 +4,19 @@ SRCREV_standard = "cef410ba7c738624a98b855c955a0092789b224e"
 SRCREV_preempt-rt = "8394053722549076e54a9dc82a92c513907d227f"
 SRCREV_meta = "873ef26ef35da24d217a1aeb44717278d77e818c"
 
-SNR_PATCHES = " \
-file://SNR-0001-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
-file://SNR-0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
-file://SNR-0003-perf-Cap-allocation-order-at-aux_watermark.patch \
-file://SNR-0004-perf-intel-pt-Use-aux_watermark.patch \
+COMMON_PATCHES = " \
+file://COM-0001-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
+file://COM-0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
+"
+
+SNR_PATCHES = " ${COMMON_PATCHES} \
+file://SNR-0001-perf-Cap-allocation-order-at-aux_watermark.patch \
+file://SNR-0002-perf-intel-pt-Use-aux_watermark.patch \
+"
+
+GRR_PATCHES = " ${COMMON_PATCHES} \
+file://GRR-0004-platform-msi-Add-device-MSI-infrastructure.patch \
+file://GRR-0005-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch \
 "
 
 FRIO_PATCHES = " \

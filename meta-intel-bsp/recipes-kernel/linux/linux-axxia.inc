@@ -4,15 +4,23 @@ FILESEXTRAPATHS_prepend := "\
 
 KERNEL_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 
-KMACHINE_axxiax86-64 = "intel-corei7-64"
-COMPATIBLE_MACHINE_axxiax86-64 = "${MACHINE}"
+KMACHINE_intel-axxia-grr = "intel-corei7-64"
+KMACHINE_intel-axxia-snr = "intel-corei7-64"
+COMPATIBLE_MACHINE_intel-axxia-grr = "${MACHINE}"
+COMPATIBLE_MACHINE_intel-axxia-snr = "${MACHINE}"
 
 # "snr" for Victoria Canyon or ASE.  "frio" for FPGA emulation system
 RUNTARGET ?= "snr"
 
-SRC_URI_append_axxiax86-64 = " \
-	${@oe.utils.conditional('RUNTARGET', 'snr', '${SNR_PATCHES}', '', d)} \
-	${@oe.utils.conditional('RUNTARGET', 'frio', '${FRIO_PATCHES}', '', d)} \
+SRC_URI_append_intel-axxia-snr = " \
+	${@oe.utils.conditional('RUNTARGET', 'snr', '${SNR_PATCHES}', '${FRIO_PATCHES}', d)} \
+	"
+
+SRC_URI_append_intel-axxia-grr = " \
+	${@oe.utils.conditional('RUNTARGET', 'snr', '${GRR_PATCHES}', '${FRIO_PATCHES}', d)} \
+	"
+
+SRC_URI_append = " \
 	file://${RUNTARGET}-runtarget.scc \
 	file://common.scc \
 	"
