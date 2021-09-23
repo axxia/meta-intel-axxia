@@ -1,4 +1,4 @@
-From 36523f1f8fa309fdd47d90de15af70f104664dfb Mon Sep 17 00:00:00 2001
+From 16022aa2725efc1bc04870d634fcfce26ca35918 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Mon, 19 Jul 2021 10:28:39 -0500
 Subject: genirq/msi: Provide helpers to return Linux IRQ/dev_msi hw IRQ number

@@ -15,8 +15,15 @@ file://SNR-0002-perf-intel-pt-Use-aux_watermark.patch \
 "
 
 GRR_PATCHES = " ${COMMON_PATCHES} \
-file://GRR-0004-platform-msi-Add-device-MSI-infrastructure.patch \
-file://GRR-0005-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch \
+file://GRR-0001-mtd-spi-nor-intel-spi-Move-platform-data-header-to-x.patch \
+file://GRR-0002-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
+file://GRR-0003-platform-msi-Add-device-MSI-infrastructure.patch \
+file://GRR-0004-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch \
+file://GRR-0005-watchdog-iTCO_wdt-use-module_platform_device-macro.patch \
+file://GRR-0006-watchdog-iTCO_wdt-use-dev_-instead-of-pr_-for-loggin.patch \
+file://GRR-0007-watchdog-iTCO_wdt-use-dev_err-instead-of-pr_err.patch \
+file://GRR-0008-watchdog-iTCO_wdt-Fix-detection-of-SMI-off-case.patch \
+file://GRR-0009-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch \
 "
 
 FRIO_PATCHES = " \

@@ -1,0 +1,39 @@
+From a37b8f659dfe7c126fde80a7b0b084069a05ae01 Mon Sep 17 00:00:00 2001
+From: "Enrico Weigelt, metux IT consult" <info@metux.net>
+Date: Wed, 16 Jun 2021 20:17:08 +0200
+Subject: watchdog: iTCO_wdt: use dev_err() instead of pr_err()
+
+Use dev_err() instead of pr_err(), so device name is also shown in the log.
+
+Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Link: https://lore.kernel.org/r/20210616181708.19530-2-info@metux.net
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Wim Van Sebroeck <wim@linux-watchdog.org>
+---
+ drivers/watchdog/iTCO_wdt.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/watchdog/iTCO_wdt.c b/drivers/watchdog/iTCO_wdt.c
+index b5a8af0589f2..7c606d783400 100644
+--- a/drivers/watchdog/iTCO_wdt.c
++++ b/drivers/watchdog/iTCO_wdt.c
+@@ -493,13 +493,13 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
+ 		if (!devm_request_region(dev, p->smi_res->start,
+ 					 resource_size(p->smi_res),
+ 					 pdev->name)) {
+-			pr_err("I/O address 0x%04llx already in use, device disabled\n",
++			dev_err(dev, "I/O address 0x%04llx already in use, device disabled\n",
+ 			       (u64)SMI_EN(p));
+ 			return -EBUSY;
+ 		}
+ 	} else if (iTCO_vendorsupport ||
+ 		   turn_SMI_watchdog_clear_off >= p->iTCO_version) {
+-		pr_err("SMI I/O resource is missing\n");
++		dev_err(dev, "SMI I/O resource is missing\n");
+ 		return -ENODEV;
+ 	}
+ 
+-- 
+2.25.1
+
