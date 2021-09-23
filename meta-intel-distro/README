@@ -103,7 +103,7 @@ II. Building meta-intel-distro
    $ git checkout <the revision specified in DEPENDENCIES>
 
 1.5. Clone the Intel meta layer. This provides Intel hardware support 
-   metadata which are inherited in axxiax86-64 BSP.
+   metadata which are inherited in Axxia BSPs.
 
    $ cd $YOCTO
    $ git clone git://git.yoctoproject.org/meta-intel
@@ -170,7 +170,11 @@ below shoud be replaced with the actual value you provided prior).
 
 2.3.3. Select a specific machine to target the build with:
 
-    MACHINE = "axxiax86-64"
+    - for INTEL Axxia x86_64 Gen3 systems (Snow Ridge CPU)
+    MACHINE = "intel-axxia-snr"
+
+     - for INTEL Axxia x86_64 Gen4 systems (Grand Ridge CPU)
+     MACHINE = "intel-axxia-grr"
 
 2.3.4. Select the main kernel to use (virtual/kernel provider).
      You can build the kernel from 3 sources:
@@ -304,7 +308,7 @@ NOTE: No preferred version should be set for linux-local provider.
 
     Here are the local.conf files used for open builds:
 
-MACHINE = "axxiax86-64"
+MACHINE = "intel-axxia-snr"
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 PREFERRED_VERSION_linux-intel = "5.10%"
 DISTRO = "intel-axxia"
@@ -418,8 +422,8 @@ described here.  The files needed to boot are available.
 
   * Multiple kernel images are available.  The kernel version selected
     in local.conf will be available as
-    <TMPDIR>/deploy/images/axxiax86-64/bzImage with the other versions
-    available as <TMPDIR>/deploy/images/axxiax86-64/kernel-*/bzImage.
+    <TMPDIR>/deploy/images/<machine>/bzImage with the other versions
+    available as <TMPDIR>/deploy/images/<machine>/kernel-*/bzImage.
     Available versions of the kernel are described above.
   * Multiple root file systems are also available.  The contents are
     described above (see axxia-image-min, axxia-image-run, and

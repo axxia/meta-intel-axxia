@@ -138,11 +138,11 @@ in conf/local.conf:
      
 3.7. Autoload RDK modules (disabled from blacklist.conf)
 
-     KERNEL_MODULE_AUTOLOAD_append_axxiax86-64 = " hqm"
-     KERNEL_MODULE_AUTOLOAD_append_axxiax86-64 = " igb"
-     KERNEL_MODULE_AUTOLOAD_append_axxiax86-64 = " qat_c4xxx"
-     KERNEL_MODULE_AUTOLOAD_append_axxiax86-64 = " intel_qat"
-     KERNEL_MODULE_AUTOLOAD_append_axxiax86-64 = " ice_sw"
+     KERNEL_MODULE_AUTOLOAD_append = " hqm"
+     KERNEL_MODULE_AUTOLOAD_append = " igb"
+     KERNEL_MODULE_AUTOLOAD_append = " qat_c4xxx"
+     KERNEL_MODULE_AUTOLOAD_append = " intel_qat"
+     KERNEL_MODULE_AUTOLOAD_append = " ice_sw"
 
 3.8. Header files exported by KLM to user space can be accessed as
      follows.  When cross-compiling, add the following to the compile

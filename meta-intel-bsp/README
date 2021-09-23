@@ -10,9 +10,11 @@ recipes with patches and fragments.
 Supported MACHINES
 ==================
 
-- axxiax86-64 - This BSP is optimized for Intel Axxia x86 Mobile &
-                Enterprise Communication Processors family (64-bit)
-                such as SnowRidge SoCs.
+- intel-axxia-snr - This BSP is optimized for Intel Axxia x86 Gen3 Mobile &
+  Enterprise Communication Processors family (64-bit) such as Snow Ridge SoCs.
+
+- intel-axxia-grr - This BSP is optimized for Intel Axxia x86 Gen4 Mobile &
+  Enterprise Communication Processors family (64-bit) such as Grand Ridge SoCs.
                 
 Please refer to the associate .conf for more information.
 
@@ -139,15 +141,16 @@ instructions from README.distro file.
 2. Build with other OpenEmbedded/Yocto layers
 ---------------------------------------------
 
-In order to build SNR BSP layer with other yocto-compatible layers,
+In order to build meta-intel-bsp layer with other yocto-compatible layers,
 such as Wind River Linux ones, the following additional steps
 are required:
 
     bitbake-layers add-layer <path-to-layer>/meta-intel
     bitbake-layers add-layer <path-to-layer>/meta-intel-bsp
 
-In local.conf, set axxiax86-64 machine, choose linux-intel kernel
-provider and add to the white list the following packages if necesary:
+In local.conf, set intel-axxia-snr or intel-axxia-grr machine, choose
+linux-intel kernel provider and add to the white list the following
+packages if necesary:
 
     PNWHITELIST_intel += " thermald intel-microcode iucode-tool"
     PNWHITELIST_intel += " linux-intel linux-intel-rt"
