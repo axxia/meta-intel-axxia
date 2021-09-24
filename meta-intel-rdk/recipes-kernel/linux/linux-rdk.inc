@@ -65,21 +65,25 @@ do_patch_rdk_modules () {
     do
 	[ ! -d ${WORKDIR}/rdk/klm/${KLMC} ] && continue
 
-        if [ "hqm" = "${KLMC}" ]; then
-	   ${WORKDIR}/rdk/klm/${KLMC}/hqmv2/scripts/patch_kernel_tree.sh \
-              ${STAGING_KERNEL_DIR} ${STAGING_PATH}
+        if [ "hqm" = "${KLMC}" ]; then {
+            case ${MACHINE} in
+                "axxia-image-snr") HQMV="hqm" && HQMD='hqm';;
+                "axxia-image-grr") HQMV="hqmv2" && HQMD="dlb2";;
+            esac
+            ${WORKDIR}/rdk/klm/${KLMC}/${HQMV}/scripts/patch_kernel_tree.sh \
+                ${STAGING_KERNEL_DIR} ${STAGING_PATH}
+           }
         else
 	   ${WORKDIR}/rdk/klm/${KLMC}/scripts/patch_kernel_tree.sh \
               ${STAGING_KERNEL_DIR} ${STAGING_PATH}
         fi
 
-        # Handle drivers name differences (cpk->ice_sw; cpk-ae->ice_sw_ae;
-        # netd->adk_netd; hqm->dlb2; i3c->i3c-rdk)
+        # Handle drivers name differences
         case ${KLMC} in
            "cpk")    KLM_DRIVER="ice_sw";;
            "cpk-ae") KLM_DRIVER="ice_sw_ae";;
            "netd")   KLM_DRIVER="adk_netd";;
-           "hqm")    KLM_DRIVER="dlb2";;
+           "hqm")    KLM_DRIVER="${HQMD}";;
            "i3c")    KLM_DRIVER="i3c-rdk";;
            *)        KLM_DRIVER="${KLMC}";;
         esac
