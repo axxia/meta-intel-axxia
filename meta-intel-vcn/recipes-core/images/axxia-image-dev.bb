@@ -95,6 +95,7 @@ initscripts-readonly-rootfs-overlay \
 ipmiutil \
 iperf3 \
 iproute2 \
+iproute2-devlink \
 iproute2-ss \
 iptables \
 iputils \
