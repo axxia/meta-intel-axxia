@@ -116,6 +116,8 @@ Support Serial Flash Access (MTD) to Boot Flash (only for GRR)
 
 Allows access to the secondary boot flash from Linux using the MTD driver.
 
+GRR-0000-mtd-spi-nor-intel-spi-add-is_protected-and-is_bios_l.patch
+    (only for linux-yocto kernel)
 GRR-0001-mtd-spi-nor-intel-spi-Move-platform-data-header-to-x.patch
 GRR-0002-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch
 
@@ -134,6 +136,7 @@ GRR-0005-watchdog-iTCO_wdt-use-module_platform_device-macro.patch
 GRR-0006-watchdog-iTCO_wdt-use-dev_-instead-of-pr_-for-loggin.patch
 GRR-0007-watchdog-iTCO_wdt-use-dev_err-instead-of-pr_err.patch
 GRR-0008-watchdog-iTCO_wdt-Fix-detection-of-SMI-off-case.patch
+    (only for linux-intel kernel)
 GRR-0009-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch
 
 
