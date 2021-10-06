@@ -79,6 +79,7 @@ gettext \
 glib-2.0 \
 gmp \
 gnutls \
+go \
 grep \
 groff \
 gzip \
