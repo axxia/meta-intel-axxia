@@ -41,6 +41,7 @@ busybox \
 busybox-udhcpc \
 bzip2 \
 cifs-utils \
+cmake \
 coreutils \
 cpio \
 cpupower \
@@ -76,6 +77,7 @@ gawk \
 gdb \
 gdbserver \
 gettext \
+git \
 glib-2.0 \
 gmp \
 gnutls \
@@ -258,6 +260,7 @@ readline \
 rpcbind \
 rpcsvc-proto \
 rpm \
+rsync \
 run-postinsts \
 samba \
 sed \
