@@ -5,19 +5,19 @@ poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: hardknott
-revision: 0f0682a1fe234d21ebd1e99838d4529b1a33b57b
+revision: 269265c00091fa65f93de6cad32bf24f1e7f72a3
 
 meta-openembedded
 -----------------
 URI: https://github.com/openembedded/meta-openembedded.git
 branch: hardknott
-revision: dc262c52b0b10625bf7a2330e1c4e0fe2d8db6aa
+revision: f44e1a2b575826e88b8cb2725e54a7c5d29cf94a
 
 meta-virtualization
 -------------------
 URI: git://git.yoctoproject.org/meta-virtualization
 branch: hardknott
-revision: c19c9927855abb63e89f9d853ba0cb258a2de415
+revision: 8e36520924fdadda20d7a6d09d9884e65a5555c2
 
 meta-intel
 ----------
