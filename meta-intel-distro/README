@@ -1,9 +1,10 @@
 meta-intel-distro
 =================
 
-This is the OpenEmbedded/Yocto layer containing metadata to build a full
-Intel Axxia reference platform for Victoria Canyon board and simulation/
-emulation systems.
+This is the OpenEmbedded/Yocto layer containing metadata to build a
+full Intel Axxia reference platform for Victoria Canyon board (VCN)
+for SNR machine, Travertine Fall board (TVF) for GRR machine and
+simulation systems.
 
 Details about supported BSPs and reference platforms in README.bsp.
 
@@ -25,7 +26,7 @@ II. Building meta-intel-distro
     2. Prepare and customize the build
     3. Select the image type and start the build
     4. Build and install the SDK
-    5. Creating Bootable Disks for Victoria Canyon
+    5. Creating Bootable Disks for reference boards
     6. Read-only rootfs with writable overlayfs
 
 
@@ -382,17 +383,18 @@ the following installed: libncurses5-dev flex bison libssl-dev dkms
 libelf-dev (for Ubuntu).
 
 
-5. Creating Bootable Disks for Victoria Canyon
-----------------------------------------------
+5. Creating Bootable Disks for reference boards
+-----------------------------------------------
 
-Here are three ways to boot Victoria Canyon.
+Here are three ways to boot Victoria Canyon board (VCN) or Travertine
+Fall board (TVF) boards.
 
 5.1. SATA or USB based on the .rootfs.wic image.
 
 * Write the .rootfs.wic image to a disk or USB device.
 * Clean up the partition table.  Linux utilities such as gdisk and
   parted can do this.
-* Attach the device to Victoria Canyon.
+* Attach the device to Victoria Canyon | Travertine Fall board.
 * The grub menu should default to "boot", and you should end up at the
   Linux prompt.  By default, the login is root and there is no
   password.
@@ -400,7 +402,7 @@ Here are three ways to boot Victoria Canyon.
 5.2. SATA or USB based on the .iso image.
 
 * Write the .iso image to a disk or USB.
-* Attach the device to Victoria Canyon.
+* Attach the device to Victoria Canyon | Travertine Fall board.
 * The grub menu should have the following entries.
   * "boot" - This will boot to the Linux prompt with a read-only /.
   * "install" - This will install to another attached device.

@@ -40,9 +40,10 @@ its dependencies. Check README.rdk for more details.
 meta-intel-distro
 -----------------
 This is the OpenEmbedded/Yocto layer containing metadata to build a full
-Intel Axxia reference platform for Victoria Canyon board and simulation/
-emulation systems. This layer depends on meta-intel-bsp layer and its
-dependencies. Check README.distro for more details.
+Intel Axxia reference platform for Victoria Canyon board (VCN) for SNR
+machine, Travertine Fall board (TVF) for GRR machine and simulation
+systems. This layer depends on meta-intel-bsp layer and its dependencies.
+Check README.distro for more details.
 
 
 Guidelines for submitting patches

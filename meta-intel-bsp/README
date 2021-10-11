@@ -22,11 +22,11 @@ Please refer to the associate .conf for more information.
 Reference platforms
 ===================
 
-- Victoria Canyon board
+- Victoria Canyon board (VCN) for SNR machine
+
+- Travertine Fall board (TVF) for GRR machine
 
 - Advanced Simulation Environment (ASE)
-
-- Frio FPGA Emulation System
 
 
 Dependencies
