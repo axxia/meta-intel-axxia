@@ -92,10 +92,6 @@ DISTRO = "intel-axxia"
 # Release version should be the meta-intel-axxia repository tag from release note.
 # RELEASE_VERSION = ""
 
-# System where the image will run: 'vcn' for Victoria Canyon board or ASE, 
-# 'frio' for Frio FPGA Emulation System
-RUNTARGET = "vcn"
-
 # Kernel providers: linux-intel, linux-intel-rt, linux-intel-debug, linux-intel-rt-debug
 # linux-yocto, linux-yocto-rt, linux-yocto-debug, linux-yocto-rt-debug
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"

@@ -9,21 +9,9 @@ KMACHINE_intel-axxia-snr = "intel-corei7-64"
 COMPATIBLE_MACHINE_intel-axxia-grr = "${MACHINE}"
 COMPATIBLE_MACHINE_intel-axxia-snr = "${MACHINE}"
 
-# "vcn" for Victoria Canyon or ASE.  "frio" for FPGA emulation system
-RUNTARGET ?= "vcn"
-
-SRC_URI_append_intel-axxia-snr = " \
-	${@oe.utils.conditional('RUNTARGET', 'vcn', '${SNR_PATCHES}', '${FRIO_PATCHES}', d)} \
-	"
-
-SRC_URI_append_intel-axxia-grr = " \
-	${@oe.utils.conditional('RUNTARGET', 'vcn', '${GRR_PATCHES}', '${FRIO_PATCHES}', d)} \
-	"
-
-SRC_URI_append = " \
-	file://${RUNTARGET}-runtarget.scc \
-	file://common.scc \
-	"
+SRC_URI_append_intel-axxia-snr = " ${SNR_PATCHES}"
+SRC_URI_append_intel-axxia-grr = " ${GRR_PATCHES}"
+SRC_URI_append = " file://common.scc"
 
 # If this kernel package is not set as virtual/kernel provider,
 # allow to be used as alternative kernel.
