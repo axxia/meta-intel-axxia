@@ -24,6 +24,15 @@ file://GRR-mtd-spi-nor-intel-spi-Move-platform-data-header-to-x.patch \
 file://GRR-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
 file://GRR-platform-msi-Add-device-MSI-infrastructure.patch \
 file://GRR-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch \
+file://GRR-Add-auxiliary-bus-support.patch \
+file://GRR-driver-core-auxiliary-bus-move-slab.h-from-include-f.patch \
+file://GRR-driver-core-auxiliary-bus-make-remove-function-retur.patch \
+file://GRR-driver-core-auxiliary-bus-minor-coding-style-tweaks.patch \
+file://GRR-driver-core-auxiliary-bus-Fix-auxiliary-bus-shutdown.patch \
+file://GRR-driver-core-auxiliary-bus-Fix-calling-stage-for-auxi.patch \
+file://GRR-driver-core-auxiliary-bus-Remove-unneeded-module-bit.patch \
+file://GRR-driver-core-auxiliary-bus-Fix-memory-leak-when-drive.patch \
+file://GRR-driver-core-auxiliary-bus-Add-Config-Option.patch \
 "
 
 FRIO_PATCHES = " \
