@@ -82,6 +82,7 @@ glib-2.0 \
 gmp \
 gnutls \
 go \
+gptfdisk \
 grep \
 groff \
 gzip \
