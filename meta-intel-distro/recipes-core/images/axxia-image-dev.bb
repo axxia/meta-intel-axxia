@@ -393,6 +393,8 @@ lib32-libusb-compat \
 lib32-libusb1 \
 lib32-libxau \
 lib32-libxcb \
+lib32-libxcrypt \
+lib32-libxcrypt-compat \
 lib32-libxdmcp \
 lib32-libxml2 \
 "
@@ -438,4 +440,7 @@ nativesdk-python3-pynetlinux \
 nativesdk-python3-robotframework \
 nativesdk-python3-scapy "
 
-PACKAGE_EXCLUDE_append = "libxcrypt-compat-dev"
+PACKAGE_EXCLUDE_append = " \
+libxcrypt-compat-dev \
+${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
+	'lib32-libxcrypt-compat-dev', '', d)}"
