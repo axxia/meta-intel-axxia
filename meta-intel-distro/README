@@ -274,8 +274,8 @@ NOTE: No preferred version should be set for linux-local provider.
     * 'cd ase/simics'
     * tar czf simics-<simics-version>.tgz simics-<simics-version>
 
-2.3.9. Choose a different GCC version to use: 9.% (gcc9 feature) or 11.%
-    (gcc11 feature) via distro features. Default version is 10.%.
+2.3.9. Choose a different GCC version to use: 9.% (gcc9 feature) or 10.%
+    (gcc10 feature) via distro features. Default version is 11.%.
 
     DISTRO_FEATURES_append = " gcc9"
     

@@ -23,7 +23,7 @@ PREFERRED_VERSION_gpgme = "${@oe.utils.conditional('PYTHON_VERSION', '3.6', '1.1
 PREFERRED_VERSION_gpgme-native = "${PREFERRED_VERSION_gpgme}"
 
 GCC_VERSION = "${@bb.utils.contains('DISTRO_FEATURES', 'gcc9', '9.%', \
-                  bb.utils.contains('DISTRO_FEATURES', 'gcc11', '11.%', '10.%', d), d)}"
+                  bb.utils.contains('DISTRO_FEATURES', 'gcc10', '10.%', '11.%', d), d)}"
 PREFERRED_VERSION_gcc ?= "${GCC_VERSION}"
 PREFERRED_VERSION_gcc-runtime ?= "${GCC_VERSION}"
 PREFERRED_VERSION_gcc-sanitizers ?= "${GCC_VERSION}"
