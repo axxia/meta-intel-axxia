@@ -437,5 +437,3 @@ nativesdk-python3-pyyaml \
 nativesdk-python3-pynetlinux \
 nativesdk-python3-robotframework \
 nativesdk-python3-scapy "
-
-PACKAGE_EXCLUDE_append = "libxcrypt-compat-dev"
