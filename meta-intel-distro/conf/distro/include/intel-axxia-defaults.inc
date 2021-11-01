@@ -48,3 +48,5 @@ PREFERRED_VERSION_nativesdk-gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${G
 PREFERRED_VERSION_nativesdk-libgcc ?= "${GCC_VERSION}"
 PREFERRED_VERSION_nativesdk-libgcc-initial ?= "${GCC_VERSION}"
 PREFERRED_VERSION_nativesdk-libgfortran ?= "${GCC_VERSION}"
+
+FORTRAN_forcevariable = ",fortran"

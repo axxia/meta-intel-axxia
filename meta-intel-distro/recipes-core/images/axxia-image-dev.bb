@@ -77,6 +77,8 @@ gawk \
 gdb \
 gdbserver \
 gettext \
+gfortran \
+gfortran-symlinks \
 git \
 glib-2.0 \
 gmp \
@@ -130,6 +132,9 @@ libevent \
 libffi \
 libgcc \
 libgcrypt \
+libgfortran \
+libgfortran-dev \
+libgfortran-dbg \
 libgpg-error \
 libgpiod \
 libgpiod-tools \
