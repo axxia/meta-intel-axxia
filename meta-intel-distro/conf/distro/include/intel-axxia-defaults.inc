@@ -15,6 +15,8 @@ PREFERRED_VERSION_bjam-native ?= "1.70.0"
 
 PREFERRED_VERSION_libxcrypt-compat ?= "4.1.1"
 
+PREFERRED_VERSION_linux-firmware ?= "20210511"
+
 PYTHON_VERSION ?= "3.9"
 PYTHON_BASEVERSION_forcevariable = "${PYTHON_VERSION}"
 PYTHON_ABI_forcevariable = "${@oe.utils.conditional('PYTHON_VERSION', '3.6', 'm', '', d)}"
