@@ -83,6 +83,10 @@ EXTRA_OEMAKE = '\
   LIB=${baselib} \
 '
 
+do_configure_append() {
+       autoreconf -Wcross --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
+}
+
 do_compile_prepend_class-target() {
        if ${@bb.utils.contains('PACKAGECONFIG', 'pgo', 'true', 'false', d)}; then
                 qemu_binary="${@qemu_wrapper_cmdline(d, '${STAGING_DIR_TARGET}', ['${B}', '${STAGING_DIR_TARGET}/${base_libdir}'])}"
