@@ -33,6 +33,8 @@ file://GRR-driver-core-auxiliary-bus-Fix-calling-stage-for-auxi.patch \
 file://GRR-driver-core-auxiliary-bus-Remove-unneeded-module-bit.patch \
 file://GRR-driver-core-auxiliary-bus-Fix-memory-leak-when-drive.patch \
 file://GRR-driver-core-auxiliary-bus-Add-Config-Option.patch \
+file://GRR-vfio-mdev-Add-a-member-for-iommu-domain-in-mdev_devi.patch \
+file://GRR-vfio-type1-Save-domain-when-attach-domain-to-mdev.patch \
 "
 
 FRIO_PATCHES = " \
