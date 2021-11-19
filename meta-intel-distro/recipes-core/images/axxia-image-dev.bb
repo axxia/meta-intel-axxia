@@ -228,6 +228,14 @@ pciutils \
 perf \
 perl \
 perl-module-bigint \
+perl-module-encode-encoding \
+perl-module-feature \
+perl-module-file-spec-functions \
+perl-module-findbin \
+perl-module-getopt-std \
+perl-module-lib \
+perl-module-pod-text \
+perl-ptest \
 pkgconfig \
 pmtools \
 popt \
