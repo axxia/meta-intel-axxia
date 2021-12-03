@@ -26,6 +26,8 @@ gdbserver \
 iasl \
 inetutils \
 initscripts-readonly-rootfs-overlay \
+iproute2 \
+iproute2-devlink \
 kernel-dev \
 kernel-modules \
 kexec \
