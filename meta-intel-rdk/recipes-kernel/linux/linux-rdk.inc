@@ -67,8 +67,8 @@ do_patch_rdk_modules () {
 
         if [ "hqm" = "${KLMC}" ]; then {
             case ${MACHINE} in
-                "axxia-image-snr") HQMV="hqm" && HQMD='hqm';;
-                "axxia-image-grr") HQMV="hqmv2" && HQMD="dlb2";;
+                "intel-axxia-snr") HQMV="hqm" && HQMD="hqm";;
+                "intel-axxia-grr") HQMV="hqmv2" && HQMD="dlb2";;
             esac
             ${WORKDIR}/rdk/klm/${KLMC}/${HQMV}/scripts/patch_kernel_tree.sh \
                 ${STAGING_KERNEL_DIR} ${STAGING_PATH}
