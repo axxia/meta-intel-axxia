@@ -19,6 +19,7 @@ IMAGE_INSTALL = " \
 accel-config \
 acl \
 aer-inject \
+asciidoc \
 at \
 atftp \
 attr \
