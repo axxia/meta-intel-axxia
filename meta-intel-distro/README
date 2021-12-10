@@ -257,10 +257,11 @@ NOTE: No preferred version should be set for linux-local provider.
 
     DISTRO_FEATURES_append = " multilib"
 
-2.3.8. Add simicsfs-client support (for large and sim images). If enabled,
-    it's mandatory to set the SIMICS version.
+2.3.8. Add simics support (for large and sim images). This will install
+    simicsfs-client and simics-agent in rootfs. If enabled, it's mandatory
+    to set the SIMICS version.
 
-    DISTRO_FEATURES_append = " simicsfs"
+    DISTRO_FEATURES_append = " simics"
     SIMICS_VERSION = "<simics-version>"
 
     Sources tgz archive should be copied in meta-intel-distro/downloads
@@ -305,7 +306,7 @@ MACHINE = "intel-axxia-snr"
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 PREFERRED_VERSION_linux-intel = "5.10%"
 DISTRO = "intel-axxia"
-DISTRO_FEATURES_append = " simicsfs"
+DISTRO_FEATURES_append = " simics"
 PACKAGE_CLASSES ?= "package_rpm"
 EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
 USER_CLASSES ?= "buildstats image-mklibs image-prelink"

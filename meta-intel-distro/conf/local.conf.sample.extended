@@ -96,9 +96,9 @@ DISTRO = "intel-axxia"
 # linux-yocto, linux-yocto-rt, linux-yocto-debug, linux-yocto-rt-debug
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 
-# Add simicsfs-client support (sources should be in meta-intel-distro/download)
+# Add simics support (sources should be in meta-intel-distro/download)
 # and set simics version to compile (mandatory).
-#DISTRO_FEATURES_append = " simicsfs"
+#DISTRO_FEATURES_append = " simics"
 #SIMICS_VERSION = ""
 
 # Enable "multilib"

@@ -81,8 +81,8 @@ tmux \
 vlan \
 ${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
 		     '${MULTILIB_PACKAGES}', '', d)}  \
-${@bb.utils.contains('DISTRO_FEATURES', 'simicsfs', \
-		     'simicsfs-client fuse', '', d)} "
+${@bb.utils.contains('DISTRO_FEATURES', 'simics', \
+		     'simicsfs-client simics-agent fuse', '', d)} "
 
 MULTILIB_PACKAGES ?= " \
 lib32-libasan \
