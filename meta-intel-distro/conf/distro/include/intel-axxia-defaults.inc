@@ -25,6 +25,7 @@ PREFERRED_VERSION_python3-native ?= "${PYTHON_VERSION}%"
 PREFERRED_VERSION_nativesdk-python3 ?= "${PYTHON_VERSION}%"
 PREFERRED_VERSION_gpgme = "${@oe.utils.conditional('PYTHON_VERSION', '3.6', '1.12%', '1.15%', d)}"
 PREFERRED_VERSION_gpgme-native = "${PREFERRED_VERSION_gpgme}"
+PREFERRED_VERSION_libffi = "${@oe.utils.conditional('PYTHON_VERSION', '3.6', '3.1', '3.3', d)}"
 
 GCC_VERSION = "${@bb.utils.contains('DISTRO_FEATURES', 'gcc9', '9.%', \
                   bb.utils.contains('DISTRO_FEATURES', 'gcc10', '10.%', '11.%', d), d)}"
