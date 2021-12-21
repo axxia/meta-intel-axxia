@@ -55,6 +55,7 @@ dhrystone \
 diffutils \
 dmidecode \
 docker \
+docker-ce \
 dos2unix \
 dosfstools \
 dtc \
