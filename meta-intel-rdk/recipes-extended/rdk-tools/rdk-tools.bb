@@ -58,6 +58,12 @@ do_install () {
 	cp -r ${S}/install/lib/* ${D}${libdir}
 	cp -r ${S}/install/include/* ${D}${includedir}
 	cp -r ${S}/install/etc/* ${D}${sysconfdir}
+	
+	if [ -d ${S}/install/lib/firmware/intel ]; then
+		install -d ${D}${nonarch_base_libdir}/firmware/intel
+		cp -r ${S}/install/lib/firmware/intel/* \
+		${D}${nonarch_base_libdir}/firmware/intel 2>/dev/null || :
+	fi
 
 	# fix symlinks removed on install by "rsync -L --no-l"
 	cp -r ${S}/user_modules/ies-api/lib/* ${D}${libdir} 2>/dev/null || :
@@ -75,6 +81,11 @@ do_install () {
 	sed -i 's#prefix=.*#prefix=${prefix}#' \
 		${D}${libdir}/pkgconfig/*.pc 2>/dev/null || :
 }
+
+PACKAGES += "rdk-firmware"
+
+FILES_rdk-firmware = " ${nonarch_base_libdir}/firmware"
+ALLOW_EMPTY_rdk-firmware = "1"
 
 FILES_${PN}-dev = " ${includedir} \
 	${libdir}/libies*.so \
