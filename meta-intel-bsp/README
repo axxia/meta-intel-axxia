@@ -132,28 +132,10 @@ GRR-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch
 TCO Functionality
 -----------------
 
-GRR-watchdog-iTCO_wdt-use-module_platform_device-macro.patch
-GRR-watchdog-iTCO_wdt-use-dev_-instead-of-pr_-for-loggin.patch
-GRR-watchdog-iTCO_wdt-use-dev_err-instead-of-pr_err.patch
-GRR-watchdog-iTCO_wdt-Fix-detection-of-SMI-off-case.patch
-    (only for linux-intel kernel)
-GRR-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch
-
-Auxiliary Bus
--------------
-
-GRR only.  Back-ported from kernel.org.  See
-Documentation/driver-api/auxiliary_bus.rst for details.
-
-GRR-Add-auxiliary-bus-support.patch
-GRR-driver-core-auxiliary-bus-move-slab.h-from-include-f.patch
-GRR-driver-core-auxiliary-bus-make-remove-function-retur.patch
-GRR-driver-core-auxiliary-bus-minor-coding-style-tweaks.patch
-GRR-driver-core-auxiliary-bus-Fix-auxiliary-bus-shutdown.patch
-GRR-driver-core-auxiliary-bus-Fix-calling-stage-for-auxi.patch
-GRR-driver-core-auxiliary-bus-Remove-unneeded-module-bit.patch
-GRR-driver-core-auxiliary-bus-Fix-memory-leak-when-drive.patch
-GRR-driver-core-auxiliary-bus-Add-Config-Option.patch
+COM-watchdog-iTCO_wdt-use-module_platform_device-macro.patch
+COM-watchdog-iTCO_wdt-use-dev_-instead-of-pr_-for-loggin.patch
+COM-watchdog-iTCO_wdt-use-dev_err-instead-of-pr_err.patch
+COM-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch
 
 MDEV Functions
 --------------

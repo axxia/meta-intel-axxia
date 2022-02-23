@@ -1,7 +1,7 @@
-From efd9e9ad7eba8a37886e5ad02e4328275a63562f Mon Sep 17 00:00:00 2001
+From 14ba15262959c12f5e8d00f96f444d783ef214fd Mon Sep 17 00:00:00 2001
 From: "Enrico Weigelt, metux IT consult" <info@metux.net>
 Date: Tue, 17 Nov 2020 16:22:12 +0100
-Subject: watchdog: iTCO_wdt: use module_platform_device() macro
+Subject: [PATCH 03/12] watchdog: iTCO_wdt: use module_platform_device() macro
 
 Reducing init boilerplate by using the module_platform_device macro.
 
@@ -15,10 +15,10 @@ Signed-off-by: Wim Van Sebroeck <wim@linux-watchdog.org>
  1 file changed, 1 insertion(+), 15 deletions(-)
 
 diff --git a/drivers/watchdog/iTCO_wdt.c b/drivers/watchdog/iTCO_wdt.c
-index 345545c6b3bb..1d92a4caf5de 100644
+index 876a6ac59a29..7b96d9cf4588 100644
 --- a/drivers/watchdog/iTCO_wdt.c
 +++ b/drivers/watchdog/iTCO_wdt.c
-@@ -668,21 +668,7 @@ static struct platform_driver iTCO_wdt_driver = {
+@@ -662,21 +662,7 @@ static struct platform_driver iTCO_wdt_driver = {
  	},
  };
  

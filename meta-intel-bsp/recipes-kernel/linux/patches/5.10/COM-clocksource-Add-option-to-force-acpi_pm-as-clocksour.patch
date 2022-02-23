@@ -1,7 +1,8 @@
-From 64eb8dd84ed6be88be22b008a544084040d45d08 Mon Sep 17 00:00:00 2001
+From 9f6998d1f418181fa8243e80c594f7561c582f02 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Thu, 23 Sep 2021 10:51:22 -0500
-Subject: clocksource: Add option to force acpi_pm as clocksourc watchdog
+Subject: [PATCH 02/12] clocksource: Add option to force acpi_pm as clocksourc
+ watchdog
 
 Add a kernel command line option to force the use of acpi_pm as the
 watchdog clocksource. To use it, add the following to the

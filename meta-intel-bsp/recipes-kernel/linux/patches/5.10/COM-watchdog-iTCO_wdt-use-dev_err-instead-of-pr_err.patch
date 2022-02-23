@@ -1,7 +1,7 @@
-From a37b8f659dfe7c126fde80a7b0b084069a05ae01 Mon Sep 17 00:00:00 2001
+From 016982d4347e3122aef9079eaca4c972b6da30e7 Mon Sep 17 00:00:00 2001
 From: "Enrico Weigelt, metux IT consult" <info@metux.net>
 Date: Wed, 16 Jun 2021 20:17:08 +0200
-Subject: watchdog: iTCO_wdt: use dev_err() instead of pr_err()
+Subject: [PATCH 05/12] watchdog: iTCO_wdt: use dev_err() instead of pr_err()
 
 Use dev_err() instead of pr_err(), so device name is also shown in the log.
 
@@ -15,10 +15,10 @@ Signed-off-by: Wim Van Sebroeck <wim@linux-watchdog.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/watchdog/iTCO_wdt.c b/drivers/watchdog/iTCO_wdt.c
-index b5a8af0589f2..7c606d783400 100644
+index 3b75452918b9..41afe6123064 100644
 --- a/drivers/watchdog/iTCO_wdt.c
 +++ b/drivers/watchdog/iTCO_wdt.c
-@@ -493,13 +493,13 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
+@@ -487,13 +487,13 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
  		if (!devm_request_region(dev, p->smi_res->start,
  					 resource_size(p->smi_res),
  					 pdev->name)) {
