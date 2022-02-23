@@ -23,6 +23,7 @@ ethtool \
 expect \
 gdb \
 gdbserver \
+i2c-tools \
 iasl \
 inetutils \
 initscripts-readonly-rootfs-overlay \
