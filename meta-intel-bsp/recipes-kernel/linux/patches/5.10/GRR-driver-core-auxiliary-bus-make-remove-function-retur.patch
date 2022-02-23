@@ -1,7 +1,8 @@
-From efdc88eaf4155a28b79104f176fedf897216e7f4 Mon Sep 17 00:00:00 2001
+From 9ef3252b7593bd678a4634e5f354216d682c6005 Mon Sep 17 00:00:00 2001
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Date: Fri, 4 Dec 2020 12:44:07 +0100
-Subject: driver core: auxiliary bus: make remove function return void
+Subject: [PATCH 14/20] driver core: auxiliary bus: make remove function return
+ void
 
 There's an effort to move the remove() callback in the driver core to
 not return an int, as nothing can be done if this function fails.  To

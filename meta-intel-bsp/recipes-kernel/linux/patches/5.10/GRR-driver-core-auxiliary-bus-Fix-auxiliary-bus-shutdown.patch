@@ -1,8 +1,8 @@
-From 4f3568cf41d7fd660571b72f281f9f4bf0aa0c2a Mon Sep 17 00:00:00 2001
+From 7b76306aae3a46742e7d29c95cab18fcdcce0a7a Mon Sep 17 00:00:00 2001
 From: Dave Jiang <dave.jiang@intel.com>
 Date: Fri, 4 Dec 2020 09:46:49 -0700
-Subject: driver core: auxiliary bus: Fix auxiliary bus shutdown null auxdrv
- ptr
+Subject: [PATCH 16/20] driver core: auxiliary bus: Fix auxiliary bus shutdown
+ null auxdrv ptr
 
 If the probe of the auxdrv failed, the device->driver is set to NULL.
 During kernel shutdown, the bus shutdown will call auxdrv->shutdown and

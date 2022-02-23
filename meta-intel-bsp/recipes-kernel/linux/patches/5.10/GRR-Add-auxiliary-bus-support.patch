@@ -1,7 +1,7 @@
-From da8d201ffdc8965e4c0e22d08817ee3c065601fc Mon Sep 17 00:00:00 2001
+From 190a1004ad0c679fb2cf6ad565e82048c1f573c9 Mon Sep 17 00:00:00 2001
 From: Dave Ertman <david.m.ertman@intel.com>
 Date: Wed, 2 Dec 2020 16:54:24 -0800
-Subject: Add auxiliary bus support
+Subject: [PATCH 12/20] Add auxiliary bus support
 
 Add support for the Auxiliary Bus, auxiliary_device and auxiliary_driver.
 It enables drivers to create an auxiliary_device and bind an
@@ -285,7 +285,7 @@ index 000000000000..5dd7804631ef
 +		.ops = my_custom_ops,
 +	};
 diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index 2efafcc424ed..b2e30c655dd3 100644
+index f357f3eb400c..86759a74b7f1 100644
 --- a/Documentation/driver-api/index.rst
 +++ b/Documentation/driver-api/index.rst
 @@ -72,6 +72,7 @@ available subsections can be seen below.

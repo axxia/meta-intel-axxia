@@ -1,8 +1,8 @@
-LINUX_VERSION_standard = "5.10.63"
-LINUX_VERSION_preempt-rt = "5.10.63"
-SRCREV_standard = "164ed895bc1e94722e80fe6496b176f6bb815cd4"
-SRCREV_preempt-rt = "31e2870ebfd892708e8c5f3aced96565e2456ed9"
-SRCREV_meta = "bce2813b162bb472c137fb503951295a931c25b6"
+LINUX_VERSION_standard = "5.10.99"
+LINUX_VERSION_preempt-rt = "5.10.99"
+SRCREV_standard = "c0b313d988a16b25c1ee730bfe7393c462ee8a5c"
+SRCREV_preempt-rt = "e5b266bc6b15dc8852649b7d2a31395195dc7b3a"
+SRCREV_meta = "7a012dfacdc82bce2279c26af29cf40b5fdbeed2"
 
 COMMON_PATCHES = " \
 file://COM-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
@@ -33,11 +33,6 @@ file://GRR-driver-core-auxiliary-bus-Fix-calling-stage-for-auxi.patch \
 file://GRR-driver-core-auxiliary-bus-Remove-unneeded-module-bit.patch \
 file://GRR-driver-core-auxiliary-bus-Fix-memory-leak-when-drive.patch \
 file://GRR-driver-core-auxiliary-bus-Add-Config-Option.patch \
-"
-
-FRIO_PATCHES = " \
-file://FRIO-PCI-ASPM-Don-t-retrain-link.patch \
-file://FRIO-drivers-pci-Enable-overrides-for-missing-ACS-capabil.patch \
 "
 
 LINUX_VERSION_pn-linux-yocto = "${LINUX_VERSION_standard}"

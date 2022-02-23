@@ -1,7 +1,7 @@
-From 764a8266f2357bd1b069da91090a2266792fe392 Mon Sep 17 00:00:00 2001
+From b81368ee4f95bd3078bb629d7506bbdcd54ce709 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Wed, 17 Nov 2021 16:48:01 -0600
-Subject: vfio/type1: Save domain when attach domain to mdev
+Subject: [PATCH 12/12] vfio/type1: Save domain when attach domain to mdev
 
 This saves the iommu domain in mdev on attaching a domain
 to it and clear it on detaching.

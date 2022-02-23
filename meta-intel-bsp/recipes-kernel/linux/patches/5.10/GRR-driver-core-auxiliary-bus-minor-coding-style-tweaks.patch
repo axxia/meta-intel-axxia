@@ -1,7 +1,7 @@
-From b98beca349393745177c2b8206b3e30c78ad7232 Mon Sep 17 00:00:00 2001
+From 190a5d7c93e194c30b325dab8a13971c2ea44565 Mon Sep 17 00:00:00 2001
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Date: Fri, 4 Dec 2020 12:49:28 +0100
-Subject: driver core: auxiliary bus: minor coding style tweaks
+Subject: [PATCH 15/20] driver core: auxiliary bus: minor coding style tweaks
 
 For some reason, the original aux bus patch had some really long lines
 in a few places, probably due to it being a very long-lived patch in

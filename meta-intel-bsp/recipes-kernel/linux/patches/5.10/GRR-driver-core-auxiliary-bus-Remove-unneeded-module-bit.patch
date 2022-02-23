@@ -1,7 +1,7 @@
-From e797db3101ea505fa4247361dffe86cf7eff1107 Mon Sep 17 00:00:00 2001
+From bf5ce113910a68cef47ae761bb18c032e62fc3bb Mon Sep 17 00:00:00 2001
 From: Dave Jiang <dave.jiang@intel.com>
 Date: Thu, 11 Feb 2021 13:21:29 -0700
-Subject: driver core: auxiliary bus: Remove unneeded module bits
+Subject: [PATCH 18/20] driver core: auxiliary bus: Remove unneeded module bits
 
 Remove module bits in the auxiliary bus code since the auxiliary bus
 cannot be built as a module and the relevant code is not needed.

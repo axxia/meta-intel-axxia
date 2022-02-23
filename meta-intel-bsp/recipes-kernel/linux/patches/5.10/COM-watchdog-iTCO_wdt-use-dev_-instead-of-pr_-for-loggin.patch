@@ -1,7 +1,8 @@
-From 4a71e22f0f407b41766f9291aa0797d81447ee49 Mon Sep 17 00:00:00 2001
+From 6826708b69ced698ed1de4fb779fce1f056a509a Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Thu, 23 Sep 2021 12:19:06 -0500
-Subject: watchdog: iTCO_wdt: use dev_*() instead of pr_*() for logging
+Subject: [PATCH 04/12] watchdog: iTCO_wdt: use dev_*() instead of pr_*() for
+ logging
 
 For device log outputs, it's better to have device name / ID
 prefixed in all messages, so use the proper dev_*() functions here.
@@ -21,7 +22,7 @@ Signed-off-by: John Jacques <john.jacques@intel.com>
  1 file changed, 8 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/watchdog/iTCO_wdt.c b/drivers/watchdog/iTCO_wdt.c
-index 1d92a4caf5de..b5a8af0589f2 100644
+index 7b96d9cf4588..3b75452918b9 100644
 --- a/drivers/watchdog/iTCO_wdt.c
 +++ b/drivers/watchdog/iTCO_wdt.c
 @@ -40,8 +40,6 @@
@@ -33,7 +34,7 @@ index 1d92a4caf5de..b5a8af0589f2 100644
  /* Module and version information */
  #define DRV_NAME	"iTCO_wdt"
  #define DRV_VERSION	"1.11"
-@@ -287,7 +285,7 @@ static int iTCO_wdt_start(struct watchdog_device *wd_dev)
+@@ -285,7 +283,7 @@ static int iTCO_wdt_start(struct watchdog_device *wd_dev)
  	if (assume_noreboot_access == 0) {
  		if (p->update_no_reboot_bit(p->no_reboot_priv, false)) {
  			spin_unlock(&p->io_lock);
@@ -42,7 +43,7 @@ index 1d92a4caf5de..b5a8af0589f2 100644
  			return -EIO;
  		}
  	}
-@@ -526,7 +524,7 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
+@@ -520,7 +518,7 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
  		/* Check chipset's NO_REBOOT bit */
  		if (p->update_no_reboot_bit(p->no_reboot_priv, false) &&
  		    iTCO_vendor_check_noreboot_on()) {
@@ -51,7 +52,7 @@ index 1d92a4caf5de..b5a8af0589f2 100644
  			return -ENODEV;	/* Cannot reset NO_REBOOT bit */
  		}
  
-@@ -547,12 +545,12 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
+@@ -541,12 +539,12 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
  	if (!devm_request_region(dev, p->tco_res->start,
  				 resource_size(p->tco_res),
  				 pdev->name)) {
@@ -66,7 +67,7 @@ index 1d92a4caf5de..b5a8af0589f2 100644
  		pdata->name, pdata->version, (u64)TCOBASE(p));
  
  	/* Clear out the (probably old) status */
-@@ -575,7 +573,7 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
+@@ -569,7 +567,7 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
  		break;
  	}
  
@@ -75,7 +76,7 @@ index 1d92a4caf5de..b5a8af0589f2 100644
  	p->wddev.ops = &iTCO_wdt_ops,
  	p->wddev.bootstatus = 0;
  	p->wddev.timeout = WATCHDOG_TIMEOUT;
-@@ -592,7 +590,7 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
+@@ -586,7 +584,7 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
  	   if not reset to the default */
  	if (iTCO_wdt_set_timeout(&p->wddev, heartbeat)) {
  		iTCO_wdt_set_timeout(&p->wddev, WATCHDOG_TIMEOUT);
@@ -84,7 +85,7 @@ index 1d92a4caf5de..b5a8af0589f2 100644
  			WATCHDOG_TIMEOUT);
  	}
  
-@@ -600,11 +598,11 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
+@@ -594,11 +592,11 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
  	watchdog_stop_on_unregister(&p->wddev);
  	ret = devm_watchdog_register_device(dev, &p->wddev);
  	if (ret != 0) {

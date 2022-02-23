@@ -1,7 +1,8 @@
-From 5d9966012343b76b9f175c968b1a40a35b3a8107 Mon Sep 17 00:00:00 2001
+From 4f89493013df27e35928a2206cd9433cd0a2f6d9 Mon Sep 17 00:00:00 2001
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Date: Fri, 4 Dec 2020 12:43:47 +0100
-Subject: driver core: auxiliary bus: move slab.h from include file
+Subject: [PATCH 13/20] driver core: auxiliary bus: move slab.h from include
+ file
 
 No need to include slab.h in include/linux/auxiliary_bus.h, as it is not
 needed there.  Move it to drivers/base/auxiliary.c instead.

@@ -1,7 +1,8 @@
-From cdf08f14875b219881ce21a46004f7e989999196 Mon Sep 17 00:00:00 2001
+From d2be82cf3a1322462bc4b09719a20b0d63027a3c Mon Sep 17 00:00:00 2001
 From: Dave Jiang <dave.jiang@intel.com>
 Date: Wed, 10 Feb 2021 13:16:11 -0700
-Subject: driver core: auxiliary bus: Fix calling stage for auxiliary bus init
+Subject: [PATCH 17/20] driver core: auxiliary bus: Fix calling stage for
+ auxiliary bus init
 
 When the auxiliary device code is built into the kernel, it can be executed
 before the auxiliary bus is registered. This causes bus->p to be not
