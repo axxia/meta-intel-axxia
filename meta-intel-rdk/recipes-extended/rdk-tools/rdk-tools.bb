@@ -29,7 +29,7 @@ export OECORE_NATIVE_SYSROOT = "${STAGING_DIR_NATIVE}"
 export IES_ENABLE_SHM ??= "true"
 
 # Choose whether to enable LTTng support for RDK (experimental)
-export RDK_LTTNG_ENABLE ??= "false"
+export RDK_LTTNG_ENABLE ??= "true"
 export LTTNG_ROOT = "${STAGING_DIR_HOST}${prefix}"
 
 # Extra flags required by ies_api_install target for autotools build
