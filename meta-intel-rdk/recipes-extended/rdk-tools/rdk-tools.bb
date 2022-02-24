@@ -22,14 +22,13 @@ S = "${WORKDIR}/rdk"
 inherit autotools
 
 export SDKTARGETSYSROOT = "${STAGING_DIR_HOST}"
-export OECORE_NATIVE_SYSROOT = "${STAGING_DIR_NATIVE}"
 
 # Choose IES API mode of operation: "true" for SHM (shared-memory model)
 # which is the default or "false" for RPC (remote procedure call)
 export IES_ENABLE_SHM ??= "true"
 
 # Choose whether to enable LTTng support for RDK (experimental)
-export RDK_LTTNG_ENABLE ??= "false"
+export RDK_LTTNG_ENABLE ??= "true"
 export LTTNG_ROOT = "${STAGING_DIR_HOST}${prefix}"
 
 # Extra flags required by ies_api_install target for autotools build
