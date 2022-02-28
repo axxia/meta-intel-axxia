@@ -17,6 +17,8 @@ PR = "${RDK_TOOLS_VERSION}"
 DEPENDS = "virtual/kernel libnl libpcap openssl rsync-native thrift meson-native \
 	   ${@oe.utils.conditional('RDK_LTTNG_ENABLE', 'true', 'lttng-ust lttng-tools', '', d)}"
 
+RDEPENDS_${PN} += "${@oe.utils.conditional('RDK_LTTNG_ENABLE', 'true', 'lttng-ust lttng-tools', '', d)}"
+
 S = "${WORKDIR}/rdk"
 
 inherit autotools
@@ -93,6 +95,6 @@ FILES_${PN}-dev = " ${includedir} \
 
 FILES_${PN} = " ${bindir} ${sysconfdir} ${libdir}"
 
-INSANE_SKIP_${PN} = "already-stripped ldflags"
+INSANE_SKIP_${PN} = "already-stripped ldflags dev-deps"
 
 BBCLASSEXTEND = "native nativesdk"
