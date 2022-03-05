@@ -35,6 +35,7 @@ kexec \
 kexec-tools \
 kmod \
 ldd \
+libarchive \
 libasan \
 libbsd \
 libgcc \
