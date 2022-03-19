@@ -91,6 +91,7 @@ grep \
 groff \
 gzip \
 hdparm \
+htop \
 hwloc \
 i2c-tools \
 iasl \

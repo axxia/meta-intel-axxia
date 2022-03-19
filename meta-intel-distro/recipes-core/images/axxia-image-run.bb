@@ -23,6 +23,7 @@ ethtool \
 expect \
 gdb \
 gdbserver \
+htop \
 i2c-tools \
 iasl \
 inetutils \
