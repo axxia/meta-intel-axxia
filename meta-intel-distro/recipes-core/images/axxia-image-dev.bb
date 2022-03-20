@@ -426,6 +426,7 @@ slang-dev \
 strace-dev \
 systemtap \
 systemtap-dev \
+xmlto \
 xz-dev"
 
 SDKIMAGE_FEATURES = "dev-pkgs dbg-pkgs staticdev-pkgs"
