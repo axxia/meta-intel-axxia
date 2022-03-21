@@ -5,6 +5,8 @@ SECTION = "devel/python"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=203a6dbc802ee896020a47161e759642"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/python${PYTHON_MAJMIN}:"
+
 SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
            file://run-ptest \
            file://create_manifest3.py \
@@ -166,7 +168,7 @@ INCLUDE_PYCS ?= "1"
 python(){
     import collections, json
 
-    filename = os.path.join(d.getVar('THISDIR'), 'python3', 'python3-manifest.json')
+    filename = os.path.join(d.getVar('THISDIR'), 'python3.6', 'python3-manifest.json')
     # This python changes the datastore based on the contents of a file, so mark
     # that dependency.
     bb.parse.mark_dependency(d, filename)
