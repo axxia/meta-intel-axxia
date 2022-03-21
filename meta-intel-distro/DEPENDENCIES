@@ -5,7 +5,7 @@ poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: hardknott
-revision: 53587ef75ef68f14b436e1535c16aa12dab84388
+revision: 677d20b0b8b530ab9196c685b46f32e3d6b3284b
 
 meta-openembedded
 -----------------
