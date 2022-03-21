@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=394465e125cffc0f133695ed43f14047 \
 
 DEPENDS = "thrift-native flex-native bison-native"
 
-SRC_URI = "https://www-eu.apache.org/dist/thrift//${PV}/${BPN}-${PV}.tar.gz"
+SRC_URI = "https://archive.apache.org/dist/${BPN}/${PV}/${BPN}-${PV}.tar.gz"
 
 SRC_URI[md5sum] = "0be59730ebce071eceaf6bfdb8d3a20e"
 SRC_URI[sha256sum] = "c4ad38b6cb4a3498310d405a91fef37b9a8e79a50cd0968148ee2524d2fa60c2"
