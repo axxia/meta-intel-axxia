@@ -286,9 +286,9 @@ NOTE: No preferred version should be set for linux-local provider.
 
     DISTRO_FEATURES_append = " gcc9"
     
-2.3.10. Select the version of python3 to use: 3.9 (default) or 3.6.
+2.3.10. Select the version of python3 to use: 3.9 (default), 3.8 or 3.6.
 
-    PYTHON_VERSION = "3.6"
+    PYTHON_VERSION = "3.8"
     
 2.3.11. Depending on your host processor, set these two options that
       control how much parallelism BitBake should use (optional):
