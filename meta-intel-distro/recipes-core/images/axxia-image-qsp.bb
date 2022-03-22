@@ -18,6 +18,7 @@ kernel-modules \
 libasan \
 libgcc \
 libubsan \
+pciutils \
 ${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
 		     '${MULTILIB_PACKAGES}', '', d)}  \
 ${@bb.utils.contains('DISTRO_FEATURES', 'simics', \
