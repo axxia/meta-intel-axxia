@@ -27,6 +27,8 @@ ALTERNATIVE_KERNELS ?= \
 "${${@''.join(d.getVar('PREFERRED_PROVIDER_virtual/kernel').upper()\
 	.split('-')[1:2])}_ALTERNATIVE_KERNELS}"
 
+ALTERNATIVE_KERNELS_genericx86-64 = ""
+
 ALTERNATIVE_KERNELS_INSTALL ?= \
 "${@d.getVar('ALTERNATIVE_KERNELS').replace('linux-','altkernel-linux-')}"
 

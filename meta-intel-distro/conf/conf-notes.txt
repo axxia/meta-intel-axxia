@@ -5,6 +5,7 @@ Specific Intel AXXIA targets are:
     axxia-image-run
     axxia-image-min
     axxia-image-dev
+    axxia-image-qsp
 
 Other common targets are:
     core-image-minimal
