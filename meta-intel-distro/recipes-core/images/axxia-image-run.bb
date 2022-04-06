@@ -38,6 +38,7 @@ kmod \
 ldd \
 libarchive \
 libasan \
+libatomic \
 libbsd \
 libgcc \
 libnl \
