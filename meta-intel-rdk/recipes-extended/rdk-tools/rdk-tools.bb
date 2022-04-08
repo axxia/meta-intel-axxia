@@ -3,15 +3,20 @@ DESCRIPTION = "Intel RDK package containing all userspace (API and CLI) sources.
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-or-later;md5=fed54355545ffd980b814dab4a3b312c"
 
-RDK_TOOLS_ARCHIVE ?= "file://rdk_user_src.tar.xz"
-
-SRC_URI = "${RDK_TOOLS_ARCHIVE}"
+USE_RDK_REPO ?= "false"
+RDK_REPO ?= ""
+RDK_REPO_REV ?= ""
+RDK_REPO_SRC_URI ?= "git://${@d.getVar('RDK_REPO').replace('https://','')};protocol=https;nobranch=1"
+SRCREV = "${RDK_REPO_REV}"
 
 FILESEXTRAPATHS_prepend := "${LAYER_PATH_meta-intel-rdk}/downloads:"
-
+RDK_TOOLS_ARCHIVE ?= "file://rdk_user_src.tar.xz"
 BB_STRICT_CHECKSUM = "0"
 
-RDK_TOOLS_VERSION ?= "unknown_release_info"
+SRC_URI = "${@oe.utils.conditional('USE_RDK_REPO', 'false', '${RDK_TOOLS_ARCHIVE}', '${RDK_REPO_SRC_URI}', d)}"
+
+RDK_TOOLS_VERSION ?= "${@oe.utils.conditional('USE_RDK_REPO', 'false', \
+	'unknown_release_info', 'git_${RDK_REPO_REV}', d)}"
 PR = "${RDK_TOOLS_VERSION}"
 
 DEPENDS = "virtual/kernel libnl libpcap openssl rsync-native thrift meson-native \
@@ -19,7 +24,7 @@ DEPENDS = "virtual/kernel libnl libpcap openssl rsync-native thrift meson-native
 
 RDEPENDS_${PN} += "${@oe.utils.conditional('RDK_LTTNG_ENABLE', 'true', 'lttng-ust lttng-tools', '', d)}"
 
-S = "${WORKDIR}/rdk"
+S = "${@oe.utils.conditional('USE_RDK_REPO', 'false', "${WORKDIR}/rdk", "${WORKDIR}/git/rdk", d)}"
 
 inherit autotools
 

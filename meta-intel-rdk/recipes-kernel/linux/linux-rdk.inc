@@ -1,9 +1,14 @@
-FILESEXTRAPATHS_prepend := "${LAYER_PATH_meta-intel-rdk}/downloads:${THISDIR}/frags:"
+USE_RDK_REPO ?= "false"
+RDK_REPO ?= ""
+RDK_REPO_REV ?= ""
+RDK_REPO_SRC_URI ?= "git://${@d.getVar('RDK_REPO').replace('https://','')};protocol=https;nobranch=1;name=rdk;subpath=rdk/klm;destsuffix=rdk/klm"
+SRCREV_rdk = "${RDK_REPO_REV}"
 
+FILESEXTRAPATHS_prepend := "${LAYER_PATH_meta-intel-rdk}/downloads:${THISDIR}/frags:"
 RDK_KLM_ARCHIVE ?= "file://rdk_klm_src.tar.xz"
 
-SRC_URI_append = " ${RDK_KLM_ARCHIVE} \
-		   file://rdk-modules.scc "
+SRC_URI_append = " ${@oe.utils.conditional('USE_RDK_REPO', 'false', '${RDK_KLM_ARCHIVE}', '${RDK_REPO_SRC_URI}', d)} \
+                   file://rdk-modules.scc "
 
 BB_STRICT_CHECKSUM = "0"
 
@@ -15,18 +20,23 @@ DEPENDS_append = " rsync-native"
 do_patch_rdk_modules () {
     STAGING_PATH="drivers/staging/intel"
 
-    # Get release tag from the archive name
-    case ${RDK_KLM_ARCHIVE} in
-        file*)
-            RELEASE_TAG="$(echo ${LAYER_PATH_meta-intel-rdk}/downloads/${RDK_KLM_ARCHIVE} | sed 's/file:\/\///g')"
-            [ -L "${RELEASE_TAG}" ] && RELEASE_TAG="$(readlink ${RELEASE_TAG})"
-            RELEASE_TAG="$(basename ${RELEASE_TAG})";;
-	http*)
-            RELEASE_TAG="$(echo ${RDK_KLM_ARCHIVE} | rev | cut -d'/' -f1 | rev)";;
-    esac
-    RELEASE_TAG="$(echo ${RELEASE_TAG} | cut -d'.' -f1 | sed 's/rdk_klm_src//g')"
-    [ -z "${RELEASE_TAG}" ] && RELEASE_TAG="unknown_release_info" \
-                            || RELEASE_TAG="${RELEASE_TAG#?}"
+    if [ "${USE_RDK_REPO}" == "false" ]; then
+        # Get release tag from the archive name
+        case ${RDK_KLM_ARCHIVE} in
+            file*)
+                RELEASE_TAG="$(echo ${LAYER_PATH_meta-intel-rdk}/downloads/${RDK_KLM_ARCHIVE} | sed 's/file:\/\///g')"
+                [ -L "${RELEASE_TAG}" ] && RELEASE_TAG="$(readlink ${RELEASE_TAG})"
+                RELEASE_TAG="$(basename ${RELEASE_TAG})";;
+            http*)
+                RELEASE_TAG="$(echo ${RDK_KLM_ARCHIVE} | rev | cut -d'/' -f1 | rev)";;
+        esac
+        RELEASE_TAG="$(echo ${RELEASE_TAG} | cut -d'.' -f1 | sed 's/rdk_klm_src//g')"
+        [ -z "${RELEASE_TAG}" ] && RELEASE_TAG="unknown_release_info" \
+                                || RELEASE_TAG="${RELEASE_TAG#?}"
+    else
+        # Get release tag from the git revision
+        RELEASE_TAG="git_${RDK_REPO_REV}"
+    fi
 
     # If no version for KLM modules is set in local.conf, use RELEASE_TAG and store
     # the value in rdk-klm-version file saved in WORKDIR for kernel_do_deploy task
