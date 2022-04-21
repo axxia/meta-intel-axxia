@@ -65,8 +65,8 @@ additional steps are required:
    below with the actual value you provided prior.
 
    BBLAYERS += " $YOCTO/meta-intel-axxia/meta-intel-rdk"
-   
-   
+
+
 2. Build RDK with other OpenEmbedded/Yocto layers
 ---------------------------------------------------
 
@@ -97,7 +97,7 @@ in conf/local.conf:
      rdk-tools package as follows.
 
      RDK_TOOLS_VERSION = "<releaseinfo>"
-     
+
 3.3. If RDK userspace feature is included, choose the IES API mode of
      operation through IES_ENABLE_SHM variable: 
      - "true" value for SHM (shared-memory model) - default 
@@ -107,7 +107,7 @@ in conf/local.conf:
 
 3.4. To get RDK archives from a diferent location than the layer
      download directory, set the following variables:
-     
+
      RDK_KLM_ARCHIVE = "file://<path-to-archive>/rdk_klm_src_<releaseinfo>.txz"
      RDK_TOOLS_ARCHIVE = "file://<path-to-archive>/rdk_user_src_<releaseinfo>.txz"
 
@@ -125,7 +125,23 @@ in conf/local.conf:
            and recipes-kernel/linux-firmware/linux-firmware_%.bbappend
      * for RDK_TOOLS_ARCHIVE in recipes-extended/rdk-tools/rdk-tools.bb
 
-3.6. Set the version of the RDK KLM modules throught RDK_KLM_VERSION
+3.6. To get RDK sources from a git repository, set the following variable:
+
+     USE_RDK_REPO = "true"
+
+     It is mandatory to set the git repository for the RDK sources via RDK_REPO variable:
+
+     RDK_REPO = "<RDK-Git-repository>"
+
+     It is also mandatory to specify the git revision (which can be a release tag
+     or a commit SHA number) for the RDK sources via RDK_REPO_REV variable:
+
+     RDK_REPO_REV = "<tag/commit>"
+
+     Note: Special access permissions from Intel are required to be able to fetch
+     RDK sources from the Intel GitHub repositories.
+
+3.7. Set the version of the RDK KLM modules throught RDK_KLM_VERSION
      variable in order to customize the path where the drivers will be
      installed in the kernel tree (drivers/staging/intel/<rdk-klm-version>)
      and to customize the commit message in the kernel git repository
@@ -135,8 +151,8 @@ in conf/local.conf:
 
      If not set, the value of this variable will be extracted from the
      RDK KLM archive name (rdk_klm_src_<releaseinfo>.txz).
-     
-3.7. Autoload RDK modules (disabled from blacklist.conf)
+
+3.8. Autoload RDK modules (disabled from blacklist.conf)
 
      KERNEL_MODULE_AUTOLOAD_append = " hqm"
      KERNEL_MODULE_AUTOLOAD_append = " igb"
@@ -144,7 +160,7 @@ in conf/local.conf:
      KERNEL_MODULE_AUTOLOAD_append = " intel_qat"
      KERNEL_MODULE_AUTOLOAD_append = " ice_sw"
 
-3.8. Header files exported by KLM to user space can be accessed as
+3.9. Header files exported by KLM to user space can be accessed as
      follows.  When cross-compiling, add the following to the compile
      flags.
 
@@ -155,10 +171,10 @@ in conf/local.conf:
 
      -I/usr/kernel-headers/include
 
-3.9. If RDK userspace feature is included, choose to enable LTTng
-     support for RDK user-space:
+3.10. If RDK userspace feature is included, choose to enable LTTng
+      support for RDK user-space:
 
-     - "true" - enables LTTng for RDK Userspace (default).
-     - "false" - disables LTTng for RDK Userspace.
+      - "true" - enables LTTng for RDK Userspace (default).
+      - "false" - disables LTTng for RDK Userspace.
 
      RDK_LTTNG_ENABLE = "true"
