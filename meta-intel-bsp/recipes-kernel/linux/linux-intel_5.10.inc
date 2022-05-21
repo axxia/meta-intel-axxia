@@ -27,6 +27,8 @@ file://GRR-vfio-mdev-Add-a-member-for-iommu-domain-in-mdev_devi.patch \
 file://GRR-vfio-type1-Save-domain-when-attach-domain-to-mdev.patch \
 file://GRR-driver-core-auxiliary-bus-Add-Config-Option.patch \
 file://GRR-libsubcmd-Fix-use-after-free-for-realloc-.-0.patch \
+file://GRR-mei-kdoc-fix-partial-back-port.patch \
+file://GRR-mei-me-disable-driver-on-the-ign-firmware.patch \
 "
 
 LINUX_VERSION_pn-linux-intel = "${LINUX_VERSION_standard}"

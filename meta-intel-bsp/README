@@ -154,6 +154,14 @@ GCC12.  This back-port fixes that.
 
 GRR-libsubcmd-Fix-use-after-free-for-realloc-.-0.patch
 
+Disable MEI Driver on Ignition FW
+---------------------------------
+
+This avoids errors in the system logs.
+
+GRR-mei-kdoc-fix-partial-back-port.patch
+GRR-mei-me-disable-driver-on-the-ign-firmware.patch
+
 
 II. Building meta-intel-bsp
 ===========================
