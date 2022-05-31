@@ -24,7 +24,7 @@ S = "${WORKDIR}/git"
 
 inherit autotools-brokensep gettext
 
-EXTRA_OECONF_append = " --enable-test=yes"
+EXTRA_OECONF_append = " --enable-test=yes --disable-docs"
 
 do_configure_prepend() {
 	(cd ${S}; ./autogen.sh; cd -)
