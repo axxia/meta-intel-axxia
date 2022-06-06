@@ -22,13 +22,13 @@ do_patch_rdk_modules () {
 
     if [ "${USE_RDK_REPO}" == "false" ]; then
         # Get release tag from the archive name
-        case ${RDK_KLM_ARCHIVE} in
+        case "${RDK_KLM_ARCHIVE}" in
             file*)
                 RELEASE_TAG="$(echo ${LAYER_PATH_meta-intel-rdk}/downloads/${RDK_KLM_ARCHIVE} | sed 's/file:\/\///g')"
                 [ -L "${RELEASE_TAG}" ] && RELEASE_TAG="$(readlink ${RELEASE_TAG})"
                 RELEASE_TAG="$(basename ${RELEASE_TAG})";;
             http*)
-                RELEASE_TAG="$(echo ${RDK_KLM_ARCHIVE} | rev | cut -d'/' -f1 | rev)";;
+                RELEASE_TAG='$(echo "${RDK_KLM_ARCHIVE}" | rev | cut -d'/' -f1 | rev)';;
         esac
         RELEASE_TAG="$(echo ${RELEASE_TAG} | cut -d'.' -f1 | sed 's/rdk_klm_src//g')"
         [ -z "${RELEASE_TAG}" ] && RELEASE_TAG="unknown_release_info" \
