@@ -83,6 +83,10 @@ telnetd \
 tk \
 tmux \
 vlan \
+${@oe.utils.conditional('ALTERNATIVE_KERNELS', '', '', ' \
+			${ALTERNATIVE_KERNELS_INSTALL} \
+			${ALTERNATIVE_KERNELS_MODULES_INSTALL} \
+			${ALTERNATIVE_KERNELS_LTTNG_MODULES}', d)} \
 ${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
 		     '${MULTILIB_PACKAGES}', '', d)}  \
 ${@bb.utils.contains('DISTRO_FEATURES', 'simics', \
