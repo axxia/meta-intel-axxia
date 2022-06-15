@@ -3,22 +3,14 @@ INTEL_ALTERNATIVE_KERNELS ?= "\
 ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
 	'linux-intel', '',          ' linux-intel', d)}\
 ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-intel-rt', '',       ' linux-intel-rt', d)}\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
 	'linux-intel-debug', '',    ' linux-intel-debug', d)}\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-intel-rt-debug', '', ' linux-intel-rt-debug', d)}\
 "
 
 YOCTO_ALTERNATIVE_KERNELS ?= "\
 ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
 	'linux-yocto', '',          ' linux-yocto', d)}\
 ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-yocto-rt', '',       ' linux-yocto-rt', d)}\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
 	'linux-yocto-debug', '',    ' linux-yocto-debug', d)}\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-yocto-rt-debug', '', ' linux-yocto-rt-debug', d)}\
 "
 
 LOCAL_ALTERNATIVE_KERNELS ?= ""
