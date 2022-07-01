@@ -6,6 +6,10 @@ PREFERRED_VERSION_linux-yocto-rt ?= "5.10%"
 PREFERRED_VERSION_linux-yocto-debug ?= "5.10%"
 PREFERRED_VERSION_linux-yocto-rt-debug ?= "5.10%"
 
+PREFERRED_VERSION_lttng-modules ?= "2.13.4"
+PREFERRED_VERSION_lttng-tools ?= "2.13.7"
+PREFERRED_VERSION_lttng-ust ?= "2.13.3"
+
 PREFERRED_VERSION_thrift ?= "0.11.0"
 PREFERRED_VERSION_thrift-native ?= "0.11.0"
 
