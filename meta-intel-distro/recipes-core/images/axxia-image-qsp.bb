@@ -1,5 +1,4 @@
-DESCRIPTION = "A minimal image used in simulation, flash, \
-or as a ram disk that supports the RTE."
+DESCRIPTION = "The QSP Image for GRR"
 
 require axxia-image.inc
 
@@ -11,13 +10,22 @@ ${CORE_IMAGE_EXTRA_INSTALL} \
 IMAGE_INSTALL_append = " \
 axxia-rc-local \
 gdbserver \
+gdb \
 inetutils \
 initscripts-readonly-rootfs-overlay \
 kernel-dev \
 kernel-modules \
+kexec \
+kexec-tools \
+kmod \
+ldd \
 libasan \
 libgcc \
 libubsan \
+msr-tools \
+ncurses \
+openssh \
+openssh-sftp \
 pciutils \
 ${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
 		     '${MULTILIB_PACKAGES}', '', d)}  \
