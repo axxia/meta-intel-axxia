@@ -2,6 +2,8 @@ PREFERRED_PROVIDER_virtual/kernel ?= "linux-intel"
 PREFERRED_VERSION_linux-intel ?= "5.10%"
 PREFERRED_VERSION_linux-intel-rt ?= "5.10%"
 
+EFI_PROVIDER ?= "grub-efi"
+
 require conf/machine/include/meta-intel.inc
 require conf/machine/include/intel-common-pkgarch.inc
 
@@ -11,8 +13,6 @@ MACHINE_FEATURES += "intel-ucode ext3"
 KARCH = "x86_64"
 KERNEL_IMAGETYPE = "bzImage"
 KEEPUIMAGE = "no"
-
-EFI_PROVIDER ?= "grub-efi"
 
 IMAGE_FSTYPES += " ext2"
 IMAGE_FSTYPES += " tar.gz"
