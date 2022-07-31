@@ -213,6 +213,8 @@ class BootimgEFIPlugin(SourcePlugin):
         except KeyError:
             raise WicError("bootimg-efi requires a loader, none specified")
 
+        cls.install_task = [];
+
         if get_bitbake_var("IMAGE_EFI_BOOT_FILES") is None:
             logger.debug('No boot files defined in IMAGE_EFI_BOOT_FILES')
         else:
@@ -242,7 +244,6 @@ class BootimgEFIPlugin(SourcePlugin):
                 logger.debug('Destination entry: %r', dst_entry)
                 deploy_files.append(dst_entry)
 
-            cls.install_task = [];
             for deploy_entry in deploy_files:
                 src, dst = deploy_entry
                 if '*' in src:
@@ -264,6 +265,47 @@ class BootimgEFIPlugin(SourcePlugin):
                         cls.install_task.append((src, entry_dst_name))
                 else:
                     cls.install_task.append((src, dst))
+
+        if get_bitbake_var("ALTERNATIVE_KERNELS") is None:
+            logger.debug('No alternative kernels defined in ALTERNATIVE_KERNELS')
+        else:
+            alt_kernels = get_bitbake_var("ALTERNATIVE_KERNELS")
+            logger.debug('Alternative kernels: %s', alt_kernels)
+
+            kernel_type = get_bitbake_var("KERNEL_IMAGETYPE")
+
+            # list of tuples (src_name, dst_name)
+            deploy_files = []
+            for kernel in re.findall(r'[\w;\-\./\*]+', alt_kernels):
+                kernel_in = 'altkernel-%s/%s' % (kernel, kernel_type)
+                kernel_out = '%s-%s' % (kernel_type, kernel)
+                dst_entry = (kernel_in, kernel_out)
+
+                logger.debug('Destination entry: %r', dst_entry)
+                deploy_files.append(dst_entry)
+
+            for deploy_entry in deploy_files:
+                src, dst = deploy_entry
+                if '*' in src:
+                    # by default install files under their basename
+                    entry_name_fn = os.path.basename
+                    if dst != src:
+                        # unless a target name was given, then treat name
+                        # as a directory and append a basename
+                        entry_name_fn = lambda name: \
+                                        os.path.join(dst,
+                                                     os.path.basename(name))
+
+                    srcs = glob(os.path.join(kernel_dir, src))
+
+                    logger.debug('Globbed sources: %s', ', '.join(srcs))
+                    for entry in srcs:
+                        src = os.path.relpath(entry, kernel_dir)
+                        entry_dst_name = entry_name_fn(entry)
+                        cls.install_task.append((src, entry_dst_name))
+                else:
+                    cls.install_task.append((src, dst))
+
 
     @classmethod
     def do_prepare_partition(cls, part, source_params, creator, cr_workdir,
@@ -293,7 +335,7 @@ class BootimgEFIPlugin(SourcePlugin):
             (staging_kernel_dir, kernel, hdddir, kernel)
         exec_cmd(install_cmd)
 
-        if get_bitbake_var("IMAGE_EFI_BOOT_FILES"):
+        if get_bitbake_var("IMAGE_EFI_BOOT_FILES") or get_bitbake_var("ALTERNATIVE_KERNELS"):
             for src_path, dst_path in cls.install_task:
                 install_cmd = "install -m 0644 -D %s %s" \
                               % (os.path.join(kernel_dir, src_path),
