@@ -152,7 +152,7 @@ class BootimgEFIPlugin(SourcePlugin):
         bootloader = creator.ks.bootloader
 
         loader_conf = ""
-        loader_conf += "default boot\n"
+        loader_conf += "default boot.conf\n"
         loader_conf += "timeout %d\n" % bootloader.timeout
 
         initrd = source_params.get('initrd')
@@ -197,10 +197,12 @@ class BootimgEFIPlugin(SourcePlugin):
                     kernel = "%s-%s.bin" % \
                         (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
 
+            default_kernel = get_bitbake_var("PREFERRED_PROVIDER_virtual/kernel")
             title = source_params.get('title')
+            entry_title = title if title else "boot"
 
             boot_conf = ""
-            boot_conf += "title %s\n" % (title if title else "boot")
+            boot_conf += "title %s %s\n" % (entry_title, default_kernel)
             boot_conf += "linux /%s\n" % kernel
 
             label = source_params.get('label')
@@ -221,6 +223,42 @@ class BootimgEFIPlugin(SourcePlugin):
         cfg = open("%s/hdd/boot/loader/entries/boot.conf" % cr_workdir, "w")
         cfg.write(boot_conf)
         cfg.close()
+
+        if get_bitbake_var("ALTERNATIVE_KERNELS") is None:
+            logger.debug('No alternative kernels defined in ALTERNATIVE_KERNELS')
+        else:
+            alt_kernels = get_bitbake_var("ALTERNATIVE_KERNELS")
+            logger.debug('Alternative kernels: %s', alt_kernels)
+
+            for kernel in re.findall(r'[\w;\-\./\*]+', alt_kernels):
+                kernel_type = get_bitbake_var("KERNEL_IMAGETYPE")
+
+                title = source_params.get('title')
+                entry_title = title if title else "boot"
+
+                boot_conf = ""
+                boot_conf += "title %s %s\n" % (entry_title, kernel)
+                boot_conf += "linux /%s-%s\n" % (kernel_type, kernel)
+
+                label = source_params.get('label')
+                label_conf = "LABEL=Boot root=%s" % creator.rootdev
+                if label:
+                    label_conf = "LABEL=%s" % label
+
+                boot_conf += "options %s %s\n" % \
+                                 (label_conf, bootloader.append)
+
+                if initrd:
+                    initrds = initrd.split(';')
+                    for rd in initrds:
+                        boot_conf += "initrd /%s\n" % rd
+
+                entry_file = "boot_%s.conf" % kernel
+                logger.debug("Writing systemd-boot config "
+                         "%s/hdd/boot/loader/entries/%s", cr_workdir, entry_file)
+                cfg = open("%s/hdd/boot/loader/entries/%s" % (cr_workdir, entry_file), "w")
+                cfg.write(boot_conf)
+                cfg.close()
 
 
     @classmethod
