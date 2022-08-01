@@ -75,7 +75,10 @@ class BootimgEFIPlugin(SourcePlugin):
             grubefi_conf += "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1\n"
             grubefi_conf += "default=boot\n"
             grubefi_conf += "timeout=%s\n" % bootloader.timeout
-            grubefi_conf += "menuentry '%s'{\n" % (title if title else "boot")
+
+            default_kernel = get_bitbake_var("PREFERRED_PROVIDER_virtual/kernel")
+            entry_title = title if title else "boot"
+            grubefi_conf += "menuentry '%s %s'{\n" % (entry_title, default_kernel)
 
             kernel = get_bitbake_var("KERNEL_IMAGETYPE")
             if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
@@ -99,6 +102,35 @@ class BootimgEFIPlugin(SourcePlugin):
                 grubefi_conf += "\n"
 
             grubefi_conf += "}\n"
+
+            if get_bitbake_var("ALTERNATIVE_KERNELS") is None:
+                logger.debug('No alternative kernels defined in ALTERNATIVE_KERNELS')
+            else:
+                alt_kernels = get_bitbake_var("ALTERNATIVE_KERNELS")
+                logger.debug('Alternative kernels: %s', alt_kernels)
+
+                for kernel in re.findall(r'[\w;\-\./\*]+', alt_kernels):
+                    entry_title = title if title else "boot"
+                    grubefi_conf += "menuentry '%s %s'{\n" % (entry_title, kernel)
+
+                    kernel_type = get_bitbake_var("KERNEL_IMAGETYPE")
+
+                    label = source_params.get('label')
+                    label_conf = "root=%s" % creator.rootdev
+                    if label:
+                        label_conf = "LABEL=%s" % label
+
+                    grubefi_conf += "linux /%s-%s %s rootwait %s\n" \
+                        % (kernel_type, kernel, label_conf, bootloader.append)
+
+                    if initrd:
+                        initrds = initrd.split(';')
+                        grubefi_conf += "initrd"
+                        for rd in initrds:
+                            grubefi_conf += " /%s" % rd
+                        grubefi_conf += "\n"
+
+                    grubefi_conf += "}\n"
 
         logger.debug("Writing grubefi config %s/hdd/boot/EFI/BOOT/grub.cfg",
                      cr_workdir)
