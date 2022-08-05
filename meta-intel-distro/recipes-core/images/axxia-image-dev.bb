@@ -179,6 +179,7 @@ libxcrypt-compat \
 libxdmcp \
 libxml2 \
 lighttpd \
+lldbd \
 lmbench \
 lmdb \
 lmdb-dev \
