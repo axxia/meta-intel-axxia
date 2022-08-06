@@ -8,7 +8,10 @@ export RDK_KLM_VERSION
 
 do_patch_rdk() {
     cd ${S}
-    RDK_LTTNG_PATCHES=$(find ${WORKDIR}/rdk/klm -path "*/lttng/*.patch")
+    VERSION="${PV}"
+    [ -z $(find ${WORKDIR}/rdk/klm -path "*lttng/${VERSION%.*}") ] \
+        && PATTERN="*/lttng/*.patch" || PATTERN="*/lttng/${VERSION%.*}/*.patch"
+    RDK_LTTNG_PATCHES=$(find ${WORKDIR}/rdk/klm -path "${PATTERN}")
     if [ ! -z "${RDK_LTTNG_PATCHES}" ]; then
         cp ${RDK_LTTNG_PATCHES} ${S}
         ls ${S}/*.patch | sort | xargs -t -n 1 patch -p1 -i
