@@ -2,3 +2,4 @@ meta-intel-distro/downloads/simics*
 meta-intel-distro/recipes-kernel/linux/defconfig
 meta-intel-bsp/downloads/*
 meta-intel-rdk/downloads/*
+__pycache__/
