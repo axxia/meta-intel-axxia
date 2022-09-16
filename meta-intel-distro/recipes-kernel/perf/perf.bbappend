@@ -1,5 +1,7 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
+DEPENDS += "python3-setuptools-native"
+
 RDEPENDS_${PN}-tests =+ "bash"
 
 do_configure_append () {
