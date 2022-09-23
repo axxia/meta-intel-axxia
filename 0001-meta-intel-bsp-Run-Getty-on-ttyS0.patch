@@ -1,0 +1,31 @@
+From d7848279d5315d555b8a9741e256ea81ab52b95e Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Thu, 22 Sep 2022 16:55:54 -0500
+Subject: meta-intel-bsp: Run Getty on ttyS0
+
+SNR uses ttyS4, but when running a quest (qemu for example)
+it is convinient to run getty on ttyS0 as well.
+
+This commit adds running getty on ttyS0.
+
+Signed-off-by: John Jacques <john.jacques@intel.com>
+---
+ meta-intel-snr/conf/machine/axxiax86-64.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta-intel-snr/conf/machine/axxiax86-64.conf b/meta-intel-snr/conf/machine/axxiax86-64.conf
+index 83a790d..bffbd31 100644
+--- a/meta-intel-snr/conf/machine/axxiax86-64.conf
++++ b/meta-intel-snr/conf/machine/axxiax86-64.conf
+@@ -20,7 +20,7 @@ KEEPUIMAGE = "no"
+ EFI_PROVIDER ?= "grub-efi"
+ 
+ SYSLINUX_OPTS = "serial 0 115200"
+-SERIAL_CONSOLES = "115200;ttyS4"
++SERIAL_CONSOLES = "115200;ttyS0 115200;ttyS4"
+ 
+ SNR_SERIAL_CONSOLE ?= "ttyS4"
+ APPEND = "console=tty0 console=${SNR_SERIAL_CONSOLE},115200 intel_iommu=on idle=poll"
+-- 
+2.25.1
+
