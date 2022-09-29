@@ -10,7 +10,7 @@ DEFAULTTUNE:virtclass-multilib-lib32 ?= "grr-32"
 MULTILIBS = "multilib:lib32"
 
 # Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
-require conf/machine/include/tune-core2.inc
+require conf/machine/include/x86/tune-core2.inc
 
 # Extra tune features
 TUNEVALID[grr] = "Enable grr specific processor optimizations"
