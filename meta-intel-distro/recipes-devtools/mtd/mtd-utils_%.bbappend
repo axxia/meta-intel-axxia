@@ -1,1 +1,1 @@
-FILES_mtd-utils-misc += " ${sbindir}/mtd_debug"
+FILES:mtd-utils-misc += " ${sbindir}/mtd_debug"

@@ -10,10 +10,10 @@ do_install () {
 	install -m 0644 ${S}/*.h   ${D}${includedir}
 }
 
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN} = "1"
 
-FILES_${PN}-dev = "${includedir}/*.h"
+FILES:${PN}-dev = "${includedir}/*.h"
 
-FILES_${PN}-staticdev = "${libdir}/*.a"
+FILES:${PN}-staticdev = "${libdir}/*.a"
 
 BBCLASSEXTEND = "native nativesdk"

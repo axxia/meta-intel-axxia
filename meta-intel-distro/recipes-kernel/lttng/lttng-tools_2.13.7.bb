@@ -93,7 +93,7 @@ do_install_ptest () {
     sed -i -e '/dist_noinst_SCRIPTS = /,/^$/d' "${D}${PTEST_PATH}/tests/Makefile"
 
     # We shouldn't need to build anything in tests/utils
-    sed -i -e 's!am__append_1 = . utils!am__append_1 = . !' \
+    sed -i -e 's!am_:append_1 = . utils!am_:append_1 = . !' \
         "${D}${PTEST_PATH}/tests/Makefile"
 
     # Copy the tests directory tree and the executables and

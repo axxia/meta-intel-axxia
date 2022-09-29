@@ -3,7 +3,7 @@ KERNEL = "${@d.getVar('ALTERNATIVE_KERNELS')[1:].split(' ')[${ALTERNATIVE_KERNEL
 BPN = "lttng-modules"
 PN = "lttng-modules-${KERNEL}"
 
-FILESEXTRAPATHS_prepend := "${COREBASE}/meta/recipes-kernel/lttng/${BPN}:"
+FILESEXTRAPATHS:prepend := "${COREBASE}/meta/recipes-kernel/lttng/${BPN}:"
 
 DEPENDS += "${KERNEL} make-mod-scripts"
 

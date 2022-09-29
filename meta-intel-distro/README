@@ -261,13 +261,13 @@ NOTE: No preferred version should be set for linux-local provider.
 
 2.3.7. Enable "multilib" support if desired.
 
-    DISTRO_FEATURES_append = " multilib"
+    DISTRO_FEATURES:append = " multilib"
 
 2.3.8. Add simics support (for large and sim images). This will install
     simicsfs-client and simics-agent in rootfs. If enabled, it's mandatory
     to set the SIMICS version.
 
-    DISTRO_FEATURES_append = " simics"
+    DISTRO_FEATURES:append = " simics"
     SIMICS_VERSION = "<simics-version>"
 
     Sources tgz archive should be copied in meta-intel-distro/downloads
@@ -284,7 +284,7 @@ NOTE: No preferred version should be set for linux-local provider.
 2.3.9. Choose a different GCC version to use: 9.% (gcc9 feature) or 10.%
     (gcc10 feature) via distro features. Default version is 11.%.
 
-    DISTRO_FEATURES_append = " gcc9"
+    DISTRO_FEATURES:append = " gcc9"
     
 2.3.10. Select the version of python3 to use: 3.9 (default), 3.8 or 3.6.
 
@@ -316,7 +316,7 @@ MACHINE = "intel-axxia-snr"
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 PREFERRED_VERSION_linux-intel = "5.10%"
 DISTRO = "intel-axxia"
-DISTRO_FEATURES_append = " simics"
+DISTRO_FEATURES:append = " simics"
 PACKAGE_CLASSES ?= "package_rpm"
 EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
 USER_CLASSES ?= "buildstats image-mklibs image-prelink"
@@ -330,8 +330,8 @@ BB_DISKMON_DIRS = "\
     ABORT,${DL_DIR},100M,1K \
     ABORT,${SSTATE_DIR},100M,1K \
     ABORT,/tmp,10M,1K"
-PACKAGECONFIG_append_pn-qemu-native = " sdl"
-PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
+PACKAGECONFIG:append:pn-qemu-native = " sdl"
+PACKAGECONFIG:append:pn-nativesdk-qemu = " sdl"
 CONF_VERSION = "1"
 
 

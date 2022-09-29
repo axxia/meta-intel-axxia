@@ -1,35 +1,35 @@
-FILESEXTRAPATHS_prepend := "\
+FILESEXTRAPATHS:prepend := "\
 :${THISDIR}/patches/${KERNEL_MAJOR_VERSION}\
 :${THISDIR}/frags/${KERNEL_MAJOR_VERSION}:"
 
 KERNEL_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 
-KMACHINE_intel-axxia-grr = "intel-corei7-64"
-KMACHINE_intel-axxia-snr = "intel-corei7-64"
-COMPATIBLE_MACHINE_intel-axxia-grr = "${MACHINE}"
-COMPATIBLE_MACHINE_intel-axxia-snr = "${MACHINE}"
+KMACHINE:intel-axxia-grr = "intel-corei7-64"
+KMACHINE:intel-axxia-snr = "intel-corei7-64"
+COMPATIBLE_MACHINE:intel-axxia-grr = "${MACHINE}"
+COMPATIBLE_MACHINE:intel-axxia-snr = "${MACHINE}"
 
-SRC_URI_append_intel-axxia-snr = " ${SNR_PATCHES}"
-SRC_URI_append_intel-axxia-grr = " ${GRR_PATCHES}"
-SRC_URI_append = " file://common.scc"
+SRC_URI:append:intel-axxia-snr = " ${SNR_PATCHES}"
+SRC_URI:append:intel-axxia-grr = " ${GRR_PATCHES}"
+SRC_URI:append = " file://common.scc"
 
 # If this kernel package is not set as virtual/kernel provider,
 # allow to be used as alternative kernel.
 KERNEL_PACKAGE_NAME = "${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
 		       '${PN}', 'kernel', 'altkernel-${PN}', d)}"
 
-do_configure_append() {
+do_configure:append() {
 	if [ "${RELEASE_VERSION}" != "" ]; then
 		sed -i s@UTS_VERSION=\"\#\$VERSION\"@UTS_VERSION=\"${RELEASE_VERSION}\ \#\$VERSION\"@g \
 			${STAGING_KERNEL_DIR}/scripts/mkcompile_h
 	fi
 }
 
-do_install_append() {
+do_install:append() {
 	depmod -a -b ${D} -F ${D}/boot/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
 }
 
-do_shared_workdir_append() {
+do_shared_workdir:append() {
 	if [ "${KERNEL_PACKAGE_NAME}" != "kernel" ]; then
 		# Expose kernel tree in work-shared if not preferred provider for virtual/kernel
 		rm -f ${TMPDIR}/work-shared/${MACHINE}/kernel-*-${PN}
@@ -38,7 +38,7 @@ do_shared_workdir_append() {
 	fi
 }
 
-kernel_do_deploy_append() {
+kernel_do_deploy:append() {
 	install -d ${DEPLOYDIR}
 	install -m 0644 ${KBUILD_OUTPUT}/System.map \
 		${DEPLOYDIR}/System-${PN}${KERNEL_ARTIFACT_NAME}.map
@@ -52,7 +52,7 @@ kernel_do_deploy_append() {
 KERNEL_MODULE_AUTOLOAD += "openvswitch kvm"
 KERNEL_EXTRA_FEATURES = ""
 
-FILES_${KERNEL_PACKAGE_NAME}-modules += "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.*"
+FILES:${KERNEL_PACKAGE_NAME}-modules += "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.*"
 
 # Clean alternative kernels if virtual/kernel's clean or cleansstate is run
 ALTERNATIVE_KERNELS_CLEAN ??= ""

@@ -9,7 +9,7 @@ RDK_REPO_REV ?= ""
 RDK_REPO_SRC_URI ?= "git://${@d.getVar('RDK_REPO').replace('https://','')};protocol=https;nobranch=1"
 SRCREV = "${RDK_REPO_REV}"
 
-FILESEXTRAPATHS_prepend := "${LAYER_PATH_meta-intel-rdk}/downloads:"
+FILESEXTRAPATHS:prepend := "${LAYER_PATH_meta-intel-rdk}/downloads:"
 RDK_TOOLS_ARCHIVE ?= "file://rdk_user_src.tar.xz"
 BB_STRICT_CHECKSUM = "0"
 
@@ -22,7 +22,7 @@ PR = "${RDK_TOOLS_VERSION}"
 DEPENDS = "virtual/kernel libnl libpcap openssl rsync-native thrift meson-native \
 	   ${@oe.utils.conditional('RDK_LTTNG_ENABLE', 'true', 'lttng-ust lttng-tools', '', d)}"
 
-RDEPENDS_${PN} += "${@oe.utils.conditional('RDK_LTTNG_ENABLE', 'true', 'lttng-ust lttng-tools', '', d)}"
+RDEPENDS:${PN} += "${@oe.utils.conditional('RDK_LTTNG_ENABLE', 'true', 'lttng-ust lttng-tools', '', d)}"
 
 S = "${@oe.utils.conditional('USE_RDK_REPO', 'false', "${WORKDIR}/rdk", "${WORKDIR}/git/rdk", d)}"
 
@@ -91,15 +91,15 @@ do_install () {
 
 PACKAGES += "rdk-firmware"
 
-FILES_rdk-firmware = " ${nonarch_base_libdir}/firmware"
+FILES:rdk-firmware = " ${nonarch_base_libdir}/firmware"
 ALLOW_EMPTY_rdk-firmware = "1"
 
-FILES_${PN}-dev = " ${includedir} \
+FILES:${PN}-dev = " ${includedir} \
 	${libdir}/libies*.so \
 	${libdir}/*.la"
 
-FILES_${PN} = " ${bindir} ${sysconfdir} ${libdir}"
+FILES:${PN} = " ${bindir} ${sysconfdir} ${libdir}"
 
-INSANE_SKIP_${PN} = "already-stripped ldflags dev-deps"
+INSANE_SKIP:${PN} = "already-stripped ldflags dev-deps"
 
 BBCLASSEXTEND = "native nativesdk"

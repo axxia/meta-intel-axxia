@@ -19,6 +19,6 @@ EXTRA_OECONF += "--disable-builddir"
 
 inherit autotools texinfo
 
-FILES_${PN}-dev += "${libdir}/libffi-${PV}"
+FILES:${PN}-dev += "${libdir}/libffi-${PV}"
 
 BBCLASSEXTEND = "native nativesdk"

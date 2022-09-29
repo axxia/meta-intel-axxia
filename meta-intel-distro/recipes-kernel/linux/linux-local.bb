@@ -18,13 +18,13 @@ require recipes-kernel/linux/linux-yocto.inc \
 
 LINUX_VERSION_EXTENSION = "-intel-axxia-local-dev"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}:"
 
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-or-later;md5=fed54355545ffd980b814dab4a3b312c"
 
 PV = "dev-version"
 
-DEPENDS_append = " elfutils-native openssl-native util-linux-native"
+DEPENDS:append = " elfutils-native openssl-native util-linux-native"
 
 SRCREV_machine = "${AUTOREV}"
 
@@ -35,6 +35,6 @@ SRC_URI = " \
 
 do_kernel_configme[depends] += "${PN}:do_prepare_recipe_sysroot"
 
-COMPATIBLE_MACHINE_intel-axxia-snr = "${MACHINE}"
-COMPATIBLE_MACHINE_intel-axxia-grr = "${MACHINE}"
+COMPATIBLE_MACHINE:intel-axxia-snr = "${MACHINE}"
+COMPATIBLE_MACHINE:intel-axxia-grr = "${MACHINE}"
 KERNEL_VERSION_SANITY_SKIP = "1"

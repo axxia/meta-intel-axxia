@@ -1,1 +1,1 @@
-PACKAGECONFIG_append = " virtfs"
+PACKAGECONFIG:append = " virtfs"

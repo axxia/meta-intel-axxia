@@ -18,4 +18,4 @@ do_install () {
 	cp -P ${S}/lib64/libcrypt.so* ${D}${libdir}
 }
 
-INSANE_SKIP_${PN} = "already-stripped"
+INSANE_SKIP:${PN} = "already-stripped"

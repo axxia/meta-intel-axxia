@@ -4,10 +4,10 @@ RDK_REPO_REV ?= ""
 RDK_REPO_SRC_URI ?= "git://${@d.getVar('RDK_REPO').replace('https://','')};protocol=https;nobranch=1;name=rdk;subpath=rdk/klm;destsuffix=rdk/klm"
 SRCREV_rdk = "${RDK_REPO_REV}"
 
-FILESEXTRAPATHS_prepend := "${LAYER_PATH_meta-intel-rdk}/downloads:${THISDIR}/frags:"
+FILESEXTRAPATHS:prepend := "${LAYER_PATH_meta-intel-rdk}/downloads:${THISDIR}/frags:"
 RDK_KLM_ARCHIVE ?= "file://rdk_klm_src.tar.xz"
 
-SRC_URI_append = " ${@oe.utils.conditional('USE_RDK_REPO', 'false', '${RDK_KLM_ARCHIVE}', '${RDK_REPO_SRC_URI}', d)} \
+SRC_URI:append = " ${@oe.utils.conditional('USE_RDK_REPO', 'false', '${RDK_KLM_ARCHIVE}', '${RDK_REPO_SRC_URI}', d)} \
                    file://rdk-modules.scc "
 
 BB_STRICT_CHECKSUM = "0"
@@ -15,7 +15,7 @@ BB_STRICT_CHECKSUM = "0"
 # Ignore RDK kernel option warnings
 KCONF_BSP_AUDIT_LEVEL = "0"
 
-DEPENDS_append = " rsync-native"
+DEPENDS:append = " rsync-native"
 
 do_patch_rdk_modules () {
     STAGING_PATH="drivers/staging/intel"
@@ -131,12 +131,12 @@ do_patch_rdk_modules () {
 addtask do_patch_rdk_modules after do_patch before do_kernel_configme
 do_kernel_configme[depends] += "${PN}:do_patch_rdk_modules"
 
-do_install_append() {
+do_install:append() {
      install -d ${D}/usr/kernel-headers
      make headers_install INSTALL_HDR_PATH="${D}/usr/kernel-headers"
 }
 
-kernel_do_deploy_append() {
+kernel_do_deploy:append() {
     # Store RDK KLM version in a shared location (STAGING_KERNEL_BUILDDIR)
     # to be availabe from external modules recipes such as lttng-modules
     # when RDK_KLM_VERSION is not set from local.conf
@@ -144,7 +144,7 @@ kernel_do_deploy_append() {
         mv ${WORKDIR}/rdk-klm-version ${STAGING_KERNEL_BUILDDIR} || 2>/dev/null
 }
 
-sysroot_stage_all_append() {
+sysroot_stage_all:append() {
     # Install headers only for the virtual/kernel provider
     if [ "${KERNEL_PACKAGE_NAME}" = "kernel" ]; then
         KERNEL_HEADERS="${SYSROOT_DESTDIR}/usr/kernel-headers"
@@ -162,4 +162,4 @@ sysroot_stage_all_append() {
 }
 
 PACKAGES += "${PN}-kernel-headers"
-FILES_${PN}-kernel-headers = "/usr/kernel-headers"
+FILES:${PN}-kernel-headers = "/usr/kernel-headers"

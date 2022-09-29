@@ -98,11 +98,11 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 
 # Add simics support (sources should be in meta-intel-distro/download)
 # and set simics version to compile (mandatory).
-#DISTRO_FEATURES_append = " simics"
+#DISTRO_FEATURES:append = " simics"
 #SIMICS_VERSION = ""
 
 # Enable "multilib"
-#DISTRO_FEATURES_append = " multilib"
+#DISTRO_FEATURES:append = " multilib"
 
 #
 # Package Management configuration
@@ -250,14 +250,14 @@ BB_DISKMON_DIRS ??= "\
 #
 # By default native qemu will build with a builtin VNC server where graphical output can be
 # seen. The line below enables the SDL UI frontend too.
-PACKAGECONFIG_append_pn-qemu-system-native = " sdl"
+PACKAGECONFIG:append_pn-qemu-system-native = " sdl"
 # By default libsdl2-native will be built, if you want to use your host's libSDL instead of 
 # the minimal libsdl built by libsdl2-native then uncomment the ASSUME_PROVIDED line below.
 #ASSUME_PROVIDED += "libsdl2-native"
 
 # You can also enable the Gtk UI frontend, which takes somewhat longer to build, but adds
 # a handy set of menus for controlling the emulator.
-#PACKAGECONFIG_append_pn-qemu-system-native = " gtk+"
+#PACKAGECONFIG:append_pn-qemu-system-native = " gtk+"
 
 #
 # Hash Equivalence
@@ -306,8 +306,8 @@ CONF_VERSION = "1"
 
 # If you want to get an image based on directfb without x11 alter
 # DISTRO_FEATURES:
-DISTRO_FEATURES_append = " directfb"
-DISTRO_FEATURES_remove = "x11"
+DISTRO_FEATURES:append = " directfb"
+DISTRO_FEATURES:remove = "x11"
 
 # ENABLE_BINARY_LOCALE_GENERATION controls the generation of binary locale
 # packages at build time using qemu-native. Disabling it (by setting it to 0)
@@ -660,7 +660,7 @@ DISTRO_FEATURES_remove = "x11"
 #
 # Use systemd for system initialization
 #
-#DISTRO_FEATURES_append = " systemd"
+#DISTRO_FEATURES:append = " systemd"
 #DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
 #VIRTUAL-RUNTIME_login_manager = "shadow-base"
 #VIRTUAL-RUNTIME_init_manager = "systemd"

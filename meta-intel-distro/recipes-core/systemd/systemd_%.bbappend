@@ -1,6 +1,6 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/systemd:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/systemd:"
 
-SRC_URI_append = " file://10-eth.link \
+SRC_URI:append = " file://10-eth.link \
 	file://20-nac.link \
 	file://21-nac.link \
 	file://22-nac.link \
@@ -23,7 +23,7 @@ SRC_URI_append = " file://10-eth.link \
 	file://39-nac.link \
 	file://99-default.link"
 
-do_install_append() {
+do_install:append() {
 	install -d ${D}${sysconfdir}
 	install -m 0644 ${WORKDIR}/10-eth.link ${D}${sysconfdir}/systemd/network/10-eth.link
 	install -m 0644 ${WORKDIR}/20-nac.link ${D}${sysconfdir}/systemd/network/20-nac.link

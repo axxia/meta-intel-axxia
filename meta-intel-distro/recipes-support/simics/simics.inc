@@ -4,7 +4,7 @@ LICENSE = "CLOSED"
 SIMICS_VERSION ?= "generic"
 PV = "${SIMICS_VERSION}"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/../../downloads:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/../../downloads:"
 
 SRC_URI = "file://simics-${PV}.tgz"
 

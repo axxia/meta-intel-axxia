@@ -1,4 +1,4 @@
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
 linux-firmware-klm-qat \
 ${PREFERRED_PROVIDER_virtual/kernel}-kernel-headers \
 ${@bb.utils.contains('DISTRO_FEATURES', 'rdk-userspace', \

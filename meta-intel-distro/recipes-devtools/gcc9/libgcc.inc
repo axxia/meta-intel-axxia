@@ -2,7 +2,7 @@ require libgcc-common.inc
 
 DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}g++ virtual/${MLPREFIX}libc"
 
-do_install_append_class-target () {
+do_install:append_class-target () {
 	if [ "${TCLIBC}" != "glibc" ]; then
 		case "${TARGET_OS}" in
 			"linux-musl" | "linux-*spe") extra_target_os="linux";;
@@ -37,7 +37,7 @@ LICENSE_${PN}-dev = "GPL-3.0-with-GCC-exception"
 LICENSE_${PN}-dbg = "GPL-3.0-with-GCC-exception"
 
 
-FILES_${PN}-dev = "\
+FILES:${PN}-dev = "\
     ${base_libdir}/libgcc*.so \
     ${@oe.utils.conditional('BASETARGET_SYS', '${TARGET_SYS}', '', '${libdir}/${BASETARGET_SYS}', d)} \
     ${libdir}/${TARGET_SYS}/${BINV}* \

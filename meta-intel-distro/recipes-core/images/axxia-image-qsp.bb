@@ -8,7 +8,7 @@ packagegroup-core-boot \
 ${CORE_IMAGE_EXTRA_INSTALL} \
 "
 
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
 axxia-rc-local \
 gdbserver \
 inetutils \
@@ -31,9 +31,9 @@ lib32-libgcc \
 lib32-libubsan \
 "
 
-TOOLCHAIN_TARGET_TASK_append = " kernel-devsrc"
+TOOLCHAIN_TARGET_TASK:append = " kernel-devsrc"
 
-TOOLCHAIN_HOST_TASK_append = " nativesdk-elfutils-dev"
+TOOLCHAIN_HOST_TASK:append = " nativesdk-elfutils-dev"
 
 LICENSE = "MIT"
 

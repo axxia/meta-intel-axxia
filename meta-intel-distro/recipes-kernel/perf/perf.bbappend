@@ -1,10 +1,10 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
 DEPENDS += "python3-setuptools-native"
 
-RDEPENDS_${PN}-tests =+ "bash"
+RDEPENDS:${PN}-tests =+ "bash"
 
-do_configure_append () {
+do_configure:append () {
     # the fetcher is inhibited by the 'inherit kernelsrc', so we do a quick check and
     # copy for a helper script we need
     for p in $(echo ${FILESPATH} | tr ':' '\n'); do

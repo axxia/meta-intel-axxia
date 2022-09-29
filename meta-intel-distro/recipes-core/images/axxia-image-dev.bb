@@ -6,7 +6,7 @@ require axxia-image.inc
 require ${@bb.utils.contains('BBFILE_COLLECTIONS', 'intel-rdk', \
 			     'axxia-rdk.inc', '', d)}
 
-IMAGE_FEATURES_append = " \
+IMAGE_FEATURES:append = " \
 dev-pkgs \
 tools-sdk \
 tools-debug \
@@ -414,7 +414,7 @@ lib32-libxdmcp \
 lib32-libxml2 \
 "
 
-TOOLCHAIN_TARGET_TASK_append = " \
+TOOLCHAIN_TARGET_TASK:append = " \
 binutils-staticdev \
 elfutils-dev \
 libc-staticdev \
@@ -432,7 +432,7 @@ xz-dev"
 
 SDKIMAGE_FEATURES = "dev-pkgs dbg-pkgs staticdev-pkgs"
 
-TOOLCHAIN_HOST_TASK_append = " \
+TOOLCHAIN_HOST_TASK:append = " \
 nativesdk-bison \
 nativesdk-elfutils-dev \
 nativesdk-flex \

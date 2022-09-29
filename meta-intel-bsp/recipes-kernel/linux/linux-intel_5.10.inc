@@ -31,12 +31,12 @@ file://GRR-mei-kdoc-fix-partial-back-port.patch \
 file://GRR-mei-me-disable-driver-on-the-ign-firmware.patch \
 "
 
-LINUX_VERSION_pn-linux-intel = "${LINUX_VERSION_standard}"
-LINUX_VERSION_pn-linux-intel-debug = "${LINUX_VERSION_standard}"
-LINUX_VERSION_pn-linux-intel-rt = "${LINUX_VERSION_preempt-rt}"
-LINUX_VERSION_pn-linux-intel-rt-debug = "${LINUX_VERSION_preempt-rt}"
+LINUX_VERSION:pn-linux-intel = "${LINUX_VERSION_standard}"
+LINUX_VERSION:pn-linux-intel-debug = "${LINUX_VERSION_standard}"
+LINUX_VERSION:pn-linux-intel-rt = "${LINUX_VERSION_preempt-rt}"
+LINUX_VERSION:pn-linux-intel-rt-debug = "${LINUX_VERSION_preempt-rt}"
 
-SRCREV_machine_pn-linux-intel = "${SRCREV_standard}"
-SRCREV_machine_pn-linux-intel-debug = "${SRCREV_standard}"
-SRCREV_machine_pn-linux-intel-rt = "${SRCREV_preempt-rt}"
-SRCREV_machine_pn-linux-intel-rt-debug = "${SRCREV_preempt-rt}"
+SRCREV_machine:pn-linux-intel = "${SRCREV_standard}"
+SRCREV_machine:pn-linux-intel-debug = "${SRCREV_standard}"
+SRCREV_machine:pn-linux-intel-rt = "${SRCREV_preempt-rt}"
+SRCREV_machine:pn-linux-intel-rt-debug = "${SRCREV_preempt-rt}"

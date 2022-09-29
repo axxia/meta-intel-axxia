@@ -32,4 +32,4 @@ do_install(){
     cp -rf ${S}/examples ${D}/opt/aer-inject/
 }
 
-FILES_${PN} += "/opt"
+FILES:${PN} += "/opt"

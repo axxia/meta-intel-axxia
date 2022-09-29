@@ -91,7 +91,7 @@ in conf/local.conf:
 
 3.1. Enable RDK userspace support (optional)
 
-     DISTRO_FEATURES_append = " rdk-userspace"
+     DISTRO_FEATURES:append = " rdk-userspace"
 
 3.2. If RDK userspace feature is included, set the release info for 
      rdk-tools package as follows.
@@ -154,11 +154,11 @@ in conf/local.conf:
 
 3.8. Autoload RDK modules (disabled from blacklist.conf)
 
-     KERNEL_MODULE_AUTOLOAD_append = " hqm"
-     KERNEL_MODULE_AUTOLOAD_append = " igb"
-     KERNEL_MODULE_AUTOLOAD_append = " qat_c4xxx"
-     KERNEL_MODULE_AUTOLOAD_append = " intel_qat"
-     KERNEL_MODULE_AUTOLOAD_append = " ice_sw"
+     KERNEL_MODULE_AUTOLOAD:append = " hqm"
+     KERNEL_MODULE_AUTOLOAD:append = " igb"
+     KERNEL_MODULE_AUTOLOAD:append = " qat_c4xxx"
+     KERNEL_MODULE_AUTOLOAD:append = " intel_qat"
+     KERNEL_MODULE_AUTOLOAD:append = " ice_sw"
 
 3.9. Header files exported by KLM to user space can be accessed as
      follows.  When cross-compiling, add the following to the compile

@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENSE_GPL_2_0;md5=fa69eb765efdca4a83cd19e915db9ab0"
 
 DEPENDS = "asciidoc-native xmlto-native util-linux json-c kmod udev"
 
-RDEPENDS_${PN} = "bash"
+RDEPENDS:${PN} = "bash"
 
 SRCREV = "ec787d78dfbc65e501cc53a4151402f7ad7ec138"
 PV = "3.4.1"
@@ -24,8 +24,8 @@ S = "${WORKDIR}/git"
 
 inherit autotools-brokensep gettext
 
-EXTRA_OECONF_append = " --enable-test=yes --disable-docs"
+EXTRA_OECONF:append = " --enable-test=yes --disable-docs"
 
-do_configure_prepend() {
+do_configure:prepend() {
 	(cd ${S}; ./autogen.sh; cd -)
 }

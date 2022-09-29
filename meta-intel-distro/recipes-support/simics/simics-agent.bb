@@ -11,4 +11,4 @@ do_install () {
 	install -m 0755 ${S}/simics-agent  ${D}${bindir}
 }
 
-FILES_${PN} = "${bindir}"
+FILES:${PN} = "${bindir}"

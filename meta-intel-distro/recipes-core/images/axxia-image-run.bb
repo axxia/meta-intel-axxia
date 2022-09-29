@@ -9,7 +9,7 @@ packagegroup-core-boot \
 ${CORE_IMAGE_EXTRA_INSTALL} \
 "
 
-IMAGE_INSTALL_append = " \
+IMAGE_INSTALL:append = " \
 accel-config \
 axxia-rc-local \
 babeltrace \
@@ -105,11 +105,11 @@ lib32-libubsan \
 lib32-libudev \
 "
 
-IMAGE_FEATURES_append = " dev-pkgs"
+IMAGE_FEATURES:append = " dev-pkgs"
 
-TOOLCHAIN_TARGET_TASK_append = " kernel-devsrc"
+TOOLCHAIN_TARGET_TASK:append = " kernel-devsrc"
 
-TOOLCHAIN_HOST_TASK_append = " nativesdk-elfutils-dev"
+TOOLCHAIN_HOST_TASK:append = " nativesdk-elfutils-dev"
 
 LICENSE = "MIT"
 
@@ -119,4 +119,4 @@ IMAGE_ROOTFS_SIZE = "16384"
 
 SDKIMAGE_FEATURES = "dev-pkgs dbg-pkgs staticdev-pkgs"
 
-PACKAGE_EXCLUDE_append = "libxcrypt-compat-dev"
+PACKAGE_EXCLUDE:append = "libxcrypt-compat-dev"

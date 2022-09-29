@@ -12,7 +12,7 @@ do_install() {
         install -d "${D}/media/rfs/rw"
 }
 
-FILES_${PN} += " /init-readonly-overlay /media/rfs"
+FILES:${PN} += " /init-readonly-overlay /media/rfs"
 
 # Due to kernel dependency
 PACKAGE_ARCH = "${MACHINE_ARCH}"

@@ -1,4 +1,4 @@
-do_install_prepend () {
+do_install:prepend () {
 # Add HOST_EXTRACFLAGS export line in SDK environment-setup scripts
 
 line='export HOST_EXTRACFLAGS="-I./tools/include \\\
@@ -18,7 +18,7 @@ for file in $(ls ${SDK_OUTPUT}/${SDKPATH}/environment-setup-*); do
 done
 }
 
-do_install_append () {
+do_install:append () {
 # Create external-modules-setup script
 cat << 'EOF' > ${D}${SDKPATH}/external-modules-setup.sh
 #!/bin/sh

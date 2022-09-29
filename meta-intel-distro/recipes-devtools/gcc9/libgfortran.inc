@@ -58,8 +58,8 @@ LICENSE_${PN} = "GPL-3.0-with-GCC-exception"
 LICENSE_${PN}-dev = "GPL-3.0-with-GCC-exception"
 LICENSE_${PN}-dbg = "GPL-3.0-with-GCC-exception"
 
-FILES_${PN} = "${libdir}/libgfortran.so.*"
-FILES_${PN}-dev = "\
+FILES:${PN} = "${libdir}/libgfortran.so.*"
+FILES:${PN}-dev = "\
     ${libdir}/libgfortran*.so \
     ${libdir}/libgfortran.spec \
     ${libdir}/libgfortran.la \
@@ -68,7 +68,7 @@ FILES_${PN}-dev = "\
     ${libdir}/gcc/${TARGET_SYS}/${BINV}/finclude/ \
     ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/ \
 "
-FILES_${PN}-staticdev = "${libdir}/libgfortran.a"
+FILES:${PN}-staticdev = "${libdir}/libgfortran.a"
 
 INSANE_SKIP_${MLPREFIX}libgfortran-dev = "staticdev"
 

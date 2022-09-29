@@ -24,10 +24,10 @@ SRC_URI[md5sum] = "902fca3a94907efe4e929b2ade545a7c"
 SRC_URI[sha256sum] = "b4dc951c3743a60e2e120a77892e9e864fb936b2e58e7c77e8581f4d050e8cd8"
 
 DEPENDS = "libgpg-error libassuan"
-RDEPENDS_${PN}-cpp += "libstdc++"
+RDEPENDS:${PN}-cpp += "libstdc++"
 
-RDEPENDS_python2-gpg += "python-unixadmin"
-RDEPENDS_python3-gpg += "python3-unixadmin"
+RDEPENDS:python2-gpg += "python-unixadmin"
+RDEPENDS:python3-gpg += "python3-unixadmin"
 
 BINCONFIG = "${bindir}/gpgme-config"
 
@@ -69,15 +69,15 @@ PACKAGES =+ "${PN}-cpp"
 PACKAGES =. "${@bb.utils.contains('PACKAGECONFIG', 'python2', 'python2-gpg ', '', d)}"
 PACKAGES =. "${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3-gpg ', '', d)}"
 
-FILES_${PN}-cpp = "${libdir}/libgpgmepp.so.*"
-FILES_python2-gpg = "${PYTHON_SITEPACKAGES_DIR}/*"
-FILES_python3-gpg = "${PYTHON_SITEPACKAGES_DIR}/*"
-FILES_${PN}-dev += "${datadir}/common-lisp/source/gpgme/* \
+FILES:${PN}-cpp = "${libdir}/libgpgmepp.so.*"
+FILES:python2-gpg = "${PYTHON_SITEPACKAGES_DIR}/*"
+FILES:python3-gpg = "${PYTHON_SITEPACKAGES_DIR}/*"
+FILES:${PN}-dev += "${datadir}/common-lisp/source/gpgme/* \
                     ${libdir}/cmake/* \
 "
 
-CFLAGS_append_libc-musl = " -D__error_t_defined "
-do_configure_prepend () {
+CFLAGS:append_libc-musl = " -D__error_t_defined "
+do_configure:prepend () {
 	# Else these could be used in preference to those in aclocal-copy
 	rm -f ${S}/m4/gpg-error.m4
 	rm -f ${S}/m4/libassuan.m4

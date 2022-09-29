@@ -23,11 +23,11 @@ IMAGE_FSTYPES += "wic"
 WKS_FILE = "${@bb.utils.contains_any("EFI_PROVIDER", "systemd-boot", \
 	   "axxia-systemd-bootdisk-microcode.wks", \
 	   "axxia-grub-bootdisk-microcode.wks", d)}"
-WKS_FILE_DEPENDS_append = " intel-microcode"
+WKS_FILE_DEPENDS:append = " intel-microcode"
 
 # QEMU usermode fails with invalid instruction error
-MACHINE_FEATURES_BACKFILL_CONSIDERED_append = " qemu-usermode"
+MACHINE_FEATURES_BACKFILL_CONSIDERED:append = " qemu-usermode"
 # Disable 'update_gio_module_cache 'and 'update_font_cache' postinstall
 # intercept hooks because of missing qemu usermode support
-GIO_MODULE_PACKAGES_forcevariable = ""
-FONT_PACKAGES_forcevariable = ""
+GIO_MODULE_PACKAGES:forcevariable = ""
+FONT_PACKAGES:forcevariable = ""

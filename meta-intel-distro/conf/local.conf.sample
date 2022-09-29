@@ -7,14 +7,14 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 
 # Add simics support (sources should be in meta-intel-distro/download)
 # and set simics version to compile (mandatory).
-#DISTRO_FEATURES_append = " simics"
+#DISTRO_FEATURES:append = " simics"
 #SIMICS_VERSION = ""
 
 # Enable "multilib"
-#DISTRO_FEATURES_append = " multilib"
+#DISTRO_FEATURES:append = " multilib"
 
 # Choose GCC version: 9.% (gcc9) or 10.% (gcc10). Default version: 11.%
-#DISTRO_FEATURES_append = " gcc9"
+#DISTRO_FEATURES:append = " gcc9"
 
 # Select the version of python3 to use: 3.9 (default), 3.8 or 3.6
 #PYTHON_VERSION = "3.8"
@@ -43,8 +43,8 @@ BB_DISKMON_DIRS = "\
     ABORT,${DL_DIR},100M,1K \
     ABORT,${SSTATE_DIR},100M,1K \
     ABORT,/tmp,10M,1K"
-PACKAGECONFIG_append_pn-qemu-native = " sdl"
-PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
+PACKAGECONFIG:append_pn-qemu-native = " sdl"
+PACKAGECONFIG:append_pn-nativesdk-qemu = " sdl"
 CONF_VERSION = "1"
 
 # For more options check meta-intel-distro layer for README and 

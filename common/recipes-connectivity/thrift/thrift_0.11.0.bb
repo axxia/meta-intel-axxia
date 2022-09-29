@@ -54,7 +54,7 @@ do_configure() {
 	sed -i "s/SUBDIRS = . test/SUBDIRS = ./g" lib/c_glib/Makefile.*
 }
 
-do_install_append () {
+do_install:append () {
 	ln -sf thrift ${D}/${bindir}/thrift-compiler
 }
 
@@ -62,15 +62,15 @@ LEAD_SONAME = "libthrift-${PV}.so"
 
 # thrift packages
 PACKAGES =+ "${PN}-compiler lib${BPN}z lib${BPN}nb lib${BPN}-c-glib lib${BPN}"
-FILES_lib${BPN}z = "${libdir}/libthriftz-*.so"
-FILES_lib${BPN}nb = "${libdir}/libthriftnb-*.so"
-FILES_lib${BPN}-c-glib = "${libdir}/libthrift_c_glib.so.0.*"
-FILES_lib${BPN} = "${libdir}/libthrift-*.so"
-FILES_${PN}-dev += "${libdir}/*.so*"
-FILES_${PN}-compiler = "${bindir}/*"
+FILES:lib${BPN}z = "${libdir}/libthriftz-*.so"
+FILES:lib${BPN}nb = "${libdir}/libthriftnb-*.so"
+FILES:lib${BPN}-c-glib = "${libdir}/libthrift_c_glib.so.0.*"
+FILES:lib${BPN} = "${libdir}/libthrift-*.so"
+FILES:${PN}-dev += "${libdir}/*.so*"
+FILES:${PN}-compiler = "${bindir}/*"
 
 # The thrift packages just pulls in some default dependencies but is otherwise empty
-RRECOMMENDS_${PN} = "${PN}-compiler lib${BPN}"
-ALLOW_EMPTY_${PN} = "1"
-RRECOMMENDS_${PN}_class-native = ""
-RRECOMMENDS_${PN}_class-nativesdk = ""
+RRECOMMENDS:${PN} = "${PN}-compiler lib${BPN}"
+ALLOW_EMPTY:${PN} = "1"
+RRECOMMENDS:${PN}:class-native = ""
+RRECOMMENDS:${PN}:class-nativesdk = ""
