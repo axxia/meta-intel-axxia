@@ -300,6 +300,7 @@ do_install() {
             cp -a --parents arch/x86/tools/gen-insn-attr-x86.awk $kerneldir/build/
             cp -a --parents arch/x86/kvm/*.h $kerneldir/build/
             cp -a --parents arch/x86/kvm/vmx/*.h $kerneldir/build/
+            cp -a --parents arch/x86/kvm/mmu/*.h $kerneldir/build/
         fi
 
         # required files for "modules_prepare" target
