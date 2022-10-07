@@ -6,7 +6,7 @@
 
 DEFAULTTUNE ?= "snr-64"
 
-DEFAULTTUNE_virtclass-multilib-lib32 ?= "snr-32"
+DEFAULTTUNE:virtclass-multilib-lib32 ?= "snr-32"
 MULTILIBS = "multilib:lib32"
 
 # Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
@@ -18,22 +18,22 @@ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'snr', ' -march=tremont -m
 
 # Extra tune selections
 AVAILTUNES += "snr-32"
-TUNE_FEATURES_tune-snr-32 = "${TUNE_FEATURES_tune-x86} snr"
-BASE_LIB_tune-snr-32 = "lib"
-TUNE_PKGARCH_tune-snr-32 = "snr-32"
-PACKAGE_EXTRA_ARCHS_tune-snr-32 = "${PACKAGE_EXTRA_ARCHS_tune-core2-32} snr-32"
+TUNE_FEATURES:tune-snr-32 = "${TUNE_FEATURES:tune-x86} snr"
+BASE_LIB:tune-snr-32 = "lib"
+TUNE_PKGARCH:tune-snr-32 = "snr-32"
+PACKAGE_EXTRA_ARCHS:tune-snr-32 = "${PACKAGE_EXTRA_ARCHS:tune-core2-32} snr-32"
 QEMU_EXTRAOPTIONS_snr-32 = " -cpu Tremont,check=false"
 
 AVAILTUNES += "snr-64"
-TUNE_FEATURES_tune-snr-64 = "${TUNE_FEATURES_tune-x86-64} snr"
-BASE_LIB_tune-snr-64 = "lib64"
-TUNE_PKGARCH_tune-snr-64 = "snr-64"
-PACKAGE_EXTRA_ARCHS_tune-snr-64 = "${PACKAGE_EXTRA_ARCHS_tune-core2-64} snr-64"
+TUNE_FEATURES:tune-snr-64 = "${TUNE_FEATURES:tune-x86-64} snr"
+BASE_LIB:tune-snr-64 = "lib64"
+TUNE_PKGARCH:tune-snr-64 = "snr-64"
+PACKAGE_EXTRA_ARCHS:tune-snr-64 = "${PACKAGE_EXTRA_ARCHS:tune-core2-64} snr-64"
 QEMU_EXTRAOPTIONS_snr-64 = " -cpu Tremont,check=false"
 
 AVAILTUNES += "snr-64-x32"
-TUNE_FEATURES_tune-snr-64-x32 = "${TUNE_FEATURES_tune-x86-64-x32} snr"
-BASE_LIB_tune-snr-64-x32 = "libx32"
-TUNE_PKGARCH_tune-snr-64-x32 = "snr-64-x32"
-PACKAGE_EXTRA_ARCHS_tune-snr-64-x32 = "${PACKAGE_EXTRA_ARCHS_tune-core2-64-x32} snr-64-x32"
+TUNE_FEATURES:tune-snr-64-x32 = "${TUNE_FEATURES:tune-x86-64-x32} snr"
+BASE_LIB:tune-snr-64-x32 = "libx32"
+TUNE_PKGARCH:tune-snr-64-x32 = "snr-64-x32"
+PACKAGE_EXTRA_ARCHS:tune-snr-64-x32 = "${PACKAGE_EXTRA_ARCHS:tune-core2-64-x32} snr-64-x32"
 QEMU_EXTRAOPTIONS_snr-64-x32 = " -cpu Tremont,check=false"

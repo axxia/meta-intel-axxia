@@ -6,7 +6,7 @@
 
 DEFAULTTUNE ?= "grr-64"
 
-DEFAULTTUNE_virtclass-multilib-lib32 ?= "grr-32"
+DEFAULTTUNE:virtclass-multilib-lib32 ?= "grr-32"
 MULTILIBS = "multilib:lib32"
 
 # Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
@@ -18,22 +18,22 @@ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'grr', ' -march=tremont -m
 
 # Extra tune selections
 AVAILTUNES += "grr-32"
-TUNE_FEATURES_tune-grr-32 = "${TUNE_FEATURES_tune-x86} grr"
-BASE_LIB_tune-grr-32 = "lib"
-TUNE_PKGARCH_tune-grr-32 = "grr-32"
-PACKAGE_EXTRA_ARCHS_tune-grr-32 = "${PACKAGE_EXTRA_ARCHS_tune-core2-32} grr-32"
+TUNE_FEATURES:tune-grr-32 = "${TUNE_FEATURES:tune-x86} grr"
+BASE_LIB:tune-grr-32 = "lib"
+TUNE_PKGARCH:tune-grr-32 = "grr-32"
+PACKAGE_EXTRA_ARCHS:tune-grr-32 = "${PACKAGE_EXTRA_ARCHS:tune-core2-32} grr-32"
 QEMU_EXTRAOPTIONS_grr-32 = " -cpu Tremont,check=false"
 
 AVAILTUNES += "grr-64"
-TUNE_FEATURES_tune-grr-64 = "${TUNE_FEATURES_tune-x86-64} grr"
-BASE_LIB_tune-grr-64 = "lib64"
-TUNE_PKGARCH_tune-grr-64 = "grr-64"
-PACKAGE_EXTRA_ARCHS_tune-grr-64 = "${PACKAGE_EXTRA_ARCHS_tune-core2-64} grr-64"
+TUNE_FEATURES:tune-grr-64 = "${TUNE_FEATURES:tune-x86-64} grr"
+BASE_LIB:tune-grr-64 = "lib64"
+TUNE_PKGARCH:tune-grr-64 = "grr-64"
+PACKAGE_EXTRA_ARCHS:tune-grr-64 = "${PACKAGE_EXTRA_ARCHS:tune-core2-64} grr-64"
 QEMU_EXTRAOPTIONS_grr-64 = " -cpu Tremont,check=false"
 
 AVAILTUNES += "grr-64-x32"
-TUNE_FEATURES_tune-grr-64-x32 = "${TUNE_FEATURES_tune-x86-64-x32} grr"
-BASE_LIB_tune-grr-64-x32 = "libx32"
-TUNE_PKGARCH_tune-grr-64-x32 = "grr-64-x32"
-PACKAGE_EXTRA_ARCHS_tune-grr-64-x32 = "${PACKAGE_EXTRA_ARCHS_tune-core2-64-x32} grr-64-x32"
+TUNE_FEATURES:tune-grr-64-x32 = "${TUNE_FEATURES:tune-x86-64-x32} grr"
+BASE_LIB:tune-grr-64-x32 = "libx32"
+TUNE_PKGARCH:tune-grr-64-x32 = "grr-64-x32"
+PACKAGE_EXTRA_ARCHS:tune-grr-64-x32 = "${PACKAGE_EXTRA_ARCHS:tune-core2-64-x32} grr-64-x32"
 QEMU_EXTRAOPTIONS_grr-64-x32 = " -cpu Tremont,check=false"
