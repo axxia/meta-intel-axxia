@@ -93,7 +93,6 @@ DISTRO = "intel-axxia"
 # RELEASE_VERSION = ""
 
 # Kernel providers: linux-intel, linux-intel-rt, linux-intel-debug, linux-intel-rt-debug
-# linux-yocto, linux-yocto-rt, linux-yocto-debug, linux-yocto-rt-debug
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 
 # Add simics support (sources should be in meta-intel-distro/download)

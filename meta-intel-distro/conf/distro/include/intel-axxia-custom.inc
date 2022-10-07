@@ -6,13 +6,6 @@ ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
 	'linux-intel-debug', '',    ' linux-intel-debug', d)}\
 "
 
-YOCTO_ALTERNATIVE_KERNELS ?= "\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-yocto', '',          ' linux-yocto', d)}\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-yocto-debug', '',    ' linux-yocto-debug', d)}\
-"
-
 LOCAL_ALTERNATIVE_KERNELS ?= ""
 
 ALTERNATIVE_KERNELS ?= \
