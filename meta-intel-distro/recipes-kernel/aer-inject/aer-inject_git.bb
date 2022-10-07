@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://README;md5=95cd6a39bf9e2981abfc7c7cfaf5d6dd"
 
 PR = "r1"
 
-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/gong.chen/aer-inject.git;protocol=git \
+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/gong.chen/aer-inject.git;branch=master;protocol=git \
            file://include-libgen-version-of-basename-function.patch \
           "
 
