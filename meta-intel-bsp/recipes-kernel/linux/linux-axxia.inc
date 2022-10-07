@@ -18,6 +18,9 @@ SRC_URI:append = " file://common.scc"
 KERNEL_PACKAGE_NAME = "${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
 		       '${PN}', 'kernel', 'altkernel-${PN}', d)}"
 
+# Alternative kernels should not provide virtual/kernel to be parsed and compiled
+PROVIDES = "${@ "virtual/kernel" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else "" }"
+
 do_configure:append() {
 	if [ "${RELEASE_VERSION}" != "" ]; then
 		sed -i s@UTS_VERSION=\"\#\$VERSION\"@UTS_VERSION=\"${RELEASE_VERSION}\ \#\$VERSION\"@g \
