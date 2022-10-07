@@ -13,9 +13,6 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 # Enable "multilib"
 #DISTRO_FEATURES:append = " multilib"
 
-# Choose GCC version: 9.% (gcc9) or 10.% (gcc10). Default version: 11.%
-#DISTRO_FEATURES:append = " gcc9"
-
 # Select the version of python3 to use: 3.9 (default), 3.8 or 3.6
 #PYTHON_VERSION = "3.8"
 
