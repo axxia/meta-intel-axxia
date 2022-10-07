@@ -13,9 +13,6 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 # Enable "multilib"
 #DISTRO_FEATURES:append = " multilib"
 
-# Select the version of python3 to use: 3.9 (default), 3.8 or 3.6
-#PYTHON_VERSION = "3.8"
-
 # Release version should be the meta-intel-axxia repository tag from release note.
 # RELEASE_VERSION = "" 
 

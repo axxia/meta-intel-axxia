@@ -34,14 +34,4 @@ PREFERRED_VERSION_linux-firmware ?= "20210511"
 
 PREFERRED_VERSION_acpica ?= "20211217"
 
-PYTHON_VERSION ?= "3.9"
-PYTHON_BASEVERSION_forcevariable = "${PYTHON_VERSION}"
-PYTHON_ABI_forcevariable = "${@oe.utils.conditional('PYTHON_VERSION', '3.6', 'm', '', d)}"
-PREFERRED_VERSION_python3 ?= "${PYTHON_VERSION}%"
-PREFERRED_VERSION_python3-native ?= "${PYTHON_VERSION}%"
-PREFERRED_VERSION_nativesdk-python3 ?= "${PYTHON_VERSION}%"
-PREFERRED_VERSION_gpgme = "${@oe.utils.conditional('PYTHON_VERSION', '3.6', '1.12%', '1.15%', d)}"
-PREFERRED_VERSION_gpgme-native = "${PREFERRED_VERSION_gpgme}"
-PREFERRED_VERSION_libffi = "${@oe.utils.conditional('PYTHON_VERSION', '3.6', '3.1', '3.3', d)}"
-
 FORTRAN:forcevariable = ",fortran"
