@@ -52,7 +52,7 @@ I. Back Ported Linux Changes
 ============================
 
 Some changes have been up-streamed, but have not yet been back ported
-to Linux 5.10. Some of these have been added to this meta layer. The
+to Linux 5.15. Some of these have been added to this meta layer. The
 changes are described below. In each case, any changes required are
 described and the publically available patch is referenced. Only changes
 functionally required for internal testing have been back ported.
@@ -64,8 +64,8 @@ In the following descriptions, "with no changes" means that a patch
 was obtained using 'git format-patch -1 <sha>' from the referenced
 respoistory and was applied using 'git am -3 <patch>'.
 
-In the meta layer, the patches for Linux 5.10 can be found in
-meta-intel-bsp/recipes-kernel/linux/patches/5.10.
+In the meta layer, the patches for Linux 5.15 can be found in
+meta-intel-bsp/recipes-kernel/linux/patches/5.15.
 
 
 drivers/watchdog: Ignore 'No Reboot' Bit
