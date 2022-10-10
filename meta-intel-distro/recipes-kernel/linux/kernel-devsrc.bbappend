@@ -20,7 +20,7 @@ do_install() {
     (
         if [ "$S" = "${STAGING_KERNEL_DIR}" ]; then
             cd ${D}/usr/src
-            lnr ${D}${KERNEL_BUILD_ROOT}${KERNEL_VERSION}/source kernel
+            ln -rs ${D}${KERNEL_BUILD_ROOT}${KERNEL_VERSION}/source kernel
         fi
     )
 
@@ -45,7 +45,9 @@ do_install() {
     (
 	cd $B
 
-	cp Module.symvers $kerneldir/build
+	if [ -s Module.symvers ]; then
+	    cp Module.symvers $kerneldir/build
+	fi
 	cp System.map* $kerneldir/build
 	if [ -s Module.markers ]; then
 	    cp Module.markers $kerneldir/build
@@ -82,8 +84,10 @@ do_install() {
 	    fi
 	fi
 
-	if [ "${ARCH}" = "arm64" ]; then
-	    cp -a --parents arch/arm64/kernel/vdso/vdso.lds $kerneldir/build/
+	if [ "${ARCH}" = "arm64" -o "${ARCH}" = "riscv" ]; then
+            if [ -e arch/${ARCH}/kernel/vdso/vdso.lds ]; then
+	        cp -a --parents arch/${ARCH}/kernel/vdso/vdso.lds $kerneldir/build/
+            fi
 	fi
 	if [ "${ARCH}" = "powerpc" ]; then
 	    cp -a --parents arch/powerpc/kernel/vdso32/vdso32.lds $kerneldir/build 2>/dev/null || :
@@ -97,8 +101,12 @@ do_install() {
 	# breaks workflows.
 	cp -a --parents include/generated/autoconf.h $kerneldir/build 2>/dev/null || :
 
-	if [ -e $kerneldir/include/generated/.vdso-offsets.h.cmd ]; then
-	    rm $kerneldir/include/generated/.vdso-offsets.h.cmd
+	if [ -e $kerneldir/include/generated/.vdso-offsets.h.cmd ] ||
+	     [ -e $kerneldir/build/include/generated/.vdso-offsets.h.cmd ] ||
+	     [ -e $kerneldir/build/include/generated/.vdso32-offsets.h.cmd ] ; then
+	    rm -f $kerneldir/include/generated/.vdso-offsets.h.cmd
+	    rm -f $kerneldir/build/include/generated/.vdso-offsets.h.cmd
+	    rm -f $kerneldir/build/include/generated/.vdso32-offsets.h.cmd
 	fi
     )
 
@@ -157,6 +165,14 @@ do_install() {
 	    cp -a --parents arch/${ARCH}/kernel/syscalls/syscallhdr.sh $kerneldir/build/ 2>/dev/null || :
 	    cp -a --parents arch/${ARCH}/kernel/vdso32/* $kerneldir/build/ 2>/dev/null || :
 	    cp -a --parents arch/${ARCH}/kernel/vdso64/* $kerneldir/build/ 2>/dev/null || :
+	fi
+	if [ "${ARCH}" = "riscv" ]; then
+            cp -a --parents arch/riscv/kernel/vdso/*gettimeofday.* $kerneldir/build/
+            cp -a --parents arch/riscv/kernel/vdso/note.S $kerneldir/build/
+            if [ -e arch/riscv/kernel/vdso/gen_vdso_offsets.sh ]; then
+                    cp -a --parents arch/riscv/kernel/vdso/gen_vdso_offsets.sh $kerneldir/build/
+            fi
+	    cp -a --parents arch/riscv/kernel/vdso/* $kerneldir/build/ 2>/dev/null || :
 	fi
 
 	# include the machine specific headers for ARM variants, if available.
