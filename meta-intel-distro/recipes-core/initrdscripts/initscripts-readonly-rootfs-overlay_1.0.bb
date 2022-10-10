@@ -16,3 +16,6 @@ FILES:${PN} += " /init-readonly-overlay /media/rfs"
 
 # Due to kernel dependency
 PACKAGE_ARCH = "${MACHINE_ARCH}"
+
+# Force to install in /media
+INSANE_SKIP:${PN} = "empty-dirs"
