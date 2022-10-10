@@ -9,7 +9,7 @@ The private Intel github.com repositories have the latest. To access
 the private repository, request permission from Intel. Note that the
 private repository is used for development and is not supported.
 
-   $ git clone https://github.com/axxia/meta-intel-axxia_private.git \
+   $ git clone https://github.com/intel-collab/networking.wireless.transport.rdk.board-support.meta-intel-axxia.git \
                meta-intel-axxia
 
 The public Intel repository contains the latest official releases.

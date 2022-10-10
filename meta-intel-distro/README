@@ -61,19 +61,19 @@ II. Building meta-intel-distro
 1.1. Clone the Intel Axxia repository. This provides OpenEmbedded/Yocto
    layers with metadata for building images for the Intel Axxia specific
    reference platforms. See 'Sources' from the main README to select the
-   right repository. Use the 'hardknott' branch or the tag specified in the
+   right repository. Use the 'kirkstone' branch or the tag specified in the
    release notes.
 
    $ cd $YOCTO
-   $ git clone https://github.com/axxia/meta-intel-axxia_private.git \
+   $ git clone https://github.com/intel-collab/networking.wireless.transport.rdk.board-support.meta-intel-axxia.git \
                meta-intel-axxia
    OR
    $ git clone https://github.com/axxia/meta-intel-axxia.git
    $ cd meta-intel-axxia
 
-   If using the 'hardknott' branch.
+   If using the 'kirkstone' branch.
 
-   $ git checkout hardknott
+   $ git checkout kirkstone
 
    If using the tag specified in the releases notes.
 
@@ -142,6 +142,7 @@ below shoud be replaced with the actual value you provided prior).
    BBLAYERS ?= " \
             $YOCTO/poky/meta \
             $YOCTO/poky/meta-poky \
+            $YOCTO/poky/meta-yocto-bsp \
             $YOCTO/meta-openembedded/meta-oe \
             $YOCTO/meta-openembedded/meta-networking \
             $YOCTO/meta-openembedded/meta-filesystems \
@@ -149,7 +150,6 @@ below shoud be replaced with the actual value you provided prior).
             $YOCTO/meta-openembedded/meta-perl \
             $YOCTO/meta-security \
             $YOCTO/meta-security/meta-tpm \
-            $YOCTO/meta-ros \
             $YOCTO/meta-virtualization \
             $YOCTO/meta-intel \
             $YOCTO/meta-intel-axxia/meta-intel-bsp \
@@ -204,7 +204,7 @@ b. Local Kernel repositories (for Linux development)
    LOCAL_KERNEL_BRANCH = "<branch in the repository>"
 
    Then, in the meta-intel-distro layer, add a Linux configuration file
-   next to linux.loca.bb recipe. Copy a full configuration to
+   next to linux-local.bb recipe. Copy a full configuration to
    meta-intel-distro/recipes-kernel/linux/defconfig.
 
    NOTE: All changes must be committed in the local kernel, as the
@@ -218,14 +218,8 @@ NOTE: No preferred version should be set for linux-local provider.
 
 2.3.6. Build multiple versions of the kernel in one build
 
-   By default, with intel-axxia distro, 4 versions of kernel are built
-   in one build linux-intel, linux-intel-rt and debug versions for each.
-   
-   By default, with intel-axxia distro, 4 versions of kernel are built
-   in one build depending on the generic provider for virtual/kernel:
-
-   - for any linux-intel* kernel provider, bitbake will build linux-intel,
-     linux-intel-rt, linux-intel-debug and linux-intel-rt-debug kernels
+   By default, with intel-axxia distro, 2 versions of kernel are built
+   in one build: linux-intel and linux-intel-debug (the debug version).
    
    The kernel which is set as virtual/kernel provider will be installed
    as usual in the deploy directory of the build. Alternative kernels
@@ -286,23 +280,21 @@ MACHINE = "intel-axxia-snr"
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 PREFERRED_VERSION_linux-intel = "5.15%"
 DISTRO = "intel-axxia"
-DISTRO_FEATURES:append = " simics"
 PACKAGE_CLASSES ?= "package_rpm"
 EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
 USER_CLASSES ?= "buildstats"
 PATCHRESOLVE = "noop"
-BB_DISKMON_DIRS = "\
+BB_DISKMON_DIRS ??= "\
     STOPTASKS,${TMPDIR},1G,100K \
     STOPTASKS,${DL_DIR},1G,100K \
     STOPTASKS,${SSTATE_DIR},1G,100K \
     STOPTASKS,/tmp,100M,100K \
-    ABORT,${TMPDIR},100M,1K \
-    ABORT,${DL_DIR},100M,1K \
-    ABORT,${SSTATE_DIR},100M,1K \
-    ABORT,/tmp,10M,1K"
-PACKAGECONFIG:append:pn-qemu-native = " sdl"
-PACKAGECONFIG:append:pn-nativesdk-qemu = " sdl"
-CONF_VERSION = "1"
+    HALT,${TMPDIR},100M,1K \
+    HALT,${DL_DIR},100M,1K \
+    HALT,${SSTATE_DIR},100M,1K \
+    HALT,/tmp,10M,1K"
+PACKAGECONFIG:append:pn-qemu-system-native = " sdl"
+CONF_VERSION = "2"
 
 
 3. Select the image type and start the build
