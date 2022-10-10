@@ -4,7 +4,7 @@ RDK_REPO_REV ?= ""
 RDK_REPO_SRC_URI ?= "git://${@d.getVar('RDK_REPO').replace('https://','')};protocol=https;nobranch=1;name=rdk;subpath=rdk/klm;destsuffix=rdk/klm"
 SRCREV_rdk = "${RDK_REPO_REV}"
 
-FILESEXTRAPATHS:prepend := "${LAYER_PATH_meta-intel-rdk}/downloads:${THISDIR}/frags:"
+FILESEXTRAPATHS:prepend := "${RDK_LAYER_PATH}/downloads:${THISDIR}/frags:"
 RDK_KLM_ARCHIVE ?= "file://rdk_klm_src.tar.xz"
 
 SRC_URI:append = " ${@oe.utils.conditional('USE_RDK_REPO', 'false', '${RDK_KLM_ARCHIVE}', '${RDK_REPO_SRC_URI}', d)} \
@@ -24,7 +24,7 @@ do_patch_rdk_modules () {
         # Get release tag from the archive name
         case "${RDK_KLM_ARCHIVE}" in
             file*)
-                RELEASE_TAG="$(echo ${LAYER_PATH_meta-intel-rdk}/downloads/${RDK_KLM_ARCHIVE} | sed 's/file:\/\///g')"
+                RELEASE_TAG="$(echo ${RDK_LAYER_PATH}/downloads/${RDK_KLM_ARCHIVE} | sed 's/file:\/\///g')"
                 [ -L "${RELEASE_TAG}" ] && RELEASE_TAG="$(readlink ${RELEASE_TAG})"
                 RELEASE_TAG="$(basename ${RELEASE_TAG})";;
             http*)

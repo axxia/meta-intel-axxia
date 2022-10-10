@@ -4,7 +4,7 @@ RDK_REPO_REV ?= ""
 RDK_REPO_SRC_URI ?= "git://${@d.getVar('RDK_REPO').replace('https://','')};protocol=https;nobranch=1;name=rdk;subpath=rdk/klm;destsuffix=rdk/klm"
 SRCREV_rdk = "${RDK_REPO_REV}"
 
-FILESEXTRAPATHS:prepend := "${LAYER_PATH_meta-intel-rdk}/downloads:"
+FILESEXTRAPATHS:prepend := "${RDK_LAYER_PATH}/downloads:"
 RDK_KLM_ARCHIVE ?= "file://rdk_klm_src.tar.xz"
 
 SRC_URI:append = " ${@oe.utils.conditional('USE_RDK_REPO', 'false', '${RDK_KLM_ARCHIVE}', '${RDK_REPO_SRC_URI}', d)}"

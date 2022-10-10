@@ -9,7 +9,7 @@ RDK_REPO_REV ?= ""
 RDK_REPO_SRC_URI ?= "git://${@d.getVar('RDK_REPO').replace('https://','')};protocol=https;nobranch=1"
 SRCREV = "${RDK_REPO_REV}"
 
-FILESEXTRAPATHS:prepend := "${LAYER_PATH_meta-intel-rdk}/downloads:"
+FILESEXTRAPATHS:prepend := "${RDK_LAYER_PATH}/downloads:"
 RDK_TOOLS_ARCHIVE ?= "file://rdk_user_src.tar.xz"
 BB_STRICT_CHECKSUM = "0"
 
@@ -92,7 +92,7 @@ do_install () {
 PACKAGES += "rdk-firmware"
 
 FILES:rdk-firmware = " ${nonarch_base_libdir}/firmware"
-ALLOW_EMPTY_rdk-firmware = "1"
+ALLOW_EMPTY:rdk-firmware = "1"
 
 FILES:${PN}-dev = " ${includedir} \
 	${libdir}/libies*.so \
