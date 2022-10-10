@@ -9,10 +9,12 @@
 #
 # AUTHORS
 # Tom Zanussi <tom.zanussi (at] linux.intel.com>
+# Daniel Dragomir <daniel.dragomir (at] windriver.com>
 #
 
 import logging
 import os
+import tempfile
 import shutil
 import re
 
@@ -152,12 +154,13 @@ class BootimgEFIPlugin(SourcePlugin):
         bootloader = creator.ks.bootloader
 
         loader_conf = ""
-        loader_conf += "default boot.conf\n"
+        if source_params.get('create-unified-kernel-image') != "true":
+            loader_conf += "default boot\n"
         loader_conf += "timeout %d\n" % bootloader.timeout
 
         initrd = source_params.get('initrd')
 
-        if initrd:
+        if initrd and source_params.get('create-unified-kernel-image') != "true":
             # obviously we need to have a common common deploy var
             bootimg_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
             if not bootimg_dir:
@@ -218,11 +221,12 @@ class BootimgEFIPlugin(SourcePlugin):
                 for rd in initrds:
                     boot_conf += "initrd /%s\n" % rd
 
-        logger.debug("Writing systemd-boot config "
-                     "%s/hdd/boot/loader/entries/boot.conf", cr_workdir)
-        cfg = open("%s/hdd/boot/loader/entries/boot.conf" % cr_workdir, "w")
-        cfg.write(boot_conf)
-        cfg.close()
+        if source_params.get('create-unified-kernel-image') != "true":
+            logger.debug("Writing systemd-boot config "
+                         "%s/hdd/boot/loader/entries/boot.conf", cr_workdir)
+            cfg = open("%s/hdd/boot/loader/entries/boot.conf" % cr_workdir, "w")
+            cfg.write(boot_conf)
+            cfg.close()
 
         if get_bitbake_var("ALTERNATIVE_KERNELS") is None:
             logger.debug('No alternative kernels defined in ALTERNATIVE_KERNELS')
@@ -401,9 +405,59 @@ class BootimgEFIPlugin(SourcePlugin):
                 kernel = "%s-%s.bin" % \
                     (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
 
-        install_cmd = "install -m 0644 %s/%s %s/%s" % \
-            (staging_kernel_dir, kernel, hdddir, kernel)
-        exec_cmd(install_cmd)
+        if source_params.get('create-unified-kernel-image') == "true":
+            initrd = source_params.get('initrd')
+            if not initrd:
+                raise WicError("initrd= must be specified when create-unified-kernel-image=true, exiting")
+
+            deploy_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
+            efi_stub = glob("%s/%s" % (deploy_dir, "linux*.efi.stub"))
+            if len(efi_stub) == 0:
+                raise WicError("Unified Kernel Image EFI stub not found, exiting")
+            efi_stub = efi_stub[0]
+
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                label = source_params.get('label')
+                label_conf = "root=%s" % creator.rootdev
+                if label:
+                    label_conf = "LABEL=%s" % label
+
+                bootloader = creator.ks.bootloader
+                cmdline = open("%s/cmdline" % tmp_dir, "w")
+                cmdline.write("%s %s" % (label_conf, bootloader.append))
+                cmdline.close()
+
+                initrds = initrd.split(';')
+                initrd = open("%s/initrd" % tmp_dir, "wb")
+                for f in initrds:
+                    with open("%s/%s" % (deploy_dir, f), 'rb') as in_file:
+                        shutil.copyfileobj(in_file, initrd)
+                initrd.close()
+
+                # Searched by systemd-boot:
+                # https://systemd.io/BOOT_LOADER_SPECIFICATION/#type-2-efi-unified-kernel-images
+                install_cmd = "install -d %s/EFI/Linux" % hdddir
+                exec_cmd(install_cmd)
+
+                staging_dir_host = get_bitbake_var("STAGING_DIR_HOST")
+                target_sys = get_bitbake_var("TARGET_SYS")
+
+                # https://www.freedesktop.org/software/systemd/man/systemd-stub.html
+                objcopy_cmd = "%s-objcopy" % target_sys
+                objcopy_cmd += " --add-section .osrel=%s/usr/lib/os-release" % staging_dir_host
+                objcopy_cmd += " --change-section-vma .osrel=0x20000"
+                objcopy_cmd += " --add-section .cmdline=%s" % cmdline.name
+                objcopy_cmd += " --change-section-vma .cmdline=0x30000"
+                objcopy_cmd += " --add-section .linux=%s/%s" % (staging_kernel_dir, kernel)
+                objcopy_cmd += " --change-section-vma .linux=0x2000000"
+                objcopy_cmd += " --add-section .initrd=%s" % initrd.name
+                objcopy_cmd += " --change-section-vma .initrd=0x3000000"
+                objcopy_cmd += " %s %s/EFI/Linux/linux.efi" % (efi_stub, hdddir)
+                exec_native_cmd(objcopy_cmd, native_sysroot)
+        else:
+            install_cmd = "install -m 0644 %s/%s %s/%s" % \
+                (staging_kernel_dir, kernel, hdddir, kernel)
+            exec_cmd(install_cmd)
 
         if get_bitbake_var("IMAGE_EFI_BOOT_FILES") or get_bitbake_var("ALTERNATIVE_KERNELS"):
             for src_path, dst_path in cls.install_task:
