@@ -8,23 +8,23 @@ to configure resources."
 HOMEPAGE = "https://github.com/intel/idxd-config"
 SECTION = "libs"
 
-LICENSE = "GPL-2.0 & LGPL-2.1"
+LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://LICENSE_GPL_2_0;md5=fa69eb765efdca4a83cd19e915db9ab0"
 
 DEPENDS = "asciidoc-native xmlto-native util-linux json-c kmod udev"
 
 RDEPENDS:${PN} = "bash"
 
-SRCREV = "ec787d78dfbc65e501cc53a4151402f7ad7ec138"
-PV = "3.4.1"
+SRCREV = "7f76d467cace664df928f3d5ea4598b8d0cbc32b"
+PV = "3.4.8"
 
 SRC_URI = "git://github.com/intel/idxd-config.git;protocol=https;branch=stable"
 
 S = "${WORKDIR}/git"
 
-inherit autotools-brokensep gettext
+inherit autotools-brokensep pkgconfig gettext 
 
-EXTRA_OECONF:append = " --enable-test=yes --disable-docs"
+EXTRA_OECONF:append = " --enable-test=yes"
 
 do_configure:prepend() {
 	(cd ${S}; ./autogen.sh; cd -)
