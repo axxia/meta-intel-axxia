@@ -7,4 +7,5 @@ SRC_URI += "file://arm-intrinsics.patch \
            file://0001-Apply-boost-1.62.0-no-forced-flags.patch.patch \
            file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
            file://0001-libs-python-Fix-compatibility-with-Python-3.10.0a4-f.patch \
+           file://0001-Fix-boost-depends-build-with-glibc-2.34.patch \
            "
