@@ -4,11 +4,6 @@ BBFILES += "${@bb.utils.contains('IES_ENABLE_SHM', 'false', '${BBFILES_COMMON_DI
 BBFILES_COMMON_DIR = "${LAYERDIR}/../common/recipes-*/*/*.bb \
 		      ${LAYERDIR}/../common/recipes-*/*/*.bbappend"
 
-# Set specific versions required by RDK drivers/tools on RPC (remote procedure call) mode
-PREFERRED_VERSION_boost         ??= "${@bb.utils.contains('IES_ENABLE_SHM', 'false', '1.70.0', '', d)}"
-PREFERRED_VERSION_boost-native  ??= "${@bb.utils.contains('IES_ENABLE_SHM', 'false', '1.70.0', '', d)}"
-PREFERRED_VERSION_bjam-native   ??= "${@bb.utils.contains('IES_ENABLE_SHM', 'false', '1.70.0', '', d)}"
-
 # Skip lttng-modules recipes for alternative kernels if meta-intel-distro layer is not used
 # or alternative kernels are not supported
 # Skip parsing rdk-tools recipe if rdk-userspace feature is not enabled
