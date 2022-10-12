@@ -300,7 +300,6 @@ telnetd \
 thrift \
 thrift-compiler \
 thrift-dev \
-thrift-staticdev \
 time \
 tk \
 tmux \
