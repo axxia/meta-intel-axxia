@@ -216,6 +216,7 @@ ninja \
 nmap \
 ntp \
 numactl \
+nvme-cli \
 openssh \
 openssh-sftp \
 openssh-sftp-server \
@@ -350,6 +351,8 @@ cgroup-lite \
 gnupg \
 libvirt \
 libvirt-libvirtd \
+libvirt-virsh \
+libvirt-python \
 lxc \
 lxc-networking \
 lxc-templates \

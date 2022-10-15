@@ -61,6 +61,7 @@ ncurses \
 netcat \
 netkit-tftp-client \
 numactl \
+nvme-cli \
 openssh \
 openssh-sftp \
 pciutils \
