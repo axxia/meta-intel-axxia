@@ -3,7 +3,7 @@
 # can directly dd to boot media. The selected bootloader is grub-efi.
 # It also includes intel-microcode as an initrd for early update support.
 
-part /boot --source axxia-bootimg-efi --sourceparams="loader=grub-efi,initrd=microcode.cpio" --size 50 --ondisk sda --label msdos --active --align 1024 --use-uuid
+part /boot --source axxia-bootimg-efi --sourceparams="loader=grub-efi,initrd=microcode.cpio" --size 128 --ondisk sda --label msdos --active --align 1024 --use-uuid
 
 part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
 
