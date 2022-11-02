@@ -156,7 +156,8 @@ in conf/local.conf:
 
      KERNEL_MODULE_AUTOLOAD_append = " hqm"
      KERNEL_MODULE_AUTOLOAD_append = " igb"
-     KERNEL_MODULE_AUTOLOAD_append = " qat_c4xxx"
+     KERNEL_MODULE_AUTOLOAD_append = " qat_c4xxx" # Specific to SnowRidge
+     KERNEL_MODULE_AUTOLOAD_append = " qat_300xx" # Specific to GrandRidge
      KERNEL_MODULE_AUTOLOAD_append = " intel_qat"
      KERNEL_MODULE_AUTOLOAD_append = " ice_sw"
 
