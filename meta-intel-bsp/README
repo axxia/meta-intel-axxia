@@ -52,8 +52,8 @@ I. Back Ported Linux Changes
 ============================
 
 Some changes have been up-streamed, but have not yet been back ported
-to Linux 5.15. Some of these have been added to this meta layer. The
-changes are described below. In each case, any changes required are
+to Linux 5.15 or 5.10. Some of these have been added to this meta layer.
+The changes are described below. In each case, any changes required are
 described and the publically available patch is referenced. Only changes
 functionally required for internal testing have been back ported.
 
@@ -65,7 +65,8 @@ was obtained using 'git format-patch -1 <sha>' from the referenced
 respoistory and was applied using 'git am -3 <patch>'.
 
 In the meta layer, the patches for Linux 5.15 can be found in
-meta-intel-bsp/recipes-kernel/linux/patches/5.15.
+meta-intel-bsp/recipes-kernel/linux/patches/5.15 and for 5.10 in
+meta-intel-bsp/recipes-kernel/linux/patches/5.10.
 
 
 drivers/watchdog: Ignore 'No Reboot' Bit
@@ -101,12 +102,23 @@ Included as
 COM-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch
 
 
+Patches for perf (only for SNR, kernel 5.10)
+--------------------------------------------
+
+SNR-perf-Cap-allocation-order-at-aux_watermark.patch and
+SNR-perf-intel-pt-Use-aux_watermark.patch.
+
+Removes some limitations to the use of PTWRITE.  Without the above
+'perf record' and 'per script' issue warnings about lost data.
+
+
 Support Serial Flash Access (MTD) to Boot Flash (only for GRR)
 --------------------------------------------------------------
 
 Allows access to the secondary boot flash from Linux using the MTD driver.
 
 GRR-mtd-spi-nor-intel-spi-add-is_protected-and-is_bios_l.patch
+GRR-mtd-spi-nor-intel-spi-Move-platform-data-header-to-x.patch (only for kernel 5.10)
 GRR-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch
 
 
@@ -120,7 +132,35 @@ GRR-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch
 TCO Functionality
 -----------------
 
+COM-watchdog-iTCO_wdt-use-module_platform_device-macro.patch (only for kernel 5.10)
+COM-watchdog-iTCO_wdt-use-dev_-instead-of-pr_-for-loggin.patch (only for kernel 5.10)
+COM-watchdog-iTCO_wdt-use-dev_err-instead-of-pr_err.patch (only for kernel 5.10)
 COM-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch
+
+MDEV Functions (only for kernel 5.10)
+-------------------------------------
+
+GRR only.  Back-ported from lkml.org to support building DLB with MDEV.
+
+GRR-vfio-mdev-Add-a-member-for-iommu-domain-in-mdev_devi.patch
+GRR-vfio-type1-Save-domain-when-attach-domain-to-mdev.patch
+
+GCC12 Support (only for kernel 5.10)
+------------------------------------
+
+When installing the SDK using a recent Linux distor, the
+external-modules-setup.sh script will fail if the host compiler is
+GCC12.  This back-port fixes that.
+
+GRR-libsubcmd-Fix-use-after-free-for-realloc-.-0.patch
+
+Disable MEI Driver on Ignition FW (only for kernel 5.10)
+--------------------------------------------------------
+
+This avoids errors in the system logs.
+
+GRR-mei-kdoc-fix-partial-back-port.patch
+GRR-mei-me-disable-driver-on-the-ign-firmware.patch
 
 
 II. Building meta-intel-bsp

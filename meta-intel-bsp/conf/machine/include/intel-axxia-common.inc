@@ -1,6 +1,6 @@
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-intel"
 PREFERRED_VERSION_linux-intel ?= "5.15%"
-PREFERRED_VERSION_linux-intel-rt ?= "5.15%"
+PREFERRED_VERSION_linux-intel-debug ?= "5.15%"
 
 EFI_PROVIDER ?= "grub-efi"
 

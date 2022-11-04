@@ -190,6 +190,8 @@ a. Public Intel Github (github.com/intel)
    will build kernel from Intel Github public repos:
    5.15: git://github.com/intel/linux-intel-lts.git
          5.15/yocto or 5.15/preempt-rt
+   5.10: git://github.com/intel/linux-intel-lts.git
+         5.10/yocto or 5.10/preempt-rt
          
    Other versions for the Intel kernel are: linux-intel-rt,
    linux-intel-debug, linux-intel-rt-debug.
@@ -210,7 +212,7 @@ b. Local Kernel repositories (for Linux development)
    NOTE: All changes must be committed in the local kernel, as the
          build will clone it using git.
 
-2.3.5. Select the version for the main kernel:
+2.3.5. Select the version for the main kernel: 5.15 (default) or 5.10
 
    PREFERRED_VERSION_(preferred-provider)= "5.15%"
 
