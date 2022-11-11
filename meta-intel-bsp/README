@@ -102,6 +102,18 @@ Included as
 COM-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch
 
 
+libata: add horkage for missing Identify Device log
+---------------------------------------------------
+
+Back-ported from 5.19 to fix a boot regression in ASE caused by commit
+e449d2e69a ("ata: libata: add missing ata_identify_page_supported()
+calls"): VFS: Cannot open root device "PARTUUID=<uuid>" or 
+unknown-block(0,0): error -6. Bug traced as B0265.
+
+Included as
+COM-libata-add-horkage-for-missing-Identify-Device-log.patch
+
+
 Patches for perf (only for SNR, kernel 5.10)
 --------------------------------------------
 
