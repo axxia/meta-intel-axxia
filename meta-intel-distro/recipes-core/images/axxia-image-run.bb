@@ -80,6 +80,7 @@ readline \
 swig \
 tcl \
 tcpdump \
+tcsh \
 telnetd \
 tk \
 tmux \

@@ -83,9 +83,12 @@ gfortran \
 gfortran-symlinks \
 git \
 glib-2.0 \
+glog \
+glog-dev \
 gmp \
 gnutls \
 go \
+googletest-dev \
 gptfdisk \
 grep \
 groff \
@@ -298,6 +301,7 @@ tar \
 tcl \
 tcp-wrappers \
 tcpdump \
+tcsh \
 telnetd \
 thrift \
 thrift-compiler \
@@ -327,8 +331,10 @@ vlan \
 watchdog \
 wget \
 which \
+yaml-cpp \
 yasm \
 xfsprogs \
+xxhash \
 yp-tools \
 yp-tools-dev \
 ypbind-mt \
