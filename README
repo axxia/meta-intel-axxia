@@ -50,17 +50,17 @@ Guidelines for submitting patches
 =================================
 
 Please submit any patches against meta-intel-axxia BSPs to the 
-meta-intel-axxia mailing list (meta-axxia@yoctoproject.org) and
+meta-intel-axxia mailing list (meta-axxia@lists.yoctoproject.org) and
 cc: the maintainers.
 
 Mailing list:
-    https://lists.yoctoproject.org/listinfo/meta-axxia
+    https://lists.yoctoproject.org/g/meta-axxia
 
 When creating patches, please use something like:
     git format-patch -s --subject-prefix='meta-intel-axxia][PATCH' origin
 
 When sending patches, please use something like:
-    git send-email --to meta-axxia@yoctoproject.org --cc (maintainers)
+    git send-email --to meta-axxia@lists.yoctoproject.org --cc (maintainers)
 		      (generated patch)
 
 

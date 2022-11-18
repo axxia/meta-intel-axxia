@@ -39,7 +39,7 @@ installed on the system you will be using for builds.
 
 Check the YOCTO Reference Manual for the system you are using and verify
 you have the minimum required packages installed:
-http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
+https://docs.yoctoproject.org/ref-manual/system-requirements.html
 
 Create an empty directory and verify that the partition has at least
 50Gb of free space. Next set an environment variable, YOCTO, to the
@@ -307,8 +307,8 @@ NOTE: No preferred version should be set for linux-local provider.
 
 2.4. Examples
 
-    See http://www.yoctoproject.org/docs/2.3/mega-manual/mega-manual.html
-    for complete documentation on the Yocto build system.
+     See https://docs.yoctoproject.org for complete documentation
+     on the Yocto build system.
 
     Here are the local.conf files used for open builds:
 

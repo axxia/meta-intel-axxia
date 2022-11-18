@@ -10,7 +10,7 @@ appropriate person, and that it will be seen by other users who may be
 facing similar problems or questions.
 
 Please submit any patches against meta-intel-axxia BSPs to the mailing
-list (meta-axxia@yoctoproject.org) and cc: the maintainers.
+list (meta-axxia@lists.yoctoproject.org) and cc: the maintainers.
 For guidelines for submitting patches, please see README file.
 
 Descriptions of section entries:
