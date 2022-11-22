@@ -159,6 +159,7 @@ libpam \
 libpcap \
 libpcap-dev \
 libpciaccess \
+libpciaccess-dev \
 libpcre \
 libpng \
 libpython3 \
@@ -231,6 +232,7 @@ packagegroup-core-boot \
 packagegroup-core-buildessential \
 parted \
 pciutils \
+pciutils-dev \
 perf \
 perl \
 perl-module-bigint \
