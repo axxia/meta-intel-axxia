@@ -229,6 +229,8 @@ openssl-dev \
 opkg \
 opkg-arch-config \
 opkg-utils \
+p7zip \
+p7zip-dev \
 packagegroup-core-boot \
 packagegroup-core-buildessential \
 parted \
