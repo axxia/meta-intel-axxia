@@ -63,6 +63,7 @@ netkit-tftp-client \
 numactl \
 openssh \
 openssh-sftp \
+p7zip \
 pciutils \
 packagegroup-core-full-cmdline \
 perf \
