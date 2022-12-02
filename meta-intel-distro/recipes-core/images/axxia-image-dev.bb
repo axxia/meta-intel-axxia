@@ -129,6 +129,8 @@ ldd \
 less \
 libaio \
 libasan \
+libbpf \
+libbpf-dev \
 libbsd \
 libcap \
 libcheck \

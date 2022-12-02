@@ -40,6 +40,7 @@ libarchive \
 libasan \
 libatomic \
 libbsd \
+libbpf \
 libgcc \
 libnl \
 libnl-genl \
