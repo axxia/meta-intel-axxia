@@ -63,6 +63,7 @@ netkit-tftp-client \
 numactl \
 openssh \
 openssh-sftp \
+os-release \
 p7zip \
 pciutils \
 packagegroup-core-full-cmdline \

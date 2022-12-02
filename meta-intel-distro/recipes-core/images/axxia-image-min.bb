@@ -18,6 +18,7 @@ kernel-modules \
 libasan \
 libgcc \
 libubsan \
+os-release \
 ${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
 		     '${MULTILIB_PACKAGES}', '', d)}  \
 "
