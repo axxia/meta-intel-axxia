@@ -64,6 +64,7 @@ numactl \
 nvme-cli \
 openssh \
 openssh-sftp \
+os-release \
 p7zip \
 pciutils \
 packagegroup-core-full-cmdline \
