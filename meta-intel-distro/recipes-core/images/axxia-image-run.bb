@@ -80,6 +80,7 @@ python3-modules \
 python3-netserver \
 python3-nose \
 readline \
+stress-ng \
 swig \
 tcl \
 tcpdump \
