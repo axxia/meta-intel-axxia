@@ -315,6 +315,7 @@ do_install() {
             cp -a --parents arch/x86/lib/x86-opcode-map.txt $kerneldir/build/
             cp -a --parents arch/x86/tools/gen-insn-attr-x86.awk $kerneldir/build/
             cp -a --parents arch/x86/kvm/*.h $kerneldir/build/
+            cp -a --parents arch/x86/kvm/mmu/*.h $kerneldir/build/
             cp -a --parents arch/x86/kvm/vmx/*.h $kerneldir/build/
         fi
 
