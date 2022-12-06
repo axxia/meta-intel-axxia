@@ -237,6 +237,7 @@ p7zip-dev \
 packagegroup-core-boot \
 packagegroup-core-buildessential \
 parted \
+pbzip2 \
 pciutils \
 pciutils-dev \
 perf \

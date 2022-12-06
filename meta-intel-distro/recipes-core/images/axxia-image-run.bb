@@ -67,6 +67,7 @@ openssh \
 openssh-sftp \
 os-release \
 p7zip \
+pbzip2 \
 pciutils \
 packagegroup-core-full-cmdline \
 perf \
