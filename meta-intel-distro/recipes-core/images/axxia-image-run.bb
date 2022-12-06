@@ -78,6 +78,7 @@ python3-distutils \
 python3-modules \
 python3-netserver \
 readline \
+stress-ng \
 swig \
 tcl \
 tcpdump \
