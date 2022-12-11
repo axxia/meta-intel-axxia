@@ -78,6 +78,7 @@ python3-dev \
 python3-distutils \
 python3-modules \
 python3-netserver \
+python3-nose \
 readline \
 stress-ng \
 swig \
