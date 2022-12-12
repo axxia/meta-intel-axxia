@@ -31,10 +31,10 @@ Back-ported-by: Daniel Dragomir <daniel.dragomir@windriver.com>
  2 files changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
-index 3018ca84a3d8..8a0ccb190d76 100644
+index 413faa9330b2..813559fe8065 100644
 --- a/drivers/ata/libata-core.c
 +++ b/drivers/ata/libata-core.c
-@@ -2052,8 +2052,19 @@ static bool ata_identify_page_supported(struct ata_device *dev, u8 page)
+@@ -2053,8 +2053,19 @@ static bool ata_identify_page_supported(struct ata_device *dev, u8 page)
  	struct ata_port *ap = dev->link->ap;
  	unsigned int err, i;
  
@@ -56,7 +56,7 @@ index 3018ca84a3d8..8a0ccb190d76 100644
  	}
  
 diff --git a/include/linux/libata.h b/include/linux/libata.h
-index 5331557316e8..2a8404b26083 100644
+index a64e12605d31..07950311acb9 100644
 --- a/include/linux/libata.h
 +++ b/include/linux/libata.h
 @@ -427,6 +427,7 @@ enum {

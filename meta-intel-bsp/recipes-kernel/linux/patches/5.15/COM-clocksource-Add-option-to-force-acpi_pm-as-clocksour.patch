@@ -32,7 +32,7 @@ Signed-off-by: John Jacques <john.jacques@intel.com>
  1 file changed, 80 insertions(+), 1 deletion(-)
 
 diff --git a/kernel/time/clocksource.c b/kernel/time/clocksource.c
-index bcad1a1e5dcf..9742fbb2e4c4 100644
+index bcad1a1e5dcf..b12be1dc6b69 100644
 --- a/kernel/time/clocksource.c
 +++ b/kernel/time/clocksource.c
 @@ -17,6 +17,7 @@

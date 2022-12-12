@@ -65,10 +65,10 @@ index 000000000000..d5bf1ac53e56
 +		for writes. It is possible to unlock the bios lock by writing
 +		"unlock" to the file.
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 60c8ff988e74..13769269366c 100644
+index 3187614006ce..fa35d5ed1b6c 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -12245,6 +12245,7 @@ Q:	http://patchwork.ozlabs.org/project/linux-mtd/list/
+@@ -12281,6 +12281,7 @@ Q:	http://patchwork.ozlabs.org/project/linux-mtd/list/
  C:	irc://irc.oftc.net/mtd
  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git mtd/fixes
  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git mtd/next

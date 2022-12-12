@@ -229,10 +229,10 @@ index e616f94c7c58..f095c2d193f9 100644
  void pci_msi_domain_write_msg(struct irq_data *irq_data, struct msi_msg *msg);
  struct irq_domain *pci_msi_create_irq_domain(struct fwnode_handle *fwnode,
 diff --git a/kernel/irq/Kconfig b/kernel/irq/Kconfig
-index fbc54c2a7f23..3b0e1c0c5da3 100644
+index 00d58588ea95..f7c386f9d126 100644
 --- a/kernel/irq/Kconfig
 +++ b/kernel/irq/Kconfig
-@@ -94,6 +94,10 @@ config GENERIC_MSI_IRQ_DOMAIN
+@@ -95,6 +95,10 @@ config GENERIC_MSI_IRQ_DOMAIN
  	select IRQ_DOMAIN_HIERARCHY
  	select GENERIC_MSI_IRQ
  
