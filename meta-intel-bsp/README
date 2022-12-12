@@ -145,15 +145,6 @@ GRR only.  Back-ported from lkml.org to support building DLB with MDEV.
 GRR-vfio-mdev-Add-a-member-for-iommu-domain-in-mdev_devi.patch
 GRR-vfio-type1-Save-domain-when-attach-domain-to-mdev.patch
 
-GCC12 Support
--------------
-
-When installing the SDK using a recent Linux distor, the
-external-modules-setup.sh script will fail if the host compiler is
-GCC12.  This back-port fixes that.
-
-GRR-libsubcmd-Fix-use-after-free-for-realloc-.-0.patch
-
 Disable MEI Driver on Ignition FW
 ---------------------------------
 
