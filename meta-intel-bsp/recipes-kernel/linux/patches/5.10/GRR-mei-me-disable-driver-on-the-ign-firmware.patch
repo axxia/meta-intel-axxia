@@ -17,10 +17,10 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  2 files changed, 13 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/misc/mei/hw-me-regs.h b/drivers/misc/mei/hw-me-regs.h
-index 67bb6a25fd0a..888c27bc3f1a 100644
+index afb2e78df4d6..15e8e2b322b1 100644
 --- a/drivers/misc/mei/hw-me-regs.h
 +++ b/drivers/misc/mei/hw-me-regs.h
-@@ -120,6 +120,7 @@
+@@ -123,6 +123,7 @@
  #define PCI_CFG_HFS_2         0x48
  #define PCI_CFG_HFS_3         0x60
  #  define PCI_CFG_HFS_3_FW_SKU_MSK   0x00000070

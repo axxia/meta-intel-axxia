@@ -62,7 +62,7 @@ index b558d4cfd082..4913629b3932 100644
  {
  	return mdev_bus_register();
 diff --git a/drivers/vfio/mdev/mdev_private.h b/drivers/vfio/mdev/mdev_private.h
-index 7d922950caaf..3f89fd59c3a0 100644
+index 74c2e5411469..4435cb30b494 100644
 --- a/drivers/vfio/mdev/mdev_private.h
 +++ b/drivers/vfio/mdev/mdev_private.h
 @@ -32,6 +32,7 @@ struct mdev_device {

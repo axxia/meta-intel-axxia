@@ -32,7 +32,7 @@ Signed-off-by: John Jacques <john.jacques@intel.com>
  1 file changed, 80 insertions(+), 2 deletions(-)
 
 diff --git a/kernel/time/clocksource.c b/kernel/time/clocksource.c
-index 74492f08660c..a7b6bf4180a4 100644
+index e34ceb91f4c5..03a3c35dd2e2 100644
 --- a/kernel/time/clocksource.c
 +++ b/kernel/time/clocksource.c
 @@ -14,7 +14,7 @@
@@ -44,7 +44,7 @@ index 74492f08660c..a7b6bf4180a4 100644
  #include "tick-internal.h"
  #include "timekeeping_internal.h"
  
-@@ -278,6 +278,58 @@ static void clocksource_verify_percpu(struct clocksource *cs)
+@@ -312,6 +312,58 @@ static void clocksource_verify_percpu(struct clocksource *cs)
  			testcpu, cs_nsec_min, cs_nsec_max, cs->name);
  }
  
@@ -103,7 +103,7 @@ index 74492f08660c..a7b6bf4180a4 100644
  static void clocksource_watchdog(struct timer_list *unused)
  {
  	u64 csnow, wdnow, cslast, wdlast, delta;
-@@ -471,13 +523,23 @@ static void clocksource_select_watchdog(bool fallback)
+@@ -511,13 +563,23 @@ static void clocksource_select_watchdog(bool fallback)
  		if (!watchdog || cs->rating > watchdog->rating)
  			watchdog = cs;
  	}
@@ -128,7 +128,7 @@ index 74492f08660c..a7b6bf4180a4 100644
  
  	/* Check if the watchdog timer needs to be started. */
  	clocksource_start_watchdog();
-@@ -914,6 +976,12 @@ static inline void clocksource_select_fallback(void) { }
+@@ -954,6 +1016,12 @@ static inline void clocksource_select_fallback(void) { }
   */
  static int __init clocksource_done_booting(void)
  {
@@ -141,7 +141,7 @@ index 74492f08660c..a7b6bf4180a4 100644
  	mutex_lock(&clocksource_mutex);
  	curr_clocksource = clocksource_default_clock();
  	finished_booting = 1;
-@@ -923,6 +991,16 @@ static int __init clocksource_done_booting(void)
+@@ -963,6 +1031,16 @@ static int __init clocksource_done_booting(void)
  	__clocksource_watchdog_kthread();
  	clocksource_select();
  	mutex_unlock(&clocksource_mutex);
