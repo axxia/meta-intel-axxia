@@ -277,7 +277,9 @@ python3-pip \
 python3-prctl \
 python3-psutil \
 python3-pyexpect \
+python3-pygobject \
 python3-pyparsing \
+python3-pytest \
 python3-pyyaml \
 python3-pynetlinux \
 python3-robotframework \

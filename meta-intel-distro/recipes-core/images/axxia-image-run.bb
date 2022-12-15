@@ -80,6 +80,7 @@ python3-distutils \
 python3-modules \
 python3-netserver \
 python3-nose \
+python3-pytest \
 readline \
 stress-ng \
 swig \
