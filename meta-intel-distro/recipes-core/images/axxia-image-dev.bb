@@ -292,6 +292,7 @@ rpcbind \
 rpcsvc-proto \
 rpm \
 rsync \
+rsyslog \
 run-postinsts \
 samba \
 sed \
