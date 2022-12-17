@@ -292,6 +292,7 @@ rpcbind \
 rpcsvc-proto \
 rpm \
 rsync \
+rsyslog \
 run-postinsts \
 samba \
 sed \
@@ -305,7 +306,6 @@ strongswan \
 sudo \
 swig \
 sysfsutils \
-sysklogd \
 sysstat \
 tar \
 tcl \
