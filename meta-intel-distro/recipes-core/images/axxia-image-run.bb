@@ -82,6 +82,7 @@ python3-netserver \
 python3-nose \
 python3-pytest \
 readline \
+rsyslog \
 stress-ng \
 swig \
 tcl \

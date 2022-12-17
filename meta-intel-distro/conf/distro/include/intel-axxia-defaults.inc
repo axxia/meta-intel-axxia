@@ -69,6 +69,8 @@ PREFERRED_VERSION_nativesdk-libgcc ?= "${GCC_VERSION}"
 PREFERRED_VERSION_nativesdk-libgcc-initial ?= "${GCC_VERSION}"
 PREFERRED_VERSION_nativesdk-libgfortran ?= "${GCC_VERSION}"
 
+VIRTUAL-RUNTIME_syslog ?= "rsyslog"
+
 FORTRAN_forcevariable = ",fortran"
 
 SAVANNAH_NONGNU_MIRROR = "http://download-mirror.savannah.gnu.org/releases"
