@@ -11,4 +11,6 @@ PREFERRED_VERSION_acpica ?= "20211217"
 
 VIRTUAL-RUNTIME_syslog ?= "rsyslog"
 
+SAVANNAH_NONGNU_MIRROR = "http://download-mirror.savannah.gnu.org/releases"
+
 FORTRAN:forcevariable = ",fortran"
