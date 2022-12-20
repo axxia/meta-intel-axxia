@@ -1,6 +1,6 @@
 SUMMARY = "Intel RDK userspace tools"
 DESCRIPTION = "Intel RDK package containing all userspace (API and CLI) sources."
-LICENSE = "GPLv2"
+LICENSE = "GPL-2.0-or-later"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-or-later;md5=fed54355545ffd980b814dab4a3b312c"
 
 USE_RDK_REPO ?= "false"
@@ -19,14 +19,14 @@ RDK_TOOLS_VERSION ?= "${@oe.utils.conditional('USE_RDK_REPO', 'false', \
 	'unknown_release_info', 'git_${RDK_REPO_REV}', d)}"
 PR = "${RDK_TOOLS_VERSION}"
 
-DEPENDS = "virtual/kernel libnl libpcap openssl rsync-native thrift meson-native \
+DEPENDS = "virtual/kernel libnl libpcap openssl rsync-native thrift meson-native ninja-native \
 	   ${@oe.utils.conditional('RDK_LTTNG_ENABLE', 'true', 'lttng-ust lttng-tools', '', d)}"
 
 RDEPENDS:${PN} += "${@oe.utils.conditional('RDK_LTTNG_ENABLE', 'true', 'lttng-ust lttng-tools', '', d)}"
 
 S = "${@oe.utils.conditional('USE_RDK_REPO', 'false', "${WORKDIR}/rdk", "${WORKDIR}/git/rdk", d)}"
 
-inherit autotools
+inherit autotools pkgconfig
 
 export SDKTARGETSYSROOT = "${STAGING_DIR_HOST}"
 export OECORE_NATIVE_SYSROOT = "${STAGING_DIR_NATIVE}"
