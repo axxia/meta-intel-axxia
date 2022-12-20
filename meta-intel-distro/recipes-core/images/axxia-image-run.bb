@@ -80,7 +80,15 @@ python3-distutils \
 python3-modules \
 python3-netserver \
 python3-nose \
+python3-openpyxl \
+python3-paramiko \
+python3-pexpect \
+python3-prctl \
+python3-psutil \
+python3-pyexpect \
+python3-pynetlinux \
 python3-pytest \
+python3-robotframework \
 readline \
 rsyslog \
 stress-ng \
