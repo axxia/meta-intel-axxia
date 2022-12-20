@@ -70,3 +70,5 @@ PREFERRED_VERSION_nativesdk-libgcc-initial ?= "${GCC_VERSION}"
 PREFERRED_VERSION_nativesdk-libgfortran ?= "${GCC_VERSION}"
 
 FORTRAN_forcevariable = ",fortran"
+
+SAVANNAH_NONGNU_MIRROR = "http://download-mirror.savannah.gnu.org/releases"
