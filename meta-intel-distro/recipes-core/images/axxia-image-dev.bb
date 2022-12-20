@@ -270,6 +270,7 @@ python3-lxml \
 python3-modules \
 python3-netserver \
 python3-nose \
+python3-openpyxl \
 python3-paramiko \
 python3-pexpect \
 python3-pip \
