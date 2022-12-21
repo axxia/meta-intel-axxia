@@ -224,6 +224,9 @@ c. Local Kernel repositories (for Linux development)
    NOTE: All changes must be committed in the local kernel, as the
          build will clone it using git.
 
+   NOTE: If you want to skip lttng support for your local kernel:
+         LTTNG_SUPPORT = ""
+
 2.3.5. Select the version for the main kernel:
 
    PREFERRED_VERSION_(preferred-provider)= "5.10%"
