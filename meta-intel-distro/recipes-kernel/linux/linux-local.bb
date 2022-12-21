@@ -6,9 +6,11 @@
 #      $ bitbake linux-local                                         #
 # All changes should be committed in the local kernel clone.         #
 # Full defconfig should be copied in this directory (besides recipe) #
-# Adjust the following lines with the kernel path and branch.        #
+# If you want to skip lttng support for your kernel:                 #
+#      LTTNG_SUPPORT = ""                                            #
 ######################################################################
 
+# Adjust the following lines with the kernel path and branch
 LOCAL_KERNEL_PATH ?= "path-to-local-kernel-repository"
 LOCAL_KERNEL_BRANCH ?= "standard/base"
 

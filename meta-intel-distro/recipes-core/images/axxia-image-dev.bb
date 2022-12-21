@@ -350,6 +350,7 @@ yp-tools-dev \
 ypbind-mt \
 zip \
 zlib \
+${LTTNG_SUPPORT} \
 ${LXC_SUPPORT} \
 ${@oe.utils.conditional('ALTERNATIVE_KERNELS', '', '', ' \
 			${ALTERNATIVE_KERNELS_INSTALL} \
@@ -359,8 +360,7 @@ ${@bb.utils.contains('DISTRO_FEATURES', 'simics', \
 		     'simicsfs-client simics-agent fuse', '', d)} \
 ${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
 		     '${MULTILIB_PACKAGES}', '', d)}  \
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', \
-                        'linux-local', '', '${LTTNG_SUPPORT}', d)} "
+"
 
 LXC_SUPPORT ?= " \
 cgroup-lite \
