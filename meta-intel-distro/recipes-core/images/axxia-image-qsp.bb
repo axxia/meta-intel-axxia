@@ -3,6 +3,8 @@ or as a ram disk that supports the RTE."
 
 require axxia-image.inc
 
+EFI_PROVIDER ?= "systemd-boot"
+
 IMAGE_INSTALL = " \
 packagegroup-core-boot \
 ${CORE_IMAGE_EXTRA_INSTALL} \

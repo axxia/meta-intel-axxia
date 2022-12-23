@@ -2,7 +2,7 @@ PREFERRED_PROVIDER_virtual/kernel ?= "linux-intel"
 PREFERRED_VERSION_linux-intel ?= "5.15%"
 PREFERRED_VERSION_linux-intel-debug ?= "5.15%"
 
-EFI_PROVIDER ?= "grub-efi"
+EFI_PROVIDER ?= "systemd-boot"
 
 require conf/machine/include/meta-intel.inc
 require conf/machine/include/intel-common-pkgarch.inc
