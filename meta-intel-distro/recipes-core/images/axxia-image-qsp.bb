@@ -3,6 +3,9 @@ or as a ram disk that supports the RTE."
 
 require axxia-image.inc
 
+APPEND = "BOOT_IMAGE=/vmlinuz label=boot root=/dev/sda2 rootwait \
+rootfstype=ext3  console=ttyS0"
+
 EFI_PROVIDER ?= "systemd-boot"
 
 IMAGE_INSTALL = " \
