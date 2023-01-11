@@ -1,3 +1,6 @@
+PACKAGECONFIG:append:class-target = " tk"
+PACKAGECONFIG:append:class-nativesdk = " tk"
+
 do_install:append () {
     ln -s python3 ${D}${bindir}/python
 }
