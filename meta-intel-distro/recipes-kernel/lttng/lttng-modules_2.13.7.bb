@@ -11,15 +11,12 @@ include lttng-platforms.inc
 
 SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
            file://0009-Rename-genhd-wrapper-to-blkdev.patch \
-           file://0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch \
-           file://0002-fix-fs-Remove-flags-parameter-from-aops-write_begin-.patch \
-           file://0003-fix-workqueue-Fix-type-of-cpu-in-trace-event-v5.19.patch \
            "
 
 # Use :append here so that the patch is applied also when using devupstream
 SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
 
-SRC_URI[sha256sum] = "6159d00e4e1d59546eec8d4a67e1aa39c1084ceb5e5afeb666eab4b8a5b5a9ee"
+SRC_URI[sha256sum] = "5a99679df7903160cbde3918fee5af90ffafc90fc96ccdefaa57cf230492b234"
 
 export INSTALL_MOD_DIR="kernel/lttng-modules"
 
@@ -41,5 +38,5 @@ python do_package:prepend() {
 
 BBCLASSEXTEND = "devupstream:target"
 SRC_URI:class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.13"
-SRCREV:class-devupstream = "7584cfc04914cb0842a986e9808686858b9c8630"
+SRCREV:class-devupstream = "fbae1b8ca50e459d5568c2542d448093be5c407f"
 SRCREV_FORMAT ?= "lttng_git"
