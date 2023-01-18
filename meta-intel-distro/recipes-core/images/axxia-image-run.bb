@@ -17,6 +17,7 @@ boost \
 boost-dev \
 cpupower \
 dmidecode \
+dos2unix \
 dtc \
 e2fsprogs-resize2fs \
 ethtool \
@@ -36,11 +37,13 @@ kexec \
 kexec-tools \
 kmod \
 ldd \
+libaio \
 libarchive \
 libasan \
 libatomic \
 libbsd \
 libbpf \
+libelf \
 libgcc \
 libnl \
 libnl-genl \
@@ -91,6 +94,7 @@ python3-pytest \
 python3-robotframework \
 readline \
 rsyslog \
+screen \
 stress-ng \
 swig \
 tcl \
@@ -100,6 +104,7 @@ telnetd \
 tk \
 tmux \
 vlan \
+zlib \
 ${@oe.utils.conditional('ALTERNATIVE_KERNELS', '', '', ' \
 			${ALTERNATIVE_KERNELS_INSTALL} \
 			${ALTERNATIVE_KERNELS_MODULES_INSTALL} \

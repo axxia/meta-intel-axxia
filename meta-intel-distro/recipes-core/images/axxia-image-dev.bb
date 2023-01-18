@@ -125,9 +125,11 @@ kernel-module-kvm-amd \
 kexec \
 kexec-tools \
 kmod \
+kmod-dev \
 ldd \
 less \
 libaio \
+libaio-dev \
 libasan \
 libbpf \
 libbpf-dev \
@@ -211,6 +213,7 @@ msmtp \
 msr-tools \
 mtd-utils-misc \
 ncurses \
+ncurses-dev \
 net-tools \
 netkit-tftp-client \
 netkit-ftp \
@@ -297,6 +300,7 @@ rsync \
 rsyslog \
 run-postinsts \
 samba \
+screen \
 sed \
 setserial \
 shadow \
@@ -352,6 +356,7 @@ yp-tools-dev \
 ypbind-mt \
 zip \
 zlib \
+zlib-dev \
 ${LTTNG_SUPPORT} \
 ${LXC_SUPPORT} \
 ${@oe.utils.conditional('ALTERNATIVE_KERNELS', '', '', ' \
