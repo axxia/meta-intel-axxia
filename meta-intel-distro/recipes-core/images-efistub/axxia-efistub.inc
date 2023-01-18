@@ -2,6 +2,7 @@ DEPENDS:remove = "grub-efi"
 
 inherit uefi-comboapp
 
+EFI_PROVIDER = "systemd-boot"
 IMAGE_FSTYPES = "wic ext4"
 WKS_FILE = "generic-bootdisk.wks.in"
 
