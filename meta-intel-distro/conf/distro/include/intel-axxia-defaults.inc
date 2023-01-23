@@ -1,5 +1,3 @@
-PREFERRED_PROVIDER_virtual/kernel_genericx86-64 = "linux-yocto"
-
 PREFERRED_VERSION_linux-intel-debug ?= "5.10%"
 PREFERRED_VERSION_linux-intel-rt-debug ?= "5.10%"
 
