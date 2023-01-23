@@ -16,6 +16,9 @@ PREFERRED_VERSION_linux-intel-debug = "5.15%"
 # Enable "multilib"
 #DISTRO_FEATURES:append = " multilib"
 
+# Enable settings for INTEL QSP System (for axxia-image-qsp image)
+#DISTRO_FEATURES:append = " qsp"
+
 # Release version should be the meta-intel-axxia repository tag from release note.
 # RELEASE_VERSION = "" 
 
