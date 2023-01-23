@@ -3,10 +3,7 @@ or as a ram disk that supports the RTE."
 
 require axxia-image.inc
 
-APPEND = "BOOT_IMAGE=/vmlinuz label=boot root=/dev/sda2 rootwait \
-rootfstype=ext3  console=ttyS0"
-
-EFI_PROVIDER ?= "systemd-boot"
+APPEND = "console=ttyS0"
 
 IMAGE_INSTALL = " \
 packagegroup-core-boot \
@@ -46,4 +43,4 @@ inherit core-image
 
 IMAGE_ROOTFS_SIZE = "8192"
 
-IMAGE_FSTYPES = "wic tar.gz ext4"
+IMAGE_FSTYPES = "hddimg wic tar.gz ext4"
