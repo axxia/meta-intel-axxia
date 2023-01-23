@@ -177,9 +177,6 @@ below shoud be replaced with the actual value you provided prior).
      - for INTEL Axxia x86_64 Gen4 systems (Grand Ridge CPU)
      MACHINE = "intel-axxia-grr"
 
-     - for INTEL QSP System used in simulation
-     MACHINE = "genericx86-64"
-
 2.3.4. Select the main kernel to use (virtual/kernel provider).
      You can build the kernel from 3 sources:
 
@@ -266,7 +263,12 @@ NOTE: No preferred version should be set for linux-local provider.
 
     DISTRO_FEATURES_append = " multilib"
 
-2.3.8. Add simics support (for large and sim images). This will install
+2.3.8. Enable settings for INTEL QSP System used in simulation (for
+    axxia-image-qsp image)
+
+    DISTRO_FEATURES:append = " qsp"
+
+2.3.9. Add simics support (for large, sim and qsp images). This will install
     simicsfs-client and simics-agent in rootfs. If enabled, it's mandatory
     to set the SIMICS version.
 
@@ -355,7 +357,7 @@ Available root filesystem types:
    * axxia-image-dev
      A more complete image. Contains the SDK and LTP.
 
-   * axxia-image-qsp (for genericx86-64 machine)
+   * axxia-image-qsp (require 'qsp' distro feature. See 2.3.8)
      A small image used for the QSP System used in simulation.
 
 Once complete the images for the target machine will be available in 

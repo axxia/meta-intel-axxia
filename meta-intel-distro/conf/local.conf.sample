@@ -19,6 +19,9 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 # Select the version of python3 to use: 3.9 (default), 3.8 or 3.6
 #PYTHON_VERSION = "3.8"
 
+# Enable settings for INTEL QSP System (for axxia-image-qsp image)
+#DISTRO_FEATURES:append = " qsp"
+
 # Release version should be the meta-intel-axxia repository tag from release note.
 # RELEASE_VERSION = "" 
 
