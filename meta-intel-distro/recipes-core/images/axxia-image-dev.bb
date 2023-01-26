@@ -75,6 +75,7 @@ file \
 findutils \
 flac \
 flex \
+fwts \
 gawk \
 gdb \
 gdbserver \

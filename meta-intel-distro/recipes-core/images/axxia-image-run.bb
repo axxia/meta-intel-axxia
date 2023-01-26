@@ -22,6 +22,7 @@ dtc \
 e2fsprogs-resize2fs \
 ethtool \
 expect \
+fwts \
 gdb \
 gdbserver \
 htop \
