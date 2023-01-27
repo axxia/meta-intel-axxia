@@ -280,6 +280,7 @@ python3-pexpect \
 python3-pip \
 python3-prctl \
 python3-psutil \
+python3-pyelftools \
 python3-pyexpect \
 python3-pygobject \
 python3-pyparsing \
