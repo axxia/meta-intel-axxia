@@ -86,6 +86,7 @@ python3-netserver \
 python3-nose \
 python3-openpyxl \
 python3-paramiko \
+python3-pyelftools \
 python3-pexpect \
 python3-prctl \
 python3-psutil \
