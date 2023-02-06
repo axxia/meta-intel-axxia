@@ -17,7 +17,6 @@ KEEPUIMAGE = "no"
 IMAGE_FSTYPES += " ext2"
 IMAGE_FSTYPES += " tar.gz"
 IMAGE_FSTYPES += " iso"
-NOISO = "0"
 
 IMAGE_FSTYPES += "wic"
 WKS_FILE = "axxia-bootdisk-microcode.wks.in"
