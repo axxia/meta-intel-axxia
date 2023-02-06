@@ -1,0 +1,15 @@
+# short-description: Create an EFI disk image for EFI STUB test
+# long-description: Creates a partitioned EFI disk image that the user
+# can directly dd to boot media. The bootloader is set via ${EFI_PROVIDER}.
+# It contains 5 /boot paritions with kernel, initramfs and bootloader.
+# It also includes an initrd image for early update support.
+
+part /boot --source bootimg-partition --ondisk sda --label msdos1 --extra-space 20M --active --align 1024 --use-uuid
+part /boot --source bootimg-partition --ondisk sda --label msdos2 --extra-space 20M --active --align 1024 --use-uuid
+part /boot --source bootimg-partition --ondisk sda --label msdos3 --extra-space 20M --active --align 1024 --use-uuid
+part /boot --source bootimg-partition --ondisk sda --label msdos4 --extra-space 20M --active --align 1024 --use-uuid
+part /boot --source bootimg-partition --ondisk sda --label msdos5 --extra-space 20M --active --align 1024 --use-uuid
+
+part / --source rootfs --ondisk sda --fstype=ext4 --label root --align 1024 --uuid ${DISK_SIGNATURE_UUID}
+
+bootloader --ptable gpt --timeout=5
