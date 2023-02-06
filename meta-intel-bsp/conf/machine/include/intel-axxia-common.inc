@@ -20,9 +20,7 @@ IMAGE_FSTYPES += " iso"
 NOISO = "0"
 
 IMAGE_FSTYPES += "wic"
-WKS_FILE = "${@bb.utils.contains_any("EFI_PROVIDER", "systemd-boot", \
-	   "axxia-systemd-bootdisk-microcode.wks", \
-	   "axxia-grub-bootdisk-microcode.wks", d)}"
+WKS_FILE = "axxia-bootdisk-microcode.wks.in"
 WKS_FILE_DEPENDS:append = " intel-microcode"
 
 # QEMU usermode fails with invalid instruction error
