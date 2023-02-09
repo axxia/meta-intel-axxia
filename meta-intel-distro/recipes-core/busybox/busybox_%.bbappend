@@ -9,3 +9,5 @@ do_install_append() {
 	sed -i "s:/SBIN_DIR/:${base_sbindir}/:" ${D}${sysconfdir}/udhcpc.d/50default
     fi
 }
+
+require ${@bb.utils.contains('DISTRO_FEATURES', 'qsp', 'busybox-qsp.inc', '', d)}
