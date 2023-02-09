@@ -5,6 +5,13 @@ require axxia-image.inc
 
 APPEND = "console=ttyS0"
 
+IMAGE_FEATURES = " \
+dev-pkgs \
+tools-sdk \
+tools-debug \
+debug-tweaks \
+"
+
 IMAGE_INSTALL = " \
 packagegroup-core-boot \
 ${CORE_IMAGE_EXTRA_INSTALL} \
@@ -12,6 +19,7 @@ ${CORE_IMAGE_EXTRA_INSTALL} \
 
 IMAGE_INSTALL:append = " \
 axxia-rc-local \
+curl \
 gdbserver \
 inetutils \
 initscripts-readonly-rootfs-overlay \
@@ -20,11 +28,23 @@ kernel-modules \
 libasan \
 libgcc \
 libubsan \
+lighttpd \
+lvm2 \
+man \
+man-pages \
+net-tools \
+openssh \
+openssh-sftp \
+openssh-sftp-server \
 pciutils \
+strongswan \
+tcpdump \
+tcpreplay \
+vlan \
 ${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
 		     '${MULTILIB_PACKAGES}', '', d)}  \
 ${@bb.utils.contains('DISTRO_FEATURES', 'simics', \
-		     'simicsfs-client fuse', '', d)} \
+		     'simicsfs-client simics-agent fuse', '', d)} \
 "
 
 MULTILIB_PACKAGES ?= " \
