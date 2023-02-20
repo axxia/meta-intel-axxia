@@ -28,6 +28,8 @@ PREFERRED_VERSION_boost ?= "1.70.0"
 PREFERRED_VERSION_boost-native ?= "1.70.0"
 PREFERRED_VERSION_bjam-native ?= "1.70.0"
 
+PREFERRED_PROVIDER_zlib = "zlib"
+
 PREFERRED_VERSION_libxcrypt-compat ?= "4.1.1"
 
 PREFERRED_VERSION_linux-firmware ?= "20210511"
