@@ -120,9 +120,6 @@ kdump \
 kernel-dev \
 kernel-devsrc \
 kernel-modules \
-kernel-module-kvm \
-kernel-module-kvm-intel \
-kernel-module-kvm-amd \
 kexec \
 kexec-tools \
 kmod \
