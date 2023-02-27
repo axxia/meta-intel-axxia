@@ -271,6 +271,7 @@ python3-lxml \
 python3-modules \
 python3-netserver \
 python3-nose \
+python3-num2words \
 python3-openpyxl \
 python3-paramiko \
 python3-pexpect \
@@ -286,6 +287,8 @@ python3-pyyaml \
 python3-pynetlinux \
 python3-robotframework \
 python3-scapy \
+python3-sheet2dict \
+python3-trex-stl-lib \
 qemu \
 quota \
 radvd \
