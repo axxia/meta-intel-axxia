@@ -223,6 +223,7 @@ ninja \
 nmap \
 ntp \
 numactl \
+openjdk-11-bin \
 openssh \
 openssh-sftp \
 openssh-sftp-server \
