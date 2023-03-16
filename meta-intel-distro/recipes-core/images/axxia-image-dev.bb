@@ -45,6 +45,7 @@ cifs-utils \
 cmake \
 coreutils \
 cpio \
+cpuid \
 cpupower \
 cracklib \
 cronie \
@@ -207,6 +208,7 @@ mdadm \
 meson \
 modutils-initscripts \
 mokutil \
+mpich \
 msmtp \
 msr-tools \
 mtd-utils-misc \
@@ -310,6 +312,7 @@ shadow-securetty \
 sqlite3 \
 strace \
 stress-ng \
+stressapptest \
 strongswan \
 sudo \
 swig \
