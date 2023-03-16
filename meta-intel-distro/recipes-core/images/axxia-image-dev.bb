@@ -45,6 +45,7 @@ cifs-utils \
 cmake \
 coreutils \
 cpio \
+cpuid \
 cpupower \
 cracklib \
 cronie \
@@ -67,6 +68,7 @@ e2fsprogs-mke2fs \
 e2fsprogs-resize2fs \
 e2fsprogs-tune2fs \
 ed \
+efibootmgr \
 elfutils \
 ethtool \
 expat \
@@ -207,6 +209,7 @@ mdadm \
 meson \
 modutils-initscripts \
 mokutil \
+mpich \
 msmtp \
 msr-tools \
 mtd-utils-misc \
@@ -310,6 +313,7 @@ shadow-securetty \
 sqlite3 \
 strace \
 stress-ng \
+stressapptest \
 strongswan \
 sudo \
 swig \

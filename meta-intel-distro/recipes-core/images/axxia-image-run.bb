@@ -15,11 +15,13 @@ axxia-rc-local \
 babeltrace \
 boost \
 boost-dev \
+cpuid \
 cpupower \
 dmidecode \
 dos2unix \
 dtc \
 e2fsprogs-resize2fs \
+efibootmgr \
 ethtool \
 expect \
 fwts \
@@ -59,6 +61,7 @@ libubsan \
 libudev \
 libxcrypt \
 libxcrypt-compat \
+mpich \
 msr-tools \
 mtd-utils-misc \
 mtools \
@@ -98,6 +101,7 @@ readline \
 rsyslog \
 screen \
 stress-ng \
+stressapptest \
 swig \
 tcl \
 tcpdump \
