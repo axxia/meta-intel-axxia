@@ -15,6 +15,7 @@ axxia-rc-local \
 babeltrace \
 boost \
 boost-dev \
+cpuid \
 cpupower \
 dmidecode \
 dos2unix \

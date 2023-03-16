@@ -45,6 +45,7 @@ cifs-utils \
 cmake \
 coreutils \
 cpio \
+cpuid \
 cpupower \
 cracklib \
 cronie \
