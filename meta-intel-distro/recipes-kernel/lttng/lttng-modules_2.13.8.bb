@@ -11,12 +11,15 @@ include lttng-platforms.inc
 
 SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
            file://0009-Rename-genhd-wrapper-to-blkdev.patch \
+           file://fix-jbd2-use-the-correct-print-format-v5.10.163.patch \
+           file://fix-jbd2-upper-bound-for-v5.10.163.patch \
+           file://0001-fix-btrfs-move-accessor-helpers-into-accessors.h-v6..patch \
            "
 
 # Use :append here so that the patch is applied also when using devupstream
 SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
 
-SRC_URI[sha256sum] = "5a99679df7903160cbde3918fee5af90ffafc90fc96ccdefaa57cf230492b234"
+SRC_URI[sha256sum] = "f525d3d48ea3a475cb535339c201666d0e4c75ec8c46d29837bcf381ea02cb19"
 
 export INSTALL_MOD_DIR="kernel/lttng-modules"
 
@@ -38,5 +41,5 @@ python do_package:prepend() {
 
 BBCLASSEXTEND = "devupstream:target"
 SRC_URI:class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.13"
-SRCREV:class-devupstream = "fbae1b8ca50e459d5568c2542d448093be5c407f"
+SRCREV:class-devupstream = "da1f5a264fff33fc5a9518e519fb0084bf1074af"
 SRCREV_FORMAT ?= "lttng_git"
