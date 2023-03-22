@@ -21,6 +21,10 @@ file://GRR-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch \
 file://GRR-driver-core-auxiliary-bus-Add-Config-Option.patch \
 "
 
+# Replace patch from meta-axxia with a refreshed one for kernel 5.15.94
+SRC_URI:remove = " file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-.patch"
+SRC_URI:append = " file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-5.15.94.patch"
+
 LINUX_VERSION:pn-linux-intel = "${LINUX_VERSION_standard}"
 LINUX_VERSION:pn-linux-intel-debug = "${LINUX_VERSION_standard}"
 LINUX_VERSION:pn-linux-intel-rt = "${LINUX_VERSION_preempt-rt}"
