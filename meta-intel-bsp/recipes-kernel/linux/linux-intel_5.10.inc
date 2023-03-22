@@ -1,14 +1,13 @@
-LINUX_VERSION_standard = "5.10.145"
-LINUX_VERSION_preempt-rt = "5.10.145"
-SRCREV_standard = "7ef4401a0744e0b7da538da95970366fbb74527c"
-SRCREV_preempt-rt = "1fdb531352543a5d4e51a256419f810c3543f459"
+LINUX_VERSION_standard = "5.10.168"
+LINUX_VERSION_preempt-rt = "5.10.168"
+SRCREV_standard = "a5bb26665d6511b2721275a0ba9a261e3aebd477"
+SRCREV_preempt-rt = "0e875ddedbddee57ab8a6648fdd9e79348d65f2e"
 SRCREV_meta = "e8e3b361b40a4bbf452caa0dfb255dad7ca9b0ce"
 
 COMMON_PATCHES = " \
 file://COM-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
 file://COM-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
 file://COM-watchdog-iTCO_wdt-use-module_platform_device-macro.patch \
-file://COM-watchdog-iTCO_wdt-use-dev_-instead-of-pr_-for-loggin.patch \
 file://COM-watchdog-iTCO_wdt-use-dev_err-instead-of-pr_err.patch \
 file://COM-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch \
 "
