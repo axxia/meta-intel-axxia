@@ -5,6 +5,8 @@ require axxia-image.inc
 
 APPEND = "console=ttyS0"
 
+AUTO_SYSLINUXMENU = "0"
+
 IMAGE_FEATURES = " \
 dev-pkgs \
 tools-sdk \
