@@ -16,6 +16,9 @@ PREFERRED_VERSION_linux-intel-debug = "5.15%"
 # Enable "multilib"
 #DISTRO_FEATURES:append = " multilib"
 
+# Choose GCC version: 13.% (gcc13). Default version: 11.%
+#DISTRO_FEATURES:append = " gcc13"
+
 # Enable settings for INTEL QSP System (for axxia-image-qsp image)
 #DISTRO_FEATURES:append = " qsp"
 

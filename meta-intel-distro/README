@@ -265,13 +265,18 @@ NOTE: No preferred version should be set for linux-local provider.
     * 'cd ase/simics'
     * tar czf simics-<simics-version>.tgz simics-<simics-version>
 
-2.3.10. Depending on your host processor, set these two options that
+2.3.10. Choose a different GCC version to use: 13.% (gcc13 feature).
+    Default version is 11.%.
+
+    DISTRO_FEATURES:append = " gcc13"
+
+2.3.11. Depending on your host processor, set these two options that
       control how much parallelism BitBake should use (optional):
 
     BB_NUMBER_THREADS = "12"
     PARALLEL_MAKE = "-j 12"
 
-2.3.11. Other optional settings for saving disk space and build time:
+2.3.12. Other optional settings for saving disk space and build time:
    
     DL_DIR = "/(some-shared-location)/downloads"
     SSTATE_DIR = "/(some-shared-location)/sstate-cache
