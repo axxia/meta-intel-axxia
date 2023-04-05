@@ -5,7 +5,7 @@ poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: kirkstone
-revision: 2b49a8fbf0c7965982e50e6e2643b17523c119c9
+revision: 407c3e0237d947ec003bdd1af89a226121c7939c
 
 meta-openembedded
 -----------------
