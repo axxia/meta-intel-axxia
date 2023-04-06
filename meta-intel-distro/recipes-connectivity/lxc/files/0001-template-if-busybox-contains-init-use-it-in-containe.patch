@@ -1,0 +1,45 @@
+From 2789860daaa7780e1542bb1c60a89860e5661739 Mon Sep 17 00:00:00 2001
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
+Date: Wed, 1 Mar 2023 09:25:35 +0800
+Subject: [PATCH] template: if busybox contains init, use it in container
+
+The lxc test code using busybox template, some cases would be failed or hang 
+if the init progress not from busybox. This cause ptest report lots of failed.
+
+The changes is checking whether the busybox has built-in init, if it has,use it.
+
+Upstream-Status: Inappropriate [embedded specific]
+
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+---
+ templates/lxc-busybox.in | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/templates/lxc-busybox.in b/templates/lxc-busybox.in
+index dab7c1faf..e2beae7a4 100755
+--- a/templates/lxc-busybox.in
++++ b/templates/lxc-busybox.in
+@@ -184,10 +184,16 @@ configure_busybox()
+       return 1
+   fi
+ 
+-  # copy bash binary as the container init
+-  if ! cp "$(which bash)" "${rootfs}/sbin/init"; then
+-      echo "ERROR: Failed to copy bash binary"
+-      return 1
++  # checking whether busybox has init or not
++  if ! ${rootfs}/bin/busybox --list | grep "init" > /dev/null; then
++      # copy bash binary as the container init
++      if ! cp "$(which bash)" "${rootfs}/sbin/init"; then
++          echo "ERROR: Failed to copy bash binary"
++          return 1
++      fi
++  else
++      # relink /sbin/init
++      ln "${rootfs}/bin/busybox" "${rootfs}/sbin/init"
+   fi
+ 
+ 
+-- 
+2.34.1
+
