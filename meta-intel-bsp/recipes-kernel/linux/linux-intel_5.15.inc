@@ -1,7 +1,7 @@
-LINUX_VERSION_standard = "5.15.94"
-LINUX_VERSION_preempt-rt = "5.15.94"
-SRCREV_standard = "7ce2881abd1ef660899f85677a7303065ea9625e"
-SRCREV_preempt-rt = "eb57c6fce4a0946de29b53fc3dabbf5bc8e4e407"
+LINUX_VERSION_standard = "5.15.96"
+LINUX_VERSION_preempt-rt = "5.15.96"
+SRCREV_standard = "dfff915012ab62c58f33603bb3eeb3e21027b332"
+SRCREV_preempt-rt = "6f0314a2d01136f4d0ed30e5df28e9dfb1aff037"
 SRCREV_meta = "50e12441b95837206d02d3ecfd17b1c562759d76"
 
 COMMON_PATCHES = " \
@@ -15,7 +15,6 @@ SNR_PATCHES = " ${COMMON_PATCHES} \
 "
 
 GRR_PATCHES = " ${COMMON_PATCHES} \
-file://GRR-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
 file://GRR-platform-msi-Add-device-MSI-infrastructure.patch \
 file://GRR-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch \
 file://GRR-driver-core-auxiliary-bus-Add-Config-Option.patch \
