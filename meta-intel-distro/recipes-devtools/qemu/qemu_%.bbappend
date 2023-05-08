@@ -1,1 +1,1 @@
-PACKAGECONFIG_append = " virtfs"
+PACKAGECONFIG_append = " virtfs libusb"
