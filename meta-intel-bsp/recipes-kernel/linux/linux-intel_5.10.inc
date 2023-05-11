@@ -11,6 +11,7 @@ file://COM-watchdog-iTCO_wdt-use-module_platform_device-macro.patch \
 file://COM-watchdog-iTCO_wdt-use-dev_-instead-of-pr_-for-loggin.patch \
 file://COM-watchdog-iTCO_wdt-use-dev_err-instead-of-pr_err.patch \
 file://COM-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch \
+file://COM-reboot-allow-to-specify-reboot-mode-via-sysfs.patch \
 "
 
 SNR_PATCHES = " ${COMMON_PATCHES} \

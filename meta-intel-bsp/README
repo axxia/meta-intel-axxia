@@ -149,6 +149,11 @@ COM-watchdog-iTCO_wdt-use-dev_-instead-of-pr_-for-loggin.patch (only for kernel 
 COM-watchdog-iTCO_wdt-use-dev_err-instead-of-pr_err.patch (only for kernel 5.10)
 COM-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch
 
+Allow Displaying and Change Reboot Flags via SYSFS
+--------------------------------------------------
+
+COM-reboot-allow-to-specify-reboot-mode-via-sysfs.patch
+
 MDEV Functions (only for kernel 5.10)
 -------------------------------------
 
