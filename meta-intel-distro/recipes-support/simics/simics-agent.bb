@@ -6,6 +6,8 @@ not need to get down to memory-mapped devices in hardware."
 
 require simics.inc
 
+TARGET_CC_ARCH += "${LDFLAGS}"
+
 do_install () {
 	install -d ${D}${bindir}
 	install -m 0755 ${S}/simics-agent  ${D}${bindir}
