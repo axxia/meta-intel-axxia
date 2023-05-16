@@ -1,4 +1,4 @@
-From 90918291127e5aaf77506286ed734c98c61097ff Mon Sep 17 00:00:00 2001
+From bf0c406ab78581c08ff6dfc9e4459033cfbe67ef Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Thu, 14 Oct 2021 12:01:41 -0500
 Subject: driver core: auxiliary bus: Add Config Option
@@ -26,5 +26,5 @@ index ffcbe2bc460e..0d9255df6c27 100644
  config UEVENT_HELPER
  	bool "Support for uevent helper"
 -- 
-2.17.1
+2.25.1
 

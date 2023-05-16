@@ -1,7 +1,7 @@
-LINUX_VERSION_standard = "5.15.96"
-LINUX_VERSION_preempt-rt = "5.15.96"
-SRCREV_standard = "dfff915012ab62c58f33603bb3eeb3e21027b332"
-SRCREV_preempt-rt = "6f0314a2d01136f4d0ed30e5df28e9dfb1aff037"
+LINUX_VERSION_standard = "5.15.107"
+LINUX_VERSION_preempt-rt = "5.15.107"
+SRCREV_standard = "95c83b378e090dcfd0b6371f5ebf68fc063fdb17"
+SRCREV_preempt-rt = "328a293e8d2a81502679387eb0f42349b706aea4"
 SRCREV_meta = "50e12441b95837206d02d3ecfd17b1c562759d76"
 
 COMMON_PATCHES = " \

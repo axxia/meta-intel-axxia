@@ -1,7 +1,7 @@
-From 636f6e2af4fb916b9f1b432964294b6979c34002 Mon Sep 17 00:00:00 2001
+From c65df1b8a744c3b23ef592c70d6182557f28feef Mon Sep 17 00:00:00 2001
 From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 Date: Tue, 9 Nov 2021 08:45:25 +0900
-Subject: [PATCH] libata: add horkage for missing Identify Device log
+Subject: libata: add horkage for missing Identify Device log
 
 ACS-3 introduced the ATA Identify Device Data log as mandatory. A
 warning message currently signals to the user if a device does not
@@ -31,7 +31,7 @@ Back-ported-by: Daniel Dragomir <daniel.dragomir@windriver.com>
  2 files changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
-index 413faa9330b2..813559fe8065 100644
+index 025260b80a94..8e7d122a09dc 100644
 --- a/drivers/ata/libata-core.c
 +++ b/drivers/ata/libata-core.c
 @@ -2053,8 +2053,19 @@ static bool ata_identify_page_supported(struct ata_device *dev, u8 page)
@@ -56,7 +56,7 @@ index 413faa9330b2..813559fe8065 100644
  	}
  
 diff --git a/include/linux/libata.h b/include/linux/libata.h
-index a64e12605d31..07950311acb9 100644
+index d890c43cff14..673f1164c7ec 100644
 --- a/include/linux/libata.h
 +++ b/include/linux/libata.h
 @@ -427,6 +427,7 @@ enum {
@@ -68,5 +68,5 @@ index a64e12605d31..07950311acb9 100644
  	 /* DMA mask for user DMA control: User visible values; DO NOT
  	    renumber */
 -- 
-2.17.1
+2.25.1
 
