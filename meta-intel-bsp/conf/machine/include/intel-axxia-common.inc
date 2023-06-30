@@ -21,6 +21,7 @@ IMAGE_FSTYPES += " iso"
 IMAGE_FSTYPES += "wic"
 WKS_FILE = "axxia-bootdisk-microcode.wks.in"
 WKS_FILE_DEPENDS_append = " intel-microcode"
+WICVARS_append = " ALTERNATIVE_KERNELS IMAGE_INSTALL PREFERRED_PROVIDER_virtual/kernel"
 
 # QEMU usermode fails with invalid instruction error
 MACHINE_FEATURES_BACKFILL_CONSIDERED_append = " qemu-usermode"
