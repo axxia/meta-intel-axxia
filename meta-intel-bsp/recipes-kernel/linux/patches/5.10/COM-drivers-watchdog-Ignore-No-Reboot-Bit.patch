@@ -1,7 +1,7 @@
-From 43550f9578b3f649e73a297f5851ea7dde1db51b Mon Sep 17 00:00:00 2001
+From 5880dff21b546e5ab77c67b4f5ad244b4081c35e Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Fri, 19 Jun 2020 20:31:25 +0000
-Subject: [PATCH 01/12] drivers/watchdog: Ignore 'No Reboot' Bit
+Subject: drivers/watchdog: Ignore 'No Reboot' Bit
 
 Early versions of the SNR chip do not allow the "no reboot"
 bit to be accessed.  This commit simply assumes that it is

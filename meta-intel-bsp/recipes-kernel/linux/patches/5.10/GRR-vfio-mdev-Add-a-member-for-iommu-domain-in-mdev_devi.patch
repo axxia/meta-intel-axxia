@@ -1,7 +1,7 @@
-From 9fdb6fcd760f53b228d41b33531660908aa62cf6 Mon Sep 17 00:00:00 2001
+From 9dda6c9f478a273fa02d2d1e40c521967ea54a8b Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Wed, 17 Nov 2021 16:45:38 -0600
-Subject: [PATCH 11/12] vfio/mdev: Add a member for iommu domain in mdev_device
+Subject: vfio/mdev: Add a member for iommu domain in mdev_device
 
 This adds a member to save iommu domain in mdev_device
 structure. Whenever an iommu domain is attached to the

@@ -1,7 +1,7 @@
-From b81368ee4f95bd3078bb629d7506bbdcd54ce709 Mon Sep 17 00:00:00 2001
+From 341292bb353b15200581582f1f8e99e1d8f8140a Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Wed, 17 Nov 2021 16:48:01 -0600
-Subject: [PATCH 12/12] vfio/type1: Save domain when attach domain to mdev
+Subject: vfio/type1: Save domain when attach domain to mdev
 
 This saves the iommu domain in mdev on attaching a domain
 to it and clear it on detaching.
@@ -17,10 +17,10 @@ Back-ported-by: John Jacques <john.jacques@intel.com>
  1 file changed, 48 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index fbd438e9b9b0..c3f52377bafb 100644
+index ec1428dbdf9d..ffaa7d8f15cd 100644
 --- a/drivers/vfio/vfio_iommu_type1.c
 +++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -1715,20 +1715,62 @@ static struct device *vfio_mdev_get_iommu_device(struct device *dev)
+@@ -1773,20 +1773,62 @@ static struct device *vfio_mdev_get_iommu_device(struct device *dev)
  	return NULL;
  }
  
@@ -87,7 +87,7 @@ index fbd438e9b9b0..c3f52377bafb 100644
  }
  
  static int vfio_mdev_detach_domain(struct device *dev, void *data)
-@@ -1744,6 +1786,8 @@ static int vfio_mdev_detach_domain(struct device *dev, void *data)
+@@ -1802,6 +1844,8 @@ static int vfio_mdev_detach_domain(struct device *dev, void *data)
  			iommu_detach_device(domain, iommu_device);
  	}
  

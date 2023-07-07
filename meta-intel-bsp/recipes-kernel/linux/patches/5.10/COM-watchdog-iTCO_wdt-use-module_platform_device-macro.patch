@@ -1,7 +1,7 @@
-From 14ba15262959c12f5e8d00f96f444d783ef214fd Mon Sep 17 00:00:00 2001
+From d53702f3cf978e1d7d514b4fad0a5d6bd2d733d4 Mon Sep 17 00:00:00 2001
 From: "Enrico Weigelt, metux IT consult" <info@metux.net>
 Date: Tue, 17 Nov 2020 16:22:12 +0100
-Subject: [PATCH 03/12] watchdog: iTCO_wdt: use module_platform_device() macro
+Subject: watchdog: iTCO_wdt: use module_platform_device() macro
 
 Reducing init boilerplate by using the module_platform_device macro.
 
