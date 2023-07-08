@@ -2,7 +2,7 @@ LINUX_VERSION_standard = "5.10.184"
 LINUX_VERSION_preempt-rt = "5.10.184"
 SRCREV_standard = "c50f8c5a381297c74a9940132fdb407bc6545f5a"
 SRCREV_preempt-rt = "eb7d29e72c2206523d080d04bcaa8791ab8fb61e"
-SRCREV_meta = "0b65b80aa112614e8ab129f2d832b8cf050e7a4a"
+SRCREV_meta = "e8e3b361b40a4bbf452caa0dfb255dad7ca9b0ce"
 
 COMMON_PATCHES = " \
 file://COM-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
@@ -28,6 +28,7 @@ file://GRR-vfio-mdev-Add-a-member-for-iommu-domain-in-mdev_devi.patch \
 file://GRR-vfio-type1-Save-domain-when-attach-domain-to-mdev.patch \
 file://GRR-mei-kdoc-fix-partial-back-port.patch \
 file://GRR-mei-me-disable-driver-on-the-ign-firmware.patch \
+file://GRR-drivers-iommu-Add-GRR-device-ID.patch \
 "
 
 LINUX_VERSION_pn-linux-intel = "${LINUX_VERSION_standard}"

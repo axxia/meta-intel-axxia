@@ -167,6 +167,11 @@ This avoids errors in the system logs.
 GRR-mei-kdoc-fix-partial-back-port.patch
 GRR-mei-me-disable-driver-on-the-ign-firmware.patch
 
+Add the GRR Device ID to the IOMMU Driver
+-----------------------------------------
+
+GRR-drivers-iommu-Add-GRR-device-ID.patch
+
 
 II. Building meta-intel-bsp
 ===========================
