@@ -1,7 +1,7 @@
-LINUX_VERSION_standard = "5.15.107"
-LINUX_VERSION_preempt-rt = "5.15.107"
-SRCREV_standard = "95c83b378e090dcfd0b6371f5ebf68fc063fdb17"
-SRCREV_preempt-rt = "328a293e8d2a81502679387eb0f42349b706aea4"
+LINUX_VERSION_standard = "5.15.119"
+LINUX_VERSION_preempt-rt = "5.15.119"
+SRCREV_standard = "58f049d0e54efcfc352a3a228d82f1ad430f9b85"
+SRCREV_preempt-rt = "9ea33d821054634af8d21007e8786112b53e5020"
 SRCREV_meta = "50e12441b95837206d02d3ecfd17b1c562759d76"
 
 COMMON_PATCHES = " \
@@ -18,6 +18,7 @@ GRR_PATCHES = " ${COMMON_PATCHES} \
 file://GRR-platform-msi-Add-device-MSI-infrastructure.patch \
 file://GRR-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch \
 file://GRR-driver-core-auxiliary-bus-Add-Config-Option.patch \
+file://GRR-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
 "
 
 # Replace patch from meta-axxia with a refreshed one for kernel 5.15.94
