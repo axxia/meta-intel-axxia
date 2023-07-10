@@ -1,8 +1,7 @@
-From 81fe45bef35af0461f816ff5e81be604ef3092af Mon Sep 17 00:00:00 2001
+From 39a08a59b9beb02eec735fa9e76fd0c545bfecd2 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Thu, 23 Sep 2021 11:56:26 -0500
-Subject: [PATCH 08/12] mtd: spi-nor: intel-spi: Add support for second flash
- chip
+Subject: mtd: spi-nor: intel-spi: Add support for second flash chip
 
 Intel SPI flash controller has been supporting two chip selects long
 time already even if the most common configuration is to have single
@@ -19,12 +18,12 @@ Signed-off-by: John Jacques <john.jacques@intel.com>
  1 file changed, 164 insertions(+), 64 deletions(-)
 
 diff --git a/drivers/mtd/spi-nor/controllers/intel-spi.c b/drivers/mtd/spi-nor/controllers/intel-spi.c
-index c478850446a5..a82d1b5ef3f7 100644
+index e4ab5fdb3726..2ad07bec7f29 100644
 --- a/drivers/mtd/spi-nor/controllers/intel-spi.c
 +++ b/drivers/mtd/spi-nor/controllers/intel-spi.c
 @@ -118,6 +118,11 @@
  #define ERASE_64K_OPCODE_SHIFT		16
- #define ERASE_64K_OPCODE_MASK		(0xff << ERASE_OPCODE_SHIFT)
+ #define ERASE_64K_OPCODE_MASK		(0xff << ERASE_64K_OPCODE_SHIFT)
  
 +/* Flash descriptor fields */
 +#define FLVALSIG_MAGIC			0x0ff0a55a

@@ -1,8 +1,7 @@
-From 9f6998d1f418181fa8243e80c594f7561c582f02 Mon Sep 17 00:00:00 2001
+From 3d489348184365d4257c565b91d05f6a8ec40921 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
-Date: Thu, 23 Sep 2021 10:51:22 -0500
-Subject: [PATCH 02/12] clocksource: Add option to force acpi_pm as clocksourc
- watchdog
+Date: Fri, 7 Jul 2023 17:10:35 -0500
+Subject: clocksource: Add option to force acpi_pm as clocksource watchdog
 
 Add a kernel command line option to force the use of acpi_pm as the
 watchdog clocksource. To use it, add the following to the
@@ -32,7 +31,7 @@ Signed-off-by: John Jacques <john.jacques@intel.com>
  1 file changed, 80 insertions(+), 2 deletions(-)
 
 diff --git a/kernel/time/clocksource.c b/kernel/time/clocksource.c
-index e34ceb91f4c5..03a3c35dd2e2 100644
+index 86e0fbe583f2..4c61b9340fb9 100644
 --- a/kernel/time/clocksource.c
 +++ b/kernel/time/clocksource.c
 @@ -14,7 +14,7 @@
@@ -44,9 +43,9 @@ index e34ceb91f4c5..03a3c35dd2e2 100644
  #include "tick-internal.h"
  #include "timekeeping_internal.h"
  
-@@ -312,6 +312,58 @@ static void clocksource_verify_percpu(struct clocksource *cs)
- 			testcpu, cs_nsec_min, cs_nsec_max, cs->name);
+@@ -321,6 +321,58 @@ static inline void clocksource_reset_watchdog(void)
  }
+ 
  
 +#define RICARDO_WD_HISTORY_SIZE 1024
 +static bool force_acpi_pm_wd;
@@ -103,7 +102,7 @@ index e34ceb91f4c5..03a3c35dd2e2 100644
  static void clocksource_watchdog(struct timer_list *unused)
  {
  	u64 csnow, wdnow, cslast, wdlast, delta;
-@@ -511,13 +563,23 @@ static void clocksource_select_watchdog(bool fallback)
+@@ -530,13 +582,23 @@ static void clocksource_select_watchdog(bool fallback)
  		if (!watchdog || cs->rating > watchdog->rating)
  			watchdog = cs;
  	}
@@ -128,7 +127,7 @@ index e34ceb91f4c5..03a3c35dd2e2 100644
  
  	/* Check if the watchdog timer needs to be started. */
  	clocksource_start_watchdog();
-@@ -954,6 +1016,12 @@ static inline void clocksource_select_fallback(void) { }
+@@ -973,6 +1035,12 @@ static inline void clocksource_select_fallback(void) { }
   */
  static int __init clocksource_done_booting(void)
  {
@@ -141,7 +140,7 @@ index e34ceb91f4c5..03a3c35dd2e2 100644
  	mutex_lock(&clocksource_mutex);
  	curr_clocksource = clocksource_default_clock();
  	finished_booting = 1;
-@@ -963,6 +1031,16 @@ static int __init clocksource_done_booting(void)
+@@ -982,6 +1050,16 @@ static int __init clocksource_done_booting(void)
  	__clocksource_watchdog_kthread();
  	clocksource_select();
  	mutex_unlock(&clocksource_mutex);

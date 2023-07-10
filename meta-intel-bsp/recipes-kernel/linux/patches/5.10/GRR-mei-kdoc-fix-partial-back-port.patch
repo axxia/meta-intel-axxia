@@ -1,4 +1,4 @@
-From 5c1b87733427b0287db3032f70708e8647c71860 Mon Sep 17 00:00:00 2001
+From b6f6dd6eae29fa0028011d6a3f8de79689dc7f89 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Sat, 21 May 2022 13:00:09 -0500
 Subject: mei: kdoc fix -- partial back-port

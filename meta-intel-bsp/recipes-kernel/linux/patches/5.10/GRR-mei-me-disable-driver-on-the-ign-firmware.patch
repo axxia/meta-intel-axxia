@@ -1,4 +1,4 @@
-From 70a62879382555a49bad61592821edc06035e302 Mon Sep 17 00:00:00 2001
+From 2466df66232e54104939db38f1dcd5757c2083a7 Mon Sep 17 00:00:00 2001
 From: Alexander Usyskin <alexander.usyskin@intel.com>
 Date: Tue, 15 Feb 2022 10:04:35 +0200
 Subject: mei: me: disable driver on the ign firmware
@@ -17,10 +17,10 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  2 files changed, 13 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/misc/mei/hw-me-regs.h b/drivers/misc/mei/hw-me-regs.h
-index afb2e78df4d6..15e8e2b322b1 100644
+index eabbdf17b0c6..609519571545 100644
 --- a/drivers/misc/mei/hw-me-regs.h
 +++ b/drivers/misc/mei/hw-me-regs.h
-@@ -123,6 +123,7 @@
+@@ -125,6 +125,7 @@
  #define PCI_CFG_HFS_2         0x48
  #define PCI_CFG_HFS_3         0x60
  #  define PCI_CFG_HFS_3_FW_SKU_MSK   0x00000070

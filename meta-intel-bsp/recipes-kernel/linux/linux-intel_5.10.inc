@@ -1,17 +1,17 @@
-LINUX_VERSION_standard = "5.10.168"
-LINUX_VERSION_preempt-rt = "5.10.168"
-SRCREV_standard = "a5bb26665d6511b2721275a0ba9a261e3aebd477"
-SRCREV_preempt-rt = "0e875ddedbddee57ab8a6648fdd9e79348d65f2e"
+LINUX_VERSION_standard = "5.10.184"
+LINUX_VERSION_preempt-rt = "5.10.184"
+SRCREV_standard = "c50f8c5a381297c74a9940132fdb407bc6545f5a"
+SRCREV_preempt-rt = "eb7d29e72c2206523d080d04bcaa8791ab8fb61e"
 SRCREV_meta = "e8e3b361b40a4bbf452caa0dfb255dad7ca9b0ce"
 
 COMMON_PATCHES = " \
 file://COM-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
 file://COM-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
 file://COM-watchdog-iTCO_wdt-use-module_platform_device-macro.patch \
-file://COM-watchdog-iTCO_wdt-use-dev_-instead-of-pr_-for-loggin.patch \
 file://COM-watchdog-iTCO_wdt-use-dev_err-instead-of-pr_err.patch \
 file://COM-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch \
 file://COM-reboot-allow-to-specify-reboot-mode-via-sysfs.patch \
+file://COM-iommu-Add-support-to-change-default-domain-of-an-iom.patch \
 "
 
 SNR_PATCHES = " ${COMMON_PATCHES} \
@@ -28,14 +28,15 @@ file://GRR-vfio-mdev-Add-a-member-for-iommu-domain-in-mdev_devi.patch \
 file://GRR-vfio-type1-Save-domain-when-attach-domain-to-mdev.patch \
 file://GRR-mei-kdoc-fix-partial-back-port.patch \
 file://GRR-mei-me-disable-driver-on-the-ign-firmware.patch \
+file://GRR-drivers-iommu-Add-GRR-device-ID.patch \
 "
 
-LINUX_VERSION:pn-linux-intel = "${LINUX_VERSION_standard}"
-LINUX_VERSION:pn-linux-intel-debug = "${LINUX_VERSION_standard}"
-LINUX_VERSION:pn-linux-intel-rt = "${LINUX_VERSION_preempt-rt}"
-LINUX_VERSION:pn-linux-intel-rt-debug = "${LINUX_VERSION_preempt-rt}"
+LINUX_VERSION_pn-linux-intel = "${LINUX_VERSION_standard}"
+LINUX_VERSION_pn-linux-intel-debug = "${LINUX_VERSION_standard}"
+LINUX_VERSION_pn-linux-intel-rt = "${LINUX_VERSION_preempt-rt}"
+LINUX_VERSION_pn-linux-intel-rt-debug = "${LINUX_VERSION_preempt-rt}"
 
-SRCREV_machine:pn-linux-intel = "${SRCREV_standard}"
-SRCREV_machine:pn-linux-intel-debug = "${SRCREV_standard}"
-SRCREV_machine:pn-linux-intel-rt = "${SRCREV_preempt-rt}"
-SRCREV_machine:pn-linux-intel-rt-debug = "${SRCREV_preempt-rt}"
+SRCREV_machine_pn-linux-intel = "${SRCREV_standard}"
+SRCREV_machine_pn-linux-intel-debug = "${SRCREV_standard}"
+SRCREV_machine_pn-linux-intel-rt = "${SRCREV_preempt-rt}"
+SRCREV_machine_pn-linux-intel-rt-debug = "${SRCREV_preempt-rt}"

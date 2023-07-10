@@ -1,7 +1,7 @@
-From 7e91282dc5b4a2f96a3f0efef8f39f101278c782 Mon Sep 17 00:00:00 2001
+From 7fd6d27ae760623dac07d988d8bab9afff06c814 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Mon, 19 Jul 2021 10:27:32 -0500
-Subject: [PATCH 09/12] platform-msi: Add device MSI infrastructure
+Subject: platform-msi: Add device MSI infrastructure
 
 Add device specific MSI domain infrastructure for devices which have their
 own resource management and interrupt chip. These devices are not related
@@ -168,7 +168,7 @@ index c4a17e5edf8b..baea6ea445d9 100644
 +#endif /* CONFIG_PCI */
 +#endif /* CONFIG_DEVICE_MSI */
 diff --git a/include/linux/irqdomain.h b/include/linux/irqdomain.h
-index ea5a337e0f8b..12754ecfb248 100644
+index 9b9743f7538c..93ee0a579e15 100644
 --- a/include/linux/irqdomain.h
 +++ b/include/linux/irqdomain.h
 @@ -85,6 +85,7 @@ enum irq_domain_bus_token {

@@ -1,8 +1,7 @@
-From 3ed0165db11fa46b3c040ca31ef2502286cddc17 Mon Sep 17 00:00:00 2001
+From ed5b1965ae22dcd5e539b6ac8e37f5c7e224c1e9 Mon Sep 17 00:00:00 2001
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Date: Thu, 4 Mar 2021 16:08:20 +0200
-Subject: [PATCH 07/12] mtd: spi-nor: intel-spi: Move platform data header to
- x86 subfolder
+Subject: mtd: spi-nor: intel-spi: Move platform data header to x86 subfolder
 
 In order to group x86 related platform data move intel-spi.h to x86 folder.
 
@@ -22,7 +21,7 @@ Link: https://lore.kernel.org/r/20210304140820.56692-1-andriy.shevchenko@linux.i
  rename include/linux/platform_data/{ => x86}/intel-spi.h (100%)
 
 diff --git a/drivers/mtd/spi-nor/controllers/intel-spi.c b/drivers/mtd/spi-nor/controllers/intel-spi.c
-index 269e2dd51fcc..c478850446a5 100644
+index c74933adf592..e4ab5fdb3726 100644
 --- a/drivers/mtd/spi-nor/controllers/intel-spi.c
 +++ b/drivers/mtd/spi-nor/controllers/intel-spi.c
 @@ -15,7 +15,6 @@

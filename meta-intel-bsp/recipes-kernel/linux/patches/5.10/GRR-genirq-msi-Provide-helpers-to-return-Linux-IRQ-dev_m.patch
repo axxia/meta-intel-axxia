@@ -1,8 +1,7 @@
-From eb407a56bc31f486d33443a617227efa7d07bf33 Mon Sep 17 00:00:00 2001
+From 1c18f1debb16a757b3a0458d7640e5c0611cb2a7 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Mon, 19 Jul 2021 10:28:39 -0500
-Subject: [PATCH 10/12] genirq/msi: Provide helpers to return Linux IRQ/dev_msi
- hw IRQ number
+Subject: genirq/msi: Provide helpers to return Linux IRQ/dev_msi hw IRQ number
 
 Add new helpers to get the Linux IRQ number and device specific index
 for given device-relative vector so that the drivers don't need to
@@ -32,10 +31,10 @@ index 1308fbf6b75f..bf829b97a9a5 100644
  /* When an MSI domain is used as an intermediate domain */
  int msi_domain_prepare_irqs(struct irq_domain *domain, struct device *dev,
 diff --git a/kernel/irq/msi.c b/kernel/irq/msi.c
-index d217acc9f71b..8b9473416119 100644
+index 4457f3e966d0..6571cb7137b7 100644
 --- a/kernel/irq/msi.c
 +++ b/kernel/irq/msi.c
-@@ -549,4 +549,48 @@ struct msi_domain_info *msi_get_domain_info(struct irq_domain *domain)
+@@ -556,4 +556,48 @@ struct msi_domain_info *msi_get_domain_info(struct irq_domain *domain)
  	return (struct msi_domain_info *)domain->host_data;
  }
  

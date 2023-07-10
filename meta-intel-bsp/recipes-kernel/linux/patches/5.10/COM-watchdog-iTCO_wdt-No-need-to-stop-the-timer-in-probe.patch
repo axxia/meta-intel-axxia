@@ -1,7 +1,7 @@
-From a42d3d987c15647b234663402f141c9142be4df4 Mon Sep 17 00:00:00 2001
+From 22c43a602a999bbe9ebe6909d8d9ae1bcbcf4398 Mon Sep 17 00:00:00 2001
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 Date: Fri, 17 Sep 2021 12:57:12 +0300
-Subject: [PATCH 06/12] watchdog: iTCO_wdt: No need to stop the timer in probe
+Subject: watchdog: iTCO_wdt: No need to stop the timer in probe
 
 The watchdog core can handle pinging of the watchdog before userspace
 opens the device. For this reason instead of stopping the timer, just
@@ -14,10 +14,10 @@ Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
  1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/watchdog/iTCO_wdt.c b/drivers/watchdog/iTCO_wdt.c
-index 41afe6123064..fb8f5866d129 100644
+index b6e947417486..2d40018964bc 100644
 --- a/drivers/watchdog/iTCO_wdt.c
 +++ b/drivers/watchdog/iTCO_wdt.c
-@@ -432,6 +432,16 @@ static unsigned int iTCO_wdt_get_timeleft(struct watchdog_device *wd_dev)
+@@ -434,6 +434,16 @@ static unsigned int iTCO_wdt_get_timeleft(struct watchdog_device *wd_dev)
  	return time_left;
  }
  
@@ -34,7 +34,7 @@ index 41afe6123064..fb8f5866d129 100644
  /*
   *	Kernel Interfaces
   */
-@@ -577,8 +587,7 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
+@@ -579,8 +589,7 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
  	watchdog_set_drvdata(&p->wddev, p);
  	platform_set_drvdata(pdev, p);
  

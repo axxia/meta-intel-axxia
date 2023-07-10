@@ -1,4 +1,4 @@
-From 5f80573d0aef882545dd6f1df9a140eea696e411 Mon Sep 17 00:00:00 2001
+From 8c779fe63366c7f9983884f5d271385b312e7e6b Mon Sep 17 00:00:00 2001
 From: Matteo Croce <mcroce@microsoft.com>
 Date: Tue, 15 Dec 2020 20:46:57 -0800
 Subject: reboot: allow to specify reboot mode via sysfs
