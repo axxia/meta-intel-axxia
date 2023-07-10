@@ -5,28 +5,28 @@ poky
 ----
 URI: git://git.yoctoproject.org/poky.git
 branch: kirkstone
-revision: a8216f8f7c1f360005de6d11f5fa867328d10163
+revision: 84dd3d0e6c90656f2a7105aabd303a62fa49eeba
 
 meta-openembedded
 -----------------
 URI: https://github.com/openembedded/meta-openembedded.git
 branch: kirkstone
-revision: df452d9d98659b49888fa8a5428a0a8bd3e3aaec
+revision: d8acec2e848b2146e43df1c11d0bdbb118eba9d9
 
 meta-virtualization
 -------------------
 URI: git://git.yoctoproject.org/meta-virtualization
 branch: kirkstone
-revision: dde0ff9eaa301ec5bd3daf667c7966cf55404d26
+revision: b3b3dbc67504e8cd498d6db202ddcf5a9dd26a9d
 
 meta-intel
 ----------
 URI: git://git.yoctoproject.org/meta-intel
 branch: kirkstone
-revision: f709b3f2b05e2ac73c6734dc2a213382b5eaf579
+revision: 1aacdb4ed1e639cc6e19c541b058264eb17eb093
 
 meta-security
 -------------
 URI: https://git.yoctoproject.org/git/meta-security
 branch: kirkstone
-revision: cc20e2af2ae1c74e306f6c039c4963457c4cbd0f
+revision: d398cc6ea6716afd3a3a6e88ad8fbdc89510ef23
