@@ -1,5 +1,7 @@
-PREFERRED_VERSION_linux-intel-rt ?= "5.15%"
-PREFERRED_VERSION_linux-intel-rt-debug ?= "5.15%"
+# Set the version for alternative kernels as virtual/kernel provider
+KV = "${@d.getVar('PREFERRED_VERSION_' + d.getVar('PREFERRED_PROVIDER_virtual/kernel', True), True)}"
+PREFERRED_VERSION_linux-intel-rt ?= "${KV}"
+PREFERRED_VERSION_linux-intel-rt-debug ?= "${KV}"
 
 GCC_VERSION ?= "${@bb.utils.contains('DISTRO_FEATURES', 'gcc13', '13.%', '11.%', d)}"
 PREFERRED_VERSION_gcc ?= "${GCC_VERSION}"

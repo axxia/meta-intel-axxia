@@ -6,7 +6,6 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 
 # Kernel versions: 5.15 (default) or 5.10
 PREFERRED_VERSION_linux-intel = "5.15%"
-PREFERRED_VERSION_linux-intel-debug = "5.15%"
 
 # Add simics support (sources should be in meta-intel-distro/download)
 # and set simics version to compile (mandatory).
