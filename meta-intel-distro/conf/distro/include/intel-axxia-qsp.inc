@@ -1,6 +1,3 @@
-INHERIT += "archiver"
-ARCHIVER_MODE[src] = "original"
-
 COPY_LIC_MANIFEST = "1"
 COPY_LIC_DIRS = "1"
 
