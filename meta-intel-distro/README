@@ -270,13 +270,30 @@ NOTE: No preferred version should be set for linux-local provider.
 
     DISTRO_FEATURES:append = " gcc13"
 
-2.3.11. Depending on your host processor, set these two options that
+2.3.11. Enabling Multiple Configuration Build (snr, grr, qsp):
+
+  BBMULTICONFIG = "snr grr qsp"
+
+  For each configuration, a specific TMPDIR will be created in BUILDDIR.
+  If you need to set a different location for TMPDIR, use the TMPDIR_MULTICONFIG
+  variable to set the path for all configurations.
+
+To compile the multiple configuration build, the following sintax should be used:
+  bitbake [mc:multiconfigname:]target [[[mc:multiconfigname:]target] ... ]
+  e.g. bitbake mc::axxia-image-dev  # compile axxia-image-dev for all configuration
+       bitbake mc:snr:axxia-image-min   # compile axxia-image-run for Snow Ridge
+       bitbake mc:grr:virtual/kernel  # compile the kernel for Grand Ridge
+       bitbake mc:qsp:axxia-image-qsp  # compile QSP image for Simulation
+
+  Be aware that the default configuration (local.conf) can be used as before.
+
+2.3.12. Depending on your host processor, set these two options that
       control how much parallelism BitBake should use (optional):
 
     BB_NUMBER_THREADS = "12"
     PARALLEL_MAKE = "-j 12"
 
-2.3.12. Other optional settings for saving disk space and build time:
+2.3.13. Other optional settings for saving disk space and build time:
    
     DL_DIR = "/(some-shared-location)/downloads"
     SSTATE_DIR = "/(some-shared-location)/sstate-cache

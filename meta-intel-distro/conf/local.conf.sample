@@ -24,13 +24,18 @@ PREFERRED_VERSION_linux-intel = "5.15%"
 # Release version should be the meta-intel-axxia repository tag from release note.
 # RELEASE_VERSION = "" 
 
+# Enabling Multiple Configuration Build. The following sintax should be used:
+# bitbake [mc:multiconfigname:]target [[[mc:multiconfigname:]target] ... ]
+#BBMULTICONFIG ?= "snr grr qsp"
+
 BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
 PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"
 
 # Assume directories were created under TOPDIR
 #DL_DIR ?= "${TOPDIR}/downloads"
 #SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
-#TMPDIR = "${TOPDIR}/tmp"
+TMPDIR_MULTICONFIG ?= "${TOPDIR}"
+TMPDIR ?= "${TMPDIR_MULTICONFIG}/tmp"
 
 DISTRO = "intel-axxia"
 PACKAGE_CLASSES ?= "package_rpm"

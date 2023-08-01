@@ -7,6 +7,10 @@ Specific Intel AXXIA targets are:
     axxia-image-dev
     axxia-image-qsp (require 'qsp' distro feature)
 
+For Multiple Configuration Build, use the following sintax:
+    bitbake [mc:multiconfigname:]target [[[mc:multiconfigname:]target] ... ]
+    bitbake mc::axxia-image-dev mc:grr:axxia-image-run mc:qsp:axxia-image-qsp
+
 Other common targets are:
     core-image-minimal
     core-image-sato
