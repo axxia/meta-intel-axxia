@@ -177,10 +177,25 @@ NOTE: This doesn't supported using the /sys filesystem interface.
 GRR-iommu-Add-support-to-change-default-domain-of-an-iom.patch
 
 
-Add the GRR Device ID to the IOMMU Driver
------------------------------------------
+Back port EDAC Changes for GRR
+------------------------------
 
-GRR-drivers-iommu-Add-GRR-device-ID.patch
+GRR-Revert-EDAC-i10nm-Retrieve-and-print-retry_rd_err_lo.patch
+GRR-EDAC-i10nm-Add-detection-of-memory-levels-for-ICX-SP.patch
+GRR-EDAC-i10nm-Add-support-for-high-bandwidth-memory.patch
+GRR-EDAC-i10nm-Retrieve-and-print-retry_rd_err_log-1.patch
+GRR-EDAC-igen6-Make-sure-no-pending-errors.patch
+GRR-EDAC-igen6-Add-several-Intel-Alder-Lake-N-SoCs-suppo.patch
+GRR-EDAC-igen6-Add-another-Intel-Alder-Lake-SoC-support.patch
+GRR-EDAC-igen6-Add-another-Intel-Tiger-Lake-SoC-support.patch
+GRR-EDAC-skx_common-Add-new-ADXL-components-for-2-level-.patch
+GRR-EDAC-skx_common-Add-a-callback-of-decoding-errors-vi.patch
+GRR-EDAC-i10nm-Retrieve-and-print-retry_rd_err_log-2.patch
+GRR-EDAC-i10nm-Print-an-extra-register-set-of-retry_rd_e.patch
+GRR-EDAC-i10nm-Make-more-configurations-CPU-model-specif.patch
+GRR-EDAC-skx_common-Add-ChipSelect-ADXL-component.patch
+GRR-EDAC-i10nm-Add-Intel-Granite-Rapids-server-support.patch
+GRR-EDAC-i10nm-Add-Intel-Grand-Ridge-micro-server-suppor.patch
 
 
 II. Building meta-intel-bsp

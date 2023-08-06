@@ -28,6 +28,22 @@ file://GRR-vfio-type1-Save-domain-when-attach-domain-to-mdev.patch \
 file://GRR-mei-kdoc-fix-partial-back-port.patch \
 file://GRR-mei-me-disable-driver-on-the-ign-firmware.patch \
 file://GRR-iommu-Add-support-to-change-default-domain-of-an-iom.patch \
+file://GRR-Revert-EDAC-i10nm-Retrieve-and-print-retry_rd_err_lo.patch \
+file://GRR-EDAC-i10nm-Add-detection-of-memory-levels-for-ICX-SP.patch \
+file://GRR-EDAC-i10nm-Add-support-for-high-bandwidth-memory.patch \
+file://GRR-EDAC-i10nm-Retrieve-and-print-retry_rd_err_log-1.patch \
+file://GRR-EDAC-igen6-Make-sure-no-pending-errors.patch \
+file://GRR-EDAC-igen6-Add-several-Intel-Alder-Lake-N-SoCs-suppo.patch \
+file://GRR-EDAC-igen6-Add-another-Intel-Alder-Lake-SoC-support.patch \
+file://GRR-EDAC-igen6-Add-another-Intel-Tiger-Lake-SoC-support.patch \
+file://GRR-EDAC-skx_common-Add-new-ADXL-components-for-2-level-.patch \
+file://GRR-EDAC-skx_common-Add-a-callback-of-decoding-errors-vi.patch \
+file://GRR-EDAC-i10nm-Retrieve-and-print-retry_rd_err_log-2.patch \
+file://GRR-EDAC-i10nm-Print-an-extra-register-set-of-retry_rd_e.patch \
+file://GRR-EDAC-i10nm-Make-more-configurations-CPU-model-specif.patch \
+file://GRR-EDAC-skx_common-Add-ChipSelect-ADXL-component.patch \
+file://GRR-EDAC-i10nm-Add-Intel-Granite-Rapids-server-support.patch \
+file://GRR-EDAC-i10nm-Add-Intel-Grand-Ridge-micro-server-suppor.patch \
 "
 
 LINUX_VERSION_pn-linux-intel = "${LINUX_VERSION_standard}"
