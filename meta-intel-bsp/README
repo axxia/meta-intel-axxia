@@ -149,10 +149,12 @@ COM-watchdog-iTCO_wdt-use-dev_-instead-of-pr_-for-loggin.patch (only for kernel 
 COM-watchdog-iTCO_wdt-use-dev_err-instead-of-pr_err.patch (only for kernel 5.10)
 COM-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch
 
+
 Allow Displaying and Change Reboot Flags via SYSFS
 --------------------------------------------------
 
 COM-reboot-allow-to-specify-reboot-mode-via-sysfs.patch
+
 
 MDEV Functions (only for kernel 5.10)
 -------------------------------------
@@ -169,6 +171,42 @@ This avoids errors in the system logs.
 
 GRR-mei-kdoc-fix-partial-back-port.patch
 GRR-mei-me-disable-driver-on-the-ign-firmware.patch
+
+
+Add support to change default domain of an iommu group
+------------------------------------------------------
+
+Most of the patch is from
+
+  https://lists.linuxfoundation.org/pipermail/iommu/2019-August/038337.html
+
+with the addition of the GRR endpoint (8086:0dbd) in
+drivers/iommu/intel/iommu.c.
+
+NOTE: This doesn't supported using the /sys filesystem interface.
+
+GRR-iommu-Add-support-to-change-default-domain-of-an-iom.patch
+
+
+Back port EDAC Changes for GRR
+------------------------------
+
+GRR-Revert-EDAC-i10nm-Retrieve-and-print-retry_rd_err_lo.patch
+GRR-EDAC-i10nm-Add-detection-of-memory-levels-for-ICX-SP.patch
+GRR-EDAC-i10nm-Add-support-for-high-bandwidth-memory.patch
+GRR-EDAC-i10nm-Retrieve-and-print-retry_rd_err_log-1.patch
+GRR-EDAC-igen6-Make-sure-no-pending-errors.patch
+GRR-EDAC-igen6-Add-several-Intel-Alder-Lake-N-SoCs-suppo.patch
+GRR-EDAC-igen6-Add-another-Intel-Alder-Lake-SoC-support.patch
+GRR-EDAC-igen6-Add-another-Intel-Tiger-Lake-SoC-support.patch
+GRR-EDAC-skx_common-Add-new-ADXL-components-for-2-level-.patch
+GRR-EDAC-skx_common-Add-a-callback-of-decoding-errors-vi.patch
+GRR-EDAC-i10nm-Retrieve-and-print-retry_rd_err_log-2.patch
+GRR-EDAC-i10nm-Print-an-extra-register-set-of-retry_rd_e.patch
+GRR-EDAC-i10nm-Make-more-configurations-CPU-model-specif.patch
+GRR-EDAC-skx_common-Add-ChipSelect-ADXL-component.patch
+GRR-EDAC-i10nm-Add-Intel-Granite-Rapids-server-support.patch
+GRR-EDAC-i10nm-Add-Intel-Grand-Ridge-micro-server-suppor.patch
 
 
 II. Building meta-intel-bsp

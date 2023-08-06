@@ -1,4 +1,4 @@
-From 1650a3d857bb479706e3c5927514f51270279ec3 Mon Sep 17 00:00:00 2001
+From 71d5a3cd66bfd135a2d5ae7832d832badbad5ecc Mon Sep 17 00:00:00 2001
 From: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
 Date: Tue, 24 Nov 2020 21:06:02 +0800
 Subject: iommu: Add support to change default domain of an iommu group
@@ -38,6 +38,8 @@ Note:
 Please see "Documentation/ABI/testing/sysfs-kernel-iommu_groups" for more
 information.
 
+NOTE: This back-port does not support using the /sys interface on GRR.
+
 Signed-off-by: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 Cc: Christoph Hellwig <hch@lst.de>
@@ -49,10 +51,34 @@ Cc: Robin Murphy <robin.murphy@arm.com>
 Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
 Link: https://lore.kernel.org/r/20201124130604.2912899-3-baolu.lu@linux.intel.com
 Signed-off-by: Will Deacon <will@kernel.org>
+Back-ported-by: John Jacques <john.jacques@intel.com>
 ---
- drivers/iommu/iommu.c | 230 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 229 insertions(+), 1 deletion(-)
+ drivers/iommu/intel/iommu.c |   4 +
+ drivers/iommu/iommu.c       | 230 +++++++++++++++++++++++++++++++++++-
+ 2 files changed, 233 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index c35751a15179..b897e481502f 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -63,6 +63,7 @@
+ 			    (pdev)->device == 0x465d ||		\
+ 			    (pdev)->device == 0x1919))
+ #define IS_AZALIA(pdev) ((pdev)->vendor == 0x8086 && (pdev)->device == 0x3a3e)
++#define IS_GRR(pdev) ((pdev)->vendor == 0x8086 && (pdev)->device == 0x0dbd)
+ 
+ #define IOAPIC_RANGE_START	(0xfee00000)
+ #define IOAPIC_RANGE_END	(0xfeefffff)
+@@ -3029,6 +3030,9 @@ static int device_def_domain_type(struct device *dev)
+ 
+ 		if ((iommu_identity_mapping & IDENTMAP_IPU) && IS_INTEL_IPU(pdev))
+ 			return IOMMU_DOMAIN_IDENTITY;
++
++		if (IS_GRR(pdev))
++			return IOMMU_DOMAIN_IDENTITY;
+ 	}
+ 
+ 	return 0;
 diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
 index 9d65557dfb2c..cf9a08402cf6 100644
 --- a/drivers/iommu/iommu.c
