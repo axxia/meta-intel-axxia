@@ -11,7 +11,6 @@ file://COM-watchdog-iTCO_wdt-use-module_platform_device-macro.patch \
 file://COM-watchdog-iTCO_wdt-use-dev_err-instead-of-pr_err.patch \
 file://COM-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch \
 file://COM-reboot-allow-to-specify-reboot-mode-via-sysfs.patch \
-file://COM-iommu-Add-support-to-change-default-domain-of-an-iom.patch \
 "
 
 SNR_PATCHES = " ${COMMON_PATCHES} \
@@ -28,7 +27,7 @@ file://GRR-vfio-mdev-Add-a-member-for-iommu-domain-in-mdev_devi.patch \
 file://GRR-vfio-type1-Save-domain-when-attach-domain-to-mdev.patch \
 file://GRR-mei-kdoc-fix-partial-back-port.patch \
 file://GRR-mei-me-disable-driver-on-the-ign-firmware.patch \
-file://GRR-drivers-iommu-Add-GRR-device-ID.patch \
+file://GRR-iommu-Add-support-to-change-default-domain-of-an-iom.patch \
 "
 
 LINUX_VERSION_pn-linux-intel = "${LINUX_VERSION_standard}"

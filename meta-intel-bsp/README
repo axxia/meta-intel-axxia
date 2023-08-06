@@ -144,12 +144,6 @@ Allow Displaying and Change Reboot Flags via SYSFS
 COM-reboot-allow-to-specify-reboot-mode-via-sysfs.patch
 
 
-iommu: Add support to change default domain of an iommu group
--------------------------------------------------------------
-
-COM-iommu-Add-support-to-change-default-domain-of-an-iom.patch
-
-
 MDEV Functions
 --------------
 
@@ -166,6 +160,22 @@ This avoids errors in the system logs.
 
 GRR-mei-kdoc-fix-partial-back-port.patch
 GRR-mei-me-disable-driver-on-the-ign-firmware.patch
+
+
+Add support to change default domain of an iommu group
+------------------------------------------------------
+
+Most of the patch is from
+
+  https://lists.linuxfoundation.org/pipermail/iommu/2019-August/038337.html
+
+with the addition of the GRR endpoint (8086:0dbd) in
+drivers/iommu/intel/iommu.c.
+
+NOTE: This doesn't supported using the /sys filesystem interface.
+
+GRR-iommu-Add-support-to-change-default-domain-of-an-iom.patch
+
 
 Add the GRR Device ID to the IOMMU Driver
 -----------------------------------------
