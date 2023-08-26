@@ -20,7 +20,7 @@ echo "Running /etc/rc.local..."
 # Automatically mount host filesystem using simicsfs-client.
 type simicsfs-client &>/dev/null && simicsfs-client -o allow_other /host
 
-# Run udhcpc on the Ethernet interface.
+# Run dhcpcd on the Ethernet interface.
 
 TOUT=20
 
@@ -43,6 +43,6 @@ then
 
     if [ $TOUT -ne 0 ]
     then
-	udhcpc -b --interface=eth0
+	dhcpcd eth0
     fi
 fi

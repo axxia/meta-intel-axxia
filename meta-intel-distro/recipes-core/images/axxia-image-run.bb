@@ -17,6 +17,7 @@ boost \
 boost-dev \
 cpuid \
 cpupower \
+dhcpcd \
 dmidecode \
 dos2unix \
 dtc \

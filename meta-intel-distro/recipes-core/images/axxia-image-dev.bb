@@ -39,7 +39,6 @@ bridge-utils \
 boost \
 boost-dev \
 busybox \
-busybox-udhcpc \
 bzip2 \
 cifs-utils \
 cmake \
@@ -53,6 +52,7 @@ curl \
 db \
 dbus \
 dbus-glib \
+dhcpcd \
 dhrystone \
 diffutils \
 dmidecode \
