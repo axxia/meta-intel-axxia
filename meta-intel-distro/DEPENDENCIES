@@ -3,30 +3,30 @@ Dependencies
 
 poky
 ----
-URI: git://git.yoctoproject.org/poky.git
+URI: https://git.yoctoproject.org/poky
 branch: kirkstone
 revision: 84dd3d0e6c90656f2a7105aabd303a62fa49eeba
 
 meta-openembedded
 -----------------
-URI: https://github.com/openembedded/meta-openembedded.git
+URI: https://git.openembedded.org/meta-openembedded
 branch: kirkstone
 revision: d8acec2e848b2146e43df1c11d0bdbb118eba9d9
 
 meta-virtualization
 -------------------
-URI: git://git.yoctoproject.org/meta-virtualization
+URI: https://git.yoctoproject.org/meta-virtualization
 branch: kirkstone
 revision: b3b3dbc67504e8cd498d6db202ddcf5a9dd26a9d
 
 meta-intel
 ----------
-URI: git://git.yoctoproject.org/meta-intel
+URI: https://git.yoctoproject.org/meta-intel
 branch: kirkstone
 revision: 1aacdb4ed1e639cc6e19c541b058264eb17eb093
 
 meta-security
 -------------
-URI: https://git.yoctoproject.org/git/meta-security
+URI: https://git.yoctoproject.org/meta-security
 branch: kirkstone
 revision: d398cc6ea6716afd3a3a6e88ad8fbdc89510ef23
