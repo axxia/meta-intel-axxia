@@ -53,6 +53,8 @@ PREFERRED_VERSION_linux-firmware ?= "20210511"
 
 PREFERRED_VERSION_acpica ?= "20211217"
 
+PREFERRED_VERSION_fwts ?= "23.07.00"
+
 VIRTUAL-RUNTIME_syslog ?= "rsyslog"
 
 SAVANNAH_NONGNU_MIRROR = "http://download-mirror.savannah.gnu.org/releases"
