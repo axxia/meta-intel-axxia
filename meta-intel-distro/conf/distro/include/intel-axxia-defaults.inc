@@ -69,6 +69,8 @@ PREFERRED_VERSION_nativesdk-libgcc ?= "${GCC_VERSION}"
 PREFERRED_VERSION_nativesdk-libgcc-initial ?= "${GCC_VERSION}"
 PREFERRED_VERSION_nativesdk-libgfortran ?= "${GCC_VERSION}"
 
+PREFERRED_VERSION_acpica ?= "20230628"
+
 PREFERRED_VERSION_fwts ?= "23.07.00"
 
 VIRTUAL-RUNTIME_syslog ?= "rsyslog"
