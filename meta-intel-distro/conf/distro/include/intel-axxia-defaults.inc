@@ -3,7 +3,7 @@ KV = "${@d.getVar('PREFERRED_VERSION_' + d.getVar('PREFERRED_PROVIDER_virtual/ke
 PREFERRED_VERSION_linux-intel-rt ?= "${KV}"
 PREFERRED_VERSION_linux-intel-rt-debug ?= "${KV}"
 
-GCC_VERSION ?= "${@bb.utils.contains('DISTRO_FEATURES', 'gcc13', '13.%', '11.%', d)}"
+GCC_VERSION = "${@bb.utils.contains('DISTRO_FEATURES', 'gcc13', '13.%', '11.%', d)}"
 PREFERRED_VERSION_gcc ?= "${GCC_VERSION}"
 PREFERRED_VERSION_gcc-runtime ?= "${GCC_VERSION}"
 PREFERRED_VERSION_gcc-sanitizers ?= "${GCC_VERSION}"
@@ -26,26 +26,6 @@ PREFERRED_VERSION_nativesdk-gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${G
 PREFERRED_VERSION_nativesdk-libgcc ?= "${GCC_VERSION}"
 PREFERRED_VERSION_nativesdk-libgcc-initial ?= "${GCC_VERSION}"
 PREFERRED_VERSION_nativesdk-libgfortran ?= "${GCC_VERSION}"
-
-PREFERRED_VERSION_ccache ?= "${@bb.utils.contains('DISTRO_FEATURES', 'gcc13', '4.7%', '4.6%', d)}"
-PREFERRED_VERSION_stressapptest ?= "${@bb.utils.contains('DISTRO_FEATURES', 'gcc13', '1.0.9+1.0.10%', '1.0.9', d)}"
-PREFERRED_VERSION_lxc ?= "${@bb.utils.contains('DISTRO_FEATURES', 'gcc13', '5%', '4%', d)}"
-
-GLIBC_VERSION ?= "${@bb.utils.contains('DISTRO_FEATURES', 'gcc13', '2.37', '2.35', d)}"
-PREFERRED_VERSION_glibc ?= "${GLIBC_VERSION}"
-PREFERRED_VERSION_glibc-locale ?= "${GLIBC_VERSION}"
-PREFERRED_VERSION_glibc-mtarce ?= "${GLIBC_VERSION}"
-PREFERRED_VERSION_glibc-scripts ?= "${GLIBC_VERSION}"
-PREFERRED_VERSION_glibc-tests ?= "${GLIBC_VERSION}"
-PREFERRED_VERSION_glibc-testsuite ?= "${GLIBC_VERSION}"
-PREFERRED_VERSION_cross-localedef-native ?= "${GLIBC_VERSION}"
-PREFERRED_VERSION_nativesdk-glibc ?= "${GLIBC_VERSION}"
-PREFERRED_VERSION_nativesdk-glibc-locale ?= "${GLIBC_VERSION}"
-PREFERRED_VERSION_nativesdk-glibc-mtarce ?= "${GLIBC_VERSION}"
-PREFERRED_VERSION_nativesdk-glibc-scripts ?= "${GLIBC_VERSION}"
-PREFERRED_VERSION_nativesdk-glibc-tests ?= "${GLIBC_VERSION}"
-PREFERRED_VERSION_nativesdk-glibc-testsuite ?= "${GLIBC_VERSION}"
-PREFERRED_VERSION_nativesdk-cross-localedef-native ?= "${GLIBC_VERSION}"
 
 PREFERRED_VERSION_libxcrypt-compat ?= "4.1.1"
 
