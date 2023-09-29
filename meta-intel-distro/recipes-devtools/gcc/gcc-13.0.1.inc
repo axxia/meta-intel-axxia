@@ -23,14 +23,14 @@ LIC_FILES_CHKSUM = "\
     file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8 \
 "
 # from git
-#RELEASE ?= "fdc5abbdcfb65d415af6c40230f8f07872e51e49"
-#BASEURI ?= "https://repo.or.cz/official-gcc.git/snapshot/${RELEASE}.tar.gz;downloadfilename=gcc-${PV}-${RELEASE}.tar.gz"
-#SOURCEDIR ?= "official-gcc-${@'${RELEASE}'[0:7]}"
+RELEASE ?= "fdc5abbdcfb65d415af6c40230f8f07872e51e49"
+BASEURI ?= "https://repo.or.cz/official-gcc.git/snapshot/${RELEASE}.tar.gz;downloadfilename=gcc-${PV}-${RELEASE}.tar.gz"
+SOURCEDIR ?= "official-gcc-${@'${RELEASE}'[0:7]}"
 
 # from snapshot
-RELEASE ?= "13-20230416"
-SOURCEDIR ?= "gcc-${RELEASE}"
-BASEURI ?= "https://gcc.gnu.org/pub/gcc/snapshots/${RELEASE}/gcc-${RELEASE}.tar.xz"
+#RELEASE ?= "12.1.0-RC-20220429"
+#SOURCEDIR ?= "gcc-${RELEASE}"
+#BASEURI ?= "https://gcc.gnu.org/pub/gcc/snapshots/${RELEASE}/gcc-${RELEASE}.tar.xz"
 
 # official release
 #RELEASE ?= "${PV}"
@@ -62,7 +62,7 @@ SRC_URI = "${BASEURI} \
            file://0022-Fix-install-path-of-linux64.h.patch \
            file://hardcoded-paths.patch \
 "
-SRC_URI[sha256sum] = "dacefc66767f7bed947f89c5ceb79f803b5ec4e4034871aa7ed3466ec1f42547"
+SRC_URI[sha256sum] = "ed9838b393a9926368458e13f529719ba7d52b32e451860be6e25f6765abd93f"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${SOURCEDIR}"
 B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
