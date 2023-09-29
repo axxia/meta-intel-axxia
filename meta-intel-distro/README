@@ -61,7 +61,7 @@ II. Building meta-intel-distro
 1.1. Clone the Intel Axxia repository. This provides OpenEmbedded/Yocto
    layers with metadata for building images for the Intel Axxia specific
    reference platforms. See 'Sources' from the main README to select the
-   right repository. Use the 'kirkstone' branch or the tag specified in the
+   right repository. Use the 'master' branch or the tag specified in the
    release notes.
 
    $ cd $YOCTO
@@ -71,9 +71,9 @@ II. Building meta-intel-distro
    $ git clone https://github.com/axxia/meta-intel-axxia.git
    $ cd meta-intel-axxia
 
-   If using the 'kirkstone' branch.
+   If using the 'master' branch.
 
-   $ git checkout kirkstone
+   $ git checkout master
 
    If using the tag specified in the releases notes.
 
