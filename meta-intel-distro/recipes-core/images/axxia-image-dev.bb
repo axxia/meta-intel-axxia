@@ -117,6 +117,7 @@ iputils \
 irda-utils \
 jansson \
 json-c \
+iptraf \
 iw \
 kdump \
 kernel-dev \
