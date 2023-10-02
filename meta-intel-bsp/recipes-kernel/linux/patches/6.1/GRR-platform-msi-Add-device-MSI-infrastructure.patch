@@ -1,7 +1,7 @@
-From 74ce16df3359c790c44524d779b0ed4f64859393 Mon Sep 17 00:00:00 2001
+From 2404106477556abc3eeec933cb59c0afefb5f69f Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Mon, 19 Jul 2021 10:27:32 -0500
-Subject: platform-msi: Add device MSI infrastructure
+Subject: [PATCH 3/5] platform-msi: Add device MSI infrastructure
 
 Add device specific MSI domain infrastructure for devices which have their
 own resource management and interrupt chip. These devices are not related
@@ -24,17 +24,17 @@ Back-ported-by: John Jacques <john.jacques@intel.com>
 ---
  drivers/base/platform-msi.c | 131 ++++++++++++++++++++++++++++++++++++
  include/linux/irqdomain.h   |   1 +
- include/linux/msi.h         |  24 +++++++
+ include/linux/msi.h         |  23 +++++++
  kernel/irq/Kconfig          |   4 ++
- 4 files changed, 160 insertions(+)
+ 4 files changed, 159 insertions(+)
 
 diff --git a/drivers/base/platform-msi.c b/drivers/base/platform-msi.c
-index 3d6c8f9caf43..10f290e3a247 100644
+index 12b044151298..fafdbb6bc0ea 100644
 --- a/drivers/base/platform-msi.c
 +++ b/drivers/base/platform-msi.c
-@@ -428,3 +428,134 @@ int platform_msi_domain_alloc(struct irq_domain *domain, unsigned int virq,
+@@ -349,3 +349,134 @@ int platform_msi_device_domain_alloc(struct irq_domain *domain, unsigned int vir
  
- 	return err;
+ 	return msi_domain_populate_irqs(domain->parent, dev, virq, nr_irqs, &data->arg);
  }
 +
 +#ifdef CONFIG_DEVICE_MSI
@@ -168,10 +168,10 @@ index 3d6c8f9caf43..10f290e3a247 100644
 +#endif /* CONFIG_PCI */
 +#endif /* CONFIG_DEVICE_MSI */
 diff --git a/include/linux/irqdomain.h b/include/linux/irqdomain.h
-index 9ee238ad29ce..040095ede8a5 100644
+index 00d577f90883..9f3025219b56 100644
 --- a/include/linux/irqdomain.h
 +++ b/include/linux/irqdomain.h
-@@ -83,6 +83,7 @@ enum irq_domain_bus_token {
+@@ -87,6 +87,7 @@ enum irq_domain_bus_token {
  	DOMAIN_BUS_TI_SCI_INTA_MSI,
  	DOMAIN_BUS_WAKEUP,
  	DOMAIN_BUS_VMD_MSI,
@@ -180,12 +180,12 @@ index 9ee238ad29ce..040095ede8a5 100644
  
  /**
 diff --git a/include/linux/msi.h b/include/linux/msi.h
-index e616f94c7c58..f095c2d193f9 100644
+index e5dfb9cf3aa1..2720b25ba8c0 100644
 --- a/include/linux/msi.h
 +++ b/include/linux/msi.h
-@@ -94,6 +94,18 @@ struct ti_sci_inta_msi_desc {
- 	u16	dev_index;
- };
+@@ -122,6 +122,18 @@ struct pci_msi_desc {
+ 
+ #define MSI_MAX_INDEX		((unsigned int)USHRT_MAX)
  
 +/**
 + * device_msi_desc - Device MSI specific MSI descriptor data
@@ -201,16 +201,8 @@ index e616f94c7c58..f095c2d193f9 100644
 +
  /**
   * struct msi_desc - Descriptor structure for MSI based interrupts
-  * @list:	List head for management
-@@ -170,6 +182,7 @@ struct msi_desc {
- 		struct platform_msi_desc platform;
- 		struct fsl_mc_msi_desc fsl_mc;
- 		struct ti_sci_inta_msi_desc inta;
-+		struct device_msi_desc device_msi;
- 	};
- };
- 
-@@ -447,6 +460,17 @@ void platform_msi_domain_free(struct irq_domain *domain, unsigned int virq,
+  * @irq:	The base interrupt number
+@@ -476,6 +488,17 @@ void platform_msi_device_domain_free(struct irq_domain *domain, unsigned int vir
  void *platform_msi_get_host_data(struct irq_domain *domain);
  #endif /* CONFIG_GENERIC_MSI_IRQ_DOMAIN */
  
@@ -226,13 +218,13 @@ index e616f94c7c58..f095c2d193f9 100644
 +#endif /* CONFIG_DEVICE_MSI */
 +
  #ifdef CONFIG_PCI_MSI_IRQ_DOMAIN
- void pci_msi_domain_write_msg(struct irq_data *irq_data, struct msi_msg *msg);
  struct irq_domain *pci_msi_create_irq_domain(struct fwnode_handle *fwnode,
+ 					     struct msi_domain_info *info,
 diff --git a/kernel/irq/Kconfig b/kernel/irq/Kconfig
-index 00d58588ea95..f7c386f9d126 100644
+index db3d174c53d4..19e4c7d21ed3 100644
 --- a/kernel/irq/Kconfig
 +++ b/kernel/irq/Kconfig
-@@ -95,6 +95,10 @@ config GENERIC_MSI_IRQ_DOMAIN
+@@ -96,6 +96,10 @@ config GENERIC_MSI_IRQ_DOMAIN
  	select IRQ_DOMAIN_HIERARCHY
  	select GENERIC_MSI_IRQ
  
@@ -244,5 +236,5 @@ index 00d58588ea95..f7c386f9d126 100644
  	bool
  
 -- 
-2.25.1
+2.34.1
 

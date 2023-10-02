@@ -7,8 +7,6 @@ SRCREV_meta = "d62bfbd59e3f6f9b6fa6e396df2d9c7f1abb80ed"
 COMMON_PATCHES = " \
 file://COM-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
 file://COM-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
-file://COM-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch \
-file://COM-libata-add-horkage-for-missing-Identify-Device-log.patch \
 "
 
 SNR_PATCHES = " ${COMMON_PATCHES} \
@@ -18,12 +16,7 @@ GRR_PATCHES = " ${COMMON_PATCHES} \
 file://GRR-platform-msi-Add-device-MSI-infrastructure.patch \
 file://GRR-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch \
 file://GRR-driver-core-auxiliary-bus-Add-Config-Option.patch \
-file://GRR-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
 "
-
-# Replace patch from meta-axxia with a refreshed one for kernel 5.15.94
-SRC_URI:remove = " file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-.patch"
-SRC_URI:append = " file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-5.15.94.patch"
 
 LINUX_VERSION:pn-linux-intel = "${LINUX_VERSION_standard}"
 LINUX_VERSION:pn-linux-intel-debug = "${LINUX_VERSION_standard}"

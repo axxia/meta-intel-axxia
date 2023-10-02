@@ -1,7 +1,7 @@
-From 44d783c6aae4e3236c3f1ab2225a772e5c9b7b31 Mon Sep 17 00:00:00 2001
+From b4213fd4732d58a0a77edc541c50d4c7fa8defd5 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Fri, 19 Jun 2020 20:31:25 +0000
-Subject: drivers/watchdog: Ignore 'No Reboot' Bit
+Subject: [PATCH 1/5] drivers/watchdog: Ignore 'No Reboot' Bit
 
 Early versions of the SNR chip do not allow the "no reboot"
 bit to be accessed.  This commit simply assumes that it is
@@ -12,14 +12,14 @@ the chip.
 Signed-off-by: John Jacques <john.jacques@intel.com>
 Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
 ---
- drivers/watchdog/iTCO_wdt.c | 54 ++++++++++++++++++++++---------------
- 1 file changed, 32 insertions(+), 22 deletions(-)
+ drivers/watchdog/iTCO_wdt.c | 45 +++++++++++++++++++++++--------------
+ 1 file changed, 28 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/watchdog/iTCO_wdt.c b/drivers/watchdog/iTCO_wdt.c
-index ced2fc0deb8c..88886d7f49c4 100644
+index e937b4dd28be..8f68632303a5 100644
 --- a/drivers/watchdog/iTCO_wdt.c
 +++ b/drivers/watchdog/iTCO_wdt.c
-@@ -127,6 +127,11 @@ module_param(turn_SMI_watchdog_clear_off, int, 0);
+@@ -126,6 +126,11 @@ module_param(turn_SMI_watchdog_clear_off, int, 0);
  MODULE_PARM_DESC(turn_SMI_watchdog_clear_off,
  	"Turn off SMI clearing watchdog (depends on TCO-version)(default=1)");
  
@@ -31,7 +31,7 @@ index ced2fc0deb8c..88886d7f49c4 100644
  /*
   * Some TCO specific functions
   */
-@@ -275,10 +280,12 @@ static int iTCO_wdt_start(struct watchdog_device *wd_dev)
+@@ -274,10 +279,12 @@ static int iTCO_wdt_start(struct watchdog_device *wd_dev)
  	iTCO_vendor_pre_start(p->smi_res, wd_dev->timeout);
  
  	/* disable chipset's NO_REBOOT bit */
@@ -48,7 +48,7 @@ index ced2fc0deb8c..88886d7f49c4 100644
  	}
  
  	/* Force the timer to its reload value by writing to the TCO_RLD
-@@ -316,7 +323,8 @@ static int iTCO_wdt_stop(struct watchdog_device *wd_dev)
+@@ -315,7 +322,8 @@ static int iTCO_wdt_stop(struct watchdog_device *wd_dev)
  	val = inw(TCO1_CNT(p));
  
  	/* Set the NO_REBOOT bit to prevent later reboots, just for sure */
@@ -58,26 +58,20 @@ index ced2fc0deb8c..88886d7f49c4 100644
  
  	spin_unlock(&p->io_lock);
  
-@@ -495,25 +503,27 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
+@@ -508,18 +516,20 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
  	 * Get the Memory-Mapped GCS or PMC register, we need it for the
  	 * NO_REBOOT flag (TCO v2 and v3).
  	 */
 -	if (p->iTCO_version >= 2 && p->iTCO_version < 6 &&
 -	    !pdata->no_reboot_use_pmc) {
--		p->gcs_pmc_res = platform_get_resource(pdev,
--						       IORESOURCE_MEM,
--						       ICH_RES_MEM_GCS_PMC);
--		p->gcs_pmc = devm_ioremap_resource(dev, p->gcs_pmc_res);
+-		p->gcs_pmc = devm_platform_ioremap_resource(pdev, ICH_RES_MEM_GCS_PMC);
 -		if (IS_ERR(p->gcs_pmc))
 -			return PTR_ERR(p->gcs_pmc);
 -	}
 +	if (assume_noreboot_access == 0) {
 +		if (p->iTCO_version >= 2 && p->iTCO_version < 6 &&
 +		    !pdata->no_reboot_use_pmc) {
-+			p->gcs_pmc_res = platform_get_resource(pdev,
-+							       IORESOURCE_MEM,
-+							       ICH_RES_MEM_GCS_PMC);
-+			p->gcs_pmc = devm_ioremap_resource(dev, p->gcs_pmc_res);
++			p->gcs_pmc = devm_platform_ioremap_resource(pdev, ICH_RES_MEM_GCS_PMC);
 +			if (IS_ERR(p->gcs_pmc))
 +				return PTR_ERR(p->gcs_pmc);
 +		}
@@ -87,22 +81,25 @@ index ced2fc0deb8c..88886d7f49c4 100644
 -	    iTCO_vendor_check_noreboot_on()) {
 -		dev_info(dev, "unable to reset NO_REBOOT flag, device disabled by hardware/BIOS\n");
 -		return -ENODEV;	/* Cannot reset NO_REBOOT bit */
--	}
 +		/* Check chipset's NO_REBOOT bit */
 +		if (p->update_no_reboot_bit(p->no_reboot_priv, false) &&
 +		    iTCO_vendor_check_noreboot_on()) {
 +			dev_info(dev, "unable to reset NO_REBOOT flag, device disabled by hardware/BIOS\n");
 +			return -ENODEV;	/* Cannot reset NO_REBOOT bit */
 +		}
- 
--	/* Set the NO_REBOOT bit to prevent later reboots, just for sure */
--	p->update_no_reboot_bit(p->no_reboot_priv, true);
-+		/* Set the NO_REBOOT bit to prevent later reboots, just for sure */
-+		p->update_no_reboot_bit(p->no_reboot_priv, true);
-+	}
+ 	}
  
  	if (turn_SMI_watchdog_clear_off >= p->iTCO_version) {
- 		/*
+@@ -578,7 +588,8 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
+ 		 * If the watchdog was not running set NO_REBOOT now to
+ 		 * prevent later reboots.
+ 		 */
+-		p->update_no_reboot_bit(p->no_reboot_priv, true);
++		if (assume_noreboot_access == 0)
++			p->update_no_reboot_bit(p->no_reboot_priv, true);
+ 	}
+ 
+ 	/* Check that the heartbeat value is within it's range;
 -- 
-2.25.1
+2.34.1
 
