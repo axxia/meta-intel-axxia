@@ -167,12 +167,7 @@ python uninative_changeinterp () {
             if not elf.isDynamic():
                 continue
 
-            current = subprocess.check_output(("patchelf-uninative", "--print-interpreter", f), stderr=subprocess.STDOUT).decode('utf-8').split('\n')[0]
-            if current != d.getVar("UNINATIVE_LOADER"):
-                bb.debug(2, "Changing interpreter from %s to %s with %s" % (current, d.getVar("UNINATIVE_LOADER"), ("patchelf-uninative", "--set-interpreter", d.getVar("UNINATIVE_LOADER"), f)))
-                os.chmod(f, s[stat.ST_MODE] | stat.S_IWUSR)
-                subprocess.check_output(("patchelf-uninative", "--set-interpreter", d.getVar("UNINATIVE_LOADER"), f), stderr=subprocess.STDOUT)
-                os.chmod(f, s[stat.ST_MODE])
-            else:
-                bb.debug(2, "Interpreter was already set to %s in %s" % (d.getVar("UNINATIVE_LOADER"), f))
+            os.chmod(f, s[stat.ST_MODE] | stat.S_IWUSR)
+            subprocess.check_output(("patchelf-uninative", "--set-interpreter", d.getVar("UNINATIVE_LOADER"), f), stderr=subprocess.STDOUT)
+            os.chmod(f, s[stat.ST_MODE])
 }
