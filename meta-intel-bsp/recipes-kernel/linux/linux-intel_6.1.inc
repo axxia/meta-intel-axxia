@@ -14,7 +14,6 @@ SNR_PATCHES = " ${COMMON_PATCHES} \
 
 GRR_PATCHES = " ${COMMON_PATCHES} \
 file://GRR-platform-msi-Add-device-MSI-infrastructure.patch \
-file://GRR-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch \
 file://GRR-driver-core-auxiliary-bus-Add-Config-Option.patch \
 "
 
