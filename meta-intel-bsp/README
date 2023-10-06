@@ -124,14 +124,14 @@ Removes some limitations to the use of PTWRITE.  Without the above
 'perf record' and 'per script' issue warnings about lost data.
 
 
-Support Serial Flash Access (MTD) to Boot Flash (only for GRR)
+Support Serial Flash Access (MTD) to Boot Flash
 --------------------------------------------------------------
 
 Allows access to the secondary boot flash from Linux using the MTD driver.
 
-GRR-mtd-spi-nor-intel-spi-add-is_protected-and-is_bios_l.patch
-GRR-mtd-spi-nor-intel-spi-Move-platform-data-header-to-x.patch (only for kernel 5.10)
-GRR-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch
+COM-mtd-spi-nor-intel-spi-Move-platform-data-header-to-x.patch (only for kernel 5.10)
+COM-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch
+COM-Introduce-an-Intel-SPI-controller-level-mutex.patch
 
 
 Support for SIOV (only for GRR)
