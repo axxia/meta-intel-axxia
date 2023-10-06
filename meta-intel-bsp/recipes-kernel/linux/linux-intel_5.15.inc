@@ -9,6 +9,8 @@ file://COM-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
 file://COM-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
 file://COM-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch \
 file://COM-libata-add-horkage-for-missing-Identify-Device-log.patch \
+file://COM-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
+file://COM-Introduce-an-Intel-SPI-controller-level-mutex.patch \
 "
 
 SNR_PATCHES = " ${COMMON_PATCHES} \
@@ -18,7 +20,6 @@ GRR_PATCHES = " ${COMMON_PATCHES} \
 file://GRR-platform-msi-Add-device-MSI-infrastructure.patch \
 file://GRR-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch \
 file://GRR-driver-core-auxiliary-bus-Add-Config-Option.patch \
-file://GRR-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
 "
 
 # Replace patch from meta-axxia with a refreshed one for kernel 5.15.94
