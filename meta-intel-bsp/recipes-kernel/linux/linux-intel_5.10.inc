@@ -11,6 +11,9 @@ file://COM-watchdog-iTCO_wdt-use-module_platform_device-macro.patch \
 file://COM-watchdog-iTCO_wdt-use-dev_err-instead-of-pr_err.patch \
 file://COM-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch \
 file://COM-reboot-allow-to-specify-reboot-mode-via-sysfs.patch \
+file://COM-mtd-spi-nor-intel-spi-Move-platform-data-header-to-x.patch \
+file://COM-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
+file://COM-Introduce-an-Intel-SPI-controller-level-mutex.patch \
 "
 
 SNR_PATCHES = " ${COMMON_PATCHES} \
@@ -19,8 +22,6 @@ file://SNR-perf-intel-pt-Use-aux_watermark.patch \
 "
 
 GRR_PATCHES = " ${COMMON_PATCHES} \
-file://GRR-mtd-spi-nor-intel-spi-Move-platform-data-header-to-x.patch \
-file://GRR-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
 file://GRR-platform-msi-Add-device-MSI-infrastructure.patch \
 file://GRR-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch \
 file://GRR-vfio-mdev-Add-a-member-for-iommu-domain-in-mdev_devi.patch \
