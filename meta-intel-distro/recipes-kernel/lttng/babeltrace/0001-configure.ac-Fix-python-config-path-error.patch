@@ -1,0 +1,36 @@
+From c73abf861fc0dd2df67c185589d1e372e03601c6 Mon Sep 17 00:00:00 2001
+From: Daniel Dragomir <daniel.dragomir@windriver.com>
+Date: Fri, 13 Oct 2023 18:38:13 +0300
+Subject: [PATCH] configure.ac: Fix python-config path error
+
+configure.ac is looking for python-config in the same dir with python3
+in recipe-sysroot-native (usr/bin/python3-native) but in oe-core
+starting with commit 990af746c2 ("python3: use the standard shell
+version of python3-config") python3-config was moved in /usr/bin.
+
+| configure: error: cannot find python-config for ...
+babeltrace/1.5.11/recipe-sysroot-native/usr/bin/python3-native/python3.
+Do you have python-dev installed?
+
+Upstream-Status: Inappropriate [oe-core specific]
+Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index f13bec53..cd16ac91 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -256,7 +256,7 @@ if test "x${enable_python:-yes}" = xyes; then
+       AC_PATH_PROGS([PYTHON_CONFIG],
+                     [python$PYTHON_VERSION-config python-config],
+                     [no],
+-                    [`dirname $PYTHON`])
++                    [`dirname \`dirname $PYTHON\``])
+       AS_IF([test "$PYTHON_CONFIG" = no], [AC_MSG_ERROR([cannot find python-config for $PYTHON. Do you have python-dev installed?])])
+     ])
+     AC_MSG_CHECKING([python include flags])
+-- 
+2.34.1
+
