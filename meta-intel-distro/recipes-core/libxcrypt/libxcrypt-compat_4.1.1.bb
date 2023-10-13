@@ -3,7 +3,7 @@ DESCRIPTION = "Forked code from glibc libary to extract only crypto part.\
 This provides libcrypto.so.1 which contains obsolete APIs, needed for uninative in particular."
 HOMEPAGE = "https://github.com/besser82/libxcrypt"
 SECTION = "libs"
-LICENSE = "LGPLv2.1"
+LICENSE = "LGPL-2.1-only"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/LGPL-2.1-only;md5=1a6d268fd218675ffea8be556788b780"
 
 SRC_URI = "https://repo.almalinux.org/almalinux/8/BaseOS/x86_64/os/Packages/libxcrypt-${PV}-6.el8.x86_64.rpm"
@@ -17,5 +17,7 @@ do_install () {
 	install -d ${D}${libdir}
 	cp -P ${S}/lib64/libcrypt.so* ${D}${libdir}
 }
+
+PACKAGES = "${PN}"
 
 INSANE_SKIP:${PN} = "already-stripped"
