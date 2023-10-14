@@ -14,6 +14,7 @@ PYPI_PACKAGE = "sheet2dict"
 
 DEPENDS += "\
 	${PYTHON_PN}-openpyxl-native \
+	${PYTHON_PN}-setuptools-scm-native \
 	"
 
 RDEPENDS:${PN} += "\
