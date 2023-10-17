@@ -52,4 +52,4 @@ PACKAGECONFIG:append:pn-qemu-system-native = " sdl"
 CONF_VERSION = "2"
 
 # For more options check meta-intel-distro layer for README and 
-# conf/local.conf.sample.extended
+# meta-poky/conf/templates/default/local.conf.sample.extended
