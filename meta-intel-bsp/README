@@ -52,7 +52,7 @@ I. Back Ported Linux Changes
 ============================
 
 Some changes have been up-streamed, but have not yet been back ported
-to Linux 5.15 or 5.10. Some of these have been added to this meta layer.
+to Linux 6.1. Some of these have been added to this meta layer.
 The changes are described below. In each case, any changes required are
 described and the publically available patch is referenced. Only changes
 functionally required for internal testing have been back ported.
@@ -64,9 +64,8 @@ In the following descriptions, "with no changes" means that a patch
 was obtained using 'git format-patch -1 <sha>' from the referenced
 respoistory and was applied using 'git am -3 <patch>'.
 
-In the meta layer, the patches for Linux 5.15 can be found in
-meta-intel-bsp/recipes-kernel/linux/patches/5.15 and for 5.10 in
-meta-intel-bsp/recipes-kernel/linux/patches/5.10.
+In the meta layer, the patches for Linux 6.1 can be found in
+meta-intel-bsp/recipes-kernel/linux/patches/6.1.
 
 
 drivers/watchdog: Ignore 'No Reboot' Bit
@@ -102,111 +101,11 @@ Included as
 COM-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch
 
 
-libata: add horkage for missing Identify Device log
----------------------------------------------------
-
-Back-ported from 5.19 to fix a boot regression in ASE caused by commit
-e449d2e69a ("ata: libata: add missing ata_identify_page_supported()
-calls"): VFS: Cannot open root device "PARTUUID=<uuid>" or 
-unknown-block(0,0): error -6. Bug traced as B0265.
-
-Included as
-COM-libata-add-horkage-for-missing-Identify-Device-log.patch
-
-
-Patches for perf (only for SNR, kernel 5.10)
---------------------------------------------
-
-SNR-perf-Cap-allocation-order-at-aux_watermark.patch and
-SNR-perf-intel-pt-Use-aux_watermark.patch.
-
-Removes some limitations to the use of PTWRITE.  Without the above
-'perf record' and 'per script' issue warnings about lost data.
-
-
-Support Serial Flash Access (MTD) to Boot Flash (only for GRR)
---------------------------------------------------------------
-
-Allows access to the secondary boot flash from Linux using the MTD driver.
-
-GRR-mtd-spi-nor-intel-spi-add-is_protected-and-is_bios_l.patch
-GRR-mtd-spi-nor-intel-spi-Move-platform-data-header-to-x.patch (only for kernel 5.10)
-GRR-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch
-
-
 Support for SIOV (only for GRR)
 -------------------------------
 
 GRR-platform-msi-Add-device-MSI-infrastructure.patch
 GRR-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch
-
-
-TCO Functionality
------------------
-
-COM-watchdog-iTCO_wdt-use-module_platform_device-macro.patch (only for kernel 5.10)
-COM-watchdog-iTCO_wdt-use-dev_-instead-of-pr_-for-loggin.patch (only for kernel 5.10)
-COM-watchdog-iTCO_wdt-use-dev_err-instead-of-pr_err.patch (only for kernel 5.10)
-COM-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch
-
-
-Allow Displaying and Change Reboot Flags via SYSFS
---------------------------------------------------
-
-COM-reboot-allow-to-specify-reboot-mode-via-sysfs.patch
-
-
-MDEV Functions (only for kernel 5.10)
--------------------------------------
-
-GRR only.  Back-ported from lkml.org to support building DLB with MDEV.
-
-GRR-vfio-mdev-Add-a-member-for-iommu-domain-in-mdev_devi.patch
-GRR-vfio-type1-Save-domain-when-attach-domain-to-mdev.patch
-
-Disable MEI Driver on Ignition FW (only for kernel 5.10)
---------------------------------------------------------
-
-This avoids errors in the system logs.
-
-GRR-mei-kdoc-fix-partial-back-port.patch
-GRR-mei-me-disable-driver-on-the-ign-firmware.patch
-
-
-Add support to change default domain of an iommu group
-------------------------------------------------------
-
-Most of the patch is from
-
-  https://lists.linuxfoundation.org/pipermail/iommu/2019-August/038337.html
-
-with the addition of the GRR endpoint (8086:0dbd) in
-drivers/iommu/intel/iommu.c.
-
-NOTE: This doesn't supported using the /sys filesystem interface.
-
-GRR-iommu-Add-support-to-change-default-domain-of-an-iom.patch
-
-
-Back port EDAC Changes for GRR
-------------------------------
-
-GRR-Revert-EDAC-i10nm-Retrieve-and-print-retry_rd_err_lo.patch
-GRR-EDAC-i10nm-Add-detection-of-memory-levels-for-ICX-SP.patch
-GRR-EDAC-i10nm-Add-support-for-high-bandwidth-memory.patch
-GRR-EDAC-i10nm-Retrieve-and-print-retry_rd_err_log-1.patch
-GRR-EDAC-igen6-Make-sure-no-pending-errors.patch
-GRR-EDAC-igen6-Add-several-Intel-Alder-Lake-N-SoCs-suppo.patch
-GRR-EDAC-igen6-Add-another-Intel-Alder-Lake-SoC-support.patch
-GRR-EDAC-igen6-Add-another-Intel-Tiger-Lake-SoC-support.patch
-GRR-EDAC-skx_common-Add-new-ADXL-components-for-2-level-.patch
-GRR-EDAC-skx_common-Add-a-callback-of-decoding-errors-vi.patch
-GRR-EDAC-i10nm-Retrieve-and-print-retry_rd_err_log-2.patch
-GRR-EDAC-i10nm-Print-an-extra-register-set-of-retry_rd_e.patch
-GRR-EDAC-i10nm-Make-more-configurations-CPU-model-specif.patch
-GRR-EDAC-skx_common-Add-ChipSelect-ADXL-component.patch
-GRR-EDAC-i10nm-Add-Intel-Granite-Rapids-server-support.patch
-GRR-EDAC-i10nm-Add-Intel-Grand-Ridge-micro-server-suppor.patch
 
 
 II. Building meta-intel-bsp

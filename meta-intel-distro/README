@@ -185,10 +185,8 @@ a. Public Intel Github (github.com/intel)
    PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
    
    will build kernel from Intel Github public repos:
-   5.15: git://github.com/intel/linux-intel-lts.git
-         5.15/yocto or 5.15/preempt-rt
-   5.10: git://github.com/intel/linux-intel-lts.git
-         5.10/yocto or 5.10/preempt-rt
+   6.1: git://github.com/intel/linux-intel-lts.git
+         6.1/yocto or 6.1/preempt-rt
          
    Other versions for the Intel kernel are: linux-intel-rt,
    linux-intel-debug, linux-intel-rt-debug.
@@ -212,9 +210,9 @@ b. Local Kernel repositories (for Linux development)
    NOTE: If you want to skip lttng support for your local kernel:
          LTTNG_SUPPORT = ""
 
-2.3.5. Select the version for the main kernel: 5.15 (default) or 5.10
+2.3.5. Select the version for the main kernel: 6.1 (default)
 
-   PREFERRED_VERSION_(preferred-provider)= "5.15%"
+   PREFERRED_VERSION_(preferred-provider)= "6.1%"
 
 NOTE: No preferred version should be set for linux-local provider.
 
@@ -302,7 +300,7 @@ To compile the multiple configuration build, the following sintax should be used
 
 MACHINE = "intel-axxia-snr"
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
-PREFERRED_VERSION_linux-intel = "5.15%"
+PREFERRED_VERSION_linux-intel = "6.1%"
 DISTRO = "intel-axxia"
 PACKAGE_CLASSES ?= "package_rpm"
 EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
