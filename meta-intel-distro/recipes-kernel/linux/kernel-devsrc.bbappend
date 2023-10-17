@@ -92,6 +92,8 @@ do_install() {
 	if [ "${ARCH}" = "powerpc" ]; then
 	    cp -a --parents arch/powerpc/kernel/vdso32/vdso32.lds $kerneldir/build 2>/dev/null || :
 	    cp -a --parents arch/powerpc/kernel/vdso64/vdso64.lds $kerneldir/build 2>/dev/null || :
+	    # v5.19+
+	    cp -a --parents arch/powerpc/kernel/vdso/vdso*.lds $kerneldir/build 2>/dev/null || :
 	fi
 
 	cp -a include $kerneldir/build/include
@@ -115,6 +117,9 @@ do_install() {
 	cd $S
 
 	cp -a scripts $kerneldir/build
+
+	# for v6.1+ (otherwise we are missing multiple default targets)
+	cp -a --parents Kbuild $kerneldir/build 2>/dev/null || :
 
 	# if our build dir had objtool, it will also be rebuilt on target, so
 	# we copy what is required for that build
@@ -142,6 +147,9 @@ do_install() {
 	    # arch/arm64/include/asm/opcodes.h references arch/arm
 	    cp -a --parents arch/arm/include/asm/opcodes.h $kerneldir/build/
 
+	    # v6.1+
+	    cp -a --parents arch/arm64/kernel/asm-offsets.c $kerneldir/build/
+
             cp -a --parents arch/arm64/kernel/vdso/*gettimeofday.* $kerneldir/build/
             cp -a --parents arch/arm64/kernel/vdso/sigreturn.S $kerneldir/build/
             cp -a --parents arch/arm64/kernel/vdso/note.S $kerneldir/build/
@@ -153,8 +161,15 @@ do_install() {
             cp -a --parents arch/arm64/tools/gen-cpucaps.awk $kerneldir/build/ 2>/dev/null || :
             cp -a --parents arch/arm64/tools/cpucaps $kerneldir/build/ 2>/dev/null || :
 
+            # 5.19+
+            cp -a --parents arch/arm64/tools/gen-sysreg.awk $kerneldir/build/   2>/dev/null || :
+            cp -a --parents arch/arm64/tools/sysreg $kerneldir/build/   2>/dev/null || :
+
             if [ -e $kerneldir/build/arch/arm64/tools/gen-cpucaps.awk ]; then
                  sed -i -e "s,#!.*awk.*,#!${USRBINPATH}/env awk," $kerneldir/build/arch/arm64/tools/gen-cpucaps.awk
+            fi
+            if [ -e $kerneldir/build/arch/arm64/tools/gen-sysreg.awk ]; then
+                 sed -i -e "s,#!.*awk.*,#!${USRBINPATH}/env awk," $kerneldir/build/arch/arm64/tools/gen-sysreg.awk
             fi
 	fi
 
@@ -165,6 +180,15 @@ do_install() {
 	    cp -a --parents arch/${ARCH}/kernel/syscalls/syscallhdr.sh $kerneldir/build/ 2>/dev/null || :
 	    cp -a --parents arch/${ARCH}/kernel/vdso32/* $kerneldir/build/ 2>/dev/null || :
 	    cp -a --parents arch/${ARCH}/kernel/vdso64/* $kerneldir/build/ 2>/dev/null || :
+
+	    # v5.19+
+	    cp -a --parents arch/powerpc/kernel/vdso/*.S $kerneldir/build 2>/dev/null || :
+	    cp -a --parents arch/powerpc/kernel/vdso/*gettimeofday.* $kerneldir/build 2>/dev/null || :
+	    cp -a --parents arch/powerpc/kernel/vdso/gen_vdso*_offsets.sh $kerneldir/build/ 2>/dev/null || :
+
+	    # v6,1+
+	    cp -a --parents arch/powerpc/kernel/asm-offsets.c $kerneldir/build/ 2>/dev/null || :
+	    cp -a --parents arch/powerpc/kernel/head_booke.h $kerneldir/build/ 2>/dev/null || :
 	fi
 	if [ "${ARCH}" = "riscv" ]; then
             cp -a --parents arch/riscv/kernel/vdso/*gettimeofday.* $kerneldir/build/
@@ -183,6 +207,9 @@ do_install() {
 	    cp -a --parents arch/arm/tools/gen-mach-types $kerneldir/build/
 	    cp -a --parents arch/arm/tools/mach-types $kerneldir/build/
 
+	    # 5.19+
+	    cp -a --parents arch/arm/tools/gen-sysreg.awk $kerneldir/build/	2>/dev/null || :
+
 	    # ARM syscall table tools only exist for kernels v4.10 or later
             SYSCALL_TOOLS=$(find arch/arm/tools -name "syscall*")
             if [ -n "$SYSCALL_TOOLS" ] ; then
@@ -190,6 +217,9 @@ do_install() {
             fi
 
             cp -a --parents arch/arm/kernel/module.lds $kerneldir/build/ 2>/dev/null || :
+            # v6.1+
+            cp -a --parents arch/arm/kernel/asm-offsets.c $kerneldir/build/ 2>/dev/null || :
+            cp -a --parents arch/arm/kernel/signal.h $kerneldir/build/ 2>/dev/null || :
 	fi
 
 	if [ -d arch/${ARCH}/include ]; then
@@ -238,19 +268,37 @@ do_install() {
 	    # objtool requires these files
 	    cp -a --parents arch/x86/lib/inat.c $kerneldir/build/ 2>/dev/null || :
 	    cp -a --parents arch/x86/lib/insn.c $kerneldir/build/ 2>/dev/null || :
+
+	    # v6.1+
+	    cp -a --parents arch/x86/kernel/asm-offsets* $kerneldir/build || :
+	    # for capabilities.h, vmx.h
+	    cp -a --parents arch/x86/kvm/vmx/*.h $kerneldir/build || :
+	    # for lapic.h, hyperv.h ....
+	    cp -a --parents arch/x86/kvm/*.h $kerneldir/build || :
 	fi
+
+	# moved from arch/mips to all arches for v6.1+
+	cp -a --parents kernel/time/timeconst.bc $kerneldir/build 2>/dev/null || :
+	cp -a --parents kernel/bounds.c $kerneldir/build 2>/dev/null || :
 
 	if [ "${ARCH}" = "mips" ]; then
 	    cp -a --parents arch/mips/Kbuild.platforms $kerneldir/build/
 	    cp --parents $(find	 -type f -name "Platform") $kerneldir/build
 	    cp --parents arch/mips/boot/tools/relocs* $kerneldir/build
 	    cp -a --parents arch/mips/kernel/asm-offsets.c $kerneldir/build
-	    cp -a --parents kernel/time/timeconst.bc $kerneldir/build
-	    cp -a --parents kernel/bounds.c $kerneldir/build
 	    cp -a --parents Kbuild $kerneldir/build
 	    cp -a --parents arch/mips/kernel/syscalls/*.sh $kerneldir/build 2>/dev/null || :
 	    cp -a --parents arch/mips/kernel/syscalls/*.tbl $kerneldir/build 2>/dev/null || :
 	    cp -a --parents arch/mips/tools/elf-entry.c $kerneldir/build 2>/dev/null || :
+	fi
+	
+	if [ "${ARCH}" = "loongarch" ]; then
+	    cp -a --parents arch/loongarch/kernel/asm-offsets.c $kerneldir/build
+	    cp -a --parents Kbuild $kerneldir/build
+	    cp -a --parents arch/loongarch/vdso/*.S $kerneldir/build 2>/dev/null || :
+	    cp -a --parents arch/loongarch/vdso/*gettimeofday.* $kerneldir/build 2>/dev/null || :
+	    cp -a --parents arch/loongarch/vdso/*getcpu.* $kerneldir/build 2>/dev/null || :
+	    cp -a --parents arch/loongarch/vdso/gen_vdso*_offsets.sh $kerneldir/build/ 2>/dev/null || :
 	fi
 
         # required to build scripts/selinux/genheaders/genheaders
@@ -263,6 +311,13 @@ do_install() {
     # Make sure the Makefile and version.h have a matching timestamp so that
     # external modules can be built
     touch -r $kerneldir/build/Makefile $kerneldir/build/include/generated/uapi/linux/version.h
+
+    # This fixes a warning that the compilers don't match when building a module
+    # Change: CONFIG_CC_VERSION_TEXT="x86_64-poky-linux-gcc (GCC) 12.2.0" to "gcc (GCC) 12.2.0"
+    #         #define CONFIG_CC_VERSION_TEXT "x86_64-poky-linux-gcc (GCC) 12.2.0" to "gcc (GCC) 12.2.0"
+    sed -i 's/CONFIG_CC_VERSION_TEXT=".*\(gcc.*\)"/CONFIG_CC_VERSION_TEXT="\1"/' "$kerneldir/build/.config"
+    sed -i 's/#define CONFIG_CC_VERSION_TEXT ".*\(gcc.*\)"/#define CONFIG_CC_VERSION_TEXT "\1"/' $kerneldir/build/include/generated/autoconf.h
+    sed -i 's/CONFIG_CC_VERSION_TEXT=".*\(gcc.*\)"/CONFIG_CC_VERSION_TEXT="\1"/' $kerneldir/build/include/config/auto.conf
 
     # make sure these are at least as old as the .config, or rebuilds will trigger
     touch -r $kerneldir/build/.config $kerneldir/build/include/generated/autoconf.h 2>/dev/null || :
