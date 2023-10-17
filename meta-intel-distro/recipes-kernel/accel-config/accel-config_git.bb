@@ -15,8 +15,8 @@ DEPENDS = "asciidoc-native xmlto-native util-linux json-c kmod udev"
 
 RDEPENDS:${PN} = "bash"
 
-SRCREV = "7f76d467cace664df928f3d5ea4598b8d0cbc32b"
-PV = "3.4.8"
+SRCREV = "435fa62bca9bd64069f7d816eae44b7bcc63f3bb"
+PV = "4.1.1"
 
 SRC_URI = "git://github.com/intel/idxd-config.git;protocol=https;branch=stable"
 
