@@ -17,20 +17,22 @@ EXTRA_OEMAKE = "KERNEL_SRC=${KERNEL_PATH} KERNELDIR='${KERNEL_PATH}'"
 
 module_do_compile() {
 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
-	oe_runmake KERNEL_PATH="${KERNEL_PATH}" \
-		KERNEL_VERSION="${KERNEL_VERSION}" \
-		CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
-		AR="${KERNEL_AR}" \
-		O="${KERNEL_OUTPUT}" \
-		KBUILD_EXTRA_SYMBOLS="${KBUILD_EXTRA_SYMBOLS}" \
-		${MAKE_TARGETS}
+	oe_runmake KERNEL_PATH=${KERNEL_PATH} \
+		   KERNEL_VERSION=${KERNEL_VERSION} \
+		   CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
+		   AR="${KERNEL_AR}" OBJCOPY="${KERNEL_OBJCOPY}" \
+		   STRIP="${KERNEL_STRIP}" \
+		   O=${KERNEL_OUTPUT} \
+		   KBUILD_EXTRA_SYMBOLS="${KBUILD_EXTRA_SYMBOLS}" \
+		   ${MAKE_TARGETS}
 }
 
 module_do_install() {
 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
 	oe_runmake DEPMOD=echo MODLIB="${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}" \
-	           INSTALL_FW_PATH="${D}${nonarch_base_libdir}/firmware" \	
-	           CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
+	           INSTALL_FW_PATH="${D}${nonarch_base_libdir}/firmware" \
+	           CC="${KERNEL_CC}" LD="${KERNEL_LD}" OBJCOPY="${KERNEL_OBJCOPY}" \
+	           STRIP="${KERNEL_STRIP}" \
 	           O=${KERNEL_OUTPUT} \
 	           ${MODULES_INSTALL_TARGET}
 
@@ -39,11 +41,11 @@ module_do_install() {
 		bbwarn "Please consider setting MODULES_MODULE_SYMVERS_LOCATION to a"
 		bbwarn "directory below B to get correct inter-module dependencies"
 	else
-		install -Dm0644 "${B}/${MODULES_MODULE_SYMVERS_LOCATION}"/Module.symvers ${D}${includedir}/${PN}/Module.symvers
+		install -Dm0644 "${B}/${MODULES_MODULE_SYMVERS_LOCATION}"/Module.symvers ${D}${includedir}/${BPN}/Module.symvers
 		# Module.symvers contains absolute path to the build directory.
 		# While it doesn't actually seem to matter which path is specified,
 		# clear them out to avoid confusion
-		sed -e 's:${B}/::g' -i ${D}${includedir}/${PN}/Module.symvers
+		sed -e 's:${B}/::g' -i ${D}${includedir}/${BPN}/Module.symvers
 	fi
 }
 
