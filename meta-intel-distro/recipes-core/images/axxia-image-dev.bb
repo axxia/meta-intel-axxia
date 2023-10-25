@@ -35,6 +35,7 @@ bind \
 bind-utils \
 bison \
 bluez5 \
+bmon \
 bridge-utils \
 boost \
 boost-dev \
