@@ -217,6 +217,7 @@ mpich \
 msmtp \
 msr-tools \
 mtd-utils-misc \
+nasm \
 ncurses \
 ncurses-dev \
 net-tools \
