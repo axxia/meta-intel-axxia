@@ -23,7 +23,7 @@ PREFERRED_VERSION_linux-intel = "6.1%"
 
 # Enabling Multiple Configuration Build. The following sintax should be used:
 # bitbake [mc:multiconfigname:]target [[[mc:multiconfigname:]target] ... ]
-#BBMULTICONFIG ?= "snr grr qsp"
+#BBMULTICONFIG ?= "snr grr pmr qsp"
 
 BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
 PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"

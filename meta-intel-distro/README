@@ -265,7 +265,7 @@ NOTE: No preferred version should be set for linux-local provider.
 
 2.3.10. Enabling Multiple Configuration Build (snr, grr, qsp):
 
-  BBMULTICONFIG = "snr grr qsp"
+  BBMULTICONFIG = "snr grr pmr qsp"
 
   For each configuration, a specific TMPDIR will be created in BUILDDIR.
   If you need to set a different location for TMPDIR, use the TMPDIR_MULTICONFIG
