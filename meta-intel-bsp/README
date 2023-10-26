@@ -2,7 +2,7 @@ meta-intel-bsp
 ==============
 
 This is the OpenEmbedded/Yocto layer for Intel Axxia x86_64 BSPs based
-on Intel Snow Ridge and Intel Grand Ridge CPUs.
+on Intel Snow Ridge, Intel Grand Ridge and Intel Palm Ridge CPUs.
 This layer contains the official machine configuration file and kernel
 recipes with patches and fragments.
 
@@ -15,7 +15,10 @@ Supported MACHINES
 
 - intel-axxia-grr - This BSP is optimized for Intel Axxia x86 Gen4 Mobile &
   Enterprise Communication Processors family (64-bit) such as Grand Ridge SoCs.
-                
+
+- intel-axxia-pmr - This BSP is optimized for Intel Axxia x86 Gen5 Mobile &
+  Enterprise Communication Processors family (64-bit) such as Palm Ridge SoCs.
+
 Please refer to the associate .conf for more information.
 
 
