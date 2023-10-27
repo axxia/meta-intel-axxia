@@ -4,13 +4,16 @@ FILESEXTRAPATHS:prepend := "\
 
 KERNEL_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 
-KMACHINE:intel-axxia-grr = "intel-corei7-64"
 KMACHINE:intel-axxia-snr = "intel-corei7-64"
-COMPATIBLE_MACHINE:intel-axxia-grr = "${MACHINE}"
+KMACHINE:intel-axxia-grr = "intel-corei7-64"
+KMACHINE:intel-axxia-pmr = "intel-corei7-64"
 COMPATIBLE_MACHINE:intel-axxia-snr = "${MACHINE}"
+COMPATIBLE_MACHINE:intel-axxia-grr = "${MACHINE}"
+COMPATIBLE_MACHINE:intel-axxia-pmr = "${MACHINE}"
 
 SRC_URI:append:intel-axxia-snr = " ${SNR_PATCHES}"
 SRC_URI:append:intel-axxia-grr = " ${GRR_PATCHES}"
+SRC_URI:append:intel-axxia-pmr = " ${PMR_PATCHES}"
 SRC_URI:append = " file://common.scc"
 
 # If this kernel package is not set as virtual/kernel provider,

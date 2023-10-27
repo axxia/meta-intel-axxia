@@ -17,6 +17,11 @@ file://GRR-platform-msi-Add-device-MSI-infrastructure.patch \
 file://GRR-driver-core-auxiliary-bus-Add-Config-Option.patch \
 "
 
+PMR_PATCHES = " ${COMMON_PATCHES} \
+file://GRR-platform-msi-Add-device-MSI-infrastructure.patch \
+file://GRR-driver-core-auxiliary-bus-Add-Config-Option.patch \
+"
+
 LINUX_VERSION:pn-linux-intel = "${LINUX_VERSION_standard}"
 LINUX_VERSION:pn-linux-intel-debug = "${LINUX_VERSION_standard}"
 LINUX_VERSION:pn-linux-intel-rt = "${LINUX_VERSION_preempt-rt}"
