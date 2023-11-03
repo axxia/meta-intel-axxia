@@ -5,21 +5,21 @@ SRCREV_preempt-rt = "0aa56022fb159e8e577f34e6ef509e1cee4632f4"
 SRCREV_meta = "0b002d94afb8a3b60ed1f3be419cb9f5a8815cfc"
 
 COMMON_PATCHES = " \
-file://COM-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
-file://COM-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
-file://COM-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch \
-file://COM-libata-add-horkage-for-missing-Identify-Device-log.patch \
-file://COM-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
-file://COM-Introduce-an-Intel-SPI-controller-level-mutex.patch \
+file://0001-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
+file://0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
+file://0003-watchdog-iTCO_wdt-No-need-to-stop-the-timer-in-probe.patch \
+file://0004-libata-add-horkage-for-missing-Identify-Device-log.patch \
+file://0005-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
+file://0006-Introduce-an-Intel-SPI-controller-level-mutex.patch \
 "
 
-SNR_PATCHES = " ${COMMON_PATCHES} \
+SNR_PATCHES = " \
 "
 
-GRR_PATCHES = " ${COMMON_PATCHES} \
-file://GRR-platform-msi-Add-device-MSI-infrastructure.patch \
-file://GRR-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch \
-file://GRR-driver-core-auxiliary-bus-Add-Config-Option.patch \
+GRR_PATCHES = " \
+file://0001-platform-msi-Add-device-MSI-infrastructure.patch \
+file://0002-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch \
+file://0003-driver-core-auxiliary-bus-Add-Config-Option.patch \
 "
 
 # Replace patch from meta-axxia with a refreshed one for kernel 5.15.94

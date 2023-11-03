@@ -1,17 +1,20 @@
 FILESEXTRAPATHS:prepend := "\
-:${THISDIR}/patches/${KERNEL_MAJOR_VERSION}\
+:${THISDIR}/patches/${KERNEL_MAJOR_VERSION}/common\
+:${THISDIR}/patches/${KERNEL_MAJOR_VERSION}/${CPU}\
 :${THISDIR}/frags/${KERNEL_MAJOR_VERSION}:"
 
 KERNEL_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 
-KMACHINE:intel-axxia-grr = "intel-corei7-64"
+CPU:intel-axxia-snr = "snr"
+CPU:intel-axxia-grr = "grr"
 KMACHINE:intel-axxia-snr = "intel-corei7-64"
-COMPATIBLE_MACHINE:intel-axxia-grr = "${MACHINE}"
+KMACHINE:intel-axxia-grr = "intel-corei7-64"
 COMPATIBLE_MACHINE:intel-axxia-snr = "${MACHINE}"
+COMPATIBLE_MACHINE:intel-axxia-grr = "${MACHINE}"
 
-SRC_URI:append:intel-axxia-snr = " ${SNR_PATCHES}"
-SRC_URI:append:intel-axxia-grr = " ${GRR_PATCHES}"
-SRC_URI:append = " file://common.scc"
+SRC_URI:append:intel-axxia-snr = " ${COMMON_PATCHES} ${SNR_PATCHES}"
+SRC_URI:append:intel-axxia-grr = " ${COMMON_PATCHES} ${GRR_PATCHES}"
+SRC_URI:append = " file://common.scc file://${CPU}.scc"
 
 # If this kernel package is not set as virtual/kernel provider,
 # allow to be used as alternative kernel.
