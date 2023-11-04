@@ -84,7 +84,7 @@ will be fixed in later versions of the chip.
 Note that, by default, this patch will do nothing.  To enable it, add
 'iTCO_wdt.assume_noreboot_access=1' to the Linux command line.
 
-Included as COM-drivers-watchdog-Ignore-No-Reboot-Bit.patch
+Included as 0001-drivers-watchdog-Ignore-No-Reboot-Bit.patch
 
 
 clocksource: Add option to force acpi_pm as clocksource watchdog
@@ -101,14 +101,14 @@ and in dmesg look for:
     RICARDO: Force acpi_pm as watchdog
 
 Included as
-COM-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch
+0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch
 
 
-Support for SIOV (only for GRR)
--------------------------------
+Support for SIOV (for GRR and PMR)
+----------------------------------
 
-GRR-platform-msi-Add-device-MSI-infrastructure.patch
-GRR-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch
+0001-platform-msi-Add-device-MSI-infrastructure.patch
+0002-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch
 
 
 II. Building meta-intel-bsp

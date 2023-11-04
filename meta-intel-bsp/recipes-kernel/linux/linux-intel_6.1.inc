@@ -5,21 +5,21 @@ SRCREV_preempt-rt = "d154487eb12bc0de97d5e33409b957b87cae2e6e"
 SRCREV_meta = "d62bfbd59e3f6f9b6fa6e396df2d9c7f1abb80ed"
 
 COMMON_PATCHES = " \
-file://COM-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
-file://COM-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
+file://0001-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
+file://0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
 "
 
-SNR_PATCHES = " ${COMMON_PATCHES} \
+SNR_PATCHES = " \
 "
 
-GRR_PATCHES = " ${COMMON_PATCHES} \
-file://GRR-platform-msi-Add-device-MSI-infrastructure.patch \
-file://GRR-driver-core-auxiliary-bus-Add-Config-Option.patch \
+GRR_PATCHES = " \
+file://0001-platform-msi-Add-device-MSI-infrastructure.patch \
+file://0002-driver-core-auxiliary-bus-Add-Config-Option.patch \
 "
 
-PMR_PATCHES = " ${COMMON_PATCHES} \
-file://GRR-platform-msi-Add-device-MSI-infrastructure.patch \
-file://GRR-driver-core-auxiliary-bus-Add-Config-Option.patch \
+PMR_PATCHES = " \
+file://0001-platform-msi-Add-device-MSI-infrastructure.patch \
+file://0002-driver-core-auxiliary-bus-Add-Config-Option.patch \
 "
 
 LINUX_VERSION:pn-linux-intel = "${LINUX_VERSION_standard}"
