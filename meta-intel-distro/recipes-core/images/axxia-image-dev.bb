@@ -483,6 +483,7 @@ nativesdk-python3-distutils \
 nativesdk-python3-netserver \
 nativesdk-python3-nose \
 nativesdk-python3-pexpect \
+nativesdk-python3-pyelftools \
 nativesdk-python3-pyexpect \
 nativesdk-python3-pycparser \
 nativesdk-python3-pyyaml \
