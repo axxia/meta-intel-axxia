@@ -30,6 +30,8 @@ DEPENDS:append = " elfutils-native openssl-native util-linux-native"
 
 SRCREV_machine = "${AUTOREV}"
 
+KERNEL_DANGLING_FEATURES_WARN_ONLY = "0"
+
 SRC_URI = " \
 	git://${LOCAL_KERNEL_PATH};name=machine;branch=${LOCAL_KERNEL_BRANCH} \
 	file://defconfig \
