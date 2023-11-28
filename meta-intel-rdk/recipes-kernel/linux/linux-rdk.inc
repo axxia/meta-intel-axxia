@@ -71,14 +71,14 @@ do_patch_rdk_modules () {
     fi
 
     # Install each driver in the specific path and create commits
-    for KLMC in cpk cpk-ae hqm i3c ies qat netd oobmsm
+    for KLMC in cpk cpk-ae hqm i3c ies qat netd oobmsm dlb2
     do
 	[ ! -d ${WORKDIR}/rdk/klm/${KLMC} ] && continue
 
         if [ "hqm" = "${KLMC}" ]; then {
             case ${MACHINE} in
                 "intel-axxia-snr") HQMV="hqm" && HQMD="hqm";;
-                "intel-axxia-grr") HQMV="hqmv2" && HQMD="dlb2";;
+                "intel-axxia-grr") HQMV="" && HQMD="dlb2";;
             esac
             ${WORKDIR}/rdk/klm/${KLMC}/${HQMV}/scripts/patch_kernel_tree.sh \
                 ${STAGING_KERNEL_DIR} ${STAGING_PATH}
