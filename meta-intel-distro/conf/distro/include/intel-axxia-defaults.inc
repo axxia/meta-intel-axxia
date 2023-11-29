@@ -25,6 +25,8 @@ PREFERRED_VERSION_linux-firmware ?= "20210511"
 
 PREFERRED_VERSION_acpica ?= "20211217"
 
+PREFERRED_VERSION_mcelog ?= "194"
+
 PYTHON_VERSION ?= "3.9"
 PYTHON_BASEVERSION_forcevariable = "${PYTHON_VERSION}"
 PYTHON_ABI_forcevariable = "${@oe.utils.conditional('PYTHON_VERSION', '3.6', 'm', '', d)}"
