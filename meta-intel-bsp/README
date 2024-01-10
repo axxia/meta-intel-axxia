@@ -166,10 +166,9 @@ Most of the patch is from
 
   https://lists.linuxfoundation.org/pipermail/iommu/2019-August/038337.html
 
-with the addition of the GRR endpoint (8086:0dbd) in
-drivers/iommu/intel/iommu.c.
-
-NOTE: This doesn't supported using the /sys filesystem interface.
+NOTE: This back-port does not support using the /sys interface on GRR.
+      It simply adds macros for GRR (8086:0dbd), GRR_QAT_PF (8086:578a)
+      and GRR_QAT_VF (8086:578b).
 
 0007-iommu-Add-support-to-change-default-domain-of-an-iom.patch
 
