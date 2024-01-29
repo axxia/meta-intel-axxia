@@ -220,8 +220,6 @@ nasm \
 ncurses \
 ncurses-dev \
 net-tools \
-netkit-tftp-client \
-netkit-ftp \
 netbase \
 netcat \
 nfs-utils \
