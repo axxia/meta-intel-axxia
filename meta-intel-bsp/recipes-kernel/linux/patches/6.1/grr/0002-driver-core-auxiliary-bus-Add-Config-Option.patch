@@ -6,6 +6,8 @@ Subject: [PATCH 5/5] driver core: auxiliary bus: Add Config Option
 To support building out of tree modules that depend on the
 auxiliary bus, add a default value to the Kconfig entry.
 
+Upstream-Status: Pending
+
 Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  drivers/base/Kconfig | 3 ++-

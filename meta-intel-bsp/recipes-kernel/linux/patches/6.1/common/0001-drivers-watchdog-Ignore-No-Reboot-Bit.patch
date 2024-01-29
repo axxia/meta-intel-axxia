@@ -9,6 +9,8 @@ writeable without checking in order to allow the watchdog to
 but used in Linux.  This will be fixed in later versions of
 the chip.
 
+Upstream-Status: Pending
+
 Signed-off-by: John Jacques <john.jacques@intel.com>
 Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
 ---

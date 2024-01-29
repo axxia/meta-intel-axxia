@@ -25,6 +25,8 @@ CURRENT: acpi_pm
 HISTORY:
 apci-pm
 
+Upstream-Status: Backport
+
 Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
