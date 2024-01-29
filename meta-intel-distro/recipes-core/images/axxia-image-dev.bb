@@ -270,7 +270,6 @@ python3-cffi \
 python3-colorama \
 python3-core \
 python3-dev \
-python3-distutils \
 python3-humanfriendly \
 python3-lmdb \
 python3-lxml \
@@ -475,7 +474,6 @@ nativesdk-ncurses-libpanel \
 nativesdk-openssl-dev \
 nativesdk-python3-cffi \
 nativesdk-python3-dev \
-nativesdk-python3-distutils \
 nativesdk-python3-netserver \
 nativesdk-python3-nose \
 nativesdk-python3-pexpect \
