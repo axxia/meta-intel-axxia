@@ -2,7 +2,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
 SRC_URI:append = " file://0001-configure.ac-Fix-python-config-path-error.patch"
 
-DEPENDS:append = " swig-native"
+DEPENDS:append = " python3-setuptools-native swig-native"
 
 EXTRA_OECONF:append = " --enable-python-bindings"
 
