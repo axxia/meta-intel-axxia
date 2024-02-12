@@ -52,7 +52,7 @@ do_compile () {
 	cd ${S}
 	oe_runmake cpk-ae-lib netd-lib
 	oe_runmake ${IES_EXTRA_FLAGS} ies_api_install
-	oe_runmake -j1 qat_lib nura
+	oe_runmake -j1 qat_lib
 	oe_runmake install cli
 }
 
