@@ -184,14 +184,23 @@ a. Public Intel Github (github.com/intel)
 
    PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
    
-   will build kernel from Intel Github public repos:
-   6.1: git://github.com/intel/linux-intel-lts.git
-         6.1/yocto or 6.1/preempt-rt
-         
-   Other versions for the Intel kernel are: linux-intel-rt,
-   linux-intel-debug, linux-intel-rt-debug.
+   will build kernel from Intel Github public repos
+   (git://github.com/intel/linux-intel-lts.git):
+      6.1/yocto or 6.6/yocto branches
+  
+   Alternative Intel kernel is linux-intel-debug.
+
+b. Yocto Project repository (git.yoctoproject.org)
+
+   PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
    
-b. Local Kernel repositories (for Linux development)
+   will build kernel from Yocto Project Source repos
+   (http://git.yoctoproject.org/git/linux-yocto):
+      v6.6/standard/base branch
+  
+   Alternative Yocto kernel is linux-yocto-debug.
+
+c. Local Kernel repositories (for Linux development)
 
    If you want to base a Yocto build on a local Linux kernel, do the
    following. First, make the following changes to local.conf.
@@ -210,7 +219,7 @@ b. Local Kernel repositories (for Linux development)
    NOTE: If you want to skip lttng support for your local kernel:
          LTTNG_SUPPORT = ""
 
-2.3.5. Select the version for the main kernel: 6.1 (default)
+2.3.5. Select the version for the main kernel: 6.1 or 6.6 (default)
 
    PREFERRED_VERSION_(preferred-provider)= "6.1%"
 
@@ -300,7 +309,7 @@ To compile the multiple configuration build, the following sintax should be used
 
 MACHINE = "intel-axxia-snr"
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
-PREFERRED_VERSION_linux-intel = "6.1%"
+PREFERRED_VERSION_linux-intel = "6.6%"
 DISTRO = "intel-axxia"
 PACKAGE_CLASSES ?= "package_rpm"
 EXTRA_IMAGE_FEATURES ?= "debug-tweaks"

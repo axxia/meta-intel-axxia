@@ -55,7 +55,7 @@ I. Back Ported Linux Changes
 ============================
 
 Some changes have been up-streamed, but have not yet been back ported
-to Linux 6.1. Some of these have been added to this meta layer.
+to Linux 6.1 or 6.6. Some of these have been added to this meta layer.
 The changes are described below. In each case, any changes required are
 described and the publically available patch is referenced. Only changes
 functionally required for internal testing have been back ported.
@@ -67,8 +67,8 @@ In the following descriptions, "with no changes" means that a patch
 was obtained using 'git format-patch -1 <sha>' from the referenced
 respoistory and was applied using 'git am -3 <patch>'.
 
-In the meta layer, the patches for Linux 6.1 can be found in
-meta-intel-bsp/recipes-kernel/linux/patches/6.1.
+In the meta layer, the patches for Linux 6.1 or 6.6 can be found in
+meta-intel-bsp/recipes-kernel/linux/patches/[6.1|6.6].
 
 
 drivers/watchdog: Ignore 'No Reboot' Bit

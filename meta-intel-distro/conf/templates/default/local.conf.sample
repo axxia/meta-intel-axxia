@@ -4,8 +4,8 @@ MACHINE = "intel-axxia-grr"
 # Kernel providers: linux-intel, linux-intel-rt, linux-intel-debug, linux-intel-rt-debug
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 
-# Kernel versions: 6.1 (default)
-PREFERRED_VERSION_linux-intel = "6.1%"
+# Kernel versions: 6.1 or 6.6 (default)
+PREFERRED_VERSION_linux-intel = "6.6%"
 
 # Add simics support (sources should be in meta-intel-distro/download)
 # and set simics version to compile (mandatory).
