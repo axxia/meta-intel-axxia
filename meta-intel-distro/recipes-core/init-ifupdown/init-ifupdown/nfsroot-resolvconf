@@ -43,7 +43,7 @@ fi
 if test "x$IFACE" = "x$nfs_iface" ; then
     echo "ifup skipped for nfsroot interface $nfs_iface"
     if [ -n "$(grep nameserver /proc/net/pnp)" ]; then
-        ln -sf /proc/net/pnp $(readlink /etc/resolv.conf)
+        ln -sf /proc/net/pnp /etc/resolv.conf
     fi
     exit 1
 fi
