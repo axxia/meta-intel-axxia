@@ -68,7 +68,6 @@ mtd-utils-misc \
 mtools \
 ncurses \
 netcat \
-netkit-tftp-client \
 numactl \
 openssh \
 openssh-sftp \
