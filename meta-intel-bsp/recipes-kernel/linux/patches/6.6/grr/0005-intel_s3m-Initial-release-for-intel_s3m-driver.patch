@@ -1,0 +1,622 @@
+From e7ef832aea7c63eb769ac0872476fe98c60f18ac Mon Sep 17 00:00:00 2001
+From: Will Skrydlak <will.j.skrydlak@linux.intel.com>
+Date: Thu, 11 Jan 2024 22:30:21 -0800
+Subject: intel_s3m: Initial release for intel_s3m driver.
+
+This driver enables the OOBMSM interface to the S3M firmware.
+It is built upon the intel_vsec driver infrastructure.
+
+Signed-off-by: Will Skrydlak <will.j.skrydlak@linux.intel.com>
+---
+ MAINTAINERS                         |   6 +
+ drivers/platform/x86/intel/Kconfig  |  10 +
+ drivers/platform/x86/intel/Makefile |   4 +
+ drivers/platform/x86/intel/s3m.c    | 445 ++++++++++++++++++++++++++++
+ drivers/platform/x86/intel/s3m.h    |  52 ++++
+ include/uapi/linux/s3m_if.h         |  30 ++
+ 6 files changed, 547 insertions(+)
+ create mode 100644 drivers/platform/x86/intel/s3m.c
+ create mode 100644 drivers/platform/x86/intel/s3m.h
+ create mode 100644 include/uapi/linux/s3m_if.h
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 236cb9174144..698bb12fe47e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10767,6 +10767,12 @@ M:	Jarkko Nikula <jarkko.nikula@linux.intel.com>
+ L:	linux-iio@vger.kernel.org
+ F:	drivers/counter/intel-qep.c
+ 
++INTEL S3M DRIVER
++M:	Will Skrydlak <will.j.skrydlak@linux.intel.com>
++S:	Supported
++F:	drivers/platform/x86/intel/s3m*
++F:	include/uapi/linux/s3m_if.h
++
+ INTEL SCU DRIVERS
+ M:	Mika Westerberg <mika.westerberg@linux.intel.com>
+ S:	Maintained
+diff --git a/drivers/platform/x86/intel/Kconfig b/drivers/platform/x86/intel/Kconfig
+index e9dc0c021029..3b64d7b78be5 100644
+--- a/drivers/platform/x86/intel/Kconfig
++++ b/drivers/platform/x86/intel/Kconfig
+@@ -166,6 +166,16 @@ config INTEL_RST
+ 	  firmware will copy the memory contents back to RAM and resume the OS
+ 	  as usual.
+ 
++config INTEL_S3M_BRIDGE
++	tristate "Intel S3M bridge driver"
++	depends on INTEL_VSEC
++	help
++	  This driver must be loaded to perform host operations with the S3M
++	  (secure startup services module). There will be an IOCTL interface
++	  created for each S3M device located at /dev/s3m*. The data passed
++	  to the IOCTL interface must conform to the DOE (data object
++	  exchange) format.
++
+ config INTEL_SDSI
+ 	tristate "Intel On Demand (Software Defined Silicon) Driver"
+ 	depends on INTEL_VSEC
+diff --git a/drivers/platform/x86/intel/Makefile b/drivers/platform/x86/intel/Makefile
+index c1d5fe05e3f3..eccf690a3191 100644
+--- a/drivers/platform/x86/intel/Makefile
++++ b/drivers/platform/x86/intel/Makefile
+@@ -49,6 +49,10 @@ obj-$(CONFIG_INTEL_MRFLD_PWRBTN)	+= intel_mrfld_pwrbtn.o
+ intel_punit_ipc-y			:= punit_ipc.o
+ obj-$(CONFIG_INTEL_PUNIT_IPC)		+= intel_punit_ipc.o
+ 
++# S3M drivers
++intel_s3m-y			:= s3m.o
++obj-$(CONFIG_INTEL_S3M_BRIDGE)		+= intel_s3m.o
++
+ # TPMI drivers
+ intel_vsec_tpmi-y			:= tpmi.o
+ obj-$(CONFIG_INTEL_TPMI)		+= intel_vsec_tpmi.o
+diff --git a/drivers/platform/x86/intel/s3m.c b/drivers/platform/x86/intel/s3m.c
+new file mode 100644
+index 000000000000..912665e6b70d
+--- /dev/null
++++ b/drivers/platform/x86/intel/s3m.c
+@@ -0,0 +1,445 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Intel S3M Bridge driver
++ *
++ * Copyright (c) 2023, Intel Corporation.
++ * All Rights Reserved.
++ *
++ * Author: "Will Skrydlak" <will.j.skrydlak@intel.com>
++ */
++
++#include <linux/kernel.h>
++#include <linux/init.h>
++#include <linux/kthread.h>
++#include <linux/delay.h>
++#include <linux/module.h>
++#include <linux/kdev_t.h>
++#include <linux/fs.h>
++#include <linux/cdev.h>
++#include <linux/device.h>
++#include <linux/slab.h>
++#include <linux/uaccess.h>
++#include <linux/ioctl.h>
++#include <linux/pci.h>
++#include <uapi/linux/s3m_if.h>
++#include "s3m.h"
++#include "vsec.h"
++struct s3m_if_doe value;
++struct s3m_if_doe resp;
++static atomic_t s3m_pid = ATOMIC_INIT(-1);
++static struct task_struct *s3m_pid_kthread;
++static __u16 device_count;
++struct s3m_devices *devices;
++static struct s3m_dev_info device_map[MAX_S3M_DEVICES];
++
++/* Function Prototypes */
++static int	  __init s3m_driver_init(void);
++static void	 __exit s3m_driver_exit(void);
++static long	 s3m_ioctl(struct file *file, unsigned int cmd, unsigned long arg);
++static void	 write_doe(void *mmio_mb, const struct s3m_if_doe *req, struct s3m_if_doe *resp);
++static void	 write_dword(void *mmio_mb, const uint32_t dw);
++static int	  read_dword(void *mmio_mb, uint32_t *dw);
++static void start_wdt(uint32_t pid);
++static void	stop_wdt(void);
++static int	  pid_wdt(void *nop);
++static void	 send_go(void *mmio_mb);
++static void	 zero_response(void);
++
++static void zero_response(void)
++{
++	int i;
++
++	resp.VendorId = 0x0000;
++	resp.DoeType = 0x00;
++	resp.Reserved = 0x00;
++	resp.Length = 0x00000000;
++	for (i = 0; i < S3M_MB_MAX_PAYLOAD; ++i)
++		resp.Payload[i] = 0x00000000;
++}
++
++/* File operation structure */
++static const struct file_operations fops = {
++	.owner	  = THIS_MODULE,
++	.unlocked_ioctl = s3m_ioctl,
++};
++
++static int pid_wdt(void *nop)
++{
++	int i;
++	int maxDelay;
++
++	maxDelay = 1000;
++	for (i = 0; i < maxDelay && !kthread_should_stop() && atomic_read(&s3m_pid) != -1; i += 20)
++		msleep(20);
++	if (!kthread_should_stop()) {
++		/* unblocks the ioctl interface so another PID can access */
++		pr_err("%s: pid watchdog expired... unblocking.\n", DRIVER_NAME);
++		atomic_set(&s3m_pid, -1);
++	}
++	return 0;
++}
++
++static void write_doe(void __iomem *mmio_mb, const struct s3m_if_doe *req, struct s3m_if_doe *resp)
++{
++	int i;
++	uint32_t status_reg = 0;
++	uint32_t ctrl_reg = 0;
++	uint32_t *payload = (uint32_t *)req;
++	uint32_t payloadSize = payload[1];
++
++	if (req->Length > (S3M_MB_MAX_PAYLOAD+1)) {
++		pr_err("%s: DOE Payload is too long : %d bytes\n", DRIVER_NAME, req->Length);
++	} else {
++		/* Query Mailbox to check if it is enabled */
++		/* If the mailbox is disabled, WDT will expire */
++		do {
++			ctrl_reg = readl(mmio_mb + REG_CTRL_OFFSET);
++		} while ((ctrl_reg & BIT_EN_MB) != BIT_EN_MB && atomic_read(&s3m_pid) != -1);
++
++		if ((ctrl_reg & BIT_EN_MB) == BIT_EN_MB && atomic_read(&s3m_pid) != -1) {
++			/* Make sure MB is not busy and we do not have an error */
++			do {
++				status_reg = readl(mmio_mb + REG_STATUS_OFFSET);
++			} while ((status_reg & BIT_BUSY) == BIT_BUSY &&
++				(status_reg & BIT_ERROR) != BIT_ERROR &&
++				atomic_read(&s3m_pid) != -1);
++			/* if error, set ctrl to abort (reset MB) */
++			if ((status_reg & BIT_ERROR) == BIT_ERROR) {
++				pr_err("%s: ERROR bit is set. Clearing with CTRL_ABORT\n",
++					DRIVER_NAME);
++				ctrl_reg = readl(mmio_mb + REG_CTRL_OFFSET);
++				ctrl_reg |= BIT_ABORT;
++				writel(ctrl_reg, mmio_mb + REG_CTRL_OFFSET);
++			}
++			/* Make sure WDT is still good */
++			else if (atomic_read(&s3m_pid) != -1) {
++				for (i = 0; i < (payloadSize) && i < (S3M_MB_MAX_PAYLOAD+2) &&
++					atomic_read(&s3m_pid) != -1; ++i)
++					write_dword(mmio_mb, payload[i]);
++				if (atomic_read(&s3m_pid) != -1)
++					send_go(mmio_mb);
++				if (atomic_read(&s3m_pid) != -1) {
++					/* wait until obj rdy (timeout?) */
++					do {
++						status_reg = readl(mmio_mb + REG_STATUS_OFFSET);
++					} while ((status_reg&BIT_OBJ_RDY) != BIT_OBJ_RDY &&
++						atomic_read(&s3m_pid) != -1);
++					/* Read back response */
++					payload = (uint32_t *)resp;
++					for (i = 0; i < S3M_MB_MAX_PAYLOAD+2 && read_dword(mmio_mb,
++								&(payload[i])); ++i)
++						;
++				}
++			}
++		} else {
++			pr_err("%s: OOBMSM IS DISABLED : Err!\n", DRIVER_NAME);
++		}
++	}
++}
++
++static void write_dword(void __iomem *mmio_mb, const uint32_t dw)
++{
++	uint32_t ctrl_reg = 0;
++	uint32_t status_reg = 0;
++	/* clear buffer */
++	do {
++		ctrl_reg = readl(mmio_mb + REG_CTRL_OFFSET);
++		status_reg = readl(mmio_mb + REG_STATUS_OFFSET);
++	} while ((ctrl_reg & BIT_MB_DATA_RDY) == BIT_MB_DATA_RDY && status_reg != 0x00000000 &&
++			atomic_read(&s3m_pid) != -1);
++	/* Read Control Register, ensure we are enabled */
++	if (ctrl_reg & BIT_EN_MB && atomic_read(&s3m_pid) != -1) {
++		status_reg = readl(mmio_mb + REG_STATUS_OFFSET);
++		writel(dw, mmio_mb + REG_WDATA_OFFSET);
++		/* OOBMSM Consume dword */
++		ctrl_reg += BIT_MB_DATA_RDY;
++		writel(ctrl_reg, mmio_mb + REG_CTRL_OFFSET);
++		do {
++			/* Read Control Register, wait for BIT_MB_DATA_RDY to clear */
++			ctrl_reg = readl(mmio_mb + REG_CTRL_OFFSET);
++		} while ((ctrl_reg & BIT_MB_DATA_RDY) == BIT_MB_DATA_RDY &&
++				atomic_read(&s3m_pid) != -1);
++	} else {
++		pr_err("%s: MB RDY was not set by OOBMSM\n", DRIVER_NAME);
++	}
++}
++
++static int read_dword(void __iomem *mmio_mb, uint32_t *dw)
++{
++	int ret = 0;
++	uint32_t status_reg = 0;
++	uint32_t ctrl_reg = 0;
++
++	status_reg = readl(mmio_mb + REG_STATUS_OFFSET);
++	if ((status_reg & BIT_OBJ_RDY) == BIT_OBJ_RDY) {
++		do {
++			ctrl_reg = readl(mmio_mb + REG_CTRL_OFFSET);
++			status_reg = readl(mmio_mb + REG_STATUS_OFFSET);
++		} while ((ctrl_reg & BIT_MB_DATA_RDY) != BIT_MB_DATA_RDY &&
++			(status_reg & BIT_OBJ_RDY) == BIT_OBJ_RDY &&
++			atomic_read(&s3m_pid) != -1);
++		if ((ctrl_reg & BIT_MB_DATA_RDY) == BIT_MB_DATA_RDY) {
++			(*dw) = readl(mmio_mb + REG_RDATA_OFFSET);
++			ctrl_reg -= BIT_MB_DATA_RDY;
++			writel(ctrl_reg, mmio_mb + REG_CTRL_OFFSET);
++			ret = 1;
++		}
++	}
++	return ret;
++}
++static void send_go(void __iomem *mmio_mb)
++{
++	uint32_t ctrl_reg;
++
++	ctrl_reg = readl(mmio_mb + REG_CTRL_OFFSET);
++	ctrl_reg |= BIT_GO;
++	writel(ctrl_reg, mmio_mb + REG_CTRL_OFFSET);
++}
++
++static void start_wdt(uint32_t pid)
++{
++	atomic_set(&s3m_pid, pid);
++	/* end current pid watchdog (if applicable) */
++	if (s3m_pid_kthread != NULL)
++		kthread_stop(s3m_pid_kthread);
++
++	/* set (or reset) pid to current */
++	/* initialize a new watchdog */
++	s3m_pid_kthread = kthread_create(pid_wdt, NULL,
++	       "s3m_pid_kthread");
++	wake_up_process(s3m_pid_kthread);
++	/* This function will be called when we write IOCTL on the Device file */
++}
++
++static void stop_wdt(void)
++{
++	atomic_set(&s3m_pid, -1);
++	kthread_stop(s3m_pid_kthread);
++	s3m_pid_kthread = NULL;
++}
++
++static long s3m_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
++{
++	int ret = 0;
++	struct dentry *d_entry = file->f_path.dentry;
++	const char *filename;
++	const char *ch_devid;
++	struct s3m_priv *priv;
++	struct s3m_dev_info *dev_info;
++	/*struct s3m_if_doe *doe_req, *doe_rsp; */
++	unsigned long devid;
++
++	if (atomic_read(&s3m_pid) == -1 || atomic_read(&s3m_pid) == current->pid) {
++		if (d_entry) {
++			filename = d_entry->d_name.name;
++		} else {
++			pr_err("%s: unable to determine ioctl filename.\n", DRIVER_NAME);
++			return -1;
++		}
++
++		if (strncmp(S3M_IOCTL_NAME, filename, 3) != 0) {
++			pr_err("%s: device name is unknown -- %s\n", DRIVER_NAME, filename);
++			return -1;
++		}
++
++		ch_devid = (filename + 3);
++
++		if (kstrtoul(ch_devid, 10, &devid) != 0) {
++			pr_err("%s: device id is invalid -- %s\n", DRIVER_NAME, ch_devid);
++			return -1;
++		}
++
++		if (devid < 0 || devid >= MAX_S3M_DEVICES) {
++			pr_err("%s: device id is out of range -- %lu\n", DRIVER_NAME, devid);
++			return -1;
++		}
++
++		dev_info = &(device_map[devid]);
++		priv = auxiliary_get_drvdata(dev_info->auxdev);
++
++		if (priv == NULL) {
++			pr_err("%s: device data is NULL\n", DRIVER_NAME);
++			return -1;
++		}
++
++		switch (cmd) {
++		case S3M_IF_SEND_DOE:
++			start_wdt(current->pid);
++			if (copy_from_user(&value, (struct s3m_if_doe *) arg, sizeof(value)) != 0)
++				pr_err("%s: Data Write : Err!\n", DRIVER_NAME);
++			else
++				write_doe(priv->mmio_mb, &value, &resp);
++			if (copy_to_user((int32_t *) arg, &resp, sizeof(resp)) != 0) {
++				pr_err("%s: Data Read : Err!\n", DRIVER_NAME);
++			} else {
++				/* zero out response */
++				zero_response();
++				/* unblock pid */
++				stop_wdt();
++			}
++			break;
++		default:
++			pr_err("%s: Invalid IOCTL command.\n", DRIVER_NAME);
++			break;
++		}
++	} else {
++		pr_err("%s: driver in use (pid %d attempted to call).\n",
++			DRIVER_NAME, current->pid);
++		ret = -1;
++	}
++	return ret;
++}
++
++static void s3m_remove(struct auxiliary_device *auxdev)
++{
++	struct s3m_priv *priv = auxiliary_get_drvdata(auxdev);
++
++	if (priv == NULL) {
++		pr_err("%s: device data is NULL!\n", DRIVER_NAME);
++	} else {
++		struct s3m_dev_info *dev_info = &(device_map[priv->device_number]);
++
++		if (priv->mmio_mb)
++			devm_iounmap(&auxdev->dev, priv->mmio_mb);
++
++		device_destroy(dev_info->dev_class, dev_info->dev);
++		class_destroy(dev_info->dev_class);
++		cdev_del(&(dev_info->dev_cdev));
++		unregister_chrdev_region(dev_info->dev, 1);
++	}
++}
++
++static int s3m_probe(struct auxiliary_device *auxdev, const struct auxiliary_device_id *id)
++{
++	int ret = 0;
++	char dev_name[9];
++	char cdev_name[16];
++	char class_name[16];
++	struct intel_vsec_device *intel_vsec_dev = auxdev_to_ivdev(auxdev);
++	struct s3m_if_doe *doe_req, *doe_rsp;
++
++	s3m_pid_kthread = NULL;
++	struct s3m_priv *priv;
++
++	priv = devm_kzalloc(&auxdev->dev, sizeof(struct s3m_priv), GFP_KERNEL);
++	priv->mmio_mb = NULL;
++
++	if (device_count >= MAX_S3M_DEVICES) {
++		pr_err("%s: Max device count reached. Please reload the driver.\n", DRIVER_NAME);
++		return -1;
++	}
++	device_map[device_count].dev = 0;
++	if (!priv)
++		return -ENOMEM;
++	doe_req = kzalloc(sizeof(struct s3m_if_doe), GFP_KERNEL);
++	if (!doe_req)
++		return -ENOMEM;
++	doe_rsp = kzalloc(sizeof(struct s3m_if_doe), GFP_KERNEL);
++	if (!doe_rsp)
++		return -ENOMEM;
++
++	sprintf(cdev_name, "%s%d", S3M_DEVICE_NAME, device_count);
++	if ((alloc_chrdev_region(&(device_map[device_count].dev), 0, 1, cdev_name)) < 0) {
++		pr_err("%s: Cannot allocate major number\n", DRIVER_NAME);
++		return -1;
++	}
++
++	cdev_init(&(device_map[device_count].dev_cdev), &fops);
++
++	if ((cdev_add(&(device_map[device_count].dev_cdev),
++					device_map[device_count].dev, 1)) < 0) {
++		pr_err("%s: Cannot add the device to the system\n", DRIVER_NAME);
++		goto r_class;
++	}
++
++	sprintf(class_name, "%s%d", S3M_CLASS_NAME, device_count);
++	device_map[device_count].dev_class = class_create(class_name);
++	if (device_map[device_count].dev_class == NULL) {
++		pr_err("%s: Cannot create the struct class\n", DRIVER_NAME);
++		goto r_class;
++	}
++
++	sprintf(dev_name, "%s%d", S3M_IOCTL_NAME, device_count);
++
++	if ((device_create(device_map[device_count].dev_class, NULL, device_map[device_count].dev,
++					NULL, dev_name)) == NULL) {
++		pr_err("%s: Cannot create the Device %s\n", DRIVER_NAME, dev_name);
++		goto r_device;
++	}
++
++	priv->mmio_mb = devm_ioremap_resource(&auxdev->dev, &(intel_vsec_dev->resource[0]));
++	if (!priv->mmio_mb) {
++		pr_err("%s: Failed to map\n", DRIVER_NAME);
++		ret = -EIO;
++		goto abort_probe;
++	}
++
++	doe_req->VendorId = 0x8086; /* Intel */
++	doe_req->DoeType = 0x0C; /* S3M */
++	doe_req->Reserved = 0x00;
++	doe_req->Length = 0x03;
++	doe_req->Payload[0] = S3M_MB_CMD_DISC;
++
++	start_wdt(1);
++	write_doe(priv->mmio_mb, doe_req, doe_rsp);
++	stop_wdt();
++	if (doe_rsp->Length < 5) {
++		pr_err("%s: S3M mailbox discovery failed.\n", DRIVER_NAME);
++		goto abort_probe;
++	}
++
++	priv->mmio_mb_buffer_size = 0;
++	priv->device_number = device_count;
++	priv->mmio_mb_buffer_size = doe_rsp->Payload[1];
++	priv->s3m_features = doe_rsp->Payload[2];
++
++	device_map[device_count].auxdev = auxdev;
++	kfree(doe_req);
++	kfree(doe_rsp);
++	auxiliary_set_drvdata(auxdev, priv);
++	++device_count;
++
++	return ret;
++abort_probe:
++	s3m_remove(auxdev);
++r_device:
++	unregister_chrdev_region(device_map[device_count].dev, 1);
++r_class:
++	class_destroy(device_map[device_count].dev_class);
++	kfree(doe_req);
++	kfree(doe_rsp);
++	++device_count;
++	return -1;
++}
++static const struct auxiliary_device_id s3m_id_table[] = { { .name = "intel_vsec.s3m" }, {}
++};
++MODULE_DEVICE_TABLE(auxiliary, s3m_id_table);
++
++static struct auxiliary_driver s3m_aux_driver = {
++	.id_table = s3m_id_table,
++	.remove   = s3m_remove,
++	.probe	= s3m_probe,
++};
++
++/* Module Init function */
++static int __init s3m_driver_init(void)
++{
++	device_count = 0;
++	devices = NULL;
++	return auxiliary_driver_register(&s3m_aux_driver);
++}
++
++/* Module exit function */
++static void __exit s3m_driver_exit(void)
++{
++	if (s3m_pid_kthread != NULL)
++		kthread_stop(s3m_pid_kthread);
++
++	auxiliary_driver_unregister(&s3m_aux_driver);
++}
++module_init(s3m_driver_init);
++module_exit(s3m_driver_exit);
++
++MODULE_AUTHOR("Will Skrydlak <will.j.skrydlak@intel.com>");
++MODULE_DESCRIPTION("Intel S3M bridge driver.");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/platform/x86/intel/s3m.h b/drivers/platform/x86/intel/s3m.h
+new file mode 100644
+index 000000000000..e9fce95a7472
+--- /dev/null
++++ b/drivers/platform/x86/intel/s3m.h
+@@ -0,0 +1,52 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef __S3M_H_
++#define __S3M_H_
++
++#include <linux/types.h>
++#define DRIVER_NAME "intel_s3m"
++#define S3M_DEVICE_NAME "s3m_dev"
++#define S3M_CLASS_NAME "s3m_class"
++#define S3M_IOCTL_NAME "s3m"
++#define MAX_S3M_DEVICES 1024
++
++/*****************************
++ *         REGISTERS         *
++ ****************************/
++#define REG_CTRL_OFFSET	0x00 /* 0x1f4 */
++#define REG_STATUS_OFFSET  0x04 /* 0x200 */
++#define REG_RDATA_OFFSET   0x0C /* 0x1fc */
++#define REG_WDATA_OFFSET   0x08 /* 0x1f8 */
++
++/*****************************
++ *        CTRL FLAGS         *
++ ****************************/
++#define BIT_ABORT   0b00000000000000000000000000000001
++#define BIT_EN_INT  0b00000000000000000000000000000010
++#define BIT_EN_MB   0b00100000000000000000000000000000
++#define BIT_MB_DATA_RDY  0b01000000000000000000000000000000
++#define BIT_GO	  0b10000000000000000000000000000000
++
++/*****************************
++ *       STATUS FLAGS        *
++ ****************************/
++#define BIT_BUSY	0b00000000000000000000000000000001
++#define BIT_INT	 0b00000000000000000000000000000010
++#define BIT_ERROR   0b00000000000000000000000000000100
++#define BIT_OBJ_RDY 0b01000000000000000000000000000000
++
++struct s3m_dev_info {
++	/* IOCTL Vars */
++	dev_t dev;
++	struct class *dev_class;
++	struct cdev dev_cdev;
++	struct auxiliary_device *auxdev;
++};
++
++struct s3m_priv {
++	__u16 device_number;
++	__u32 mmio_mb_buffer_size;
++	void __iomem *mmio_mb;
++	__u32 s3m_features;
++};
++
++#endif
+diff --git a/include/uapi/linux/s3m_if.h b/include/uapi/linux/s3m_if.h
+new file mode 100644
+index 000000000000..b02f2eb280e3
+--- /dev/null
++++ b/include/uapi/linux/s3m_if.h
+@@ -0,0 +1,30 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/*
++ * Intel S3M Bridge Interface: OS to hardware Interface
++ * Copyright (c) 2023, Intel Corporation.
++ * All rights reserved.
++ *
++ * Author: Will Skrydlak <will.j.skrydlak@linux.intel.com>
++ */
++
++#ifndef __S3M_IF_H
++#define __S3M_IF_H
++
++#include <linux/types.h>
++
++/* First DW of Payload is CMD value */
++#define S3M_MB_CMD_DISC 0x01
++#define S3M_MB_MAX_PAYLOAD 1022
++#pragma pack(push, 1)
++struct s3m_if_doe {
++	__u16 VendorId;
++	__u8 DoeType;
++	__u8 Reserved;
++	__u32 Length;
++	__u32 Payload[S3M_MB_MAX_PAYLOAD];
++};
++#pragma pack(pop)
++
++#define S3M_IF_MAGIC		0xFB
++#define S3M_IF_SEND_DOE	 _IOWR(S3M_IF_MAGIC, 0, struct s3m_if_doe *)
++#endif
+-- 
+2.25.1
+
