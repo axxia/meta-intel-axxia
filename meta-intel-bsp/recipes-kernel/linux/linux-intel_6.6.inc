@@ -1,5 +1,5 @@
-LINUX_VERSION = "6.6.14"
-SRCREV_machine = "bb56715daf2e0efbbd8cf00a04a020e83baa05cb"
+LINUX_VERSION = "6.6.15"
+SRCREV_machine = "8d72e5cc1f3f4a7b6bdbf8f008d67002b1f14ff8"
 SRCREV_meta = "6b4249d0f2e333cf54123e4cba3636867e56bfac"
 
 COMMON_PATCHES = " \
