@@ -13,6 +13,10 @@ SNR_PATCHES = " \
 GRR_PATCHES = " \
 file://0001-platform-msi-Add-device-MSI-infrastructure.patch \
 file://0002-driver-core-auxiliary-bus-Add-Config-Option.patch \
+file://0003-platform-x86-intel-vsec-Move-structures-to-header.patch \
+file://0004-Added-S3M-auxiliary-driver-functionality-to-vsec-dri.patch \
+file://0005-intel_s3m-Initial-release-for-intel_s3m-driver.patch \
+file://0006-intel_idle-add-Grand-Ridge-SoC-support.patch \
 "
 
 PMR_PATCHES = " \

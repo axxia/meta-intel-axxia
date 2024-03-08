@@ -1,7 +1,7 @@
-From 81038955f09dc3625cfe0ee06d524ef522cf0c89 Mon Sep 17 00:00:00 2001
+From db9d530233bf84d9c155aa3f1bc8641c1752b1cc Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Thu, 14 Oct 2021 12:01:41 -0500
-Subject: [PATCH 4/4] driver core: auxiliary bus: Add Config Option
+Subject: driver core: auxiliary bus: Add Config Option
 
 To support building out of tree modules that depend on the
 auxiliary bus, add a default value to the Kconfig entry.
@@ -28,5 +28,5 @@ index 2b8fd6bb7da0..5195382c9fa3 100644
  config UEVENT_HELPER
  	bool "Support for uevent helper"
 -- 
-2.17.1
+2.25.1
 

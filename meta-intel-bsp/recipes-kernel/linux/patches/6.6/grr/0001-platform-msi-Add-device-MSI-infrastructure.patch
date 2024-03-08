@@ -1,7 +1,7 @@
-From ec466eded1bb744462b83837ff25c08df81b8e8e Mon Sep 17 00:00:00 2001
+From 308abd58050e463bb7550c2d38c217924a5d5445 Mon Sep 17 00:00:00 2001
 From: John Jacques <john.jacques@intel.com>
 Date: Mon, 19 Jul 2021 10:27:32 -0500
-Subject: [PATCH 3/4] platform-msi: Add device MSI infrastructure
+Subject: platform-msi: Add device MSI infrastructure
 
 Add device specific MSI domain infrastructure for devices which have their
 own resource management and interrupt chip. These devices are not related
@@ -238,5 +238,5 @@ index 2531f3496ab6..65046e1fe6ee 100644
  	bool
  
 -- 
-2.17.1
+2.25.1
 
