@@ -13,6 +13,7 @@ SNR_PATCHES = " \
 GRR_PATCHES = " \
 file://0001-platform-msi-Add-device-MSI-infrastructure.patch \
 file://0002-driver-core-auxiliary-bus-Add-Config-Option.patch \
+file://0003-intel_idle-add-Grand-Ridge-SoC-support.patch \
 "
 
 PMR_PATCHES = " \
