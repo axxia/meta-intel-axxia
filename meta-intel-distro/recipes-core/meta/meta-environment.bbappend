@@ -9,6 +9,13 @@ NC='\033[0m'
 if [ -z "$SDKTARGETSYSROOT" ]; then
     echo "${RED}Error: There is no SDK setup. Please source top-level SDK environment script first.${NC}" >&2
     exit 1
+else
+    make -C $SDKTARGETSYSROOT/usr/src/kernel headers_install INSTALL_HDR_PATH=$SDKTARGETSYSROOT/usr
+    status=$?
+    if [ $status -ne 0 ]; then
+        echo "${RED}Error: Installing UAPI headers in SYSROOT fails with status $status.${NC}" >&2
+        exit $status
+    fi
 fi
 
 for kernel in $SDKTARGETSYSROOT/lib/modules/*; do
