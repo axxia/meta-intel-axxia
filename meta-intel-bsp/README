@@ -110,6 +110,14 @@ Support for SIOV (for GRR and PMR)
 0001-platform-msi-Add-device-MSI-infrastructure.patch
 0002-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch
 
+Support for intel_idle C-States on GRR
+--------------------------------------
+
+This has been upstreamed in a later version of the kernel
+[ac89d11b93cc37c52dc38206c3eaffd4fa603f91]
+
+0003-intel_idle-add-Grand-Ridge-SoC-support.patch
+
 
 II. Building meta-intel-bsp
 ===========================
