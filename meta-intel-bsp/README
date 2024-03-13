@@ -118,6 +118,19 @@ This has been upstreamed in a later version of the kernel
 
 0003-intel_idle-add-Grand-Ridge-SoC-support.patch
 
+Support for the Upstream S3M Driver
+-----------------------------------
+
+NOT YET PUBLICLY AVAILABLE!!!!!
+
+The change, upsteam, is to add S3M to the Intel VSEC driver (which
+provides endpoints on the auxiliary bus).  This means the RDK OOBMSM
+driver is no longer needed.
+
+0004-platform-x86-intel-vsec-Move-structures-to-header.patch
+0005-Added-S3M-auxiliary-driver-functionality-to-vsec-dri.patch
+0006-intel_s3m-Initial-release-for-intel_s3m-driver.patch
+
 
 II. Building meta-intel-bsp
 ===========================
