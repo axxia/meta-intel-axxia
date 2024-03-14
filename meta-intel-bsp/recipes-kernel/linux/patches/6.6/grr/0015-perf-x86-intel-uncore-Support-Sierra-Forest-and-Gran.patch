@@ -1,0 +1,35 @@
+From 8056d5dc4b37d487289485d91ba48bf4c31f940e Mon Sep 17 00:00:00 2001
+From: Kan Liang <kan.liang@linux.intel.com>
+Date: Fri, 17 Nov 2023 08:39:39 -0800
+Subject: perf/x86/intel/uncore: Support Sierra Forest and Grand Ridge
+
+The same as Granite Rapids, the Sierra Forest and Grand Ridge also
+supports the discovery table feature and the same type of the uncore
+units. The difference of the available units and counters can be
+retrieved from the discovery table automatically.
+Just add the CPU model ID.
+
+Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Tested-by: Ammy Yi <ammy.yi@intel.com>
+Link: https://lore.kernel.org/r/20231117163939.2468007-5-kan.liang@linux.intel.com
+---
+ arch/x86/events/intel/uncore.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/x86/events/intel/uncore.c b/arch/x86/events/intel/uncore.c
+index 01c01cae82ef..4e26a28536de 100644
+--- a/arch/x86/events/intel/uncore.c
++++ b/arch/x86/events/intel/uncore.c
+@@ -1877,6 +1877,8 @@ static const struct x86_cpu_id intel_uncore_match[] __initconst = {
+ 	X86_MATCH_INTEL_FAM6_MODEL(GRANITERAPIDS_D,	&gnr_uncore_init),
+ 	X86_MATCH_INTEL_FAM6_MODEL(ATOM_TREMONT_D,	&snr_uncore_init),
+ 	X86_MATCH_INTEL_FAM6_MODEL(ATOM_GRACEMONT,	&adl_uncore_init),
++	X86_MATCH_INTEL_FAM6_MODEL(ATOM_CRESTMONT_X,	&gnr_uncore_init),
++	X86_MATCH_INTEL_FAM6_MODEL(ATOM_CRESTMONT,	&gnr_uncore_init),
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(x86cpu, intel_uncore_match);
+-- 
+2.25.1
+
