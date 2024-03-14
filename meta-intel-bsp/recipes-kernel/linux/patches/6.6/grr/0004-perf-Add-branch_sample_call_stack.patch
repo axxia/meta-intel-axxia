@@ -1,0 +1,50 @@
+From 2ebb7a19ea68263103b3886d9cbaa11421ea377a Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Thu, 14 Mar 2024 12:52:32 -0500
+Subject: perf: Add branch_sample_call_stack
+
+Add a helper function to check call stack sample type.
+
+The later patch will invoke the function in several places.
+
+Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Link: https://lkml.kernel.org/r/20231025201626.3000228-3-kan.liang@linux.intel.com
+Back-ported-by: John Jacques <john.jacques@intel.com>
+---
+ arch/x86/events/core.c     | 2 +-
+ include/linux/perf_event.h | 5 +++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/arch/x86/events/core.c b/arch/x86/events/core.c
+index 185f902e5f28..073a0f42777a 100644
+--- a/arch/x86/events/core.c
++++ b/arch/x86/events/core.c
+@@ -601,7 +601,7 @@ int x86_pmu_hw_config(struct perf_event *event)
+ 		}
+ 	}
+ 
+-	if (event->attr.branch_sample_type & PERF_SAMPLE_BRANCH_CALL_STACK)
++	if (branch_sample_call_stack(event))
+ 		event->attach_state |= PERF_ATTACH_TASK_DATA;
+ 
+ 	/*
+diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
+index e846f87e2d09..343e90887536 100644
+--- a/include/linux/perf_event.h
++++ b/include/linux/perf_event.h
+@@ -1144,6 +1144,11 @@ static inline bool branch_sample_priv(const struct perf_event *event)
+ }
+ 
+ 
++static inline bool branch_sample_call_stack(const struct perf_event *event)
++{
++	return event->attr.branch_sample_type & PERF_SAMPLE_BRANCH_CALL_STACK;
++}
++
+ struct perf_sample_data {
+ 	/*
+ 	 * Fields set by perf_sample_data_init() unconditionally,
+-- 
+2.25.1
+
