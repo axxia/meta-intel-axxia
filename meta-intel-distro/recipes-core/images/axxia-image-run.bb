@@ -62,6 +62,8 @@ libubsan \
 libudev \
 libxcrypt \
 libxcrypt-compat \
+lttng-modules \
+lttng-ust \
 mpich \
 msr-tools \
 mtd-utils-misc \
