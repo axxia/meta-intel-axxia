@@ -17,6 +17,7 @@ boost \
 boost-dev \
 cpuid \
 cpupower \
+devmem2 \
 dhcpcd \
 dmidecode \
 dos2unix \
@@ -33,6 +34,7 @@ i2c-tools \
 iasl \
 inetutils \
 initscripts-readonly-rootfs-overlay \
+intel-pcm \
 iproute2 \
 iproute2-devlink \
 kernel-dev \

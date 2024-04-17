@@ -55,6 +55,7 @@ curl \
 db \
 dbus \
 dbus-glib \
+devmem2 \
 dhcpcd \
 dhrystone \
 diffutils \
@@ -109,6 +110,7 @@ inetutils-telnetd \
 init-ifupdown \
 initscripts \
 initscripts-readonly-rootfs-overlay \
+intel-pcm \
 ipmiutil \
 iperf3 \
 iproute2 \
