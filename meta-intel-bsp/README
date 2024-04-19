@@ -103,7 +103,6 @@ and in dmesg look for:
 Included as
 0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch
 
-
 Support for SIOV (for GRR and PMR)
 ----------------------------------
 
@@ -140,6 +139,19 @@ All of the following have been upstreamed, but some required modification.
 0018-perf-x86-intel-cstate-Add-Sierra-Forest-support.patch
 0019-perf-x86-intel-cstate-Add-Grand-Ridge-support.patch
 0020-x86-smp-Export-symbol-cpu_clustergroup_mask.patch
+
+Support for the Upstream S3M Driver
+-----------------------------------
+
+NOT YET PUBLICLY AVAILABLE!!!!!
+
+The change, upsteam, is to add S3M to the Intel VSEC driver (which
+provides endpoints on the auxiliary bus).  This means the RDK OOBMSM
+driver is no longer needed.
+
+0021-platform-x86-intel-vsec-Move-structures-to-header.patch
+0022-Added-S3M-auxiliary-driver-functionality-to-vsec-dri.patch
+0023-intel_s3m-Initial-release-for-intel_s3m-driver.patch
 
 
 II. Building meta-intel-bsp
