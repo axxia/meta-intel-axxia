@@ -1,0 +1,33 @@
+From 99a9438727d1b16b8aea80d2af17ed7e2ef405e7 Mon Sep 17 00:00:00 2001
+From: Daniel Dragomir <daniel1x.dragomir@intel.com>
+Date: Fri, 26 Apr 2024 16:26:28 -0500
+Subject: [PATCH] perf: Fix arguments for
+ perf_event_create_group_kernel_counters()
+
+Starting with commit 170c1753279c ("perf/core: Add *group_leader
+for perf_event_create_group_kernel_counters()"), *group_leader
+argument is required.
+
+Upstream-Status: Pending
+
+Signed-off-by: Daniel Dragomir <daniel1x.dragomir@intel.com>
+---
+ include/wrapper/perf.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/wrapper/perf.h b/include/wrapper/perf.h
+index 737e3b3..d1163e7 100644
+--- a/include/wrapper/perf.h
++++ b/include/wrapper/perf.h
+@@ -19,7 +19,7 @@ wrapper_perf_event_create_kernel_counter(struct perf_event_attr *attr,
+ 				struct task_struct *task,
+ 				perf_overflow_handler_t callback)
+ {
+-	return perf_event_create_kernel_counter(attr, cpu, task, callback, NULL);
++	return perf_event_create_kernel_counter(attr, cpu, task, NULL, callback, NULL);
+ }
+ #else /* (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(3,1,0)) */
+ static inline struct perf_event *
+-- 
+2.25.1
+

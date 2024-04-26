@@ -219,6 +219,18 @@ c. Local Kernel repositories (for Linux development)
    NOTE: If you want to skip lttng support for your local kernel:
          LTTNG_SUPPORT = ""
 
+   KNOWN BUG: lttng-modules with custom kernel based on v6.6.0 which
+         includes commit 170c1753279c ("perf/core: Add *group_leader
+         for perf_event_create_group_kernel_counters()") fails with:
+
+         lttng-modules-2.13.12/src/../include/wrapper/perf.h:22:66: 
+            error: passing argument 4 of 'perf_event_create_kernel_counter'
+            from incompatible pointer type [-Werror=incompatible-pointer-types]
+
+         To include the fix, add the following variable in local.conf:
+         
+         LTTNG_PERF_FIX_FOR_6.6.0 = "1" 
+
 2.3.5. Select the version for the main kernel: 6.1 or 6.6 (default)
 
    PREFERRED_VERSION_(preferred-provider)= "6.1%"
