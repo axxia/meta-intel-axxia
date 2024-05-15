@@ -234,8 +234,6 @@ if [ -d /tgt_root/etc/ ] ; then
     fi
 fi
 
-umount /src_root
-
 # Handling of the target boot partition
 mount $bootfs /boot
 echo "Preparing boot partition..."
@@ -244,6 +242,73 @@ EFIDIR="/boot/EFI/BOOT"
 mkdir -p $EFIDIR
 # Copy the efi loader
 cp /run/media/$1/EFI/BOOT/*.efi $EFIDIR
+
+echo "Looking for kernels to use as boot target.."
+# Find kernel to boot to
+# Give user options if multiple are found
+
+kernels="$(find /src_root/boot -type f  \
+           -name bzImage* -o -name zImage* \
+           -o -name vmlinux* -o -name vmlinuz* \
+           -o -name fitImage* | sed s:.*/::)"
+
+if [ -n "$(echo $kernels)" ]; then
+    # Copy kernel artifacts in boot partition
+    for k in $kernels; do
+        cp /src_root/boot/$k /boot
+    done
+
+    # only one kernel entry if no space
+    if [ -z "$(echo $kernels | grep ' ')" ]; then
+        kernel=$kernels
+        echo "$kernel will be used as the boot target"
+    else
+        # Check for default kernel (symlink for bzImage)
+        defkernel="$(readlink /src_root/boot/bzImage)"
+        if [ -z "$defkernel" ]; then
+	    # If no default kernel found, get user choice
+            while true; do
+               echo -e "\nWhich kernel do we want to boot by default? Available kernels:"
+               echo $kernels
+               read answer
+               for k in $kernels; do
+                   if [ "$answer" = "$k" ]; then
+                       kernel=$answer
+                       break
+                  fi
+               done
+               if [ -n "$kernel" ]; then
+	           break
+               fi
+            done
+        else
+	    # If default kernel is found, get user choice about using it
+            while true; do
+                echo -e "\nPress y if you want to use $defkernel as default kernel or choose another available kernel:"
+                echo $kernels
+                read answer
+		if [ "$answer" = "y" ]; then
+		    kernel=$defkernel
+		    break
+		fi
+                for k in $kernels; do
+                    if [ "$answer" = "$k" ]; then
+		        kernel=$answer
+                        break
+                    fi
+                done
+		if [ -n "$kernel" ]; then
+		    break
+                fi
+            done
+        fi
+    fi
+else
+    echo "No kernels found, exiting..."
+    exit 1
+fi
+
+# Customize boot options (grub or systemd-boot)
 
 if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
     root_part_uuid=$(blkid -o value -s PARTUUID ${rootfs})
@@ -259,6 +324,18 @@ if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
     # Replace root= and add additional standard boot options
     # We use root as a sentinel value, as vmlinuz is no longer guaranteed
     sed -i "s/ root=[^ ]*/ root=PARTUUID=$root_part_uuid rw $rootwait quiet /g" $GRUBCFG
+    # Replace bzImage name with the kernel found in rootfs /boot
+    line="$(grep -m 1 'linux /bzImage' $GRUBCFG)"
+    sed -i "s/menuentry 'boot'/menuentry 'boot $kernel'/g" $GRUBCFG
+    sed -i "s/linux \/bzImage/linux \/$kernel/g" $GRUBCFG
+    # only one kernel entry if no space
+    if [ -n "$(echo $kernels | grep " ")" ]; then
+        for k in $(echo $kernels | sed "s#$kernel##g"); do
+            echo -e "\nmenuentry 'boot $k'{" >> $GRUBCFG
+            echo $line | sed "s/linux \/bzImage/linux \/$k/g" >> $GRUBCFG
+            echo "}" >> $GRUBCFG
+        done
+    fi
 fi
 
 if [ -d /run/media/$1/loader ]; then
@@ -276,23 +353,29 @@ if [ -d /run/media/$1/loader ]; then
     sed -i "s/ root=[^ ]*/ /" $SYSTEMDBOOT_CFGS
     # add the root= and other standard boot options
     sed -i "s@options *@options root=PARTUUID=$rootuuid rw $rootwait quiet @" $SYSTEMDBOOT_CFGS
+    # only one kernel entry if no space
+    if [ -n "$(echo $kernels | grep " ")" ]; then
+        if [ -f "/boot/loader/entries/boot.conf" ]; then
+            for k in $(echo $kernels | sed "s#$kernel##g"); do
+                cp /boot/loader/entries/boot.conf /boot/loader/entries/boot-$k.conf
+                # For each alternative kernel
+                sed -i "s/title boot/title boot $kernel/g" /boot/loader/entries/boot-$k.conf
+                sed -i "s/linux \/bzImage/linux \/$k/g" /boot/loader/entries/boot-$k.conf
+            done
+        # For default kernel
+        sed -i "s/title boot/title boot $kernel/g" /boot/loader/entries/boot.conf
+        sed -i "s/linux \/bzImage/linux \/$kernel/g" /boot/loader/entries/boot.conf
+        fi
+    fi
 fi
-
-umount /tgt_root
 
 # copy any extra files needed for ESP
 if [ -d /run/media/$1/esp ]; then
     cp -r /run/media/$1/esp/* /boot
 fi
 
-# Copy kernel artifacts. To add more artifacts just add to types
-# For now just support kernel types already being used by something in OE-core
-for types in bzImage zImage vmlinux vmlinuz fitImage; do
-    for kernel in `find /run/media/$1/ -name $types*`; do
-        cp $kernel /boot
-    done
-done
-
+umount /src_root
+umount /tgt_root
 umount /boot
 
 sync
