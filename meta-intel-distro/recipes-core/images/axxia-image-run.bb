@@ -68,6 +68,7 @@ lttng-modules \
 lttng-ust \
 mpich \
 msr-tools \
+mtd-utils \
 mtd-utils-misc \
 mtools \
 ncurses \

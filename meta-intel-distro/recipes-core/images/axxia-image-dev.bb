@@ -217,6 +217,7 @@ mokutil \
 mpich \
 msmtp \
 msr-tools \
+mtd-utils \
 mtd-utils-misc \
 nasm \
 ncurses \
