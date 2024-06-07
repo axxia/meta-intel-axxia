@@ -1,0 +1,212 @@
+From 6766d06270a4409bf354a3e0393a65e0ed1b0997 Mon Sep 17 00:00:00 2001
+From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+Date: Wed, 29 Nov 2023 14:43:10 +0800
+Subject: spi: Unify error codes by replacing -ENOTSUPP with -EOPNOTSUPP
+
+This commit updates the SPI subsystem, particularly affecting "SPI MEM"
+drivers and core parts, by replacing the -ENOTSUPP error code with
+-EOPNOTSUPP.
+
+The key motivations for this change are as follows:
+1. The spi-nor driver currently uses EOPNOTSUPP, whereas calls to spi-mem
+might return ENOTSUPP. This update aims to unify the error reporting
+within the SPI subsystem for clarity and consistency.
+
+2. The use of ENOTSUPP has been flagged by checkpatch as inappropriate,
+mainly being reserved for NFS-related errors. To align with kernel coding
+standards and recommendations, this change is being made.
+
+3. By using EOPNOTSUPP, we provide more specific context to the error,
+indicating that a particular operation is not supported. This helps
+differentiate from the more generic ENOTSUPP error, allowing drivers to
+better handle and respond to different error scenarios.
+
+Risks and Considerations:
+While this change is primarily intended as a code cleanup and error code
+unification, there is a minor risk of breaking user-space applications
+that rely on specific return codes for unsupported operations. However,
+this risk is considered low, as such use-cases are unlikely to be common
+or critical. Nevertheless, developers and users should be aware of this
+change, especially if they have scripts or tools that specifically handle
+SPI error codes.
+
+This commit does not introduce any functional changes to the SPI subsystem
+or the affected drivers.
+
+Signed-off-by: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+Acked-by: Tudor Ambarus <tudor.ambarus@linaro.org>
+Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
+Acked-by: Michael Walle <michael@walle.cc>
+Link: https://lore.kernel.org/r/20231129064311.272422-1-acelan.kao@canonical.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ drivers/mtd/nand/spi/core.c | 2 +-
+ drivers/mtd/spi-nor/core.c  | 2 +-
+ drivers/spi/atmel-quadspi.c | 2 +-
+ drivers/spi/spi-ath79.c     | 2 +-
+ drivers/spi/spi-bcm-qspi.c  | 2 +-
+ drivers/spi/spi-mem.c       | 6 +++---
+ drivers/spi/spi-npcm-fiu.c  | 2 +-
+ drivers/spi/spi-ti-qspi.c   | 4 ++--
+ drivers/spi/spi-wpcm-fiu.c  | 2 +-
+ include/linux/spi/spi-mem.h | 2 ++
+ 10 files changed, 14 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/mtd/nand/spi/core.c b/drivers/mtd/nand/spi/core.c
+index 393ff37f0d23..d1df5cd401cf 100644
+--- a/drivers/mtd/nand/spi/core.c
++++ b/drivers/mtd/nand/spi/core.c
+@@ -973,7 +973,7 @@ static int spinand_manufacturer_match(struct spinand_device *spinand,
+ 		spinand->manufacturer = manufacturer;
+ 		return 0;
+ 	}
+-	return -ENOTSUPP;
++	return -EOPNOTSUPP;
+ }
+ 
+ static int spinand_id_detect(struct spinand_device *spinand)
+diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
+index 1b0c6770c14e..b05c99b4dbc6 100644
+--- a/drivers/mtd/spi-nor/core.c
++++ b/drivers/mtd/spi-nor/core.c
+@@ -3161,7 +3161,7 @@ int spi_nor_set_4byte_addr_mode(struct spi_nor *nor, bool enable)
+ 	int ret;
+ 
+ 	ret = params->set_4byte_addr_mode(nor, enable);
+-	if (ret && ret != -ENOTSUPP)
++	if (ret && ret != -EOPNOTSUPP)
+ 		return ret;
+ 
+ 	if (enable) {
+diff --git a/drivers/spi/atmel-quadspi.c b/drivers/spi/atmel-quadspi.c
+index 3d1252566134..370c4d1572ed 100644
+--- a/drivers/spi/atmel-quadspi.c
++++ b/drivers/spi/atmel-quadspi.c
+@@ -272,7 +272,7 @@ static int atmel_qspi_find_mode(const struct spi_mem_op *op)
+ 		if (atmel_qspi_is_compatible(op, &atmel_qspi_modes[i]))
+ 			return i;
+ 
+-	return -ENOTSUPP;
++	return -EOPNOTSUPP;
+ }
+ 
+ static bool atmel_qspi_supports_op(struct spi_mem *mem,
+diff --git a/drivers/spi/spi-ath79.c b/drivers/spi/spi-ath79.c
+index 1b6d977d111c..0cde13453558 100644
+--- a/drivers/spi/spi-ath79.c
++++ b/drivers/spi/spi-ath79.c
+@@ -146,7 +146,7 @@ static int ath79_exec_mem_op(struct spi_mem *mem,
+ 	/* Only use for fast-read op. */
+ 	if (op->cmd.opcode != 0x0b || op->data.dir != SPI_MEM_DATA_IN ||
+ 	    op->addr.nbytes != 3 || op->dummy.nbytes != 1)
+-		return -ENOTSUPP;
++		return -EOPNOTSUPP;
+ 
+ 	/* disable GPIO mode */
+ 	ath79_spi_wr(sp, AR71XX_SPI_REG_FS, 0);
+diff --git a/drivers/spi/spi-bcm-qspi.c b/drivers/spi/spi-bcm-qspi.c
+index 0407b91183ca..cfdaa5eaec76 100644
+--- a/drivers/spi/spi-bcm-qspi.c
++++ b/drivers/spi/spi-bcm-qspi.c
+@@ -1199,7 +1199,7 @@ static int bcm_qspi_exec_mem_op(struct spi_mem *mem,
+ 
+ 	if (!op->data.nbytes || !op->addr.nbytes || op->addr.nbytes > 4 ||
+ 	    op->data.dir != SPI_MEM_DATA_IN)
+-		return -ENOTSUPP;
++		return -EOPNOTSUPP;
+ 
+ 	buf = op->data.buf.in;
+ 	addr = op->addr.val;
+diff --git a/drivers/spi/spi-mem.c b/drivers/spi/spi-mem.c
+index edd7430d4c05..2dc8ceb85374 100644
+--- a/drivers/spi/spi-mem.c
++++ b/drivers/spi/spi-mem.c
+@@ -323,7 +323,7 @@ int spi_mem_exec_op(struct spi_mem *mem, const struct spi_mem_op *op)
+ 		return ret;
+ 
+ 	if (!spi_mem_internal_supports_op(mem, op))
+-		return -ENOTSUPP;
++		return -EOPNOTSUPP;
+ 
+ 	if (ctlr->mem_ops && ctlr->mem_ops->exec_op && !spi_get_csgpiod(mem->spi, 0)) {
+ 		ret = spi_mem_access_start(mem);
+@@ -339,7 +339,7 @@ int spi_mem_exec_op(struct spi_mem *mem, const struct spi_mem_op *op)
+ 		 * read path) and expect the core to use the regular SPI
+ 		 * interface in other cases.
+ 		 */
+-		if (!ret || ret != -ENOTSUPP)
++		if (!ret || ret != -ENOTSUPP || ret != -EOPNOTSUPP)
+ 			return ret;
+ 	}
+ 
+@@ -559,7 +559,7 @@ spi_mem_dirmap_create(struct spi_mem *mem,
+ 	if (ret) {
+ 		desc->nodirmap = true;
+ 		if (!spi_mem_supports_op(desc->mem, &desc->info.op_tmpl))
+-			ret = -ENOTSUPP;
++			ret = -EOPNOTSUPP;
+ 		else
+ 			ret = 0;
+ 	}
+diff --git a/drivers/spi/spi-npcm-fiu.c b/drivers/spi/spi-npcm-fiu.c
+index e42248519688..d64b8cade0ed 100644
+--- a/drivers/spi/spi-npcm-fiu.c
++++ b/drivers/spi/spi-npcm-fiu.c
+@@ -556,7 +556,7 @@ static int npcm_fiu_exec_op(struct spi_mem *mem, const struct spi_mem_op *op)
+ 		op->data.nbytes);
+ 
+ 	if (fiu->spix_mode || op->addr.nbytes > 4)
+-		return -ENOTSUPP;
++		return -EOPNOTSUPP;
+ 
+ 	if (fiu->clkrate != chip->clkrate) {
+ 		ret = clk_set_rate(fiu->clk, chip->clkrate);
+diff --git a/drivers/spi/spi-ti-qspi.c b/drivers/spi/spi-ti-qspi.c
+index 4c81516b67db..0877dc5058a1 100644
+--- a/drivers/spi/spi-ti-qspi.c
++++ b/drivers/spi/spi-ti-qspi.c
+@@ -613,12 +613,12 @@ static int ti_qspi_exec_mem_op(struct spi_mem *mem,
+ 	/* Only optimize read path. */
+ 	if (!op->data.nbytes || op->data.dir != SPI_MEM_DATA_IN ||
+ 	    !op->addr.nbytes || op->addr.nbytes > 4)
+-		return -ENOTSUPP;
++		return -EOPNOTSUPP;
+ 
+ 	/* Address exceeds MMIO window size, fall back to regular mode. */
+ 	from = op->addr.val;
+ 	if (from + op->data.nbytes > qspi->mmap_size)
+-		return -ENOTSUPP;
++		return -EOPNOTSUPP;
+ 
+ 	mutex_lock(&qspi->list_lock);
+ 
+diff --git a/drivers/spi/spi-wpcm-fiu.c b/drivers/spi/spi-wpcm-fiu.c
+index 852ffe013d32..d76f7b5a9b97 100644
+--- a/drivers/spi/spi-wpcm-fiu.c
++++ b/drivers/spi/spi-wpcm-fiu.c
+@@ -361,7 +361,7 @@ static int wpcm_fiu_exec_op(struct spi_mem *mem, const struct spi_mem_op *op)
+ 
+ 	wpcm_fiu_stall_host(fiu, false);
+ 
+-	return -ENOTSUPP;
++	return -EOPNOTSUPP;
+ }
+ 
+ static int wpcm_fiu_adjust_op_size(struct spi_mem *mem, struct spi_mem_op *op)
+diff --git a/include/linux/spi/spi-mem.h b/include/linux/spi/spi-mem.h
+index 6b0a7dc48a4b..f866d5c8ed32 100644
+--- a/include/linux/spi/spi-mem.h
++++ b/include/linux/spi/spi-mem.h
+@@ -233,6 +233,8 @@ static inline void *spi_mem_get_drvdata(struct spi_mem *mem)
+  *		    limitations)
+  * @supports_op: check if an operation is supported by the controller
+  * @exec_op: execute a SPI memory operation
++ *           not all driver provides supports_op(), so it can return -EOPNOTSUPP
++ *           if the op is not supported by the driver/controller
+  * @get_name: get a custom name for the SPI mem device from the controller.
+  *	      This might be needed if the controller driver has been ported
+  *	      to use the SPI mem layer and a custom name is used to keep
+-- 
+2.25.1
+

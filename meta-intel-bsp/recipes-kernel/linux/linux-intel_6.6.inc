@@ -5,6 +5,7 @@ SRCREV_meta = "6b4249d0f2e333cf54123e4cba3636867e56bfac"
 COMMON_PATCHES = " \
 file://0001-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
 file://0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
+file://0003-spi-Unify-error-codes-by-replacing-ENOTSUPP-with-EOP.patch \
 "
 
 SNR_PATCHES = " \
