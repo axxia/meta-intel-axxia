@@ -14,6 +14,7 @@ file://0006-reboot-allow-to-specify-reboot-mode-via-sysfs.patch \
 file://0007-mtd-spi-nor-intel-spi-Move-platform-data-header-to-x.patch \
 file://0008-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
 file://0009-Introduce-an-Intel-SPI-controller-level-mutex.patch \
+file://0010-mtd-spi-nor-handle-unsupported-FSR-opcodes-properly.patch \
 "
 
 SNR_PATCHES = " \
