@@ -104,6 +104,13 @@ Included as
 0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch
 
 
+Support Serial Flash Access (MTD) to Boot Flash
+-----------------------------------------------
+
+Allows access to the secondary boot flash from Linux using the MTD driver.
+
+0003-spi-Unify-error-codes-by-replacing-ENOTSUPP-with-EOP.patch
+
 Support for SIOV (for GRR and PMR)
 ----------------------------------
 
