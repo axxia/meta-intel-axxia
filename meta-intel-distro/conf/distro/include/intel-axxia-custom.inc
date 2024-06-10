@@ -14,6 +14,7 @@ ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
 "
 
 LOCAL_ALTERNATIVE_KERNELS ?= ""
+KORG_ALTERNATIVE_KERNELS ?= ""
 
 ALTERNATIVE_KERNELS ?= \
 "${${@''.join(d.getVar('PREFERRED_PROVIDER_virtual/kernel').upper()\
