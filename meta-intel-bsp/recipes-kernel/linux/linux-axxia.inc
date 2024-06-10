@@ -29,9 +29,9 @@ KERNEL_PACKAGE_NAME = "${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kerne
 PROVIDES = "${@ "virtual/kernel" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else "" }"
 
 do_configure:append() {
+	# Add RELEASE_VERSION in kernel version string
 	if [ "${RELEASE_VERSION}" != "" ]; then
-		sed -i s@UTS_VERSION=\"\#\$VERSION\"@UTS_VERSION=\"${RELEASE_VERSION}\ \#\$VERSION\"@g \
-			${STAGING_KERNEL_DIR}/scripts/mkcompile_h
+		sed -i "s@utsver=\$\$(echo@utsver=\$\$(echo ${RELEASE_VERSION}@g" ${STAGING_KERNEL_DIR}/init/Makefile
 	fi
 }
 
