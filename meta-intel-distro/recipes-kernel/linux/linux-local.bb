@@ -2,10 +2,15 @@
 # Simple recipe to build kernel from local repository.               #
 # Set linux-local as PREFERRED_PROVIDER for virtual/kernel component #
 #     PREFERRED_PROVIDER_virtual/kernel = "linux-local"              #
+#                                                                    #
 # To build only the kernel run:                                      #
 #      $ bitbake linux-local                                         #
+#                                                                    #
 # All changes should be committed in the local kernel clone.         #
-# Full defconfig should be copied in this directory (besides recipe) #
+#                                                                    #
+# Full defconfig should be copied besides this recipe or in a 'files'#
+# directory created in the recipe location.                          #
+#                                                                    #
 # If you want to skip lttng support for your kernel:                 #
 #      LTTNG_SUPPORT = ""                                            #
 ######################################################################
@@ -14,6 +19,7 @@
 LOCAL_KERNEL_PATH ?= "path-to-local-kernel-repository"
 LOCAL_KERNEL_BRANCH ?= "standard/base"
 
+inherit kernel
 require recipes-kernel/linux/linux-yocto.inc \
 	${@bb.utils.contains('BBFILE_COLLECTIONS', 'intel-rdk', \
 			     'recipes-kernel/linux/linux-rdk.inc', '', d)}
@@ -30,10 +36,7 @@ DEPENDS:append = " elfutils-native openssl-native util-linux-native"
 
 SRCREV_machine = "${AUTOREV}"
 
-KERNEL_DANGLING_FEATURES_WARN_ONLY = "0"
-
-SRC_URI = " \
-	git://${LOCAL_KERNEL_PATH};name=machine;branch=${LOCAL_KERNEL_BRANCH} \
+SRC_URI = " git://${LOCAL_KERNEL_PATH};name=machine;branch=${LOCAL_KERNEL_BRANCH} \
 	file://defconfig \
 	"
 
@@ -41,4 +44,7 @@ do_kernel_configme[depends] += "${PN}:do_prepare_recipe_sysroot"
 
 COMPATIBLE_MACHINE:intel-axxia-snr = "${MACHINE}"
 COMPATIBLE_MACHINE:intel-axxia-grr = "${MACHINE}"
+COMPATIBLE_MACHINE:intel-axxia-pmr = "${MACHINE}"
+
 KERNEL_VERSION_SANITY_SKIP = "1"
+KERNEL_DANGLING_FEATURES_WARN_ONLY = "0"
