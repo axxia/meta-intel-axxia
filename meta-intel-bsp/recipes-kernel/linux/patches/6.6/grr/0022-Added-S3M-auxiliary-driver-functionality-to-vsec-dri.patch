@@ -1,0 +1,69 @@
+From 5e33137982a7c6ad27df76a7973c9b562875a0ca Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Mon, 11 Mar 2024 10:27:27 -0500
+Subject: Added S3M auxiliary driver functionality to vsec driver.
+
+Modified the existing vsec driver files to enable the intel_s3m driver.
+
+Signed-off-by: Will Skrydlak <will.j.skrydlak@linux.intel.com>
+Back-ported-by: John Jacques <john.jacques@intel.com>
+---
+ drivers/platform/x86/intel/vsec.c | 7 ++++++-
+ drivers/platform/x86/intel/vsec.h | 2 ++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/platform/x86/intel/vsec.c b/drivers/platform/x86/intel/vsec.c
+index 9ae793c68b70..9dfeef2e9044 100644
+--- a/drivers/platform/x86/intel/vsec.c
++++ b/drivers/platform/x86/intel/vsec.c
+@@ -50,6 +50,9 @@ static const char *intel_vsec_name(enum intel_vsec_id id)
+ 	case VSEC_ID_TPMI:
+ 		return "tpmi";
+ 
++	case VSEC_ID_S3M:
++		return "s3m";
++
+ 	default:
+ 		return NULL;
+ 	}
+@@ -68,6 +71,8 @@ static bool intel_vsec_supported(u16 id, unsigned long caps)
+ 		return !!(caps & VSEC_CAP_SDSI);
+ 	case VSEC_ID_TPMI:
+ 		return !!(caps & VSEC_CAP_TPMI);
++	case VSEC_ID_S3M:
++		return !!(caps & VSEC_CAP_S3M);
+ 	default:
+ 		return false;
+ 	}
+@@ -382,7 +387,7 @@ static const struct intel_vsec_platform_info mtl_info = {
+ 
+ /* OOBMSM info */
+ static const struct intel_vsec_platform_info oobmsm_info = {
+-	.caps = VSEC_CAP_TELEMETRY | VSEC_CAP_SDSI | VSEC_CAP_TPMI,
++	.caps = VSEC_CAP_TELEMETRY | VSEC_CAP_SDSI | VSEC_CAP_TPMI | VSEC_CAP_S3M,
+ };
+ 
+ /* TGL info */
+diff --git a/drivers/platform/x86/intel/vsec.h b/drivers/platform/x86/intel/vsec.h
+index c242c07ea69c..e186aac80de4 100644
+--- a/drivers/platform/x86/intel/vsec.h
++++ b/drivers/platform/x86/intel/vsec.h
+@@ -10,6 +10,7 @@
+ #define VSEC_CAP_CRASHLOG	BIT(2)
+ #define VSEC_CAP_SDSI		BIT(3)
+ #define VSEC_CAP_TPMI		BIT(4)
++#define VSEC_CAP_S3M        BIT(5)
+ 
+ /* Intel DVSEC offsets */
+ #define INTEL_DVSEC_ENTRIES		0xA
+@@ -28,6 +29,7 @@ enum intel_vsec_id {
+ 	VSEC_ID_CRASHLOG	= 4,
+ 	VSEC_ID_SDSI		= 65,
+ 	VSEC_ID_TPMI		= 66,
++	VSEC_ID_S3M		= 71,
+ };
+ 
+ /**
+-- 
+2.25.1
+
