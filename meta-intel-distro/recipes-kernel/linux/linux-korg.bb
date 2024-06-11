@@ -36,7 +36,7 @@ LINUX_VERSION_EXTENSION = "-kernel-org-${KORG_VERSION}"
 
 DEPENDS:append = " elfutils-native openssl-native util-linux-native"
 
-SRC_URI = " git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol=git;branch=master;name=machine \
+SRC_URI = " git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol=http;branch=master;name=machine \
 	file://defconfig \
 	"
 
