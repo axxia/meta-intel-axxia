@@ -48,6 +48,9 @@ REMOVE_LIBTOOL_LA = "0"
 # Add new include path for KLM headers exported for userspace
 CXXFLAGS += " -I${SYSROOT}/usr/kernel-headers/include/klm "
 
+# Ensure install dir from sources is empty when rebuilding
+do_compile[cleandirs] = "${S}/install"
+
 do_compile () {
 	cd ${S}
 	oe_runmake cpk-ae-lib netd-lib
