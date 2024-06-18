@@ -20,6 +20,9 @@ echo "Running /etc/rc.local..."
 # Automatically mount host filesystem using simicsfs-client.
 type simicsfs-client &>/dev/null && simicsfs-client -o allow_other /host
 
+# Sort Out Malicious Driver Detection Events
+echo identity > /sys/bus/pci/devices/0000:f5:00.0/iommu_group/type
+
 # Run dhcpcd on the Ethernet interface.
 
 TOUT=20
