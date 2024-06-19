@@ -3,7 +3,6 @@ when size doesn't matter as much."
 
 require recipes-core/images/core-image-minimal-dev.bb
 require axxia-image.inc
-require axxia-devsrc.inc
 require ${@bb.utils.contains('BBFILE_COLLECTIONS', 'intel-rdk', \
 			     'axxia-rdk.inc', '', d)}
 
@@ -125,6 +124,7 @@ iptraf \
 iw \
 kdump \
 kernel-dev \
+kernel-devsrc \
 kernel-modules \
 kexec \
 kexec-tools \
