@@ -14,7 +14,7 @@ require conf/machine/include/tune-core2.inc
 
 # Extra tune features
 TUNEVALID[grr] = "Enable grr specific processor optimizations"
-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'grr', ' -march=tremont -mtune=tremont -mfpmath=sse -msse4.2', '', d)}"
+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'grr', ' -march=tremont -mtune=tremont -mfpmath=sse -mavx2', '', d)}"
 
 # Extra tune selections
 AVAILTUNES += "grr-32"
