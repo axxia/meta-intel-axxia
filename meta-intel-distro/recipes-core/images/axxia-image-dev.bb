@@ -381,6 +381,7 @@ LXC_SUPPORT ?= " \
 cgroup-lite \
 gnupg \
 libvirt \
+libvirt-virsh \
 libvirt-libvirtd \
 lxc \
 lxc-networking \
