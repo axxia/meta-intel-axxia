@@ -202,7 +202,6 @@ lrzsz \
 lshw \
 lsof \
 lsscsi \
-ltp \
 lvm2 \
 lzo \
 man \
