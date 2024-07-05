@@ -12,6 +12,14 @@ file://0006-reboot-allow-to-specify-reboot-mode-via-sysfs.patch \
 file://0007-mtd-spi-nor-intel-spi-Move-platform-data-header-to-x.patch \
 file://0008-mtd-spi-nor-intel-spi-Add-support-for-second-flash-c.patch \
 file://0009-Introduce-an-Intel-SPI-controller-level-mutex.patch \
+file://0010-tools-build-Add-feature-test-for-init_disassemble_in.patch \
+file://0011-tools-build-Don-t-display-disassembler-four-args-fea.patch \
+file://0012-tools-include-add-dis-asm-compat.h-to-handle-version.patch \
+file://0013-tools-perf-Fix-compilation-error-with-new-binutils.patch \
+file://0014-tools-bpf_jit_disasm-Fix-compilation-error-with-new-.patch \
+file://0015-tools-bpf_jit_disasm-Don-t-display-disassembler-four.patch \
+file://0016-tools-bpftool-Fix-compilation-error-with-new-binutil.patch \
+file://0017-tools-bpftool-Don-t-display-disassembler-four-args-f.patch \
 "
 
 SNR_PATCHES = " \
