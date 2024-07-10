@@ -19,7 +19,7 @@ require conf/machine/include/x86/tune-core2.inc
 
 # Extra tune features
 TUNEVALID[grr] = "Enable grr specific processor optimizations"
-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'grr', ' -march=grandridge -mtune=grandridge -mfpmath=sse -mavx2', '', d)}"
+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'grr', ' -march=grandridge -mtune=grandridge -mfpmath=sse -mavx2 -mprefer-vector-width=128', '', d)}"
 
 # Extra tune selections
 AVAILTUNES += "grr-32"
