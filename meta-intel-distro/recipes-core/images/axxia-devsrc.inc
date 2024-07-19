@@ -18,8 +18,11 @@ external_modules_setup () {
         [ ! -x $kernel ] && continue
         cd $kernel/build
         oe_runmake clean olddefconfig scripts tools/objtool modules_prepare
-        for bin in $(find ! -path '*/scripts/atomic/*' -type f -executable -exec sh -c 'test "$(head -c 2 "$1")" != "#!"' sh {} \; -print); do
-            patchelf --set-interpreter $dynamic_loader $bin
+        find . -type f -executable | while read -r bin; do
+            if file $bin | grep -q "ELF.*interpreter"; then
+                echo "Set interpreter for $bin"
+                patchelf --set-interpreter $dynamic_loader $bin
+            fi
         done
         cd -
     done
