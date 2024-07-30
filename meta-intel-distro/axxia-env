@@ -1,1 +1,1 @@
-export TEMPLATECONF=$PWD/$(dirname ${BASH_SOURCE[0]})/conf/templates/default
+export TEMPLATECONF=$(cd $(dirname ${BASH_SOURCE[0]}) &> /dev/null && pwd)/conf/templates/default
