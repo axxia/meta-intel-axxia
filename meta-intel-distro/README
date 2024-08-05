@@ -284,8 +284,8 @@ NOTE: No preferred version should be set for linux-local provider.
     * 'cd ase/simics'
     * tar czf simics-<simics-version>.tgz simics-<simics-version>
 
-2.3.10. Choose a different GCC version to use: 15.% (gcc15 feature).
-    Default version is 13.%.
+2.3.10. Choose a different GCC version to use: 15.% (gcc15 feature) or 11.%
+    (gcc11 feature). Default version is 13.%.
 
     DISTRO_FEATURES:append = " gcc15"
 
