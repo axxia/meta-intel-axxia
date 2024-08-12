@@ -1,0 +1,53 @@
+From 43d4b5ec18a4f03f5038d588623ca15bcbfadd8f Mon Sep 17 00:00:00 2001
+From: Marcel Hamer <marcel.hamer@windriver.com>
+Date: Mon, 27 Jun 2022 16:27:27 +0200
+Subject: [PATCH 12/12] mtd: spi-nor: handle unsupported FSR opcodes properly
+
+The Intel SPI controller does not support reading the FSR register from SPI NOR
+flashes. The Intel SPI controller only supports a limited number of opcodes
+using hardware sequencing and it is not possible to do a fallback to software
+sequencing, since that is not officially supported by the Intel SPI controller.
+
+Several Micron flashes require the reading of the FSR register. This patch falls
+back to only reading the SR (Status Register) in combination with the Intel SPI
+controller. This suffices but limits the diagnostics in case of an error.
+
+This change is pending upstream and based on this discussion:
+
+	https://lkml.org/lkml/2022/6/10/1021
+
+Signed-off-by: Marcel Hamer <marcel.hamer@windriver.com>
+---
+ drivers/mtd/spi-nor/controllers/intel-spi.c | 2 +-
+ drivers/mtd/spi-nor/core.c                  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/mtd/spi-nor/controllers/intel-spi.c b/drivers/mtd/spi-nor/controllers/intel-spi.c
+index 1089a80b8101..4d4cc1895a46 100644
+--- a/drivers/mtd/spi-nor/controllers/intel-spi.c
++++ b/drivers/mtd/spi-nor/controllers/intel-spi.c
+@@ -495,7 +495,7 @@ static int intel_spi_hw_cycle(struct intel_spi *ispi, u8 opcode, size_t len)
+ 		val |= HSFSTS_CTL_FCYCLE_RDSR;
+ 		break;
+ 	default:
+-		return -EINVAL;
++		return -ENOTSUPP;
+ 	}
+ 
+ 	if (len > INTEL_SPI_FIFO_SZ)
+diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
+index 09e112f37691..e9370b30838a 100644
+--- a/drivers/mtd/spi-nor/core.c
++++ b/drivers/mtd/spi-nor/core.c
+@@ -661,7 +661,7 @@ static int spi_nor_ready(struct spi_nor *nor)
+ 		return sr;
+ 	fsr = nor->flags & SNOR_F_USE_FSR ? spi_nor_fsr_ready(nor) : 1;
+ 	if (fsr < 0)
+-		return fsr;
++		return (fsr == -ENOTSUPP) ? sr : fsr;
+ 	return sr && fsr;
+ }
+ 
+-- 
+2.17.1
+

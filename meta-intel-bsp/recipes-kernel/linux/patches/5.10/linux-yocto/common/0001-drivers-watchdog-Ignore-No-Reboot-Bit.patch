@@ -1,0 +1,112 @@
+From 99f729dd189bc60ff98f3c2999a0d76b2b5689f7 Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Fri, 19 Jun 2020 20:31:25 +0000
+Subject: [PATCH 01/12] drivers/watchdog: Ignore 'No Reboot' Bit
+
+Early versions of the SNR chip do not allow the "no reboot"
+bit to be accessed.  This commit simply assumes that it is
+writeable without checking in order to allow the watchdog to
+but used in Linux.  This will be fixed in later versions of
+the chip.
+
+Signed-off-by: John Jacques <john.jacques@intel.com>
+Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
+---
+ drivers/watchdog/iTCO_wdt.c | 52 +++++++++++++++++++++++--------------
+ 1 file changed, 32 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/watchdog/iTCO_wdt.c b/drivers/watchdog/iTCO_wdt.c
+index 50c874d48860..7c9fdcbaad54 100644
+--- a/drivers/watchdog/iTCO_wdt.c
++++ b/drivers/watchdog/iTCO_wdt.c
+@@ -129,6 +129,11 @@ module_param(turn_SMI_watchdog_clear_off, int, 0);
+ MODULE_PARM_DESC(turn_SMI_watchdog_clear_off,
+ 	"Turn off SMI clearing watchdog (depends on TCO-version)(default=1)");
+ 
++static int assume_noreboot_access;
++module_param(assume_noreboot_access, int, 0);
++MODULE_PARM_DESC(assume_norebot_access,
++	"Assume that the No Reboot Bit is Accessible (Don't Check)");
++
+ /*
+  * Some TCO specific functions
+  */
+@@ -277,10 +282,12 @@ static int iTCO_wdt_start(struct watchdog_device *wd_dev)
+ 	iTCO_vendor_pre_start(p->smi_res, wd_dev->timeout);
+ 
+ 	/* disable chipset's NO_REBOOT bit */
+-	if (p->update_no_reboot_bit(p->no_reboot_priv, false)) {
+-		spin_unlock(&p->io_lock);
+-		pr_err("failed to reset NO_REBOOT flag, reboot disabled by hardware/BIOS\n");
+-		return -EIO;
++	if (assume_noreboot_access == 0) {
++		if (p->update_no_reboot_bit(p->no_reboot_priv, false)) {
++			spin_unlock(&p->io_lock);
++			pr_err("failed to reset NO_REBOOT flag, reboot disabled by hardware/BIOS\n");
++			return -EIO;
++		}
+ 	}
+ 
+ 	/* Force the timer to its reload value by writing to the TCO_RLD
+@@ -318,7 +325,8 @@ static int iTCO_wdt_stop(struct watchdog_device *wd_dev)
+ 	val = inw(TCO1_CNT(p));
+ 
+ 	/* Set the NO_REBOOT bit to prevent later reboots, just for sure */
+-	p->update_no_reboot_bit(p->no_reboot_priv, true);
++	if (assume_noreboot_access == 0)
++		p->update_no_reboot_bit(p->no_reboot_priv, true);
+ 
+ 	spin_unlock(&p->io_lock);
+ 
+@@ -511,21 +519,24 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
+ 	 * Get the Memory-Mapped GCS or PMC register, we need it for the
+ 	 * NO_REBOOT flag (TCO v2 and v3).
+ 	 */
+-	if (p->iTCO_version >= 2 && p->iTCO_version < 6 &&
+-	    !pdata->no_reboot_use_pmc) {
+-		p->gcs_pmc_res = platform_get_resource(pdev,
+-						       IORESOURCE_MEM,
+-						       ICH_RES_MEM_GCS_PMC);
+-		p->gcs_pmc = devm_ioremap_resource(dev, p->gcs_pmc_res);
+-		if (IS_ERR(p->gcs_pmc))
+-			return PTR_ERR(p->gcs_pmc);
+-	}
+ 
+-	/* Check chipset's NO_REBOOT bit */
+-	if (p->update_no_reboot_bit(p->no_reboot_priv, false) &&
+-	    iTCO_vendor_check_noreboot_on()) {
+-		pr_info("unable to reset NO_REBOOT flag, device disabled by hardware/BIOS\n");
+-		return -ENODEV;	/* Cannot reset NO_REBOOT bit */
++	if (assume_noreboot_access == 0) {
++		if (p->iTCO_version >= 2 && p->iTCO_version < 6 &&
++		    !pdata->no_reboot_use_pmc) {
++			p->gcs_pmc_res = platform_get_resource(pdev,
++							       IORESOURCE_MEM,
++							       ICH_RES_MEM_GCS_PMC);
++			p->gcs_pmc = devm_ioremap_resource(dev, p->gcs_pmc_res);
++			if (IS_ERR(p->gcs_pmc))
++				return PTR_ERR(p->gcs_pmc);
++		}
++
++		/* Check chipset's NO_REBOOT bit */
++		if (p->update_no_reboot_bit(p->no_reboot_priv, false) &&
++		    iTCO_vendor_check_noreboot_on()) {
++			pr_info("unable to reset NO_REBOOT flag, device disabled by hardware/BIOS\n");
++			return -ENODEV;	/* Cannot reset NO_REBOOT bit */
++		}
+ 	}
+ 
+ 	if (turn_SMI_watchdog_clear_off >= p->iTCO_version) {
+@@ -584,7 +595,8 @@ static int iTCO_wdt_probe(struct platform_device *pdev)
+ 		 * If the watchdog was not running set NO_REBOOT now to
+ 		 * prevent later reboots.
+ 		 */
+-		p->update_no_reboot_bit(p->no_reboot_priv, true);
++		if (assume_noreboot_access == 0)
++			p->update_no_reboot_bit(p->no_reboot_priv, true);
+ 	}
+ 
+ 	/* Check that the heartbeat value is within it's range;
+-- 
+2.17.1
+

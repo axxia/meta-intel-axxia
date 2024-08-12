@@ -1,0 +1,33 @@
+From 5c1f592da3cf544a155e9cb73928a8e8d07ec0c0 Mon Sep 17 00:00:00 2001
+From: Dave Jiang <dave.jiang@intel.com>
+Date: Thu, 11 Feb 2021 13:21:29 -0700
+Subject: [PATCH 09/41] driver core: auxiliary bus: Remove unneeded module bits
+
+Remove module bits in the auxiliary bus code since the auxiliary bus
+cannot be built as a module and the relevant code is not needed.
+
+Cc: Dave Ertman <david.m.ertman@intel.com>
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Dave Jiang <dave.jiang@intel.com>
+Link: https://lore.kernel.org/r/161307488980.1896017.15627190714413338196.stgit@djiang5-desk3.ch.intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/base/auxiliary.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/drivers/base/auxiliary.c b/drivers/base/auxiliary.c
+index d8b314e7d0fd..adc199dfba3c 100644
+--- a/drivers/base/auxiliary.c
++++ b/drivers/base/auxiliary.c
+@@ -265,8 +265,3 @@ void __init auxiliary_bus_init(void)
+ {
+ 	WARN_ON(bus_register(&auxiliary_bus_type));
+ }
+-
+-MODULE_LICENSE("GPL v2");
+-MODULE_DESCRIPTION("Auxiliary Bus");
+-MODULE_AUTHOR("David Ertman <david.m.ertman@intel.com>");
+-MODULE_AUTHOR("Kiran Patil <kiran.patil@intel.com>");
+-- 
+2.17.1
+

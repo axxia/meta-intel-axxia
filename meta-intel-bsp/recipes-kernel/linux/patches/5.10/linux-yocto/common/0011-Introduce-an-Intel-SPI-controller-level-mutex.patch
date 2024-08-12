@@ -1,0 +1,83 @@
+From 6f3ec701d238419a324c3448ec728e2ecc5644f1 Mon Sep 17 00:00:00 2001
+From: Marcel Hamer <marcel.hamer@windriver.com>
+Date: Wed, 27 Sep 2023 14:13:36 +0200
+Subject: [PATCH 11/12] Introduce an Intel SPI controller level mutex
+
+The Intel SPI controller addresses two indepenent NOR chips. Although the
+independent SPI NOR chips are mutex locked when any operation is performed,
+the Intel SPI NOR controller itself does not use mutexes.
+
+When two SPI NOR flashes are addressed in parallel, this causes for a race
+condition in the controller driver.
+
+The added prepare and unprepare functions make sure controller level mutex locks
+are used as well when any operation is performed on a SPI NOR flash.
+
+Reproduction can be easily performed by running the following commands in
+parallel:
+
+	strings /dev/mtd0 | grep TEST
+	strings /dev/mtd1 | grep TEST
+
+It is important that both mtd0 and mtd1 in this case have partitions on two
+independent SPI NOR chips connected to the same controller. The issue is not
+reproducible when using partitions on the same SPI NOR flash chip.
+
+Signed-off-by: Marcel Hamer <marcel.hamer@windriver.com>
+---
+ drivers/mtd/spi-nor/controllers/intel-spi.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/drivers/mtd/spi-nor/controllers/intel-spi.c b/drivers/mtd/spi-nor/controllers/intel-spi.c
+index 2ad07bec7f29..1089a80b8101 100644
+--- a/drivers/mtd/spi-nor/controllers/intel-spi.c
++++ b/drivers/mtd/spi-nor/controllers/intel-spi.c
+@@ -151,6 +151,7 @@ struct intel_spi {
+ 	struct device *dev;
+ 	const struct intel_spi_boardinfo *info;
+ 	struct spi_nor nor[2];
++	struct mutex lock;
+ 	size_t nc;
+ 	void __iomem *base;
+ 	void __iomem *pregs;
+@@ -350,6 +351,8 @@ static int intel_spi_init(struct intel_spi *ispi)
+ 	u32 opmenu0, opmenu1, lvscc, uvscc, val;
+ 	int i;
+ 
++	mutex_init(&ispi->lock);
++
+ 	switch (ispi->info->type) {
+ 	case INTEL_SPI_BYT:
+ 		ispi->sregs = ispi->base + BYT_SSFSTS_CTL;
+@@ -957,6 +960,19 @@ static void intel_spi_fill_partition(struct intel_spi *ispi,
+ 	}
+ }
+ 
++static int intel_spi_prepare(struct spi_nor *nor) {
++	struct intel_spi *ispi = nor->priv;
++
++	mutex_lock(&ispi->lock);
++	return 0;
++}
++
++static void intel_spi_unprepare(struct spi_nor *nor) {
++	struct intel_spi *ispi = nor->priv;
++
++	mutex_unlock(&ispi->lock);
++}
++
+ bool intel_spi_is_protected(struct device *dev)
+ {
+ 	struct intel_spi *ispi = dev_get_drvdata(dev);
+@@ -1013,6 +1029,8 @@ ssize_t intel_spi_bios_unlock(struct device *dev, size_t len)
+ EXPORT_SYMBOL_GPL(intel_spi_bios_unlock);
+ 
+ static const struct spi_nor_controller_ops intel_spi_controller_ops = {
++	.prepare = intel_spi_prepare,
++	.unprepare = intel_spi_unprepare,
+ 	.read_reg = intel_spi_read_reg,
+ 	.write_reg = intel_spi_write_reg,
+ 	.read = intel_spi_read,
+-- 
+2.17.1
+

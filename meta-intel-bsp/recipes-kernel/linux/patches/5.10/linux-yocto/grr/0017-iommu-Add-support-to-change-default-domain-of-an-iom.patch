@@ -1,0 +1,99 @@
+From 77d3e7b5bbd5d3dafc04a6fa7a04a28c7a8ca1f6 Mon Sep 17 00:00:00 2001
+From: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
+Date: Tue, 24 Nov 2020 21:06:02 +0800
+Subject: [PATCH 17/41] iommu: Add support to change default domain of an iommu
+ group
+
+Presently, the default domain of an iommu group is allocated during boot
+time and it cannot be changed later. So, the device would typically be
+either in identity (also known as pass_through) mode or the device would be
+in DMA mode as long as the machine is up and running. There is no way to
+change the default domain type dynamically i.e. after booting, a device
+cannot switch between identity mode and DMA mode.
+
+But, assume a use case wherein the user trusts the device and believes that
+the OS is secure enough and hence wants *only* this device to bypass IOMMU
+(so that it could be high performing) whereas all the other devices to go
+through IOMMU (so that the system is protected). Presently, this use case
+is not supported. It will be helpful if there is some way to change the
+default domain of an iommu group dynamically. Hence, add such support.
+
+A privileged user could request the kernel to change the default domain
+type of a iommu group by writing to
+"/sys/kernel/iommu_groups/<grp_id>/type" file. Presently, only three values
+are supported
+1. identity: all the DMA transactions from the device in this group are
+             *not* translated by the iommu
+2. DMA: all the DMA transactions from the device in this group are
+        translated by the iommu
+3. auto: change to the type the device was booted with
+
+Note:
+1. Default domain of an iommu group with two or more devices cannot be
+   changed.
+2. The device in the iommu group shouldn't be bound to any driver.
+3. The device shouldn't be assigned to user for direct access.
+4. The change request will fail if any device in the group has a mandatory
+   default domain type and the requested one conflicts with that.
+
+Please see "Documentation/ABI/testing/sysfs-kernel-iommu_groups" for more
+information.
+
+NOTE: This back-port does not support using the /sys interface on GRR.
+      It simply adds macros for GRR (8086:0dbd), GRR_QAT_PF (8086:578a)
+      and GRR_QAT_VF (8086:578b).
+
+Signed-off-by: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
+Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: Ashok Raj <ashok.raj@intel.com>
+Cc: Will Deacon <will.deacon@arm.com>
+Cc: Sohil Mehta <sohil.mehta@intel.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Cc: Magnus Hjohlman <magnus.hjohlman@ericsson.com>
+Link: https://lore.kernel.org/r/20201124130604.2912899-3-baolu.lu@linux.intel.com
+Signed-off-by: Will Deacon <will@kernel.org>
+Back-ported-by: John Jacques <john.jacques@intel.com>
+
+merge
+---
+ drivers/iommu/intel/iommu.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index c8c85c241ba6..5e604551cf53 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -63,6 +63,11 @@
+ 			    (pdev)->device == 0x465d ||		\
+ 			    (pdev)->device == 0x1919))
+ #define IS_AZALIA(pdev) ((pdev)->vendor == 0x8086 && (pdev)->device == 0x3a3e)
++#define IS_GRR(pdev) ((pdev)->vendor == 0x8086 && (pdev)->device == 0x0dbd)
++#define IS_GRR_QAT_PF(pdev) \
++	((pdev)->vendor == 0x8086 && (pdev)->device == 0x578a)
++#define IS_GRR_QAT_VF(pdev) \
++	((pdev)->vendor == 0x8086 && (pdev)->device == 0x578b)
+ 
+ #define IOAPIC_RANGE_START	(0xfee00000)
+ #define IOAPIC_RANGE_END	(0xfeefffff)
+@@ -3029,6 +3034,15 @@ static int device_def_domain_type(struct device *dev)
+ 
+ 		if ((iommu_identity_mapping & IDENTMAP_IPU) && IS_INTEL_IPU(pdev))
+ 			return IOMMU_DOMAIN_IDENTITY;
++
++		if (IS_GRR(pdev))
++			return IOMMU_DOMAIN_IDENTITY;
++
++		if (IS_GRR_QAT_PF(pdev))
++			return IOMMU_DOMAIN_IDENTITY;
++
++		if (IS_GRR_QAT_VF(pdev))
++			return IOMMU_DOMAIN_IDENTITY;
+ 	}
+ 
+ 	return 0;
+-- 
+2.17.1
+
