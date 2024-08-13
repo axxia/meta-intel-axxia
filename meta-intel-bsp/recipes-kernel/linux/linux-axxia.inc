@@ -1,9 +1,10 @@
 FILESEXTRAPATHS_prepend := "\
-:${THISDIR}/patches/${KERNEL_MAJOR_VERSION}/common\
-:${THISDIR}/patches/${KERNEL_MAJOR_VERSION}/${CPU}\
+:${THISDIR}/patches/${KERNEL_MAJOR_VERSION}/${KERNEL_MAJOR_PROVIDER}/common\
+:${THISDIR}/patches/${KERNEL_MAJOR_VERSION}/${KERNEL_MAJOR_PROVIDER}/${CPU}\
 :${THISDIR}/frags/${KERNEL_MAJOR_VERSION}:"
 
 KERNEL_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+KERNEL_MAJOR_PROVIDER = "${@'-'.join(d.getVar('BPN').split('-')[0:2])}"
 
 CPU:intel-axxia-snr = "snr"
 CPU:intel-axxia-grr = "grr"
