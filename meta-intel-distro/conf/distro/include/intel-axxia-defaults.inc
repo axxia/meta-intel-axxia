@@ -4,7 +4,7 @@ PREFERRED_VERSION_linux-intel ?= "${KV}"
 PREFERRED_VERSION_linux-intel-debug ?= "${KV}"
 
 GCC_VERSION = "${@bb.utils.contains('DISTRO_FEATURES', 'gcc15', '15.%', \
-		  bb.utils.contains('DISTRO_FEATURES', 'gcc11', '11.%', '13.%', d), d)}"
+		  bb.utils.contains('DISTRO_FEATURES', 'gcc13', '13.%', '11.%', d), d)}"
 PREFERRED_VERSION_gcc ?= "${GCC_VERSION}"
 PREFERRED_VERSION_gcc-runtime ?= "${GCC_VERSION}"
 PREFERRED_VERSION_gcc-sanitizers ?= "${GCC_VERSION}"
