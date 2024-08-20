@@ -34,6 +34,9 @@ file://0019-perf-x86-intel-cstate-Add-Grand-Ridge-support.patch \
 file://0020-x86-smp-Export-symbol-cpu_clustergroup_mask.patch \
 file://0021-platform-x86-intel-uncore-freq-Ignore-minor-version-.patch \
 file://0022-platform-x86-intel-tpmi-Add-defines-to-get-version-i.patch \
+file://0023-platform-x86-intel-vsec-Move-structures-to-header.patch \
+file://0024-Added-S3M-auxiliary-driver-functionality-to-vsec-dri.patch \
+file://0025-intel_s3m-Initial-release-for-intel_s3m-driver.patch \
 "
 
 PMR_PATCHES = " \
