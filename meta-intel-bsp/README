@@ -159,6 +159,19 @@ II. Building meta-intel-bsp
 To build a full Intel Axxia reference platform, please follow the
 instructions from README.distro file.
 
+Support for the Upstream S3M Driver
+-----------------------------------
+
+NOT YET PUBLICLY AVAILABLE!!!!!
+
+The change, upsteam, is to add S3M to the Intel VSEC driver (which
+provides endpoints on the auxiliary bus).  This means the RDK OOBMSM
+driver is no longer needed.
+
+0021-platform-x86-intel-vsec-Move-structures-to-header.patch
+0022-Added-S3M-auxiliary-driver-functionality-to-vsec-dri.patch
+0023-intel_s3m-Initial-release-for-intel_s3m-driver.patch
+
 
 2. Build with other OpenEmbedded/Yocto layers
 ---------------------------------------------
