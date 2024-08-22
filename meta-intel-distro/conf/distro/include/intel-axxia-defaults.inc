@@ -4,7 +4,7 @@ PREFERRED_VERSION_linux-intel ?= "${KV}"
 PREFERRED_VERSION_linux-intel-debug ?= "${KV}"
 
 GCC_VERSION = "${@bb.utils.contains('DISTRO_FEATURES', 'gcc15', '15.%', \
-		  bb.utils.contains('DISTRO_FEATURES', 'gcc11', '11.%', '13.%', d), d)}"
+		  bb.utils.contains('DISTRO_FEATURES', 'gcc13', '13.%', '11.%', d), d)}"
 PREFERRED_VERSION_gcc ?= "${GCC_VERSION}"
 PREFERRED_VERSION_gcc-runtime ?= "${GCC_VERSION}"
 PREFERRED_VERSION_gcc-sanitizers ?= "${GCC_VERSION}"
@@ -28,9 +28,9 @@ PREFERRED_VERSION_nativesdk-libgcc ?= "${GCC_VERSION}"
 PREFERRED_VERSION_nativesdk-libgcc-initial ?= "${GCC_VERSION}"
 PREFERRED_VERSION_nativesdk-libgfortran ?= "${GCC_VERSION}"
 
-# Pass 'gcc15' features to nativesdk class
+# Pass 'gcc%%' features to nativesdk class
 DISTRO_FEATURES_NATIVESDK:append = "${@bb.utils.contains('DISTRO_FEATURES', 'gcc15', ' gcc15', \
-				       bb.utils.contains('DISTRO_FEATURES', 'gcc11', ' gcc11', '', d), d)}"
+				       bb.utils.contains('DISTRO_FEATURES', 'gcc13', ' gcc13', '', d), d)}"
 
 PREFERRED_VERSION_libxcrypt-compat ?= "4.1.1"
 
