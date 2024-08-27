@@ -75,3 +75,6 @@ SRCREV_machine_pn-linux-yocto = "${SRCREV_standard}"
 SRCREV_machine_pn-linux-yocto-debug = "${SRCREV_standard}"
 SRCREV_machine_pn-linux-yocto-rt = "${SRCREV_preempt-rt}"
 SRCREV_machine_pn-linux-yocto-rt-debug = "${SRCREV_preempt-rt}"
+
+SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH};protocol=https \
+           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA};protocol=https"
