@@ -47,6 +47,8 @@ Expose the maximum number of supported counters and the width of the
 counters into the sysfs. The perf tool can use the information to parse
 the logged counters in each branch.
 
+Upstream-Status: Backport
+
 Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Link: https://lkml.kernel.org/r/20231025201626.3000228-5-kan.liang@linux.intel.com

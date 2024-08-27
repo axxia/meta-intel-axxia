@@ -25,6 +25,8 @@ scope of the PMU is the cores shared L2. On SRF, Intel calls it
 Besides the module C6, the core C1/C6 and pkg C6 residency counters are
 supported in the Sierra Forest as well.
 
+Upstream-Status: Backport
+
 Suggested-by: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
 Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>

@@ -9,6 +9,8 @@ The test verifies that
 - The new filter can be successfully applied on the supported platforms.
 - The counter value can be outputted via the perf report -D
 
+Upstream-Status: Backport
+
 Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Tested-by: Ian Rogers <irogers@google.com>
 Cc: Adrian Hunter <adrian.hunter@intel.com>

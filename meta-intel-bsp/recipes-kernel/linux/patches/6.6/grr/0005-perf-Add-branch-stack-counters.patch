@@ -31,6 +31,8 @@ each counter should be exposed via sysfs as a reference for the perf
 tool. Define the branch_counter_nr and branch_counter_width ABI here.
 The support will be implemented later in the Intel-specific patch.
 
+Upstream-Status: Backport
+
 Suggested-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>

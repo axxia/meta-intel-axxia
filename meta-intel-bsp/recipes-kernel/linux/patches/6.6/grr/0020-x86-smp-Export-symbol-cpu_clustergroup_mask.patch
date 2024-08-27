@@ -7,6 +7,8 @@ Intel cstate PMU driver will invoke the topology_cluster_cpumask() to
 retrieve the CPU mask of a cluster. A modpost error is triggered since
 the symbol cpu_clustergroup_mask is not exported.
 
+Upstream-Status: Backport
+
 Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Link: https://lore.kernel.org/r/20231116142245.1233485-2-kan.liang@linux.intel.com

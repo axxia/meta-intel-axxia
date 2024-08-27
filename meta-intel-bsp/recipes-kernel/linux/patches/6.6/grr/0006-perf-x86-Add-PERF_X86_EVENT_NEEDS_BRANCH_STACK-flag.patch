@@ -17,6 +17,8 @@ new flag.
 The counting event check is implemented here. The later patch will take
 the new PERF_SAMPLE_BRANCH_COUNTERS into account.
 
+Upstream-Status: Backport
+
 Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Link: https://lkml.kernel.org/r/20231025201626.3000228-2-kan.liang@linux.intel.com

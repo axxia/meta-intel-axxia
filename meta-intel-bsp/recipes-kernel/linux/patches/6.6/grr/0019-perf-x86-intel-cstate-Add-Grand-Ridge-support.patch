@@ -6,6 +6,8 @@ Subject: perf/x86/intel/cstate: Add Grand Ridge support
 The same as the Sierra Forest, the Grand Ridge supports core C1/C6 and
 module C6. But it doesn't support pkg C6 residency counter.
 
+Upstream-Status: Backport
+
 Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Link: https://lore.kernel.org/r/20231116142245.1233485-4-kan.liang@linux.intel.com

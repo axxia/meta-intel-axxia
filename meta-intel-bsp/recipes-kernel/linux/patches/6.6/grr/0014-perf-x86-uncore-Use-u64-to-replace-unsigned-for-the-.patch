@@ -25,6 +25,8 @@ u64 to an unsigned type.
 Use u64 to replace unsigned for the uncore offsets array to correct the
 above case. There is no functional change.
 
+Upstream-Status: Backport
+
 Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Tested-by: Ammy Yi <ammy.yi@intel.com>

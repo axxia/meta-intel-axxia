@@ -33,6 +33,8 @@ SPI error codes.
 This commit does not introduce any functional changes to the SPI subsystem
 or the affected drivers.
 
+Upstream-Status: Backport
+
 Signed-off-by: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
 Acked-by: Tudor Ambarus <tudor.ambarus@linaro.org>
 Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>

@@ -33,6 +33,8 @@ Kan provided a patch that checks if the evsel has a leader and that
 evsel->evlist is set, the comment in the source code further explains
 it.
 
+Upstream-Status: Backport
+
 Reviewed-by: Ian Rogers <irogers@google.com>
 Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Cc: Adrian Hunter <adrian.hunter@intel.com>

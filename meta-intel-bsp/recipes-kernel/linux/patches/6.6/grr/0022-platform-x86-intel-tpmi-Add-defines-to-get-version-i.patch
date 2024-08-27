@@ -10,6 +10,8 @@ Add defines to get major and minor version from a TPMI version field
 value. This will avoid code duplication to convert in every feature
 driver. Also add define for invalid version field.
 
+Upstream-Status: Backport
+
 Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 Link: https://lore.kernel.org/r/20231003184916.1860084-2-srinivas.pandruvada@linux.intel.com
 Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>

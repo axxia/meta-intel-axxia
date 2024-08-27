@@ -9,6 +9,8 @@ units. The difference of the available units and counters can be
 retrieved from the discovery table automatically.
 Just add the CPU model ID.
 
+Upstream-Status: Backport
+
 Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Tested-by: Ammy Yi <ammy.yi@intel.com>

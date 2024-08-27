@@ -8,6 +8,8 @@ similar to Sapphire Rapids. The key difference is the offset of the
 registers. The number of the IIO uncore blocks can also be retrieved
 from the discovery table.
 
+Upstream-Status: Backport
+
 Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Tested-by: Ammy Yi <ammy.yi@intel.com>

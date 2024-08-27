@@ -10,6 +10,8 @@ the logged counters in each branch.
 
 Store the information in the perf_env for later usage.
 
+Upstream-Status: Backport
+
 Reviewed-by: Ian Rogers <irogers@google.com>
 Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Cc: Adrian Hunter <adrian.hunter@intel.com>

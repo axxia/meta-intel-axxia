@@ -20,6 +20,8 @@ Sapphire Rapids.
 Ignore the upi and b2upi units in the discovery table, which are broken
 for now.
 
+Upstream-Status: Backport
+
 Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Tested-by: Ammy Yi <ammy.yi@intel.com>

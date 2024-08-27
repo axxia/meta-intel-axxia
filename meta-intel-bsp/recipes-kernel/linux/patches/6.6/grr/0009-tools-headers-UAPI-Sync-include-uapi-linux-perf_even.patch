@@ -6,6 +6,8 @@ Subject: tools headers UAPI: Sync include/uapi/linux/perf_event.h header with
 
 Sync the new sample type for the branch counters feature.
 
+Upstream-Status: Backport
+
 Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Cc: Adrian Hunter <adrian.hunter@intel.com>
 Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
