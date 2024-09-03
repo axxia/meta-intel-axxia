@@ -1,0 +1,172 @@
+From e9eadc29c1c57cd7be9ec8de231d8fb9e8ac0c7c Mon Sep 17 00:00:00 2001
+From: liuhongt <hongtao.liu@intel.com>
+Date: Tue, 24 Sep 2024 15:53:14 +0800
+Subject: [PATCH] Add new microarchitecture tune for SRF/GRR/CWF.
+
+For Crestmont, 4-operand vex blendv instructions come from MSROM and
+is slower than 3-instructions sequence (op1 & mask) | (op2 & ~mask).
+legacy blendv instruction can still be handled by the decoder.
+
+The patch add a new tune which is enabled for all processors except
+for SRF/CWF. It will use vpand + vpandn + vpor instead of
+vpblendvb(similar for vblendvps/vblendvpd) for SRF/CWF.
+
+gcc/ChangeLog:
+
+	* config/i386/i386-expand.cc (ix86_expand_sse_movcc): Guard
+	instruction blendv generation under new tune.
+	* config/i386/i386.h (TARGET_SSE_MOVCC_USE_BLENDV): New Macro.
+	* config/i386/x86-tune.def (X86_TUNE_SSE_MOVCC_USE_BLENDV):
+	New tune.
+
+Upstream-Status: Backport
+
+(cherry picked from commit 9c8cea8feb6cd54ef73113a0b74f1df7b60d09dc)
+---
+ gcc/config/i386/i386-expand.cc                | 24 +++++++++----------
+ gcc/config/i386/i386.h                        |  2 ++
+ gcc/config/i386/x86-tune.def                  |  8 +++++++
+ .../gcc.target/i386/sse_movcc_use_blendv.c    | 12 ++++++++++
+ 4 files changed, 34 insertions(+), 12 deletions(-)
+ create mode 100644 gcc/testsuite/gcc.target/i386/sse_movcc_use_blendv.c
+
+diff --git a/gcc/config/i386/i386-expand.cc b/gcc/config/i386/i386-expand.cc
+index 3112c0b78dcc..1130b6a51853 100644
+--- a/gcc/config/i386/i386-expand.cc
++++ b/gcc/config/i386/i386-expand.cc
+@@ -4116,29 +4116,29 @@ ix86_expand_sse_movcc (rtx dest, rtx cmp, rtx op_true, rtx op_false)
+   switch (mode)
+     {
+     case E_V2SFmode:
+-      if (TARGET_SSE4_1)
++      if (TARGET_SSE_MOVCC_USE_BLENDV && TARGET_SSE4_1)
+ 	gen = gen_mmx_blendvps;
+       break;
+     case E_V4SFmode:
+-      if (TARGET_SSE4_1)
++      if (TARGET_SSE_MOVCC_USE_BLENDV && TARGET_SSE4_1)
+ 	gen = gen_sse4_1_blendvps;
+       break;
+     case E_V2DFmode:
+-      if (TARGET_SSE4_1)
++      if (TARGET_SSE_MOVCC_USE_BLENDV && TARGET_SSE4_1)
+ 	gen = gen_sse4_1_blendvpd;
+       break;
+     case E_SFmode:
+-      if (TARGET_SSE4_1)
++      if (TARGET_SSE_MOVCC_USE_BLENDV && TARGET_SSE4_1)
+ 	gen = gen_sse4_1_blendvss;
+       break;
+     case E_DFmode:
+-      if (TARGET_SSE4_1)
++      if (TARGET_SSE_MOVCC_USE_BLENDV && TARGET_SSE4_1)
+ 	gen = gen_sse4_1_blendvsd;
+       break;
+     case E_V8QImode:
+     case E_V4HImode:
+     case E_V2SImode:
+-      if (TARGET_SSE4_1)
++      if (TARGET_SSE_MOVCC_USE_BLENDV && TARGET_SSE4_1)
+ 	{
+ 	  gen = gen_mmx_pblendvb_v8qi;
+ 	  blend_mode = V8QImode;
+@@ -4146,14 +4146,14 @@ ix86_expand_sse_movcc (rtx dest, rtx cmp, rtx op_true, rtx op_false)
+       break;
+     case E_V4QImode:
+     case E_V2HImode:
+-      if (TARGET_SSE4_1)
++      if (TARGET_SSE_MOVCC_USE_BLENDV && TARGET_SSE4_1)
+ 	{
+ 	  gen = gen_mmx_pblendvb_v4qi;
+ 	  blend_mode = V4QImode;
+ 	}
+       break;
+     case E_V2QImode:
+-      if (TARGET_SSE4_1)
++      if (TARGET_SSE_MOVCC_USE_BLENDV && TARGET_SSE4_1)
+ 	gen = gen_mmx_pblendvb_v2qi;
+       break;
+     case E_V16QImode:
+@@ -4163,18 +4163,18 @@ ix86_expand_sse_movcc (rtx dest, rtx cmp, rtx op_true, rtx op_false)
+     case E_V4SImode:
+     case E_V2DImode:
+     case E_V1TImode:
+-      if (TARGET_SSE4_1)
++      if (TARGET_SSE_MOVCC_USE_BLENDV && TARGET_SSE4_1)
+ 	{
+ 	  gen = gen_sse4_1_pblendvb;
+ 	  blend_mode = V16QImode;
+ 	}
+       break;
+     case E_V8SFmode:
+-      if (TARGET_AVX)
++      if (TARGET_AVX && TARGET_SSE_MOVCC_USE_BLENDV)
+ 	gen = gen_avx_blendvps256;
+       break;
+     case E_V4DFmode:
+-      if (TARGET_AVX)
++      if (TARGET_AVX && TARGET_SSE_MOVCC_USE_BLENDV)
+ 	gen = gen_avx_blendvpd256;
+       break;
+     case E_V32QImode:
+@@ -4183,7 +4183,7 @@ ix86_expand_sse_movcc (rtx dest, rtx cmp, rtx op_true, rtx op_false)
+     case E_V16BFmode:
+     case E_V8SImode:
+     case E_V4DImode:
+-      if (TARGET_AVX2)
++      if (TARGET_AVX2 && TARGET_SSE_MOVCC_USE_BLENDV)
+ 	{
+ 	  gen = gen_avx2_pblendvb;
+ 	  blend_mode = V32QImode;
+diff --git a/gcc/config/i386/i386.h b/gcc/config/i386/i386.h
+index 79f7dc31b779..cda755b374d8 100644
+--- a/gcc/config/i386/i386.h
++++ b/gcc/config/i386/i386.h
+@@ -448,6 +448,8 @@ extern unsigned char ix86_tune_features[X86_TUNE_LAST];
+ 	ix86_tune_features[X86_TUNE_V2DF_REDUCTION_PREFER_HADDPD]
+ #define TARGET_DEST_FALSE_DEP_FOR_GLC \
+ 	ix86_tune_features[X86_TUNE_DEST_FALSE_DEP_FOR_GLC]
++#define TARGET_SSE_MOVCC_USE_BLENDV \
++	ix86_tune_features[X86_TUNE_SSE_MOVCC_USE_BLENDV]
+ 
+ /* Feature tests against the various architecture variations.  */
+ enum ix86_arch_indices {
+diff --git a/gcc/config/i386/x86-tune.def b/gcc/config/i386/x86-tune.def
+index 4231ca90b0ed..ce903cf29a75 100644
+--- a/gcc/config/i386/x86-tune.def
++++ b/gcc/config/i386/x86-tune.def
+@@ -529,6 +529,14 @@ DEF_TUNE (X86_TUNE_AVOID_512FMA_CHAINS, "avoid_fma512_chains", m_ZNVER5)
+ DEF_TUNE (X86_TUNE_V2DF_REDUCTION_PREFER_HADDPD,
+ 	  "v2df_reduction_prefer_haddpd", m_NONE)
+ 
++/* X86_TUNE_SSE_MOVCC_USE_BLENDV: Prefer blendv instructions to
++   3-instruction sequence (op1 & mask) | (op2 & ~mask)
++   for vector condition move.
++   For Crestmont, 4-operand vex blendv instructions come from MSROM
++   which is slow.  */
++DEF_TUNE (X86_TUNE_SSE_MOVCC_USE_BLENDV,
++	  "sse_movcc_use_blendv", ~m_CORE_ATOM)
++
+ /*****************************************************************************/
+ /* AVX instruction selection tuning (some of SSE flags affects AVX, too)     */
+ /*****************************************************************************/
+diff --git a/gcc/testsuite/gcc.target/i386/sse_movcc_use_blendv.c b/gcc/testsuite/gcc.target/i386/sse_movcc_use_blendv.c
+new file mode 100644
+index 000000000000..ac9f15249491
+--- /dev/null
++++ b/gcc/testsuite/gcc.target/i386/sse_movcc_use_blendv.c
+@@ -0,0 +1,12 @@
++/* { dg-do compile } */
++/* { dg-options "-march=sierraforest -O2" } */
++/* { dg-final { scan-assembler-not {(?n)vp?blendv(b|ps|pd)} } } */
++
++void
++foo (int* a, int* b, int* __restrict c)
++{
++  for (int i = 0; i != 200; i++)
++    {
++      c[i] += a[i] > b[i] ? 1 : -1;
++    }
++}
+-- 
+2.43.5
