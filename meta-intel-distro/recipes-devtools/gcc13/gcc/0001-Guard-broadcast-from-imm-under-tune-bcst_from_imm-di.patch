@@ -1,0 +1,78 @@
+From 2cebc55085855022e5a02cf1efdfd149c6147acd Mon Sep 17 00:00:00 2001
+From: liuhongt <hongtao.liu@intel.com>
+Date: Tue, 27 Aug 2024 18:32:57 +0800
+Subject: [PATCH] Guard broadcast from imm under tune bcst_from_imm, disable
+ the tune for Intel atom/E-core
+
+Since vmovd/vmovq is expensive for E-core.
+
+gcc/ChangeLog:
+
+	* config/i386/i386-expand.cc
+	(ix86_convert_const_wide_int_to_broadcast): Guard the
+	optimization under TARGET_BCST_FROM_IMM.
+	(ix86_broadcast_from_constant): Ditto.
+	* config/i386/i386.h (TARGET_BCST_FROM_IMM): New target.
+	* config/i386/x86-tune.def (X86_TUNE_BCST_FROM_IMM): New tune.
+
+Upstream-Status: Pending
+---
+ gcc/config/i386/i386-expand.cc | 5 ++++-
+ gcc/config/i386/i386.h         | 2 ++
+ gcc/config/i386/x86-tune.def   | 4 ++++
+ 3 files changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/gcc/config/i386/i386-expand.cc b/gcc/config/i386/i386-expand.cc
+index 3112c0b78dc..fc2ba4ccc54 100644
+--- a/gcc/config/i386/i386-expand.cc
++++ b/gcc/config/i386/i386-expand.cc
+@@ -295,7 +295,7 @@ ix86_convert_const_wide_int_to_broadcast (machine_mode mode, rtx op)
+ {
+   /* Don't use integer vector broadcast if we can't move from GPR to SSE
+      register directly.  */
+-  if (!TARGET_INTER_UNIT_MOVES_TO_VEC)
++  if (!TARGET_INTER_UNIT_MOVES_TO_VEC || !TARGET_BCST_FROM_IMM)
+     return nullptr;
+ 
+   /* Convert CONST_WIDE_INT to a non-standard SSE constant integer
+@@ -566,6 +566,9 @@ ix86_broadcast_from_constant (machine_mode mode, rtx op)
+       && INTEGRAL_MODE_P (mode))
+     return nullptr;
+ 
++  if (!TARGET_BCST_FROM_IMM)
++    return nullptr;
++
+   /* Convert CONST_VECTOR to a non-standard SSE constant integer
+      broadcast only if vector broadcast is available.  */
+   if (!(TARGET_AVX2
+diff --git a/gcc/config/i386/i386.h b/gcc/config/i386/i386.h
+index 539083f2fbf..b071613c413 100644
+--- a/gcc/config/i386/i386.h
++++ b/gcc/config/i386/i386.h
+@@ -362,6 +362,8 @@ extern unsigned char ix86_tune_features[X86_TUNE_LAST];
+ 	ix86_tune_features[X86_TUNE_EPILOGUE_USING_MOVE]
+ #define TARGET_SHIFT1		ix86_tune_features[X86_TUNE_SHIFT1]
+ #define TARGET_USE_FFREEP	ix86_tune_features[X86_TUNE_USE_FFREEP]
++#define TARGET_BCST_FROM_IMM \
++	ix86_tune_features[X86_TUNE_BCST_FROM_IMM]
+ #define TARGET_INTER_UNIT_MOVES_TO_VEC \
+ 	ix86_tune_features[X86_TUNE_INTER_UNIT_MOVES_TO_VEC]
+ #define TARGET_INTER_UNIT_MOVES_FROM_VEC \
+diff --git a/gcc/config/i386/x86-tune.def b/gcc/config/i386/x86-tune.def
+index 0fd5bb4430e..9008599a91c 100644
+--- a/gcc/config/i386/x86-tune.def
++++ b/gcc/config/i386/x86-tune.def
+@@ -441,6 +441,10 @@ DEF_TUNE (X86_TUNE_SSE_LOAD0_BY_PXOR, "sse_load0_by_pxor",
+ DEF_TUNE (X86_TUNE_INTER_UNIT_MOVES_TO_VEC, "inter_unit_moves_to_vec",
+           ~(m_ATHLON_K8 | m_AMDFAM10 | m_BDVER | m_BTVER))
+ 
++
++DEF_TUNE (X86_TUNE_BCST_FROM_IMM, "bcst_from_imm",
++          ~(m_TREMONT | m_CORE_ATOM | m_GOLDMONT | m_GOLDMONT_PLUS))
++
+ /* X86_TUNE_INTER_UNIT_MOVES_TO_VEC: Enable moves in from SSE
+    to integer registers.  If disabled, the moves will be done by storing
+    the value to memory and reloading.  */
+-- 
+2.31.1
+
