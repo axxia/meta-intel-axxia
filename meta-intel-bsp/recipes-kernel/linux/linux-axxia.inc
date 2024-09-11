@@ -49,14 +49,12 @@ do_shared_workdir:append() {
 }
 
 kernel_do_deploy:append() {
-	install -d ${DEPLOYDIR}
-	install -m 0644 ${KBUILD_OUTPUT}/System.map \
-		${DEPLOYDIR}/System-${PN}${KERNEL_ARTIFACT_NAME}.map
-	if [ "${KERNEL_PACKAGE_NAME}" = "kernel" ]; then
-		cd ${DEPLOYDIR}
-		rm -f System.map
-		ln -sf System-${PN}${KERNEL_ARTIFACT_NAME}.map System.map
-	fi
+	install -m 0644 ${KBUILD_OUTPUT}/System.map $deployDir/System-${KERNEL_ARTIFACT_NAME}.map
+	install -m 0644 ${KBUILD_OUTPUT}/.config $deployDir/.config-${KERNEL_ARTIFACT_NAME}
+
+	cd $deployDir && rm -f System.map .config
+	ln -sf System-${KERNEL_ARTIFACT_NAME}.map System.map
+	ln -sf .config-${KERNEL_ARTIFACT_NAME} .config
 }
 
 KERNEL_MODULE_AUTOLOAD += "openvswitch kvm"
