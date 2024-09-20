@@ -1,0 +1,39 @@
+From 9e86519759c13237d6a5ad51d30cfb967b390a47 Mon Sep 17 00:00:00 2001
+From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+Date: Wed, 29 Nov 2023 14:43:11 +0800
+Subject: mtd: spi-nor: Stop reporting warning message when soft reset is not
+ suported
+
+When the software reset command isn't supported, we now stop reporting
+the warning message to avoid unnecessary warnings and potential confusion.
+
+Reviewed-by: Dhruva Gole <d-gole@ti.com>
+Reviewed-by: Michael Walle <michael@walle.cc>
+Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Acked-by: Pratyush Yadav <pratyush@kernel.org>
+Signed-off-by: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
+Acked-by: Tudor Ambarus <tudor.ambarus@linaro.org>
+Link: https://lore.kernel.org/r/20231129064311.272422-2-acelan.kao@canonical.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ drivers/mtd/spi-nor/core.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
+index b05c99b4dbc6..7d70f6242ba5 100644
+--- a/drivers/mtd/spi-nor/core.c
++++ b/drivers/mtd/spi-nor/core.c
+@@ -3252,7 +3252,8 @@ static void spi_nor_soft_reset(struct spi_nor *nor)
+ 
+ 	ret = spi_mem_exec_op(nor->spimem, &op);
+ 	if (ret) {
+-		dev_warn(nor->dev, "Software reset failed: %d\n", ret);
++		if (ret != -EOPNOTSUPP)
++			dev_warn(nor->dev, "Software reset failed: %d\n", ret);
+ 		return;
+ 	}
+ 
+-- 
+2.25.1
+

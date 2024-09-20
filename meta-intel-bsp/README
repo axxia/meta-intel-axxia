@@ -150,6 +150,14 @@ All of the following have been upstreamed, but some required modification.
 0021-platform-x86-intel-uncore-freq-Ignore-minor-version-.patch
 0022-platform-x86-intel-tpmi-Add-defines-to-get-version-i.patch
 
+SPI Warning During Shutdown
+---------------------------
+
+From Linux, after 6.6.  This suppresses a warning during shutdown.
+
+0023-mtd-spi-nor-Stop-reporting-warning-message-when-soft.patch
+
+
 II. Building meta-intel-bsp
 ===========================
 
