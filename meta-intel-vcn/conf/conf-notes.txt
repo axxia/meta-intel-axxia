@@ -1,5 +1,0 @@
-Common targets are:
-    axxia-image-sim
-    axxia-image-small
-    axxia-image-vcn
-
