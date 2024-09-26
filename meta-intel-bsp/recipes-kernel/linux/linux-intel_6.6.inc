@@ -36,6 +36,9 @@ file://0020-x86-smp-Export-symbol-cpu_clustergroup_mask.patch \
 file://0021-platform-x86-intel-uncore-freq-Ignore-minor-version-.patch \
 file://0022-platform-x86-intel-tpmi-Add-defines-to-get-version-i.patch \
 file://0023-mtd-spi-nor-Stop-reporting-warning-message-when-soft.patch \
+file://0024-platform-x86-intel-vsec-Move-structures-to-header.patch \
+file://0025-intel_vsec-Add-S3M-driver-dependencies-to-VSEC-drive.patch \
+file://0026-intel_s3m-Introduce-Intel-S3M-bridge-driver.patch \
 "
 
 PMR_PATCHES = " \
