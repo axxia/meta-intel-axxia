@@ -1,0 +1,1685 @@
+From 702a87f787a30515d02a1c025cf86c4b28674832 Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Fri, 27 Sep 2024 10:01:06 -0500
+Subject: ethtool: Revert Frame Preemption Support
+
+Frame preemption support was added in the Intel LTS Linux repo by the
+following commits.
+
+    ethtool: Add support for configuring frame preemption
+    [728cc5563e18a5e8ea9aa79735166ef6c1e50249]
+
+    ethtool: Add support for Frame Preemption verification
+    [a30c9d433ead8534464ecca7659b33649feeb2b4]
+
+As these change add enums to the uapi header, ethtool_netlink.h, the
+ethtool utility no longer works correctly.  Reverting these until the
+changes make it upstream.  Both of the above were by Vinicius Costa Gomes
+<vinicius.gomes@intel.com>.
+
+In addition to the above, the following were reverted to get the kernel
+to build.  NOTE: 'igc: Add support for setting frame preemption configuration'
+[80e71b4942dce7a51dca7c623ad11c7c7b6116e0] required some modification
+to revert successfully.
+
+    igc: Add support for exposing frame preemption stats registers
+    [e21bec1deadc38b087def5fd446b4a97ce34834f]
+
+    igc: Enable HW TX Timestamp for AF_XDP ZC
+    [44e41df3b6dfdbe64750fdc9a31cf82ec6f6f0ad]
+
+    igc: Add BTF based metadata for XDP
+    [bc440c4d1eb9bb189c80d34f0f420655942b2790]
+
+    igc: Export LEDs
+    [e7a5d90a9144628c44bebc8c3c28f548ffd2d837]
+
+    igc: Add support for Frame Preemption verification
+    [25069bcfc60848455822eadb5cd998d57eb9c4bd]
+
+    igc: Add support for enabling frame preemption via ethtool
+    [7d852ae57770cbfb12bfb5543a0d0899edb941b4]
+
+    igc: Enable HW RX Timestamp for AF_XDP ZC
+    [ac8bb50b4f568d495be714cd48fc037388615a79]
+
+    igc: Add support for setting frame preemption configuration
+    [80e71b4942dce7a51dca7c623ad11c7c7b6116e0]
+
+Signed-off-by: John Jacques <john.jacques@intel.com>
+---
+ Documentation/networking/ethtool-netlink.rst |  50 +--
+ drivers/net/ethernet/intel/Kconfig           |   1 -
+ drivers/net/ethernet/intel/igc/igc.h         |  43 +--
+ drivers/net/ethernet/intel/igc/igc_defines.h |  25 --
+ drivers/net/ethernet/intel/igc/igc_ethtool.c |  54 ---
+ drivers/net/ethernet/intel/igc/igc_main.c    | 377 +------------------
+ drivers/net/ethernet/intel/igc/igc_ptp.c     |  24 --
+ drivers/net/ethernet/intel/igc/igc_regs.h    |  12 -
+ drivers/net/ethernet/intel/igc/igc_tsn.c     |  25 +-
+ drivers/net/ethernet/intel/igc/igc_xdp.c     | 114 ------
+ drivers/net/ethernet/intel/igc/igc_xdp.h     |  11 -
+ include/linux/ethtool.h                      |  26 --
+ include/uapi/linux/ethtool_netlink.h         |  20 -
+ net/ethtool/Makefile                         |   2 +-
+ net/ethtool/common.c                         |  23 --
+ net/ethtool/netlink.c                        |  19 -
+ net/ethtool/netlink.h                        |   4 -
+ net/ethtool/preempt.c                        | 188 ---------
+ 18 files changed, 8 insertions(+), 1010 deletions(-)
+ delete mode 100644 net/ethtool/preempt.c
+
+diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+index c812b23d66ff..2540c70952ff 100644
+--- a/Documentation/networking/ethtool-netlink.rst
++++ b/Documentation/networking/ethtool-netlink.rst
+@@ -225,8 +225,6 @@ Userspace to kernel:
+   ``ETHTOOL_MSG_RSS_GET``               get RSS settings
+   ``ETHTOOL_MSG_MM_GET``                get MAC merge layer state
+   ``ETHTOOL_MSG_MM_SET``                set MAC merge layer parameters
+-  ``ETHTOOL_MSG_PREEMPT_GET``           get frame preemption parameters
+-  ``ETHTOOL_MSG_PREEMPT_SET``           set frame preemption parameters
+   ===================================== =================================
+ 
+ Kernel to userspace:
+@@ -270,7 +268,6 @@ Kernel to userspace:
+   ``ETHTOOL_MSG_PSE_GET_REPLY``            PSE parameters
+   ``ETHTOOL_MSG_RSS_GET_REPLY``            RSS settings
+   ``ETHTOOL_MSG_MM_GET_REPLY``             MAC merge layer status
+-  ``ETHTOOL_MSG_PREEMPT_GET_REPLY``        frame preemption parameters
+   ======================================== =================================
+ 
+ ``GET`` requests are sent by userspace applications to retrieve device
+@@ -1649,17 +1646,6 @@ Request contents:
+   ``ETHTOOL_A_MODULE_HEADER``            nested  request header
+   =====================================  ======  ==========================
+ 
+-PREEMPT_GET
+-===========
+-
+-Get information about frame preemption state.
+-
+-Request contents:
+-
+-  ====================================  ======  ==========================
+-  ``ETHTOOL_A_PREEMPT_HEADER``          nested  request header
+-  ====================================  ======  ==========================
+-
+ Kernel response contents:
+ 
+   ======================================  ======  ==========================
+@@ -1685,26 +1671,6 @@ MODULE_SET
+ ==========
+ 
+ Sets transceiver module parameters.
+-=======
+-  ``ETHTOOL_A_PREEMPT_HEADER``            nested  reply header
+-  ``ETHTOOL_A_PREEMPT_ENABLED``           bool    frame preemption enabled
+-  ``ETHTOOL_A_PREEMPT_PREEMPTIBLE_MASK``  bitset  preemptible queue mask
+-  ``ETHTOOL_A_PREEMPT_ADD_FRAG_SIZE``     u32     Min additional frag size
+-  ``ETHTOOL_A_PREEMPT_DISABLE_VERIFY``    u32     disable verification
+-  ``ETHTOOL_A_PREEMPT_VERIFIED``          u32     verification procedure
+-  ======================================  ======  ==========================
+-
+-``ETHTOOL_A_PREEMPT_ADD_FRAG_SIZE`` configures the minimum non-final
+-fragment size that the receiver device supports.
+-
+-``ETHTOOL_A_PREEMPT_PREEMPTIBLE_MASK`` configures which queues should
+-be marked as preemptible. If bit X is '1' then queue X is preemptible,
+-the queue is express otherwise.
+-
+-PREEMPT_SET
+-===========
+-
+-Sets frame preemption parameters.
+ 
+ Request contents:
+ 
+@@ -1725,19 +1691,6 @@ For SFF-8636 modules, low power mode is forced by the host according to table
+ 
+ For CMIS modules, low power mode is forced by the host according to table 6-12
+ in revision 5.0 of the specification.
+-=======
+-  ``ETHTOOL_A_PREEMPT_HEADER``            nested  reply header
+-  ``ETHTOOL_A_PREEMPT_ENABLED``           bool    frame preemption enabled
+-  ``ETHTOOL_A_PREEMPT_PREEMPTIBLE_MASK``  bitset  preemptible queue mask
+-  ``ETHTOOL_A_PREEMPT_ADD_FRAG_SIZE``     u32     Min additional frag size
+-  ``ETHTOOL_A_PREEMPT_DISABLE_VERIFY``    bool    disable verification
+-  ======================================  ======  ==========================
+-
+-``ETHTOOL_A_PREEMPT_ADD_FRAG_SIZE`` configures the minimum non-final
+-fragment size that the receiver device supports.
+-
+-``ETHTOOL_A_PREEMPT_PREEMPTIBLE_MASK`` configures which queues should be marked as
+-preemptible.
+ 
+ PSE_GET
+ =======
+@@ -2147,5 +2100,4 @@ are netlink only.
+   n/a                                 ``ETHTOOL_MSG_PLCA_GET_STATUS``
+   n/a                                 ``ETHTOOL_MSG_MM_GET``
+   n/a                                 ``ETHTOOL_MSG_MM_SET``
+-  n/a                                 ``ETHTOOL_MSG_PREEMPT_GET``
+-  n/a                                 ``ETHTOOL_MSG_PREEMPT_SET``
++  =================================== =====================================
+diff --git a/drivers/net/ethernet/intel/Kconfig b/drivers/net/ethernet/intel/Kconfig
+index 2f8eb13ba950..9bc0a9519899 100644
+--- a/drivers/net/ethernet/intel/Kconfig
++++ b/drivers/net/ethernet/intel/Kconfig
+@@ -344,7 +344,6 @@ config IGC
+ 	default n
+ 	depends on PCI
+ 	depends on PTP_1588_CLOCK_OPTIONAL
+-	depends on LEDS_CLASS
+ 	help
+ 	  This driver supports Intel(R) Ethernet Controller I225-LM/I225-V
+ 	  family of adapters.
+diff --git a/drivers/net/ethernet/intel/igc/igc.h b/drivers/net/ethernet/intel/igc/igc.h
+index d49545115f16..606de2727a17 100644
+--- a/drivers/net/ethernet/intel/igc/igc.h
++++ b/drivers/net/ethernet/intel/igc/igc.h
+@@ -16,8 +16,6 @@
+ #include <linux/bitfield.h>
+ #include <linux/hrtimer.h>
+ #include <net/xdp.h>
+-#include <linux/leds.h>
+-#include <linux/timekeeping.h>
+ 
+ #include "igc_hw.h"
+ 
+@@ -152,13 +150,6 @@ struct igc_ring {
+ 	struct xsk_buff_pool *xsk_pool;
+ } ____cacheline_internodealigned_in_smp;
+ 
+-enum frame_preemption_state {
+-	FRAME_PREEMPTION_STATE_FAILED,
+-	FRAME_PREEMPTION_STATE_DONE,
+-	FRAME_PREEMPTION_STATE_START,
+-	FRAME_PREEMPTION_STATE_SENT,
+-};
+-
+ /* Board specific private data structure */
+ struct igc_adapter {
+ 	struct net_device *netdev;
+@@ -222,9 +213,6 @@ struct igc_adapter {
+ 	 */
+ 	spinlock_t qbv_tx_lock;
+ 
+-	bool frame_preemption_active;
+-	u32 add_frag_size;
+-
+ 	/* OS defined structs */
+ 	struct pci_dev *pdev;
+ 	/* lock for statistics */
+@@ -283,8 +271,6 @@ struct igc_adapter {
+ 	char fw_version[32];
+ 
+ 	struct bpf_prog *xdp_prog;
+-	struct btf *btf;
+-	u8 btf_enabled;
+ 
+ 	bool pps_sys_wrap_on;
+ 
+@@ -293,25 +279,8 @@ struct igc_adapter {
+ 		struct timespec64 start;
+ 		struct timespec64 period;
+ 	} perout[IGC_N_PEROUT];
+-
+-	struct delayed_work fp_verification_work;
+-	unsigned long fp_start;
+-	bool fp_received_smd_v;
+-	bool fp_received_smd_r;
+-	unsigned int fp_verify_cnt;
+-	enum frame_preemption_state fp_tx_state;
+-	bool fp_disable_verify;
+-
+-	/* LEDs */
+-	struct mutex led_mutex;
+-	struct led_classdev led0;
+-	struct led_classdev led1;
+-	struct led_classdev led2;
+ };
+ 
+-#define led_to_igc(ldev, led)	\
+-	container_of(ldev, struct igc_adapter, led)
+-
+ void igc_up(struct igc_adapter *adapter);
+ void igc_down(struct igc_adapter *adapter);
+ int igc_open(struct net_device *netdev);
+@@ -357,12 +326,10 @@ extern char igc_driver_name[];
+ #define IGC_FLAG_VLAN_PROMISC		BIT(15)
+ #define IGC_FLAG_RX_LEGACY		BIT(16)
+ #define IGC_FLAG_TSN_QBV_ENABLED	BIT(17)
+-#define IGC_FLAG_TSN_PREEMPT_ENABLED	BIT(18)
+-#define IGC_FLAG_TSN_QAV_ENABLED	BIT(19)
++#define IGC_FLAG_TSN_QAV_ENABLED	BIT(18)
+ 
+ #define IGC_FLAG_TSN_ANY_ENABLED \
+-	(IGC_FLAG_TSN_QBV_ENABLED | IGC_FLAG_TSN_PREEMPT_ENABLED | \
+-	 IGC_FLAG_TSN_QAV_ENABLED)
++	(IGC_FLAG_TSN_QBV_ENABLED | IGC_FLAG_TSN_QAV_ENABLED)
+ 
+ #define IGC_FLAG_RSS_FIELD_IPV4_UDP	BIT(6)
+ #define IGC_FLAG_RSS_FIELD_IPV6_UDP	BIT(7)
+@@ -438,11 +405,6 @@ static inline u32 igc_rss_type(const union igc_adv_rx_desc *rx_desc)
+ #define IGC_I225_RX_LATENCY_1000	300
+ #define IGC_I225_RX_LATENCY_2500	1485
+ 
+-/* From the datasheet section 8.12.4 Tx Qav Control TQAVCTRL,
+- * MIN_FRAG initial value.
+- */
+-#define IGC_I225_MIN_FRAG_SIZE_DEFAULT	68
+-
+ /* RX and TX descriptor control thresholds.
+  * PTHRESH - MAC will consider prefetch if it has fewer than this number of
+  *           descriptors available in its onboard memory.
+@@ -742,7 +704,6 @@ int igc_ptp_get_ts_config(struct net_device *netdev, struct ifreq *ifr);
+ void igc_ptp_tx_hang(struct igc_adapter *adapter);
+ void igc_ptp_read(struct igc_adapter *adapter, struct timespec64 *ts);
+ void igc_ptp_tx_tstamp_event(struct igc_adapter *adapter);
+-ktime_t igc_tx_dma_hw_tstamp(struct igc_adapter *adapter, u64 tstamp);
+ 
+ #define igc_rx_pg_size(_ring) (PAGE_SIZE << igc_rx_pg_order(_ring))
+ 
+diff --git a/drivers/net/ethernet/intel/igc/igc_defines.h b/drivers/net/ethernet/intel/igc/igc_defines.h
+index 7fb473292dd7..99a619937f1f 100644
+--- a/drivers/net/ethernet/intel/igc/igc_defines.h
++++ b/drivers/net/ethernet/intel/igc/igc_defines.h
+@@ -141,16 +141,6 @@
+ #define IGC_CTRL_SDP0_DIR	0x00400000  /* SDP0 Data direction */
+ #define IGC_CTRL_SDP1_DIR	0x00800000  /* SDP1 Data direction */
+ 
+-/* LED Control */
+-#define IGC_LEDCTL_LED0_MODE_SHIFT	0
+-#define IGC_LEDCTL_LED0_MODE_MASK	GENMASK(3, 0)
+-#define IGC_LEDCTL_LED1_MODE_SHIFT	8
+-#define IGC_LEDCTL_LED1_MODE_MASK	GENMASK(11, 8)
+-#define IGC_LEDCTL_LED2_MODE_SHIFT	16
+-#define IGC_LEDCTL_LED2_MODE_MASK	GENMASK(19, 16)
+-
+-#define IGC_CONNSW_AUTOSENSE_EN		0x1
+-
+ /* As per the EAS the maximum supported size is 9.5KB (9728 bytes) */
+ #define MAX_JUMBO_FRAME_SIZE	0x2600
+ 
+@@ -317,8 +307,6 @@
+ #define IGC_TXD_DTYP_C		0x00000000 /* Context Descriptor */
+ #define IGC_TXD_POPTS_IXSM	0x01       /* Insert IP checksum */
+ #define IGC_TXD_POPTS_TXSM	0x02       /* Insert TCP/UDP checksum */
+-#define IGC_TXD_POPTS_SMD_V	0x10       /* Transmitted packet is a SMD-Verify */
+-#define IGC_TXD_POPTS_SMD_R	0x20       /* Transmitted packet is a SMD-Response */
+ #define IGC_TXD_CMD_EOP		0x01000000 /* End of Packet */
+ #define IGC_TXD_CMD_IC		0x04000000 /* Insert Checksum */
+ #define IGC_TXD_CMD_DEXT	0x20000000 /* Desc extension (0 = legacy) */
+@@ -381,20 +369,9 @@
+ 
+ #define IGC_RXDEXT_STATERR_LB	0x00040000
+ 
+-#define IGC_RXD_STAT_SMD_V	0x2000  /* Received packet is SMD-Verify packet */
+-#define IGC_RXD_STAT_SMD_R	0x4000  /* Received packet is SMD-Response packet */
+-
+ /* Advanced Receive Descriptor bit definitions */
+ #define IGC_RXDADV_STAT_TSIP	0x08000 /* timestamp in packet */
+ 
+-#define IGC_RXDADV_STAT_SMD_TYPE_MASK	0x06000
+-#define IGC_RXDADV_STAT_SMD_TYPE_SHIFT	13
+-
+-#define IGC_SMD_TYPE_SFD		0x0
+-#define IGC_SMD_TYPE_SMD_V		0x1
+-#define IGC_SMD_TYPE_SMD_R		0x2
+-#define IGC_SMD_TYPE_COMPLETE		0x3
+-
+ #define IGC_RXDEXT_STATERR_L4E		0x20000000
+ #define IGC_RXDEXT_STATERR_IPE		0x40000000
+ #define IGC_RXDEXT_STATERR_RXE		0x80000000
+@@ -559,7 +536,6 @@
+ #define IGC_TQAVCTRL_TRANSMIT_MODE_TSN	0x00000001
+ #define IGC_TQAVCTRL_ENHANCED_QAV	0x00000008
+ #define IGC_TQAVCTRL_FUTSCDDIS		0x00000080
+-#define IGC_TQAVCTRL_PREEMPT_ENA	0x00000002
+ #define IGC_TQAVCTRL_1588_STAT_EN	0x00000004
+ #define IGC_TQAVCTRL_MIN_FRAG_MASK	0x0000C000
+ #define IGC_TQAVCTRL_MIN_FRAG_SHIFT	14
+@@ -567,7 +543,6 @@
+ #define IGC_TXQCTL_QUEUE_MODE_LAUNCHT	0x00000001
+ #define IGC_TXQCTL_STRICT_CYCLE		0x00000002
+ #define IGC_TXQCTL_STRICT_END		0x00000004
+-#define IGC_TXQCTL_PREEMPTABLE		0x00000008
+ #define IGC_TXQCTL_QAV_SEL_MASK		0x000000C0
+ #define IGC_TXQCTL_QAV_SEL_CBS0		0x00000080
+ #define IGC_TXQCTL_QAV_SEL_CBS1		0x000000C0
+diff --git a/drivers/net/ethernet/intel/igc/igc_ethtool.c b/drivers/net/ethernet/intel/igc/igc_ethtool.c
+index 41001c8578b5..f7284fa4324a 100644
+--- a/drivers/net/ethernet/intel/igc/igc_ethtool.c
++++ b/drivers/net/ethernet/intel/igc/igc_ethtool.c
+@@ -8,7 +8,6 @@
+ 
+ #include "igc.h"
+ #include "igc_diag.h"
+-#include "igc_tsn.h"
+ 
+ /* forward declaration */
+ struct igc_stats {
+@@ -345,14 +344,6 @@ static void igc_ethtool_get_regs(struct net_device *netdev,
+ 
+ 	regs_buff[213] = adapter->stats.tlpic;
+ 	regs_buff[214] = adapter->stats.rlpic;
+-	regs_buff[215] = rd32(IGC_PRMPTDTCNT);
+-	regs_buff[216] = rd32(IGC_PRMEVNTTCNT);
+-	regs_buff[217] = rd32(IGC_PRMPTDRCNT);
+-	regs_buff[218] = rd32(IGC_PRMEVNTRCNT);
+-	regs_buff[219] = rd32(IGC_PRMPBLTCNT);
+-	regs_buff[220] = rd32(IGC_PRMPBLRCNT);
+-	regs_buff[221] = rd32(IGC_PRMEXPTCNT);
+-	regs_buff[222] = rd32(IGC_PRMEXPRCNT);
+ }
+ 
+ static void igc_ethtool_get_wol(struct net_device *netdev,
+@@ -1723,49 +1714,6 @@ static int igc_ethtool_set_eee(struct net_device *netdev,
+ 	return 0;
+ }
+ 
+-static int igc_ethtool_get_preempt(struct net_device *netdev,
+-				   struct ethtool_fp *fpcmd)
+-{
+-	struct igc_adapter *adapter = netdev_priv(netdev);
+-
+-	fpcmd->enabled = adapter->frame_preemption_active;
+-	fpcmd->add_frag_size = adapter->add_frag_size;
+-	fpcmd->verified = adapter->fp_tx_state == FRAME_PREEMPTION_STATE_DONE;
+-	fpcmd->disable_verify = adapter->fp_disable_verify;
+-
+-	return 0;
+-}
+-
+-static int igc_ethtool_set_preempt(struct net_device *netdev,
+-				   struct ethtool_fp *fpcmd,
+-				   struct netlink_ext_ack *extack)
+-{
+-	struct igc_adapter *adapter = netdev_priv(netdev);
+-
+-	if (fpcmd->add_frag_size < 68 || fpcmd->add_frag_size > 260) {
+-		if (extack)
+-			NL_SET_ERR_MSG_MOD(extack, "Invalid value for add-frag-size");
+-		return -EINVAL;
+-	}
+-
+-	if (!fpcmd->disable_verify && adapter->fp_disable_verify) {
+-		adapter->fp_tx_state = FRAME_PREEMPTION_STATE_START;
+-		schedule_delayed_work(&adapter->fp_verification_work, msecs_to_jiffies(10));
+-	}
+-
+-	adapter->fp_disable_verify = fpcmd->disable_verify;
+-
+-	if (adapter->frame_preemption_active != fpcmd->enabled ||
+-	    adapter->add_frag_size != fpcmd->add_frag_size) {
+-		adapter->frame_preemption_active = fpcmd->enabled;
+-		adapter->add_frag_size = fpcmd->add_frag_size;
+-
+-		return igc_tsn_offload_apply(adapter);
+-	}
+-
+-	return 0;
+-}
+-
+ static int igc_ethtool_begin(struct net_device *netdev)
+ {
+ 	struct igc_adapter *adapter = netdev_priv(netdev);
+@@ -2076,8 +2024,6 @@ static const struct ethtool_ops igc_ethtool_ops = {
+ 	.get_ts_info		= igc_ethtool_get_ts_info,
+ 	.get_channels		= igc_ethtool_get_channels,
+ 	.set_channels		= igc_ethtool_set_channels,
+-	.get_preempt		= igc_ethtool_get_preempt,
+-	.set_preempt		= igc_ethtool_set_preempt,
+ 	.get_priv_flags		= igc_ethtool_get_priv_flags,
+ 	.set_priv_flags		= igc_ethtool_set_priv_flags,
+ 	.get_eee		= igc_ethtool_get_eee,
+diff --git a/drivers/net/ethernet/intel/igc/igc_main.c b/drivers/net/ethernet/intel/igc/igc_main.c
+index 5c127033f987..5f905b6b06ce 100644
+--- a/drivers/net/ethernet/intel/igc/igc_main.c
++++ b/drivers/net/ethernet/intel/igc/igc_main.c
+@@ -13,7 +13,6 @@
+ #include <net/xdp_sock_drv.h>
+ #include <linux/pci.h>
+ 
+-#include <linux/btf.h>
+ #include <net/ipv6.h>
+ 
+ #include "igc.h"
+@@ -30,11 +29,6 @@
+ #define IGC_XDP_TX		BIT(1)
+ #define IGC_XDP_REDIRECT	BIT(2)
+ 
+-#define IGC_FP_TIMEOUT msecs_to_jiffies(100)
+-#define IGC_MAX_VERIFY_CNT 3
+-
+-#define IGC_FP_SMD_FRAME_SIZE 60
+-
+ static int debug = -1;
+ 
+ MODULE_AUTHOR("Intel Corporation, <linux.nics@intel.com>");
+@@ -2458,79 +2452,6 @@ static int igc_xdp_init_tx_descriptor(struct igc_ring *ring,
+ 	return -ENOMEM;
+ }
+ 
+-static int igc_fp_init_smd_frame(struct igc_ring *ring, struct igc_tx_buffer *buffer,
+-				 struct sk_buff *skb)
+-{
+-	dma_addr_t dma;
+-	unsigned int size;
+-
+-	size = skb_headlen(skb);
+-
+-	dma = dma_map_single(ring->dev, skb->data, size, DMA_TO_DEVICE);
+-	if (dma_mapping_error(ring->dev, dma)) {
+-		netdev_err_once(ring->netdev, "Failed to map DMA for TX\n");
+-		return -ENOMEM;
+-	}
+-
+-	buffer->skb = skb;
+-	buffer->protocol = 0;
+-	buffer->bytecount = skb->len;
+-	buffer->gso_segs = 1;
+-	buffer->time_stamp = jiffies;
+-	dma_unmap_len_set(buffer, len, skb->len);
+-	dma_unmap_addr_set(buffer, dma, dma);
+-
+-	return 0;
+-}
+-
+-static int igc_fp_init_tx_descriptor(struct igc_ring *ring,
+-				     struct sk_buff *skb, int type)
+-{
+-	struct igc_tx_buffer *buffer;
+-	union igc_adv_tx_desc *desc;
+-	u32 cmd_type, olinfo_status;
+-	int err;
+-
+-	if (!igc_desc_unused(ring))
+-		return -EBUSY;
+-
+-	buffer = &ring->tx_buffer_info[ring->next_to_use];
+-	err = igc_fp_init_smd_frame(ring, buffer, skb);
+-	if (err)
+-		return err;
+-
+-	cmd_type = IGC_ADVTXD_DTYP_DATA | IGC_ADVTXD_DCMD_DEXT |
+-		   IGC_ADVTXD_DCMD_IFCS | IGC_TXD_DCMD |
+-		   buffer->bytecount;
+-	olinfo_status = buffer->bytecount << IGC_ADVTXD_PAYLEN_SHIFT;
+-
+-	switch (type) {
+-	case IGC_SMD_TYPE_SMD_V:
+-		olinfo_status |= (IGC_TXD_POPTS_SMD_V << 8);
+-		break;
+-	case IGC_SMD_TYPE_SMD_R:
+-		olinfo_status |= (IGC_TXD_POPTS_SMD_R << 8);
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-
+-	desc = IGC_TX_DESC(ring, ring->next_to_use);
+-	desc->read.cmd_type_len = cpu_to_le32(cmd_type);
+-	desc->read.olinfo_status = cpu_to_le32(olinfo_status);
+-	desc->read.buffer_addr = cpu_to_le64(dma_unmap_addr(buffer, dma));
+-
+-	netdev_tx_sent_queue(txring_txq(ring), skb->len);
+-
+-	buffer->next_to_watch = desc;
+-
+-	ring->next_to_use++;
+-	if (ring->next_to_use == ring->count)
+-		ring->next_to_use = 0;
+-
+-	return 0;
+-}
+-
+ static struct igc_ring *igc_xdp_get_tx_ring(struct igc_adapter *adapter,
+ 					    int cpu)
+ {
+@@ -2660,19 +2581,6 @@ static void igc_update_rx_stats(struct igc_q_vector *q_vector,
+ 	q_vector->rx.total_bytes += bytes;
+ }
+ 
+-static int igc_rx_desc_smd_type(union igc_adv_rx_desc *rx_desc)
+-{
+-	u32 status = le32_to_cpu(rx_desc->wb.upper.status_error);
+-
+-	return (status & IGC_RXDADV_STAT_SMD_TYPE_MASK)
+-		>> IGC_RXDADV_STAT_SMD_TYPE_SHIFT;
+-}
+-
+-static bool igc_check_smd_frame(struct igc_rx_buffer *rx_buffer, unsigned int size)
+-{
+-	return size == 60;
+-}
+-
+ static int igc_clean_rx_irq(struct igc_q_vector *q_vector, const int budget)
+ {
+ 	unsigned int total_bytes = 0, total_packets = 0;
+@@ -2689,7 +2597,6 @@ static int igc_clean_rx_irq(struct igc_q_vector *q_vector, const int budget)
+ 		struct igc_xdp_buff ctx;
+ 		ktime_t timestamp = 0;
+ 		int pkt_offset = 0;
+-		int smd_type;
+ 		void *pktbuf;
+ 
+ 		/* return some buffers to hardware, one at a time is too slow */
+@@ -2722,22 +2629,6 @@ static int igc_clean_rx_irq(struct igc_q_vector *q_vector, const int budget)
+ 			size -= IGC_TS_HDR_LEN;
+ 		}
+ 
+-		smd_type = igc_rx_desc_smd_type(rx_desc);
+-
+-		if (smd_type == IGC_SMD_TYPE_SMD_V || smd_type == IGC_SMD_TYPE_SMD_R) {
+-			if (igc_check_smd_frame(rx_buffer, size)) {
+-				adapter->fp_received_smd_v = smd_type == IGC_SMD_TYPE_SMD_V;
+-				adapter->fp_received_smd_r = smd_type == IGC_SMD_TYPE_SMD_R;
+-				schedule_delayed_work(&adapter->fp_verification_work, 0);
+-			}
+-
+-			/* Advance the ring next-to-clean */
+-			igc_is_non_eop(rx_ring, rx_desc);
+-
+-			cleaned_count++;
+-			continue;
+-		}
+-
+ 		if (!skb) {
+ 			xdp_init_buff(&ctx.xdp, truesize, &rx_ring->xdp_rxq);
+ 			xdp_prepare_buff(&ctx.xdp, pktbuf - igc_rx_offset(rx_ring),
+@@ -2887,7 +2778,6 @@ static int igc_clean_rx_irq_zc(struct igc_q_vector *q_vector, const int budget)
+ 	u16 cleaned_count = igc_desc_unused(ring);
+ 	int total_bytes = 0, total_packets = 0;
+ 	u16 ntc = ring->next_to_clean;
+-	struct igc_md_desc *md;
+ 	struct bpf_prog *prog;
+ 	bool failure = false;
+ 	int xdp_status = 0;
+@@ -2935,14 +2825,6 @@ static int igc_clean_rx_irq_zc(struct igc_q_vector *q_vector, const int budget)
+ 		}
+ 
+ 		bi->xdp->data_end = bi->xdp->data + size;
+-		if (adapter->btf_enabled) {
+-			md = bi->xdp->data - sizeof(*md);
+-			md->timestamp = timestamp;
+-			bi->xdp->data_meta = md;
+-		} else {
+-			xdp_set_data_meta_invalid(bi->xdp);
+-		}
+-
+ 		xsk_buff_dma_sync_for_cpu(bi->xdp, ring->xsk_pool);
+ 
+ 		res = __igc_xdp_run_prog(adapter, prog, bi->xdp);
+@@ -3089,7 +2971,6 @@ static void igc_xdp_xmit_zc(struct igc_ring *ring)
+ 		tx_desc->read.buffer_addr = cpu_to_le64(dma);
+ 
+ 		bi->type = IGC_TX_BUFFER_TYPE_XSK;
+-		bi->tx_flags |= IGC_TX_FLAGS_DMA_TSTAMP;
+ 		bi->protocol = 0;
+ 		bi->bytecount = xdp_desc.len;
+ 		bi->gso_segs = 1;
+@@ -3129,7 +3010,6 @@ static bool igc_clean_tx_irq(struct igc_q_vector *q_vector, int napi_budget)
+ 	unsigned int i = tx_ring->next_to_clean;
+ 	struct igc_tx_buffer *tx_buffer;
+ 	union igc_adv_tx_desc *tx_desc;
+-	ktime_t timestamp = 0;
+ 	u32 xsk_frames = 0;
+ 
+ 	if (test_bit(__IGC_DOWN, &adapter->state))
+@@ -3157,10 +3037,7 @@ static bool igc_clean_tx_irq(struct igc_q_vector *q_vector, int napi_budget)
+ 		    tx_buffer->tx_flags & IGC_TX_FLAGS_DMA_TSTAMP) {
+ 			u64 tstamp = le64_to_cpu(eop_desc->wb.dma_tstamp);
+ 
+-			if (tx_ring->xsk_pool && adapter->tstamp_config.tx_type == HWTSTAMP_TX_ON)
+-				timestamp = igc_tx_dma_hw_tstamp(adapter, tstamp);
+-			else
+-				igc_ptp_tx_dma_tstamp(adapter, tx_buffer->skb, tstamp);
++			igc_ptp_tx_dma_tstamp(adapter, tx_buffer->skb, tstamp);
+ 		}
+ 
+ 		/* clear next_to_watch to prevent false hangs */
+@@ -3175,7 +3052,6 @@ static bool igc_clean_tx_irq(struct igc_q_vector *q_vector, int napi_budget)
+ #if defined(CONFIG_TRACING)
+ 		/* Only use for RTCP KPI Measurement on Q2 */
+ 		if (tx_ring->queue_index == 2 && adapter->tstamp_config.tx_type == HWTSTAMP_TX_ON)
+-			trace_printk("TX HW TS %lld\n", timestamp);
+ #endif
+ 			xsk_frames++;
+ 			break;
+@@ -6616,107 +6492,6 @@ static int igc_tsn_enable_cbs(struct igc_adapter *adapter,
+ 	return igc_tsn_offload_apply(adapter);
+ }
+ 
+-/* I225 doesn't send the SMD frames automatically, we need to handle
+- * them ourselves.
+- */
+-static int igc_xmit_smd_frame(struct igc_adapter *adapter, int type)
+-{
+-	int cpu = smp_processor_id();
+-	struct netdev_queue *nq;
+-	struct igc_ring *ring;
+-	struct sk_buff *skb;
+-	void *data;
+-	int err;
+-
+-	if (!netif_running(adapter->netdev))
+-		return -ENOTCONN;
+-
+-	/* FIXME: rename this function to something less specific, as
+-	 * it can be used outside XDP.
+-	 */
+-	ring = igc_xdp_get_tx_ring(adapter, cpu);
+-	nq = txring_txq(ring);
+-
+-	skb = alloc_skb(IGC_FP_SMD_FRAME_SIZE, GFP_KERNEL);
+-	if (!skb)
+-		return -ENOMEM;
+-
+-	data = skb_put(skb, IGC_FP_SMD_FRAME_SIZE);
+-	memset(data, 0, IGC_FP_SMD_FRAME_SIZE);
+-
+-	__netif_tx_lock(nq, cpu);
+-
+-	err = igc_fp_init_tx_descriptor(ring, skb, type);
+-
+-	igc_flush_tx_descriptors(ring);
+-
+-	__netif_tx_unlock(nq);
+-
+-	return err;
+-}
+-
+-static void igc_fp_verification_work(struct work_struct *work)
+-{
+-	struct delayed_work *dwork = to_delayed_work(work);
+-	struct igc_adapter *adapter;
+-	int err;
+-
+-	adapter = container_of(dwork, struct igc_adapter, fp_verification_work);
+-
+-	if (adapter->fp_disable_verify)
+-		goto done;
+-
+-	switch (adapter->fp_tx_state) {
+-	case FRAME_PREEMPTION_STATE_START:
+-		adapter->fp_received_smd_r = false;
+-		err = igc_xmit_smd_frame(adapter, IGC_SMD_TYPE_SMD_V);
+-		if (err < 0)
+-			netdev_err(adapter->netdev, "Error sending SMD-V frame\n");
+-
+-		adapter->fp_tx_state = FRAME_PREEMPTION_STATE_SENT;
+-		adapter->fp_start = jiffies;
+-		schedule_delayed_work(&adapter->fp_verification_work, IGC_FP_TIMEOUT);
+-		break;
+-
+-	case FRAME_PREEMPTION_STATE_SENT:
+-		if (adapter->fp_received_smd_r) {
+-			adapter->fp_tx_state = FRAME_PREEMPTION_STATE_DONE;
+-			adapter->fp_received_smd_r = false;
+-			break;
+-		}
+-
+-		if (time_is_before_jiffies(adapter->fp_start + IGC_FP_TIMEOUT)) {
+-			adapter->fp_verify_cnt++;
+-			netdev_warn(adapter->netdev, "Timeout waiting for SMD-R frame\n");
+-
+-			if (adapter->fp_verify_cnt > IGC_MAX_VERIFY_CNT) {
+-				adapter->fp_verify_cnt = 0;
+-				adapter->fp_tx_state = FRAME_PREEMPTION_STATE_FAILED;
+-				netdev_err(adapter->netdev,
+-					   "Exceeded number of attempts for frame preemption verification\n");
+-			} else {
+-				adapter->fp_tx_state = FRAME_PREEMPTION_STATE_START;
+-			}
+-			schedule_delayed_work(&adapter->fp_verification_work, IGC_FP_TIMEOUT);
+-		}
+-
+-		break;
+-
+-	case FRAME_PREEMPTION_STATE_FAILED:
+-	case FRAME_PREEMPTION_STATE_DONE:
+-		break;
+-	}
+-
+-done:
+-	if (adapter->fp_received_smd_v) {
+-		err = igc_xmit_smd_frame(adapter, IGC_SMD_TYPE_SMD_R);
+-		if (err < 0)
+-			netdev_err(adapter->netdev, "Error sending SMD-R frame\n");
+-
+-		adapter->fp_received_smd_v = false;
+-	}
+-}
+-
+ static int igc_tc_query_caps(struct igc_adapter *adapter,
+ 			     struct tc_query_caps_base *base)
+ {
+@@ -6777,12 +6552,6 @@ static int igc_bpf(struct net_device *dev, struct netdev_bpf *bpf)
+ 	case XDP_SETUP_XSK_POOL:
+ 		return igc_xdp_setup_pool(adapter, bpf->xsk.pool,
+ 					  bpf->xsk.queue_id);
+-	case XDP_SETUP_MD_BTF:
+-		return igc_xdp_set_btf_md(dev, bpf->btf_enable);
+-	case XDP_QUERY_MD_BTF:
+-		bpf->btf_id = igc_xdp_query_btf(dev, &bpf->btf_enable);
+-		return 0;
+-
+ 	default:
+ 		return -EOPNOTSUPP;
+ 	}
+@@ -7029,134 +6798,6 @@ static enum hrtimer_restart igc_qbv_scheduling_timer(struct hrtimer *timer)
+ 	return HRTIMER_NORESTART;
+ }
+ 
+-static void igc_select_led(struct igc_adapter *adapter, int led,
+-			   u32 *mask, u32 *shift)
+-{
+-	switch (led) {
+-	case 0:
+-		*mask  = IGC_LEDCTL_LED0_MODE_MASK;
+-		*shift = IGC_LEDCTL_LED0_MODE_SHIFT;
+-		break;
+-	case 1:
+-		*mask  = IGC_LEDCTL_LED1_MODE_MASK;
+-		*shift = IGC_LEDCTL_LED1_MODE_SHIFT;
+-		break;
+-	case 2:
+-		*mask  = IGC_LEDCTL_LED2_MODE_MASK;
+-		*shift = IGC_LEDCTL_LED2_MODE_SHIFT;
+-		break;
+-	default:
+-		*mask = *shift = 0;
+-		dev_err(&adapter->pdev->dev, "Unknown led %d selected!", led);
+-	}
+-}
+-
+-static void igc_led_set(struct igc_adapter *adapter, int led, u16 brightness)
+-{
+-	struct igc_hw *hw = &adapter->hw;
+-	u32 shift, mask, ledctl;
+-
+-	igc_select_led(adapter, led, &mask, &shift);
+-
+-	mutex_lock(&adapter->led_mutex);
+-	ledctl = rd32(IGC_LEDCTL);
+-	ledctl &= ~mask;
+-	ledctl |= brightness << shift;
+-	wr32(IGC_LEDCTL, ledctl);
+-	mutex_unlock(&adapter->led_mutex);
+-}
+-
+-static enum led_brightness igc_led_get(struct igc_adapter *adapter, int led)
+-{
+-	struct igc_hw *hw = &adapter->hw;
+-	u32 shift, mask, ledctl;
+-
+-	igc_select_led(adapter, led, &mask, &shift);
+-
+-	mutex_lock(&adapter->led_mutex);
+-	ledctl = rd32(IGC_LEDCTL);
+-	mutex_unlock(&adapter->led_mutex);
+-
+-	return (ledctl & mask) >> shift;
+-}
+-
+-static void igc_led0_set(struct led_classdev *ldev, enum led_brightness b)
+-{
+-	struct igc_adapter *adapter = led_to_igc(ldev, led0);
+-
+-	igc_led_set(adapter, 0, b);
+-}
+-
+-static enum led_brightness igc_led0_get(struct led_classdev *ldev)
+-{
+-	struct igc_adapter *adapter = led_to_igc(ldev, led0);
+-
+-	return igc_led_get(adapter, 0);
+-}
+-
+-static void igc_led1_set(struct led_classdev *ldev, enum led_brightness b)
+-{
+-	struct igc_adapter *adapter = led_to_igc(ldev, led1);
+-
+-	igc_led_set(adapter, 1, b);
+-}
+-
+-static enum led_brightness igc_led1_get(struct led_classdev *ldev)
+-{
+-	struct igc_adapter *adapter = led_to_igc(ldev, led1);
+-
+-	return igc_led_get(adapter, 1);
+-}
+-
+-static void igc_led2_set(struct led_classdev *ldev, enum led_brightness b)
+-{
+-	struct igc_adapter *adapter = led_to_igc(ldev, led2);
+-
+-	igc_led_set(adapter, 2, b);
+-}
+-
+-static enum led_brightness igc_led2_get(struct led_classdev *ldev)
+-{
+-	struct igc_adapter *adapter = led_to_igc(ldev, led2);
+-
+-	return igc_led_get(adapter, 2);
+-}
+-
+-static int igc_led_setup(struct igc_adapter *adapter)
+-{
+-	/* Setup */
+-	mutex_init(&adapter->led_mutex);
+-
+-	adapter->led0.name	     = "igc_led0";
+-	adapter->led0.max_brightness = 15;
+-	adapter->led0.brightness_set = igc_led0_set;
+-	adapter->led0.brightness_get = igc_led0_get;
+-
+-	adapter->led1.name	     = "igc_led1";
+-	adapter->led1.max_brightness = 15;
+-	adapter->led1.brightness_set = igc_led1_set;
+-	adapter->led1.brightness_get = igc_led1_get;
+-
+-	adapter->led2.name	     = "igc_led2";
+-	adapter->led2.max_brightness = 15;
+-	adapter->led2.brightness_set = igc_led2_set;
+-	adapter->led2.brightness_get = igc_led2_get;
+-
+-	/* Register leds */
+-	led_classdev_register(&adapter->pdev->dev, &adapter->led0);
+-	led_classdev_register(&adapter->pdev->dev, &adapter->led1);
+-	led_classdev_register(&adapter->pdev->dev, &adapter->led2);
+-
+-	return 0;
+-}
+-
+-static void igc_led_destroy(struct igc_adapter *adapter)
+-{
+-	led_classdev_unregister(&adapter->led0);
+-	led_classdev_unregister(&adapter->led1);
+-	led_classdev_unregister(&adapter->led2);
+-}
+-
+ /**
+  * igc_probe - Device Initialization Routine
+  * @pdev: PCI device information struct
+@@ -7335,7 +6976,6 @@ static int igc_probe(struct pci_dev *pdev,
+ 
+ 	INIT_WORK(&adapter->reset_task, igc_reset_task);
+ 	INIT_WORK(&adapter->watchdog_task, igc_watchdog_task);
+-	INIT_DELAYED_WORK(&adapter->fp_verification_work, igc_fp_verification_work);
+ 
+ 	hrtimer_init(&adapter->hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+ 	adapter->hrtimer.function = &igc_qbv_scheduling_timer;
+@@ -7362,12 +7002,6 @@ static int igc_probe(struct pci_dev *pdev,
+ 
+ 	igc_tsn_clear_schedule(adapter);
+ 
+-	/* FIXME: This sets the default to not do the verification
+-	 * automatically, when we have support in multiple
+-	 * controllers, this default can be changed.
+-	 */
+-	adapter->fp_disable_verify = true;
+-
+ 	/* reset the hardware with the new settings */
+ 	igc_reset(adapter);
+ 
+@@ -7399,8 +7033,6 @@ static int igc_probe(struct pci_dev *pdev,
+ 
+ 	pm_runtime_put_noidle(&pdev->dev);
+ 
+-	igc_led_setup(adapter);
+-
+ 	return 0;
+ 
+ err_register:
+@@ -7444,8 +7076,6 @@ static void igc_remove(struct pci_dev *pdev)
+ 	pci_disable_ptm(pdev);
+ 	pci_clear_master(pdev);
+ 
+-	igc_led_destroy(adapter);
+-
+ 	set_bit(__IGC_DOWN, &adapter->state);
+ 
+ 	del_timer_sync(&adapter->watchdog_timer);
+@@ -7455,11 +7085,6 @@ static void igc_remove(struct pci_dev *pdev)
+ 	cancel_work_sync(&adapter->watchdog_task);
+ 	hrtimer_cancel(&adapter->hrtimer);
+ 
+-	if (adapter->btf) {
+-		adapter->btf_enabled = 0;
+-		btf_unregister(adapter->btf);
+-	}
+-
+ 	/* Release control of h/w to f/w.  If f/w is AMT enabled, this
+ 	 * would have already happened in close and is redundant.
+ 	 */
+diff --git a/drivers/net/ethernet/intel/igc/igc_ptp.c b/drivers/net/ethernet/intel/igc/igc_ptp.c
+index 287e9c324999..d5e359eaee78 100644
+--- a/drivers/net/ethernet/intel/igc/igc_ptp.c
++++ b/drivers/net/ethernet/intel/igc/igc_ptp.c
+@@ -893,30 +893,6 @@ void igc_ptp_tx_dma_tstamp(struct igc_adapter *adapter,
+ 	skb_tstamp_tx(skb, &shhwtstamps);
+ }
+ 
+-ktime_t igc_tx_dma_hw_tstamp(struct igc_adapter *adapter, u64 tstamp)
+-{
+-	struct skb_shared_hwtstamps shhwtstamps;
+-	int adjust = 0;
+-
+-	igc_ptp_dma_time_to_hwtstamp(adapter, &shhwtstamps, tstamp);
+-
+-	switch (adapter->link_speed) {
+-	case SPEED_10:
+-		adjust = IGC_I225_TX_LATENCY_10;
+-		break;
+-	case SPEED_100:
+-		adjust = IGC_I225_TX_LATENCY_100;
+-		break;
+-	case SPEED_1000:
+-		adjust = IGC_I225_TX_LATENCY_1000;
+-		break;
+-	case SPEED_2500:
+-		adjust = IGC_I225_TX_LATENCY_2500;
+-		break;
+-	}
+-	return ktime_add_ns(shhwtstamps.hwtstamp, adjust);
+-}
+-
+ /**
+  * igc_ptp_tx_tstamp_event
+  * @adapter: board private structure
+diff --git a/drivers/net/ethernet/intel/igc/igc_regs.h b/drivers/net/ethernet/intel/igc/igc_regs.h
+index 6a04e9504380..20e17f5fbce3 100644
+--- a/drivers/net/ethernet/intel/igc/igc_regs.h
++++ b/drivers/net/ethernet/intel/igc/igc_regs.h
+@@ -10,8 +10,6 @@
+ #define IGC_EECD		0x00010  /* EEPROM/Flash Control - RW */
+ #define IGC_CTRL_EXT		0x00018  /* Extended Device Control - RW */
+ #define IGC_MDIC		0x00020  /* MDI Control - RW */
+-#define IGC_LEDCTL		0x00E00	 /* LED Control - RW */
+-#define IGC_MDICNFG		0x00E04  /* MDC/MDIO Configuration - RW */
+ #define IGC_CONNSW		0x00034  /* Copper/Fiber switch control - RW */
+ #define IGC_VET			0x00038  /* VLAN Ether Type - RW */
+ #define IGC_I225_PHPM		0x00E14  /* I225 PHY Power Management */
+@@ -223,16 +221,6 @@
+ 
+ #define IGC_FTQF(_n)	(0x059E0 + (4 * (_n)))  /* 5-tuple Queue Fltr */
+ 
+-/* Time sync registers - preemption statistics */
+-#define IGC_PRMPTDTCNT	0x04280  /* Good TX Preempted Packets */
+-#define IGC_PRMEVNTTCNT	0x04298  /* TX Preemption event counter */
+-#define IGC_PRMPTDRCNT	0x04284  /* Good RX Preempted Packets */
+-#define IGC_PRMEVNTRCNT	0x0429C  /* RX Preemption event counter */
+-#define IGC_PRMPBLTCNT	0x04288  /* Good TX Preemptible Packets */
+-#define IGC_PRMPBLRCNT	0x0428C  /* Good RX Preemptible Packets */
+-#define IGC_PRMEXPTCNT	0x04290  /* Good TX Express Packets */
+-#define IGC_PRMEXPRCNT	0x042A0  /* Preemption Exception Counter */
+-
+ /* Transmit Scheduling Registers */
+ #define IGC_TQAVCTRL		0x3570
+ #define IGC_TXQCTL(_n)		(0x3344 + 0x4 * (_n))
+diff --git a/drivers/net/ethernet/intel/igc/igc_tsn.c b/drivers/net/ethernet/intel/igc/igc_tsn.c
+index 1dc16d5ad0a3..f038f5ca0f44 100644
+--- a/drivers/net/ethernet/intel/igc/igc_tsn.c
++++ b/drivers/net/ethernet/intel/igc/igc_tsn.c
+@@ -43,9 +43,6 @@ static unsigned int igc_tsn_new_flags(struct igc_adapter *adapter)
+ 	if (is_any_launchtime(adapter))
+ 		new_flags |= IGC_FLAG_TSN_QBV_ENABLED;
+ 
+-	if (adapter->frame_preemption_active)
+-		new_flags |= IGC_FLAG_TSN_PREEMPT_ENABLED;
+-
+ 	if (is_cbs_enabled(adapter))
+ 		new_flags |= IGC_FLAG_TSN_QAV_ENABLED;
+ 
+@@ -90,8 +87,6 @@ static int igc_tsn_disable_offload(struct igc_adapter *adapter)
+ 	u32 tqavctrl, rxpbs;
+ 	int i;
+ 
+-	adapter->add_frag_size = IGC_I225_MIN_FRAG_SIZE_DEFAULT;
+-
+ 	wr32(IGC_GTXOFFSET, 0);
+ 	wr32(IGC_TXPBS, I225_TXPBSIZE_DEFAULT);
+ 	wr32(IGC_DTXMXPKTSZ, IGC_DTXMXPKTSZ_DEFAULT);
+@@ -103,8 +98,7 @@ static int igc_tsn_disable_offload(struct igc_adapter *adapter)
+ 
+ 	tqavctrl = rd32(IGC_TQAVCTRL);
+ 	tqavctrl &= ~(IGC_TQAVCTRL_TRANSMIT_MODE_TSN |
+-		      IGC_TQAVCTRL_ENHANCED_QAV | IGC_TQAVCTRL_FUTSCDDIS |
+-		      IGC_TQAVCTRL_PREEMPT_ENA | IGC_TQAVCTRL_MIN_FRAG_MASK);
++		      IGC_TQAVCTRL_ENHANCED_QAV | IGC_TQAVCTRL_FUTSCDDIS);
+ 
+ 	wr32(IGC_TQAVCTRL, tqavctrl);
+ 
+@@ -117,7 +111,7 @@ static int igc_tsn_disable_offload(struct igc_adapter *adapter)
+ 	wr32(IGC_QBVCYCLET_S, 0);
+ 	wr32(IGC_QBVCYCLET, NSEC_PER_SEC);
+ 
+-	adapter->flags &= ~IGC_FLAG_TSN_ANY_ENABLED;
++	adapter->flags &= ~IGC_FLAG_TSN_QBV_ENABLED;
+ 
+ 	return 0;
+ }
+@@ -128,7 +122,6 @@ static int igc_tsn_enable_offload(struct igc_adapter *adapter)
+ 	u32 tqavctrl, baset_l, baset_h;
+ 	u32 sec, nsec, cycle, rxpbs;
+ 	ktime_t base_time, systim;
+-	u32 frag_size_mult;
+ 	int i;
+ 
+ 	wr32(IGC_TSAUXC, 0);
+@@ -175,9 +168,6 @@ static int igc_tsn_enable_offload(struct igc_adapter *adapter)
+ 		if (ring->launchtime_enable)
+ 			txqctl |= IGC_TXQCTL_QUEUE_MODE_LAUNCHT;
+ 
+-		if (adapter->frame_preemption_active && ring->preemptible)
+-			txqctl |= IGC_TXQCTL_PREEMPTABLE;
+-
+ 		/* Skip configuring CBS for Q2 and Q3 */
+ 		if (i > 1)
+ 			goto skip_cbs;
+@@ -265,19 +255,10 @@ static int igc_tsn_enable_offload(struct igc_adapter *adapter)
+ 		wr32(IGC_TXQCTL(i), txqctl);
+ 	}
+ 
+-	tqavctrl = rd32(IGC_TQAVCTRL) & ~(IGC_TQAVCTRL_MIN_FRAG_MASK |
+-					  IGC_TQAVCTRL_PREEMPT_ENA |
+-					  IGC_TQAVCTRL_FUTSCDDIS);
++	tqavctrl = rd32(IGC_TQAVCTRL) & ~IGC_TQAVCTRL_FUTSCDDIS;
+ 
+ 	tqavctrl |= IGC_TQAVCTRL_TRANSMIT_MODE_TSN | IGC_TQAVCTRL_ENHANCED_QAV;
+ 
+-	if (adapter->frame_preemption_active)
+-		tqavctrl |= IGC_TQAVCTRL_PREEMPT_ENA;
+-
+-	frag_size_mult = ethtool_frag_size_to_mult(adapter->add_frag_size);
+-
+-	tqavctrl |= frag_size_mult << IGC_TQAVCTRL_MIN_FRAG_SHIFT;
+-
+ 	adapter->qbv_count++;
+ 
+ 	cycle = adapter->cycle_time;
+diff --git a/drivers/net/ethernet/intel/igc/igc_xdp.c b/drivers/net/ethernet/intel/igc/igc_xdp.c
+index 82ac7e3aba55..e27af72aada8 100644
+--- a/drivers/net/ethernet/intel/igc/igc_xdp.c
++++ b/drivers/net/ethernet/intel/igc/igc_xdp.c
+@@ -3,124 +3,10 @@
+ 
+ #include <linux/if_vlan.h>
+ #include <net/xdp_sock_drv.h>
+-#include <linux/btf.h>
+ 
+ #include "igc.h"
+ #include "igc_xdp.h"
+ 
+-#define BTF_INFO_ENC(kind, kind_flag, vlen)			\
+-	((!!(kind_flag) << 31) | ((kind) << 24) | ((vlen) & BTF_MAX_VLEN))
+-
+-#define BTF_TYPE_ENC(name, info, size_or_type)	\
+-	(name), (info), (size_or_type)
+-
+-#define BTF_INT_ENC(encoding, bits_offset, nr_bits)	\
+-	((encoding) << 24 | (bits_offset) << 16 | (nr_bits))
+-
+-#define BTF_TYPE_INT_ENC(name, encoding, bits_offset, bits, sz)	\
+-	BTF_TYPE_ENC(name, BTF_INFO_ENC(BTF_KIND_INT, 0, 0), sz),	\
+-	BTF_INT_ENC(encoding, bits_offset, bits)
+-
+-#define BTF_STRUCT_ENC(name, nr_elems, sz)	\
+-	BTF_TYPE_ENC(name, BTF_INFO_ENC(BTF_KIND_STRUCT, 1, nr_elems), sz)
+-
+-#define BTF_MEMBER_ENC(name, type, bits_offset)	\
+-	(name), (type), (bits_offset)
+-
+-/* struct xdp_md_desc {
+- *	u64 timestamp;
+- * };
+- */
+-#define IGC_MD_NUM_MMBRS 1
+-static const char names_str[] = "\0xdp_md_desc\0timestamp\0";
+-
+-/* Must match struct xdp_md_desc */
+-static const u32 igc_md_raw_types[] = {
+-	/* #define u64 */
+-	BTF_TYPE_INT_ENC(0, 0, 0, 64, 8),         /* type [1] */
+-	/* struct xdp_md_desc { */
+-	BTF_STRUCT_ENC(1, IGC_MD_NUM_MMBRS, 8),
+-		BTF_MEMBER_ENC(13, 1, 0),    /* u64 timestamp;    */
+-	/* } */
+-};
+-
+-static int igc_xdp_register_btf(struct igc_adapter *priv)
+-{
+-	unsigned int type_sec_sz, str_sec_sz;
+-	char *types_sec, *str_sec;
+-	struct btf_header *hdr;
+-	unsigned int btf_size;
+-	void *raw_btf = NULL;
+-	int err = 0;
+-
+-	type_sec_sz = sizeof(igc_md_raw_types);
+-	str_sec_sz  = sizeof(names_str);
+-
+-	btf_size = sizeof(*hdr) + type_sec_sz + str_sec_sz;
+-	raw_btf = kzalloc(btf_size, GFP_KERNEL);
+-	if (!raw_btf)
+-		return -ENOMEM;
+-
+-	hdr = raw_btf;
+-	hdr->magic    = BTF_MAGIC;
+-	hdr->version  = BTF_VERSION;
+-	hdr->hdr_len  = sizeof(*hdr);
+-	hdr->type_off = 0;
+-	hdr->type_len = type_sec_sz;
+-	hdr->str_off  = type_sec_sz;
+-	hdr->str_len  = str_sec_sz;
+-
+-	types_sec = raw_btf   + sizeof(*hdr);
+-	str_sec   = types_sec + type_sec_sz;
+-	memcpy(types_sec, igc_md_raw_types, type_sec_sz);
+-	memcpy(str_sec, names_str, str_sec_sz);
+-
+-	priv->btf = btf_register(priv->netdev->name, raw_btf, btf_size);
+-	if (IS_ERR(priv->btf)) {
+-		err = PTR_ERR(priv->btf);
+-		priv->btf = NULL;
+-		netdev_err(priv->netdev, "failed to register BTF MD, err (%d)\n", err);
+-	}
+-
+-	kfree(raw_btf);
+-	return err;
+-}
+-
+-int igc_xdp_query_btf(struct net_device *dev, u8 *enabled)
+-{
+-	struct igc_adapter *priv = netdev_priv(dev);
+-	u32 md_btf_id = 0;
+-
+-	if (!IS_ENABLED(CONFIG_BPF_SYSCALL))
+-		return md_btf_id;
+-
+-	if (!priv->btf)
+-		igc_xdp_register_btf(priv);
+-
+-	*enabled = !!priv->btf_enabled;
+-	md_btf_id = priv->btf ? btf_obj_id(priv->btf) : 0;
+-
+-	return md_btf_id;
+-}
+-
+-int igc_xdp_set_btf_md(struct net_device *dev, u8 enable)
+-{
+-	struct igc_adapter *priv = netdev_priv(dev);
+-	int err = 0;
+-
+-	if (enable && !priv->btf) {
+-		igc_xdp_register_btf(priv);
+-		if (!priv->btf) {
+-			err = -EINVAL;
+-			goto unlock;
+-		}
+-	}
+-
+-	priv->btf_enabled = enable;
+-unlock:
+-	return err;
+-}
+-
+ int igc_xdp_set_prog(struct igc_adapter *adapter, struct bpf_prog *prog,
+ 		     struct netlink_ext_ack *extack)
+ {
+diff --git a/drivers/net/ethernet/intel/igc/igc_xdp.h b/drivers/net/ethernet/intel/igc/igc_xdp.h
+index 644dd8a49a3a..a74e5487d199 100644
+--- a/drivers/net/ethernet/intel/igc/igc_xdp.h
++++ b/drivers/net/ethernet/intel/igc/igc_xdp.h
+@@ -4,12 +4,6 @@
+ #ifndef _IGC_XDP_H_
+ #define _IGC_XDP_H_
+ 
+-#include <asm-generic/int-ll64.h>
+-
+-struct igc_md_desc {
+-	u64 timestamp;
+-};
+-
+ int igc_xdp_set_prog(struct igc_adapter *adapter, struct bpf_prog *prog,
+ 		     struct netlink_ext_ack *extack);
+ int igc_xdp_setup_pool(struct igc_adapter *adapter, struct xsk_buff_pool *pool,
+@@ -20,9 +14,4 @@ static inline bool igc_xdp_is_enabled(struct igc_adapter *adapter)
+ 	return !!adapter->xdp_prog;
+ }
+ 
+-int igc_xdp_register_rxq_info(struct igc_ring *ring);
+-void igc_xdp_unregister_rxq_info(struct igc_ring *ring);
+-int igc_xdp_query_btf(struct net_device *dev, u8 *enabled);
+-int igc_xdp_set_btf_md(struct net_device *dev, u8 enable);
+-
+ #endif /* _IGC_XDP_H_ */
+diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
+index 03647d9bb08f..1b523fd48586 100644
+--- a/include/linux/ethtool.h
++++ b/include/linux/ethtool.h
+@@ -13,7 +13,6 @@
+ #ifndef _LINUX_ETHTOOL_H
+ #define _LINUX_ETHTOOL_H
+ 
+-#include "asm-generic/int-ll64.h"
+ #include <linux/bitmap.h>
+ #include <linux/compat.h>
+ #include <linux/if_ether.h>
+@@ -595,22 +594,6 @@ struct ethtool_mm_stats {
+ 	u64 MACMergeHoldCount;
+ };
+ 
+-/**
+- * struct ethtool_fp - Frame Preemption information
+- *
+- * @enabled: Enable frame preemption.
+- * @add_frag_size: Minimum size for additional (non-final) fragments
+- * in bytes, for the value defined in the IEEE 802.3-2018 standard see
+- * ethtool_frag_size_to_mult().
+- */
+-struct ethtool_fp {
+-	u32 enabled;
+-	u32 preemptible_mask;
+-	u32 disable_verify;
+-	u32 verified;
+-	u32 add_frag_size;
+-};
+-
+ /**
+  * struct ethtool_ops - optional netdev operations
+  * @cap_link_lanes_supported: indicates if the driver supports lanes
+@@ -766,8 +749,6 @@ struct ethtool_fp {
+  *	not report statistics.
+  * @get_fecparam: Get the network device Forward Error Correction parameters.
+  * @set_fecparam: Set the network device Forward Error Correction parameters.
+- * @get_preempt: Get the network device Frame Preemption parameters.
+- * @set_preempt: Set the network device Frame Preemption parameters.
+  * @get_ethtool_phy_stats: Return extended statistics about the PHY device.
+  *	This is only useful if the device maintains PHY statistics and
+  *	cannot use the standard PHY library helpers.
+@@ -903,10 +884,6 @@ struct ethtool_ops {
+ 				      struct ethtool_fecparam *);
+ 	int	(*set_fecparam)(struct net_device *,
+ 				      struct ethtool_fecparam *);
+-	int	(*get_preempt)(struct net_device *dev,
+-			       struct ethtool_fp *fp);
+-	int	(*set_preempt)(struct net_device *dev, struct ethtool_fp *fp,
+-			       struct netlink_ext_ack *extack);
+ 	void	(*get_ethtool_phy_stats)(struct net_device *,
+ 					 struct ethtool_stats *, u64 *);
+ 	int	(*get_phy_tunable)(struct net_device *,
+@@ -1075,7 +1052,4 @@ static inline int ethtool_mm_frag_size_min_to_add(u32 val_min, u32 *val_add,
+  * next string.
+  */
+ extern __printf(2, 3) void ethtool_sprintf(u8 **data, const char *fmt, ...);
+-
+-u8 ethtool_frag_size_to_mult(u32 frag_size);
+-
+ #endif /* _LINUX_ETHTOOL_H */
+diff --git a/include/uapi/linux/ethtool_netlink.h b/include/uapi/linux/ethtool_netlink.h
+index 442db8b860bb..73e2c10dc2cc 100644
+--- a/include/uapi/linux/ethtool_netlink.h
++++ b/include/uapi/linux/ethtool_netlink.h
+@@ -49,8 +49,6 @@ enum {
+ 	ETHTOOL_MSG_PHC_VCLOCKS_GET,
+ 	ETHTOOL_MSG_MODULE_GET,
+ 	ETHTOOL_MSG_MODULE_SET,
+-	ETHTOOL_MSG_PREEMPT_GET,
+-	ETHTOOL_MSG_PREEMPT_SET,
+ 	ETHTOOL_MSG_PSE_GET,
+ 	ETHTOOL_MSG_PSE_SET,
+ 	ETHTOOL_MSG_RSS_GET,
+@@ -104,8 +102,6 @@ enum {
+ 	ETHTOOL_MSG_PHC_VCLOCKS_GET_REPLY,
+ 	ETHTOOL_MSG_MODULE_GET_REPLY,
+ 	ETHTOOL_MSG_MODULE_NTF,
+-	ETHTOOL_MSG_PREEMPT_GET_REPLY,
+-	ETHTOOL_MSG_PREEMPT_NTF,
+ 	ETHTOOL_MSG_PSE_GET_REPLY,
+ 	ETHTOOL_MSG_RSS_GET_REPLY,
+ 	ETHTOOL_MSG_PLCA_GET_CFG_REPLY,
+@@ -725,22 +721,6 @@ enum {
+ 	ETHTOOL_A_FEC_STAT_MAX = (__ETHTOOL_A_FEC_STAT_CNT - 1)
+ };
+ 
+-/* FRAME PREEMPTION */
+-
+-enum {
+-	ETHTOOL_A_PREEMPT_UNSPEC,
+-	ETHTOOL_A_PREEMPT_HEADER,			/* nest - _A_HEADER_* */
+-	ETHTOOL_A_PREEMPT_ENABLED,			/* u8 */
+-	ETHTOOL_A_PREEMPT_PREEMPTIBLE_MASK,		/* bitset */
+-	ETHTOOL_A_PREEMPT_ADD_FRAG_SIZE,		/* u32 */
+-	ETHTOOL_A_PREEMPT_DISABLE_VERIFY,		/* u8 */
+-	ETHTOOL_A_PREEMPT_VERIFIED,			/* u8 */
+-
+-	/* add new constants above here */
+-	__ETHTOOL_A_PREEMPT_CNT,
+-	ETHTOOL_A_PREEMPT_MAX = (__ETHTOOL_A_PREEMPT_CNT - 1)
+-};
+-
+ /* MODULE EEPROM */
+ 
+ enum {
+diff --git a/net/ethtool/Makefile b/net/ethtool/Makefile
+index 348993bf8eab..504f954a1b28 100644
+--- a/net/ethtool/Makefile
++++ b/net/ethtool/Makefile
+@@ -8,4 +8,4 @@ ethtool_nl-y	:= netlink.o bitset.o strset.o linkinfo.o linkmodes.o rss.o \
+ 		   linkstate.o debug.o wol.o features.o privflags.o rings.o \
+ 		   channels.o coalesce.o pause.o eee.o tsinfo.o cabletest.o \
+ 		   tunnels.o fec.o eeprom.o stats.o phc_vclocks.o mm.o \
+-		   module.o pse-pd.o plca.o mm.o preempt.o
++		   module.o pse-pd.o plca.o mm.o
+diff --git a/net/ethtool/common.c b/net/ethtool/common.c
+index 06369df4bca4..f5598c5f50de 100644
+--- a/net/ethtool/common.c
++++ b/net/ethtool/common.c
+@@ -685,26 +685,3 @@ ethtool_params_from_link_mode(struct ethtool_link_ksettings *link_ksettings,
+ 	link_ksettings->base.duplex = link_info->duplex;
+ }
+ EXPORT_SYMBOL_GPL(ethtool_params_from_link_mode);
+-
+-/**
+- * ethtool_frag_size_to_mult() - Convert from a Frame Preemption
+- * Additional Fragment size in bytes to a multiplier.
+- * @frag_size: minimum non-final fragment size in bytes.
+- *
+- * The multiplier is defined as:
+- *	"A 2-bit integer value used to indicate the minimum size of
+- *	non-final fragments supported by the receiver on the given port
+- *	associated with the local System. This value is expressed in units
+- *	of 64 octets of additional fragment length."
+- *	Equivalent to `30.14.1.7 aMACMergeAddFragSize` from the IEEE 802.3-2018
+- *	standard.
+- *
+- * Return: the multiplier is a number in the [0, 2] interval.
+- */
+-u8 ethtool_frag_size_to_mult(u32 frag_size)
+-{
+-	u8 mult = (frag_size / 64) - 1;
+-
+-	return clamp_t(u8, mult, 0, 3);
+-}
+-EXPORT_SYMBOL_GPL(ethtool_frag_size_to_mult);
+diff --git a/net/ethtool/netlink.c b/net/ethtool/netlink.c
+index 6a484ac8c239..fe3553f60bf3 100644
+--- a/net/ethtool/netlink.c
++++ b/net/ethtool/netlink.c
+@@ -293,7 +293,6 @@ ethnl_default_requests[__ETHTOOL_MSG_USER_CNT] = {
+ 	[ETHTOOL_MSG_FEC_GET]		= &ethnl_fec_request_ops,
+ 	[ETHTOOL_MSG_FEC_SET]		= &ethnl_fec_request_ops,
+ 	[ETHTOOL_MSG_TSINFO_GET]	= &ethnl_tsinfo_request_ops,
+-	[ETHTOOL_MSG_PREEMPT_GET]	= &ethnl_preempt_request_ops,
+ 	[ETHTOOL_MSG_MODULE_EEPROM_GET]	= &ethnl_module_eeprom_request_ops,
+ 	[ETHTOOL_MSG_STATS_GET]		= &ethnl_stats_request_ops,
+ 	[ETHTOOL_MSG_PHC_VCLOCKS_GET]	= &ethnl_phc_vclocks_request_ops,
+@@ -640,7 +639,6 @@ ethnl_default_notify_ops[ETHTOOL_MSG_KERNEL_MAX + 1] = {
+ 	[ETHTOOL_MSG_MODULE_NTF]	= &ethnl_module_request_ops,
+ 	[ETHTOOL_MSG_PLCA_NTF]		= &ethnl_plca_cfg_request_ops,
+ 	[ETHTOOL_MSG_MM_NTF]		= &ethnl_mm_request_ops,
+-	[ETHTOOL_MSG_PREEMPT_NTF]	= &ethnl_preempt_request_ops,
+ };
+ 
+ /* default notification handler */
+@@ -739,7 +737,6 @@ static const ethnl_notify_handler_t ethnl_notify_handlers[] = {
+ 	[ETHTOOL_MSG_MODULE_NTF]	= ethnl_default_notify,
+ 	[ETHTOOL_MSG_PLCA_NTF]		= ethnl_default_notify,
+ 	[ETHTOOL_MSG_MM_NTF]		= ethnl_default_notify,
+-	[ETHTOOL_MSG_PREEMPT_NTF]	= ethnl_default_notify,
+ };
+ 
+ void ethtool_notify(struct net_device *dev, unsigned int cmd, const void *data)
+@@ -1069,22 +1066,6 @@ static const struct genl_ops ethtool_genl_ops[] = {
+ 		.policy = ethnl_module_set_policy,
+ 		.maxattr = ARRAY_SIZE(ethnl_module_set_policy) - 1,
+ 	},
+-	{
+-		.cmd	= ETHTOOL_MSG_PREEMPT_GET,
+-		.doit	= ethnl_default_doit,
+-		.start	= ethnl_default_start,
+-		.dumpit	= ethnl_default_dumpit,
+-		.done	= ethnl_default_done,
+-		.policy = ethnl_preempt_get_policy,
+-		.maxattr = ARRAY_SIZE(ethnl_preempt_get_policy) - 1,
+-	},
+-	{
+-		.cmd	= ETHTOOL_MSG_PREEMPT_SET,
+-		.flags	= GENL_UNS_ADMIN_PERM,
+-		.doit	= ethnl_set_preempt,
+-		.policy = ethnl_preempt_set_policy,
+-		.maxattr = ARRAY_SIZE(ethnl_preempt_set_policy) - 1,
+-	},
+ 	{
+ 		.cmd	= ETHTOOL_MSG_PSE_GET,
+ 		.doit	= ethnl_default_doit,
+diff --git a/net/ethtool/netlink.h b/net/ethtool/netlink.h
+index 7aa69fe8e8e0..9a333a8d04c1 100644
+--- a/net/ethtool/netlink.h
++++ b/net/ethtool/netlink.h
+@@ -386,7 +386,6 @@ extern const struct ethnl_request_ops ethnl_pause_request_ops;
+ extern const struct ethnl_request_ops ethnl_eee_request_ops;
+ extern const struct ethnl_request_ops ethnl_tsinfo_request_ops;
+ extern const struct ethnl_request_ops ethnl_fec_request_ops;
+-extern const struct ethnl_request_ops ethnl_preempt_request_ops;
+ extern const struct ethnl_request_ops ethnl_module_eeprom_request_ops;
+ extern const struct ethnl_request_ops ethnl_stats_request_ops;
+ extern const struct ethnl_request_ops ethnl_phc_vclocks_request_ops;
+@@ -431,8 +430,6 @@ extern const struct nla_policy ethnl_fec_get_policy[ETHTOOL_A_FEC_HEADER + 1];
+ extern const struct nla_policy ethnl_fec_set_policy[ETHTOOL_A_FEC_AUTO + 1];
+ extern const struct nla_policy ethnl_module_eeprom_get_policy[ETHTOOL_A_MODULE_EEPROM_I2C_ADDRESS + 1];
+ extern const struct nla_policy ethnl_stats_get_policy[ETHTOOL_A_STATS_SRC + 1];
+-extern const struct nla_policy ethnl_preempt_get_policy[ETHTOOL_A_PREEMPT_HEADER + 1];
+-extern const struct nla_policy ethnl_preempt_set_policy[ETHTOOL_A_PREEMPT_VERIFIED + 1];
+ extern const struct nla_policy ethnl_phc_vclocks_get_policy[ETHTOOL_A_PHC_VCLOCKS_HEADER + 1];
+ extern const struct nla_policy ethnl_module_get_policy[ETHTOOL_A_MODULE_HEADER + 1];
+ extern const struct nla_policy ethnl_module_set_policy[ETHTOOL_A_MODULE_POWER_MODE_POLICY + 1];
+@@ -451,7 +448,6 @@ int ethnl_act_cable_test_tdr(struct sk_buff *skb, struct genl_info *info);
+ int ethnl_tunnel_info_doit(struct sk_buff *skb, struct genl_info *info);
+ int ethnl_tunnel_info_start(struct netlink_callback *cb);
+ int ethnl_tunnel_info_dumpit(struct sk_buff *skb, struct netlink_callback *cb);
+-int ethnl_set_preempt(struct sk_buff *skb, struct genl_info *info);
+ 
+ extern const char stats_std_names[__ETHTOOL_STATS_CNT][ETH_GSTRING_LEN];
+ extern const char stats_eth_phy_names[__ETHTOOL_A_STATS_ETH_PHY_CNT][ETH_GSTRING_LEN];
+diff --git a/net/ethtool/preempt.c b/net/ethtool/preempt.c
+deleted file mode 100644
+index 447013df2b7d..000000000000
+--- a/net/ethtool/preempt.c
++++ /dev/null
+@@ -1,188 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-
+-#include "common.h"
+-#include "netlink.h"
+-#include "bitset.h"
+-
+-struct preempt_req_info {
+-	struct ethnl_req_info		base;
+-};
+-
+-struct preempt_reply_data {
+-	struct ethnl_reply_data		base;
+-	struct ethtool_fp		fp;
+-};
+-
+-#define PREEMPT_QUEUES_COUNT \
+-	(sizeof_field(struct ethtool_fp, preemptible_mask) * BITS_PER_BYTE)
+-
+-#define PREEMPT_REPDATA(__reply_base) \
+-	container_of(__reply_base, struct preempt_reply_data, base)
+-
+-const struct nla_policy
+-ethnl_preempt_get_policy[] = {
+-	[ETHTOOL_A_PREEMPT_HEADER]		= NLA_POLICY_NESTED(ethnl_header_policy),
+-};
+-
+-static int preempt_prepare_data(const struct ethnl_req_info *req_base,
+-				struct ethnl_reply_data *reply_base,
+-				const struct genl_info *info)
+-{
+-	struct preempt_reply_data *data = PREEMPT_REPDATA(reply_base);
+-	struct net_device *dev = reply_base->dev;
+-	int ret;
+-
+-	if (!dev->ethtool_ops->get_preempt)
+-		return -EOPNOTSUPP;
+-
+-	ret = ethnl_ops_begin(dev);
+-	if (ret < 0)
+-		return ret;
+-
+-	ret = dev->ethtool_ops->get_preempt(dev, &data->fp);
+-	ethnl_ops_complete(dev);
+-
+-	return ret;
+-}
+-
+-static int preempt_reply_size(const struct ethnl_req_info *req_base,
+-			      const struct ethnl_reply_data *reply_base)
+-{
+-	bool compact = req_base->flags & ETHTOOL_FLAG_COMPACT_BITSETS;
+-	const struct preempt_reply_data *data = PREEMPT_REPDATA(reply_base);
+-	const struct ethtool_fp *preempt = &data->fp;
+-	int len = 0;
+-	int ret;
+-
+-	ret = ethnl_bitset32_size(&preempt->preemptible_mask, NULL,
+-				  PREEMPT_QUEUES_COUNT, NULL, compact);
+-	if (ret < 0)
+-		return ret;
+-
+-	len += ret;
+-
+-	len += nla_total_size(sizeof(u8)); /* _PREEMPT_ENABLED */
+-	len += nla_total_size(sizeof(u32)); /* _PREEMPT_ADD_FRAG_SIZE */
+-	len += nla_total_size(sizeof(u8)); /* _PREEMPT_DISABLE_VERIFY */
+-	len += nla_total_size(sizeof(u8)); /* _PREEMPT_VERIFIED */
+-
+-	return len;
+-}
+-
+-static int preempt_fill_reply(struct sk_buff *skb,
+-			      const struct ethnl_req_info *req_base,
+-			      const struct ethnl_reply_data *reply_base)
+-{
+-	bool compact = req_base->flags & ETHTOOL_FLAG_COMPACT_BITSETS;
+-	const struct preempt_reply_data *data = PREEMPT_REPDATA(reply_base);
+-	const struct ethtool_fp *preempt = &data->fp;
+-	int ret;
+-
+-	if (nla_put_u32(skb, ETHTOOL_A_PREEMPT_ENABLED, preempt->enabled))
+-		return -EMSGSIZE;
+-
+-	if (nla_put_u32(skb, ETHTOOL_A_PREEMPT_ADD_FRAG_SIZE,
+-			preempt->add_frag_size))
+-		return -EMSGSIZE;
+-
+-	ret = ethnl_put_bitset32(skb, ETHTOOL_A_PREEMPT_PREEMPTIBLE_MASK,
+-				 &preempt->preemptible_mask, NULL, PREEMPT_QUEUES_COUNT,
+-				 NULL, compact);
+-	if (ret < 0)
+-		return ret;
+-
+-	if (nla_put_u32(skb, ETHTOOL_A_PREEMPT_DISABLE_VERIFY, preempt->disable_verify))
+-		return -EMSGSIZE;
+-
+-	if (nla_put_u32(skb, ETHTOOL_A_PREEMPT_VERIFIED, preempt->verified))
+-		return -EMSGSIZE;
+-
+-	return 0;
+-}
+-
+-const struct ethnl_request_ops ethnl_preempt_request_ops = {
+-	.request_cmd		= ETHTOOL_MSG_PREEMPT_GET,
+-	.reply_cmd		= ETHTOOL_MSG_PREEMPT_GET_REPLY,
+-	.hdr_attr		= ETHTOOL_A_PREEMPT_HEADER,
+-	.req_info_size		= sizeof(struct preempt_req_info),
+-	.reply_data_size	= sizeof(struct preempt_reply_data),
+-
+-	.prepare_data		= preempt_prepare_data,
+-	.reply_size		= preempt_reply_size,
+-	.fill_reply		= preempt_fill_reply,
+-};
+-
+-const struct nla_policy
+-ethnl_preempt_set_policy[ETHTOOL_A_PREEMPT_MAX + 1] = {
+-	[ETHTOOL_A_PREEMPT_HEADER]			= NLA_POLICY_NESTED(ethnl_header_policy),
+-	[ETHTOOL_A_PREEMPT_ENABLED]			= NLA_POLICY_RANGE(NLA_U8, 0, 1),
+-	[ETHTOOL_A_PREEMPT_ADD_FRAG_SIZE]		= { .type = NLA_U32 },
+-	[ETHTOOL_A_PREEMPT_PREEMPTIBLE_MASK]		= { .type = NLA_NESTED },
+-	[ETHTOOL_A_PREEMPT_DISABLE_VERIFY]		= NLA_POLICY_RANGE(NLA_U8, 0, 1),
+-};
+-
+-int ethnl_set_preempt(struct sk_buff *skb, struct genl_info *info)
+-{
+-	struct ethnl_req_info req_info = {};
+-	struct nlattr **tb = info->attrs;
+-	struct ethtool_fp preempt = {};
+-	struct net_device *dev;
+-	bool mod = false;
+-	int ret;
+-
+-	ret = ethnl_parse_header_dev_get(&req_info,
+-					 tb[ETHTOOL_A_PREEMPT_HEADER],
+-					 genl_info_net(info), info->extack,
+-					 true);
+-	if (ret < 0)
+-		return ret;
+-	dev = req_info.dev;
+-
+-	ret = -EOPNOTSUPP;
+-	if (!dev->ethtool_ops->get_preempt ||
+-	    !dev->ethtool_ops->set_preempt)
+-		goto out_dev;
+-
+-	rtnl_lock();
+-	ret = ethnl_ops_begin(dev);
+-	if (ret < 0)
+-		goto out_rtnl;
+-
+-	ret = dev->ethtool_ops->get_preempt(dev, &preempt);
+-	if (ret < 0) {
+-		GENL_SET_ERR_MSG(info, "failed to retrieve frame preemption settings");
+-		goto out_ops;
+-	}
+-
+-	ret = ethnl_update_bitset32(&preempt.preemptible_mask, PREEMPT_QUEUES_COUNT,
+-				    tb[ETHTOOL_A_PREEMPT_PREEMPTIBLE_MASK],
+-				    NULL, info->extack, &mod);
+-	if (ret < 0)
+-		goto out_ops;
+-
+-	ethnl_update_bool32(&preempt.enabled,
+-			    tb[ETHTOOL_A_PREEMPT_ENABLED], &mod);
+-	ethnl_update_u32(&preempt.add_frag_size,
+-			 tb[ETHTOOL_A_PREEMPT_ADD_FRAG_SIZE], &mod);
+-	ethnl_update_bool32(&preempt.disable_verify,
+-			    tb[ETHTOOL_A_PREEMPT_DISABLE_VERIFY], &mod);
+-	ret = 0;
+-	if (!mod)
+-		goto out_ops;
+-
+-	ret = dev->ethtool_ops->set_preempt(dev, &preempt, info->extack);
+-	if (ret < 0) {
+-		GENL_SET_ERR_MSG(info, "frame preemption settings update failed");
+-		goto out_ops;
+-	}
+-
+-	ethtool_notify(dev, ETHTOOL_MSG_PREEMPT_NTF, NULL);
+-
+-out_ops:
+-	ethnl_ops_complete(dev);
+-out_rtnl:
+-	rtnl_unlock();
+-out_dev:
+-	dev_put(dev);
+-	return ret;
+-}
+-- 
+2.25.1
+
