@@ -118,7 +118,6 @@ iproute2-devlink \
 iproute2-ss \
 iptables \
 iputils \
-irda-utils \
 jansson \
 json-c \
 iptraf \
