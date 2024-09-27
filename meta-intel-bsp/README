@@ -111,6 +111,14 @@ Allows access to the secondary boot flash from Linux using the MTD driver.
 
 0003-spi-Unify-error-codes-by-replacing-ENOTSUPP-with-EOP.patch
 
+Revert Frame Preemption Support
+-------------------------------
+
+Until this has been upstreamed, it breaks ethtool.  As the feature is
+not used by this project, reverting!
+
+0004-ethtool-Revert-Frame-Preemption-Support.patch
+
 Support for SIOV (for GRR and PMR)
 ----------------------------------
 
