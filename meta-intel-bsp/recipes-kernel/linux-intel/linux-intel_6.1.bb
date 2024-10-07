@@ -1,5 +1,5 @@
 require recipes-kernel/linux/linux-intel.inc
-require linux-axxia.inc
+require recipes-kernel/linux/linux-axxia.inc
 require linux-intel_6.1.inc
 
 LINUX_VERSION_EXTENSION = "-intel-axxia-${LINUX_KERNEL_TYPE}"

@@ -1,4 +1,4 @@
-require linux-intel_${PV}.bb
+require linux-intel_6.1.bb
 
 SRC_URI:append = " file://debug.scc"
 
