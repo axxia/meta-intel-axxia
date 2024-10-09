@@ -1,0 +1,15 @@
+LINUX_VERSION = "6.11.0"
+SRCREV_machine = "4309c51d202caba939dfdba3f02e40e4f2daa4e3"
+SRCREV_meta = "5293b566f02543bb3e000cac8bd846c3f5ab14f5"
+
+COMMON_PATCHES = " \
+"
+
+SNR_PATCHES = " \
+"
+
+GRR_PATCHES = " \
+"
+
+PMR_PATCHES = " \
+"
