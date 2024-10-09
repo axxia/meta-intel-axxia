@@ -165,6 +165,14 @@ From Linux, after 6.6.  This suppresses a warning during shutdown.
 
 0023-mtd-spi-nor-Stop-reporting-warning-message-when-soft.patch
 
+EDAC Support
+------------
+
+From kernel.org [e77086c3750834553cf6fd2255c5f3ee04843ed8] adds EDAC
+support for Grand Ridge.
+
+0024-EDAC-i10nm-Add-Intel-Grand-Ridge-micro-server-suppor.patch
+
 
 II. Building meta-intel-bsp
 ===========================
