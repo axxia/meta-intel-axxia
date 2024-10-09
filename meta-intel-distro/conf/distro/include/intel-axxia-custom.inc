@@ -6,6 +6,13 @@ ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
 	'linux-intel-debug', '',    ' linux-intel-debug', d)}\
 "
 
+INTELPRIVATE_ALTERNATIVE_KERNELS ?= "\
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
+	'linux-intel-private', '',          ' linux-intel-private', d)}\
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
+	'linux-intel-private-debug', '',    ' linux-intel-private-debug', d)}\
+"
+
 YOCTO_ALTERNATIVE_KERNELS ?= "\
 ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
 	'linux-yocto', '',          ' linux-yocto', d)}\
@@ -13,12 +20,19 @@ ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
 	'linux-yocto-debug', '',    ' linux-yocto-debug', d)}\
 "
 
+KORGNETDEV_ALTERNATIVE_KERNELS ?= "\
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
+	'linux-korg-netdev', '',          ' linux-korg-netdet', d)}\
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
+	'linux-korg-netdev-debug', '',    ' linux-korg-netdev-debug', d)}\
+"
+
 LOCAL_ALTERNATIVE_KERNELS ?= ""
 KORG_ALTERNATIVE_KERNELS ?= ""
 
 ALTERNATIVE_KERNELS ?= \
 "${${@''.join(d.getVar('PREFERRED_PROVIDER_virtual/kernel').upper()\
-	.split('-')[1:2])}_ALTERNATIVE_KERNELS}"
+	.split('-')[1:])}_ALTERNATIVE_KERNELS}"
 
 ALTERNATIVE_KERNELS_INSTALL ?= \
 "${@d.getVar('ALTERNATIVE_KERNELS').replace('linux-','altkernel-linux-')}"

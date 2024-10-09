@@ -1,7 +1,9 @@
 # Set the version for alternative kernels as virtual/kernel provider
 KV = "${@d.getVar('PREFERRED_VERSION_' + d.getVar('PREFERRED_PROVIDER_virtual/kernel', True), True)}"
-PREFERRED_VERSION_linux-intel ?= "${KV}"
+PREFERRED_VERSION_linux-yocto-debug ?= "${KV}"
 PREFERRED_VERSION_linux-intel-debug ?= "${KV}"
+PREFERRED_VERSION_linux-intel-private-debug ?= "${KV}"
+PREFERRED_VERSION_linux-korg-netdev-debug = "${KV}"
 
 GCC_VERSION = "${@bb.utils.contains('DISTRO_FEATURES', 'gcc15', '15.%', \
 		  bb.utils.contains('DISTRO_FEATURES', 'gcc13', '13.%', '11.%', d), d)}"
