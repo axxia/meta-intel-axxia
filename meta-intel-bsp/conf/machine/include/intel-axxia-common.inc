@@ -1,6 +1,3 @@
-PREFERRED_PROVIDER_virtual/kernel ??= "linux-intel"
-PREFERRED_VERSION_linux-intel ??= "6.6%"
-
 EFI_PROVIDER ?= "grub-efi"
 
 require conf/machine/include/meta-intel.inc
