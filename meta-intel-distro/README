@@ -174,33 +174,72 @@ below shoud be replaced with the actual value you provided prior).
     - for INTEL Axxia x86_64 Gen3 systems (Snow Ridge CPU)
     MACHINE = "intel-axxia-snr"
 
-     - for INTEL Axxia x86_64 Gen4 systems (Grand Ridge CPU)
-     MACHINE = "intel-axxia-grr"
+    - for INTEL Axxia x86_64 Gen4 systems (Grand Ridge CPU)
+    MACHINE = "intel-axxia-grr"
+
+    - for INTEL Axxia x86_64 Gen5 systems (Palm Ridge CPU)
+    MACHINE = "intel-axxia-pmr"
 
 2.3.4. Select the main kernel to use (virtual/kernel provider).
-     You can build the kernel from 2 sources:
+     You can build the kernel from multiple sources:
 
 a. Public Intel Github (github.com/intel)
 
    PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
    
-   will build kernel from Intel Github public repos
-   (git://github.com/intel/linux-intel-lts.git):
+   will build kernel from Intel Github public repo
+   (https://github.com/intel/linux-intel-lts):
       6.1/yocto or 6.6/yocto branches
   
    Alternative Intel kernel is linux-intel-debug.
 
-b. Yocto Project repository (git.yoctoproject.org)
+b. Private Intel Github (github.com/intel-innersource)
+
+   PREFERRED_PROVIDER_virtual/kernel = "linux-intel-private"
+   
+   will build kernel from Intel Innersource private repo
+   (https://github.com/intel-innersource/os.linux.kernel.kernel-staging):
+      iotg-next/v6.11 branch
+  
+   Alternative Intel private kernel is linux-intel-private-debug.
+
+c. Yocto Project repository (git.yoctoproject.org)
 
    PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
    
-   will build kernel from Yocto Project Source repos
-   (http://git.yoctoproject.org/git/linux-yocto):
+   will build kernel from Yocto Project Source repo
+   (https://git.yoctoproject.org/linux-yocto):
       v6.6/standard/base branch
   
    Alternative Yocto kernel is linux-yocto-debug.
 
-c. Local Kernel repositories (for Linux development)
+d. Kernel.org - Netdev networking repository (git.kernel.org)
+
+   PREFERRED_PROVIDER_virtual/kernel = "linux-korg-netdev"
+   
+   will build kernel from Netdev Group's networking repo from kernel.org
+   (https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next):
+      main branch, v6.11 tag
+  
+   Alternative Netdev kernel is linux-korg-netdev-debug.
+
+e. Kernel.org - Torvalds official repository (git.kernel.org)
+
+   If you want to build any release tag from kernel.org, do the
+   following. First, make the following changes to local.conf.
+
+   PREFERRED_PROVIDER_virtual/kernel = "linux-korg"
+   KORG_VERSION = "<release tag>"
+ 
+   Then, in the meta-intel-distro layer, add a Linux configuration file
+   next to linux-korg.bb recipe. Copy a full configuration to
+   meta-intel-distro/recipes-kernel/linux/defconfig.
+
+   Will build kernel from Torvalds official repo from kernel.org
+   (https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux).
+   Details in meta-intel-distro/recipes-kernel/linux/linux-korg.bb
+ 
+f. Local Kernel repositories (for Linux development)
 
    If you want to base a Yocto build on a local Linux kernel, do the
    following. First, make the following changes to local.conf.
