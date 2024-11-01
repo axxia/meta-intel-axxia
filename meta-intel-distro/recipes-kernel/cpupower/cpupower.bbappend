@@ -1,0 +1,1 @@
+TARGET_CC_ARCH += "-fdebug-prefix-map=${STAGING_KERNEL_DIR}=${KERNEL_SRC_PATH}"
