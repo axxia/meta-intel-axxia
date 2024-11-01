@@ -60,3 +60,5 @@ fix_alternative_rdepends () {
 			${PKGDESTWORK}/runtime/*
 	fi
 }
+
+INSANE_SKIP += "buildpaths"
