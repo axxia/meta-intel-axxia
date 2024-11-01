@@ -28,6 +28,8 @@ S = "${@oe.utils.conditional('USE_RDK_REPO', 'false', "${WORKDIR}/rdk", "${WORKD
 
 inherit autotools pkgconfig
 
+TARGET_CC_ARCH += "${SELECTED_OPTIMIZATION}"
+
 export SDKTARGETSYSROOT = "${STAGING_DIR_HOST}"
 export OECORE_NATIVE_SYSROOT = "${STAGING_DIR_NATIVE}"
 
@@ -71,6 +73,7 @@ do_install () {
 	cp -r ${S}/install/lib/* ${D}${libdir}
 	cp -r ${S}/install/include/* ${D}${includedir}
 	cp -r ${S}/install/etc/* ${D}${sysconfdir}
+	rm -f ${D}${includedir}/Makefile
 	
 	if [ -d ${S}/install/lib/firmware/intel ]; then
 		install -d ${D}${nonarch_base_libdir}/firmware/intel
@@ -86,9 +89,7 @@ do_install () {
 		${D}${libdir}/*.la 2>/dev/null || :
 
 	# remove local rpath from binaries to pass QA testing
-	for file in ${D}${libdir}/*.so* ${D}${bindir}/*; do
-		chrpath -d $file 2>/dev/null || :
-	done
+	sed -i "s#${S}/user_modules/ies-api/lib#${libdir}#g" ${D}${bindir}/*cli
 
 	# replace local rpaths from .pc files to pass QA testing
 	sed -i 's#prefix=.*#prefix=${prefix}#' \
