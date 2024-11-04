@@ -32,6 +32,7 @@ Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 Link: https://lore.kernel.org/r/20231003184916.1860084-4-srinivas.pandruvada@linux.intel.com
 Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Back-ported-by: John Jacques <john.jacques@intel.com>
 ---
  .../uncore-frequency/uncore-frequency-tpmi.c   | 18 ++++++++++++++----
  1 file changed, 14 insertions(+), 4 deletions(-)

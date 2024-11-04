@@ -23,6 +23,7 @@ Cc: Stephane Eranian <eranian@google.com>
 Cc: Tinghao Zhang <tinghao.zhang@intel.com>
 Link: https://lore.kernel.org/r/20231025201626.3000228-6-kan.liang@linux.intel.com
 Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
+Back-ported-by: John Jacques <john.jacques@intel.com>
 ---
  tools/include/uapi/linux/perf_event.h | 13 +++++++++++++
  1 file changed, 13 insertions(+)

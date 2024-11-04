@@ -17,12 +17,13 @@ While initially it was suggested and tried to piggyback device MSI on
 platform MSI, the better variant is to reimplement platform MSI on top of
 device MSI.
 
-Upstream-Status: Backport [https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2277266.html]
+Upstream-Status: Backport
 
 Reviewed-by: Tony Luck <tony.luck@intel.com>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Megha Dey <megha.dey@intel.com>
 Back-ported-by: John Jacques <john.jacques@intel.com>
+Link: https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2277266.html
 ---
  drivers/base/platform-msi.c | 131 ++++++++++++++++++++++++++++++++++++
  include/linux/irqdomain.h   |   1 +

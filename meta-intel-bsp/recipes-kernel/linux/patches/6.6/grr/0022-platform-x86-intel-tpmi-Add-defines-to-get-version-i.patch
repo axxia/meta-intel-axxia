@@ -16,6 +16,7 @@ Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 Link: https://lore.kernel.org/r/20231003184916.1860084-2-srinivas.pandruvada@linux.intel.com
 Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Back-ported-by: John Jacques <john.jacques@intel.com>
 ---
  include/linux/intel_tpmi.h | 6 ++++++
  1 file changed, 6 insertions(+)

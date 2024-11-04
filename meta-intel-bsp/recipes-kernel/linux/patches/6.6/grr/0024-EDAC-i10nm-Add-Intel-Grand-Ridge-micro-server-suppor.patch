@@ -6,7 +6,11 @@ Subject: EDAC/i10nm: Add Intel Grand Ridge micro-server support
 The Grand Ridge CPU model uses same memory controller registers with
 Granite Rapids server. Add Grand Ridge CPU model ID for EDAC support.
 
+Upstream-Status: Backport
+
 Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Back-ported-by: John Jacques <john.jacques@intel.com>
+Link: https://lore.kernel.org/all/20240129062040.60809-3-qiuxu.zhuo@intel.com
 ---
  drivers/edac/i10nm_base.c | 1 +
  1 file changed, 1 insertion(+)

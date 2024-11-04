@@ -31,6 +31,7 @@ Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Tested-by: Ammy Yi <ammy.yi@intel.com>
 Link: https://lore.kernel.org/r/20231117163939.2468007-2-kan.liang@linux.intel.com
+Back-ported-by: John Jacques <john.jacques@intel.com>
 ---
  arch/x86/events/intel/uncore.h           | 6 +++---
  arch/x86/events/intel/uncore_discovery.c | 5 +++--

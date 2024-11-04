@@ -18,6 +18,7 @@ Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Tested-by: Ammy Yi <ammy.yi@intel.com>
 Link: https://lore.kernel.org/r/20231117163939.2468007-1-kan.liang@linux.intel.com
+Back-ported-by: John Jacques <john.jacques@intel.com>
 ---
  arch/x86/events/intel/uncore_snbep.c | 34 +++++++++++++++++++---------
  1 file changed, 23 insertions(+), 11 deletions(-)

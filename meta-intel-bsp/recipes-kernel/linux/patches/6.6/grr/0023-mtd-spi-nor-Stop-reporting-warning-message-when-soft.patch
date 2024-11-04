@@ -7,6 +7,8 @@ Subject: mtd: spi-nor: Stop reporting warning message when soft reset is not
 When the software reset command isn't supported, we now stop reporting
 the warning message to avoid unnecessary warnings and potential confusion.
 
+Upstream-Status: Backport
+
 Reviewed-by: Dhruva Gole <d-gole@ti.com>
 Reviewed-by: Michael Walle <michael@walle.cc>
 Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
@@ -16,6 +18,7 @@ Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
 Acked-by: Tudor Ambarus <tudor.ambarus@linaro.org>
 Link: https://lore.kernel.org/r/20231129064311.272422-2-acelan.kao@canonical.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
+Back-ported-by: John Jacques <john.jacques@intel.com>
 ---
  drivers/mtd/spi-nor/core.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)

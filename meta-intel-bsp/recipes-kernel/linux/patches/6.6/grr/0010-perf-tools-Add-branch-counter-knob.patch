@@ -50,6 +50,7 @@ Cc: Stephane Eranian <eranian@google.com>
 Cc: Tinghao Zhang <tinghao.zhang@intel.com>
 Link: https://lore.kernel.org/r/20231025201626.3000228-8-kan.liang@linux.intel.com
 Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
+Back-ported-by: John Jacques <john.jacques@intel.com>
 ---
  tools/perf/Documentation/perf-record.txt  |  4 +++
  tools/perf/util/evsel.c                   | 35 ++++++++++++++++++++++-

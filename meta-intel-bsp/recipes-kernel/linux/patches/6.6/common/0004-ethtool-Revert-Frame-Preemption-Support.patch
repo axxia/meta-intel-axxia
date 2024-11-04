@@ -46,6 +46,8 @@ to revert successfully.
     igc: Add support for setting frame preemption configuration
     [80e71b4942dce7a51dca7c623ad11c7c7b6116e0]
 
+Upstream-Status: Incomplete feature
+
 Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  Documentation/networking/ethtool-netlink.rst |  50 +--

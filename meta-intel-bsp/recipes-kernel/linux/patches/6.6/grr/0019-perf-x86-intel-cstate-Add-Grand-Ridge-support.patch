@@ -11,6 +11,7 @@ Upstream-Status: Backport
 Signed-off-by: Kan Liang <kan.liang@linux.intel.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Link: https://lore.kernel.org/r/20231116142245.1233485-4-kan.liang@linux.intel.com
+Back-ported-by: John Jacques <john.jacques@intel.com>
 ---
  arch/x86/events/intel/cstate.c | 15 ++++++++++++---
  1 file changed, 12 insertions(+), 3 deletions(-)

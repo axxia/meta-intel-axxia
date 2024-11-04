@@ -19,6 +19,8 @@ Upstream-Status: Backport
 
 Signed-off-by: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
 Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Back-ported-by: John Jacques <john.jacques@intel.com>
+Link: https://lore.kernel.org/linux-pm/20231214165622.100428-1-dedekind1@gmail.com
 ---
  drivers/idle/intel_idle.c | 36 ++++++++++++++++++++++++++++++++++++
  1 file changed, 36 insertions(+)

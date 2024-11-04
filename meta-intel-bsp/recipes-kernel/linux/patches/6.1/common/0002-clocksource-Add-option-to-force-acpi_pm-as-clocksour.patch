@@ -25,10 +25,11 @@ CURRENT: acpi_pm
 HISTORY:
 apci-pm
 
-Upstream-Status: Backport
+Upstream-Status: Pending
 
 Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 Signed-off-by: John Jacques <john.jacques@intel.com>
+iLink: https://lists.yoctoproject.org/g/linux-yocto/topic/v6_6_standard_x86_and/106499073
 ---
  kernel/time/clocksource.c | 81 ++++++++++++++++++++++++++++++++++++++-
  1 file changed, 80 insertions(+), 1 deletion(-)
