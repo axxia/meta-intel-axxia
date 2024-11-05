@@ -2,8 +2,8 @@
 MACHINE = "intel-axxia-grr"
 
 # Kernel providers (other than defined in the machine configuration file):
-e.g. linux-intel, linux-intel-private, linux-yocto, linux-korg-netdev
-#PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
+# e.g. linux-intel, linux-intel-private, linux-yocto, linux-korg-netdev
+PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 
 # Kernel versions (other than defined in the machine configuration file):
 # e.g. 6.1%, 6.6%, 6.11%
