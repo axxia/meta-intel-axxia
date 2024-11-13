@@ -17,7 +17,7 @@ PREFERRED_VERSION_linux-intel = "6.6%"
 # Enable "multilib"
 #DISTRO_FEATURES:append = " multilib"
 
-# Choose GCC version: 15.% (gcc15), 13.% (gcc13) or 11.% (default)
+# Choose GCC version: 15.% (gcc15) or 11.% (gcc11). Default version: 13.%
 #DISTRO_FEATURES:append = " gcc15"
 
 # Enable settings for INTEL QSP System (for axxia-image-qsp image)
