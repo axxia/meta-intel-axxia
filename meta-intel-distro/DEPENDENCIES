@@ -30,3 +30,15 @@ meta-security
 URI: https://git.yoctoproject.org/meta-security
 branch: scarthgap
 revision: 459d837338ca230254baa2994f870bf6eb9d0139
+
+meta-clang
+----------
+URI: https://github.com/kraj/meta-clang.git
+branch: scarthgap
+revision: 9fbfa9db33131abdf3870a94f00199eb53e276e5
+
+meta-dpdk
+---------
+URI: https://git.yoctoproject.org/meta-dpdk
+branch: scarthgap
+revision: 0f12d2eddf2f7cde8de274ffe225f3c8e912928d

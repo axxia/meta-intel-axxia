@@ -354,6 +354,7 @@ vlan \
 watchdog \
 wget \
 which \
+xdp-tools \
 yaml-cpp \
 yasm \
 xfsprogs \
