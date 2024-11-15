@@ -44,6 +44,7 @@ boost-dev \
 busybox \
 bzip2 \
 cifs-utils \
+clang \
 cmake \
 coreutils \
 cpio \
@@ -356,6 +357,7 @@ wget \
 which \
 yaml-cpp \
 yasm \
+xdp-tools \
 xfsprogs \
 xxhash \
 yp-tools \
