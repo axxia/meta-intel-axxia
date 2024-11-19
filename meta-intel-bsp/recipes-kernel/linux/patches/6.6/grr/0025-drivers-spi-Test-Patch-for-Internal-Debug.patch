@@ -1,0 +1,31 @@
+From 47eec8ae6d1c4582098190f1f80767d104418e8c Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Tue, 19 Nov 2024 13:41:08 -0600
+Subject: drivers/spi: Test Patch for Internal Debug
+
+This is meant to test a patch to avoid hardware error messages.  It
+is for internal use only!
+
+Signed-off-by: John Jacques <john.jacques@intel.com>
+---
+ drivers/spi/spi-intel.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/spi/spi-intel.c b/drivers/spi/spi-intel.c
+index 2e89e3b0fd55..5eeccba37af5 100644
+--- a/drivers/spi/spi-intel.c
++++ b/drivers/spi/spi-intel.c
+@@ -566,6 +566,10 @@ static int intel_spi_read(struct intel_spi *ispi, const struct spi_mem *mem,
+ 		block_size = min_t(loff_t, addr + block_size,
+ 				   round_up(addr + 1, SZ_4K)) - addr;
+ 
++		ret = intel_spi_wait_hw_busy(ispi);
++		if (ret)
++			return ret;
++
+ 		writel(addr, ispi->base + FADDR);
+ 
+ 		val = readl(ispi->base + HSFSTS_CTL);
+-- 
+2.34.1
+
