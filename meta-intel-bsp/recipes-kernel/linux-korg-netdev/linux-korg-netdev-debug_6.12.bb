@@ -1,4 +1,4 @@
-require linux-korg-netdev_6.11.bb
+require linux-korg-netdev_6.12.bb
 
 SRC_URI:append = " file://debug.scc"
 

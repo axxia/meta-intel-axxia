@@ -1,0 +1,18 @@
+include features/intel-txt/intel-txt.scc
+include features/ixgbe/ixgbe.scc
+include features/iommu/iommu.scc
+include features/kprobes/kprobes.scc
+include features/kvm/qemu-kvm-enable.scc
+include features/numa/numa.scc
+include features/uprobe/uprobe-enable.scc
+include features/debug/debug-dyndbg.scc
+include features/vfio/vfio.scc
+include features/netfilter/netfilter.scc
+include features/security/security.scc
+include features/full_nohz/full_nohz-enable.scc
+include features/xfs/xfs.scc
+include features/overlayfs/overlayfs.scc
+include features/nfsd/nfsd-enable.scc
+include lxc-axxia.scc
+
+kconf non-hardware common-non-hw.cfg
