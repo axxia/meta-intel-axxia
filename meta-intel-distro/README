@@ -227,7 +227,7 @@ d. Kernel.org - Netdev networking repository (git.kernel.org)
    
    will build kernel from Netdev Group's networking repo from kernel.org
    (https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next):
-      main branch, v6.11 tag
+      main branch, v6.12 tag
   
    Alternative Netdev kernel is linux-korg-netdev-debug.
 

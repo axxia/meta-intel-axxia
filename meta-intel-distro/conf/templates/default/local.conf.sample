@@ -6,7 +6,7 @@ MACHINE = "intel-axxia-grr"
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 
 # Kernel versions (other than defined in the machine configuration file):
-# e.g. 6.1%, 6.6%, 6.11%
+# e.g. 6.1%, 6.6%, 6.11%, 6.12%
 PREFERRED_VERSION_linux-intel = "6.6%"
 
 # Add simics support (sources should be in meta-intel-distro/download)
