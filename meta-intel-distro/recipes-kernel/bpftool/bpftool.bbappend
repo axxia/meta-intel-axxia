@@ -1,1 +1,1 @@
-DEBUG_PREFIX_MAP:class-native = ""
+DEBUG_PREFIX_MAP:class-native = " -I${STAGING_INCDIR}"
