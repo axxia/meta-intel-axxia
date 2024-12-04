@@ -7,21 +7,15 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8d0d9f08888046474772a5d745d89d6a"
 
 inherit module
 
-include recipes-kernel/lttng/lttng-platforms.inc
+include lttng-platforms.inc
 
 SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-           file://0001-Fix-kfree_skb-changed-in-6.11-rc1.patch \
-           file://0002-Fix-ext4_da_reserve_space-changed-in-6.11-rc1.patch \
-           file://0003-Fix-orig_start-removed-from-btrfs_get_extent-in-6.11.patch \
-           file://0004-Fix-block_len-removed-frmo-btrfs_get_extent-in-6.11-.patch \
-           file://0005-Fix-block_start-removed-from-btrfs_get_extent-in-6.1.patch \
-           file://0006-Fix-scsi-sd-Atomic-write-support-added-in-6.11-rc1.patch \
            "
 
 # Use :append here so that the patch is applied also when using devupstream
 SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
 
-SRC_URI[sha256sum] = "c6449f7ff12ab644a630692a556304e51525ca37d98aebf826796918be0f5da6"
+SRC_URI[sha256sum] = "6694414a3701fcd6e05b3cb20cfecae3b46b3dfb9e5361b344851c1f8052e854"
 
 export INSTALL_MOD_DIR="kernel/lttng-modules"
 
@@ -43,5 +37,5 @@ python do_package:prepend() {
 
 BBCLASSEXTEND = "devupstream:target"
 SRC_URI:class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.13;protocol=https"
-SRCREV:class-devupstream = "7584cfc04914cb0842a986e9808686858b9c8630"
+SRCREV:class-devupstream = "c2743efb222ff2f9f2bb2c85849708c5f5ca8669"
 SRCREV_FORMAT ?= "lttng_git"
