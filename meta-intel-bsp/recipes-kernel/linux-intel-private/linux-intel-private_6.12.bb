@@ -1,6 +1,6 @@
 require recipes-kernel/linux/linux-intel.inc
 require recipes-kernel/linux/linux-axxia.inc
-require linux-intel-private_6.11.inc
+require linux-intel-private_6.12.inc
 
 LINUX_VERSION_EXTENSION = "-intel-private-${LINUX_KERNEL_TYPE}"
 
