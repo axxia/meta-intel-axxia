@@ -1,8 +1,8 @@
 require recipes-kernel/linux/linux-intel.inc
 require recipes-kernel/linux/linux-axxia.inc
-require linux-intel-private_6.12.inc
+require linux-intel-staging_6.12.inc
 
-LINUX_VERSION_EXTENSION = "-intel-private-${LINUX_KERNEL_TYPE}"
+LINUX_VERSION_EXTENSION = "-intel-staging-${LINUX_KERNEL_TYPE}"
 
 SRC_URI:prepend = "git://github.com/intel-innersource/os.linux.kernel.kernel-staging.git;protocol=https;name=machine;branch=${KBRANCH}; \
                     "
