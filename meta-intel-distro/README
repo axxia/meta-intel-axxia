@@ -207,7 +207,7 @@ b. Private Intel Github (github.com/intel-innersource)
    
    will build kernel from Intel Innersource private repo
    (https://github.com/intel-innersource/os.linux.kernel.kernel-staging):
-      iotg-next/v6.11 branch
+      iotg-next/v6.12 branch
   
    Alternative Intel private kernel is linux-intel-private-debug.
 
