@@ -103,13 +103,11 @@ do_install() {
 	# breaks workflows.
 	cp -a --parents include/generated/autoconf.h $kerneldir/build 2>/dev/null || :
 
-	if [ -e $kerneldir/include/generated/.vdso-offsets.h.cmd ] ||
-	     [ -e $kerneldir/build/include/generated/.vdso-offsets.h.cmd ] ||
-	     [ -e $kerneldir/build/include/generated/.vdso32-offsets.h.cmd ] ; then
-	    rm -f $kerneldir/include/generated/.vdso-offsets.h.cmd
-	    rm -f $kerneldir/build/include/generated/.vdso-offsets.h.cmd
-	    rm -f $kerneldir/build/include/generated/.vdso32-offsets.h.cmd
-	fi
+        rm -f $kerneldir/include/generated/.vdso-offsets.h.cmd
+        rm -f $kerneldir/build/include/generated/.vdso-offsets.h.cmd
+        rm -f $kerneldir/build/include/generated/.compat_vdso-offsets.h.cmd
+        rm -f $kerneldir/build/include/generated/.vdso32-offsets.h.cmd
+        rm -f $kerneldir/build/include/generated/.vdso64-offsets.h.cmd 
     )
 
     # now grab the chunks from the source tree that we need
@@ -121,14 +119,18 @@ do_install() {
 	# for v6.1+ (otherwise we are missing multiple default targets)
 	cp -a --parents Kbuild $kerneldir/build 2>/dev/null || :
 
-	# if our build dir had objtool, it will also be rebuilt on target, so
+        # For v6.6+ the debian packing is moved out to seperate rules file
+        # Remove as we else would ned to RDEPEND on make
+        rm $kerneldir/build/scripts/package/debian/rules 2>/dev/null || :
+
+        # if our build dir had objtool, it will also be rebuilt on target, so
 	# we copy what is required for that build
 	if [ -f $B/tools/objtool/objtool ]; then
 	    # these are a few files associated with objtool, since we'll need to
 	    # rebuild it
 	    cp -a --parents tools/build/Build.include $kerneldir/build/
-	    cp -a --parents tools/build/Build $kerneldir/build/
-	    cp -a --parents tools/build/fixdep.c $kerneldir/build/
+            cp -a --parents tools/build/Build $kerneldir/build/ 2>/dev/null || :
+            cp -a --parents tools/build/fixdep.c $kerneldir/build/
 	    cp -a --parents tools/scripts/utilities.mak $kerneldir/build/
 
 	    # extra files, just in case
@@ -155,6 +157,10 @@ do_install() {
             cp -a --parents arch/arm64/kernel/vdso/note.S $kerneldir/build/
             cp -a --parents arch/arm64/kernel/vdso/gen_vdso_offsets.sh $kerneldir/build/
 
+            # 6.12+
+            cp -a --parents arch/arm64/kernel/vdso/vgetrandom.c $kerneldir/build/ 2>/dev/null || :
+            cp -a --parents arch/arm64/kernel/vdso/vgetrandom-chacha.S $kerneldir/build/ 2>/dev/null || :
+
             cp -a --parents arch/arm64/kernel/module.lds $kerneldir/build/ 2>/dev/null || :
 
             # 5.13+ needs these tools
@@ -164,6 +170,10 @@ do_install() {
             # 5.19+
             cp -a --parents arch/arm64/tools/gen-sysreg.awk $kerneldir/build/   2>/dev/null || :
             cp -a --parents arch/arm64/tools/sysreg $kerneldir/build/   2>/dev/null || :
+
+            # 6.12+
+            cp -a --parents arch/arm64/tools/syscall_64.tbl $kerneldir/build/   2>/dev/null || :
+            cp -a --parents arch/arm64/tools/syscall_32.tbl $kerneldir/build/   2>/dev/null || :
 
             if [ -e $kerneldir/build/arch/arm64/tools/gen-cpucaps.awk ]; then
                  sed -i -e "s,#!.*awk.*,#!${USRBINPATH}/env awk," $kerneldir/build/arch/arm64/tools/gen-cpucaps.awk
@@ -189,15 +199,26 @@ do_install() {
 	    # v6,1+
 	    cp -a --parents arch/powerpc/kernel/asm-offsets.c $kerneldir/build/ 2>/dev/null || :
 	    cp -a --parents arch/powerpc/kernel/head_booke.h $kerneldir/build/ 2>/dev/null || :
-	fi
+
+            # 6.12+
+            cp -a --parents arch/powerpc/kernel/vdso/vgetrandom.c $kerneldir/build/ 2>/dev/null || :
+            cp -a --parents arch/powerpc/kernel/vdso/vgetrandom-chacha.S $kerneldir/build/ 2>/dev/null || :
+            cp -a --parents arch/powerpc/lib/crtsavres.S $kerneldir/build/ 2>/dev/null || :
+        fi
 	if [ "${ARCH}" = "riscv" ]; then
             cp -a --parents arch/riscv/kernel/vdso/*gettimeofday.* $kerneldir/build/
             cp -a --parents arch/riscv/kernel/vdso/note.S $kerneldir/build/
+            # v6.1+
+            cp -a --parents arch/riscv/kernel/asm-offsets.c $kerneldir/build/
             if [ -e arch/riscv/kernel/vdso/gen_vdso_offsets.sh ]; then
                     cp -a --parents arch/riscv/kernel/vdso/gen_vdso_offsets.sh $kerneldir/build/
             fi
 	    cp -a --parents arch/riscv/kernel/vdso/* $kerneldir/build/ 2>/dev/null || :
-	fi
+            if [ -e arch/riscv/kernel/compat_vdso/gen_compat_vdso_offsets.sh ]; then
+                cp -a --parents arch/riscv/kernel/compat_vdso/gen_compat_vdso_offsets.sh $kerneldir/build/
+            fi
+            cp -a --parents arch/riscv/kernel/compat_vdso/* $kerneldir/build/ 2>/dev/null || :
+        fi
 
 	# include the machine specific headers for ARM variants, if available.
 	if [ "${ARCH}" = "arm" ]; then
