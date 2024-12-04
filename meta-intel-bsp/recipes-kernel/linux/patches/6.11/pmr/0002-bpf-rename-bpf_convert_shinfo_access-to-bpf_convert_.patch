@@ -1,0 +1,69 @@
+From 9ac1d2eec1b78256eaaf2bc9bed75cb3fa89c980 Mon Sep 17 00:00:00 2001
+From: Magnus Karlsson <magnus.karlsson@intel.com>
+Date: Fri, 11 Oct 2024 11:04:20 +0200
+Subject: [PATCH 2/4] bpf: rename bpf_convert_shinfo_access to
+ bpf_convert_shinfo_read
+
+Rename the function bpf_convert_shinfo_access() to
+bpf_convert_shinfo_read() to make it clearer that this function
+converts a read access only. In the next commit, a function for
+converting shinfo write accesses will be introduced.
+
+Signed-off-by: Magnus Karlsson <magnus.karlsson@intel.com>
+---
+ net/core/filter.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/net/core/filter.c b/net/core/filter.c
+index f3c72cf86099..6d22a5d72986 100644
+--- a/net/core/filter.c
++++ b/net/core/filter.c
+@@ -9425,8 +9425,7 @@ static struct bpf_insn *bpf_convert_tstamp_type_read(const struct bpf_insn *si,
+ 	return insn;
+ }
+ 
+-static struct bpf_insn *bpf_convert_shinfo_access(__u8 dst_reg, __u8 skb_reg,
+-						  struct bpf_insn *insn)
++static struct bpf_insn *bpf_convert_shinfo_read(__u8 dst_reg, __u8 skb_reg, struct bpf_insn *insn)
+ {
+ 	/* si->dst_reg = skb_shinfo(SKB); */
+ #ifdef NET_SKBUFF_DATA_USES_OFFSET
+@@ -9838,7 +9837,7 @@ static u32 bpf_convert_ctx_access(enum bpf_access_type type,
+ 		break;
+ 
+ 	case offsetof(struct __sk_buff, gso_segs):
+-		insn = bpf_convert_shinfo_access(si->dst_reg, si->src_reg, insn);
++		insn = bpf_convert_shinfo_read(si->dst_reg, si->src_reg, insn);
+ 		*insn++ = BPF_LDX_MEM(BPF_FIELD_SIZEOF(struct skb_shared_info, gso_segs),
+ 				      si->dst_reg, si->dst_reg,
+ 				      bpf_target_off(struct skb_shared_info,
+@@ -9846,7 +9845,7 @@ static u32 bpf_convert_ctx_access(enum bpf_access_type type,
+ 						     target_size));
+ 		break;
+ 	case offsetof(struct __sk_buff, gso_size):
+-		insn = bpf_convert_shinfo_access(si->dst_reg, si->src_reg, insn);
++		insn = bpf_convert_shinfo_read(si->dst_reg, si->src_reg, insn);
+ 		*insn++ = BPF_LDX_MEM(BPF_FIELD_SIZEOF(struct skb_shared_info, gso_size),
+ 				      si->dst_reg, si->dst_reg,
+ 				      bpf_target_off(struct skb_shared_info,
+@@ -9873,7 +9872,7 @@ static u32 bpf_convert_ctx_access(enum bpf_access_type type,
+ 		BUILD_BUG_ON(sizeof_field(struct skb_shared_hwtstamps, hwtstamp) != 8);
+ 		BUILD_BUG_ON(offsetof(struct skb_shared_hwtstamps, hwtstamp) != 0);
+ 
+-		insn = bpf_convert_shinfo_access(si->dst_reg, si->src_reg, insn);
++		insn = bpf_convert_shinfo_read(si->dst_reg, si->src_reg, insn);
+ 		*insn++ = BPF_LDX_MEM(BPF_DW,
+ 				      si->dst_reg, si->dst_reg,
+ 				      bpf_target_off(struct skb_shared_info,
+@@ -10733,7 +10732,7 @@ static u32 sock_ops_convert_ctx_access(enum bpf_access_type type,
+ 					       skb));
+ 		/* Reserve one insn to test skb == NULL */
+ 		jmp_on_null_skb = insn++;
+-		insn = bpf_convert_shinfo_access(si->dst_reg, si->dst_reg, insn);
++		insn = bpf_convert_shinfo_read(si->dst_reg, si->dst_reg, insn);
+ 		*insn++ = BPF_LDX_MEM(BPF_DW, si->dst_reg, si->dst_reg,
+ 				      bpf_target_off(struct skb_shared_info,
+ 						     hwtstamps, 8,
+-- 
+2.25.1
+

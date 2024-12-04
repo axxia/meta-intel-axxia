@@ -1,0 +1,124 @@
+From 69b4bd2a9725fc8a0142f57b2412ca745af90a04 Mon Sep 17 00:00:00 2001
+From: Sreedevi Joshi <sreedevi.joshi@intel.com>
+Date: Wed, 30 Oct 2024 16:24:31 +0000
+Subject: [PATCH 4/4] bpf_skb_kfunc module added with kfuncs for skb
+
+A new module added to net/core/ and registers three kfuncs
+that work on the sk_buff.
+These kfuncs are used by ebpf programs to clone the skb,
+free the skb and do a skb_tstamp_tx() to convery tx timestamp.
+
+NOTE: skb ptr is exchanged as uint64_t for now and KF_RELEASE
+is not used as the skb is not refcounted.
+
+Signed-off-by: Sreedevi Joshi <sreedevi.joshi@intel.com>
+---
+ net/Kconfig              |  7 ++++
+ net/core/Makefile        |  1 +
+ net/core/bpf_skb_kfunc.c | 69 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 77 insertions(+)
+ create mode 100644 net/core/bpf_skb_kfunc.c
+
+diff --git a/net/Kconfig b/net/Kconfig
+index d27d0deac0bf..5152ab8e428c 100644
+--- a/net/Kconfig
++++ b/net/Kconfig
+@@ -529,4 +529,11 @@ config NET_TEST
+ 
+ 	  If unsure, say N.
+ 
++config BPF_SKB_KFUNC
++	tristate "skb kfunc module"
++	depends on NET
++	help
++	  This is a module introducing kfuncs for handling the sk_buff. Will be
++	  used by ebpf programs to do sk_buff operations in kernel.
++
+ endif   # if NET
+diff --git a/net/core/Makefile b/net/core/Makefile
+index 62be9aef2528..2a68cb089c8d 100644
+--- a/net/core/Makefile
++++ b/net/core/Makefile
+@@ -43,3 +43,4 @@ obj-$(CONFIG_BPF_SYSCALL) += sock_map.o
+ obj-$(CONFIG_BPF_SYSCALL) += bpf_sk_storage.o
+ obj-$(CONFIG_OF)	+= of_net.o
+ obj-$(CONFIG_NET_TEST) += net_test.o
++obj-$(CONFIG_BPF_SKB_KFUNC) += bpf_skb_kfunc.o
+diff --git a/net/core/bpf_skb_kfunc.c b/net/core/bpf_skb_kfunc.c
+new file mode 100644
+index 000000000000..8c91b6f3244b
+--- /dev/null
++++ b/net/core/bpf_skb_kfunc.c
+@@ -0,0 +1,69 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <linux/btf.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/netdevice.h>
++#include <linux/skbuff.h>
++
++__bpf_kfunc_start_defs();
++
++__bpf_kfunc void skb_tstamp_tx_kfunc(u64 s, uint64_t tsec)
++{
++	struct sk_buff *skb = (struct sk_buff *)s;
++	struct skb_shared_hwtstamps hw_ts = {};
++	u64 ns;
++
++	ns = tsec ? do_div(tsec, NSEC_PER_SEC) : 0;
++	hw_ts.hwtstamp = ktime_set(tsec, ns);
++	skb_tstamp_tx(skb, &hw_ts);
++}
++
++__bpf_kfunc void skb_free_kfunc(uint64_t s)
++{
++	struct sk_buff *skb = (struct sk_buff *)s;
++
++	dev_kfree_skb_any(skb);
++}
++
++__bpf_kfunc uint64_t skb_clone_kfunc(struct __sk_buff *s)
++{
++	struct sk_buff *skb = (struct sk_buff *)s;
++	struct sk_buff *skb_tx;
++
++	skb_tx = skb_clone_sk(skb);
++	skb_shinfo(skb_tx)->tx_flags |= SKBTX_IN_PROGRESS;
++
++	return (uint64_t)skb_tx;
++}
++
++__bpf_kfunc_end_defs();
++
++BTF_KFUNCS_START(skb_kfunc_ids)
++BTF_ID_FLAGS(func, skb_tstamp_tx_kfunc, KF_TRUSTED_ARGS)
++BTF_ID_FLAGS(func, skb_free_kfunc, KF_TRUSTED_ARGS)
++BTF_ID_FLAGS(func, skb_clone_kfunc, KF_TRUSTED_ARGS)
++BTF_KFUNCS_END(skb_kfunc_ids)
++
++static const struct btf_kfunc_id_set kfunc_set = {
++	.owner = THIS_MODULE,
++	.set = &skb_kfunc_ids,
++};
++
++static int __init bpf_skb_kfunc_init(void)
++{
++	register_btf_kfunc_id_set(BPF_PROG_TYPE_SCHED_CLS, &kfunc_set);
++	return 0;
++}
++
++static void __exit bpf_skb_kfunc_exit(void)
++{
++	/* empty function */
++}
++
++module_init(bpf_skb_kfunc_init);
++module_exit(bpf_skb_kfunc_exit);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Sreedevi Joshi ");
++MODULE_DESCRIPTION("module introducing kfuncs for skb handling by eBPF programs");
+-- 
+2.25.1
+
