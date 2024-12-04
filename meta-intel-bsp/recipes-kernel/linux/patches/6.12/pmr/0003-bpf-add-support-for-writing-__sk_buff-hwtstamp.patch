@@ -1,0 +1,140 @@
+From df6cf08ed37fbfcb590e25b3b3bf82068f58f94c Mon Sep 17 00:00:00 2001
+From: Magnus Karlsson <magnus.karlsson@intel.com>
+Date: Fri, 11 Oct 2024 11:21:07 +0200
+Subject: [PATCH bpf-next 3/3] bpf: add support for writing __sk_buff::hwtstamp
+
+Add support for writing the __sk_buff::hwtstamp from an eBPF
+program. This is useful when the hw timestamp need to be adjusted for
+different board level design and/or large temperature variations as in
+outdoor equipment.
+
+As the hwtstamp is found in the shinfo area of the skb, we need to
+introduce a new function called skb_shinfo_convert_write(), analogous
+to the read version already present. The challenge with implementing a
+shinfo_write function is that it needs two temporary registers and
+there is only one available. Thus we need to use the stack for the
+second one. First, export find_subprog() so it can be used from
+net/core/filter.c. Find the subprog that currently insn being
+converted belongs to and update the stack depth there so we get an
+extra double work we can use for temporary storage.
+
+Signed-off-by: Magnus Karlsson <magnus.karlsson@intel.com>
+---
+ include/linux/bpf.h   |  1 +
+ kernel/bpf/verifier.c |  2 +-
+ net/core/filter.c     | 54 +++++++++++++++++++++++++++++++++++++------
+ 3 files changed, 49 insertions(+), 8 deletions(-)
+
+diff --git a/include/linux/bpf.h b/include/linux/bpf.h
+index 540a2066a4fa..839ee3ce07d9 100644
+--- a/include/linux/bpf.h
++++ b/include/linux/bpf.h
+@@ -2628,6 +2628,7 @@ int btf_find_next_decl_tag(const struct btf *btf, const struct btf_type *pt,
+ struct bpf_prog *bpf_prog_by_id(u32 id);
+ struct bpf_link *bpf_link_by_id(u32 id);
+
++int find_subprog(struct bpf_verifier_env *env, int off);
+ const struct bpf_func_proto *bpf_base_func_proto(enum bpf_func_id func_id,
+ 						 const struct bpf_prog *prog);
+ void bpf_task_storage_free(struct task_struct *task);
+diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+index 805e304bc624..93f18da44490 100644
+--- a/kernel/bpf/verifier.c
++++ b/kernel/bpf/verifier.c
+@@ -2525,7 +2525,7 @@ static int cmp_subprogs(const void *a, const void *b)
+ 	       ((struct bpf_subprog_info *)b)->start;
+ }
+
+-static int find_subprog(struct bpf_verifier_env *env, int off)
++int find_subprog(struct bpf_verifier_env *env, int off)
+ {
+ 	struct bpf_subprog_info *p;
+
+diff --git a/net/core/filter.c b/net/core/filter.c
+index 3eea58ab398b..cabe1f1c1dbe 100644
+--- a/net/core/filter.c
++++ b/net/core/filter.c
+@@ -8617,7 +8617,7 @@ static bool bpf_skb_is_valid_access(int off, int size, enum bpf_access_type type
+ 	case bpf_ctx_range_ptr(struct __sk_buff, flow_keys):
+ 		return false;
+ 	case bpf_ctx_range(struct __sk_buff, hwtstamp):
+-		if (type == BPF_WRITE || size != sizeof(__u64))
++		if (size != sizeof(__u64))
+ 			return false;
+ 		break;
+ 	case bpf_ctx_range(struct __sk_buff, tstamp):
+@@ -8967,6 +8967,7 @@ static bool tc_cls_act_is_valid_access(int off, int size,
+ 		case bpf_ctx_range(struct __sk_buff, tc_classid):
+ 		case bpf_ctx_range_till(struct __sk_buff, cb[0], cb[4]):
+ 		case bpf_ctx_range(struct __sk_buff, tstamp):
++		case bpf_ctx_range(struct __sk_buff, hwtstamp):
+ 		case bpf_ctx_range(struct __sk_buff, queue_mapping):
+ 			break;
+ 		default:
+@@ -9547,6 +9548,28 @@ static struct bpf_insn *bpf_convert_tstamp_write(const struct bpf_prog *prog,
+ 	return insn;
+ }
+
++static struct bpf_insn *bpf_convert_shinfo_write(__u8 skb_reg, __u8 src_reg,
++						 struct bpf_insn *insn, u32 sd)
++{
++	/* BPF_REG_AX =  skb_shinfo(SKB); */
++#ifdef NET_SKBUFF_DATA_USES_OFFSET
++	*insn++ = BPF_STX_MEM(BPF_DW, BPF_REG_FP, src_reg, -sd - 8);
++	*insn++ = BPF_LDX_MEM(BPF_FIELD_SIZEOF(struct sk_buff, end),
++				BPF_REG_AX, skb_reg,
++				offsetof(struct sk_buff, end));
++	*insn++ = BPF_LDX_MEM(BPF_FIELD_SIZEOF(struct sk_buff, head),
++				src_reg, skb_reg,
++				offsetof(struct sk_buff, head));
++	*insn++ = BPF_ALU64_REG(BPF_ADD, BPF_REG_AX, src_reg);
++	*insn++ = BPF_LDX_MEM(BPF_DW, src_reg, BPF_REG_FP, -sd - 8);
++#else
++	*insn++ = BPF_LDX_MEM(BPF_FIELD_SIZEOF(struct sk_buff, end),
++				BPF_REG_AX, skb_reg,
++				offsetof(struct sk_buff, end));
++#endif
++	return insn;
++}
++
+ #define BPF_EMIT_STORE(size, si, off)					\
+ 	BPF_RAW_INSN(BPF_CLASS((si)->code) | (size) | BPF_MEM,		\
+ 		     (si)->dst_reg, (si)->src_reg, (off), (si)->imm)
+@@ -9905,12 +9928,29 @@ static u32 bpf_convert_ctx_access(enum bpf_access_type type,
+ 		BUILD_BUG_ON(sizeof_field(struct skb_shared_hwtstamps, hwtstamp) != 8);
+ 		BUILD_BUG_ON(offsetof(struct skb_shared_hwtstamps, hwtstamp) != 0);
+
+-		insn = bpf_convert_shinfo_read(si->dst_reg, si->src_reg, insn);
+-		*insn++ = BPF_LDX_MEM(BPF_DW,
+-				      si->dst_reg, si->dst_reg,
+-				      bpf_target_off(struct skb_shared_info,
+-						     hwtstamps, 8,
+-						     target_size));
++		if (type == BPF_READ) {
++			insn = bpf_convert_shinfo_read(si->dst_reg, si->src_reg, insn);
++			*insn++ = BPF_LDX_MEM(BPF_DW,
++					      si->dst_reg, si->dst_reg,
++					      bpf_target_off(struct skb_shared_info,
++							     hwtstamps, 8, target_size));
++		} else {
++			struct bpf_verifier_env *env = prog->aux->env;
++			u32 sd, subprog;
++
++			subprog = find_subprog(env, si - &prog->insnsi[0]);
++			if (subprog == -ENOENT)
++				subprog = 0;
++			sd = env->subprog_info[subprog].stack_depth;
++			insn = bpf_convert_shinfo_write(si->dst_reg, si->src_reg, insn, sd);
++
++			env->subprog_info[subprog].stack_depth += 8;
++
++			*insn++ = BPF_STX_MEM(BPF_DW,
++					      BPF_REG_AX, si->src_reg,
++					      bpf_target_off(struct skb_shared_info,
++							     hwtstamps, 8, target_size));
++		}
+ 		break;
+ 	}
+
+--
+2.34.1
