@@ -173,6 +173,20 @@ support for Grand Ridge.
 
 0024-EDAC-i10nm-Add-Intel-Grand-Ridge-micro-server-suppor.patch
 
+S3M Driver
+----------
+
+NOT YET PUBLICLY AVAILABLE!!!!!
+
+The change, upsteam, is to add S3M to the Intel VSEC driver (which
+provides endpoints on the auxiliary bus).  This means the RDK OOBMSM
+driver is no longer needed.
+
+0025-platform-x86-intel-vsec-Move-structures-to-header.patch
+0026-platform-x86-intel-vsec-Use-cleanup.h.patch
+0027-intel_vsec-Add-S3M-driver-dependencies-to-VSEC-drive.patch
+0028-intel_vsec-Add-S3M-driver-dependencies-to-VSEC-drive.patch
+
 
 II. Building meta-intel-bsp
 ===========================
