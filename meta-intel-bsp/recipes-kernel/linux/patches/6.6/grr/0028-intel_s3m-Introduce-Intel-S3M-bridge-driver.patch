@@ -1,0 +1,630 @@
+From 039d77b66d265a7925d711f7d052b0f549a43c53 Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Tue, 7 Jan 2025 17:03:13 -0600
+Subject: intel_s3m: Introduce Intel S3M bridge driver
+
+Introduces support for the Intel S3M bridge driver to the kernel.
+Enables user space applications to issue commands to the S3M.
+
+The startup security services module (S3M) bridge driver will proxy
+requests from user space applications to the S3M hardware via ioctl. The
+driver uses an MMIO mailbox to send DOE-formatted payloads to the S3M
+for processing. Upon successful issuance, a DOE-formatted response will
+be written back out the ioctl interface.
+
+Technologies dependent on this driver include Vendor Authorized
+Boot/Debug, CPU Attestation, Secure Data Object Storage, and DICE
+Protection Environment.
+
+Signed-off-by: Will Skrydlak <will.j.skrydlak@linux.intel.com>
+Back-ported-by: John Jacques <john.jacques@intel.com>
+---
+ .../ABI/testing/sysfs-driver-intel_s3m        |  46 ++
+ .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+ MAINTAINERS                                   |   6 +
+ drivers/platform/x86/intel/Makefile           |   4 +
+ drivers/platform/x86/intel/s3m.c              | 448 ++++++++++++++++++
+ include/uapi/linux/s3m_if.h                   |  39 ++
+ 6 files changed, 544 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-intel_s3m
+ create mode 100644 drivers/platform/x86/intel/s3m.c
+ create mode 100644 include/uapi/linux/s3m_if.h
+
+diff --git a/Documentation/ABI/testing/sysfs-driver-intel_s3m b/Documentation/ABI/testing/sysfs-driver-intel_s3m
+new file mode 100644
+index 000000000000..da1acf8601eb
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-driver-intel_s3m
+@@ -0,0 +1,46 @@
++What:		/dev/s3mX
++Date:		Oct 2024
++KernelVersion:	6.6
++Contact:	"Will Skrydlak" <will.j.skrydlak@linux.intel.com>
++Description:
++		This interface provides issuance of commands to the S3M (Secure
++		Startup Services Module). Commands are relayed through the
++		OOBMSM (out-of-band management services module) mailbox, and
++		processed by the S3M. The S3M will return a response upon
++		completion of command execution.
++
++		The ABI is defined in [/include/uapi/]<linux/s3m_if.h>. The user
++		must allocate a payload buffer to hold the request data and the
++		response data. The response size must be greater than or equal
++		to the request size. The payload allocation must be equal to
++		response size.
++
++		After sending the request payload to the S3M, the driver will
++		wait until the OOBMSM sets the OBJECT_RDY flag or times out.
++		Once the OBJECT_READY flag is set, the driver will read back the
++		response data. If the response data size (determined by the
++		driver) is larger than the payload allocation, an error will be
++		returned. Otherwise, the response size will be updated, and the
++		data will be copied back to the payload buffer.
++
++		If malformed payloads are sent to the S3M, the driver may not
++		produce an error. However, the S3M mailbox state machine may be
++		in error. If that is the case, the next command sent to the
++		driver, will attempt to reset the S3M by setting the ABORT bit.
++		This should reset the S3M mailbox state.
++
++		==========	=====
++		Error Code	Cause
++		==========	=====
++		EIO		General mailbox failure.
++		ETIMEDOUT	Timed out waiting for mailbox state change.
++		ENOMEM		Failed to allocate memory.
++		EAGAIN		Mailbox was in error state. Abort flag has been
++				set. Mailbox reset has been triggered. Try
++				sending command again.
++		EINVAL		Request size was too large.
++		EMSGSIZE	Response message was too long.
++		ENODATA		Failed to get device data.
++		EOPNOTSUPP	Invalid IOCTL command.
++		EOVERFLOW	Addition of two values overflowed.
++		EBADMSG		Mailbox discovery failed during probe
+diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+index 4ea5b837399a..d5ffb5d3c6a0 100644
+--- a/Documentation/userspace-api/ioctl/ioctl-number.rst
++++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+@@ -377,6 +377,7 @@ Code  Seq#    Include File                                           Comments
+                                                                      <mailto:mathieu.desnoyers@efficios.com>
+ 0xF8  all    arch/x86/include/uapi/asm/amd_hsmp.h                    AMD HSMP EPYC system management interface driver
+                                                                      <mailto:nchatrad@amd.com>
++0xFB  00-0F  uapi/linux/s3m_if.h
+ 0xFD  all    linux/dm-ioctl.h
+ 0xFE  all    linux/isst_if.h
+ ====  =====  ======================================================= ================================================================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index aaac0bbe0395..623d42dca0a1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10775,6 +10775,12 @@ M:	Jarkko Nikula <jarkko.nikula@linux.intel.com>
+ L:	linux-iio@vger.kernel.org
+ F:	drivers/counter/intel-qep.c
+ 
++INTEL S3M DRIVER
++M:	Will Skrydlak <will.j.skrydlak@linux.intel.com>
++S:	Supported
++F:	drivers/platform/x86/intel/s3m.c
++F:	include/uapi/linux/s3m_if.h
++
+ INTEL SCU DRIVERS
+ M:	Mika Westerberg <mika.westerberg@linux.intel.com>
+ S:	Maintained
+diff --git a/drivers/platform/x86/intel/Makefile b/drivers/platform/x86/intel/Makefile
+index c1d5fe05e3f3..8ad674bb1ede 100644
+--- a/drivers/platform/x86/intel/Makefile
++++ b/drivers/platform/x86/intel/Makefile
+@@ -49,6 +49,10 @@ obj-$(CONFIG_INTEL_MRFLD_PWRBTN)	+= intel_mrfld_pwrbtn.o
+ intel_punit_ipc-y			:= punit_ipc.o
+ obj-$(CONFIG_INTEL_PUNIT_IPC)		+= intel_punit_ipc.o
+ 
++# S3M driver
++intel_s3m-y                            := s3m.o
++obj-$(CONFIG_INTEL_S3M_BRIDGE)         += intel_s3m.o
++
+ # TPMI drivers
+ intel_vsec_tpmi-y			:= tpmi.o
+ obj-$(CONFIG_INTEL_TPMI)		+= intel_vsec_tpmi.o
+diff --git a/drivers/platform/x86/intel/s3m.c b/drivers/platform/x86/intel/s3m.c
+new file mode 100644
+index 000000000000..8da4d17dc57b
+--- /dev/null
++++ b/drivers/platform/x86/intel/s3m.c
+@@ -0,0 +1,448 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Intel S3M Bridge driver
++ *
++ * Copyright (c) 2024, Intel Corporation.
++ * All Rights Reserved.
++ *
++ * Author: "Will Skrydlak" <will.j.skrydlak@linux.intel.com>
++ */
++
++#include <linux/delay.h>
++#include <linux/device.h>
++#include <linux/fs.h>
++#include <linux/ioctl.h>
++#include <linux/iopoll.h>
++#include <linux/kdev_t.h>
++#include <linux/kthread.h>
++#include <linux/miscdevice.h>
++#include <linux/module.h>
++#include <linux/pci.h>
++#include <linux/slab.h>
++#include <linux/uaccess.h>
++
++#include <uapi/linux/s3m_if.h>
++
++#include "vsec.h"
++
++#define S3M_IOCTL_NAME			"s3m"
++#define S3M_REGISTER_SIZE		4
++
++#define MB_TYPE_S3M_PROTOCOL		0x0C
++#define MB_METADATA_SIZE		0x01
++#define MB_METADATA			0x000C8086
++#define MB_HDR_SIZE			0x02
++#define MB_DISCOVERY_REQ_SIZE		0x01
++#define MB_DISCOVERY_RESP_SIZE		0x04
++#define MB_DISCOVERY_CMD_OFFSET		0x00
++#define MB_DISCOVERY_SIZE_OFFSET	0x01
++#define MB_DISCOVERY_FEATURES_OFFSET	0x02
++#define MB_SOCKET_ID_RESP_SIZE		0x02
++#define MB_SOCKET_ID_OFFSET		0x01
++#define SOCKET_ID_UNSUPPORTED_OFFSET	0x01
++#define IOCTL_CMD_METADATA_SIZE		0x02
++
++#define REG_CTRL_OFFSET			0x00
++#define REG_STATUS_OFFSET		0x04
++#define REG_RDATA_OFFSET		0x0C
++#define REG_WDATA_OFFSET		0x08
++
++#define MB_CTRL_ABORT			BIT(0)
++#define MB_CTRL_EN_INT			BIT(1)
++#define MB_CTRL_EN_MB			BIT(29)
++#define MB_CTRL_MB_DATA_RDY		BIT(30)
++#define MB_CTRL_GO			BIT(31)
++
++#define MB_STATUS_BUSY			BIT(0)
++#define MB_STATUS_INT			BIT(1)
++#define MB_STATUS_ERROR			BIT(2)
++#define MB_STATUS_OBJ_RDY		BIT(30)
++
++#define POLL_INTERVAL_US		100
++#define POLL_TIMEOUT_US			52000
++
++static DEFINE_XARRAY_ALLOC(s3m_array);
++
++struct s3m_priv {
++	struct miscdevice miscdev;
++	struct mutex s3m_lock; /* Locks the device to force single transaction */
++	u32 devid;
++	void __iomem *mmio_mb;
++	u32 mmio_mb_buffer_size; /* Buffer size in bytes */
++};
++
++static int s3m_poll_mb_enabled(const void __iomem *mmio_mb, u32 *cr)
++{
++	return readl_poll_timeout(mmio_mb + REG_CTRL_OFFSET, *cr,
++				  *cr & MB_CTRL_EN_MB, POLL_INTERVAL_US, POLL_TIMEOUT_US);
++}
++
++static int s3m_poll_mb_enabled_no_data(const void __iomem *mmio_mb, u32 *cr)
++{
++	return readl_poll_timeout(mmio_mb + REG_CTRL_OFFSET, *cr,
++				  !(*cr & MB_CTRL_MB_DATA_RDY) && (*cr & MB_CTRL_EN_MB),
++				  POLL_INTERVAL_US, POLL_TIMEOUT_US);
++}
++
++static int s3m_poll_data_ready_clear(const void __iomem *mmio_mb, u32 *cr)
++{
++	return readl_poll_timeout(mmio_mb + REG_CTRL_OFFSET, *cr,
++				  !(*cr & MB_CTRL_MB_DATA_RDY), POLL_INTERVAL_US,
++				  POLL_TIMEOUT_US);
++}
++
++static int s3m_poll_data_ready(const void __iomem *mmio_mb, u32 *cr)
++{
++	return readl_poll_timeout(mmio_mb + REG_CTRL_OFFSET, *cr,
++				  *cr & MB_CTRL_MB_DATA_RDY, POLL_INTERVAL_US,
++				  POLL_TIMEOUT_US);
++}
++
++static int s3m_poll_status_not_busy(const void __iomem *mmio_mb, u32 *sr)
++{
++	return readl_poll_timeout((mmio_mb + REG_STATUS_OFFSET), *sr,
++				  !(*sr & MB_STATUS_BUSY), POLL_INTERVAL_US,
++				  POLL_TIMEOUT_US);
++}
++
++static int s3m_poll_status_clear(const void __iomem *mmio_mb, u32 *sr)
++{
++	return readl_poll_timeout(mmio_mb + REG_STATUS_OFFSET, *sr, !*sr,
++				  POLL_INTERVAL_US, POLL_TIMEOUT_US);
++}
++
++static int s3m_poll_status_object_ready(const void __iomem *mmio_mb, u32 *sr)
++{
++	return readl_poll_timeout(mmio_mb + REG_STATUS_OFFSET, *sr,
++				  *sr & MB_STATUS_OBJ_RDY, POLL_INTERVAL_US,
++				  POLL_TIMEOUT_US);
++}
++
++static int s3m_write_dword(void __iomem *mmio_mb, const u32 dw)
++{
++	u32 status_reg, ctrl_reg;
++	int ret;
++
++	ret = s3m_poll_mb_enabled_no_data(mmio_mb, &ctrl_reg);
++	if (ret)
++		return ret;
++
++	ret = s3m_poll_status_clear(mmio_mb, &status_reg);
++	if (ret)
++		return ret;
++
++	writel(dw, mmio_mb + REG_WDATA_OFFSET);
++	ctrl_reg |= MB_CTRL_MB_DATA_RDY;
++	writel(ctrl_reg, mmio_mb + REG_CTRL_OFFSET);
++
++	return s3m_poll_data_ready_clear(mmio_mb, &ctrl_reg);
++}
++
++static int s3m_read_dword(void __iomem *mmio_mb, u32 *dw)
++{
++	u32 status_reg, ctrl_reg;
++	int ret;
++
++	ret = s3m_poll_status_object_ready(mmio_mb, &status_reg);
++	if (ret)
++		return ret;
++
++	ret = s3m_poll_data_ready(mmio_mb, &ctrl_reg);
++	if (ret)
++		return ret;
++
++	(*dw) = readl(mmio_mb + REG_RDATA_OFFSET);
++	ctrl_reg &= ~MB_CTRL_MB_DATA_RDY;
++	writel(ctrl_reg, mmio_mb + REG_CTRL_OFFSET);
++
++	return 0;
++}
++
++static void s3m_send_go(void __iomem *mmio_mb)
++{
++	u32 ctrl_reg;
++
++	ctrl_reg = readl(mmio_mb + REG_CTRL_OFFSET);
++	ctrl_reg |= MB_CTRL_GO;
++	writel(ctrl_reg, mmio_mb + REG_CTRL_OFFSET);
++}
++
++static struct s3m_if_cmd *s3m_write_packet(void __iomem *mmio_mb, const u32 mmio_mb_buffer_size,
++					   const struct s3m_if_cmd *req, struct s3m_if_cmd *resp)
++{
++	const u32 *payload = (u32 *)&req->payload;
++	u32 status_reg,	ctrl_reg;
++	u32 packet_metadata;
++	int i, ret;
++
++	/*
++	 * The mmio_mb_buffer_size returned during discovery is the mailbox buffer size in BYTES.
++	 * The length values when interacting with the mailbox are in the context of DWORDs. Thus,
++	 * in order to check if request length will fit within the mailbox buffer,
++	 * mmio_mb_buffer_size, must be divided by sizeof(u32).
++	 */
++	if (req->req_len >= (mmio_mb_buffer_size / S3M_REGISTER_SIZE))
++		return ERR_PTR(-EINVAL);
++
++	ret = s3m_poll_mb_enabled(mmio_mb, &ctrl_reg);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = s3m_poll_status_not_busy(mmio_mb, &status_reg);
++	if (ret)
++		return ERR_PTR(ret);
++
++	if (status_reg & MB_STATUS_ERROR) {
++		ctrl_reg = readl(mmio_mb + REG_CTRL_OFFSET);
++		ctrl_reg |= MB_CTRL_ABORT;
++		writel(ctrl_reg, mmio_mb + REG_CTRL_OFFSET);
++		return ERR_PTR(-EAGAIN);
++	}
++
++	ret = s3m_write_dword(mmio_mb, MB_METADATA);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = s3m_write_dword(mmio_mb, req->req_len + MB_HDR_SIZE);
++	if (ret)
++		return ERR_PTR(ret);
++
++	for (i = 0; i < req->req_len; i++) {
++		ret = s3m_write_dword(mmio_mb, payload[i]);
++		if (ret)
++			return ERR_PTR(ret);
++	}
++
++	s3m_send_go(mmio_mb);
++	ret = s3m_poll_status_object_ready(mmio_mb, &status_reg);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = s3m_read_dword(mmio_mb, (u32 *)&packet_metadata);
++	if (ret)
++		return ERR_PTR(ret);
++	else if (packet_metadata != MB_METADATA)
++		return ERR_PTR(-EREMOTEIO);
++
++	ret = s3m_read_dword(mmio_mb, &resp->resp_len);
++	if (ret)
++		return ERR_PTR(ret);
++
++	if (resp->resp_len - MB_HDR_SIZE > S3M_MB_MAX_PAYLOAD)
++		return ERR_PTR(-EMSGSIZE);
++
++	resp->resp_len -= MB_HDR_SIZE;
++	for (i = 0; i < resp->resp_len && !ret; i++) {
++		ret = s3m_read_dword(mmio_mb, &resp->payload[i]);
++		if (ret)
++			return ERR_PTR(ret);
++	}
++
++	return resp;
++}
++
++static long s3m_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
++{
++	struct s3m_if_cmd *ioctl_cmd = (struct s3m_if_cmd *)arg;
++	struct s3m_if_cmd *resp __free(kfree) = NULL;
++	struct s3m_if_cmd *req __free(kfree) = NULL;
++	const void __user *usr_ptr;
++	struct s3m_priv *priv;
++	u32 req_len, rsp_len;
++	void *packet_ret;
++	size_t result;
++	int ret;
++
++	priv = container_of(file->private_data, struct s3m_priv, miscdev);
++	if (!priv)
++		return -ENODATA;
++
++	if (cmd != S3M_IF_SEND_PACKET)
++		return -EOPNOTSUPP;
++
++	switch (cmd) {
++	case S3M_IF_SEND_PACKET:
++		usr_ptr = &ioctl_cmd->req_len;
++		ret = copy_from_user(&req_len, usr_ptr, sizeof(u32));
++		if (ret)
++			return ret;
++
++		usr_ptr = &ioctl_cmd->resp_len;
++		ret = copy_from_user(&rsp_len, usr_ptr, sizeof(u32));
++		if (ret)
++			return ret;
++
++		if (req_len > S3M_MB_MAX_PAYLOAD)
++			return -EINVAL;
++
++		result = size_add(req_len, IOCTL_CMD_METADATA_SIZE);
++		if (result == SIZE_MAX)
++			return -EOVERFLOW;
++
++		req = kcalloc(result, sizeof(u32), GFP_KERNEL);
++		if (!req)
++			return -ENOMEM;
++
++		result = size_add(S3M_MB_MAX_PAYLOAD, IOCTL_CMD_METADATA_SIZE);
++		if (result == SIZE_MAX)
++			return -EOVERFLOW;
++
++		resp = kcalloc(result, sizeof(u32), GFP_KERNEL);
++		if (!resp)
++			return -ENOMEM;
++
++		usr_ptr = ioctl_cmd;
++		req = memdup_user(usr_ptr, (req_len + IOCTL_CMD_METADATA_SIZE) * sizeof(u32));
++		if (IS_ERR(req))
++			return PTR_ERR(req);
++
++		scoped_guard(mutex, &priv->s3m_lock) {
++			packet_ret = s3m_write_packet(priv->mmio_mb, priv->mmio_mb_buffer_size, req,
++						      resp);
++		}
++
++		if (IS_ERR(packet_ret))
++			return PTR_ERR(packet_ret);
++
++		if (resp->resp_len > rsp_len)
++			return -ENOMEM;
++
++		return copy_to_user((u32 *)arg, resp,
++				   (resp->resp_len + IOCTL_CMD_METADATA_SIZE) * sizeof(u32));
++		break;
++	}
++	return 0;
++}
++
++static const struct file_operations s3m_fops = {
++	.owner	  = THIS_MODULE,
++	.unlocked_ioctl = s3m_ioctl,
++};
++
++static void s3m_remove(struct auxiliary_device *auxdev)
++{
++	struct s3m_priv *priv;
++
++	priv = auxiliary_get_drvdata(auxdev);
++	if (!priv)
++		return;
++
++	misc_deregister(&priv->miscdev);
++}
++
++static void s3m_lock_destroy(void *data)
++{
++	struct mutex *lock = data;
++
++	mutex_destroy(lock);
++}
++
++static void s3m_xarray_destroy(void *data)
++{
++	u32 *id = data;
++
++	xa_erase(&s3m_array, *id);
++}
++
++static int s3m_probe(struct auxiliary_device *auxdev, const struct auxiliary_device_id *id)
++{
++	struct intel_vsec_device *intel_vsec_dev = auxdev_to_ivdev(auxdev);
++	struct s3m_priv *priv = devm_kzalloc(&auxdev->dev, sizeof(*priv), GFP_KERNEL);
++	u32 resp_stack[MB_DISCOVERY_RESP_SIZE + IOCTL_CMD_METADATA_SIZE];
++	u32 req_stack[MB_DISCOVERY_REQ_SIZE + IOCTL_CMD_METADATA_SIZE];
++	struct s3m_if_cmd *resp = (struct s3m_if_cmd *)resp_stack;
++	struct s3m_if_cmd *req = (struct s3m_if_cmd *)req_stack;
++	void *packet_ret;
++	int ret;
++
++	if (!priv)
++		return -ENOMEM;
++
++	mutex_init(&priv->s3m_lock);
++
++	ret = devm_add_action_or_reset(&auxdev->dev, s3m_lock_destroy, &priv->s3m_lock);
++	if (ret)
++		return ret;
++
++	priv->miscdev.minor = MISC_DYNAMIC_MINOR;
++	priv->miscdev.fops = &s3m_fops;
++
++	priv->mmio_mb = devm_ioremap_resource(&auxdev->dev, intel_vsec_dev->resource);
++	if (IS_ERR(priv->mmio_mb))
++		return PTR_ERR(priv->mmio_mb);
++
++	req->req_len = MB_DISCOVERY_REQ_SIZE;
++	req->payload[MB_DISCOVERY_CMD_OFFSET] = S3M_MB_CMD_DISC ^ S3M_MB_CMD_SOCKET_ID;
++
++	priv->mmio_mb_buffer_size = MB_DISCOVERY_RESP_SIZE * S3M_REGISTER_SIZE;
++
++	/*
++	 * This will attempt send the GET_SOCKET_ID command. On older versions of OOBMSM firmware,
++	 * the GET_SOCKET_ID parameter is ignored, and normal discovery information is returned. On
++	 * newer OOBMSM firmware, S3M socket ID value is returned with no additional data. If the
++	 * command is supported, device enumerations will correspond to S3M socket ID value. If the
++	 * command is not supported, device enumerations will start at /dev/s3m1 and increment.
++	 */
++	packet_ret = s3m_write_packet(priv->mmio_mb, priv->mmio_mb_buffer_size, req, resp);
++	if (IS_ERR(packet_ret))
++		return PTR_ERR(packet_ret);
++
++	if (resp->resp_len == MB_SOCKET_ID_RESP_SIZE) {
++		priv->miscdev.name = devm_kasprintf(&auxdev->dev, GFP_KERNEL, "s3m%d",
++						    S3M_SOCKET_ID(resp->payload
++						    [MB_SOCKET_ID_OFFSET]));
++		if (!priv->miscdev.name)
++			return -ENOMEM;
++
++		req->payload[MB_DISCOVERY_CMD_OFFSET] = S3M_MB_CMD_DISC;
++
++		packet_ret = s3m_write_packet(priv->mmio_mb, priv->mmio_mb_buffer_size, req, resp);
++		if (IS_ERR(packet_ret))
++			return PTR_ERR(packet_ret);
++		else if (resp->resp_len != MB_DISCOVERY_RESP_SIZE)
++			return -EBADMSG;
++	} else if (resp->resp_len == MB_DISCOVERY_RESP_SIZE) {
++		ret = xa_alloc(&s3m_array, &priv->devid, intel_vsec_dev, xa_limit_31b, GFP_KERNEL);
++		if (ret)
++			return ret;
++
++		ret = devm_add_action_or_reset(&auxdev->dev, s3m_xarray_destroy, &priv->devid);
++		if (ret)
++			return ret;
++
++		priv->miscdev.name = devm_kasprintf(&auxdev->dev, GFP_KERNEL, "s3m%d",
++						    priv->devid + SOCKET_ID_UNSUPPORTED_OFFSET);
++		if (!priv->miscdev.name)
++			return -ENOMEM;
++	} else {
++		return -EBADMSG;
++	}
++
++	priv->mmio_mb_buffer_size = resp->payload[MB_DISCOVERY_SIZE_OFFSET];
++
++	ret = misc_register(&priv->miscdev);
++	if (ret)
++		return ret;
++
++	auxiliary_set_drvdata(auxdev, priv);
++
++	return 0;
++}
++
++static const struct auxiliary_device_id s3m_id_table[] = {
++	{ .name = "intel_vsec.s3m" },
++	{}
++};
++MODULE_DEVICE_TABLE(auxiliary, s3m_id_table);
++
++static struct auxiliary_driver s3m_aux_driver = {
++	.id_table = s3m_id_table,
++	.remove   = s3m_remove,
++	.probe	  = s3m_probe,
++};
++
++module_auxiliary_driver(s3m_aux_driver);
++
++MODULE_AUTHOR("Will Skrydlak <will.j.skrydlak@linux.intel.com>");
++MODULE_DESCRIPTION("Intel S3M bridge driver.");
++MODULE_LICENSE("GPL");
+diff --git a/include/uapi/linux/s3m_if.h b/include/uapi/linux/s3m_if.h
+new file mode 100644
+index 000000000000..9c274bd46d22
+--- /dev/null
++++ b/include/uapi/linux/s3m_if.h
+@@ -0,0 +1,39 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/*
++ * Intel S3M Bridge Interface: Interface specification for the Secure Startup Services Module (S3M).
++ * Copyright (c) 2024, Intel Corporation.
++ *
++ * Author: Will Skrydlak <will.j.skrydlak@linux.intel.com>
++ */
++
++#ifndef __S3M_IF_H
++#define __S3M_IF_H
++
++#include <linux/types.h>
++#include <linux/ioctl.h>
++
++#define S3M_MB_CMD_DISC BIT(0)
++#define S3M_MB_CMD_SOCKET_ID BIT(8)
++#define S3M_MB_MAX_PAYLOAD 1022
++#define S3M_SOCKET_ID(ID) ((ID) & 0xFF)
++
++/**
++ * struct s3m_if_cmd - Define S3M command to be processed
++ * @req_len:		The size of the request command (in DWORDs).
++ * @resp_len:		The total size allocated for @payload (in DWORDs). Size must be large enough
++ *			to contain the response from the S3M. If not enough space is allocated, the
++ *			driver will return an error. The value of @resp_len must be >= @req_len.
++ * @payload:		Contains the command bytes to be processed by S3M
++ *
++ * This structure is used to pass commands and receive response messages to/from the S3M via IOCTL
++ * S3M_IF_SEND_PACKET.
++ */
++struct s3m_if_cmd {
++	__u32 req_len;
++	__u32 resp_len;
++	__u32 payload[] __counted_by(resp_len);
++};
++
++#define S3M_IF_MAGIC		0xFB
++#define S3M_IF_SEND_PACKET	_IOWR(S3M_IF_MAGIC, 0, struct s3m_if_cmd *)
++#endif
+-- 
+2.25.1
+
