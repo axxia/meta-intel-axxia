@@ -208,6 +208,9 @@ b. Private Intel Github (github.com/intel-innersource)
    will build kernel from Intel Innersource private repo
    (https://github.com/intel-innersource/networking.wireless.transport.rdk.bts-kernel):
       pmr/latest branch
+
+   KBRANCH_INTEL_PRIVATE variable can be use in local.conf to set a
+   different branch.
   
    Alternative Intel private kernel is linux-intel-private-debug.
 

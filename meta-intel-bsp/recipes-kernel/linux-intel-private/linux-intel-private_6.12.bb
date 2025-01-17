@@ -6,7 +6,8 @@ LINUX_VERSION_EXTENSION = "-intel-private-${LINUX_KERNEL_TYPE}"
 
 SRC_URI = "git://github.com/intel-innersource/networking.wireless.transport.rdk.bts-kernel.git;protocol=https;name=machine;branch=${KBRANCH} \
           "
-KBRANCH = "pmr/latest" 
+KBRANCH_INTEL_PRIVATE ?= "pmr/latest" 
+KBRANCH = "${KBRANCH_INTEL_PRIVATE}"
 
 KMETA = ""
 KCONFIG_MODE = "alldefconfig"
