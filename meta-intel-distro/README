@@ -210,7 +210,8 @@ b. Private Intel Github (github.com/intel-innersource)
       pmr/latest branch
 
    KBRANCH_INTEL_PRIVATE variable can be use in local.conf to set a
-   different branch.
+   different branch. linux-intel-private recipes have dynamic version:
+   dev.<KBRANCH>.
   
    Alternative Intel private kernel is linux-intel-private-debug.
 
@@ -241,6 +242,10 @@ e. Kernel.org - Net-Next networking repository (git.kernel.org)
    will build kernel from Net-Next Group's networking repo from kernel.org
    (https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next):
       main branch
+
+   KORG_NETNEXT_REVISION variable can be use in local.conf to set a
+   different source revision (SRCREV). linux-korg-netnext recipes have
+   dynamic version: <branch>.<SRCREV[8]>.
 
    KORG_NETNEXT_EXTRA_PATH variable can be use in local.conf to set a
    path containing patches and kernel fragments. All of them will be used
