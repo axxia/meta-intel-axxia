@@ -1,7 +1,7 @@
 FILESEXTRAPATHS:prepend := "\
-:${THISDIR}/patches/${KERNEL_MAJOR_VERSION}/common\
-:${THISDIR}/patches/${KERNEL_MAJOR_VERSION}/${CPU}\
-:${THISDIR}/frags/${KERNEL_MAJOR_VERSION}:"
+${THISDIR}/patches/${KERNEL_MAJOR_VERSION}/common:\
+${THISDIR}/patches/${KERNEL_MAJOR_VERSION}/${CPU}:\
+${THISDIR}/frags:"
 
 PV = "${LINUX_VERSION}+git${SRCPV}"
 

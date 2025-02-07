@@ -5,7 +5,8 @@ require linux-intel_6.1.inc
 LINUX_VERSION_EXTENSION = "-intel-axxia-${LINUX_KERNEL_TYPE}"
 
 SRC_URI:prepend = "git://github.com/intel/linux-intel-lts.git;protocol=https;name=machine;branch=${KBRANCH}; \
-                    "
+		   file://common-6.1.cfg"
+
 KBRANCH = "6.1/linux"
 KMETA_BRANCH = "yocto-6.1"
 
