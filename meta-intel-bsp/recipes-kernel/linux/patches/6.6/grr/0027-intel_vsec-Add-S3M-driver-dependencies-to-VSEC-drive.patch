@@ -1,0 +1,113 @@
+From 7a3fe81d4f1c34102bc7567029050dfd743dd5b8 Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Tue, 7 Jan 2025 16:58:20 -0600
+Subject: intel_vsec: Add S3M driver dependencies to VSEC driver
+
+The VSEC driver requires the S3M ID value to be specified in order to
+probe the S3M aux device. An indexing bit was also specified to denote
+S3M capabilities are present.
+
+If the VSEC driver detects the presence of a DVSEC register containing
+S3M functionality and the S3M driver is registered, s3m_probe will be
+called.
+
+Signed-off-by: Will Skrydlak <will.j.skrydlak@linux.intel.com>
+Reviewed-by: David E. Box <david.e.box@linux.intel.com>
+Back-ported-by: John Jacques <john.jacques@intel.com>
+---
+ drivers/platform/x86/intel/Kconfig | 11 +++++++++++
+ drivers/platform/x86/intel/vsec.c  | 14 +++++++++++---
+ drivers/platform/x86/intel/vsec.h  |  2 ++
+ 3 files changed, 24 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/platform/x86/intel/Kconfig b/drivers/platform/x86/intel/Kconfig
+index e9dc0c021029..edd44eec6190 100644
+--- a/drivers/platform/x86/intel/Kconfig
++++ b/drivers/platform/x86/intel/Kconfig
+@@ -166,6 +166,17 @@ config INTEL_RST
+ 	  firmware will copy the memory contents back to RAM and resume the OS
+ 	  as usual.
+ 
++config INTEL_S3M_BRIDGE
++	tristate "Intel S3M bridge driver"
++	depends on INTEL_VSEC
++	help
++	  This driver must be loaded to perform host operations with the S3M
++	  (secure startup services module). There will be an IOCTL interface
++	  created for each S3M device located at /dev/s3mX.
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called intel_s3m.
++
+ config INTEL_SDSI
+ 	tristate "Intel On Demand (Software Defined Silicon) Driver"
+ 	depends on INTEL_VSEC
+diff --git a/drivers/platform/x86/intel/vsec.c b/drivers/platform/x86/intel/vsec.c
+index 241d2abae352..1bb93ab6ca09 100644
+--- a/drivers/platform/x86/intel/vsec.c
++++ b/drivers/platform/x86/intel/vsec.c
+@@ -45,6 +45,9 @@ static const char *intel_vsec_name(enum intel_vsec_id id)
+ 	case VSEC_ID_CRASHLOG:
+ 		return "crashlog";
+ 
++	case VSEC_ID_S3M:
++		return "s3m";
++
+ 	case VSEC_ID_SDSI:
+ 		return "sdsi";
+ 
+@@ -65,6 +68,8 @@ static bool intel_vsec_supported(u16 id, unsigned long caps)
+ 		return !!(caps & VSEC_CAP_WATCHER);
+ 	case VSEC_ID_CRASHLOG:
+ 		return !!(caps & VSEC_CAP_CRASHLOG);
++	case VSEC_ID_S3M:
++		return !!(caps & VSEC_CAP_S3M);
+ 	case VSEC_ID_SDSI:
+ 		return !!(caps & VSEC_CAP_SDSI);
+ 	case VSEC_ID_TPMI:
+@@ -153,8 +158,8 @@ EXPORT_SYMBOL_NS_GPL(intel_vsec_add_aux, INTEL_VSEC);
+ static int intel_vsec_add_dev(struct pci_dev *pdev, struct intel_vsec_header *header,
+ 			      struct intel_vsec_platform_info *info)
+ {
+-	struct intel_vsec_device __free(kfree) *intel_vsec_dev = NULL;
+-	struct resource __free(kfree) *res = NULL;
++	struct intel_vsec_device *intel_vsec_dev __free(kfree) = NULL;
++	struct resource *res __free(kfree) = NULL;
+ 	struct resource *tmp;
+ 	unsigned long quirks = info->quirks;
+ 	int i;
+@@ -386,7 +391,10 @@ static const struct intel_vsec_platform_info mtl_info = {
+ 
+ /* OOBMSM info */
+ static const struct intel_vsec_platform_info oobmsm_info = {
+-	.caps = VSEC_CAP_TELEMETRY | VSEC_CAP_SDSI | VSEC_CAP_TPMI,
++	.caps = VSEC_CAP_TELEMETRY |
++		VSEC_CAP_SDSI |
++		VSEC_CAP_TPMI |
++		VSEC_CAP_S3M,
+ };
+ 
+ /* TGL info */
+diff --git a/drivers/platform/x86/intel/vsec.h b/drivers/platform/x86/intel/vsec.h
+index c242c07ea69c..0d68af213e09 100644
+--- a/drivers/platform/x86/intel/vsec.h
++++ b/drivers/platform/x86/intel/vsec.h
+@@ -10,6 +10,7 @@
+ #define VSEC_CAP_CRASHLOG	BIT(2)
+ #define VSEC_CAP_SDSI		BIT(3)
+ #define VSEC_CAP_TPMI		BIT(4)
++#define VSEC_CAP_S3M		BIT(5)
+ 
+ /* Intel DVSEC offsets */
+ #define INTEL_DVSEC_ENTRIES		0xA
+@@ -28,6 +29,7 @@ enum intel_vsec_id {
+ 	VSEC_ID_CRASHLOG	= 4,
+ 	VSEC_ID_SDSI		= 65,
+ 	VSEC_ID_TPMI		= 66,
++	VSEC_ID_S3M		= 71,
+ };
+ 
+ /**
+-- 
+2.43.0
+
