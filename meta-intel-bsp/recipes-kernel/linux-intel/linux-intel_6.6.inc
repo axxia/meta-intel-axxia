@@ -37,6 +37,9 @@ file://0021-platform-x86-intel-uncore-freq-Ignore-minor-version-.patch \
 file://0022-platform-x86-intel-tpmi-Add-defines-to-get-version-i.patch \
 file://0023-mtd-spi-nor-Stop-reporting-warning-message-when-soft.patch \
 file://0024-EDAC-i10nm-Add-Intel-Grand-Ridge-micro-server-suppor.patch \
+file://0025-platform-x86-intel-vsec-Move-structures-to-header.patch \
+file://0026-intel_vsec-Add-S3M-driver-dependencies-to-VSEC-drive.patch \
+file://0027-intel_s3m-Introduce-Intel-S3M-bridge-driver.patch \
 "
 
 PMR_PATCHES = " \
