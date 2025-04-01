@@ -62,6 +62,8 @@ libthrift \
 libthrift-c-glib \
 libthriftnb \
 libthriftz \
+libusb-compat \
+libusb1 \
 libubsan \
 libudev \
 libxcrypt \
