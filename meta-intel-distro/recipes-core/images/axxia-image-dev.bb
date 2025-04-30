@@ -352,6 +352,8 @@ util-linux-libuuid \
 util-linux-lscpu \
 util-macros \
 valgrind \
+virt-manager \
+virt-manager-install \
 vim \
 vlan \
 watchdog \

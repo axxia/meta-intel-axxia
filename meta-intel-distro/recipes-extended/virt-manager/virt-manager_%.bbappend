@@ -1,0 +1,2 @@
+# No GUI suported
+PACKAGECONFIG ?= ""
