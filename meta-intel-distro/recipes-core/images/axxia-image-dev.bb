@@ -118,6 +118,7 @@ iperf3 \
 iproute2 \
 iproute2-devlink \
 iproute2-ss \
+iproute2-tc \
 iptables \
 iputils \
 jansson \

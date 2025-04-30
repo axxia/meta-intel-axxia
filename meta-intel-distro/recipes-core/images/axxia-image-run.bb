@@ -39,6 +39,7 @@ initscripts-readonly-rootfs-overlay \
 intel-pcm \
 iproute2 \
 iproute2-devlink \
+iproute2-tc \
 kernel-dev \
 kernel-modules \
 kexec \
