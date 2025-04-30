@@ -40,7 +40,7 @@ DEPENDS:append = " elfutils-native openssl-native util-linux-native"
 SRCREV_machine = "${AUTOREV}"
 
 SRC_URI = " git://${LOCAL_KERNEL_PATH};name=machine;branch=${LOCAL_KERNEL_BRANCH} \
-	file://${@oe.utils.conditional('LOCAL_DEFCONFIG', '', 'defconfig', '${LOCAL_DEFCONFIG}', d)} \
+	file://defconfig \
 	"
 
 do_kernel_configme[depends] += "${PN}:do_prepare_recipe_sysroot"
@@ -51,11 +51,8 @@ COMPATIBLE_MACHINE:intel-axxia-pmr = "${MACHINE}"
 
 # Rename LOCAL_DEFCONFIG to 'defconfig' and move it in WORKDIR
 handle_defconfig () {
-    if [ -n "${LOCAL_DEFCONFIG}" ]; then
-        if [ -f "${WORKDIR}/${LOCAL_DEFCONFIG}" ]; then
-            mv -f ${WORKDIR}/${LOCAL_DEFCONFIG} ${WORKDIR}/defconfig
-            rm -rf $(dirname ${WORKDIR}/${LOCAL_DEFCONFIG})
-        fi
+    if [ -n "${LOCAL_DEFCONFIG}" ] && [ -f "${LOCAL_DEFCONFIG}" ]; then
+        cp ${LOCAL_DEFCONFIG} ${WORKDIR}/defconfig
     fi
 }
 do_unpack[postfuncs] += "handle_defconfig"
