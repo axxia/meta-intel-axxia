@@ -10,7 +10,8 @@ inherit module
 include lttng-platforms.inc
 
 SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-           "
+	   file://0001-Fix-del_timer-_sync-deleted-in-linux-v6.15-rc1.patch \
+        "
 
 SRC_URI[sha256sum] = "b0b23504150ae5c1fc6ee14e28d029518f61fe2ec5f17bb61c7941aa52bb6e65"
 
