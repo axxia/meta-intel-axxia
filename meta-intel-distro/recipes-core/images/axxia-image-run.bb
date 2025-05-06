@@ -54,6 +54,8 @@ libbsd \
 libbpf \
 libelf \
 libgcc \
+libgpiod \
+libgpiod-tools \
 libnl \
 libnl-genl \
 libnl-nf \
