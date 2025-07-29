@@ -71,8 +71,6 @@ libubsan \
 libudev \
 libxcrypt \
 libxcrypt-compat \
-lttng-modules \
-lttng-ust \
 mpich \
 msr-tools \
 mtd-utils \
@@ -123,10 +121,16 @@ tmux \
 vlan \
 xdp-tools \
 zlib \
+${LTTNG_SUPPORT} \
 ${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
 		     '${MULTILIB_PACKAGES}', '', d)}  \
 ${@bb.utils.contains('DISTRO_FEATURES', 'simics', \
 		     'simicsfs-client simics-agent fuse', '', d)} "
+
+LTTNG_SUPPORT ?= " \
+lttng-modules \
+lttng-ust \
+"
 
 MULTILIB_PACKAGES ?= " \
 lib32-libasan \
