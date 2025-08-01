@@ -83,6 +83,7 @@ python __anonymous() {
             d.setVar('SRC_URI', src_uri + " " + " ".join(new_files))
 }
 
+KCONFIG_MODE = "alldefconfig"
 KERNEL_EXTRA_FEATURES = ""
 KERNEL_FEATURES:remove = "cfg/efi.scc"
 KERNEL_VERSION_SANITY_SKIP = "1"
