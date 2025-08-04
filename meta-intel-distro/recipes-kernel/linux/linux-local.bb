@@ -1,5 +1,5 @@
 ########################## linux-local.bb ############################
-# Simple recipe to build kernel from local repository.               #
+# Simple recipe to build kernel from local or remote repository.     #
 # Set linux-local as PREFERRED_PROVIDER for virtual/kernel component #
 #     PREFERRED_PROVIDER_virtual/kernel = "linux-local"              #
 #                                                                    #
@@ -8,15 +8,16 @@
 #                                                                    #
 # All changes should be committed in the local kernel clone.         #
 #                                                                    #
-# Full defconfig should be copied besides this recipe or in a 'files'#
-# directory created in the recipe location.                          #
+# A defconfig or a full config should be copied besides this recipe  #
+# or pointed to in LOCAL_DEFCONFIG variable. The file name should    #
+# contain "defconfig" (e.g. .defconfig-for-6.14).                    #
 #                                                                    #
 # If you want to skip lttng support for your kernel:                 #
 #      LTTNG_SUPPORT = ""                                            #
 ######################################################################
 
 # Adjust the following variables in local.conf
-LOCAL_KERNEL_PATH ?= "path-to-local-kernel-repository"
+LOCAL_KERNEL_PATH ?= "path-to-local-or-remote-kernel-repository"
 LOCAL_KERNEL_BRANCH ?= "standard/base"
 LOCAL_DEFCONFIG ?= ""
 LOCAL_EXTRA_PATH ?= ""
@@ -33,15 +34,18 @@ ${@oe.utils.conditional('LOCAL_EXTRA_PATH', '', '', '${LOCAL_EXTRA_PATH}:', d)}:
 
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-or-later;md5=fed54355545ffd980b814dab4a3b312c"
 
-PV = "dev-version"
+PV = "dev.${@d.getVar('LOCAL_KERNEL_BRANCH').replace('/','.')}"
 
 DEPENDS:append = " elfutils-native openssl-native util-linux-native"
 
 SRCREV_machine = "${AUTOREV}"
 
-SRC_URI = " git://${LOCAL_KERNEL_PATH};name=machine;branch=${LOCAL_KERNEL_BRANCH} \
-	file://${@oe.utils.conditional('LOCAL_DEFCONFIG', '', 'defconfig', '${LOCAL_DEFCONFIG}', d)} \
-	"
+REMOTE_KERNEL_PATH = "${@d.getVar('LOCAL_KERNEL_PATH').replace('https://','')};protocol=https"
+
+SRC_URI = "git://${@'${REMOTE_KERNEL_PATH}' if LOCAL_KERNEL_PATH.startswith('http') \
+                else '${LOCAL_KERNEL_PATH}'};name=machine;branch=${LOCAL_KERNEL_BRANCH} \
+        file://${@oe.utils.conditional('LOCAL_DEFCONFIG', '', 'defconfig', '${LOCAL_DEFCONFIG}', d)} \
+        "
 
 do_kernel_configme[depends] += "${PN}:do_prepare_recipe_sysroot"
 

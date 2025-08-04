@@ -274,13 +274,13 @@ f. Kernel.org - Torvalds official repository (git.kernel.org)
  
 g. Local Kernel repositories (for Linux development)
 
-   If you want to base a Yocto build on a local Linux kernel, do the
-   following. First, make the following changes to local.conf.
+   If you want to base a Yocto build on a custom Linux kernel (local or
+   remote), do the following changes to local.conf.
 
    PREFERRED_PROVIDER_virtual/kernel = "linux-local"
-   LOCAL_KERNEL_PATH = "<path to local Linux repository>"
+   LOCAL_KERNEL_PATH = "<path to local or remote Linux repository>"
    LOCAL_KERNEL_BRANCH = "<branch in the repository>"
-   LOCAL_DEFCONFIG = "<optional absolute path to defconfig>"
+   LOCAL_DEFCONFIG = "<optional absolute path to defconfig or full config>"
    LOCAL_EXTRA_PATH = "<optional path with extra patches and frags>"
 
    NOTE: LOCAL_DEFCONFIG variable can be used in local.conf to specify the
