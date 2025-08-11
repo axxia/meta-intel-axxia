@@ -3,20 +3,23 @@ SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
 DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
 HOMEPAGE = "https://lttng.org/"
 LICENSE = "LGPL-2.1-only & GPL-2.0-only & MIT"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=8d0d9f08888046474772a5d745d89d6a"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=018e002dbdda3306682e394ddd65fa32"
 
 inherit module
 
 include lttng-platforms.inc
 
-SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-	   file://0001-Fix-del_timer-_sync-deleted-in-linux-v6.15-rc1.patch \
-	   file://0001-Fix-trace_balance_dirty_pages-in-Linux-v6.14.2.patch \
-        "
+SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=master;protocol=https \
+           "
 
-SRC_URI[sha256sum] = "a2f38e289817dbd1d2f12cfc1f20390230e16d56323cb58cc1db9874ced400ed"
+SRCREV = "f20fd6cf86c524fc31437add81d3973e76850c56"
 
-export INSTALL_MOD_DIR="kernel/lttng-modules"
+BASEVER = "2.14.0"
+PV = "${BASEVER}+git+${@d.getVar('SRCREV')[:10]}"
+
+S = "${WORKDIR}/git"
+
+export INSTALL_MOD_DIR = "kernel/lttng-modules"
 
 EXTRA_OEMAKE += "KERNELDIR='${STAGING_KERNEL_DIR}'"
 
@@ -33,8 +36,3 @@ python do_package:prepend() {
     if not os.path.exists(os.path.join(d.getVar('D'), d.getVar('nonarch_base_libdir')[1:], 'modules')):
         bb.warn("%s: no modules were created; this may be due to CONFIG_TRACEPOINTS not being enabled in your kernel." % d.getVar('PN'))
 }
-
-BBCLASSEXTEND = "devupstream:target"
-SRC_URI:class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.13;protocol=https"
-SRCREV:class-devupstream = "dccca77f621c3aafa18501c15598c3bb6137efe7"
-SRCREV_FORMAT ?= "lttng_git"
