@@ -5,13 +5,13 @@ poky
 ----
 URI: https://git.yoctoproject.org/poky
 branch: scarthgap
-revision: b8f8125f05e8ece078ba6bf01eebb2900cf2f9bf
+revision: 6f7e929ea6ea557f107c8ccffea69a7d73439591
 
 meta-openembedded
 -----------------
 URI: https://git.openembedded.org/meta-openembedded
 branch: scarthgap
-revision: 727811eaf256b88fd135be99559f2cbf14c82fce
+revision: e8fd97d86af86cdcc5a6eb3f301cbaf6a2084943
 
 meta-virtualization
 -------------------
@@ -35,4 +35,4 @@ meta-clang
 ----------
 URI: https://github.com/kraj/meta-clang.git
 branch: scarthgap
-revision: eea5ec23155cfd47781599fdc9a92c21e4caffc8
+revision: aef850f7fa53121c74b244b7ae40d31fb9809ccf
