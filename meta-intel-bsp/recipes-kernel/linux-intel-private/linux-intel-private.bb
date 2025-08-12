@@ -3,7 +3,7 @@ require recipes-kernel/linux/linux-axxia.inc
 
 SRC_URI = "git://github.com/intel-innersource/networking.wireless.transport.rdk.bts-kernel.git;protocol=https;name=machine;branch=${KBRANCH}"
 
-KBRANCH_INTEL_PRIVATE ?= "pmr/latest" 
+KBRANCH_INTEL_PRIVATE ?= "${CPU}/latest/${CPU}"
 KBRANCH = "${KBRANCH_INTEL_PRIVATE}"
 
 LINUX_VERSION = "dev.${@d.getVar('KBRANCH_INTEL_PRIVATE').replace('/','.')}"
@@ -26,7 +26,7 @@ PMR_PATCHES = " \
 
 KMETA = ""
 KCONFIG_MODE = "alldefconfig"
-KBUILD_DEFCONFIG:intel-axxia-pmr = "pmr_defconfig"
+KBUILD_DEFCONFIG = "${CPU}_defconfig"
 INTEL_AXXIA_FRAGS = ""
 KERNEL_EXTRA_FEATURES = ""
 KERNEL_FEATURES:remove = "cfg/efi.scc"
