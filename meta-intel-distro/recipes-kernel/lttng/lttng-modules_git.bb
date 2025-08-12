@@ -10,6 +10,7 @@ inherit module
 include lttng-platforms.inc
 
 SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=master;protocol=https \
+           file://0001-fix-Lower-LTTNG_KERNEL_VERSION-for-v6.16-changes.patch \
            "
 
 SRCREV = "f20fd6cf86c524fc31437add81d3973e76850c56"

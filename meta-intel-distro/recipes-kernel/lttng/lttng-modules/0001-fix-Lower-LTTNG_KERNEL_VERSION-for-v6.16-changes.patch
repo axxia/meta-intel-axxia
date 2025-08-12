@@ -1,0 +1,49 @@
+From 38880c937b1750603895f2bf5ea302722553266b Mon Sep 17 00:00:00 2001
+From: Daniel Dragomir <daniel.dragomir@windriver.com>
+Date: Tue, 12 Aug 2025 09:38:54 -0500
+Subject: [PATCH] fix: Lower LTTNG_KERNEL_VERSION for v6.16 changes
+
+Use the following changes starting with v6.15 to include
+intermediar versions not tracked in netdev/net-next
+repository (v6.16):
+
+067de6bf70 ("tracepoint: Have tracepoints created with
+             DECLARE_TRACE() have _tp suffix (v6.16)")
+75096fdb6c ("fix: sched/tracepoints: Move and extend the
+             sched_process_exit() tracepoint (v6.16)")
+
+Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
+---
+ include/instrumentation/events/sched.h | 2 +-
+ include/wrapper/tracepoint.h           | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/instrumentation/events/sched.h b/include/instrumentation/events/sched.h
+index b805008e..de7b81c0 100644
+--- a/include/instrumentation/events/sched.h
++++ b/include/instrumentation/events/sched.h
+@@ -317,7 +317,7 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(sched_process_template, sched_process_free,
+ 	     TP_ARGS(p))
+ 
+ 
+-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,16,0))
++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,15,0))
+ /*
+  * Tracepoint for a task exiting.
+  * Note, it's a superset of sched_process_template and should be kept
+diff --git a/include/wrapper/tracepoint.h b/include/wrapper/tracepoint.h
+index 48c2a5fa..80c4ebd7 100644
+--- a/include/wrapper/tracepoint.h
++++ b/include/wrapper/tracepoint.h
+@@ -20,7 +20,7 @@
+  * generated 'trace_()' function and a new DECLARE_TRACE_EVENT macro was added
+  * with the old behavior.
+  */
+-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,16,0))
++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,15,0))
+ #define LTTNG_DECLARE_TRACE_EVENT(name, proto, args)	\
+ 	DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
+ #else
+-- 
+2.43.0
+
