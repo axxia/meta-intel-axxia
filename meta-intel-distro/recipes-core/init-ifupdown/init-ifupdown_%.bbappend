@@ -12,6 +12,11 @@ do_install:append() {
         sed -i '/^auto \/en\*=eth/d' ${D}${sysconfdir}/network/interfaces
         sed -i '/^iface eth inet dhcp/d' ${D}${sysconfdir}/network/interfaces
     fi
+
+    # eth1 is problematic for PMR
+    if [ "${MACHINE}" = "intel-axxia-pmr" ]; then
+        sed -i '/^iface eth1/d' ${D}${sysconfdir}/network/interfaces
+    fi
 }
 
 require ${@bb.utils.contains('DISTRO_FEATURES', 'qsp', \
