@@ -11,6 +11,10 @@ SRC_URI:append = " ${@oe.utils.conditional('USE_RDK_REPO', 'false', '${RDK_KLM_A
 
 export RDK_KLM_VERSION
 
+KERNEL_PROVIDER = "${@oe.utils.conditional('PN', 'lttng-modules', '${PREFERRED_PROVIDER_virtual/kernel}', d.getVar('KERNEL'), d)}"
+# Ensure kernel artifacts are deployed in work-shared
+do_compile[depends] += "${KERNEL_PROVIDER}:do_deploy"
+
 do_patch_rdk() {
     cd ${S}
     VERSION="${PV}"
