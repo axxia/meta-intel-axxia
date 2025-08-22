@@ -24,8 +24,9 @@ LOCAL_EXTRA_PATH ?= ""
 
 inherit kernel
 require recipes-kernel/linux/linux-yocto.inc \
-	${@bb.utils.contains('BBFILE_COLLECTIONS', 'intel-rdk', \
-			     'recipes-kernel/linux/linux-rdk.inc', '', d)}
+	${@bb.utils.contains("BBFILE_COLLECTIONS", "intel-rdk", \
+			     "${@oe.utils.conditional('MACHINE', 'intel-axxia-pmr', '', \
+			     'recipes-kernel/linux/linux-rdk.inc', d)}", "", d)}
 
 LINUX_VERSION_EXTENSION = "-intel-axxia-local-dev"
 
