@@ -55,13 +55,24 @@ do_compile[cleandirs] = "${S}/install"
 
 do_compile () {
 	cd ${S}
-	oe_runmake cpk-ae-lib netd-lib
-	oe_runmake ${IES_EXTRA_FLAGS} ies_api_install
 	case "${MACHINE}" in
-            "intel-axxia-snr") oe_runmake -j1 qat_lib nura ;;
-            "intel-axxia-grr") oe_runmake -j1 qat_lib ;;
-        esac
-	oe_runmake install cli
+		"intel-axxia-snr")
+			oe_runmake cpk-ae-lib netd-lib
+			oe_runmake ${IES_EXTRA_FLAGS} ies_api_install
+			oe_runmake -j1 qat_lib nura
+			oe_runmake install cli
+			;;
+		"intel-axxia-grr")
+			oe_runmake cpk-ae-lib netd-lib
+			oe_runmake ${IES_EXTRA_FLAGS} ies_api_install
+			oe_runmake -j1 qat_lib
+			oe_runmake install cli
+			;;
+		 "intel-axxia-pmr")
+			oe_runmake ${IES_EXTRA_FLAGS} ies_api_install
+			oe_runmake install cli
+			;;
+	esac
 }
 
 do_install () {
@@ -72,7 +83,7 @@ do_install () {
 	cp -r ${S}/install/bin/* ${D}${bindir}
 	cp -r ${S}/install/lib/* ${D}${libdir}
 	cp -r ${S}/install/include/* ${D}${includedir}
-	cp -r ${S}/install/etc/* ${D}${sysconfdir}
+	cp -r ${S}/install/etc/* ${D}${sysconfdir} 2>/dev/null || :
 	rm -f ${D}${includedir}/Makefile
 	
 	if [ -d ${S}/install/lib/firmware/intel ]; then
