@@ -76,25 +76,21 @@ do_patch_rdk_modules () {
     do
 	[ ! -d ${WORKDIR}/rdk/klm/${KLMC} ] && continue
 
-        if [ "hqm" = "${KLMC}" ]; then {
-            case ${MACHINE} in
-                "intel-axxia-snr") HQMV="hqm" && HQMD="hqm";;
-                "intel-axxia-grr") HQMV="" && HQMD="dlb2";;
-            esac
-            ${WORKDIR}/rdk/klm/${KLMC}/${HQMV}/scripts/patch_kernel_tree.sh \
-                ${STAGING_KERNEL_DIR} ${STAGING_PATH}
-           }
+        if [ "hqm" = "${KLMC}" ] && [ "intel-axxia-snr" = "${MACHINE}" ]; then
+            KLMC_PATH="${KLMC}/${KLMC}"
         else
-	   ${WORKDIR}/rdk/klm/${KLMC}/scripts/patch_kernel_tree.sh \
-              ${STAGING_KERNEL_DIR} ${STAGING_PATH}
+            KLMC_PATH="${KLMC}"
         fi
+
+        ${WORKDIR}/rdk/klm/${KLMC_PATH}/scripts/patch_kernel_tree.sh \
+            ${STAGING_KERNEL_DIR} ${STAGING_PATH}
 
         # Handle drivers name differences
         case ${KLMC} in
            "cpk")    KLM_DRIVER="ice_sw";;
            "cpk-ae") KLM_DRIVER="ice_sw_ae";;
            "netd")   KLM_DRIVER="adk_netd";;
-           "hqm")    KLM_DRIVER="${HQMD}";;
+           "hqm")    [ "intel-axxia-grr" = "${MACHINE}" ] && KLM_DRIVER="dlb2";;
            "i3c")    KLM_DRIVER="i3c-rdk";;
 	   "oobmsm") KLM_DRIVER="oobmsm-rdk";;
            *)        KLM_DRIVER="${KLMC}";;
