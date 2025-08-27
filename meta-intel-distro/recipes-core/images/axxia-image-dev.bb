@@ -317,6 +317,7 @@ setserial \
 shadow \
 shadow-securetty \
 sqlite3 \
+spidev-test \
 sshpass \
 strace \
 stress-ng \

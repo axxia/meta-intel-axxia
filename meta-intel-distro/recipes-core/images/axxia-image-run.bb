@@ -108,6 +108,7 @@ python3-robotframework \
 readline \
 rsyslog \
 screen \
+spidev-test \
 sshpass \
 stress-ng \
 stressapptest \
