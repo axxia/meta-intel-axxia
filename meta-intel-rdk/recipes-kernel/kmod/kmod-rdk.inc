@@ -1,7 +1,7 @@
-FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRC_URI:append = " file://blacklist.conf"
+SRC_URI:append = " file://blacklist.conf.rdk"
 
 do_install:append () {
-	install -m 644 ${WORKDIR}/blacklist.conf ${D}${sysconfdir}/modprobe.d/blacklist.conf
+	cat ${WORKDIR}/blacklist.conf.rdk >> ${D}${sysconfdir}/modprobe.d/blacklist.conf
 }
