@@ -1,6 +1,6 @@
-LINUX_VERSION = "6.12.34"
-SRCREV_machine = "9d4793b1384e83c55cc689d0f0b82c2fc4d488ba"
-SRCREV_meta = "bdce1d136816ca2538d5f1b1f699e8abafb0d1a9"
+LINUX_VERSION = "6.12.47"
+SRCREV_machine = "7547aaab9dede61c819dee729721c6652d1abfa5"
+SRCREV_meta = "fb30a9a1d027d938de70890be92c22b33e0194b1"
 
 COMMON_PATCHES = " \
 file://0001-6.12-lib-build_OID_registry-fix-reproducibility-issues.patch \
