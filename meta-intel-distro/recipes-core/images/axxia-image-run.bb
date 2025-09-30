@@ -71,6 +71,7 @@ libubsan \
 libudev \
 libxcrypt \
 libxcrypt-compat \
+mdio-tools \
 mpich \
 msr-tools \
 mtd-utils \
@@ -106,6 +107,7 @@ python3-pynetlinux \
 python3-pytest \
 python3-robotframework \
 readline \
+rpm \
 rsyslog \
 screen \
 spidev-test \

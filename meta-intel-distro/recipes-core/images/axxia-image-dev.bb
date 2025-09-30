@@ -213,6 +213,7 @@ mce-inject \
 mce-test \
 mcelog \
 mdadm \
+mdio-tools \
 meson \
 modutils-initscripts \
 mokutil \
