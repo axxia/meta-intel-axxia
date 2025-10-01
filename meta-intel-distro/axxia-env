@@ -1,1 +1,5 @@
-export TEMPLATECONF=$(cd $(dirname ${BASH_SOURCE[0]}) &> /dev/null && pwd)/conf/templates/default
+export SCRIPTDIR=$(cd $(dirname ${BASH_SOURCE[0]}) &> /dev/null && pwd)
+
+export TEMPLATECONF=${SCRIPTDIR}/conf/templates/default
+
+export PATH=$(dirname ${SCRIPTDIR})/meta-intel-bsp/scripts:$PATH
