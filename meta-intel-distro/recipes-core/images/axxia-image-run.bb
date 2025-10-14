@@ -80,6 +80,7 @@ mtools \
 ncurses \
 netcat \
 numactl \
+nvme-cli \
 openssh \
 openssh-sftp \
 os-release \

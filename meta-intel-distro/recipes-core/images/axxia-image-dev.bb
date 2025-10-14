@@ -234,6 +234,7 @@ ninja \
 nmap \
 ntp \
 numactl \
+nvme-cli \
 openjdk-11-bin \
 openssh \
 openssh-sftp \
