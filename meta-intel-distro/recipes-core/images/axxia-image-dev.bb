@@ -80,6 +80,7 @@ expat \
 expect \
 file \
 findutils \
+fio \
 flac \
 flex \
 fwts \

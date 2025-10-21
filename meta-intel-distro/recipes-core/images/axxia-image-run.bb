@@ -28,6 +28,7 @@ e2fsprogs-resize2fs \
 efibootmgr \
 ethtool \
 expect \
+fio \
 fwts \
 gdb \
 gdbserver \
