@@ -142,6 +142,7 @@ libbpf-dev \
 libbsd \
 libcap \
 libcheck \
+libconfig \
 libdaemon \
 libdrm \
 libevent \

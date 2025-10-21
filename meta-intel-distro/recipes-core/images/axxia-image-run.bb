@@ -54,6 +54,7 @@ libasan \
 libatomic \
 libbsd \
 libbpf \
+libconfig \
 libelf \
 libgcc \
 libgpiod \
