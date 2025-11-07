@@ -280,6 +280,7 @@ python3-cffi \
 python3-colorama \
 python3-core \
 python3-dev \
+python3-gpiod \
 python3-humanfriendly \
 python3-lmdb \
 python3-lxml \
@@ -302,6 +303,7 @@ python3-pynetlinux \
 python3-robotframework \
 python3-scapy \
 python3-sheet2dict \
+python3-spidev \
 python3-trex-stl-lib \
 qemu \
 quota \

@@ -96,6 +96,7 @@ python3-babeltrace \
 python3-cffi \
 python3-core \
 python3-dev \
+python3-gpiod \
 python3-modules \
 python3-netserver \
 python3-nose \
@@ -109,6 +110,7 @@ python3-pyexpect \
 python3-pynetlinux \
 python3-pytest \
 python3-robotframework \
+python3-spidev \
 readline \
 rpm \
 rsyslog \
