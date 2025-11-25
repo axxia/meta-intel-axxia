@@ -26,6 +26,7 @@ at \
 atftp \
 attr \
 autoconf \
+autoconf-archive \
 autofs \
 axxia-rc-local \
 babeltrace \
@@ -476,6 +477,7 @@ xz-dev"
 SDKIMAGE_FEATURES = "dev-pkgs dbg-pkgs staticdev-pkgs"
 
 TOOLCHAIN_HOST_TASK:append = " \
+nativesdk-autoconf-archive \
 nativesdk-bison \
 nativesdk-elfutils-dev \
 nativesdk-flex \
