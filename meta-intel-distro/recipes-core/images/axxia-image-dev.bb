@@ -26,6 +26,7 @@ at \
 atftp \
 attr \
 autoconf \
+autoconf-archive \
 autofs \
 axxia-rc-local \
 babeltrace \
