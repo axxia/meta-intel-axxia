@@ -3,7 +3,8 @@ require recipes-kernel/linux/linux-axxia.inc
 
 FILESEXTRAPATHS:prepend := "${@oe.utils.conditional('KORG_NETNEXT_EXTRA_PATH', '', '', '${KORG_NETNEXT_EXTRA_PATH}:', d)}"
 
-SRC_URI:prepend = "git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git;protocol=https;name=machine;branch=${KBRANCH}"
+SRC_URI:append= "git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git;protocol=https;name=machine;branch=${KBRANCH} \
+                 ${@oe.utils.conditional('KORG_NETNEXT_CONFIG', 'frags', '', 'file://${KORG_NETNEXT_CONFIG}', d)}"
 
 KBRANCH = "main"
 KMETA_BRANCH = "yocto-6.16"
@@ -14,6 +15,12 @@ LINUX_VERSION_EXTENSION = "-korg-netnext-${LINUX_KERNEL_TYPE}"
 KORG_NETNEXT_REVISION ?= "fa582ca7e187a15e772e6a72fe035f649b387a60"
 SRCREV_machine = "${KORG_NETNEXT_REVISION}"
 SRCREV_meta = "f5fdef1633ed82ffa1e8103c7802e61b319d809c"
+
+KORG_NETNEXT_CONFIG ?= "${@oe.utils.conditional('KORG_NETNEXT_EXTRA_PATH', '', 'frags', 'defconfig', d)}"
+
+KCONFIG_MODE = "alldefconfig"
+KMETA = "${@oe.utils.conditional('KORG_NETNEXT_CONFIG', 'frags', 'kernel-meta', '', d)}"
+INTEL_AXXIA_FRAGS = "${@oe.utils.conditional('KORG_NETNEXT_CONFIG', 'frags', 'file://common.scc file://${CPU}.scc ', '', d)}"
 
 COMMON_PATCHES = " \
 "
@@ -32,7 +39,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
 KERNEL_VERSION_SANITY_SKIP = "1"
 
 # Functionality flags
-KERNEL_EXTRA_FEATURES = "features/netfilter/netfilter.scc features/security/security.scc"
+KERNEL_EXTRA_FEATURES_FRAGS ?= "features/netfilter/netfilter.scc features/security/security.scc"
+KERNEL_EXTRA_FEATURES = "${@oe.utils.conditional('KORG_NETNEXT_CONFIG', 'frags', '${KERNEL_EXTRA_FEATURES_FRAGS}', '', d)}"
+KERNEL_FEATURES:remove = "${@oe.utils.conditional('KORG_NETNEXT_CONFIG', 'frags', '', 'cfg/efi.scc cfg/virtio.scc', d)}"
 KERNEL_EXTRA_FEATURES:remove = "features/debug/debug-kernel.scc"
 
 # Add in SRC_URI patches and fragments from external path (KORG_NETNEXT_EXTRA_PATH) if exists

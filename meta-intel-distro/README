@@ -250,9 +250,16 @@ e. Kernel.org - Net-Next networking repository (git.kernel.org)
    different source revision (SRCREV). linux-korg-netnext recipes have
    dynamic version: <branch>.<SRCREV[8]>.
 
-   KORG_NETNEXT_EXTRA_PATH variable can be use in local.conf to set a
-   path containing patches and kernel fragments. All of them will be used
-   to patch kernel sources and to modify .config.
+   KORG_NETNEXT_EXTRA_PATH variable can be used in local.conf to specify
+   a path containing patches, kernel fragments, or a defconfig. All of them
+   will be used to patch the kernel sources and generate the final .config.
+   If the variable is not set, the final .config will be generated from
+   fragments. If it is set, BitBake will look for a *defconfig file
+   (the file name must end with defconfig) in the provided path.
+
+   The KORG_NETNEXT_CONFIG variable can be set in local.conf to specify
+   the full path to a *defconfig file (the file name must end with defconfig).
+   It depends on KORG_NETNEXT_EXTRA_PATH to be set.
 
    Alternative Net-Next kernel is linux-korg-netnext-debug.
 
