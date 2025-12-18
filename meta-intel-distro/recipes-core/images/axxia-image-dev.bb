@@ -479,6 +479,7 @@ SDKIMAGE_FEATURES = "dev-pkgs dbg-pkgs staticdev-pkgs"
 TOOLCHAIN_HOST_TASK:append = " \
 nativesdk-autoconf-archive \
 nativesdk-bison \
+nativesdk-e2fsprogs \
 nativesdk-elfutils-dev \
 nativesdk-flex \
 nativesdk-libelf \
