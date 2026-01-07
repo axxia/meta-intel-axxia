@@ -87,9 +87,10 @@ openssh \
 openssh-sftp \
 os-release \
 p7zip \
-pbzip2 \
-pciutils \
 packagegroup-core-full-cmdline \
+pbzip2 \
+pcimem \
+pciutils \
 perf \
 perl-module-bigint \
 python3-babeltrace \

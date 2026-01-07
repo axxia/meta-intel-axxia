@@ -254,6 +254,7 @@ packagegroup-core-boot \
 packagegroup-core-buildessential \
 parted \
 pbzip2 \
+pcimem \
 pciutils \
 pciutils-dev \
 perf \
