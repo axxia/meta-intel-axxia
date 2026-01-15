@@ -1,0 +1,3 @@
+blacklist qat_4xxx
+blacklist qat_6xxx
+blacklist intel_qat
