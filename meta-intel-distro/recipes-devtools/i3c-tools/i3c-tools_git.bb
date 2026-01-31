@@ -14,7 +14,7 @@ PRIVATE_REPO = "github.com/intel-sandbox/networking.wireless.transport.rdk.board
 REPO = "${@oe.utils.conditional('I3C_TOOLS_REPO', 'private', '${PRIVATE_REPO}', '${PUBLIC_REPO}', d)}"
 
 BRANCH:intel-axxia-pmr = "pmr"
-SRCREV:intel-axxia-pmr = "7a89427b07e68c2e67b1b326e17c8f86cc30da45"
+SRCREV:intel-axxia-pmr = "cea4e26e34ff89cbda9adff5f037bd87c0a0f37e"
 
 BRANCH:intel-axxia-grr = "grr"
 SRCREV:intel-axxia-grr = "8058809771653797615ab7cc9aaa9414a86ccbba"
