@@ -209,6 +209,7 @@ lsof \
 lsscsi \
 ltp \
 lvm2 \
+lz4 \
 lzo \
 man \
 man-pages \

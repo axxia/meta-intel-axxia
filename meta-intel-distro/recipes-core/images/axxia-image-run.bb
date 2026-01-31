@@ -73,6 +73,7 @@ libubsan \
 libudev \
 libxcrypt \
 libxcrypt-compat \
+lz4 \
 mdio-tools \
 mpich \
 msr-tools \
