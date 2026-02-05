@@ -86,10 +86,10 @@ do_install () {
 	cp -r ${S}/install/etc/* ${D}${sysconfdir} 2>/dev/null || :
 	rm -f ${D}${includedir}/Makefile
 	
-	if [ -d ${S}/install/lib/firmware/intel ]; then
-		install -d ${D}${nonarch_base_libdir}/firmware/intel
-		cp -r ${S}/install/lib/firmware/intel/* \
-		${D}${nonarch_base_libdir}/firmware/intel 2>/dev/null || :
+	if [ -d "${S}/install/lib/firmware" ]; then
+		install -d ${D}${nonarch_base_libdir}/firmware
+		cp -r ${S}/install/lib/firmware/* \
+		${D}${nonarch_base_libdir}/firmware
 	fi
 
 	# fix symlinks removed on install by "rsync -L --no-l"
