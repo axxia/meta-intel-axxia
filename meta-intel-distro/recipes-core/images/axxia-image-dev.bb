@@ -241,6 +241,8 @@ numactl \
 nvme-cli \
 openjdk-11-bin \
 openssh \
+openssh-keygen \
+openssh-misc \
 openssh-sftp \
 openssh-sftp-server \
 openssl \

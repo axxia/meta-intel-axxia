@@ -85,6 +85,8 @@ netcat \
 numactl \
 nvme-cli \
 openssh \
+openssh-keygen \
+openssh-misc \
 openssh-sftp \
 os-release \
 p7zip \
