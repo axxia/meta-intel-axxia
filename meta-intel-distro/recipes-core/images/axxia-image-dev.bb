@@ -308,6 +308,7 @@ python3-pynetlinux \
 python3-robotframework \
 python3-scapy \
 python3-sheet2dict \
+python3-sphinx \
 python3-spidev \
 python3-trex-stl-lib \
 qemu \
