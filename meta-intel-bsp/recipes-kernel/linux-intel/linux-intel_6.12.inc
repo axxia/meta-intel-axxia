@@ -6,6 +6,7 @@ COMMON_PATCHES = " \
 file://0001-6.12-lib-build_OID_registry-fix-reproducibility-issues.patch \
 file://0002-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
 file://0003-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
+file://0004-ethtool-Revert-Frame-Preemption-Support.patch \
 "
 
 SNR_PATCHES = " \
