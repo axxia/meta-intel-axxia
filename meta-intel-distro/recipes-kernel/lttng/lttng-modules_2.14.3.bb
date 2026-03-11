@@ -9,16 +9,14 @@ inherit module
 
 include lttng-platforms.inc
 
-SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=master;protocol=https \
-           file://0001-fix-Lower-LTTNG_KERNEL_VERSION-for-v6.16-changes.patch \
-           "
+SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+          "
 
-SRCREV = "f20fd6cf86c524fc31437add81d3973e76850c56"
-
-BASEVER = "2.14.0"
-PV = "${BASEVER}+git+${@d.getVar('SRCREV')[:10]}"
-
-S = "${WORKDIR}/git"
+# Use :append here so that the patch is applied also when using devupstream
+SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch \
+                   file://0001-fix-Lower-LTTNG_KERNEL_VERSION-for-v6.16-changes.patch \
+                 "
+SRC_URI[sha256sum] = "35a1875ad96e8b4b6aa8729f59af350bfc788ba65c6856deaa84d33acc0f28c2"
 
 export INSTALL_MOD_DIR = "kernel/lttng-modules"
 
@@ -37,3 +35,8 @@ python do_package:prepend() {
     if not os.path.exists(os.path.join(d.getVar('D'), d.getVar('nonarch_base_libdir')[1:], 'modules')):
         bb.warn("%s: no modules were created; this may be due to CONFIG_TRACEPOINTS not being enabled in your kernel." % d.getVar('PN'))
 }
+
+BBCLASSEXTEND = "devupstream:target"
+SRC_URI:class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.13;protocol=https"
+SRCREV:class-devupstream = "7584cfc04914cb0842a986e9808686858b9c8630"
+SRCREV_FORMAT ?= "lttng_git"
