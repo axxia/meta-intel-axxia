@@ -1,6 +1,6 @@
-LINUX_VERSION = "6.1.152"
-SRCREV_machine = "325d5faeaf770957a79b1c413c18e07c8680d372"
-SRCREV_meta = "325d5faeaf770957a79b1c413c18e07c8680d372"
+LINUX_VERSION = "6.1.166"
+SRCREV_machine = "fba1566243637aeb16554272b0a8627bf5d0fbfc"
+SRCREV_meta = "aab21b2ddf5eeeed1d7171141e847ca9d33bbb82"
 
 COMMON_PATCHES = " \
 file://0001-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
