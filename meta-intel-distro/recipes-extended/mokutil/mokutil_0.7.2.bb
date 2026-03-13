@@ -6,14 +6,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 DEPENDS = "openssl efivar keyutils virtual/crypt"
 
-PV = "0.6.0+git${SRCPV}"
-
 SRC_URI = "git://github.com/lcp/mokutil.git;branch=master;protocol=https \
           "
 
-SRCREV = "ae59d89de763054e1724925e6a58b227fe97fa86"
-
 S = "${WORKDIR}/git"
+
+SRCREV = "a0e52a974e3ef222ee454bab76602afd7f4c0440"
 
 inherit autotools pkgconfig
 
