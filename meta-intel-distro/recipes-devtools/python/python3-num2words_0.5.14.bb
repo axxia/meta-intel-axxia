@@ -14,7 +14,8 @@ inherit pypi setuptools3
 
 PYPI_PACKAGE = "num2words"
 
-SRC_URI[sha256sum] = "7e7c0b0f080405aa3a1dd9d32b1ca90b3bf03bab17b8e54db05e1b78301a0988"
+SRC_URI[md5sum] = "e38309855985ffb45f3bf503e90af9a3"
+SRC_URI[sha256sum] = "b066ec18e56b6616a3b38086b5747daafbaa8868b226a36127e0451c0cf379c6"
 
 RDEPENDS:${PN} += "\
 	${PYTHON_PN}-docopt \
