@@ -1,3 +1,5 @@
+Upstream-Status: Inappropriate
+
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
 index 050c539..1216f28 100644
 --- a/src/CMakeLists.txt
