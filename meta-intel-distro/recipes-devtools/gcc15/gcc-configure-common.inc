@@ -6,7 +6,7 @@ require gcc-shared-source.inc
 # These can be overridden by the version specific .inc file.
 
 # gcc 3.x expects 'f77', 4.0 expects 'f95', 4.1 and 4.2 expect 'fortran'
-FORTRAN ?= ",fortran"
+FORTRAN ??= ",fortran"
 LANGUAGES ?= "c,c++${FORTRAN}"
 
 EXTRA_OECONF_BASE ?= ""
@@ -72,6 +72,7 @@ CPPFLAGS = ""
 SYSTEMHEADERS = "${target_includedir}"
 SYSTEMLIBS = "${target_base_libdir}/"
 SYSTEMLIBS1 = "${target_libdir}/"
+SYSTEMLOCALHEADERS = "${target_prefix}/local/include"
 
 do_configure:prepend () {
 	# teach gcc to find correct target includedir when checking libc ssp support
@@ -83,6 +84,7 @@ do_configure:prepend () {
 #define STANDARD_STARTFILE_PREFIX_1 "${SYSTEMLIBS}"
 #define STANDARD_STARTFILE_PREFIX_2 "${SYSTEMLIBS1}"
 #define SYSTEMLIBS_DIR "${SYSTEMLIBS}"
+#define LOCAL_INCLUDE_DIR "${SYSTEMLOCALHEADERS}"
 #endif /* ! GCC_DEFAULTS_H */
 _EOF
 	mv ${B}/gcc/defaults.h.new ${B}/gcc/defaults.h
@@ -116,26 +118,5 @@ do_configure () {
 	export CXXFLAGS_FOR_TARGET="${TARGET_CXXFLAGS}"
 	export LDFLAGS_FOR_TARGET="${TARGET_LDFLAGS}"
 
-
 	oe_runconf
 }
-
-remove_sysroot_paths_from_configargs () {
-	# Prevent sysroot path from being used in configargs.h header, as it will
-	# be rewritten when used by other sysroots preventing support for gcc
-	# plugins. Additionally the path is embeddeded into the output binary, this
-	# prevents building a reproducible binary.
-	oe_runmake configure-gcc
-	sed -i 's@${STAGING_DIR_TARGET}@/host@g' ${B}/gcc/configargs.h
-	sed -i 's@${STAGING_DIR_HOST}@/host@g' ${B}/gcc/configargs.h
-}
-
-remove_sysroot_paths_from_checksum_options () {
-	# Prevent sysroot/workdir paths from being used in checksum-options.
-	# checksum-options is used to generate a checksum which is embedded into
-	# the output binary.
-	oe_runmake TARGET-gcc=checksum-options all-gcc
-	sed -i 's@${DEBUG_PREFIX_MAP}@@g' ${B}/gcc/checksum-options
-	sed -i 's@${1}@/host@g' ${B}/gcc/checksum-options
-}
-

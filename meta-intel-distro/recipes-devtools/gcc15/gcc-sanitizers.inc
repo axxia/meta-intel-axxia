@@ -11,6 +11,10 @@ EXTRA_OECONF_PATHS = "\
     --with-build-sysroot=${STAGING_DIR_TARGET} \
 "
 
+# Workaround for this issue: https://github.com/llvm/llvm-project/issues/65144 on aarch64
+# compiler-rt/sanitizers/aarch64: CHECK failed: sanitizer_allocator_primary64.h:133
+CXXFLAGS:append:aarch64 = " -DSANITIZER_CAN_USE_ALLOCATOR64=0"
+
 do_configure () {
     rm -rf ${B}/${TARGET_SYS}/libsanitizer/
     mkdir -p ${B}/${TARGET_SYS}/libsanitizer/
@@ -73,13 +77,14 @@ RRECOMMENDS:${PN}:append:x86 = " liblsan"
 RRECOMMENDS:${PN}:append:x86-64 = " liblsan libtsan"
 RRECOMMENDS:${PN}:append:powerpc64 = " liblsan libtsan"
 RRECOMMENDS:${PN}:append:aarch64 = " liblsan libtsan"
+RRECOMMENDS:${PN}:append:riscv64 = " liblsan libtsan"
 
 do_package_write_ipk[depends] += "virtual/${MLPREFIX}${TARGET_PREFIX}compilerlibs:do_packagedata"
 do_package_write_deb[depends] += "virtual/${MLPREFIX}${TARGET_PREFIX}compilerlibs:do_packagedata"
 do_package_write_rpm[depends] += "virtual/${MLPREFIX}${TARGET_PREFIX}compilerlibs:do_packagedata"
 
 # Only x86, powerpc, sparc, s390, arm, aarch64 and loongarch64 are supported
-COMPATIBLE_HOST = '(x86_64|i.86|powerpc|sparc|s390|arm|aarch64|loongarch64).*-linux'
+COMPATIBLE_HOST = '(x86_64|i.86|powerpc|sparc|s390|arm|aarch64|loongarch64|riscv64).*-linux'
 # musl is currently broken entirely
 COMPATIBLE_HOST:libc-musl = 'null'
 

@@ -64,8 +64,8 @@ do_configure () {
 }
 
 do_compile () {
-	remove_sysroot_paths_from_configargs
-	remove_sysroot_paths_from_checksum_options '${STAGING_DIR_HOST}'
+	remove_sysroot_paths_from_configargs '/host'
+	remove_sysroot_paths_from_checksum_options '${STAGING_DIR_HOST}' '/host'
 
 	oe_runmake all-host configure-target-libgcc
 	(cd ${B}/${TARGET_SYS}/libgcc; oe_runmake enable-execute-stack.c unwind.h md-unwind-support.h sfp-machine.h gthr-default.h)
@@ -132,7 +132,7 @@ do_install () {
 	dest=${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/
 	install -d $dest
 	suffix=${EXEEXT}
-	for t in ar as ld ld.bfd ld.gold nm objcopy objdump ranlib strip g77 gcc cpp gfortran; do
+	for t in ar as ld ld.bfd nm objcopy objdump ranlib strip g77 gcc cpp gfortran; do
 		if [ "$t" = "g77" -o "$t" = "gfortran" ] && [ ! -e ${D}${bindir}/${TARGET_PREFIX}$t$suffix ]; then
 			continue
 		fi
@@ -175,6 +175,8 @@ do_install () {
 			done
 		done
 	done
+
+	cleanup_installed_include_fixed
 }
 
 ELFUTILS = "nativesdk-elfutils"
