@@ -1,3 +1,1 @@
-INITSCRIPT_PARAMS = "stop 20 0 1 6 ."
-
 PACKAGECONFIG:remove = "${@bb.utils.contains('DISTRO_FEATURES', 'gcc15', 'tcp-wrappers', '', d)}"

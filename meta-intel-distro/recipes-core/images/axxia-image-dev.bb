@@ -341,7 +341,7 @@ sysfsutils \
 sysstat \
 tar \
 tcl \
-tcp-wrappers \
+${@bb.utils.contains('DISTRO_FEATURES', 'gcc15', '', 'tcp-wrappers', d)} \
 tcpdump \
 tcsh \
 telnetd \
