@@ -1,0 +1,33 @@
+From 8f6cef269b91739f6a2e7f3b4b1e0a429db3e748 Mon Sep 17 00:00:00 2001
+From: Mark Wielaard <mark@klomp.org>
+Date: Sat, 23 Nov 2024 22:59:21 +0100
+Subject: [PATCH] none/tests/bug234814.c: sa_handler take an int as argument
+
+GCC15 will turn this warning into an error:
+
+bug234814.c: In function 'main':
+bug234814.c:20:18: error: assignment to '__sighandler_t' {aka 'void (*)(int)'} from incompatible pointer type 'void (*)(void)' [-Wincompatible-pointer-types]
+   20 |    sa.sa_handler = mysigbus;
+      |                  ^
+
+Upstream-Status: Backport
+---
+ none/tests/bug234814.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/none/tests/bug234814.c b/none/tests/bug234814.c
+index 16b561fde..11e0f6779 100644
+--- a/none/tests/bug234814.c
++++ b/none/tests/bug234814.c
+@@ -9,7 +9,7 @@ const char kSigbus[] = "I caught the SIGBUS signal!\n";
+ 
+ int GLOB = 3;
+ 
+-void mysigbus() {
++void mysigbus(int signum) {
+    write(1, kSigbus, sizeof(kSigbus)-1);
+    GLOB--;
+    return;
+-- 
+2.39.5
+

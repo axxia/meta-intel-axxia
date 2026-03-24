@@ -1,0 +1,35 @@
+From 932bf2c027579c8d933b57ed80bb5842b390bdb3 Mon Sep 17 00:00:00 2001
+From: Mark Wielaard <mark@klomp.org>
+Date: Sat, 23 Nov 2024 22:37:14 +0100
+Subject: [PATCH] helgrind/tests/tc17_sembar.c: Remove bool typedef
+
+Since C23 bool is a keyword. Also bool wasn't actually used.
+
+tc17_sembar.c:45:14: error: both 'long' and '_Bool' in declaration specifiers
+   45 | typedef long bool;
+      |              ^~~~
+tc17_sembar.c:45:1: warning: useless type name in empty declaration
+   45 | typedef long bool;
+      | ^~~~~~~
+
+Upstream-Status: Backport
+---
+ helgrind/tests/tc17_sembar.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/helgrind/tests/tc17_sembar.c b/helgrind/tests/tc17_sembar.c
+index 36412a07e..ee40160b0 100644
+--- a/helgrind/tests/tc17_sembar.c
++++ b/helgrind/tests/tc17_sembar.c
+@@ -42,7 +42,7 @@ typedef struct
+   sem_t* xxx;
+ } gomp_barrier_t;
+ 
+-typedef long bool;
++
+ 
+ void
+ gomp_barrier_init (gomp_barrier_t *bar, unsigned count)
+-- 
+2.39.5
+

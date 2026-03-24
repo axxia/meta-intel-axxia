@@ -1,0 +1,38 @@
+From 907b985725805f1537396a6d76539bf490cc6c7e Mon Sep 17 00:00:00 2001
+From: Mark Wielaard <mark@klomp.org>
+Date: Sat, 23 Nov 2024 22:48:03 +0100
+Subject: [PATCH] drd/tests/swapcontext.c: Rename typedef struct thread_local
+ to threadlocal
+
+Since C23 thread_local is a keyword (thread storage duration).
+
+swapcontext.c:23:16: error: expected '{' before 'thread_local'
+   23 | typedef struct thread_local {
+      |                ^~~~~~~~~~~~
+swapcontext.c:23:16: warning: 'thread_local' is not at beginning of declaration [-Wold-style-declaration]
+swapcontext.c:23:16: error: 'thread_local' used with 'typedef'
+swapcontext.c:26:3: warning: data definition has no type or storage class
+   26 | } thread_local_t;
+      |   ^~~~~~~~~~~~~~
+
+Upstream-Status: Backport
+---
+ drd/tests/swapcontext.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drd/tests/swapcontext.c b/drd/tests/swapcontext.c
+index 2cb969a5e..ec191968c 100644
+--- a/drd/tests/swapcontext.c
++++ b/drd/tests/swapcontext.c
+@@ -20,7 +20,7 @@
+ 
+ #define STACKSIZE (PTHREAD_STACK_MIN + 4096)
+ 
+-typedef struct thread_local {
++typedef struct threadlocal {
+   ucontext_t uc[3];
+   size_t nrsw;
+ } thread_local_t;
+-- 
+2.39.5
+
