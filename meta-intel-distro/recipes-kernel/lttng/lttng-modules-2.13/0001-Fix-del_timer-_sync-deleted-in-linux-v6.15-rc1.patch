@@ -1,0 +1,100 @@
+From d19db223e534e0c2779101035b6bd26d84257482 Mon Sep 17 00:00:00 2001
+From: John Jacques <john.jacques@intel.com>
+Date: Sun, 4 May 2025 12:09:53 -0500
+Subject: Fix: del_timer[_sync] deleted in linux v6.15-rc1
+
+Starting Linux v6.2, `del_timer[_sync]` was deprecated in favour of
+`timer_delete[_sync]`.
+
+Use this change starting with v6.14.0 to include intermediar
+versions not tracked in netdev/net-next repository (v6.14.2).
+
+See upstream commit 9b13df3fb64ee95e2397585404e442afee2c7d4f:
+
+    commit 9b13df3fb64ee95e2397585404e442afee2c7d4f
+    Author: Thomas Gleixner <tglx@linutronix.de>
+    Date:   Wed Nov 23 21:18:44 2022 +0100
+
+        timers: Rename del_timer_sync() to timer_delete_sync()
+
+        The timer related functions do not have a strict timer_ prefixed namespace
+        which is really annoying.
+
+        Rename del_timer_sync() to timer_delete_sync() and provide del_timer_sync()
+        as a wrapper. Document that del_timer_sync() is not for new code.
+
+As of Linux v6.15-rc1, `del_timer[_sync]` has been fully removed. See
+upstream commit: 8fa7292fee5c5240402371ea89ab285ec856c916
+
+    commit 8fa7292fee5c5240402371ea89ab285ec856c916
+    Author: Thomas Gleixner <tglx@linutronix.de>
+    Date:   Sat Apr 5 10:17:26 2025 +0200
+
+        treewide: Switch/rename to timer_delete[_sync]()
+
+        timer_delete[_sync]() replaces del_timer[_sync](). Convert the whole tree
+        over and remove the historical wrapper inlines.
+
+        Conversion was done with coccinelle plus manual fixups where necessary.
+
+Change-Id: I1cf192b151f1e829e252bb42d43e8283dfb9bbd1
+Signed-off-by: Kienan Stewart <kstewart@efficios.com>
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Back-ported-by: John Jacques <john.jacques@intel.com>
+---
+ include/wrapper/timer.h                   | 10 +++++++++-
+ src/lib/ringbuffer/ring_buffer_frontend.c |  4 ++--
+ 2 files changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/include/wrapper/timer.h b/include/wrapper/timer.h
+index 54649d69..6a259645 100644
+--- a/include/wrapper/timer.h
++++ b/include/wrapper/timer.h
+@@ -25,13 +25,21 @@
+  * It's replaced by timer_setup() where pinned is now part of timer flags.
+  */
+ 
++static inline int lttng_timer_delete_sync(struct timer_list *timer)
++{
++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,14,0))
++	return timer_delete_sync(timer);
++#else
++	return del_timer_sync(timer);
++#endif
++}
+ 
+ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,15,0))
+ 
+ #define LTTNG_TIMER_PINNED		TIMER_PINNED
+ #define LTTNG_TIMER_FUNC_ARG_TYPE	struct timer_list *
+ 
+-#define lttng_mod_timer_pinned(timer, expires) \
++#define lttng_mod_timer_pinned(timer, expires)  \
+ 	mod_timer(timer, expires)
+ 
+ #define lttng_from_timer(var, callback_timer, timer_fieldname) \
+diff --git a/src/lib/ringbuffer/ring_buffer_frontend.c b/src/lib/ringbuffer/ring_buffer_frontend.c
+index e5984e67..dc289501 100644
+--- a/src/lib/ringbuffer/ring_buffer_frontend.c
++++ b/src/lib/ringbuffer/ring_buffer_frontend.c
+@@ -388,7 +388,7 @@ static void lib_ring_buffer_stop_switch_timer(struct lttng_kernel_ring_buffer *b
+ 	if (!chan->switch_timer_interval || !buf->switch_timer_enabled)
+ 		return;
+ 
+-	del_timer_sync(&buf->switch_timer);
++	lttng_timer_delete_sync(&buf->switch_timer);
+ 	buf->switch_timer_enabled = 0;
+ }
+ 
+@@ -458,7 +458,7 @@ static void lib_ring_buffer_stop_read_timer(struct lttng_kernel_ring_buffer *buf
+ 	    || !buf->read_timer_enabled)
+ 		return;
+ 
+-	del_timer_sync(&buf->read_timer);
++	lttng_timer_delete_sync(&buf->read_timer);
+ 	/*
+ 	 * do one more check to catch data that has been written in the last
+ 	 * timer period.
+-- 
+2.25.1
+
