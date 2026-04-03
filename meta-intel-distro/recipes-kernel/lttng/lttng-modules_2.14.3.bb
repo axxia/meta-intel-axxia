@@ -9,6 +9,8 @@ inherit module
 
 include lttng-platforms.inc
 
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}-${@'.'.join('${PV}'.split('.')[:2])}:"
+
 SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
           "
 
@@ -35,8 +37,3 @@ python do_package:prepend() {
     if not os.path.exists(os.path.join(d.getVar('D'), d.getVar('nonarch_base_libdir')[1:], 'modules')):
         bb.warn("%s: no modules were created; this may be due to CONFIG_TRACEPOINTS not being enabled in your kernel." % d.getVar('PN'))
 }
-
-BBCLASSEXTEND = "devupstream:target"
-SRC_URI:class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.13;protocol=https"
-SRCREV:class-devupstream = "7584cfc04914cb0842a986e9808686858b9c8630"
-SRCREV_FORMAT ?= "lttng_git"
