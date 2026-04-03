@@ -361,13 +361,24 @@ NOTE: No preferred version should be set for linux-local provider.
 
     DISTRO_FEATURES:append = " gcc15"
 
-2.3.11. Add extra space in the rootfs partition from the WIC image. Specify as an
+2.3.11. Choose a different version for lttng-modules: 2.13% (PMR default) or
+    2.14% (SNR and GRR default).
+
+    LTTNG_MODULES_VERSION = "2.14%"
+
+2.3.12. Choose a different version for iproute2. By default, iproute2 version
+    follows the kernel version for Linux 6.1, 6.6 and 6.12. For any other
+    kernel version, it defaults to 6.19.
+
+    IPROUTE2_VERSION = "6.19%"
+
+2.3.13 Add extra space in the rootfs partition from the WIC image. Specify as an
     integer value optionally followed by one of the units “k” / “K” for kibibyte,
     “M” for mebibyte and “G” for gibibyte. The default unit if none is given is “M”.
 
     WIC_ROOTFS_EXTRA_SPACE = "10G"
 
-2.3.12. Enabling Multiple Configuration Build (snr, grr, qsp):
+2.3.14. Enabling Multiple Configuration Build (snr, grr, qsp):
 
   BBMULTICONFIG = "snr grr pmr qsp"
 
@@ -384,13 +395,13 @@ To compile the multiple configuration build, the following sintax should be used
 
   Be aware that the default configuration (local.conf) can be used as before.
 
-2.3.13. Depending on your host processor, set these two options that
+2.3.15. Depending on your host processor, set these two options that
       control how much parallelism BitBake should use (optional):
 
     BB_NUMBER_THREADS = "12"
     PARALLEL_MAKE = "-j 12"
 
-2.3.14. Other optional settings for saving disk space and build time:
+2.3.16. Other optional settings for saving disk space and build time:
    
     DL_DIR = "/(some-shared-location)/downloads"
     SSTATE_DIR = "/(some-shared-location)/sstate-cache
