@@ -5,6 +5,10 @@ PREFERRED_VERSION_linux-intel-debug ?= "${KV}"
 PREFERRED_VERSION_linux-intel-private-debug ?= "${KV}"
 PREFERRED_VERSION_linux-korg-netnext-debug = "${KV}"
 
+# Set the version for iproute2 based on kernel version
+IPROUTE2_VERSION ?= "${@bb.utils.contains_any('KV', '6.1% 6.6% 6.12%', '${KV}', '6.19%', d)}"
+PREFERRED_VERSION_iproute2 ?= "${IPROUTE2_VERSION}"
+
 # Avoid warnings for recipes with dynamic version
 PREFERRED_VERSION_linux-intel-private ??= "dev%"
 PREFERRED_VERSION_linux-intel-private-debug ??= "dev%"
