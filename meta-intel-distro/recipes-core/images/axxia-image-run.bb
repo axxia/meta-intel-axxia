@@ -1,174 +1,170 @@
 DESCRIPTION = "A minimal image used in simulation."
+LICENSE = "MIT"
 
 require axxia-image.inc
 require axxia-altkernel.inc
 require ${@bb.utils.contains('BBFILE_COLLECTIONS', 'intel-rdk', \
 			     'axxia-rdk.inc', '', d)}
 
-IMAGE_INSTALL = " \
-packagegroup-core-boot \
-${CORE_IMAGE_EXTRA_INSTALL} \
-"
-
-IMAGE_INSTALL:append = " \
-accel-config \
-axxia-rc-local \
-babeltrace \
-boost \
-boost-dev \
-cifs-utils \
-cpuid \
-cpupower \
-devmem2 \
-dhcpcd \
-dmidecode \
-dos2unix \
-dtc \
-e2fsprogs-resize2fs \
-efibootmgr \
-ethtool \
-expect \
-fio \
-fwts \
-gdb \
-gdbserver \
-htop \
-i2c-tools \
-iasl \
-inetutils \
-initscripts-readonly-rootfs-overlay \
-intel-pcm \
-iperf3 \
-iproute2 \
-iproute2-devlink \
-iproute2-tc \
-jansson \
-kernel-dev \
-kernel-modules \
-kexec \
-kexec-tools \
-kmod \
-ldd \
-libaio \
-libarchive \
-libasan \
-libatomic \
-libbsd \
-libbpf \
-libconfig \
-libelf \
-libgcc \
-libgpiod \
-libgpiod-tools \
-libnl \
-libnl-genl \
-libnl-nf \
-libnl-route \
-libpcap \
-libthrift \
-libthrift-c-glib \
-libthriftnb \
-libthriftz \
-libubsan \
-libudev \
-libxcrypt \
-libxcrypt-compat \
-lz4 \
-mdio-tools \
-mpich \
-msr-tools \
-mtd-utils \
-mtd-utils-misc \
-mtools \
-ncurses \
-netcat \
-numactl \
-nvme-cli \
-openssh \
-openssh-keygen \
-openssh-misc \
-openssh-sftp \
-os-release \
-p7zip \
-packagegroup-core-full-cmdline \
-pbzip2 \
-pcimem \
-pciutils \
-perf \
-perl-module-bigint \
-python3-babeltrace \
-python3-cffi \
-python3-core \
-python3-dev \
-python3-gpiod \
-python3-modules \
-python3-netserver \
-python3-nose \
-python3-openpyxl \
-python3-paramiko \
-python3-pyelftools \
-python3-pexpect \
-python3-prctl \
-python3-psutil \
-python3-pyexpect \
-python3-pynetlinux \
-python3-pytest \
-python3-robotframework \
-python3-spidev \
-readline \
-rpm \
-rsyslog \
-screen \
-spidev-test \
-sshpass \
-stress-ng \
-stressapptest \
-swig \
-tcl \
-tcpdump \
-tcsh \
-telnetd \
-tk \
-tmux \
-vlan \
-xdp-tools \
-zlib \
-${LTTNG_SUPPORT} \
-${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
-		     '${MULTILIB_PACKAGES}', '', d)}  \
-${@bb.utils.contains('DISTRO_FEATURES', 'simics', \
-		     'simicsfs-client simics-agent fuse', '', d)} "
-
-LTTNG_SUPPORT ?= " \
-lttng-modules \
-lttng-ust \
-"
-
-MULTILIB_PACKAGES ?= " \
-lib32-libasan \
-lib32-libgcc \
-lib32-libnl \
-lib32-libnl-genl \
-lib32-libnl-nf \
-lib32-libnl-route \
-lib32-libpcap \
-lib32-libpython3 \
-lib32-libubsan \
-lib32-libudev \
-"
-
-IMAGE_FEATURES:append = " dev-pkgs"
-
-TOOLCHAIN_TARGET_TASK:append = " kernel-devsrc"
-
-TOOLCHAIN_HOST_TASK:append = " nativesdk-elfutils-dev"
-
-LICENSE = "MIT"
-
 inherit core-image
 
 IMAGE_ROOTFS_SIZE = "16384"
 
-SDKIMAGE_FEATURES = "dev-pkgs dbg-pkgs staticdev-pkgs"
+IMAGE_FEATURES:append = " dev-pkgs"
+
+IMAGE_INSTALL = " \
+    packagegroup-core-boot \
+    packagegroup-core-full-cmdline \
+    ${CORE_IMAGE_EXTRA_INSTALL} \
+    accel-config \
+    axxia-rc-local \
+    babeltrace \
+    boost \
+    boost-dev \
+    cifs-utils \
+    cpuid \
+    cpupower \
+    devmem2 \
+    dhcpcd \
+    dmidecode \
+    dos2unix \
+    dtc \
+    e2fsprogs-resize2fs \
+    efibootmgr \
+    ethtool \
+    expect \
+    fio \
+    fwts \
+    gdb \
+    gdbserver \
+    htop \
+    i2c-tools \
+    iasl \
+    inetutils \
+    initscripts-readonly-rootfs-overlay \
+    intel-pcm \
+    iperf3 \
+    iproute2 \
+    iproute2-devlink \
+    iproute2-tc \
+    jansson \
+    kernel-dev \
+    kernel-modules \
+    kexec \
+    kexec-tools \
+    kmod \
+    ldd \
+    libaio \
+    libarchive \
+    libasan \
+    libatomic \
+    libbsd \
+    libbpf \
+    libconfig \
+    libelf \
+    libgcc \
+    libgpiod \
+    libgpiod-tools \
+    libnl \
+    libnl-genl \
+    libnl-nf \
+    libnl-route \
+    libpcap \
+    libthrift \
+    libthrift-c-glib \
+    libthriftnb \
+    libthriftz \
+    libubsan \
+    libudev \
+    libxcrypt \
+    libxcrypt-compat \
+    lz4 \
+    mdio-tools \
+    mpich \
+    msr-tools \
+    mtd-utils \
+    mtd-utils-misc \
+    mtools \
+    ncurses \
+    netcat \
+    numactl \
+    nvme-cli \
+    openssh \
+    openssh-keygen \
+    openssh-misc \
+    openssh-sftp \
+    os-release \
+    p7zip \
+    pbzip2 \
+    pcimem \
+    pciutils \
+    perf \
+    perl-module-bigint \
+    python3-babeltrace \
+    python3-cffi \
+    python3-core \
+    python3-dev \
+    python3-gpiod \
+    python3-modules \
+    python3-netserver \
+    python3-nose \
+    python3-openpyxl \
+    python3-paramiko \
+    python3-pyelftools \
+    python3-pexpect \
+    python3-prctl \
+    python3-psutil \
+    python3-pyexpect \
+    python3-pynetlinux \
+    python3-pytest \
+    python3-robotframework \
+    python3-spidev \
+    readline \
+    rpm \
+    rsyslog \
+    screen \
+    spidev-test \
+    sshpass \
+    stress-ng \
+    stressapptest \
+    swig \
+    tcl \
+    tcpdump \
+    tcsh \
+    telnetd \
+    tk \
+    tmux \
+    vlan \
+    xdp-tools \
+    zlib \
+    ${LTTNG_SUPPORT} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'multilib', \
+			 '${MULTILIB_PACKAGES}', '', d)}  \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'simics', \
+			 'simicsfs-client simics-agent fuse', '', d)} \
+    "
+
+LTTNG_SUPPORT ?= " \
+    lttng-modules \
+    lttng-ust \
+    "
+
+MULTILIB_PACKAGES ?= " \
+    lib32-libasan \
+    lib32-libgcc \
+    lib32-libnl \
+    lib32-libnl-genl \
+    lib32-libnl-nf \
+    lib32-libnl-route \
+    lib32-libpcap \
+    lib32-libpython3 \
+    lib32-libubsan \
+    lib32-libudev \
+    "
 
 PACKAGE_EXCLUDE:append = "libxcrypt-compat-dev"
+
+TOOLCHAIN_TARGET_TASK:append = " kernel-devsrc"
+TOOLCHAIN_HOST_TASK:append = " nativesdk-elfutils-dev"
+
+SDKIMAGE_FEATURES = "dev-pkgs dbg-pkgs staticdev-pkgs"
