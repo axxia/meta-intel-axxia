@@ -3,10 +3,6 @@ or as a ram disk that supports the RTE."
 
 require axxia-image.inc
 
-APPEND = "console=ttyS0"
-
-AUTO_SYSLINUXMENU = "0"
-
 IMAGE_FEATURES = " \
 dev-pkgs \
 tools-sdk \
@@ -64,5 +60,3 @@ LICENSE = "MIT"
 inherit core-image
 
 IMAGE_ROOTFS_SIZE = "8192"
-
-IMAGE_FSTYPES = "hddimg wic tar.gz ext4"
