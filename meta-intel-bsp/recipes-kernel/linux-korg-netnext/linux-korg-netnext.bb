@@ -3,8 +3,8 @@ require recipes-kernel/linux/linux-axxia.inc
 
 FILESEXTRAPATHS:prepend := "${@oe.utils.conditional('KORG_NETNEXT_EXTRA_PATH', '', '', '${KORG_NETNEXT_EXTRA_PATH}:', d)}"
 
-SRC_URI:append= "git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git;protocol=https;name=machine;branch=${KBRANCH} \
-                 ${@oe.utils.conditional('KORG_NETNEXT_CONFIG', 'frags', '', 'file://${KORG_NETNEXT_CONFIG}', d)}"
+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git;protocol=https;name=machine;branch=${KBRANCH} \
+           ${@oe.utils.conditional('KORG_NETNEXT_CONFIG', 'frags', '${KERNEL_CONFIG_URI}', 'file://${KORG_NETNEXT_CONFIG}', d)}"
 
 KBRANCH = "main"
 KMETA_BRANCH = "yocto-6.16"
