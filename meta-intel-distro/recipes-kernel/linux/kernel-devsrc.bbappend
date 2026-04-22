@@ -303,6 +303,9 @@ do_install() {
 	cp -a --parents kernel/time/timeconst.bc $kerneldir/build 2>/dev/null || :
 	cp -a --parents kernel/bounds.c $kerneldir/build 2>/dev/null || :
 
+	# v6.14+ Install drm lib sources required by make clean
+	cp -a --parents drivers/gpu/drm/lib $kerneldir/build 2>/dev/null || :
+
         # v6.18+ rq offset generation needs these scheduler sources/headers
         cp -a --parents kernel/sched/rq-offsets.c $kerneldir/build 2>/dev/null || :
         cp -a --parents kernel/sched/sched.h $kerneldir/build 2>/dev/null || :
