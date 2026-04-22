@@ -197,7 +197,7 @@ a. Public Intel Github (github.com/intel)
    
    will build kernel from Intel Github public repo
    (https://github.com/intel/linux-intel-lts):
-      6.1/yocto, 6.6/yocto or 6.12/yocto branches
+      [v6.1|v6.6|v6.12|v6.18]/linux branch
   
    Alternative Intel kernel is linux-intel-debug.
 
@@ -207,7 +207,7 @@ b. Private Intel Github (github.com/intel-innersource)
    
    will build kernel from Intel Innersource private repo
    (https://github.com/intel-innersource/networking.wireless.transport.rdk.bts-kernel):
-      pmr/latest branch
+      pmr/latest/pmr branch
 
    KBRANCH_INTEL_PRIVATE variable can be use in local.conf to set a
    different branch. linux-intel-private recipes have dynamic version:
@@ -234,7 +234,7 @@ d. Yocto Project repository (git.yoctoproject.org)
    
    will build kernel from Yocto Project Source repo
    (https://git.yoctoproject.org/linux-yocto):
-      v6.1/standard/base and v6.6/standard/base branches
+      [v6.1|v6.6|v6.18]/standard/base branches
   
    Alternative Yocto kernel is linux-yocto-debug.
 
@@ -303,7 +303,8 @@ g. Local Kernel repositories (for Linux development)
    NOTE: If you want to skip lttng support for your local kernel:
          LTTNG_SUPPORT = ""
 
-2.3.5. Select the version for the main kernel: 6.1, 6.6 (default) or 6.12
+2.3.5. Select the version for the main kernel: v6.1, v6.6 (default),
+   v6.12 or v6.18
 
    PREFERRED_VERSION_(preferred-provider)= "6.12%"
 
