@@ -5,8 +5,8 @@ of importing files into the simulated machine."
 
 require simics.inc
 
-DEPENDS = "fuse libmagicpipe"
-RDEPENDS:${PN} = "fuse"
+DEPENDS = "fuse fuse3 libmagicpipe"
+RDEPENDS:${PN} = "fuse fuse3"
 
 do_install () {
 	install -d ${D}${bindir} ${D}/host
