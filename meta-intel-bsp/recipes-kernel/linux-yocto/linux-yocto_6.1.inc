@@ -6,6 +6,7 @@ COMMON_PATCHES = " \
 file://0001-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
 file://0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
 file://0003-perf-cpumap-Make-counter-as-unsigned-ints.patch \
+file://0004-x86-add-std-gnu11-for-GCC15.patch \
 "
 
 SNR_PATCHES = " \

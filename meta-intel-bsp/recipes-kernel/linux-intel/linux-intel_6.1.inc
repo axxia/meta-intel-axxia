@@ -5,6 +5,7 @@ SRCREV_meta = "145015b4503d2e4da8a46cea7b3ad376bd954867"
 COMMON_PATCHES = " \
 file://0001-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
 file://0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
+file://0004-x86-add-std-gnu11-for-GCC15.patch \
 "
 
 SNR_PATCHES = " \
