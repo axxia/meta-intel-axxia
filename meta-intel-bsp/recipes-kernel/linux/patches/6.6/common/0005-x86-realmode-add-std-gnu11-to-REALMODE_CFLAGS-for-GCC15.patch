@@ -1,0 +1,36 @@
+From 9aa4fa687b9c54fa2b05179560055d9452e1fe7e Mon Sep 17 00:00:00 2001
+From: Daniel Dragomir <daniel.dragomir@windriver.com>
+Date: Wed, 29 Apr 2026 20:18:01 +0300
+Subject: [PATCH] x86/realmode: add -std=gnu11 to REALMODE_CFLAGS for GCC 15
+
+GCC 15 defaults to -std=gnu23 where 'false' and 'bool' are reserved
+keywords, breaking the realmode sub-build which defines its own
+KBUILD_CFLAGS from REALMODE_CFLAGS independently of the main kernel
+build.
+
+  include/linux/stddef.h:11:9: error: cannot use keyword 'false'
+  as enumeration constant
+  note: 'false' is a keyword with '-std=c23' onwards
+
+Upstream-Status: Pending
+
+Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
+---
+ arch/x86/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+index c83582b5a010..079f30f8018e 100644
+--- a/arch/x86/Makefile
++++ b/arch/x86/Makefile
+@@ -51,6 +51,7 @@ REALMODE_CFLAGS	:= -m16 -g -Os -DDISABLE_BRANCH_PROFILING -D__DISABLE_EXPORTS \
+ REALMODE_CFLAGS += -ffreestanding
+ REALMODE_CFLAGS += -fno-stack-protector
+ REALMODE_CFLAGS += -Wno-address-of-packed-member
++REALMODE_CFLAGS += -std=gnu11
+ REALMODE_CFLAGS += $(cc_stack_align4)
+ REALMODE_CFLAGS += $(CLANG_FLAGS)
+ export REALMODE_CFLAGS
+-- 
+2.39.5
+

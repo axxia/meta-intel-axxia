@@ -7,6 +7,7 @@ file://0001-drivers-watchdog-Ignore-No-Reboot-Bit.patch \
 file://0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch \
 file://0003-spi-Unify-error-codes-by-replacing-ENOTSUPP-with-EOP.patch \
 file://0004-ethtool-Revert-Frame-Preemption-Support.patch \
+file://0005-x86-realmode-add-std-gnu11-to-REALMODE_CFLAGS-for-GCC15.patch \
 "
 
 SNR_PATCHES = " \
