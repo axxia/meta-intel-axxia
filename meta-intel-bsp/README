@@ -104,6 +104,15 @@ Included as
 0002-clocksource-Add-option-to-force-acpi_pm-as-clocksour.patch
 
 
+lib/crc: Add CRC8 Config Option
+-------------------------------
+
+Enable the CRC8 config option even when CRC8 is not selected by any built-in Linux modules.  The allows the option to be used by external modules if needed.
+
+Included as
+0004-lib-crc-Add-CRC8-Config-Option.patch
+
+
 Support Serial Flash Access (MTD) to Boot Flash
 -----------------------------------------------
 
