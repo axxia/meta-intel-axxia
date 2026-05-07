@@ -48,7 +48,7 @@ IES_EXTRA_FLAGS = "host_alias=${HOST_SYS}"
 REMOVE_LIBTOOL_LA = "0"
 
 # Add new include path for KLM headers exported for userspace
-CXXFLAGS += " -I${SYSROOT}/usr/kernel-headers/include/klm "
+CXXFLAGS += " -I${STAGING_EXECPREFIXDIR}/kernel-headers/include/klm "
 
 # Ensure install dir from sources is empty when rebuilding
 do_compile[cleandirs] = "${S}/install"
