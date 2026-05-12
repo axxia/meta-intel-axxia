@@ -10,12 +10,14 @@ require ${@bb.utils.contains('BBFILE_COLLECTIONS', 'intel-rdk', \
 			     'axxia-rdk.inc', '', d)}
 
 IMAGE_FEATURES:append = " \
+    allow-empty-password \
+    allow-root-login \
     dev-pkgs \
     tools-sdk \
     tools-debug \
     eclipse-debug \
+    empty-root-password \
     tools-testapps \
-    debug-tweaks \
     ssh-server-openssh \
     "
 

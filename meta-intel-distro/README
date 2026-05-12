@@ -409,7 +409,6 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
 PREFERRED_VERSION_linux-intel = "6.6%"
 DISTRO = "intel-axxia"
 PACKAGE_CLASSES ?= "package_rpm"
-EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
 USER_CLASSES ?= "buildstats"
 PATCHRESOLVE = "noop"
 BB_DISKMON_DIRS ??= "\

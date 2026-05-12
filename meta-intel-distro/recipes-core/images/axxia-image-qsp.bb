@@ -9,10 +9,12 @@ inherit core-image
 IMAGE_ROOTFS_SIZE = "8192"
 
 IMAGE_FEATURES = " \
+    allow-empty-password \
+    allow-root-login \
     dev-pkgs \
+    empty-root-password \
     tools-sdk \
     tools-debug \
-    debug-tweaks \
     "
 
 IMAGE_INSTALL = " \
