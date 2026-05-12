@@ -1,4 +1,4 @@
-DEPENDS:append = " virtual/${TARGET_PREFIX}gcc bc-native bison-native rsync-native patchelf-native"
+DEPENDS:append = " virtual/cross-cc bc-native bison-native rsync-native patchelf-native"
 
 IMAGE_INSTALL:append = " kernel-devsrc"
 
