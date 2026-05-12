@@ -197,7 +197,7 @@ a. Public Intel Github (github.com/intel)
    
    will build kernel from Intel Github public repo
    (https://github.com/intel/linux-intel-lts):
-      [v6.1|v6.6|v6.12|v6.18]/linux branch
+      v6.18/linux branch
   
    Alternative Intel kernel is linux-intel-debug.
 
@@ -234,7 +234,7 @@ d. Yocto Project repository (git.yoctoproject.org)
    
    will build kernel from Yocto Project Source repo
    (https://git.yoctoproject.org/linux-yocto):
-      [v6.1|v6.6|v6.18]/standard/base branches
+      v6.18/standard/base branches
   
    Alternative Yocto kernel is linux-yocto-debug.
 
@@ -303,10 +303,9 @@ g. Local Kernel repositories (for Linux development)
    NOTE: If you want to skip lttng support for your local kernel:
          LTTNG_SUPPORT = ""
 
-2.3.5. Select the version for the main kernel: v6.1, v6.6 (default),
-   v6.12 or v6.18
+2.3.5. Select the version for the main kernel: v6.18 (default)
 
-   PREFERRED_VERSION_(preferred-provider)= "6.12%"
+   PREFERRED_VERSION_(preferred-provider)= "6.18%"
 
 NOTE: No preferred version should be set for linux-local provider.
 
@@ -404,9 +403,9 @@ To compile the multiple configuration build, the following sintax should be used
 
     Here are the local.conf files used for open builds:
 
-MACHINE = "intel-axxia-snr"
+MACHINE = "intel-axxia-grr"
 PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
-PREFERRED_VERSION_linux-intel = "6.6%"
+PREFERRED_VERSION_linux-intel = "6.18%"
 DISTRO = "intel-axxia"
 PACKAGE_CLASSES ?= "package_rpm"
 USER_CLASSES ?= "buildstats"

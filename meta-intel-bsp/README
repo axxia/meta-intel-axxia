@@ -55,7 +55,7 @@ I. Back Ported Linux Changes
 ============================
 
 Some changes have been up-streamed, but have not yet been back ported
-to Linux 6.1 or 6.6. Some of these have been added to this meta layer.
+to older Linux versions. Some of these have been added to this meta layer.
 The changes are described below. In each case, any changes required are
 described and the publically available patch is referenced. Only changes
 functionally required for internal testing have been back ported.
@@ -67,8 +67,8 @@ In the following descriptions, "with no changes" means that a patch
 was obtained using 'git format-patch -1 <sha>' from the referenced
 respoistory and was applied using 'git am -3 <patch>'.
 
-In the meta layer, the patches for Linux 6.1 or 6.6 can be found in
-meta-intel-bsp/recipes-kernel/linux/patches/[6.1|6.6].
+In the meta layer, the patches for Linux can be found in
+meta-intel-bsp/recipes-kernel/linux/patches/${KV}.
 
 
 drivers/watchdog: Ignore 'No Reboot' Bit
@@ -107,80 +107,18 @@ Included as
 lib/crc: Add CRC8 Config Option
 -------------------------------
 
-Enable the CRC8 config option even when CRC8 is not selected by any built-in Linux modules.  The allows the option to be used by external modules if needed.
+Enable the CRC8 config option even when CRC8 is not selected by any
+built-in Linux modules. The allows the option to be used by external
+modules if needed.
 
 Included as
 0004-lib-crc-Add-CRC8-Config-Option.patch
 
 
-Support Serial Flash Access (MTD) to Boot Flash
------------------------------------------------
-
-Allows access to the secondary boot flash from Linux using the MTD driver.
-
-0003-spi-Unify-error-codes-by-replacing-ENOTSUPP-with-EOP.patch
-
-Revert Frame Preemption Support
--------------------------------
-
-Until this has been upstreamed, it breaks ethtool.  As the feature is
-not used by this project, reverting!
-
-0004-ethtool-Revert-Frame-Preemption-Support.patch
-
 Support for SIOV (for GRR and PMR)
 ----------------------------------
 
 0001-platform-msi-Add-device-MSI-infrastructure.patch
-0002-genirq-msi-Provide-helpers-to-return-Linux-IRQ-dev_m.patch
-
-Support for intel_idle C-States on GRR
---------------------------------------
-
-This has been upstreamed in a later version of the kernel
-[ac89d11b93cc37c52dc38206c3eaffd4fa603f91]
-
-0003-intel_idle-add-Grand-Ridge-SoC-support.patch
-
-Perf Updates for GRR
---------------------
-
-All of the following have been upstreamed, but some required modification.
-
-0004-perf-Add-branch_sample_call_stack.patch
-0005-perf-Add-branch-stack-counters.patch
-0006-perf-x86-Add-PERF_X86_EVENT_NEEDS_BRANCH_STACK-flag.patch
-0007-perf-x86-intel-Support-branch-counters-logging.patch
-0008-perf-test-Basic-branch-counter-support.patch
-0009-tools-headers-UAPI-Sync-include-uapi-linux-perf_even.patch
-0010-perf-tools-Add-branch-counter-knob.patch
-0011-perf-header-Support-num-and-width-of-branch-counters.patch
-0012-perf-x86-intel-uncore-Support-Granite-Rapids.patch
-0013-perf-x86-intel-uncore-Support-IIO-free-running-count.patch
-0014-perf-x86-uncore-Use-u64-to-replace-unsigned-for-the-.patch
-0015-perf-x86-intel-uncore-Support-Sierra-Forest-and-Gran.patch
-0016-perf-x86-intel-uncore-Generic-uncore_get_uncores-and.patch
-0017-perf-x86-intel-cstate-Cleanup-duplicate-attr_groups.patch
-0018-perf-x86-intel-cstate-Add-Sierra-Forest-support.patch
-0019-perf-x86-intel-cstate-Add-Grand-Ridge-support.patch
-0020-x86-smp-Export-symbol-cpu_clustergroup_mask.patch
-0021-platform-x86-intel-uncore-freq-Ignore-minor-version-.patch
-0022-platform-x86-intel-tpmi-Add-defines-to-get-version-i.patch
-
-SPI Warning During Shutdown
----------------------------
-
-From Linux, after 6.6.  This suppresses a warning during shutdown.
-
-0023-mtd-spi-nor-Stop-reporting-warning-message-when-soft.patch
-
-EDAC Support
-------------
-
-From kernel.org [e77086c3750834553cf6fd2255c5f3ee04843ed8] adds EDAC
-support for Grand Ridge.
-
-0024-EDAC-i10nm-Add-Intel-Grand-Ridge-micro-server-suppor.patch
 
 
 II. Building meta-intel-bsp
