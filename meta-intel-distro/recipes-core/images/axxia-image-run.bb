@@ -16,9 +16,10 @@ IMAGE_INSTALL = " \
     packagegroup-core-boot \
     packagegroup-core-full-cmdline \
     ${CORE_IMAGE_EXTRA_INSTALL} \
+    7zip \
     accel-config \
     axxia-rc-local \
-    babeltrace \
+    babeltrace2 \
     boost \
     boost-dev \
     cifs-utils \
@@ -81,7 +82,6 @@ IMAGE_INSTALL = " \
     lz4 \
     mdio-tools \
     mpich \
-    msr-tools \
     mtd-utils \
     mtd-utils-misc \
     mtools \
@@ -94,13 +94,12 @@ IMAGE_INSTALL = " \
     openssh-misc \
     openssh-sftp \
     os-release \
-    p7zip \
     pbzip2 \
     pcimem \
     pciutils \
     perf \
     perl-module-bigint \
-    python3-babeltrace \
+    python3-babeltrace2 \
     python3-cffi \
     python3-core \
     python3-dev \

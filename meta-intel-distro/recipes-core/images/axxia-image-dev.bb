@@ -24,6 +24,8 @@ IMAGE_FEATURES:append = " \
 IMAGE_INSTALL = " \
     packagegroup-core-boot \
     packagegroup-core-buildessential \
+    7zip \
+    7zip-dev \
     accel-config \
     acl \
     aer-inject \
@@ -35,7 +37,7 @@ IMAGE_INSTALL = " \
     autoconf-archive \
     autofs \
     axxia-rc-local \
-    babeltrace \
+    babeltrace2 \
     base-files \
     base-passwd \
     bash \
@@ -229,7 +231,6 @@ IMAGE_INSTALL = " \
     mokutil \
     mpich \
     msmtp \
-    msr-tools \
     mtd-utils \
     mtd-utils-misc \
     nasm \
@@ -257,8 +258,6 @@ IMAGE_INSTALL = " \
     opkg-arch-config \
     opkg-utils \
     os-release \
-    p7zip \
-    p7zip-dev \
     parted \
     pbzip2 \
     pcimem \
@@ -276,7 +275,6 @@ IMAGE_INSTALL = " \
     perl-module-pod-text \
     perl-ptest \
     pkgconfig \
-    pmtools \
     popt \
     postfix \
     ppp \
@@ -284,7 +282,7 @@ IMAGE_INSTALL = " \
     psmisc \
     pyenv \
     python3 \
-    python3-babeltrace \
+    python3-babeltrace2 \
     python3-cffi \
     python3-colorama \
     python3-core \
@@ -378,7 +376,6 @@ IMAGE_INSTALL = " \
     wget \
     which \
     yaml-cpp \
-    yasm \
     xdp-tools \
     xfsprogs \
     xxhash \
