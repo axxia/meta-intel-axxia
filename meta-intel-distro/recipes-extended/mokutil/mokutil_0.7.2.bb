@@ -9,7 +9,6 @@ DEPENDS = "openssl efivar keyutils virtual/crypt"
 SRC_URI = "git://github.com/lcp/mokutil.git;branch=master;protocol=https \
           "
 
-S = "${WORKDIR}/git"
 
 SRCREV = "a0e52a974e3ef222ee454bab76602afd7f4c0440"
 

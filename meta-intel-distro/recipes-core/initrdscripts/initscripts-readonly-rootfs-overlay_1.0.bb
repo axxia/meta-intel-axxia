@@ -4,10 +4,10 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
 DEPENDS = "virtual/kernel"
 SRC_URI = "file://init-readonly-rootfs-overlay-boot.sh"
 
-S = "${WORKDIR}"
+S = "${UNPACKDIR}"
 
 do_install() {
-        install -m 0755 ${WORKDIR}/init-readonly-rootfs-overlay-boot.sh ${D}/init-readonly-overlay
+        install -m 0755 ${UNPACKDIR}/init-readonly-rootfs-overlay-boot.sh ${D}/init-readonly-overlay
         install -d "${D}/media/rfs/ro"
         install -d "${D}/media/rfs/rw"
 }

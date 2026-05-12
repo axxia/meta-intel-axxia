@@ -13,6 +13,6 @@ do_configure:prepend() {
 
 do_install:append() {
     install -d ${D}${INIT_D_DIR}
-    install -m 0755 ${WORKDIR}/mcelog.sysvinit ${D}${INIT_D_DIR}/mcelog
+    install -m 0755 ${UNPACKDIR}/mcelog.sysvinit ${D}${INIT_D_DIR}/mcelog
     rm -rf ${D}${sysconfdir}/cron.hourly
 }

@@ -5,5 +5,5 @@ SRC_URI:append = " file://nisdomainname \
 
 do_install:append() {
 	install -d ${D}${sysconfdir}
-	install -m 0644 ${WORKDIR}/nisdomainname ${D}${sysconfdir}/nisdomainname
+	install -m 0644 ${UNPACKDIR}/nisdomainname ${D}${sysconfdir}/nisdomainname
 }

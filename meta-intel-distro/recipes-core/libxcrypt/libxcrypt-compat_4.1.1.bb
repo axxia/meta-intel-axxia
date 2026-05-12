@@ -12,7 +12,7 @@ BB_CHECK_SSL_CERTS = "0"
 SRC_URI[md5sum] = "c49d5d63f6d740015eb8b27b4a294b4f"
 SRC_URI[sha256sum] = "d47f375a7902f3059a8690edc5949bbfd4708d53762c53414ff8747b7b409809"
 
-S = "${WORKDIR}"
+S = "${UNPACKDIR}"
 
 do_install () {
 	install -d ${D}${libdir}

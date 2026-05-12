@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 SRC_URI = "file://rc.local.etc.${SUFFIX} \
            file://rc.local.init "
 
-S = "${WORKDIR}"
+S = "${UNPACKDIR}"
 
 SUFFIX = '${@bb.utils.contains('DISTRO_FEATURES', "qsp", \
 	    "qsp", "${@d.getVar('MACHINE').split('-')[2]}", d)}'

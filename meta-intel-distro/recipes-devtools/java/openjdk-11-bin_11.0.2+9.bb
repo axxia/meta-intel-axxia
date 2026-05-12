@@ -18,7 +18,7 @@ SRC_URI = "https://download.java.net/java/GA/jdk${PV_MAJOR}/${PV_BUILD}/GPL/open
 SRC_URI[sha256sum] = "99be79935354f5c0df1ad293620ea36d13f48ec3ea870c838f20c504c9668b57"
 BB_CHECK_SSL_CERTS = "0"
 
-S = "${WORKDIR}/jdk-${PV_MAIN}"
+S = "${UNPACKDIR}/jdk-${PV_MAIN}"
 
 inherit update-alternatives
 

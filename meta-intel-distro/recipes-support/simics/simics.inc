@@ -8,7 +8,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/../../downloads:"
 
 SRC_URI = "file://simics-${PV}.tgz"
 
-S = "${WORKDIR}/simics-${PV}/src/misc/${PN}"
+S = "${UNPACKDIR}/simics-${PV}/src/misc/${PN}"
 
 do_compile () {
 	oe_runmake

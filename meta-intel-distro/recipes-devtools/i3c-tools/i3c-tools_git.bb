@@ -21,7 +21,6 @@ SRCREV:intel-axxia-grr = "8058809771653797615ab7cc9aaa9414a86ccbba"
 
 SRC_URI = "git://${REPO};branch=${BRANCH};protocol=https"
 
-S = "${WORKDIR}/git"
 
 do_compile[depends] += "virtual/kernel:do_shared_workdir"
 

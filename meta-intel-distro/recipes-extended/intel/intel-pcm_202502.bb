@@ -12,7 +12,6 @@ SRC_URI = " \
 	"
 SRCREV = "5cb70ffdb6ef6bb5e614a916812526a8104e377a"
 
-S = "${WORKDIR}/git"
 
 COMPATIBLE_HOST = '(x86_64).*-linux'
 COMPATIBLE_HOST:libc-musl = "null"

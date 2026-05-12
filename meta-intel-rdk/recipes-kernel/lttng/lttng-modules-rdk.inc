@@ -21,9 +21,9 @@ do_compile[depends] += "${KERNEL_PROVIDER}:do_deploy"
 do_patch_rdk() {
     cd ${S}
     VERSION="${PV}"
-    [ -z $(find ${WORKDIR}/rdk/klm -path "*lttng/${VERSION%.*}") ] \
+    [ -z $(find ${UNPACKDIR}/rdk/klm -path "*lttng/${VERSION%.*}") ] \
         && PATTERN="*/lttng/*.patch" || PATTERN="*/lttng/${VERSION%.*}/*.patch"
-    RDK_LTTNG_PATCHES=$(find ${WORKDIR}/rdk/klm -path "${PATTERN}")
+    RDK_LTTNG_PATCHES=$(find ${UNPACKDIR}/rdk/klm -path "${PATTERN}")
     if [ ! -z "${RDK_LTTNG_PATCHES}" ]; then
         cp ${RDK_LTTNG_PATCHES} ${S}
         ls ${S}/*.patch | sort | xargs -t -n 1 patch -p1 -i

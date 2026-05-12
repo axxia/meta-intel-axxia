@@ -8,7 +8,7 @@ SRC_URI = "https://brick.kernel.dk/snaps/${BPN}-${PV}.tar.bz2"
 SRC_URI[md5sum] = "ec8004ceac6f404b26c414f5e83996d9"
 SRC_URI[sha256sum] = "ba95867d541a680b0e743b1ecb385e0874a88e422566a1a27eb15f1edf703a30"
 
-S = "${WORKDIR}/fio-${PV}"
+S = "${UNPACKDIR}/fio-${PV}"
 
 inherit pkgconfig
 

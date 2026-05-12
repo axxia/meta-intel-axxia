@@ -54,12 +54,12 @@ COMPATIBLE_MACHINE:intel-axxia-snr = "${MACHINE}"
 COMPATIBLE_MACHINE:intel-axxia-grr = "${MACHINE}"
 COMPATIBLE_MACHINE:intel-axxia-pmr = "${MACHINE}"
 
-# Rename LOCAL_DEFCONFIG to 'defconfig' and move it in WORKDIR
+# Rename LOCAL_DEFCONFIG to 'defconfig' and move it in UNPACKDIR
 handle_defconfig () {
     if [ -n "${LOCAL_DEFCONFIG}" ]; then
-        if [ -f "${WORKDIR}/${LOCAL_DEFCONFIG}" ]; then
-            mv -f ${WORKDIR}/${LOCAL_DEFCONFIG} ${WORKDIR}/defconfig
-            rm -rf $(dirname ${WORKDIR}/${LOCAL_DEFCONFIG})
+        if [ -f "${UNPACKDIR}/${LOCAL_DEFCONFIG}" ]; then
+            mv -f ${UNPACKDIR}/${LOCAL_DEFCONFIG} ${UNPACKDIR}/defconfig
+            rm -rf $(dirname ${UNPACKDIR}/${LOCAL_DEFCONFIG})
         fi
     fi
 }

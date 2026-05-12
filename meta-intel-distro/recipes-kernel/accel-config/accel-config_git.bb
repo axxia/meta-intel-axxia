@@ -20,7 +20,6 @@ PV = "4.1.1"
 
 SRC_URI = "git://github.com/intel/idxd-config.git;protocol=https;branch=stable"
 
-S = "${WORKDIR}/git"
 
 inherit autotools-brokensep pkgconfig gettext 
 

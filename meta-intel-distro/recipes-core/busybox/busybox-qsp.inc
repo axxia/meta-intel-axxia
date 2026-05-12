@@ -13,11 +13,11 @@ INITSCRIPT_PARAMS:inetd-${PN} = "start 80 5 . stop 80 S ."
 
 do_install:append () {
 	install -d ${D}${base_prefix}/tftpboot
-	install -m 0644 ${WORKDIR}/testfile.txt ${D}/tftpboot/testfile.txt
+	install -m 0644 ${UNPACKDIR}/testfile.txt ${D}/tftpboot/testfile.txt
 
 	if grep -q "CONFIG_UDHCPD=y" ${B}/.config; then
-		install -m 0755 ${WORKDIR}/busybox-udhcpd ${D}${sysconfdir}/init.d/busybox-udhcpd
-		install -m 0644 ${WORKDIR}/udhcpd.conf ${D}${sysconfdir}/udhcpd.conf
+		install -m 0755 ${UNPACKDIR}/busybox-udhcpd ${D}${sysconfdir}/init.d/busybox-udhcpd
+		install -m 0644 ${UNPACKDIR}/udhcpd.conf ${D}${sysconfdir}/udhcpd.conf
 		update-rc.d -r ${D} busybox-udhcpd start 85 2 3 4 5 .
 	fi
 

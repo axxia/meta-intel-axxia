@@ -3,7 +3,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 SRC_URI:append = " file://nfsroot-resolvconf"
 
 do_install:append() {
-    install -m 0755 ${WORKDIR}/nfsroot-resolvconf \
+    install -m 0755 ${UNPACKDIR}/nfsroot-resolvconf \
 	    ${D}${sysconfdir}/network/if-pre-up.d/nfsroot
 
     # Use classic network interface naming scheme if no 'pni-names' distro feature
