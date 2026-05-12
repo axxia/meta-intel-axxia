@@ -1,4 +1,6 @@
-require linux-intel_6.18.bb
+require recipes-kernel/linux/linux-intel_6.18.bb
+require recipes-kernel/linux/linux-axxia.inc
+require linux-intel_6.18.inc
 
 SRC_URI:append = " file://debug.scc"
 
