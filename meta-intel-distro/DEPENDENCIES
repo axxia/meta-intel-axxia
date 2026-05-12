@@ -1,38 +1,50 @@
 Dependencies
 ============
 
-poky
-----
-URI: https://git.yoctoproject.org/poky
-branch: scarthgap
-revision: 7d50718f90c51fb7f650c9db59b28c6e0194e5d2
+bitbake
+-------
+URI: https://git.openembedded.org/bitbake
+branch: master
+revision: 2b47c2fc40b753e260b63ec419edfd1f85adff90
+
+meta-yocto
+----------
+URI: https://git.yoctoproject.org/meta-yocto
+branch: wrynose
+revision: 904846ae078ee20de073040ebb77c86e19250f56
+
+openembedded-core
+-----------------
+URI: https://git.openembedded.org/openembedded-core
+branch: wrynose
+revision: 42fa856a00ac16b2a7a83d7ecfa60a5be192b16c
 
 meta-openembedded
 -----------------
 URI: https://git.openembedded.org/meta-openembedded
-branch: scarthgap
-revision: 4d3e2639dec542b58708244662d5ce36810fc510
+branch: wrynose
+revision: 420222862f5a6d95023b8f5f3b7e1808b2264ef9
 
 meta-virtualization
 -------------------
 URI: https://git.yoctoproject.org/meta-virtualization
-branch: scarthgap
-revision: 3dd635f613f7299d986a8ab6bc9f584370f8ed1d
+branch: wrynose
+revision: 8cfa4881864742296613f99abccc5daea054936c
 
 meta-intel
 ----------
 URI: https://git.yoctoproject.org/meta-intel
-branch: scarthgap
-revision: 5d153e35b4e752505efeae368f188fac5e31cf33
+branch: master
+revision: c5e8f190469d736ba3f4bf7e84b15bb2c274d3d1
 
 meta-security
 -------------
 URI: https://git.yoctoproject.org/meta-security
-branch: scarthgap
-revision: 97e482b71688b62ac1109d16e89368122f039cbf
+branch: wrynose
+revision: 925357d25af4534807647d2a1d99e5b6c6df3af4
 
 meta-clang
 ----------
 URI: https://github.com/kraj/meta-clang.git
-branch: scarthgap
-revision: 613362523f3bf85ff4862e2f1f00113b8d2028be
+branch: master
+revision: 78c5e12f08198f4f257a9348516d2103cd617c1d
