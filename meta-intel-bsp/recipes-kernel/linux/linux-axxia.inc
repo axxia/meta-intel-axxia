@@ -26,7 +26,7 @@ SRC_URI:append:intel-axxia-pmr = " ${COMMON_PATCHES} ${PMR_PATCHES}"
 SRC_URI:append = " ${INTEL_AXXIA_FRAGS}"
 INTEL_AXXIA_FRAGS ?= " file://common.scc file://${CPU}.scc"
 
-DEPENDS:append= " elfutils-native openssl-native util-linux-native pahole-native"
+DEPENDS:append = " elfutils-native openssl-native util-linux-native pahole-native"
 
 # CONFIG_DEBUG_INFO_BTF depend on CONFIG_PAHOLE_VERSION, so need to make pahole-native 
 # available before do_kernel_configme

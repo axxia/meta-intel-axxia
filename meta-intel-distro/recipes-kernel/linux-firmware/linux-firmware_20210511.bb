@@ -920,7 +920,7 @@ RDEPENDS:${PN}-ibt-17 = "${PN}-ibt-license"
 RDEPENDS:${PN}-ibt-20 = "${PN}-ibt-license"
 RDEPENDS:${PN}-ibt-misc    = "${PN}-ibt-license"
 
-ALLOW_EMPTY:${PN}-ibt= "1"
+ALLOW_EMPTY:${PN}-ibt = "1"
 ALLOW_EMPTY:${PN}-ibt-misc = "1"
 
 LICENSE:${PN}-i915       = "Firmware-i915"
