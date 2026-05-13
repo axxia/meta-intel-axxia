@@ -9,6 +9,10 @@ PREFERRED_VERSION_linux-korg-netnext-debug = "${KV}"
 IPROUTE2_VERSION ?= "${@bb.utils.contains_any('KV', '6.1% 6.6% 6.12%', '${KV}', '6.19%', d)}"
 PREFERRED_VERSION_iproute2 ?= "${IPROUTE2_VERSION}"
 
+# Set the version for ethtool based on kernel version (exception: v6.14 for linux v6.12)
+ETHTOOL_VERSION ?= "${@bb.utils.contains('IPROUTE2_VERSION', '6.12%', '6.14%', '${IPROUTE2_VERSION}', d)}"
+PREFERRED_VERSION_ethtool ?= "${@d.getVar('ETHTOOL_VERSION').replace('%', '')}%"
+
 # Avoid warnings for recipes with dynamic version
 PREFERRED_VERSION_linux-intel-private ??= "dev%"
 PREFERRED_VERSION_linux-intel-private-debug ??= "dev%"
