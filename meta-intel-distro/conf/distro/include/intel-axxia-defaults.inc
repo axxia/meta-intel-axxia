@@ -5,6 +5,9 @@ PREFERRED_VERSION_linux-intel-debug ?= "${KV}"
 PREFERRED_VERSION_linux-intel-private-debug ?= "${KV}"
 PREFERRED_VERSION_linux-korg-netnext-debug ?= "${KV}"
 
+ETHTOOL_VERSION ?= "6.19"
+PREFERRED_VERSION_ethtool ?= "${ETHTOOL_VERSION}%"
+
 # Avoid warnings for recipes with dynamic version
 PREFERRED_VERSION_linux-intel-private ??= "dev%"
 PREFERRED_VERSION_linux-intel-private-debug ??= "dev%"
