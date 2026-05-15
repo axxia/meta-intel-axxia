@@ -373,13 +373,47 @@ NOTE: No preferred version should be set for linux-local provider.
 
     IPROUTE2_VERSION = "6.19%"
 
-2.3.13 Add extra space in the rootfs partition from the WIC image. Specify as an
+2.3.13 Choose a different version for ethtool. By default, ethtool version
+    follows the kernel version for Linux 6.1 and 6.6. For Linux 6.12 will build
+    ethtool 6.14 because there is no 6.12 release. For any other kernel version,
+    it defaults to 6.19.
+
+    ETHTOOL_VERSION = "6.19%"
+
+    If you want to build ethtool from a git repository, you can use "git" recipe:
+    ETHTOOL_VERSION = "git"
+
+    Options for version-neutral "git" recipe:
+
+    To add an extension string to the recipe version, use ETHTOOL_VERSION_EXTENSION.
+    ETHTOOL_VERSION_EXTENSION = "-7.0-innersource"
+    NOTE: A "+localpatches" suffix is added automatically if ETHTOOL_EXTRA_PATH is set.
+    The package version in this example will be "git-7.0-innersource[+localpatches]"
+
+    To set a different git repository that the default, use ETHTOOL_GIT_URI variable:
+    ETHTOOL_GIT_URI = "<git-repo-url>"
+    The gir repo url can start with https:// or git://. Default repo is
+    https://git.kernel.org/pub/scm/network/ethtool/ethtool.git.
+
+    To set a different git branch that the default (master), use ETHTOOL_GIT_BRANCH:
+    ETHTOOL_GIT_BRANCH = "next"
+
+    To set a different git revision that the default (AUTOREV), use ETHTOOL_GIT_SRCREV:
+    ETHTOOL_GIT_SRCREV = "<SHA>"
+
+    To add external patches from a specific path to sources, use ETHTOOL_EXTRA_PATH:
+    ETHTOOL_EXTRA_PATH = "<local-full-path>"
+    All the files with *.patch extension which are found in the path will be included
+    in SRC_URI.
+    OBS: ETHTOOL_EXTRA_PATH can be used on tar ball and git repo sources.
+
+2.3.14 Add extra space in the rootfs partition from the WIC image. Specify as an
     integer value optionally followed by one of the units “k” / “K” for kibibyte,
     “M” for mebibyte and “G” for gibibyte. The default unit if none is given is “M”.
 
     WIC_ROOTFS_EXTRA_SPACE = "10G"
 
-2.3.14. Enabling Multiple Configuration Build (snr, grr, qsp):
+2.3.15. Enabling Multiple Configuration Build (snr, grr, qsp):
 
   BBMULTICONFIG = "snr grr pmr qsp"
 
@@ -396,13 +430,13 @@ To compile the multiple configuration build, the following sintax should be used
 
   Be aware that the default configuration (local.conf) can be used as before.
 
-2.3.15. Depending on your host processor, set these two options that
+2.3.16. Depending on your host processor, set these two options that
       control how much parallelism BitBake should use (optional):
 
     BB_NUMBER_THREADS = "12"
     PARALLEL_MAKE = "-j 12"
 
-2.3.16. Other optional settings for saving disk space and build time:
+2.3.17. Other optional settings for saving disk space and build time:
    
     DL_DIR = "/(some-shared-location)/downloads"
     SSTATE_DIR = "/(some-shared-location)/sstate-cache
