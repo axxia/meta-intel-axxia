@@ -19,7 +19,6 @@ FILESEXTRAPATHS:prepend := "${ETHTOOL_EXTRA_PATH}:"
 
 SRC_URI = "git://${ETHTOOL_GIT_URI_CLEANUP};protocol=${ETHTOOL_GIT_PROTOCOL};branch=${ETHTOOL_GIT_BRANCH} \
            file://run-ptest \
-	   file://avoid_parallel_tests.patch \
            "
 
 SRCREV = "${ETHTOOL_GIT_SRCREV}"
@@ -58,6 +57,10 @@ python __anonymous() {
         if new_files:
             src_uri = d.getVar('SRC_URI', True) or ""
             d.setVar('SRC_URI', src_uri + " " + " ".join(new_files))
+}
+
+do_configure:prepend() {
+    sed -i '/AM_INIT_AUTOMAKE/s/subdir-objects\]/subdir-objects serial-tests]/' ${S}/configure.ac
 }
 
 do_compile_ptest() {
