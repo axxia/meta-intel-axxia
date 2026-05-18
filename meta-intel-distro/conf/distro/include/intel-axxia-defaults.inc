@@ -8,6 +8,9 @@ PREFERRED_VERSION_linux-korg-netnext-debug ?= "${KV}"
 ETHTOOL_VERSION ?= "6.19"
 PREFERRED_VERSION_ethtool ?= "${ETHTOOL_VERSION}%"
 
+IPROUTE2_VERSION ?= "6.19"
+PREFERRED_VERSION_iproute2 ?= "${IPROUTE2_VERSION}%"
+
 # Avoid warnings for recipes with dynamic version
 PREFERRED_VERSION_linux-intel-private ??= "dev%"
 PREFERRED_VERSION_linux-intel-private-debug ??= "dev%"
