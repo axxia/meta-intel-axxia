@@ -17,8 +17,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=51d9635e646fb75e1b74c074f788e973 \
                     file://COPYING.ASL20;md5=052f8a09206615ab07326ff8ce2d9d32\
 "
 
-FILESEXTRAPATHS:prepend := "${COREBASE}/../meta-openembedded/meta-oe/recipes-extended/${PN}/${PN}:"
-
 SRC_URI = "https://www.rsyslog.com/files/download/rsyslog/${BPN}-${PV}.tar.gz \
            file://initscript \
            file://rsyslog.conf \
