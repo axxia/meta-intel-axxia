@@ -12,8 +12,6 @@ BUGTRACKER = "https://github.com/esnet/iperf/issues"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b51332d7f45357a9410daa9a14a3655f"
 
-FILESEXTRAPATHS:prepend := "${COREBASE}/../meta-openembedded/meta-oe/recipes-benchmark/${PN}/${PN}:"
-
 SRC_URI = "git://github.com/esnet/iperf.git;branch=master;protocol=https \
            file://0002-Remove-pg-from-profile_CFLAGS.patch \
            file://0001-configure.ac-check-for-CPP-prog.patch \
