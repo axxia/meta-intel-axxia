@@ -19,8 +19,6 @@ SRC_URI = "http://www.thekelleys.org.uk/dnsmasq/${@['archive/', ''][float(d.getV
 "
 SRC_URI[sha256sum] = "fd908e79ff37f73234afcb6d3363f78353e768703d92abd8e3220ade6819b1e1"
 
-FILESEXTRAPATHS:prepend := "${COREBASE}/../meta-openembedded/meta-networking/recipes-support/dnsmasq/files:"
-
 inherit pkgconfig update-rc.d systemd
 
 INITSCRIPT_NAME = "dnsmasq"
