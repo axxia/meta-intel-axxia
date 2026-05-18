@@ -10,8 +10,6 @@ LIC_FILES_CHKSUM = "file://pppd/ccp.c;beginline=1;endline=25;md5=f0463bd67ae7053
                     file://pppd/tdb.c;beginline=1;endline=27;md5=4ca3a9991b011038d085d6675ae7c4e6 \
                     file://chat/chat.c;beginline=1;endline=1;md5=234d7d4edd08962c0144e4604050e0b6 \
                     "
-FILESEXTRAPATHS:prepend := "${COREBASE}/meta/recipes-connectivity/${PN}/${PN}:"
-
 SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
            file://pon \
            file://poff \
