@@ -7,7 +7,7 @@ PREFERRED_VERSION_linux-korg-netnext-debug = "${KV}"
 
 # Set the version for iproute2 based on kernel version
 IPROUTE2_VERSION ?= "${@bb.utils.contains_any('KV', '6.1% 6.6% 6.12%', '${KV}', '6.19%', d)}"
-PREFERRED_VERSION_iproute2 ?= "${IPROUTE2_VERSION}"
+PREFERRED_VERSION_iproute2 ?= "${@d.getVar('IPROUTE2_VERSION').replace('%', '')}%"
 
 # Set the version for ethtool based on kernel version (exception: v6.14 for linux v6.12)
 ETHTOOL_VERSION ?= "${@bb.utils.contains('IPROUTE2_VERSION', '6.12%', '6.14%', '${IPROUTE2_VERSION}', d)}"
