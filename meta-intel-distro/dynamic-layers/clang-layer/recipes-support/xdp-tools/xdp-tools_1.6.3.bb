@@ -15,7 +15,7 @@ SRC_URI = "git://github.com/xdp-project/xdp-tools.git;branch=main;protocol=https
             file://0004-Makefile-fix-libxdp.pc-error.patch \
           "
 
-SRCREV = "cefc8db8132034721a53078098d8c77e67fdab18"
+SRCREV = "1178abe6661b43265d45da1e500cc13b41fd5bf4"
 
 CFLAGS += "-ffile-prefix-map=${S}=. -ffile-prefix-map=${STAGING_DIR_TARGET}=."
 

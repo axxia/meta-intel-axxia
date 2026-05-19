@@ -1,21 +1,23 @@
-From f724ba666626f261e57ae903a245f34b64c30c0d Mon Sep 17 00:00:00 2001
+From 2401b2f5c618c3e3fa990c47ffd77bbcbdf273dc Mon Sep 17 00:00:00 2001
 From: Naveen Saini <naveen.kumar.saini@intel.com>
 Date: Mon, 17 Oct 2022 15:50:34 +0800
 Subject: [PATCH 2/4] Makefile: It does not detect libbpf header from sysroot
 
 So adding sysroot headers path.
 
-Upstream-Status: OE-Specific
+Upstream-Status: Inappropriate
 
 Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
+Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
 ---
- lib/common.mk       | 2 +-
- lib/libxdp/Makefile | 2 +-
- lib/util/Makefile   | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ lib/common.mk             | 2 +-
+ lib/libxdp/Makefile       | 2 +-
+ lib/libxdp/tests/Makefile | 2 +-
+ lib/util/Makefile         | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/lib/common.mk b/lib/common.mk
-index dfac249..a3ec479 100644
+index 317891d..1aa4e8b 100644
 --- a/lib/common.mk
 +++ b/lib/common.mk
 @@ -58,7 +58,7 @@ LIBXDP_SOURCES := $(wildcard $(LIBXDP_DIR)/*.[ch] $(LIBXDP_DIR)/*.in)
@@ -28,7 +30,7 @@ index dfac249..a3ec479 100644
  BPF_HEADERS := $(wildcard $(HEADER_DIR)/bpf/*.h) $(wildcard $(HEADER_DIR)/xdp/*.h)
  
 diff --git a/lib/libxdp/Makefile b/lib/libxdp/Makefile
-index 403d5a6..066d3d8 100644
+index 7ea7e7e..97acafd 100644
 --- a/lib/libxdp/Makefile
 +++ b/lib/libxdp/Makefile
 @@ -28,7 +28,7 @@ PC_FILE := $(OBJDIR)/libxdp.pc
@@ -40,8 +42,21 @@ index 403d5a6..066d3d8 100644
  
  
  ifndef BUILD_STATIC_ONLY
+diff --git a/lib/libxdp/tests/Makefile b/lib/libxdp/tests/Makefile
+index 1f8ccec..0b7363a 100644
+--- a/lib/libxdp/tests/Makefile
++++ b/lib/libxdp/tests/Makefile
+@@ -46,7 +46,7 @@ endif
+ 
+ LIBXDP_SOURCES := $(wildcard $(LIBXDP_DIR)/*.[ch] $(LIBXDP_DIR)/*.in)
+ 
+-CFLAGS += -I$(HEADER_DIR)
++CFLAGS += -I$(HEADER_DIR) -I${STAGING_INCDIR}/
+ 
+ BPF_HEADERS := $(wildcard $(HEADER_DIR)/bpf/*.h) $(wildcard $(HEADER_DIR)/xdp/*.h)
+ 
 diff --git a/lib/util/Makefile b/lib/util/Makefile
-index 5ddccd5..eb2dbff 100644
+index 64a6efc..6d41ce7 100644
 --- a/lib/util/Makefile
 +++ b/lib/util/Makefile
 @@ -15,7 +15,7 @@ $(UTIL_OBJS): %.o: %.c %.h $(UTIL_SKEL_H) $(LIBMK)
@@ -52,7 +67,7 @@ index 5ddccd5..eb2dbff 100644
 +BPF_CFLAGS += -I$(HEADER_DIR) $(ARCH_INCLUDES) -I${STAGING_INCDIR}/
  
  $(UTIL_BPF_OBJS): %.o: %.c $(KERN_USER_H) $(BPF_HEADERS) $(LIBMK)
- 	$(QUIET_CLANG)$(CLANG) -S \
+ 	$(QUIET_CLANG)$(CLANG) -target $(BPF_TARGET) $(BPF_CFLAGS) -O2 -c -g -o $@ $<
 -- 
-2.25.1
+2.39.5
 
