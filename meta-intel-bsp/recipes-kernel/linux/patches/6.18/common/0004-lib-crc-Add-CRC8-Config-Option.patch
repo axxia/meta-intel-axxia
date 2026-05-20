@@ -7,6 +7,8 @@ CRC8 is only available as a module when another
 built-in module selects it.  To allow external modules
 to use it, make it available always.
 
+Upstream-Status: Pending
+
 Signed-off-by: John Jacques <john.jacques@intel.com>
 ---
  lib/crc/Kconfig | 3 ++-
