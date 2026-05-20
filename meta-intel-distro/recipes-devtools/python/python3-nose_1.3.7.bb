@@ -17,10 +17,6 @@ RDEPENDS:${PN} = "\
   ${PYTHON_PN}-unittest \
   "
 
-do_compile:prepend() {
-  2to3 --write --nobackups --no-diffs ${S}
-}
-
 FILES:${PN}-doc += "${exec_prefix}/man"
 
 BBCLASSEXTEND = "native nativesdk"
