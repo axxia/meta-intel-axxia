@@ -15,6 +15,8 @@ PREFERRED_VERSION_libxcrypt-compat ?= "4.1.1"
 
 PREFERRED_VERSION_linux-firmware ?= "20210511"
 
+PREFERRED_RPROVIDER_libnss-mdns = "avahi-libnss-mdns"
+
 VIRTUAL-RUNTIME_syslog ?= "rsyslog"
 
 SAVANNAH_NONGNU_MIRROR = "http://download-mirror.savannah.gnu.org/releases"
