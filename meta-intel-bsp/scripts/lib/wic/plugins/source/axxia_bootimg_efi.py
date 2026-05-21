@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
 # DESCRIPTION
-# This implements the 'bootimg-efi' source plugin class for 'wic'
+# This implements the 'axxia_bootimg_efi' source plugin class for 'wic'
 # customized for Intel AXXIA BSPs
 #
 # AUTHORS
@@ -34,7 +34,7 @@ class BootimgEFIPlugin(SourcePlugin):
     This plugin supports GRUB 2 and systemd-boot bootloaders.
     """
 
-    name = 'axxia-bootimg-efi'
+    name = 'axxia_bootimg_efi'
 
     @classmethod
     def _copy_additional_files(cls, hdddir, initrd, dtb):
