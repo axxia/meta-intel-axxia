@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/Pytlicek/sheet2dict"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=ea5fbc50c0963fd7f682cd41346baaad"
 
-inherit pypi python_flit_core
+inherit pypi python_flit_core ptest
 
 SRC_URI[sha256sum] = "efa356159dedc05a57482b50dd01fe870d8b4ae589ec97253701e526fda3f269"
 
@@ -25,4 +25,12 @@ RDEPENDS:${PN} += "\
 
 do_compile:prepend() {
 	echo -e '\n__version__ = "${PV}"\n' >> ${S}/${PYPI_PACKAGE}/__init__.py
+}
+
+do_install_ptest() {
+	cp -r ${S}/tests ${D}${PTEST_PATH}/
+}
+
+do_install:append() {
+	rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/tests
 }
