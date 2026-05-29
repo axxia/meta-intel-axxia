@@ -1,0 +1,1 @@
+USERADD_PACKAGES = "${PN}"
