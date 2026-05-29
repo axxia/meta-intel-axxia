@@ -22,6 +22,7 @@ for kernel in $SDKTARGETSYSROOT/lib/modules/*; do
     if [ ! -x $kernel ]; then
         continue
     fi
+    unset PKG_CONFIG_SYSROOT_DIR
     cd $kernel/build
     make clean olddefconfig scripts tools/objtool modules_prepare
     status=$?
@@ -30,6 +31,7 @@ for kernel in $SDKTARGETSYSROOT/lib/modules/*; do
         exit $status
     fi
     cd -
+    export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT
 done
 EOF
 
