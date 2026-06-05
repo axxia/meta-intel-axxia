@@ -1,5 +1,5 @@
 SUMMARY = "SimicsFS client that talks to a simulated device"
-DESCRIPTION="SimicsFS gives you access to the file system of your real \
+DESCRIPTION = "SimicsFS gives you access to the file system of your real \
 computer inside the simulated machine. This greatly simplifies the process \
 of importing files into the simulated machine."
 
