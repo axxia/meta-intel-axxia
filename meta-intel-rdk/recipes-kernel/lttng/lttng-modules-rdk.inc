@@ -21,13 +21,13 @@ do_compile[depends] += "${KERNEL_PROVIDER}:do_deploy"
 do_patch_rdk() {
     cd ${S}
     VERSION="${PV}"
-    [ -z $(find ${UNPACKDIR}/rdk/klm -path "*lttng/${VERSION%.*}") ] \
-        && PATTERN="*/lttng/*.patch" || PATTERN="*/lttng/${VERSION%.*}/*.patch"
-    RDK_LTTNG_PATCHES=$(find ${UNPACKDIR}/rdk/klm -path "${PATTERN}")
-    if [ ! -z "${RDK_LTTNG_PATCHES}" ]; then
-        cp ${RDK_LTTNG_PATCHES} ${S}
-        ls ${S}/*.patch | sort | xargs -t -n 1 patch -p1 -i
+    RDK_LTTNG_PATCHES=$(find ${UNPACKDIR}/rdk/klm -path "*/lttng/${VERSION%.*}/*.patch")
+    if [ -z "${RDK_LTTNG_PATCHES}" ]; then
+        bbwarn "No lttng-modules patches found for version ${VERSION%.*}, skipping"
+        return 0
     fi
+    cp ${RDK_LTTNG_PATCHES} ${S}
+    ls ${S}/*.patch | sort | xargs -t -n 1 patch -p1 -i
 }
 do_patch[postfuncs] += "do_patch_rdk"
 
