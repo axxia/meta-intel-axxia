@@ -13,8 +13,9 @@ IMAGE_FEATURES = " \
     allow-root-login \
     dev-pkgs \
     empty-root-password \
-    tools-sdk \
+    post-install-logging \
     tools-debug \
+    tools-sdk \
     "
 
 IMAGE_INSTALL = " \

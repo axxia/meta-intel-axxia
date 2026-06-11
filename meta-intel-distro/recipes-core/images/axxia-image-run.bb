@@ -10,7 +10,12 @@ inherit core-image
 
 IMAGE_ROOTFS_SIZE = "16384"
 
-IMAGE_FEATURES:append = " dev-pkgs"
+IMAGE_FEATURES:append = " \
+    allow-empty-password \
+    allow-root-login \
+    empty-root-password \
+    dev-pkgs \
+    "
 
 IMAGE_INSTALL = " \
     packagegroup-core-boot \

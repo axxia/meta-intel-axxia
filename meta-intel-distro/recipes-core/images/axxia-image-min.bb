@@ -8,6 +8,12 @@ inherit core-image
 
 IMAGE_ROOTFS_SIZE = "8192"
 
+IMAGE_FEATURES:append = " \
+    allow-empty-password \
+    allow-root-login \
+    empty-root-password \
+    "
+
 IMAGE_INSTALL = " \
     packagegroup-core-boot \
     ${CORE_IMAGE_EXTRA_INSTALL} \

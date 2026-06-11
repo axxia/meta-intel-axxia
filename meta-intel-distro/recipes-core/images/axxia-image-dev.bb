@@ -13,12 +13,13 @@ IMAGE_FEATURES:append = " \
     allow-empty-password \
     allow-root-login \
     dev-pkgs \
-    tools-sdk \
-    tools-debug \
     eclipse-debug \
     empty-root-password \
-    tools-testapps \
+    post-install-logging \
     ssh-server-openssh \
+    tools-debug \
+    tools-sdk \
+    tools-testapps \
     "
 
 IMAGE_INSTALL = " \
