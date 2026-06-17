@@ -21,15 +21,16 @@ DEPENDS:append = " rsync-native"
 do_patch_rdk_modules () {
     STAGING_PATH="drivers/staging/intel"
 
-    if [ "${USE_RDK_REPO}" == "false" ]; then
+    if [ "${USE_RDK_REPO}" = "false" ]; then
         # Get release tag from the archive name
         case "${RDK_KLM_ARCHIVE}" in
             file*)
-                RELEASE_TAG="$(echo ${RDK_LAYER_PATH}/downloads/${RDK_KLM_ARCHIVE} | sed 's/file:\/\///g')"
+                RELEASE_TAG="$(echo ${RDK_KLM_ARCHIVE} | sed 's/file:\/\///g')"
+                [ ! -f "${RELEASE_TAG}" ] && RELEASE_TAG="${RDK_LAYER_PATH}/downloads/${RELEASE_TAG}"
                 [ -L "${RELEASE_TAG}" ] && RELEASE_TAG="$(readlink ${RELEASE_TAG})"
                 RELEASE_TAG="$(basename ${RELEASE_TAG})";;
             http*)
-                RELEASE_TAG='$(echo "${RDK_KLM_ARCHIVE}" | rev | cut -d'/' -f1 | rev)';;
+                RELEASE_TAG="$(echo "${RDK_KLM_ARCHIVE}" | rev | cut -d'/' -f1 | rev)";;
         esac
         RELEASE_TAG="$(echo ${RELEASE_TAG} | cut -d'.' -f1 | sed 's/rdk_klm_src//g')"
         [ -z "${RELEASE_TAG}" ] && RELEASE_TAG="unknown_release_info" \
@@ -40,9 +41,9 @@ do_patch_rdk_modules () {
     fi
 
     # If no version for KLM modules is set in local.conf, use RELEASE_TAG and store
-    # the value in rdk-klm-version file saved in WORKDIR for kernel_do_deploy task
+    # the value in rdk-klm-version file saved in UNPACKDIR for kernel_do_deploy task
     [ -z "${RDK_KLM_VERSION}" -a -n "${RELEASE_TAG}" ] && RDK_KLM_VERSION="${RELEASE_TAG}" \
-                                                       && echo $RDK_KLM_VERSION > ${WORKDIR}/rdk-klm-version
+                                                       && echo $RDK_KLM_VERSION > ${UNPACKDIR}/rdk-klm-version
 
     STAGING_PATH="${STAGING_PATH}/${RDK_KLM_VERSION}"
 
@@ -55,14 +56,14 @@ do_patch_rdk_modules () {
     git tag before_rdk_commits
 
     # Create KLM drivers path and add entry to the parent directory Makefile and Kconfig
-    if [ -f ${WORKDIR}/rdk/klm/scripts/patch_kernel_tree.sh ]; then
+    if [ -f ${UNPACKDIR}/rdk/klm/scripts/patch_kernel_tree.sh ]; then
        # Create parent staging path (default is drivers/staging/intel)
-       ${WORKDIR}/rdk/klm/scripts/patch_kernel_tree.sh ${STAGING_KERNEL_DIR}
+       ${UNPACKDIR}/rdk/klm/scripts/patch_kernel_tree.sh ${STAGING_KERNEL_DIR}
        > ${STAGING_KERNEL_DIR}/$(dirname ${STAGING_PATH})/Kconfig
        > ${STAGING_KERNEL_DIR}/$(dirname ${STAGING_PATH})/Makefile
 
        # Create version specific path (STAGING_PATH)
-       ${WORKDIR}/rdk/klm/scripts/patch_kernel_tree.sh \
+       ${UNPACKDIR}/rdk/klm/scripts/patch_kernel_tree.sh \
           ${STAGING_KERNEL_DIR} ${STAGING_PATH}
        rm -f sed.tmp
 
@@ -74,7 +75,7 @@ do_patch_rdk_modules () {
     # Install each driver in the specific path and create commits
     for KLMC in cpk cpk-ae hqm i3c ies qat netd oobmsm dlb2
     do
-	[ ! -d ${WORKDIR}/rdk/klm/${KLMC} ] && continue
+	[ ! -d ${UNPACKDIR}/rdk/klm/${KLMC} ] && continue
 
         if [ "hqm" = "${KLMC}" ] && [ "intel-axxia-snr" = "${MACHINE}" ]; then
             KLMC_PATH="${KLMC}/${KLMC}"
@@ -82,7 +83,7 @@ do_patch_rdk_modules () {
             KLMC_PATH="${KLMC}"
         fi
 
-        ${WORKDIR}/rdk/klm/${KLMC_PATH}/scripts/patch_kernel_tree.sh \
+        ${UNPACKDIR}/rdk/klm/${KLMC_PATH}/scripts/patch_kernel_tree.sh \
             ${STAGING_KERNEL_DIR} ${STAGING_PATH}
 
         # Handle drivers name differences
@@ -138,8 +139,8 @@ kernel_do_deploy:append() {
     # Store RDK KLM version in a shared location (STAGING_KERNEL_BUILDDIR)
     # to be availabe from external modules recipes such as lttng-modules
     # when RDK_KLM_VERSION is not set from local.conf
-    [ -z "${RDK_KLM_VERSION}" -a -f ${WORKDIR}/rdk-klm-version ] && \
-        mv ${WORKDIR}/rdk-klm-version ${STAGING_KERNEL_BUILDDIR} || 2>/dev/null
+    [ -z "${RDK_KLM_VERSION}" -a -f ${UNPACKDIR}/rdk-klm-version ] && \
+        mv ${UNPACKDIR}/rdk-klm-version ${STAGING_KERNEL_BUILDDIR} || 2>/dev/null
 }
 
 sysroot_stage_all:append() {
