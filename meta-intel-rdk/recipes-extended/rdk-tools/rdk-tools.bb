@@ -24,14 +24,17 @@ DEPENDS = "virtual/kernel libnl libpcap openssl rsync-native thrift meson-native
 
 RDEPENDS:${PN} += "${@oe.utils.conditional('RDK_LTTNG_ENABLE', 'true', 'lttng-ust lttng-tools', '', d)}"
 
-S = "${@oe.utils.conditional('USE_RDK_REPO', 'false', "${WORKDIR}/rdk", "${WORKDIR}/git/rdk", d)}"
+S = "${@oe.utils.conditional('USE_RDK_REPO', 'false', "${UNPACKDIR}/rdk", "${UNPACKDIR}/git/rdk", d)}"
 
 inherit autotools pkgconfig
+
+do_configure[noexec] = "1"
 
 TARGET_CC_ARCH += "${SELECTED_OPTIMIZATION}"
 
 export SDKTARGETSYSROOT = "${STAGING_DIR_HOST}"
 export OECORE_NATIVE_SYSROOT = "${STAGING_DIR_NATIVE}"
+export PKG_CONFIG_PATH = "${STAGING_DIR_HOST}${libdir}/pkgconfig:${STAGING_DIR_HOST}${datadir}/pkgconfig"
 
 # Choose IES API mode of operation: "true" for SHM (shared-memory model)
 # which is the default or "false" for RPC (remote procedure call)
