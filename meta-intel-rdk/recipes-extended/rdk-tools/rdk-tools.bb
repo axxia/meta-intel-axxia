@@ -53,6 +53,10 @@ REMOVE_LIBTOOL_LA = "0"
 # Add new include path for KLM headers exported for userspace
 CXXFLAGS += " -I${STAGING_EXECPREFIXDIR}/kernel-headers/include/klm "
 
+# Fix buildpaths QA: inject debug-prefix-map via CC/CXX since sub-Makefiles override CFLAGS
+CC:append = " -fdebug-prefix-map=${TMPDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR} -fmacro-prefix-map=${TMPDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
+CXX:append = " -fdebug-prefix-map=${TMPDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR} -fmacro-prefix-map=${TMPDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
+
 # Ensure install dir from sources is empty when rebuilding
 do_compile[cleandirs] = "${S}/install"
 
