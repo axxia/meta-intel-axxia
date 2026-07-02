@@ -5,8 +5,7 @@ require lttng-modules-alternative.inc
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
 
-SRC_URI:append = " file://0001-fix-hrtimer-Reduce-trace-noise-in-hrtimer_start-v7.1.patch \
-                   file://0001-fix-hrtimer-Drop-unnecessary-pointer-indirection-in.patch \
+SRC_URI:append = " file://0001-fix-hrtimer-Drop-unnecessary-pointer-indirection-in.patch \
                    file://0001-fix-mm-vmscan-Convert-pageout-to-take-a-folio-v5.18.patch \
                    file://0001-fix-mm-vmscan-add-cgroup-IDs-to-vmscan-tracepoints-v7.1.patch \
                    file://0001-fix-vfs-widen-trace-event-i_ino-fields-to-u64-v7.1.patch \
