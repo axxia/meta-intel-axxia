@@ -1,5 +1,32 @@
 do_install:append () {
-# Create external-modules-setup script
+### Ship a make wrapper in the SDK so kernel host-tool builds (objtool,
+# etc.) don't inherit target PKG_CONFIG_SYSROOT_DIR/PATH. Real make is
+# resolved once at source time via _HOSTMAKE_REAL, not per-invocation.
+install -d ${D}${SDKPATH}/sysroots/${SDK_SYS}/usr/bin/hostmake-wrapper
+
+cat > ${D}${SDKPATH}/sysroots/${SDK_SYS}/usr/bin/hostmake-wrapper/make << 'WRAPPER'
+#!/bin/sh
+# Kernel host tools set HOSTPKG_CONFIG with plain '=', which beats an
+# exported env var, so this wrapper injects it via the make command line
+# instead. Strips PKG_CONFIG_SYSROOT_DIR/PATH only for those pkg-config
+# lookups; app builds via configure/cmake/meson still see them exported.
+if [ -z "$_HOSTMAKE_REAL" ]; then
+    echo "hostmake-wrapper: _HOSTMAKE_REAL not set, re-source environment-setup" >&2
+    exit 127
+fi
+exec "$_HOSTMAKE_REAL" HOSTPKG_CONFIG='env -u PKG_CONFIG_SYSROOT_DIR -u PKG_CONFIG_PATH -u PKG_CONFIG_LIBDIR pkg-config' "$@"
+WRAPPER
+
+chmod 0755 ${D}${SDKPATH}/sysroots/${SDK_SYS}/usr/bin/hostmake-wrapper/make
+
+cat >> ${D}${SDKPATH}/environment-setup-${REAL_MULTIMACH_TARGET_SYS} << 'WRAPPER_HOSTMAKE'
+
+_HOSTMAKE_REAL="${_HOSTMAKE_REAL:-$(command -v make)}"
+export _HOSTMAKE_REAL
+export PATH="$OECORE_NATIVE_SYSROOT/usr/bin/hostmake-wrapper:$PATH"
+WRAPPER_HOSTMAKE
+
+### Create external-modules-setup script
 cat << 'EOF' > ${D}${SDKPATH}/external-modules-setup.sh
 #!/bin/sh
 
@@ -22,7 +49,6 @@ for kernel in $SDKTARGETSYSROOT/lib/modules/*; do
     if [ ! -x $kernel ]; then
         continue
     fi
-    unset PKG_CONFIG_SYSROOT_DIR
     cd $kernel/build
     make clean olddefconfig scripts tools/objtool modules_prepare
     status=$?
@@ -31,7 +57,6 @@ for kernel in $SDKTARGETSYSROOT/lib/modules/*; do
         exit $status
     fi
     cd -
-    export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT
 done
 EOF
 
