@@ -88,6 +88,10 @@ python __anonymous() {
             d.setVar('SRC_URI', src_uri + " " + " ".join(new_files))
 }
 
+# External patches from LOCAL_EXTRA_PATH lack Upstream-Status headers
+ERROR_QA:remove = "${@oe.utils.conditional('LOCAL_EXTRA_PATH', '', '', 'patch-status', d)}"
+WARN_QA:remove = "${@oe.utils.conditional('LOCAL_EXTRA_PATH', '', '', 'patch-status', d)}"
+
 KCONFIG_MODE = "alldefconfig"
 KERNEL_EXTRA_FEATURES = ""
 KERNEL_FEATURES:remove = "cfg/efi.scc"
