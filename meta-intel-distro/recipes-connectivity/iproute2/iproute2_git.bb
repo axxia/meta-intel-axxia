@@ -143,3 +143,7 @@ python __anonymous() {
             src_uri = d.getVar('SRC_URI', True) or ""
             d.setVar('SRC_URI', src_uri + " " + " ".join(new_files))
 }
+
+# External patches from IPROUTE2_EXTRA_PATH lack Upstream-Status headers
+ERROR_QA:remove = "${@oe.utils.conditional('IPROUTE2_EXTRA_PATH', '', '', 'patch-status', d)}"
+WARN_QA:remove = "${@oe.utils.conditional('IPROUTE2_EXTRA_PATH', '', '', 'patch-status', d)}"
