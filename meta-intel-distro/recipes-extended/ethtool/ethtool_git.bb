@@ -74,3 +74,7 @@ do_install_ptest () {
    install ${B}/ethtool             ${D}${PTEST_PATH}/ethtool
    sed -i 's/^Makefile/_Makefile/'  ${D}${PTEST_PATH}/Makefile
 }
+
+# External patches from ETHTOOL_EXTRA_PATH lack Upstream-Status headers
+ERROR_QA:remove = "${@oe.utils.conditional('ETHTOOL_EXTRA_PATH', '', '', 'patch-status', d)}"
+WARN_QA:remove = "${@oe.utils.conditional('ETHTOOL_EXTRA_PATH', '', '', 'patch-status', d)}"
