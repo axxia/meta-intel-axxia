@@ -1,3 +1,6 @@
 blacklist qat_4xxx
 blacklist qat_6xxx
 blacklist intel_qat
+blacklist intel_vsec
+blacklist intel_vsec_tpmi
+blacklist intel_s3m
