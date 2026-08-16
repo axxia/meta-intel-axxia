@@ -12,9 +12,8 @@ PYENV_ROOT ?= "${datadir}/pyenv"
 
 inherit allarch
 
-do_compile() {
-	:
-}
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
 
 do_install() {
     install -d ${D}${PYENV_ROOT}
