@@ -13,6 +13,10 @@ PREFERRED_VERSION_iproute2 ?= "${@d.getVar('IPROUTE2_VERSION').replace('%', '')}
 ETHTOOL_VERSION ?= "${@bb.utils.contains('IPROUTE2_VERSION', '6.12%', '6.14%', '${IPROUTE2_VERSION}', d)}"
 PREFERRED_VERSION_ethtool ?= "${@d.getVar('ETHTOOL_VERSION').replace('%', '')}%"
 
+PREFERRED_PROVIDER_pkgconfig ?= "pkgconf"
+PREFERRED_PROVIDER_nativesdk-pkgconfig ?= "nativesdk-pkgconf"
+PREFERRED_PROVIDER_pkgconfig-native ?= "pkgconf-native"
+
 # Avoid warnings for recipes with dynamic version
 PREFERRED_VERSION_linux-intel-private ??= "dev%"
 PREFERRED_VERSION_linux-intel-private-debug ??= "dev%"
