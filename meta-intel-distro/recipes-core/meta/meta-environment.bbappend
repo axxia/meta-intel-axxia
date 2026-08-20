@@ -1,31 +1,4 @@
 do_install:append () {
-### Ship a make wrapper in the SDK so kernel host-tool builds (objtool,
-# etc.) don't inherit target PKG_CONFIG_SYSROOT_DIR/PATH. Real make is
-# resolved once at source time via _HOSTMAKE_REAL, not per-invocation.
-install -d ${D}${SDKPATH}/sysroots/${SDK_SYS}/usr/bin/hostmake-wrapper
-
-cat > ${D}${SDKPATH}/sysroots/${SDK_SYS}/usr/bin/hostmake-wrapper/make << 'WRAPPER'
-#!/bin/sh
-# Kernel host tools set HOSTPKG_CONFIG with plain '=', which beats an
-# exported env var, so this wrapper injects it via the make command line
-# instead. Strips PKG_CONFIG_SYSROOT_DIR/PATH only for those pkg-config
-# lookups; app builds via configure/cmake/meson still see them exported.
-if [ -z "$_HOSTMAKE_REAL" ]; then
-    echo "hostmake-wrapper: _HOSTMAKE_REAL not set, re-source environment-setup" >&2
-    exit 127
-fi
-exec "$_HOSTMAKE_REAL" HOSTPKG_CONFIG='env -u PKG_CONFIG_SYSROOT_DIR -u PKG_CONFIG_PATH -u PKG_CONFIG_LIBDIR pkg-config' "$@"
-WRAPPER
-
-chmod 0755 ${D}${SDKPATH}/sysroots/${SDK_SYS}/usr/bin/hostmake-wrapper/make
-
-cat >> ${D}${SDKPATH}/environment-setup-${REAL_MULTIMACH_TARGET_SYS} << 'WRAPPER_HOSTMAKE'
-
-_HOSTMAKE_REAL="${_HOSTMAKE_REAL:-$(command -v make)}"
-export _HOSTMAKE_REAL
-export PATH="$OECORE_NATIVE_SYSROOT/usr/bin/hostmake-wrapper:$PATH"
-WRAPPER_HOSTMAKE
-
 ### Create external-modules-setup script
 cat << 'EOF' > ${D}${SDKPATH}/external-modules-setup.sh
 #!/bin/sh
@@ -61,4 +34,18 @@ done
 EOF
 
 chmod 0755 ${D}${SDKPATH}/external-modules-setup.sh
+
+### Mark the target and native system dirs as such, so pkgconf strips them
+# from --cflags/--libs the way pkg-config did. pkgconf prefixes the sysroot
+# onto a fragment before matching it against this list, so the list must be
+# sysroot-prefixed too, or -I$SDKTARGETSYSROOT/usr/include leaks out of every
+# target .pc file and breaks -Werror host tool builds such as objtool.
+# SDK-side counterpart of oe-core a3320989ca. Both target and native dirs are
+# needed: setting the variable replaces pkgconf's built-in list, it does not
+# extend it.
+cat >> ${D}${SDKPATH}/environment-setup-${REAL_MULTIMACH_TARGET_SYS} << EOF
+
+export PKG_CONFIG_SYSTEM_INCLUDE_PATH="\$SDKTARGETSYSROOT${target_includedir}:\$OECORE_NATIVE_SYSROOT${includedir_nativesdk}"
+export PKG_CONFIG_SYSTEM_LIBRARY_PATH="\$SDKTARGETSYSROOT${target_libdir}:\$SDKTARGETSYSROOT${target_base_libdir}:\$OECORE_NATIVE_SYSROOT${libdir_nativesdk}"
+EOF
 }
