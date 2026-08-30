@@ -25,7 +25,7 @@ This repository is hosting the following modular layers:
 meta-intel-bsp
 --------------
 This is the OpenEmbedded/Yocto layer for Intel Axxia x86_64 BSPs based
-on Intel Snow Ridge and Intel Grand Ridge CPUs.
+on Intel Snow Ridge, Intel Grand Ridge and Intel Palm Ridge CPUs.
 This layer contains the official machine configuration file and kernel
 recipes with patches and fragments. This layer depends on meta-intel
 layer. Check README.bsp for more details.

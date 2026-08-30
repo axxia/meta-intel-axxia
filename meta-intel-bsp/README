@@ -65,7 +65,7 @@ the commit, as this is the easiest way to find it in the repositories.
 
 In the following descriptions, "with no changes" means that a patch
 was obtained using 'git format-patch -1 <sha>' from the referenced
-respoistory and was applied using 'git am -3 <patch>'.
+repository and was applied using 'git am -3 <patch>'.
 
 In the meta layer, the patches for Linux can be found in
 meta-intel-bsp/recipes-kernel/linux/patches/${KV}.
@@ -78,7 +78,7 @@ This has not been upstreamed, and there is no plan to upstream it.
 
 Early versions of the SNR chip do not allow the "no reboot" bit to be
 accessed.  This commit simply assumes that it is writeable without
-checking in order to allow the watchdog to but used in Linux.  This
+checking in order to allow the watchdog to be used in Linux.  This
 will be fixed in later versions of the chip.
 
 Note that, by default, this patch will do nothing.  To enable it, add
@@ -143,7 +143,7 @@ are required:
 
 In local.conf, set intel-axxia-snr or intel-axxia-grr machine, choose
 linux-intel kernel provider and add to the white list the following
-packages if necesary:
+packages if necessary:
 
     PNWHITELIST_intel += " thermald intel-microcode iucode-tool"
     PNWHITELIST_intel += " linux-intel linux-intel-rt"

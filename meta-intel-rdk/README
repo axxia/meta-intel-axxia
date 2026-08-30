@@ -6,7 +6,7 @@ This is the OpenEmbedded/Yocto layer for Intel Axxia RDK components:
   - RDK kernel modules including ADK NetD (Network Driver).
   - [optional] RDK userspace tools.
 
-Use of this layer assumes that the RDK relase is available locally.
+Use of this layer assumes that the RDK release is available locally.
 
 
 Dependencies
@@ -76,7 +76,7 @@ file, the following additional steps are required:
 
     bitbake-layers add-layer <path-to-layer>/meta-intel-rdk
 
-In local.conf, add to the white list the following packages if necesary:
+In local.conf, add to the white list the following packages if necessary:
 
     PNWHITELIST_intel-rdk += 'rdk-tools bjam-native boost thrift'
 
@@ -105,7 +105,7 @@ in conf/local.conf:
 
      IES_ENABLE_SHM = "false"
 
-3.4. To get RDK archives from a diferent location than the layer
+3.4. To get RDK archives from a different location than the layer
      download directory, set the following variables:
 
      RDK_KLM_ARCHIVE = "file://<path-to-archive>/rdk_klm_src_<releaseinfo>.txz"
@@ -119,7 +119,7 @@ in conf/local.conf:
 
      Note: Because no md5/sha256 checksum is set in the recipe, we'll
      get some warning: do_fetch: Missing md5/sha256 SRC_URI checksum.
-     Build will continue anyway, but to get ride of those warnings, you
+     Build will continue anyway, but to get rid of those warnings, you
      can set md5 and sha256 checksums as follow:
      * for RDK_KLM_ARCHIVE in recipes-kernel/linux/linux-rdk.inc
            and recipes-kernel/linux-firmware/linux-firmware_%.bbappend
@@ -141,7 +141,7 @@ in conf/local.conf:
      Note: Special access permissions from Intel are required to be able to fetch
      RDK sources from the Intel GitHub repositories.
 
-3.7. Set the version of the RDK KLM modules throught RDK_KLM_VERSION
+3.7. Set the version of the RDK KLM modules through RDK_KLM_VERSION
      variable in order to customize the path where the drivers will be
      installed in the kernel tree (drivers/staging/intel/<rdk-klm-version>)
      and to customize the commit message in the kernel git repository

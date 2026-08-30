@@ -79,14 +79,30 @@ II. Building meta-intel-distro
 
    $ git checkout tags/(the tag specified in the releases notes)
 
-1.2. Clone the Yocto Project build tools (Poky) environment.
+1.2. Clone the OpenEmbedded build tools (openembedded-core) environment.
 
    $ cd $YOCTO
-   $ git clone https://git.yoctoproject.org/poky
-   $ cd poky
+   $ git clone https://git.openembedded.org/openembedded-core
+   $ cd openembedded-core
    $ git checkout <the revision specified in DEPENDENCIES>
 
-1.3. The Open Embedded project provides many useful layers and packages
+1.3. Clone bitbake. It is a separate repository and is required to build
+   with openembedded-core.
+
+   $ cd $YOCTO
+   $ git clone https://git.openembedded.org/bitbake
+   $ cd bitbake
+   $ git checkout <the revision specified in DEPENDENCIES>
+
+1.4. Clone the meta-yocto repository which provides the meta-poky and
+   meta-yocto-bsp layers.
+
+   $ cd $YOCTO
+   $ git clone https://git.yoctoproject.org/meta-yocto
+   $ cd meta-yocto
+   $ git checkout <the revision specified in DEPENDENCIES>
+
+1.5. The Open Embedded project provides many useful layers and packages
    such as networking. Download the Open Embedded Yocto Project hosted
    repository with the following.
 
@@ -95,7 +111,7 @@ II. Building meta-intel-distro
    $ cd meta-openembedded
    $ git checkout <the revision specified in DEPENDENCIES>
 
-1.4. Clone Yocto Virtualization Layer which provides packages for
+1.6. Clone Yocto Virtualization Layer which provides packages for
    virtualization such as Linux Container Support (lxc).
 
    $ cd $YOCTO
@@ -103,7 +119,7 @@ II. Building meta-intel-distro
    $ cd meta-virtualization
    $ git checkout <the revision specified in DEPENDENCIES>
 
-1.5. Clone the Intel meta layer. This provides Intel hardware support 
+1.7. Clone the Intel meta layer. This provides Intel hardware support 
    metadata which are inherited in Axxia BSPs.
 
    $ cd $YOCTO
@@ -111,7 +127,7 @@ II. Building meta-intel-distro
    $ cd meta-intel
    $ git checkout <the revision specified in DEPENDENCIES>
 
-1.6. Clone the Yocto security meta layer. This provides recipes for some
+1.8. Clone the Yocto security meta layer. This provides recipes for some
    utilities used in the axxia-image-dev image.
 
    $ cd $YOCTO
@@ -119,7 +135,7 @@ II. Building meta-intel-distro
    $ cd meta-security
    $ git checkout <the revision specified in DEPENDENCIES>
 
-1.7. Clone the Yocto Clang meta layer which provides provides clang/llvm
+1.9. Clone the Yocto Clang meta layer which provides provides clang/llvm
    as alternative to system C/C++ compiler.
 
    $ cd $YOCTO
@@ -137,7 +153,7 @@ II. Building meta-intel-distro
 
    $ cd $YOCTO
    $ source meta-intel-axxia/meta-intel-distro/axxia-env
-   $ source poky/oe-init-build-env axxia-build
+   $ source openembedded-core/oe-init-build-env axxia-build
 
 2.2. Check the conf/bblayers.conf file and edit if necessary.
 
@@ -145,12 +161,12 @@ II. Building meta-intel-distro
    $ vi conf/bblayers.conf
 
 BBLAYERS variable should have the following content (references to YOCTO
-below shoud be replaced with the actual value you provided prior).
+below should be replaced with the actual value you provided prior).
 
    BBLAYERS ?= " \
-            $YOCTO/poky/meta \
-            $YOCTO/poky/meta-poky \
-            $YOCTO/poky/meta-yocto-bsp \
+            $YOCTO/openembedded-core/meta \
+            $YOCTO/meta-yocto/meta-poky \
+            $YOCTO/meta-yocto/meta-yocto-bsp \
             $YOCTO/meta-openembedded/meta-oe \
             $YOCTO/meta-openembedded/meta-networking \
             $YOCTO/meta-openembedded/meta-filesystems \
@@ -160,6 +176,7 @@ below shoud be replaced with the actual value you provided prior).
             $YOCTO/meta-security/meta-tpm \
             $YOCTO/meta-virtualization \
             $YOCTO/meta-intel \
+            $YOCTO/meta-clang \
             $YOCTO/meta-intel-axxia/meta-intel-bsp \
             $YOCTO/meta-intel-axxia/meta-intel-distro \
             "
@@ -320,8 +337,8 @@ NOTE: No preferred version should be set for linux-local provider.
    separate folders having the following template name: kernel-<PN>. 
    
    Alternative kernels will be also installed in rootfs /boot directory
-   and the modules for all kernels in /lib/modules/<KENREL_VERSION>.
-   Kernels can be swhitch by recreating the bzImage symlink in /boot.
+   and the modules for all kernels in /lib/modules/<KERNEL_VERSION>.
+   Kernels can be switched by recreating the bzImage symlink in /boot.
    Default is the kernel set as preferred provider for virtual/kernel.
 
    If don't want to build alternative kernels, just reset the following
@@ -390,7 +407,6 @@ NOTE: No preferred version should be set for linux-local provider.
       IPROUTE2_GIT_BRANCH = "<branch>"
       ETHTOOL_GIT_BRANCH = "<branch>"
 
-2.3.11 Add extra space in the rootfs partition from the WIC image. Specify as an
     - To set a different git revision that the default (AUTOREV), use the following:
       IPROUTE2_GIT_SRCREV = "<SHA>"
       ETHTOOL_GIT_SRCREV = "<SHA>"
@@ -403,13 +419,13 @@ NOTE: No preferred version should be set for linux-local provider.
     
       NOTE: *_EXTRA_PATH variable can be used on tar ball and git repo sources.
 
-2.3.12 Add extra space in the rootfs partition from the WIC image. Specify as an
+2.3.11 Add extra space in the rootfs partition from the WIC image. Specify as an
     integer value optionally followed by one of the units “k” / “K” for kibibyte,
     “M” for mebibyte and “G” for gibibyte. The default unit if none is given is “M”.
 
     WIC_ROOTFS_EXTRA_SPACE = "10G"
 
-2.3.13. Enabling Multiple Configuration Build (snr, grr, qsp):
+2.3.12. Enabling Multiple Configuration Build (snr, grr, qsp):
 
   BBMULTICONFIG = "snr grr pmr qsp"
 
@@ -417,7 +433,7 @@ NOTE: No preferred version should be set for linux-local provider.
   If you need to set a different location for TMPDIR, use the TMPDIR_MULTICONFIG
   variable to set the path for all configurations.
 
-To compile the multiple configuration build, the following sintax should be used:
+To compile the multiple configuration build, the following syntax should be used:
   bitbake [mc:multiconfigname:]target [[[mc:multiconfigname:]target] ... ]
   e.g. bitbake mc::axxia-image-dev  # compile axxia-image-dev for all configuration
        bitbake mc:snr:axxia-image-min   # compile axxia-image-run for Snow Ridge
@@ -426,13 +442,13 @@ To compile the multiple configuration build, the following sintax should be used
 
   Be aware that the default configuration (local.conf) can be used as before.
 
-2.3.14. Depending on your host processor, set these two options that
+2.3.13. Depending on your host processor, set these two options that
       control how much parallelism BitBake should use (optional):
 
     BB_NUMBER_THREADS = "12"
     PARALLEL_MAKE = "-j 12"
 
-2.3.15. Other optional settings for saving disk space and build time:
+2.3.14. Other optional settings for saving disk space and build time:
    
     DL_DIR = "/(some-shared-location)/downloads"
     SSTATE_DIR = "/(some-shared-location)/sstate-cache
@@ -506,8 +522,8 @@ Run 'populate_sdk' task for axxia-image-dev image to build the SDK.
     $ bitbake axxia-image-dev -c populate_sdk
 
 It will install a self extracting script in tmp/deploy/sdk. Simply run
-the poky*.sh script. To set up the environment to use the tools, source
-environment-setup* in the install directory.
+the generated *.sh installer script. To set up the environment to use
+the tools, source environment-setup* in the install directory.
 
 After the installation completes, do the following:
 
@@ -601,7 +617,7 @@ This will mount the rootfs read-only in /media/rfs/ro, a tmpfs
 mountpoint will be created in /media/rfs/rw and an overlayfs will be
 mounted on root / directory using the readonly rootfs as lowerdir and
 the tmpfs one as upperdir. All the user specific changes will be stored
-in tmpfs, so will be volative.
+in tmpfs, so will be volatile.
 
 For persistent user changes, a new read-write device/partition need to
 be present and set with the following Kernel command line parameter:
