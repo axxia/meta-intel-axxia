@@ -76,9 +76,12 @@ file, the following additional steps are required:
 
     bitbake-layers add-layer <path-to-layer>/meta-intel-rdk
 
-In local.conf, add to the white list the following packages if necessary:
+Be sure the RDK packages you need (for example rdk-tools, boost, thrift)
+are not skipped via SKIP_RECIPE in other layers. If a recipe is blocked,
+remove or override the corresponding SKIP_RECIPE entry in local.conf,
+e.g.:
 
-    PNWHITELIST_intel-rdk += 'rdk-tools bjam-native boost thrift'
+    SKIP_RECIPE[rdk-tools] = ""
 
 
 3. Common RDK related settings

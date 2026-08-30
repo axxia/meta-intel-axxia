@@ -141,11 +141,12 @@ are required:
     bitbake-layers add-layer <path-to-layer>/meta-intel
     bitbake-layers add-layer <path-to-layer>/meta-intel-bsp
 
-In local.conf, set intel-axxia-snr or intel-axxia-grr machine, choose
-linux-intel kernel provider and add to the white list the following
-packages if necessary:
+In local.conf, set intel-axxia-snr, intel-axxia-grr or intel-axxia-pmr
+machine and choose the linux-intel kernel provider.
 
-    PNWHITELIST_intel += " thermald intel-microcode iucode-tool"
-    PNWHITELIST_intel += " linux-intel linux-intel-rt"
-    
-Also, be sure linux-intel is not blacklisted somewhere in other layers.
+Be sure the packages you need (for example thermald, intel-microcode,
+iucode-tool, linux-intel, linux-intel-rt) are not skipped via
+SKIP_RECIPE in other layers. If a recipe is blocked, remove or override
+the corresponding SKIP_RECIPE entry, e.g.:
+
+    SKIP_RECIPE[linux-intel] = ""
