@@ -5,37 +5,37 @@ bitbake
 -------
 URI: https://git.openembedded.org/bitbake
 branch: master
-revision: 7e3489ab3ec39b2dcf4e50eff54d36d42e5a7307
+revision: 046a90b0e9b7b914b7a95aec579cdc3fc9c7617a
 
 meta-yocto
 ----------
 URI: https://git.yoctoproject.org/meta-yocto
 branch: wrynose
-revision: 24c24cef5d1523fefe43a3e3d34667b37ae551f3
+revision: ddeeba423ff0565b8f1192f16072b5993d5ea6a0
 
 openembedded-core
 -----------------
 URI: https://git.openembedded.org/openembedded-core
 branch: wrynose
-revision: 5d1aa5c806c061a2994f4decb59016610f093213
+revision: 883075157987ca300af59185b903d6d1977234c3
 
 meta-openembedded
 -----------------
 URI: https://git.openembedded.org/meta-openembedded
 branch: wrynose
-revision: 100027977216601000cbefc42c2ff6cf667e7b5e
+revision: 14282a02be9c74a1276a7cda7d6c89e054699a11
 
 meta-virtualization
 -------------------
 URI: https://git.yoctoproject.org/meta-virtualization
 branch: wrynose
-revision: 781735b97ae5013cacabbecd38e6da6b510cf3fb
+revision: 70a5d5a65d7237cfe978961fa4d8765c895cddc8
 
 meta-intel
 ----------
 URI: https://git.yoctoproject.org/meta-intel
 branch: wrynose
-revision: e313e66aeff76aa827bd48ffe282644701d0f8d2
+revision: 79a9681ce83f6bf36aede3aeb8c1707d29bca329
 
 meta-security
 -------------
@@ -47,4 +47,4 @@ meta-clang
 ----------
 URI: https://github.com/kraj/meta-clang.git
 branch: wrynose
-revision: 78c5e12f08198f4f257a9348516d2103cd617c1d
+revision: ef0d22f21910a0c30c967eeb17d8f209806e2d81
