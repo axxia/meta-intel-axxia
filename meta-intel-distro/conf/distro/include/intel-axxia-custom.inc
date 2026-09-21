@@ -27,6 +27,13 @@ ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
 	'linux-korg-netnext-debug', '',    ' linux-korg-netnext-debug', d)}\
 "
 
+INTELCOLLAB_ALTERNATIVE_KERNELS ?= "\
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
+	'linux-intel-collab', '',          ' linux-intel-collab', d)}\
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
+	'linux-intel-collab-debug', '',    ' linux-intel-collab-debug', d)}\
+"
+
 LOCAL_ALTERNATIVE_KERNELS ?= ""
 KORG_ALTERNATIVE_KERNELS ?= ""
 
