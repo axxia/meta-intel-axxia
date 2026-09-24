@@ -29,6 +29,7 @@ IMAGE_INSTALL = " \
     7zip-dev \
     accel-config \
     acl \
+    acpid \
     aer-inject \
     asciidoc \
     at \

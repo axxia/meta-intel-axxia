@@ -22,6 +22,7 @@ IMAGE_INSTALL = " \
     packagegroup-core-boot \
     ${CORE_IMAGE_EXTRA_INSTALL} \
     axxia-rc-local \
+    acpid \
     curl \
     gdbserver \
     inetutils \

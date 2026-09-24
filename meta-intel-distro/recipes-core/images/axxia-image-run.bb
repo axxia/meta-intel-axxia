@@ -23,6 +23,7 @@ IMAGE_INSTALL = " \
     ${CORE_IMAGE_EXTRA_INSTALL} \
     7zip \
     accel-config \
+    acpid \
     axxia-rc-local \
     babeltrace2 \
     boost \
