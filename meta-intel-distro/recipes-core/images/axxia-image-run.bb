@@ -17,6 +17,7 @@ IMAGE_INSTALL = " \
     packagegroup-core-full-cmdline \
     ${CORE_IMAGE_EXTRA_INSTALL} \
     accel-config \
+    acpid \
     axxia-rc-local \
     babeltrace \
     boost \

@@ -24,6 +24,7 @@ IMAGE_INSTALL = " \
     packagegroup-core-buildessential \
     accel-config \
     acl \
+    acpid \
     aer-inject \
     asciidoc \
     at \
