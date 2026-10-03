@@ -22,7 +22,7 @@ PREFERRED_VERSION_linux-intel = "6.18%"
 # Release version should be the meta-intel-axxia repository tag from release note.
 # RELEASE_VERSION = "" 
 
-# Enabling Multiple Configuration Build. The following sintax should be used:
+# Enabling Multiple Configuration Build. The following syntax should be used:
 # bitbake [mc:multiconfigname:]target [[[mc:multiconfigname:]target] ... ]
 #BBMULTICONFIG ?= "snr grr pmr qsp"
 
@@ -51,5 +51,5 @@ BB_DISKMON_DIRS ??= "\
 PACKAGECONFIG:append:pn-qemu-system-native = " sdl"
 CONF_VERSION = "2"
 
-# For more options check meta-intel-distro layer for README and 
-# meta-poky/conf/templates/default/local.conf.sample.extended
+# For more options check meta-intel-distro layer for README and
+# openembedded-core/meta/conf/templates/default/local.conf.sample.extended

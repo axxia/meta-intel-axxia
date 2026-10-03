@@ -135,7 +135,7 @@ II. Building meta-intel-distro
    $ cd meta-security
    $ git checkout <the revision specified in DEPENDENCIES>
 
-1.9. Clone the Yocto Clang meta layer which provides provides clang/llvm
+1.9. Clone the Yocto Clang meta layer which provides clang/llvm
    as alternative to system C/C++ compiler.
 
    $ cd $YOCTO

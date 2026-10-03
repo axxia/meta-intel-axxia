@@ -1,5 +1,5 @@
 SUMMARY = "Extended cryptographic library (from glibc) with obsolete APIs"
-DESCRIPTION = "Forked code from glibc libary to extract only crypto part.\
+DESCRIPTION = "Forked code from glibc library to extract only crypto part.\
 This provides libcrypto.so.1 which contains obsolete APIs, needed for uninative in particular."
 HOMEPAGE = "https://github.com/besser82/libxcrypt"
 SECTION = "libs"

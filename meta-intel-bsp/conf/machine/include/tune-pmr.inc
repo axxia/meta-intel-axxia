@@ -18,7 +18,7 @@ MULTILIBS = "multilib:lib32"
 require conf/machine/include/x86/tune-core2.inc
 
 # Extra tune features
-TUNEVALID[pmr] = "Enable pmr rspecific processor optimizations"
+TUNEVALID[pmr] = "Enable pmr specific processor optimizations"
 TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'pmr', ' -march=grandridge -mtune=grandridge -mfpmath=sse -mavx2', '', d)}"
 
 # Extra tune selections
