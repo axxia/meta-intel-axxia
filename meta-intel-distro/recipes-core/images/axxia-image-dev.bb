@@ -2,18 +2,18 @@ DESCRIPTION = "A more complete image used for development, \
 when size doesn't matter as much."
 LICENSE = "MIT"
 
-require recipes-core/images/core-image-minimal-dev.bb
 require axxia-image.inc
 require axxia-devsrc.inc
 require axxia-altkernel.inc
 require ${@bb.utils.contains('BBFILE_COLLECTIONS', 'intel-rdk', \
 			     'axxia-rdk.inc', '', d)}
 
+inherit core-image
+
 IMAGE_FEATURES:append = " \
     allow-empty-password \
     allow-root-login \
     dev-pkgs \
-    eclipse-debug \
     empty-root-password \
     post-install-logging \
     ssh-server-openssh \
