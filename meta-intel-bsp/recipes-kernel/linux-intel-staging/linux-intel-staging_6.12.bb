@@ -3,13 +3,15 @@ require recipes-kernel/linux/linux-axxia.inc
 
 SRC_URI:prepend = "git://github.com/intel-innersource/os.linux.kernel.kernel-staging.git;protocol=https;name=machine;branch=${KBRANCH}"
 
-KBRANCH = "iotg-next/v6.12"
+INTEL_STAGING_BRANCH ?= "iotg-next/v6.12"
+KBRANCH = "${INTEL_STAGING_BRANCH}"
 KMETA_BRANCH = "yocto-6.12"
 
 LINUX_VERSION = "6.12.0"
 LINUX_VERSION_EXTENSION = "-intel-staging-${LINUX_KERNEL_TYPE}"
 
-SRCREV_machine = "411c5c5f39493db2835cf84b341e7b67bc3c15c5"
+INTEL_STAGING_REVISION ?= "411c5c5f39493db2835cf84b341e7b67bc3c15c5"
+SRCREV_machine = "${INTEL_STAGING_REVISION}"
 SRCREV_meta = "8f57fada9d056588228a27f6eaaaed9e176cd6a5"
 
 COMMON_PATCHES = " \

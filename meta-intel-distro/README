@@ -242,7 +242,11 @@ c. Private Staging Intel Github (github.com/intel-innersource)
    will build kernel from Intel Innersource Staging private repo
    (https://github.com/intel-innersource/os.linux.kernel.kernel-staging):
       iotg-next/v6.12 branch
-   
+  
+   INTEL_STAGING_BRANCH variable can be use in local.conf to set a
+   different branch and INTEL_STAGING_REVISION variable can be use to set a
+   different source revision (SRCREV).
+
    Alternative Intel staging kernel is linux-intel-staging-debug.
 
 d. Collab Intel Github for platform enablement - (github.com/intel-collab)
