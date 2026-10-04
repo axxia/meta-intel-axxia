@@ -1,52 +1,9 @@
 # Set alternative kernels (different from virtual/kernel provider)
-INTEL_ALTERNATIVE_KERNELS ?= "\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-intel', '',          ' linux-intel', d)}\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-intel-debug', '',    ' linux-intel-debug', d)}\
-"
-
-INTELPRIVATE_ALTERNATIVE_KERNELS ?= "\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-intel-private', '',          ' linux-intel-private', d)}\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-intel-private-debug', '',    ' linux-intel-private-debug', d)}\
-"
-
-YOCTO_ALTERNATIVE_KERNELS ?= "\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-yocto', '',          ' linux-yocto', d)}\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-yocto-debug', '',    ' linux-yocto-debug', d)}\
-"
-
-KORGNETNEXT_ALTERNATIVE_KERNELS ?= "\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-korg-netnext', '',          ' linux-korg-netnext', d)}\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-korg-netnext-debug', '',    ' linux-korg-netnext-debug', d)}\
-"
-
-INTELCOLLAB_ALTERNATIVE_KERNELS ?= "\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-intel-collab', '',          ' linux-intel-collab', d)}\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-intel-collab-debug', '',    ' linux-intel-collab-debug', d)}\
-"
-
-INTELSTAGING_ALTERNATIVE_KERNELS ?= "\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-intel-staging', '',          ' linux-intel-staging', d)}\
-${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
-	'linux-intel-staging-debug', '',    ' linux-intel-staging-debug', d)}\
-"
-
-LOCAL_ALTERNATIVE_KERNELS ?= ""
-KORG_ALTERNATIVE_KERNELS ?= ""
-
-ALTERNATIVE_KERNELS ?= \
-"${${@''.join(d.getVar('PREFERRED_PROVIDER_virtual/kernel').upper()\
-	.split('-')[1:])}_ALTERNATIVE_KERNELS}"
+# Add the debug variant of the current kernel provider as alternative.
+# linux-local and linux-korg have no debug variant.
+ALTERNATIVE_KERNELS ?= "${@'' if d.getVar('PREFERRED_PROVIDER_virtual/kernel') in \
+    ['linux-local', 'linux-korg'] else \
+    ' ' + d.getVar('PREFERRED_PROVIDER_virtual/kernel') + '-debug'}"
 
 ALTERNATIVE_KERNELS_INSTALL ?= \
 "${@d.getVar('ALTERNATIVE_KERNELS').replace('linux-','altkernel-linux-')}"
