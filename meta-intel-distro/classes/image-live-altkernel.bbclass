@@ -43,7 +43,7 @@ python do_bootimg() {
         bb.build.exec_func('build_syslinux_cfg', d)
     if d.getVar("EFI") == "1":
         bb.build.exec_func('build_efi_cfg', d)
-        bb.build.exec_func('customize_cfg', d)
+    bb.build.exec_func('customize_cfg', d)
     bb.build.exec_func('populate_altkernel', d)
     bb.build.exec_func('build_hddimg', d)
     bb.build.exec_func('build_iso', d)
