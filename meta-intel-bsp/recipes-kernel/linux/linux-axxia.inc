@@ -73,7 +73,8 @@ kernel_do_deploy:append() {
 	ln -sf config-${KERNEL_ARTIFACT_NAME} config
 }
 
-KERNEL_MODULE_AUTOLOAD += "openvswitch kvm"
+KERNEL_MODULE_AUTOLOAD += "${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', 'openvswitch', '', d)}"
+KERNEL_MODULE_AUTOLOAD += "${@bb.utils.contains('DISTRO_FEATURES', 'kvm', 'kvm', '', d)}"
 KERNEL_EXTRA_FEATURES = ""
 
 FILES:${KERNEL_PACKAGE_NAME}-modules += "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.*"
