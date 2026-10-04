@@ -1,11 +1,10 @@
-# Set the version for alternative kernels as virtual/kernel provider
-KV = "${@d.getVar('PREFERRED_VERSION_' + d.getVar('PREFERRED_PROVIDER_virtual/kernel', True), True)}"
-PREFERRED_VERSION_linux-yocto-debug ?= "${KV}"
-PREFERRED_VERSION_linux-intel-debug ?= "${KV}"
-PREFERRED_VERSION_linux-intel-private-debug ?= "${KV}"
-PREFERRED_VERSION_linux-intel-collab-debug ?= "${KV}"
-PREFERRED_VERSION_linux-intel-staging-debug ?= "${KV}"
-PREFERRED_VERSION_linux-korg-netnext-debug ?= "${KV}"
+# Set the version for the debug variant of the current kernel provider
+python __anonymous() {
+    provider = d.getVar('PREFERRED_PROVIDER_virtual/kernel')
+    kv = d.getVar('PREFERRED_VERSION_' + provider)
+    if kv and not provider.endswith('-debug'):
+        d.setVar('PREFERRED_VERSION_' + provider + '-debug', kv)
+}
 
 ETHTOOL_VERSION ?= "6.19"
 PREFERRED_VERSION_ethtool ?= "${ETHTOOL_VERSION}%"
