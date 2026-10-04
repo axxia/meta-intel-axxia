@@ -378,6 +378,11 @@ NOTE: No preferred version should be set for linux-local provider.
 
    ALTERNATIVE_KERNELS = ""
 
+   To add multiple alternative kernels, set the variable with a
+   space-separated list in local.conf:
+
+   ALTERNATIVE_KERNELS = "linux-intel-debug linux-yocto linux-korg-netnext"
+
 2.3.7. Enable "multilib" support if desired.
 
     DISTRO_FEATURES:append = " multilib"

@@ -1,9 +1,4 @@
-ALTERNATIVE_KERNEL_NUMBER = "0"
-
-require recipes-kernel/lttng/lttng-modules_${PV}.bb
-require lttng-modules-alternative.inc
-
-FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/lttng-modules:"
 
 SRC_URI:append = " file://0001-fix-hrtimer-Drop-unnecessary-pointer-indirection-in.patch \
                    file://0001-fix-mm-vmscan-Convert-pageout-to-take-a-folio-v5.18.patch \

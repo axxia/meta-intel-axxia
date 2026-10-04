@@ -1,4 +1,5 @@
-KERNEL = "${@d.getVar('ALTERNATIVE_KERNELS')[1:].split(' ')[${ALTERNATIVE_KERNEL_NUMBER}]}"
+KERNEL = "${@d.getVar('ALTERNATIVE_KERNELS').split()[int(d.getVar('ALTERNATIVE_KERNEL_NUMBER'))] \
+    if len(d.getVar('ALTERNATIVE_KERNELS').split()) > int(d.getVar('ALTERNATIVE_KERNEL_NUMBER')) else ''}"
 
 BPN = "lttng-modules"
 PN = "lttng-modules-${KERNEL}"

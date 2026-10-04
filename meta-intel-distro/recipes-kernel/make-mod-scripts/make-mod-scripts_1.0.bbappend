@@ -1,5 +1,5 @@
-ALTERNATIVE_KERNELS_SHARED_WORKDIR  = "${@':do_shared_workdir '.join(d.getVar('ALTERNATIVE_KERNELS')[1:].split(' '))}"
-ALTERNATIVE_KERNELS_COMPILE_MODULES = "${@':do_compile_kernelmodules '.join(d.getVar('ALTERNATIVE_KERNELS')[1:].split(' '))}"
+ALTERNATIVE_KERNELS_SHARED_WORKDIR  = "${@':do_shared_workdir '.join(d.getVar('ALTERNATIVE_KERNELS').split())}"
+ALTERNATIVE_KERNELS_COMPILE_MODULES = "${@':do_compile_kernelmodules '.join(d.getVar('ALTERNATIVE_KERNELS').split())}"
 
 do_configure[depends] += "${@oe.utils.conditional('ALTERNATIVE_KERNELS', '', '', \
                          '${ALTERNATIVE_KERNELS_SHARED_WORKDIR}:do_shared_workdir', d)}"

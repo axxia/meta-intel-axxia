@@ -1,10 +1,8 @@
-FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
+require lttng-modules-common.inc
 
-SRC_URI:append = " file://0001-fix-hrtimer-Drop-unnecessary-pointer-indirection-in.patch \
-                   file://0001-fix-mm-vmscan-Convert-pageout-to-take-a-folio-v5.18.patch \
-                   file://0001-fix-mm-vmscan-add-cgroup-IDs-to-vmscan-tracepoints-v7.1.patch \
-                   file://0001-fix-vfs-widen-trace-event-i_ino-fields-to-u64-v7.1.patch \
-                   file://0001-fix-treewide-change-inode-i_ino-from-unsigned-long-to-u64-v7.1.patch \
-                   file://0001-fix-ext4-enhance-tracepoints-during-the-folios-writeback-v6.17.patch \
-                   file://0001-fix-ext4-widen-trace-event-i_ino-fields-to-u64-v7.1.patch \
-                "
+# If clean or cleansstate is run for lttng-modules, clean also alternative lttng-modules
+LTTNG_MODULES_CLEAN = "${@':do_clean '.join(d.getVar('ALTERNATIVE_KERNELS_LTTNG_MODULES').split())}:do_clean"
+LTTNG_MODULES_CLEANSSTATE = "${@':do_cleansstate '.join(d.getVar('ALTERNATIVE_KERNELS_LTTNG_MODULES').split())}:do_cleansstate"
+
+do_clean[depends] += "${@oe.utils.conditional('ALTERNATIVE_KERNELS', '', '', '${LTTNG_MODULES_CLEAN}', d)}"
+do_cleansstate[depends] += "${@oe.utils.conditional('ALTERNATIVE_KERNELS', '', '', '${LTTNG_MODULES_CLEANSSTATE}', d)}"
