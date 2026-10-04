@@ -6,7 +6,8 @@ FILESEXTRAPATHS:prepend := "${@oe.utils.conditional('KORG_NETNEXT_EXTRA_PATH', '
 SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git;protocol=https;name=machine;branch=${KBRANCH} \
            ${@oe.utils.conditional('KORG_NETNEXT_CONFIG', 'frags', '${KERNEL_CONFIG_URI}', 'file://${KORG_NETNEXT_CONFIG}', d)}"
 
-KBRANCH = "main"
+KORG_NETNEXT_BRANCH ?= "main"
+KBRANCH = "${KORG_NETNEXT_BRANCH}"
 KMETA_BRANCH = "yocto-6.16"
 
 LINUX_VERSION = "${@d.getVar('KBRANCH').replace('/','.')}.${@d.getVar('SRCREV_machine')[:8]}"
