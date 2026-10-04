@@ -254,8 +254,9 @@ d. Collab Intel Github for platform enablement - (github.com/intel-collab)
    (https://github.com/intel-collab/os.linux.kernelsource.platform-enablement/tree/6.18/linux):
       6.18/svl branch
 
-   INTEL_COLLAB_REVISION variable can be use in local.conf to set a
-   different source revision (SRCREV). linux-korg-netnext recipes have
+   INTEL_COLLAB_BRANCH variable can be use in local.conf to set a
+   different branch and INTEL_COLLAB_REVISION variable can be use to set a
+   different source revision (SRCREV). linux-intel-collab recipes have
    dynamic version: <branch>.<SRCREV[8]>.
 
    INTEL_COLLAB_EXTRA_PATH variable can be used in local.conf to specify

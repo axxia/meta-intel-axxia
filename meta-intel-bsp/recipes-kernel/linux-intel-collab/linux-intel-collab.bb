@@ -6,7 +6,8 @@ FILESEXTRAPATHS:prepend := "${@oe.utils.conditional('INTEL_COLLAB_EXTRA_PATH', '
 SRC_URI = "git://github.com/intel-collab/os.linux.kernelsource.platform-enablement.git;protocol=https;name=machine;branch=${KBRANCH} \
            ${@oe.utils.conditional('INTEL_COLLAB_CONFIG', 'frags', '${KERNEL_CONFIG_URI}', 'file://${INTEL_COLLAB_CONFIG}', d)}"
 
-KBRANCH = "6.18/svl"
+INTEL_COLLAB_BRANCH ?= "6.18/svl"
+KBRANCH = "${INTEL_COLLAB_BRANCH}"
 KMETA_BRANCH = "yocto-6.18"
 
 LINUX_VERSION = "${@d.getVar('KBRANCH').replace('/','.')}.${@d.getVar('SRCREV_machine')[:8]}"
