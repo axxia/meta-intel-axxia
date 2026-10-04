@@ -15,4 +15,10 @@ include features/overlayfs/overlayfs.scc
 include features/nfsd/nfsd-enable.scc
 include lxc-axxia.scc
 
-kconf non-hardware common-non-hw.cfg
+kconf non-hardware common-platform.cfg
+kconf non-hardware common-networking.cfg
+kconf non-hardware common-storage.cfg
+kconf non-hardware common-crypto.cfg
+kconf non-hardware common-virtualization.cfg
+kconf non-hardware common-system.cfg
+kconf non-hardware common-disabled.cfg
