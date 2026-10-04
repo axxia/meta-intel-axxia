@@ -28,6 +28,4 @@ PREFERRED_RPROVIDER_libnss-mdns = "avahi-libnss-mdns"
 
 VIRTUAL-RUNTIME_syslog ?= "rsyslog"
 
-SAVANNAH_NONGNU_MIRROR = "http://download-mirror.savannah.gnu.org/releases"
-
 FORTRAN:forcevariable = ",fortran"
