@@ -102,7 +102,7 @@ class BootimgEFIPlugin(SourcePlugin):
                         (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
 
             label = source_params.get('label')
-            label_conf = "root=%s" % creator.rootdev
+            label_conf = "root=%s" % creator.rootdev if creator.rootdev else ""
             if label:
                 label_conf = "LABEL=%s" % label
 
@@ -135,7 +135,7 @@ class BootimgEFIPlugin(SourcePlugin):
                     kernel_type = get_bitbake_var("KERNEL_IMAGETYPE")
 
                     label = source_params.get('label')
-                    label_conf = "root=%s" % creator.rootdev
+                    label_conf = "root=%s" % creator.rootdev if creator.rootdev else ""
                     if label:
                         label_conf = "LABEL=%s" % label
 
@@ -223,7 +223,8 @@ class BootimgEFIPlugin(SourcePlugin):
             boot_conf += "linux /%s\n" % kernel
 
             label = source_params.get('label')
-            label_conf = "LABEL=Boot root=%s" % creator.rootdev
+            label_conf = "LABEL=Boot"
+            label_conf += (" root=%s" % creator.rootdev) if creator.rootdev else ""
             if label:
                 label_conf = "LABEL=%s" % label
 
@@ -264,7 +265,8 @@ class BootimgEFIPlugin(SourcePlugin):
                 boot_conf += "linux /%s-%s\n" % (kernel_type, kernel)
 
                 label = source_params.get('label')
-                label_conf = "LABEL=Boot root=%s" % creator.rootdev
+                label_conf = "LABEL=Boot"
+                label_conf += (" root=%s" % creator.rootdev) if creator.rootdev else ""
                 if label:
                     label_conf = "LABEL=%s" % label
 
