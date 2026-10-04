@@ -34,6 +34,13 @@ ${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
 	'linux-intel-collab-debug', '',    ' linux-intel-collab-debug', d)}\
 "
 
+INTELSTAGING_ALTERNATIVE_KERNELS ?= "\
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
+	'linux-intel-staging', '',          ' linux-intel-staging', d)}\
+${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel',\
+	'linux-intel-staging-debug', '',    ' linux-intel-staging-debug', d)}\
+"
+
 LOCAL_ALTERNATIVE_KERNELS ?= ""
 KORG_ALTERNATIVE_KERNELS ?= ""
 

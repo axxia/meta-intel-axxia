@@ -4,6 +4,7 @@ PREFERRED_VERSION_linux-yocto-debug ?= "${KV}"
 PREFERRED_VERSION_linux-intel-debug ?= "${KV}"
 PREFERRED_VERSION_linux-intel-private-debug ?= "${KV}"
 PREFERRED_VERSION_linux-intel-collab-debug ?= "${KV}"
+PREFERRED_VERSION_linux-intel-staging-debug ?= "${KV}"
 PREFERRED_VERSION_linux-korg-netnext-debug ?= "${KV}"
 
 ETHTOOL_VERSION ?= "6.19"
