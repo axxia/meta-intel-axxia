@@ -226,11 +226,11 @@ b. Private Intel Github (github.com/intel-innersource)
    (https://github.com/intel-innersource/networking.wireless.transport.rdk.bts-kernel):
       pmr/latest/pmr branch
 
-   KBRANCH_INTEL_PRIVATE variable can be use in local.conf to set a
+   INTEL_PRIVATE_BRANCH variable can be use in local.conf to set a
    different branch. linux-intel-private recipes have dynamic version:
    dev.<KBRANCH>.
 
-   SRCREV_INTEL_PRIVATE variable can be use in local.conf to set a
+   INTEL_PRIVATE_REVISION variable can be use in local.conf to set a
    different revision than AUTOREV (default: latest commit from branch).
 
    Alternative Intel private kernel is linux-intel-private-debug.

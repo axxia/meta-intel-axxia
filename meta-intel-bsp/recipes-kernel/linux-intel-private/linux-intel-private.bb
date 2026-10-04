@@ -3,14 +3,14 @@ require recipes-kernel/linux/linux-axxia.inc
 
 SRC_URI = "git://github.com/intel-innersource/networking.wireless.transport.rdk.bts-kernel.git;protocol=https;name=machine;branch=${KBRANCH}"
 
-KBRANCH_INTEL_PRIVATE ?= "${CPU}/latest/${CPU}"
-KBRANCH = "${KBRANCH_INTEL_PRIVATE}"
+INTEL_PRIVATE_BRANCH ?= "${CPU}/latest/${CPU}"
+KBRANCH = "${INTEL_PRIVATE_BRANCH}"
 
-LINUX_VERSION = "dev.${@d.getVar('KBRANCH_INTEL_PRIVATE').replace('/','.')}"
+LINUX_VERSION = "dev.${@d.getVar('INTEL_PRIVATE_BRANCH').replace('/','.')}"
 LINUX_VERSION_EXTENSION = "-intel-private-${LINUX_KERNEL_TYPE}"
 
-SRCREV_INTEL_PRIVATE ?= "${AUTOREV}"
-SRCREV_machine = "${SRCREV_INTEL_PRIVATE}"
+INTEL_PRIVATE_REVISION ?= "${AUTOREV}"
+SRCREV_machine = "${INTEL_PRIVATE_REVISION}"
 
 COMMON_PATCHES = " \
 "
