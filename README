@@ -49,19 +49,11 @@ Check README.distro for more details.
 Guidelines for submitting patches
 =================================
 
-Please submit any patches against meta-intel-axxia BSPs to the 
-meta-intel-axxia mailing list (meta-axxia@lists.yoctoproject.org) and
-cc: the maintainers.
-
-Mailing list:
-    https://lists.yoctoproject.org/g/meta-axxia
+Please submit any patches against meta-intel-axxia BSPs as pull requests
+on the GitHub repository or by email to the maintainers.
 
 When creating patches, please use something like:
     git format-patch -s --subject-prefix='meta-intel-axxia][PATCH' origin
-
-When sending patches, please use something like:
-    git send-email --to meta-axxia@lists.yoctoproject.org --cc (maintainers)
-		      (generated patch)
 
 
 Maintenance
@@ -69,8 +61,6 @@ Maintenance
 
 Maintainers: John Jacques (john.jacques@intel.com)
              Daniel Dragomir (daniel.dragomir@windriver.com)
-
-Please see the MAINTAINERS file for more details.
 
 
 License
