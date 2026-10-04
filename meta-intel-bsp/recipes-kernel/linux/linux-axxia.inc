@@ -5,7 +5,7 @@ ${THISDIR}/frags:"
 
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
-KERNEL_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+KERNEL_MAJOR_VERSION = "${@'.'.join(d.getVar('LINUX_VERSION').split('.')[0:2])}"
 
 KERNEL_ARTIFACT_EXTRA = "${@oe.utils.conditional('RELEASE_VERSION', 'default', '', '--${RELEASE_VERSION}', d)}"
 KERNEL_ARTIFACT_NAME = "${PKGE}-${PKGV}-${PKGR}${IMAGE_MACHINE_SUFFIX}${KERNEL_ARTIFACT_EXTRA}${IMAGE_VERSION_SUFFIX}"
@@ -85,6 +85,6 @@ do_clean[depends] += "${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel
 		     '${ALTERNATIVE_KERNELS_CLEAN}', '', d)}"
 do_cleansstate[depends] += "${@oe.utils.conditional('PREFERRED_PROVIDER_virtual/kernel', '${PN}', \
 			   '${ALTERNATIVE_KERNELS_CLEANSSTATE}', '', d)}"
-											   
+
 # Compile tools needed by external modules each time kernel is clean
 do_clean[depends] += "make-mod-scripts:do_cleansstate"
