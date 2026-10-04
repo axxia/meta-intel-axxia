@@ -28,7 +28,7 @@ INTEL_AXXIA_FRAGS ?= " file://common.scc file://${CPU}.scc"
 
 DEPENDS:append = " elfutils-native openssl-native util-linux-native pahole-native"
 
-# CONFIG_DEBUG_INFO_BTF depend on CONFIG_PAHOLE_VERSION, so need to make pahole-native 
+# CONFIG_DEBUG_INFO_BTF depend on CONFIG_PAHOLE_VERSION, so need to make pahole-native
 # available before do_kernel_configme
 do_kernel_configme[depends] += "pahole-native:do_populate_sysroot"
 

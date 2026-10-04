@@ -20,7 +20,7 @@ PV = "4.1.1"
 
 SRC_URI = "git://github.com/intel/idxd-config.git;protocol=https;branch=stable"
 
-inherit autotools-brokensep pkgconfig gettext 
+inherit autotools-brokensep pkgconfig gettext
 
 EXTRA_OECONF:append = " --enable-test=yes"
 

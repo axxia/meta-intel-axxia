@@ -20,7 +20,7 @@ PREFERRED_VERSION_linux-intel = "6.18%"
 #DISTRO_FEATURES:append = " qsp"
 
 # Release version should be the meta-intel-axxia repository tag from release note.
-# RELEASE_VERSION = "" 
+# RELEASE_VERSION = ""
 
 # Enabling Multiple Configuration Build. The following syntax should be used:
 # bitbake [mc:multiconfigname:]target [[[mc:multiconfigname:]target] ... ]

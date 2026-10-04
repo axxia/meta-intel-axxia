@@ -1,10 +1,10 @@
-# Settings for Intel Grand Ridge CPU with 64-bit extensions, MOVBE, MMX, 
+# Settings for Intel Grand Ridge CPU with 64-bit extensions, MOVBE, MMX,
 # SSE, SSE2, SSE3, SSSE3, SSE4.1, SSE4.2, POPCNT, AES, PREFETCHW, PCLMUL,
 # RDRND, XSAVE, XSAVEC, XSAVES, XSAVEOPT, FSGSBASE, PTWRITE, RDPID, SGX,
 # GFNI-SSE, CLWB, MOVDIRI, MOVDIR64B, CLDEMOTE, WAITPKG, ADCX, AVX, AVX2,
 # BMI, BMI2, F16C, FMA, LZCNT, PCONFIG, PKU, VAES, VPCLMULQDQ, SERIALIZE,
 # RESET, KL, WIDEKL, AVX-VNNI, AVXIFMA, AVXVNNIINT8, AVXNECONVERT,
-# CMPCCXADD and RAOINT instruction set support. 
+# CMPCCXADD and RAOINT instruction set support.
 #
 # This tune is recommended for the new Intel Grand Ridge CPU and beyond.
 #

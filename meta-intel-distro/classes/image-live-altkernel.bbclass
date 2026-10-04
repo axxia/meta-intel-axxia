@@ -6,7 +6,7 @@ LABELS_LIVE = "boot ${ALTERNATIVE_KERNELS_BOOT_LABELS} install"
 
 populate_altkernel() {
 	install -d ${HDDDIR} ${ISODIR} ${EFIIMGDIR}
-	
+
 	if [ -n "${ALTERNATIVE_KERNELS}" ]; then
 		bbnote "Trying to install alternative kernels: ${ALTERNATIVE_KERNELS}"
 		for k in ${ALTERNATIVE_KERNELS}; do

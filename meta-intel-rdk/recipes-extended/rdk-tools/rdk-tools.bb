@@ -92,7 +92,7 @@ do_install () {
 	cp -r ${S}/install/include/* ${D}${includedir}
 	cp -r ${S}/install/etc/* ${D}${sysconfdir} 2>/dev/null || :
 	rm -f ${D}${includedir}/Makefile
-	
+
 	if [ -d "${S}/install/lib/firmware" ]; then
 		install -d ${D}${nonarch_base_libdir}/firmware
 		cp -r ${S}/install/lib/firmware/* \

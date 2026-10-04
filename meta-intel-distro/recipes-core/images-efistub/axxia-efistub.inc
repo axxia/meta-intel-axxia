@@ -1,4 +1,4 @@
-WKS_FILE = "axxia-bootdisk-efistub.wks.in" 
+WKS_FILE = "axxia-bootdisk-efistub.wks.in"
 INITRD_IMAGE_LIVE = "core-image-minimal-initramfs"
 
 IMAGE_FSTYPES = "wic ext4"

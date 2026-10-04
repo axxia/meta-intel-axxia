@@ -35,7 +35,7 @@ I. Prerequisites
 
 To begin using the Yocto Project build tools, you must first setup your
 work environment and verify that you have the required host packages
-installed on the system you will be using for builds. 
+installed on the system you will be using for builds.
 
 Check the YOCTO Reference Manual for the system you are using and verify
 you have the minimum required packages installed:
@@ -119,7 +119,7 @@ II. Building meta-intel-distro
    $ cd meta-virtualization
    $ git checkout <the revision specified in DEPENDENCIES>
 
-1.7. Clone the Intel meta layer. This provides Intel hardware support 
+1.7. Clone the Intel meta layer. This provides Intel hardware support
    metadata which are inherited in Axxia BSPs.
 
    $ cd $YOCTO
@@ -211,17 +211,17 @@ below should be replaced with the actual value you provided prior).
 a. Public Intel Github (github.com/intel)
 
    PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
-   
+
    will build kernel from Intel Github public repo
    (https://github.com/intel/linux-intel-lts):
       v6.18/linux branch
-  
+
    Alternative Intel kernel is linux-intel-debug.
 
 b. Private Intel Github (github.com/intel-innersource)
 
    PREFERRED_PROVIDER_virtual/kernel = "linux-intel-private"
-   
+
    will build kernel from Intel Innersource private repo
    (https://github.com/intel-innersource/networking.wireless.transport.rdk.bts-kernel):
       pmr/latest/pmr branch
@@ -232,23 +232,23 @@ b. Private Intel Github (github.com/intel-innersource)
 
    SRCREV_INTEL_PRIVATE variable can be use in local.conf to set a
    different revision than AUTOREV (default: latest commit from branch).
-  
+
    Alternative Intel private kernel is linux-intel-private-debug.
 
 c. Private Staging Intel Github (github.com/intel-innersource)
 
    PREFERRED_PROVIDER_virtual/kernel = "linux-intel-staging"
-   
+
    will build kernel from Intel Innersource Staging private repo
    (https://github.com/intel-innersource/os.linux.kernel.kernel-staging):
       iotg-next/v6.12 branch
-  
+   
    Alternative Intel staging kernel is linux-intel-staging-debug.
 
 d. Collab Intel Github for platform enablement - (github.com/intel-collab)
 
    PREFERRED_PROVIDER_virtual/kernel = "linux-intel-collab"
-   
+
    will build kernel from Intel Collab repository used for platform enablement,
    Power-On, bring-up, validation, and customer collaboration across Intel platforms
    (https://github.com/intel-collab/os.linux.kernelsource.platform-enablement/tree/6.18/linux):
@@ -274,17 +274,17 @@ d. Collab Intel Github for platform enablement - (github.com/intel-collab)
 e. Yocto Project repository (git.yoctoproject.org)
 
    PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
-   
+
    will build kernel from Yocto Project Source repo
    (https://git.yoctoproject.org/linux-yocto):
       v6.18/standard/base branches
-  
+
    Alternative Yocto kernel is linux-yocto-debug.
 
 f. Kernel.org - Net-Next networking repository (git.kernel.org)
 
    PREFERRED_PROVIDER_virtual/kernel = "linux-korg-netnext"
-   
+
    will build kernel from Net-Next Group's networking repo from kernel.org
    (https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next):
       main branch
@@ -313,7 +313,7 @@ g. Kernel.org - Torvalds official repository (git.kernel.org)
 
    PREFERRED_PROVIDER_virtual/kernel = "linux-korg"
    KORG_VERSION = "<release tag>"
- 
+
    Then, in the meta-intel-distro layer, add a Linux configuration file
    next to linux-korg.bb recipe. Copy a full configuration to
    meta-intel-distro/recipes-kernel/linux/defconfig.
@@ -321,7 +321,7 @@ g. Kernel.org - Torvalds official repository (git.kernel.org)
    Will build kernel from Torvalds official repo from kernel.org
    (https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux).
    Details in meta-intel-distro/recipes-kernel/linux/linux-korg.bb
- 
+
 h. Local Kernel repositories (for Linux development)
 
    If you want to base a Yocto build on a custom Linux kernel (local or
@@ -356,12 +356,12 @@ NOTE: No preferred version should be set for linux-local provider.
 
    By default, with intel-axxia distro, 2 versions of kernel are built
    in one build: linux-intel and linux-intel-debug (the debug version).
-   
+
    The kernel which is set as virtual/kernel provider will be installed
    as usual in the deploy directory of the build. Alternative kernels
-   with their modules will be installed in deploy directory under 
-   separate folders having the following template name: kernel-<PN>. 
-   
+   with their modules will be installed in deploy directory under
+   separate folders having the following template name: kernel-<PN>.
+
    Alternative kernels will be also installed in rootfs /boot directory
    and the modules for all kernels in /lib/modules/<KERNEL_VERSION>.
    Kernels can be switched by recreating the bzImage symlink in /boot.
@@ -417,8 +417,8 @@ NOTE: No preferred version should be set for linux-local provider.
       ETHTOOL_VERSION_EXTENSION = "-<extension-string>"
 
       NOTE: "+localpatches" suffix is added automatically if *_EXTRA_PATH variable is set.
-      
-      e.g. For "-7.0-innersource" extension-string, the package version will be 
+
+      e.g. For "-7.0-innersource" extension-string, the package version will be
            "git-7.0-innersource[+localpatches]".
 
     - To set a different git repository that the default, use the following:
@@ -442,7 +442,7 @@ NOTE: No preferred version should be set for linux-local provider.
       ETHTOOL_EXTRA_PATH = "<local-full-path>"
 
       All the files with *.patch extension found in the path will be applied to sources.
-    
+
       NOTE: *_EXTRA_PATH variable can be used on tar ball and git repo sources.
 
 2.3.11 Add extra space in the rootfs partition from the WIC image. Specify as an
@@ -475,7 +475,7 @@ To compile the multiple configuration build, the following syntax should be used
     PARALLEL_MAKE = "-j 12"
 
 2.3.14. Other optional settings for saving disk space and build time:
-   
+
     DL_DIR = "/(some-shared-location)/downloads"
     SSTATE_DIR = "/(some-shared-location)/sstate-cache
 
@@ -515,7 +515,7 @@ CONF_VERSION = "2"
 Available root filesystem types:
    * axxia-image-min
      A small image used in simulation, flash, or as a ram disk. Should
-     be sufficient to use the RTE. 
+     be sufficient to use the RTE.
 
    * axxia-image-run
      An image used in simulation.
@@ -526,7 +526,7 @@ Available root filesystem types:
    * axxia-image-qsp (require 'qsp' distro feature. See 2.3.8)
      A small image used for the QSP System used in simulation.
 
-Once complete the images for the target machine will be available in 
+Once complete the images for the target machine will be available in
 the output directory 'tmp/deploy/images/$MACHINE'.
 
 3.1. Images generated:
@@ -649,7 +649,7 @@ For persistent user changes, a new read-write device/partition need to
 be present and set with the following Kernel command line parameter:
 
     rootrw=/dev/sda1
-    
+
 The lower filesystem can be any filesystem supported by Linux and does
 not need to be writable. But, since the upper filesystem will normally
 be writable, it must support the creation of trusted.* extended
@@ -657,14 +657,14 @@ attributes, and must provide valid d_type in readdir responses, so NFS
 is not suitable.
 
 Other Kernel command line parameters:
-root= specifies the read-only root file system device. If this is not 
+root= specifies the read-only root file system device. If this is not
       specified, the current rootfs is used.
 
 rootfstype= if support for the read-only file system is not build into
             the kernel, you can specify the required module name here.
             It will also be used in the mount command.
 
-rootoptions= specifies the mount options of the read-only file system. 
+rootoptions= specifies the mount options of the read-only file system.
              Defaults to noatime,nodiratime.
 
 rootinit= if the init parameter was set to init-readonly-overlay script,
