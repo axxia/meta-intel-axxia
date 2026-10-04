@@ -5,43 +5,43 @@ bitbake
 -------
 URI: https://git.openembedded.org/bitbake
 branch: master
-revision: 046a90b0e9b7b914b7a95aec579cdc3fc9c7617a
+revision: 37b9c56ae3b2294ad170859a638c879910c82c59
 
 meta-yocto
 ----------
 URI: https://git.yoctoproject.org/meta-yocto
 branch: wrynose
-revision: ddeeba423ff0565b8f1192f16072b5993d5ea6a0
+revision: 7c25b11156553145fa6b241a2d4f65d94438f804
 
 openembedded-core
 -----------------
 URI: https://git.openembedded.org/openembedded-core
 branch: wrynose
-revision: 883075157987ca300af59185b903d6d1977234c3
+revision: 0f03c732a0a2d0506b41b1abe60b3f368b2300dc
 
 meta-openembedded
 -----------------
 URI: https://git.openembedded.org/meta-openembedded
 branch: wrynose
-revision: 14282a02be9c74a1276a7cda7d6c89e054699a11
+revision: 47d7dbdd10890bbd429bc0cccbe14435c37e5af1
 
 meta-virtualization
 -------------------
 URI: https://git.yoctoproject.org/meta-virtualization
 branch: wrynose
-revision: 70a5d5a65d7237cfe978961fa4d8765c895cddc8
+revision: 2807579615834a143c8ed453b463f93f43446019
 
 meta-intel
 ----------
 URI: https://git.yoctoproject.org/meta-intel
 branch: wrynose
-revision: 79a9681ce83f6bf36aede3aeb8c1707d29bca329
+revision: fcd2544222aa8e2f6caf100b854971cf1618a8fe
 
 meta-security
 -------------
 URI: https://git.yoctoproject.org/meta-security
 branch: wrynose
-revision: c0d1d6200e7a84c39fb940cb1f22aad4b0b3d808
+revision: 2703974d5e2d61b221dffa302c2e059a522adbf3
 
 meta-clang
 ----------
