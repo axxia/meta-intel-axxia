@@ -4,7 +4,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=c00080c6a955a9c15eb6e8f3b5e88e45"
 
 SRC_URI = "git://github.com/pyenv/pyenv.git;branch=master;protocol=https"
-SRCREV = "f216b4bfb1598347137ecb3c4a8f893baf9ea37f"
+SRCREV = "07171d013cac53d1cc9248b4c160217f288a2965"
 
 PYENV_ROOT ?= "${datadir}/pyenv"
 
