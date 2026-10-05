@@ -4,9 +4,9 @@ HOMEPAGE = "https://git.kernel.org/pub/scm/linux/kernel/git/axboe/fio.git/"
 LICENSE = "GPL-2.0-or-later"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
-SRC_URI = "https://brick.kernel.dk/snaps/${BPN}-${PV}.tar.bz2"
-SRC_URI[md5sum] = "ec8004ceac6f404b26c414f5e83996d9"
-SRC_URI[sha256sum] = "ba95867d541a680b0e743b1ecb385e0874a88e422566a1a27eb15f1edf703a30"
+SRC_URI = "https://git.kernel.org/pub/scm/linux/kernel/git/axboe/fio.git/snapshot/${BPN}-${PV}.tar.gz"
+SRC_URI[md5sum] = "161958afdea6ad1948edcb6d34e1ae85"
+SRC_URI[sha256sum] = "aee29e9dd739b4ffc3939169de0b342988f32302b35b966649c87b2319a9548a"
 
 S = "${UNPACKDIR}/fio-${PV}"
 
