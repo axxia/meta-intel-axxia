@@ -50,8 +50,6 @@ IMAGE_INSTALL = " \
     boost-dev \
     busybox \
     bzip2 \
-    cargo \
-    cargo-make \
     cifs-utils \
     clang \
     cmake \
@@ -327,7 +325,6 @@ IMAGE_INSTALL = " \
     rsync \
     rsyslog \
     run-postinsts \
-    rust \
     samba \
     screen \
     sed \
@@ -492,7 +489,6 @@ TOOLCHAIN_TARGET_TASK:append = " \
 TOOLCHAIN_HOST_TASK:append = " \
     nativesdk-autoconf-archive \
     nativesdk-bison \
-    nativesdk-cargo-make \
     nativesdk-e2fsprogs \
     nativesdk-elfutils-dev \
     nativesdk-flex \
@@ -516,12 +512,4 @@ TOOLCHAIN_HOST_TASK:append = " \
     nativesdk-python3-robotframework \
     nativesdk-python3-scapy "
 
-SDK_TOOLCHAIN_LANGS:append = " rust"
-
 SDKIMAGE_FEATURES = "dev-pkgs dbg-pkgs staticdev-pkgs"
-
-TOOLCHAIN_TARGET_TASK:remove:task-populate-sdk = " \
-    rust rust-dev rust-dbg rust-staticdev \
-    cargo cargo-dev cargo-dbg cargo-staticdev \
-    cargo-make cargo-make-dev cargo-make-dbg cargo-make-staticdev \
-"
