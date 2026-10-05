@@ -4,34 +4,37 @@ Date: Fri, 13 Mar 2026 02:17:35 +0200
 Subject: [PATCH] Remove host contamination from extra_sources and
  extra_include_dirs
 
-It also avoid buildpaths qa issue:
+The build records absolute paths (based on the setup.py directory) into
+lmdb/_config.py for extra_sources, extra_include_dirs and the per-engine
+specs. In a Yocto build these resolve under TMPDIR and trigger the
+buildpaths QA issue:
 
-WARNING: python3-lmdb-1.8.1-r0 do_package_qa: QA Issue:
+WARNING: python3-lmdb do_package_qa: QA Issue:
 File /usr/lib64/python3.12/site-packages/lmdb/_config.py
 in package python3-lmdb contains reference to TMPDIR
 File /usr/lib64/python3.12/site-packages/lmdb/__pycache__/_config.cpython-312.pyc
 in package python3-lmdb contains reference to TMPDIR [buildpaths]
 
+Use a relative base directory so the paths recorded in _config.py stay
+relative to the source tree.
+
 Upstream-Status: Inappropriate
 ---
- setup.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ setup.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/setup.py b/setup.py
 index 1aedbc3..3391b08 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -81,8 +81,8 @@ elif os.getenv('LMDB_PURE') is not None:
-     patch_lmdb_source = False
- else:
-     print('py-lmdb: Using bundled liblmdb with py-lmdb patches; override with LMDB_FORCE_SYSTEM=1 or LMDB_PURE=1.')
--    extra_sources = [os.path.join(os.path.dirname(__file__), 'build/lib/mdb.c'), os.path.join(os.path.dirname(__file__), 'build/lib/midl.c')]
--    extra_include_dirs += [os.path.join(os.path.dirname(__file__), 'build/lib'), os.path.join(os.path.dirname(__file__), 'lib/py-lmdb')]
-+    extra_sources = ['build/lib/mdb.c', 'build/lib/midl.c']
-+    extra_include_dirs += ['build/lib']
-     extra_compile_args += ['-DHAVE_PATCHED_LMDB=1']
-     libraries = []
+@@ -72,7 +72,7 @@ extra_compile_args = []
+ # the working directory.  cffi's verify() builds from its own temporary
+ # directory on some implementations (notably PyPy), where relative source
+ # paths would not resolve.
+-HERE = os.path.dirname(os.path.abspath(__file__))
++HERE = os.path.relpath(os.path.dirname(os.path.abspath(__file__)))
  
+ extra_include_dirs += [os.path.join(HERE, 'lib', 'py-lmdb'),
+                        os.path.join(HERE, 'lmdb')]
 -- 
 2.39.5
-
