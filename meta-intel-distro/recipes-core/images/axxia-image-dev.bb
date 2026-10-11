@@ -286,7 +286,6 @@ IMAGE_INSTALL = " \
     psmisc \
     pyenv \
     python3 \
-    python3-babeltrace2 \
     python3-cffi \
     python3-colorama \
     python3-core \

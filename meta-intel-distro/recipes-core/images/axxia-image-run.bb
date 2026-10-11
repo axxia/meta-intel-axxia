@@ -105,7 +105,6 @@ IMAGE_INSTALL = " \
     pciutils \
     perf \
     perl-module-bigint \
-    python3-babeltrace2 \
     python3-cffi \
     python3-core \
     python3-dev \
