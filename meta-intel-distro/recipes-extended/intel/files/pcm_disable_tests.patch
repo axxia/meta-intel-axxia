@@ -1,0 +1,28 @@
+Upstream-Status: Inappropriate
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1bdc5063..4c2c5b80 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -176,21 +176,20 @@ endif()
+ 
+ #######################
+ # Install
+ #######################
+ 
+ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+ 
+ add_subdirectory(src)
+ add_subdirectory(examples)
+-add_subdirectory(tests)
+ 
+ message(STATUS "Install directory: ${CMAKE_INSTALL_PREFIX}")
+ 
+ #######################
+ # CPack (only UNIX)
+ #######################
+ if(UNIX)
+     if(EXISTS "/etc/debian_version")      # for Debian family
+         set(CPACK_GENERATOR "DEB")
+         message(STATUS "CPACK_GENERATOR is DEB")

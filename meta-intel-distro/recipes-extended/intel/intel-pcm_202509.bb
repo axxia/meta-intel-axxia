@@ -9,8 +9,9 @@ DEPENDS = "openssl"
 SRC_URI = " \
 	gitsm://github.com/intel/pcm.git;protocol=https;branch=master \
 	file://pcm-avoid-strip.patch \
+        file://pcm_disable_tests.patch \
 	"
-SRCREV = "5cb70ffdb6ef6bb5e614a916812526a8104e377a"
+SRCREV = "10f6b5e284ac01df11b23a8142ea5607ae501b17"
 
 COMPATIBLE_HOST = '(x86_64).*-linux'
 COMPATIBLE_HOST:libc-musl = "null"
