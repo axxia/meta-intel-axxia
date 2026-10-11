@@ -140,7 +140,7 @@ kernel_do_deploy:append() {
     # to be available from external modules recipes such as lttng-modules
     # when RDK_KLM_VERSION is not set from local.conf
     [ -z "${RDK_KLM_VERSION}" -a -f ${UNPACKDIR}/rdk-klm-version ] && \
-        mv ${UNPACKDIR}/rdk-klm-version ${STAGING_KERNEL_BUILDDIR} || 2>/dev/null
+        mv ${UNPACKDIR}/rdk-klm-version ${STAGING_KERNEL_BUILDDIR} || true
 }
 
 sysroot_stage_all:append() {
